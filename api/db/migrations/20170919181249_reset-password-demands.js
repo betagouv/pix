@@ -6,7 +6,7 @@ exports.up = function(knex) {
     t.increments().primary();
     t.string('email');
     t.string('temporaryKey').index();
-    t.boolean('used');
+    t.boolean('used').default(0);
     t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
     t.dateTime('updatedAt').notNullable().defaultTo(knex.fn.now());
   }
