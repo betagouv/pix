@@ -24,12 +24,12 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
 
         return challengePromises;
       }).then(challenges => {
-        challengesPix = challenges;
+      challengesPix = challenges;
 
-        return skillRepository.getFromCompetence(competenceId);
-      }).then(skillNames => {
-        return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
-      })
+      return skillRepository.getFromCompetence(competenceId);
+    }).then(skillNames => {
+      return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
+    })
       .then(resolve)
       .catch(reject);
   });
@@ -54,19 +54,13 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
     const challenges = course.challenges;
 
+    if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
+      return resolve(challenges[0]);
+    }
+
     if (course.isAdaptive) {
-
-      if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-        return resolve(challenges[0]);
-      }
-
       return resolve(_selectNextInAdaptiveMode(assessment, course));
     } else {
-
-      if (!currentChallengeId) { // no currentChallengeId means the test has not yet started
-        return resolve(challenges[0]);
-      }
-
       return resolve(_selectNextInNormalMode(currentChallengeId, challenges));
     }
   });
