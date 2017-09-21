@@ -107,7 +107,7 @@ describe('Unit | Service | MailService', () => {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledWith(lodashSampleSpy, [ 'WEBPIX', 'TESTPIX', 'BETAPIX' ]);
+        sinon.assert.calledWith(lodashSampleSpy, ['WEBPIX', 'TESTPIX', 'BETAPIX']);
       });
     });
 
@@ -157,6 +157,46 @@ describe('Unit | Service | MailService', () => {
       // Then
       return promise.catch(() => {
         sinon.assert.calledWith(errorStub, error);
+      });
+    });
+  });
+
+  describe('#sendResetPasswordDemandEmail', () => {
+
+    let sendEmailStub;
+
+    beforeEach(() => {
+      sendEmailStub = sinon.stub(mailJet, 'sendEmail').resolves();
+    });
+
+    afterEach(() => {
+      sendEmailStub.restore();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
+    });
+
+    it('should use mailJet to send an email', () => {
+      // Given
+      const email = 'text@example.net';
+      const fakeToken = 'token';
+      const variables = { temporaryKey: fakeToken };
+
+      // When
+      const promise = mailService.sendResetPasswordDemandEmail(email, fakeToken);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.calledWith(sendEmailStub, {
+          to: email,
+          template: '207534',
+          from: 'ne-pas-repondre@pix.beta.gouv.fr',
+          fromName: 'PIX - Ne pas répondre',
+          subject: 'Demande de réinitialisation de mot de passe PIX',
+          variables
+        });
       });
     });
   });
