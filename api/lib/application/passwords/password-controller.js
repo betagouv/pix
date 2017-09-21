@@ -25,7 +25,7 @@ module.exports = {
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
       .then(() => {
         mailService.sendResetPasswordDemandEmail(email, temporarykey);
-        reply();
+        return reply();
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
