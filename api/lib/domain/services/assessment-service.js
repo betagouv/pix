@@ -24,12 +24,12 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
 
         return challengePromises;
       }).then(challenges => {
-      challengesPix = challenges;
+        challengesPix = challenges;
 
-      return skillRepository.getFromCompetence(competenceId);
-    }).then(skillNames => {
-      return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
-    })
+        return skillRepository.getFromCompetence(competenceId);
+      }).then(skillNames => {
+        return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
+      })
       .then(resolve)
       .catch(reject);
   });
