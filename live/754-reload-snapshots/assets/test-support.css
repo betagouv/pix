@@ -90,7 +90,6 @@ body {
   margin-left: 5px;
   padding: 2px 5px;
   color: #fff;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.2);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.2);
   border-radius: 5px;
 }
@@ -208,7 +207,6 @@ body {
   background: #eee;
   font-size: 15px;
   border-radius: 15px;
-  -webkit-transition: opacity 200ms;
   transition: opacity 200ms;
   opacity: 0.3;
   color: #888;
@@ -261,7 +259,6 @@ body {
    * equal line height set in Bootstrap).
    */
   height: auto;
-  -webkit-box-shadow: none;
   box-shadow: none;
   background-color: initial;
 }
