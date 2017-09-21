@@ -74,7 +74,8 @@ describe('Unit | Class | Mailjet', function() {
           'Subject': 'Creation de compte',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
-          'Recipients': [ { 'Email': email } ]
+          'Recipients': [{ 'Email': email }],
+          'Variables': {}
         });
       });
     });
@@ -97,11 +98,36 @@ describe('Unit | Class | Mailjet', function() {
           'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
-          'Recipients': [ { 'Email': email } ]
+          'Recipients': [{ 'Email': email }],
+          'Variables': {}
         });
       });
     });
 
+    it('should set variables in values', () => {
+      // Given
+      const email = 'test@example.net';
+      const requestStub = sinon.stub().returns(Promise.resolve());
+      const postStub = sinon.stub().returns({ request: requestStub });
+      const variables = { token: 'token' };
+      mailJetConnectStub.returns({ post: postStub });
+
+      // When
+      const result = Mailjet.sendEmail({ template: '129291', to: email, variables });
+
+      // Then
+      return result.then(() => {
+        sinon.assert.calledWith(requestStub, {
+          'FromEmail': 'communaute@pix.beta.gouv.fr',
+          'FromName': 'Communauté PIX',
+          'Subject': 'Bienvenue dans la communauté PIX',
+          'MJ-TemplateID': '129291',
+          'MJ-TemplateLanguage': 'true',
+          'Recipients': [{ 'Email': email }],
+          'Variables': variables
+        });
+      });
+    });
   });
 
   describe('#getContactEmailByName', () => {
@@ -203,7 +229,7 @@ describe('Unit | Class | Mailjet', function() {
       requestStub = sinon.stub().returns(Promise.resolve());
       actionStub = sinon.stub().returns({ request: requestStub });
       idStub = sinon.stub().returns({ action: actionStub });
-      postStub = sinon.stub().returns({ id : idStub });
+      postStub = sinon.stub().returns({ id: idStub });
       mailJetMock = {
         post: postStub
       };
