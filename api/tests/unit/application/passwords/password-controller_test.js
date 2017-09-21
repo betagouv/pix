@@ -8,7 +8,7 @@ const resetPasswordRepository = require('../../../../lib/infrastructure/reposito
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | Controller | PasswordController', () => {
+describe('Unit | Controller | PasswordController', () => {
 
   describe('#resetDemand', () => {
 

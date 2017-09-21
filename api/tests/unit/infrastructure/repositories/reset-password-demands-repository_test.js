@@ -60,7 +60,7 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
       const temporaryKey = 'temp_key';
       ResetPasswordDemand.prototype.save.resolves();
 
-      // when 
+      // when
       const promise = ResetPasswordDemandRepository.markAsBeingUsed(temporaryKey);
 
       // then
