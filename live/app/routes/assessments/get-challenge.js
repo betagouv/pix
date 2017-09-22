@@ -19,7 +19,9 @@ export default BaseRoute.extend({
       answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
     }).catch((err) => {
       const meta = ('errors' in err) ? err.errors.get('firstObject').meta : null;
-      return (meta.field === 'authorization') && this.transitionTo('index');
+      if (meta.field === 'authorization') {
+        return this.transitionTo('index');
+      }
     });
   },
 

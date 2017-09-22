@@ -18,15 +18,6 @@ module.exports = {
       .fetchAll()
       .then(assessments => assessments.models);
   },
-  getByUserId(id) {
-    return new Promise((resolve, reject) => {
-      Assessment
-        .where('userId', id)
-        .fetchAll()
-        .then(assessments => resolve(assessments.models))
-        .catch(reject);
-    });
-  },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
     return Assessment

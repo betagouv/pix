@@ -114,7 +114,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
         return knex('assessments').delete();
       });
 
-      it('should fetch relative assessment, , ', () => {
+      it('should fetch relative assessment', () => {
         // when
         const promise = assessmentRepository.getByUserIdAndAssessmentId(assessmentId, fakeUserId);
 

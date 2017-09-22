@@ -82,5 +82,12 @@ describe('Unit | Router | assessment-router', function() {
     it('should exist', function(done) {
       expectRouteToExist({ method: 'GET', url: '/api/assessments/assessment_id' }, done);
     });
+
+    it('should call pre-handler', (done) => {
+      return server.inject({ method: 'GET', url: '/api/assessments/assessment_id' }, () => {
+        sinon.assert.called(AssessmentAuthorization.verify);
+        done();
+      });
+    });
   });
 });

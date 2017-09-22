@@ -110,13 +110,10 @@ describe('Acceptance | API | Assessments GET', function() {
       userId: null
     };
 
-    beforeEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-          inserted_assessment_id = rows[0];
-          options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
-          done();
-        });
+    beforeEach(function() {
+      return knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
+        inserted_assessment_id = rows[0];
+        options = { method: 'GET', url: `/api/assessments/${inserted_assessment_id}` };
       });
     });
 
@@ -189,19 +186,16 @@ describe('Acceptance | API | Assessments GET', function() {
 
     const token = createToken({ id: inserted_assessment.userId, email: 'shi@fu.me' });
 
-    beforeEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment]).then((rows) => {
-          inserted_assessment_id = rows[0];
-          options = {
-            headers: {
-              authorization: `Bearer ${token}`
-            },
-            method: 'GET',
-            url: `/api/assessments/${inserted_assessment_id}`
-          };
-          done();
-        });
+    beforeEach(function() {
+      return knex('assessments').insert([inserted_assessment]).then((rows) => {
+        inserted_assessment_id = rows[0];
+        options = {
+          headers: {
+            authorization: `Bearer ${token}`
+          },
+          method: 'GET',
+          url: `/api/assessments/${inserted_assessment_id}`
+        };
       });
     });
 
@@ -211,18 +205,10 @@ describe('Acceptance | API | Assessments GET', function() {
       });
     });
 
-    it('should return 200 HTTP status code, when userId provided is linked to assessment', function(done) {
-
-      knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(function() {
-          server.inject(options, (response) => {
-            expect(response.statusCode).to.equal(200);
-            done();
-          });
-        });
-
+    it('should return 200 HTTP status code, when userId provided is linked to assessment', function() {
+      return server.inject(options).then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
   });
 
@@ -238,41 +224,38 @@ describe('Acceptance | API | Assessments GET', function() {
 
     beforeEach(function(done) {
       inserted_answer_ids = [];
-      knex('assessments').delete().then(() => {
-        knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
-          inserted_assessment_id = rows[0];
 
-          const inserted_answers = [{
-            value: 'any good answer',
-            result: 'ok',
-            challengeId: 'y_first_challenge',
-            assessmentId: inserted_assessment_id
-          }, {
-            value: 'any bad answer',
-            result: 'ko',
-            challengeId: 'y_second_challenge',
-            assessmentId: inserted_assessment_id
-          }];
-          knex('answers').delete().then(() => {
-            knex('answers').insert([inserted_answers[0]]).then((rows) => { // Faut que je le fasse en deux temps sinon je n'ai que le dernier ID
+      knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {
+        inserted_assessment_id = rows[0];
+
+        const inserted_answers = [{
+          value: 'any good answer',
+          result: 'ok',
+          challengeId: 'y_first_challenge',
+          assessmentId: inserted_assessment_id
+        }, {
+          value: 'any bad answer',
+          result: 'ko',
+          challengeId: 'y_second_challenge',
+          assessmentId: inserted_assessment_id
+        }];
+
+        knex('answers').delete().then(() => {
+          knex('answers').insert([inserted_answers[0]]).then((rows) => {
+            inserted_answer_ids.push(rows[0]);
+            knex('answers').insert([inserted_answers[1]]).then((rows) => {
               inserted_answer_ids.push(rows[0]);
-              knex('answers').insert([inserted_answers[1]]).then((rows) => {
-                inserted_answer_ids.push(rows[0]);
-                done();
-              });
+              done();
             });
           });
-
         });
+
       });
     });
 
-    afterEach(function(done) {
-      knex('assessments').delete().then(() => {
-        knex('answers').delete().then(() => {
-          done();
-        });
-      });
+    afterEach(async () => {
+      await knex('assessments').delete();
+      return knex('assessments').delete();
     });
 
     it('should return 200 HTTP status code', function(done) {

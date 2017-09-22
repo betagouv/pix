@@ -83,10 +83,12 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
     describe('test collaboration', () => {
-      const fakeUserId = 3;
-      const fakeAssessmentId = 2;
+      let fetchStub;
       beforeEach(() => {
-        sinon.stub(Assessment, 'query');
+        fetchStub = sinon.stub().resolves();
+        sinon.stub(Assessment, 'query').returns({
+          fetch: fetchStub
+        });
       });
 
       after(() => {
@@ -95,10 +97,8 @@ describe('Unit | Repository | assessmentRepository', () => {
 
       it('should correctly query Assessment', () => {
         // given
-        const fetchStub = sinon.stub().resolves();
-        Assessment.query.returns({
-          fetch: fetchStub
-        });
+        const fakeUserId = 3;
+        const fakeAssessmentId = 2;
         const expectedParams = {
           where: { id: fakeAssessmentId },
           andWhere: { userId: fakeUserId }
