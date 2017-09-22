@@ -8,11 +8,11 @@ const errorSerializer = require('../../infrastructure/serializers/jsonapi/valida
 
 module.exports = {
   resetDemand(request, reply) {
-    if (!(request.hasOwnProperty('payload') && ('email' in request.payload))) {
+    if (!_isPayloadWellFormed(request)) {
       return reply(Boom.badRequest());
     }
 
-    const { email } = request.payload;
+    const { email, hostUrl } = request.payload;
     let temporarykey;
 
     return userService
@@ -24,15 +24,22 @@ module.exports = {
       })
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
       .then(() => {
-        mailService.sendResetPasswordDemandEmail(email, temporarykey);
+        mailService.sendResetPasswordDemandEmail(email, hostUrl, temporarykey);
         return reply();
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
-          return reply(errorSerializer.serialize(UserNotFoundError.getErrorMessage()));
+          return reply(errorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
         }
 
-        return reply(errorSerializer.serialize(InternalError.getErrorMessage()));
+        return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);
       });
   }
 };
+
+function _isPayloadWellFormed(request) {
+  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostUrl' in request.payload))) {
+    return false;
+  }
+  return true;
+}
