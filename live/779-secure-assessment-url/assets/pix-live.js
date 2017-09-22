@@ -6600,7 +6600,9 @@ define('pix-live/routes/assessments/get-challenge', ['exports', 'pix-live/routes
         answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
       }).catch(function (err) {
         var meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
-        return meta.field === 'authorization' && _this.transitionTo('index');
+        if (meta.field === 'authorization') {
+          return _this.transitionTo('index');
+        }
       });
     },
     afterModel: function afterModel(model) {
@@ -9369,6 +9371,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+0071b057"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+e6fc77e1"});
 }
 //# sourceMappingURL=pix-live.map
