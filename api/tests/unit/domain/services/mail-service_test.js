@@ -176,18 +176,18 @@ describe('Unit | Service | MailService', () => {
       expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
     });
 
-    describe('when provided hostUrl is not production', () => {
+    describe('when provided hostEnv is not production', () => {
       it('should call Mailjet with a sub-domain prefix', () => {
         // Given
         const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
-        const hostUrl = 'dev';
+        const hostEnv = 'dev';
 
-        const resetUrl = `https://${hostUrl}.pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
+        const resetUrl = `https://${hostEnv}.pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
         const variables = { resetUrl };
 
         // When
-        const promise = mailService.sendResetPasswordDemandEmail(email, hostUrl, fakeTemporaryKey);
+        const promise = mailService.sendResetPasswordDemandEmail(email, hostEnv, fakeTemporaryKey);
 
         // Then
         return promise.then(() => {
@@ -203,18 +203,18 @@ describe('Unit | Service | MailService', () => {
       });
     });
 
-    describe('when provided hostUrl is production', () => {
+    describe('when provided hostEnv is production', () => {
       it('should use mailJet without a sub-domain prefix', () => {
         // Given
         const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
-        const hostUrl = 'production';
+        const hostEnv = 'production';
 
         const resetUrl = `https://pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
         const variables = { resetUrl };
 
         // When
-        const promise = mailService.sendResetPasswordDemandEmail(email, hostUrl, fakeTemporaryKey);
+        const promise = mailService.sendResetPasswordDemandEmail(email, hostEnv, fakeTemporaryKey);
 
         // Then
         return promise.then(() => {
