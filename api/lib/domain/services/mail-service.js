@@ -35,8 +35,8 @@ function addEmailToRandomContactList(email) {
     });
 }
 
-function sendResetPasswordDemandEmail(email, hostUrl, temporaryKey) {
-  const baseUrl = (hostUrl !== 'production') ? `${hostUrl}.` : '';
+function sendResetPasswordDemandEmail(email, hostEnv, temporaryKey) {
+  const baseUrl = (hostEnv !== 'production') ? `${hostEnv}.` : '';
   return mailJet.sendEmail({
     to: email,
     template: RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID,
