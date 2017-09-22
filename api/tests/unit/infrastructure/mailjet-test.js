@@ -74,8 +74,7 @@ describe('Unit | Class | Mailjet', function() {
           'Subject': 'Creation de compte',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
-          'Recipients': [{ 'Email': email }],
-          'Variables': {}
+          'Recipients': [{ 'Email': email, 'Vars': {} }]
         });
       });
     });
@@ -98,8 +97,7 @@ describe('Unit | Class | Mailjet', function() {
           'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
-          'Recipients': [{ 'Email': email }],
-          'Variables': {}
+          'Recipients': [{ 'Email': email, 'Vars': {} }]
         });
       });
     });
@@ -109,7 +107,7 @@ describe('Unit | Class | Mailjet', function() {
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
-      const variables = { token: 'token' };
+      const variables = { resetUrl: 'token' };
       mailJetConnectStub.returns({ post: postStub });
 
       // When
@@ -123,8 +121,7 @@ describe('Unit | Class | Mailjet', function() {
           'Subject': 'Bienvenue dans la communauté PIX',
           'MJ-TemplateID': '129291',
           'MJ-TemplateLanguage': 'true',
-          'Recipients': [{ 'Email': email }],
-          'Variables': variables
+          'Recipients': [{ 'Email': email, 'Vars': variables }]
         });
       });
     });
