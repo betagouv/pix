@@ -21,6 +21,7 @@ describe('Unit | Controller | PasswordController', () => {
 
       let replyStub;
       let sandbox;
+      let codeSpy;
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -75,9 +76,7 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
-        codeSpy = sandbox.spy();
         sandbox.stub(userService, 'isUserExisting');
-        sandbox.stub(tokenService, 'generateTemporaryKey');
         sandbox.stub(errorSerializer, 'serialize');
       });
 
