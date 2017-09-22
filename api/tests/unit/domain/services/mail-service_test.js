@@ -1,7 +1,5 @@
 const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../../test-helper');
-
 const _ = require('lodash');
-
 const mailJet = require('../../../../lib/infrastructure/mailjet');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const logger = require('./../../../../lib/infrastructure/logger');
@@ -178,26 +176,59 @@ describe('Unit | Service | MailService', () => {
       expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
     });
 
-    it('should use mailJet to send an email', () => {
-      // Given
-      const email = 'text@example.net';
-      const fakeToken = 'token';
-      const variables = { temporaryKey: fakeToken };
+    describe('when provided hostUrl is not production', () => {
+      it('should call Mailjet with a sub-domain prefix', () => {
+        // Given
+        const email = 'text@example.net';
+        const fakeTemporaryKey = 'token';
+        const hostUrl = 'dev';
 
-      // When
-      const promise = mailService.sendResetPasswordDemandEmail(email, fakeToken);
+        const resetUrl = `https://${hostUrl}.pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
+        const variables = { resetUrl };
 
-      // Then
-      return promise.then(() => {
-        sinon.assert.calledWith(sendEmailStub, {
-          to: email,
-          template: '207534',
-          from: 'ne-pas-repondre@pix.beta.gouv.fr',
-          fromName: 'PIX - Ne pas répondre',
-          subject: 'Demande de réinitialisation de mot de passe PIX',
-          variables
+        // When
+        const promise = mailService.sendResetPasswordDemandEmail(email, hostUrl, fakeTemporaryKey);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(sendEmailStub, {
+            to: email,
+            template: '207534',
+            from: 'ne-pas-repondre@pix.beta.gouv.fr',
+            fromName: 'PIX - Ne pas répondre',
+            subject: 'Demande de réinitialisation de mot de passe PIX',
+            variables
+          });
         });
       });
     });
+
+    describe('when provided hostUrl is production', () => {
+      it('should use mailJet without a sub-domain prefix', () => {
+        // Given
+        const email = 'text@example.net';
+        const fakeTemporaryKey = 'token';
+        const hostUrl = 'production';
+
+        const resetUrl = `https://pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
+        const variables = { resetUrl };
+
+        // When
+        const promise = mailService.sendResetPasswordDemandEmail(email, hostUrl, fakeTemporaryKey);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(sendEmailStub, {
+            to: email,
+            template: '207534',
+            from: 'ne-pas-repondre@pix.beta.gouv.fr',
+            fromName: 'PIX - Ne pas répondre',
+            subject: 'Demande de réinitialisation de mot de passe PIX',
+            variables
+          });
+        });
+      });
+    });
+
   });
 });
