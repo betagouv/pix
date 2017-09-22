@@ -35,7 +35,9 @@ describe('Unit | Controller | PasswordController', () => {
       [
         { request: {}, description: 'no payload' },
         { request: { payload: {} }, description: 'empty payload' },
-        { request: { payload: { key: 'value' } }, description: 'no email key in payload' }
+        { request: { payload: { key: 'value' } }, description: 'no email or hostUrl key in payload' },
+        { request: { payload: { email: 'value' } }, description: 'email is provided but no hostUrl key in payload' },
+        { request: { payload: { hostUrl: 'value' } }, description: 'hostUrl is provided but no email key in payload' },
 
       ].forEach(({ request, description }) => {
         it(`should reply with 400 status, when ${description} provided`, () => {
@@ -56,7 +58,7 @@ describe('Unit | Controller | PasswordController', () => {
 
     describe('When payload has a good format: ', () => {
 
-      const request = { payload: { email: 'shi@fu.me' } };
+      const request = { payload: { email: 'shi@fu.me', hostUrl: 'dev' } };
 
       let replyStub;
       let sandbox;
@@ -195,7 +197,7 @@ describe('Unit | Controller | PasswordController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
-          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.email, generatedToken);
+          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.email, request.payload.hostUrl, generatedToken);
         });
       });
 
