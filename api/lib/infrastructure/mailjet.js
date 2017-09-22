@@ -11,21 +11,20 @@ function _formatPayload(options) {
     subject: 'Bienvenue dans la communauté PIX',
     template: null
   });
-
+  const variables = configuration.variables || {};
   return {
     'FromEmail': configuration.from,
     'FromName': configuration.fromName,
     'Subject': configuration.subject,
     'MJ-TemplateID': configuration.template,
     'MJ-TemplateLanguage': 'true',
-    'Recipients': [{ 'Email': configuration.to }],
-    'Variables': configuration.variables || {}
+    'Recipients': [{ 'Email': configuration.to, 'Vars': variables }]
   };
 }
 
 function sendEmail(options) {
   const mailjet = nodeMailjet.connect(mailjetConfig.apiKey, mailjetConfig.apiSecret);
-  
+
   return mailjet
     .post('send')
     .request(_formatPayload(options));
