@@ -12,7 +12,7 @@ module.exports = {
       return reply(Boom.badRequest());
     }
 
-    const { email, hostUrl } = request.payload;
+    const { email, hostEnv } = request.payload;
     let temporarykey;
 
     return userService
@@ -24,7 +24,7 @@ module.exports = {
       })
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
       .then(() => {
-        mailService.sendResetPasswordDemandEmail(email, hostUrl, temporarykey);
+        mailService.sendResetPasswordDemandEmail(email, hostEnv, temporarykey);
         return reply();
       })
       .catch((err) => {
@@ -38,7 +38,7 @@ module.exports = {
 };
 
 function _isPayloadWellFormed(request) {
-  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostUrl' in request.payload))) {
+  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload))) {
     return false;
   }
   return true;
