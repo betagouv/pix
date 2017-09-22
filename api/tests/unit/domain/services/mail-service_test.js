@@ -172,7 +172,7 @@ describe('Unit | Service | MailService', () => {
     });
 
     it('should be a function', () => {
-      // then
+      // then 
       expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
     });
 
