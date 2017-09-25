@@ -255,7 +255,6 @@ describe('Unit | Model | Assessment', function() {
 
       // then
       expect(assessment.filteredChallenges).to.deep.equal([ch3]);
-
     });
 
     it('should return only challenges that are validated, prevalidated, or validated without test', function() {
