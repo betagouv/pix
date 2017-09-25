@@ -1,7 +1,7 @@
 import Ember from 'ember';
 import moment from 'moment';
 
-export default  Ember.Component.extend({
+export default Ember.Component.extend({
 
   classNames: ['rounded-panel', 'challenge-statement'],
 
@@ -11,16 +11,17 @@ export default  Ember.Component.extend({
   challenge: null,
   assessment: null,
 
+  challengeInstruction: Ember.computed('challenge.instruction', function() {
+    const instruction = this.get('challenge.instruction');
+    if (!instruction) {
+      return null;
+    }
+    return instruction.replace('${EMAIL}', this._formattedEmailForInstruction());
+  }),
+
   init() {
     this._super(...arguments);
-    this.id = 'challenge_statement_'  + this.get('challenge.id');
-
-    if(this.get('challenge.instruction')) {
-      const instructionWithReplacements = this.get('challenge.instruction')
-        .replace('${EMAIL}', this._formattedEmailForInstruction());
-
-      this.set('_instruction', instructionWithReplacements);
-    }
+    this.id = 'challenge_statement_' + this.get('challenge.id');
   },
 
   didReceiveAttrs() {
