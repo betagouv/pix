@@ -8669,13 +8669,12 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       // Given
       var snapshot1 = Ember.Object.create({ id: 1 });
       var snapshot2 = Ember.Object.create({ id: 2 });
-      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
-      this.set('organization', organization);
+      this.set('snapshots', [snapshot1, snapshot2]);
 
       // When
       this.render(Ember.HTMLBars.template({
-        "id": "hqqvwQ67",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -8696,13 +8695,12 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         createdAt: '09/25/2017',
         user: user
       });
-      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
-      this.set('organization', organization);
+      this.set('snapshots', [snapshot]);
 
       // When
       this.render(Ember.HTMLBars.template({
-        "id": "hqqvwQ67",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -12505,30 +12503,32 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | board', function () {
+
     (0, _emberMocha.setupTest)('route:board', {
       needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
 
     var findRecord = _sinon.default.stub();
     var route = void 0;
 
     (0, _mocha.beforeEach)(function () {
+
       this.register('service:store', Ember.Service.extend({
         findRecord: findRecord
       }));
       this.inject.service('store', { as: 'store' });
-
       this.register('service:session', Ember.Service.extend({
         data: { authenticated: { userId: 12 } }
       }));
+
       this.inject.service('session', { as: 'session' });
       route = this.subject();
       route.transitionTo = _sinon.default.spy();
+    });
+
+    (0, _mocha.it)('exists', function () {
+      route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
@@ -12545,7 +12545,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
-      var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
       findRecord.resolves(user);
 
       // when
@@ -12554,6 +12559,28 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       // then
       return promise.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return load snapshots every time with reload', function () {
+      // given
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
+        _sinon.default.assert.calledWith(firstOrganization.get, 'snapshots');
+        _sinon.default.assert.calledOnce(reloadStub);
       });
     });
 
