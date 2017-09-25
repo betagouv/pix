@@ -249,6 +249,8 @@ describe('Unit | Model | Assessment', function() {
       const answerCh2 = new Answer(ch2, 'ok');
       const challenges = [ch1, ch2, ch3, ch4];
       const course = new Course(challenges);
+
+      // when
       const assessment = new Assessment(course, [answerCh1, answerCh2]);
 
       // then
@@ -265,6 +267,8 @@ describe('Unit | Model | Assessment', function() {
       const drop3 = new Challenge('e', 'proposé', []);
       const keep3 = new Challenge('f', 'validé sans test', []);
       const course = new Course([keep1, keep2, keep3, drop1, drop2, drop3]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
@@ -290,6 +294,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('recXXX', 'validé', [web2]);
       const ch2 = new Challenge('recYYY', 'validé', [web1, web3]);
       const course = new Course([ch1, ch2]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
@@ -305,6 +311,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('recXXX', 'validé', [url3]);
       const ch2 = new Challenge('recYYY', 'validé', [url2, url4, url5]);
       const course = new Course([ch1, ch2]);
+
+      // when
       const assessment = new Assessment(course, []);
 
       // then
