@@ -136,8 +136,8 @@ describe('Unit | Domain | Services | assessment-service', function() {
     beforeEach(() => {
       getAssessmentStub = sinon.stub(assessmentRepository, 'get').returns(Promise.resolve(assessment));
       getCourseStub = sinon.stub(courseRepository, 'get').returns({ challenges: ['challenge_web_2', 'challenge_web_1'], competences: ['competence_id'] });
-      getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetence').returns(challenges);
-      getSkillStub = sinon.stub(skillRepository, 'getFromCompetence').returns(new Set());
+      getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetenceId').returns(challenges);
+      getSkillStub = sinon.stub(skillRepository, 'getFromCompetenceId').returns(new Set());
 
       findByAssessmentStub = sinon.stub(answerRepository, 'findByAssessment')
         .returns(Promise.resolve([ correctAnswerWeb2, partialAnswerWeb1 ]));
