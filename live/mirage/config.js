@@ -18,6 +18,8 @@ import getAuthenticatedUser from './routes/get-user-me';
 import getOrganizations from './routes/get-organizations';
 import getSnapshots from './routes/get-snapshots';
 
+import { Response } from 'ember-cli-mirage';
+
 export default function() {
   this.logging = false;
   this.passthrough('/write-coverage');
@@ -72,4 +74,16 @@ export default function() {
   this.post('/followers');
   this.post('/users');
 
+  this.post('/password-resets', (schema, request) => {
+    const attrs = JSON.parse(request.requestBody);
+    const sentEmail = attrs.data.attributes.email;
+    const matchingPasswordReset = schema.passwordResets.findBy({email : sentEmail});
+
+    if (matchingPasswordReset == null){
+      return schema.passwordResets.create({email : sentEmail});
+    } else {
+      return new Response(400);
+    }
+
+  });
 }

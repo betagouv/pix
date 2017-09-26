@@ -39,7 +39,7 @@ describe('Unit | Route | password reset', function() {
       // then
       promise.then(() => {
         sinon.assert.called(createRecordStub);
-        sinon.assert.calledWith(createRecordStub, 'passwordResetDemand', { sentEmail });
+        sinon.assert.calledWith(createRecordStub, 'passwordReset', { sentEmail });
       });
 
     });

@@ -3,7 +3,7 @@ import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
 describe('Unit | Model | password reset demand', function() {
-  setupModelTest('password-reset-demand', {
+  setupModelTest('password-reset', {
     // Specify the other units that are required for this test.
     needs: []
   });
