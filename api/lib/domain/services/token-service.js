@@ -20,20 +20,26 @@ function extractTokenFromAuthChain(authChain) {
   return authChain.replace(/Bearer /g, '');
 }
 
-function extractUserId(token) {
-  let user_id;
+function verifyValidity(token) {
+  let decoded;
 
   try {
-    user_id = jsonwebtoken.verify(token, settings.authentication.secret).user_id;
-  } catch (e) {
-    user_id = null;
+    decoded = jsonwebtoken.verify(token, settings.authentication.secret);
   }
+  catch (e) {
+    decoded = false;
+  }
+  return decoded;
+}
 
-  return user_id;
+function extractUserId(token) {
+  const decoded = verifyValidity(token);
+  return decoded.user_id || null;
 }
 
 module.exports = {
   createTokenFromUser,
   extractUserId,
   extractTokenFromAuthChain,
+  verifyValidity
 };
