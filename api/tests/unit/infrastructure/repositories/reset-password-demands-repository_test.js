@@ -70,4 +70,73 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
       });
     });
   });
+
+  describe('#findByTemporaryKey', () => {
+
+    beforeEach(() => {
+      sinon.stub(ResetPasswordDemand, 'where');
+    });
+
+    afterEach(() => {
+      ResetPasswordDemand.where.restore();
+    });
+
+    it('should be a function', () => {
+      // then
+      expect(ResetPasswordDemandRepository.findByTemporaryKey).to.be.a('function');
+    });
+
+    it('should retrieve a record', () => {
+      // given
+      const fetchStub = sinon.stub().resolves(true);
+      const temporaryKey = 'temp_key';
+      ResetPasswordDemand.where.returns({
+        fetch: fetchStub
+      });
+      const expectedWhereArgs = { temporaryKey, used: false };
+
+      // when
+      const promise = ResetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(ResetPasswordDemand.where);
+        sinon.assert.calledWith(ResetPasswordDemand.where, expectedWhereArgs);
+        sinon.assert.calledOnce(fetchStub);
+      });
+    });
+
+    it('should resolves with false, when demand is not found', () => {
+      // given
+      const fetchStub = sinon.stub().resolves(false);
+      const temporaryKey = 'unknown_temporary_key';
+      ResetPasswordDemand.where.returns({
+        fetch: fetchStub
+      });
+
+      // when
+      const promise = ResetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
+      // then
+      return promise.then((isFound) => {
+        expect(isFound).to.be.false;
+      });
+    });
+
+    it('should resolves with true, when demand is found', () => {
+      // given
+      const fetchStub = sinon.stub().resolves(true);
+      const temporaryKey = 'temporary_key';
+      ResetPasswordDemand.where.returns({
+        fetch: fetchStub
+      });
+
+      // when
+      const promise = ResetPasswordDemandRepository.findByTemporaryKey(temporaryKey);
+      // then
+      return promise.then((isFound) => {
+        expect(isFound).to.be.true;
+      });
+    });
+
+  });
 });

@@ -10,5 +10,11 @@ module.exports = {
       patch: true,
       require: false
     });
+  },
+
+  findByTemporaryKey(temporaryKey) {
+    return ResetPasswordDemand.where({ temporaryKey, used: false })
+      .fetch()
+      .then(resetDemand => !!resetDemand);
   }
 };
