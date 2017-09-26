@@ -1,9 +1,9 @@
 const jsonwebtoken = require('jsonwebtoken');
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const settings = require('../../../../lib/settings');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+const resetPasswordService = require('../../../../lib/domain/services/password-reset-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
 const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | Password Service', function() {
@@ -105,41 +105,49 @@ describe('Unit | Service | Password Service', function() {
         });
       });
 
-      describe('When temporary is valid', () => {
+      describe('When temporaryKey is valid', () => {
 
-        it('should verify temporaryKey existence', () => {
-          // given
-          const token = 'valid_token';
-          tokenService.verifyValidity.returns(true);
-          resetPasswordRepository.findByTemporaryKey.resolves(true);
+        describe('and temporaryKey is related to a password reset demand', () => {
 
-          // when
-          const promise = resetPasswordService.verifyDemand(token);
+          it('should verify temporaryKey existence and return the record temporary key', () => {
+            // given
+            const token = 'valid_token';
+            tokenService.verifyValidity.returns(true);
+            const fetchedRecord = { temporaryKey: 'valid_token' };
+            resetPasswordRepository.findByTemporaryKey.resolves(fetchedRecord);
 
-          // then
-          return promise.then(() => {
-            sinon.assert.calledOnce(resetPasswordRepository.findByTemporaryKey);
-            sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey);
-            sinon.assert.calledOnce(tokenService.verifyValidity);
-            sinon.assert.calledWith(tokenService.verifyValidity, token);
-          });
+            // when
+            const promise = resetPasswordService.verifyDemand(token);
 
-        });
+            // then
+            return promise.then((result) => {
+              sinon.assert.calledOnce(resetPasswordRepository.findByTemporaryKey);
+              sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey);
+              sinon.assert.calledOnce(tokenService.verifyValidity);
+              sinon.assert.calledWith(tokenService.verifyValidity, token);
+              expect(result).to.equal(fetchedRecord.temporaryKey);
+            });
 
-        it('should return an PasswordResetDemandNotFoundError', () => {
-          // given
-          const token = 'valid_but_unkonwn_token';
-          tokenService.verifyValidity.returns(true);
-          resetPasswordRepository.findByTemporaryKey.resolves(false);
-
-          // when
-          const promise = resetPasswordService.verifyDemand(token);
-
-          // then
-          return promise.catch((err) => {
-            expect(err).to.an.instanceOf(PasswordResetDemandNotFoundError);
           });
         });
+
+        describe('but temporaryKey is related to a password reset demand', () => {
+          it('should return an PasswordResetDemandNotFoundError', () => {
+            // given
+            const token = 'valid_but_unkonwn_token';
+            tokenService.verifyValidity.returns(true);
+            resetPasswordRepository.findByTemporaryKey.resolves(false);
+
+            // when
+            const promise = resetPasswordService.verifyDemand(token);
+
+            // then
+            return promise.catch((err) => {
+              expect(err).to.an.instanceOf(PasswordResetDemandNotFoundError);
+            });
+          });
+        });
+
       });
 
     });

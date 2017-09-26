@@ -1,7 +1,8 @@
 const faker = require('faker');
 const { describe, it, before, after, expect, afterEach, beforeEach, knex, sinon } = require('../../test-helper');
 const mailjetService = require('../../../lib/domain/services/mail-service');
-const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const passwordResetService = require('../../../lib/domain/services/password-reset-service');
+const resetPasswordDemandRepository = require('../../../lib/infrastructure/repositories/password-reset-demands-repository');
 
 const server = require('../../../server');
 
@@ -11,7 +12,7 @@ describe('Acceptance | Controller | password-controller', function() {
     server.stop(done);
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-reset', () => {
 
     let fakeUserEmail;
     let options;
@@ -22,14 +23,14 @@ describe('Acceptance | Controller | password-controller', function() {
     });
 
     after(() => {
-      return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
+      return Promise.all([knex('users').delete(), knex('password-reset-demands').delete()]);
     });
 
     describe('when no email or hostEnv is provided', () => {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {}
         };
       });
@@ -48,7 +49,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: 'uzinagaz@unknown.xh',
             hostEnv: 'dev'
@@ -70,7 +71,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'
@@ -84,12 +85,11 @@ describe('Acceptance | Controller | password-controller', function() {
         mailjetService.sendResetPasswordDemandEmail.restore();
       });
 
-      it('should reply with 200', (done) => {
+      it('should reply with 200', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(200);
-          done();
         });
       });
     });
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'
@@ -123,6 +123,94 @@ describe('Acceptance | Controller | password-controller', function() {
     });
 
   });
+
+  describe('GET /api/password-reset/{temporaryKey}', () => {
+    let fakeUserEmail;
+    let options;
+
+    describe('When temporaryKey is not valid', () => {
+
+      it('should reply with 401 status code', () => {
+        // when
+        options = {
+          method: 'GET',
+          url: '/api/password-reset/invalid-temporary-key'
+        };
+        return server.inject(options).then((response) => {
+          // then
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+    });
+
+    describe('When temporaryKey is valid but not linked to a password reset demand', () => {
+
+      it('should reply with 404 status code', () => {
+        // when
+        const temporaryKey = passwordResetService.generateTemporaryKey();
+        options = {
+          method: 'GET',
+          url: `/api/password-reset/${temporaryKey}`
+        };
+        return server.inject(options).then((response) => {
+          // then
+          expect(response.statusCode).to.equal(404);
+        });
+      });
+    });
+
+    describe('When something going wrong', () => {
+
+      beforeEach(() => {
+        sinon.stub(passwordResetService, 'verifyDemand').resolves(new Error());
+      });
+
+      afterEach(() => {
+        passwordResetService.verifyDemand.restore();
+      });
+
+      it('should reply with 500 status code', () => {
+        // when
+        const temporaryKey = passwordResetService.generateTemporaryKey();
+        options = {
+          method: 'GET',
+          url: `/api/password-reset/${temporaryKey}`
+        };
+        return server.inject(options).then((response) => {
+          // then
+          expect(response.statusCode).to.equal(500);
+        });
+      });
+    });
+
+    describe('When temporaryKey is valid and linked to a password reset demand', () => {
+
+      const temporaryKey = passwordResetService.generateTemporaryKey();
+
+      before(() => {
+        fakeUserEmail = faker.internet.email();
+        _insertUser(fakeUserEmail);
+        return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+      });
+
+      after(() => {
+        return Promise.all([knex('users').delete(), knex('password-reset-demands').delete()]);
+      });
+
+      it('should reply with 200 status code', () => {
+        // when
+        options = {
+          method: 'GET',
+          url: `/api/password-reset/${temporaryKey}`
+        };
+        return server.inject(options).then((response) => {
+          // then
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+    });
+
+  });
 });
 
 function _insertUser(email) {
@@ -135,4 +223,9 @@ function _insertUser(email) {
 
   return knex('users').insert(userRaw)
     .then(user => user.shift());
+}
+
+function _insertPasswordResetDemand(temporaryKey, email) {
+  const resetDemandRaw = { email, temporaryKey };
+  return knex('password-reset-demands').insert(resetDemandRaw);
 }

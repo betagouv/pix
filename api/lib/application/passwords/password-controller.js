@@ -1,9 +1,9 @@
 const Boom = require('boom');
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
-const resetPasswordService = require('../../domain/services/reset-password-service');
-const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const { UserNotFoundError, InternalError } = require('../../domain/errors');
+const resetPasswordService = require('../../domain/services/password-reset-service');
+const resetPasswordDemandRepository = require('../../infrastructure/repositories/password-reset-demands-repository');
+const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
@@ -30,6 +30,23 @@ module.exports = {
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return reply(errorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
+        }
+
+        return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);
+      });
+  },
+
+  checkResetDemand(request, reply) {
+    const temporaryKey = request.params.temporaryKey;
+
+    return resetPasswordService.verifyDemand(temporaryKey)
+      .then(reply)
+      .catch((err) => {
+        if (err instanceof InvalidTemporaryKeyError) {
+          return reply(errorSerializer.serialize(InvalidTemporaryKeyError.getErrorMessage())).code(401);
+        }
+        if (err instanceof PasswordResetDemandNotFoundError) {
+          return reply(errorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
         }
 
         return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);

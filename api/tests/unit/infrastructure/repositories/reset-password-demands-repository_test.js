@@ -1,6 +1,6 @@
 const { expect, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
-const ResetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
-const ResetPasswordDemand = require('../../../../lib/domain/models/data/reset-password-demand');
+const ResetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
+const ResetPasswordDemand = require('../../../../lib/domain/models/data/password-reset-demand');
 
 describe('Unit | Repository | Reset Password Demand Repository', function() {
 

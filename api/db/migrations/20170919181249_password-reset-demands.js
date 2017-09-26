@@ -1,4 +1,4 @@
-const TABLE_NAME = 'reset-password-demands';
+const TABLE_NAME = 'password-reset-demands';
 
 exports.up = function(knex) {
 

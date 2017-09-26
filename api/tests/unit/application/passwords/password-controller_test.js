@@ -3,10 +3,10 @@ const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../..
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
-const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const resetPasswordService = require('../../../../lib/domain/services/password-reset-service');
+const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const { UserNotFoundError, InternalError } = require('../../../../lib/domain/errors');
+const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | PasswordController', () => {
 
@@ -245,4 +245,128 @@ describe('Unit | Controller | PasswordController', () => {
     });
   });
 
+  describe('#checkResetDemand', () => {
+    let reply;
+    let sandbox;
+    const request = {
+      params: {
+        temporaryKey: 'token'
+      }
+    };
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(resetPasswordService, 'verifyDemand').resolves();
+      sandbox.stub(errorSerializer, 'serialize');
+      reply = sinon.stub().returns({
+        code: () => {
+        }
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should verify token', () => {
+      // when
+      const promise = passwordController.checkResetDemand(request, reply);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(resetPasswordService.verifyDemand);
+        sinon.assert.calledWith(resetPasswordService.verifyDemand, request.params.temporaryKey);
+      });
+
+    });
+
+    describe('When temporaryKey is valid', () => {
+
+      it('should reply with temporaryKey', () => {
+        // given
+        const verifyDemandTempKey = 'token';
+        resetPasswordService.verifyDemand.resolves(verifyDemandTempKey);
+
+        // when
+        const promise = passwordController.checkResetDemand(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+          sinon.assert.calledWith(reply, request.params.temporaryKey);
+        });
+
+      });
+    });
+
+    describe('When temporaryKey is not valid', () => {
+
+      it('should reply with a InvalidTemporaryKeyError serialized', () => {
+        // given
+        const error = new InvalidTemporaryKeyError();
+        const expectedErrorMessage = InvalidTemporaryKeyError.getErrorMessage();
+        const serializedError = {};
+        errorSerializer.serialize.returns(serializedError);
+        resetPasswordService.verifyDemand.rejects(error);
+
+        // when
+        const promise = passwordController.checkResetDemand(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+          sinon.assert.calledOnce(errorSerializer.serialize);
+          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+          sinon.assert.calledWith(reply, serializedError);
+        });
+      });
+    });
+
+    describe('When temporaryKey is valid but not related to a password reset demand', () => {
+
+      it('should reply with a PasswordResetDemandNotFoundError serialized', () => {
+        // given
+        const error = new PasswordResetDemandNotFoundError();
+        const expectedErrorMessage = PasswordResetDemandNotFoundError.getErrorMessage();
+        const serializedError = {};
+        errorSerializer.serialize.returns(serializedError);
+        resetPasswordService.verifyDemand.rejects(error);
+
+        // when
+        const promise = passwordController.checkResetDemand(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+          sinon.assert.calledOnce(errorSerializer.serialize);
+          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+          sinon.assert.calledWith(reply, serializedError);
+        });
+      });
+    });
+
+    describe('When unknown error has occured', () => {
+
+      it('should reply with a InternalError serialized', () => {
+        // given
+        const error = new InternalError();
+        const expectedErrorMessage = InternalError.getErrorMessage();
+        const serializedError = {};
+        errorSerializer.serialize.returns(serializedError);
+        resetPasswordService.verifyDemand.rejects(error);
+
+        // when
+        const promise = passwordController.checkResetDemand(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+          sinon.assert.calledOnce(errorSerializer.serialize);
+          sinon.assert.calledWith(errorSerializer.serialize, expectedErrorMessage);
+          sinon.assert.calledWith(reply, serializedError);
+        });
+      });
+    });
+
+  });
 });

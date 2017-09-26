@@ -1,4 +1,4 @@
-const ResetPasswordDemand = require('../../../lib/domain/models/data/reset-password-demand');
+const ResetPasswordDemand = require('../../../lib/domain/models/data/password-reset-demand');
 
 module.exports = {
   create(demand) {
