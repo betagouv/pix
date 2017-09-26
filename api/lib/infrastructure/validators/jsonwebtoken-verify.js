@@ -8,12 +8,12 @@ module.exports = {
   verify(authChain) {
     const token = (authChain) ? tokenService.extractTokenFromAuthChain(authChain) : '';
     return new Promise((resolve, reject) => {
-      if(!token) {
+      if (!token) {
         return reject(new InvalidTokenError());
       }
 
       jsonwebtoken.verify(token, settings.authentication.secret, (err, decoded) => {
-        if(err) {
+        if (err) {
           return reject(new InvalidTokenError());
         }
         const id = decoded.user_id;
