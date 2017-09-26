@@ -81,7 +81,7 @@ describe('Unit | Repository | UserRepository', function() {
       // Then
       return promise
         .catch((err) => {
-          expect(err).exist;
+          expect(err).to.exist;
           expect(err.name).to.equal('CustomError');
         });
     });
