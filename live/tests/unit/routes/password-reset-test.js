@@ -12,10 +12,9 @@ describe('Unit | Route | password reset', function() {
 
   let route;
   const sentEmail = 'dumb@people.com';
-  const passwordResetDemand = Ember.Object.create({ sentEmail });
+
   const saveStub = sinon.stub().resolves();
   const createRecordStub = sinon.stub().returns({
-    passwordResetDemand,
     save: saveStub
   });
 
@@ -37,9 +36,9 @@ describe('Unit | Route | password reset', function() {
       const promise = route.actions.passwordResetDemand.call(route, sentEmail);
 
       // then
-      promise.then(() => {
+      return promise.then(() => {
         sinon.assert.called(createRecordStub);
-        sinon.assert.calledWith(createRecordStub, 'passwordReset', { sentEmail });
+        sinon.assert.calledWith(createRecordStub, 'passwordReset', { email : sentEmail });
       });
 
     });
@@ -49,9 +48,32 @@ describe('Unit | Route | password reset', function() {
       const promise = route.actions.passwordResetDemand.call(route, sentEmail);
 
       // then
-      promise.then(() => {
+      return promise.then(() => {
         sinon.assert.called(saveStub);
       });
+    });
+
+    it('should redirect to /connexion when resetPasswordDemand has been saved', function() {
+      // given
+      route.transitionTo = sinon.stub();
+
+      // when
+      const promise = route.actions.passwordResetDemand.call(route, sentEmail);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.called(route.transitionTo);
+        sinon.assert.calledWith(route.transitionTo, 'login');
+      });
+    });
+
+    it('should ', function() {
+      // given
+
+      // when
+
+      // then
+
     });
 
   });

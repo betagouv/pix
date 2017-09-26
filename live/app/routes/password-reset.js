@@ -8,7 +8,9 @@ export default BaseRoute.extend({
       const passwordResetDemand = store.createRecord('passwordReset', { email });
       return passwordResetDemand.save()
         .then(() => {
-          console.log('requete envoyé');
+          this.transitionTo('login');
+        })
+        .catch(() => {
         });
     }
   }
