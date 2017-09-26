@@ -9,6 +9,13 @@ exports.register = function(server, options, next) {
       config: {
         handler: passwordController.resetDemand, tags: ['api']
       }
+    },
+    {
+      method: 'GET',
+      path: '/api/reset-password/{temporaryKey}',
+      config: {
+        handler: passwordController.checkResetDemand, tags: ['api']
+      }
     }
   ]);
 

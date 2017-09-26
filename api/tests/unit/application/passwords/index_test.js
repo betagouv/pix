@@ -41,4 +41,30 @@ describe('Unit | Router | Password router', () => {
         });
     });
   });
+
+  describe('GET /api/reset-password/{temporaryKey}', () => {
+    before(() => {
+      sinon.stub(passwordController, 'checkResetDemand');
+    });
+
+    after(() => {
+      passwordController.checkResetDemand.restore();
+    });
+
+    it('should exist', (done) => {
+      // given
+      passwordController.checkResetDemand.callsFake((request, reply) => {
+        reply('ok');
+      });
+
+      // when
+      server
+        .inject({ method: 'GET', url: '/api/reset-password/temporary_key' })
+        .then((res) => {
+          // then
+          expect(res.statusCode).to.equal(200);
+          done();
+        });
+    });
+  });
 });
