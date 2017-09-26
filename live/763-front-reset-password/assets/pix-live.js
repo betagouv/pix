@@ -4177,7 +4177,7 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
     name: 'sentry-setup'
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-users', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFollowers, _postFeedbacks, _postRefreshSolution, _postUsers, _postAuthentications, _getUserMe) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-followers', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-users', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me', 'ember-cli-mirage'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFollowers, _postFeedbacks, _postRefreshSolution, _postUsers, _postAuthentications, _getUserMe, _emberCliMirage) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4255,6 +4255,18 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
       var organizationId = request.params.id;
 
       return schema.snapshots.where({ organizationId: organizationId });
+    });
+
+    this.post('/password-resets', function (schema, request) {
+      var attrs = JSON.parse(request.requestBody);
+      var sentEmail = attrs.data.attributes.email;
+      var matchingPasswordReset = schema.passwordResets.findBy({ email: sentEmail });
+
+      if (matchingPasswordReset == null) {
+        return schema.passwordResets.create({ email: sentEmail });
+      } else {
+        return new _emberCliMirage.Response(400);
+      }
     });
   };
 });
@@ -5209,6 +5221,14 @@ define('pix-live/mirage/models/organization', ['exports', 'ember-cli-mirage'], f
     snapshots: (0, _emberCliMirage.hasMany)('snapshot')
   });
 });
+define('pix-live/mirage/models/password-reset', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Model.extend({});
+});
 define('pix-live/mirage/models/snapshot', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -5902,6 +5922,16 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     code: attr('string'),
     user: belongsTo('user'),
     snapshots: hasMany('snapshot')
+  });
+});
+define('pix-live/models/password-reset', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberData.default.Model.extend({
+    email: _emberData.default.attr('string')
   });
 });
 define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6821,7 +6851,15 @@ define('pix-live/routes/password-reset', ['exports', 'pix-live/routes/base-route
   exports.default = _baseRoute.default.extend({
 
     actions: {
-      passwordResetDemand: function passwordResetDemand() {}
+      passwordResetDemand: function passwordResetDemand(email) {
+        var _this = this;
+
+        var store = this.get('store');
+        var passwordResetDemand = store.createRecord('passwordReset', { email: email });
+        return passwordResetDemand.save().then(function () {
+          _this.transitionTo('login');
+        }).catch(function () {});
+      }
     }
 
   });
@@ -8025,6 +8063,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/models/password-reset.js', function () {
+      // test passed
+    });
+
     it('mirage/models/snapshot.js', function () {
       // test passed
     });
@@ -8667,6 +8709,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+c30b37de"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+20097b82"});
 }
 //# sourceMappingURL=pix-live.map

@@ -3555,6 +3555,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/password-reset.js', function () {
+      // test passed
+    });
+
     it('models/snapshot.js', function () {
       // test passed
     });
@@ -6059,7 +6063,7 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
     });
   });
 });
-define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | password reset form', function () {
@@ -6086,8 +6090,6 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
     });
 
     (0, _mocha.it)('renders all the necessary elements of the form ', function () {
-      // given
-
       // when
       this.render(Ember.HTMLBars.template({
         "id": "AsAWcmkf",
@@ -6102,6 +6104,29 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       (0, _chai.expect)(this.$('.password-reset-form__input')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__label')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__button')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should send a password reset demand to the route', function () {
+      // given
+      var email = 'email@example.com';
+      var sendToRoutePasswordResetDemandSpy = _sinon.default.spy();
+      this.set('sendToRoutePasswordResetemand', sendToRoutePasswordResetDemandSpy);
+      this.set('passwordResetDemand', function (givenEmail) {
+        // THEN
+        (0, _chai.expect)(givenEmail).to.equal(email);
+      });
+
+      this.render(Ember.HTMLBars.template({
+        "id": "RQVdVhCM",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],[19,0,[\"passwordResetDemand\"]]],null]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      this.$('.password-reset-form__email-input').val(email);
+      this.$('.password-reset-form__email-input').change();
+
+      // when
+      $('.password-reset-form__submit-button').click();
     });
   });
 });
@@ -9580,6 +9605,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/password-reset-form-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/pix-modal-test.js', function () {
       // test passed
     });
@@ -9685,6 +9714,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/models/organization-test.js', function () {
+      // test passed
+    });
+
+    it('unit/models/password-reset-test.js', function () {
       // test passed
     });
 
@@ -10951,6 +10984,38 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(component.get('isUserLogged')).to.equal(false);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'sinon', 'ember-mocha'], function (_mocha, _sinon, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | password-reset-form', function () {
+
+    (0, _emberMocha.setupTest)('component:password-reset-form', {});
+
+    var component = void 0;
+
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#sendToRoutePasswordResetDemand', function () {
+
+      (0, _mocha.it)('should send action to route password-reset', function () {
+        // given
+        var onSubmitActionSpy = _sinon.default.spy();
+        component.set('onSubmit', onSubmitActionSpy);
+        var submittedEmail = 'dumb@people.com';
+        component.set('email', submittedEmail);
+
+        // when
+        component.send('sendToRoutePasswordResetDemand');
+
+        // then
+        _sinon.default.assert.called(onSubmitActionSpy);
+        _sinon.default.assert.calledWith(onSubmitActionSpy, submittedEmail);
       });
     });
   });
@@ -12561,6 +12626,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
+define('pix-live/tests/unit/models/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | password reset demand', function () {
+    (0, _emberMocha.setupModelTest)('password-reset', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -13389,7 +13471,7 @@ define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | password reset', function () {
@@ -13398,9 +13480,70 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
       needs: ['service:current-routed-modal']
     });
 
+    var route = void 0;
+    var sentEmail = 'dumb@people.com';
+
+    var saveStub = _sinon.default.stub().resolves();
+    var createRecordStub = _sinon.default.stub().returns({
+      save: saveStub
+    });
+
+    beforeEach(function () {
+      this.register('service:store', Ember.Service.extend({
+        createRecord: createRecordStub
+      }));
+      route = this.subject();
+    });
+
     (0, _mocha.it)('exists', function () {
-      var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#passwordResetDemand', function () {
+
+      (0, _mocha.it)('should create a passwordResetDemand Record', function () {
+        // when
+        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(createRecordStub);
+          _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
+        });
+      });
+
+      (0, _mocha.it)('should save the password reset demand', function () {
+        // when
+        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(saveStub);
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /connexion when resetPasswordDemand has been saved', function () {
+        // given
+        route.transitionTo = _sinon.default.stub();
+
+        // when
+        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(route.transitionTo);
+          _sinon.default.assert.calledWith(route.transitionTo, 'login');
+        });
+      });
+
+      (0, _mocha.it)('should ', function () {
+        // given
+
+        // when
+
+        // then
+
+      });
     });
   });
 });
