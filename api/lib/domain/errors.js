@@ -62,6 +62,34 @@ class InternalError extends Error {
   }
 }
 
+class PasswordResetDemandNotFoundError extends Error {
+  constructor() {
+    super();
+  }
+
+  static getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
+      }
+    };
+  }
+}
+
+class InvalidTemporaryKeyError extends Error {
+  constructor() {
+    super();
+  }
+
+  static getErrorMessage() {
+    return {
+      data: {
+        temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
+      }
+    };
+  }
+}
+
 module.exports = {
   NotFoundError,
   NotElligibleToScoringError,
@@ -70,5 +98,7 @@ module.exports = {
   AlreadyRegisteredEmailError,
   InvaliOrganizationIdError,
   UserNotFoundError,
-  InternalError
+  InternalError,
+  PasswordResetDemandNotFoundError,
+  InvalidTemporaryKeyError
 };

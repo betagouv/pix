@@ -55,4 +55,43 @@ describe('Unit | Domain | Errors', () => {
     });
   });
 
+  describe('#PasswordResetDemandNotFoundError', () => {
+    it('should export a PasswordResetDemandNotFoundError', () => {
+      expect(errors.PasswordResetDemandNotFoundError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          temporaryKey: ['Cette demande de réinitialisation n’existe pas.']
+        }
+      };
+
+      // then
+      const internalError = errors.PasswordResetDemandNotFoundError;
+      expect(internalError.getErrorMessage).to.be.a('function');
+      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
+
+  describe('#InvalidTemporaryKeyError', () => {
+    it('should export a InvalidTemporaryKeyError', () => {
+      expect(errors.InvalidTemporaryKeyError).to.exist;
+    });
+
+    it('should have a getErrorMessage method', () => {
+      // given
+      const expectedErrorMessage = {
+        data: {
+          temporaryKey: ['Cette demande de réinitialisation n’est pas valide.']
+        }
+      };
+
+      // then
+      const internalError = errors.InvalidTemporaryKeyError;
+      expect(internalError.getErrorMessage).to.be.a('function');
+      expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
+    });
+  });
 });
