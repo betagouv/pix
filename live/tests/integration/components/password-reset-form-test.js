@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
+import sinon from 'sinon';
 import hbs from 'htmlbars-inline-precompile';
 
 describe('Integration | Component | password reset form', function() {
@@ -23,8 +24,6 @@ describe('Integration | Component | password reset form', function() {
   });
 
   it('renders all the necessary elements of the form ', function() {
-    // given
-
     // when
     this.render(hbs`{{password-reset-form}}`);
 
@@ -35,6 +34,25 @@ describe('Integration | Component | password reset form', function() {
     expect(this.$('.password-reset-form__input')).to.have.length(1);
     expect(this.$('.password-reset-form__label')).to.have.length(1);
     expect(this.$('.password-reset-form__button')).to.have.length(1);
+  });
+
+  it('should send a password reset demand to the route', function() {
+    // given
+    const email = 'email@example.com';
+    const sendToRoutePasswordResetDemandSpy = sinon.spy();
+    this.set('sendToRoutePasswordResetemand', sendToRoutePasswordResetDemandSpy);
+    this.set('passwordResetDemand', (givenEmail)=>{
+      // THEN
+      expect(givenEmail).to.equal(email);
+    });
+
+    this.render(hbs`{{password-reset-form onSubmit=(action passwordResetDemand)}}`);
+
+    this.$('.password-reset-form__email-input').val(email);
+    this.$('.password-reset-form__email-input').change();
+
+    // when
+    $('.password-reset-form__submit-button').click();
   });
 
 });
