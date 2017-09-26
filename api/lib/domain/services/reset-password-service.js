@@ -1,5 +1,7 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../settings');
+const tokenService = require('../services/token-service');
+const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../errors');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 
 module.exports = {
@@ -13,7 +15,19 @@ module.exports = {
     return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
   },
 
-  createDemand() {
+  verifyDemand(temporaryKey) {
+    const isAValidDemand = tokenService.verifyValidity(temporaryKey);
+    if (!isAValidDemand) {
+      return Promise.reject(new InvalidTemporaryKeyError());
+    }
 
+    return resetPasswordDemandRepository
+      .findByTemporaryKey(temporaryKey)
+      .then((fetchedDemand) => {
+        if (!fetchedDemand) {
+          throw new PasswordResetDemandNotFoundError();
+        }
+        return fetchedDemand;
+      });
   }
 };

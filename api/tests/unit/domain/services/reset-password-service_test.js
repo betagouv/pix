@@ -2,7 +2,9 @@ const jsonwebtoken = require('jsonwebtoken');
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const settings = require('../../../../lib/settings');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+const tokenService = require('../../../../lib/domain/services/token-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | Password Service', function() {
 
@@ -65,5 +67,82 @@ describe('Unit | Service | Password Service', function() {
         sinon.assert.calledWith(resetPasswordRepository.markAsBeingUsed, userEmail);
       });
     });
+  });
+
+  describe('#verifyDemand', () => {
+
+    it('should be a function', () => {
+      // then
+      expect(resetPasswordService.verifyDemand).to.be.a('function');
+    });
+
+    describe('TemporaryKey validity check', () => {
+
+      let sandbox;
+      beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        sandbox.stub(tokenService, 'verifyValidity');
+        sandbox.stub(resetPasswordRepository, 'findByTemporaryKey');
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      describe('When temporary is not valid', () => {
+        it('should reject with an InvalidTemporaryKeyError', () => {
+          // given
+          const token = 'invalid_token';
+          tokenService.verifyValidity.returns(false);
+
+          // when
+          const promise = resetPasswordService.verifyDemand(token);
+
+          // then
+          return promise.catch((err) => {
+            expect(err).to.be.an.instanceOf(InvalidTemporaryKeyError);
+          });
+        });
+      });
+
+      describe('When temporary is valid', () => {
+
+        it('should verify temporaryKey existence', () => {
+          // given
+          const token = 'valid_token';
+          tokenService.verifyValidity.returns(true);
+          resetPasswordRepository.findByTemporaryKey.resolves(true);
+
+          // when
+          const promise = resetPasswordService.verifyDemand(token);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(resetPasswordRepository.findByTemporaryKey);
+            sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey);
+            sinon.assert.calledOnce(tokenService.verifyValidity);
+            sinon.assert.calledWith(tokenService.verifyValidity, token);
+          });
+
+        });
+
+        it('should return an PasswordResetDemandNotFoundError', () => {
+          // given
+          const token = 'valid_but_unkonwn_token';
+          tokenService.verifyValidity.returns(true);
+          resetPasswordRepository.findByTemporaryKey.resolves(false);
+
+          // when
+          const promise = resetPasswordService.verifyDemand(token);
+
+          // then
+          return promise.catch((err) => {
+            expect(err).to.an.instanceOf(PasswordResetDemandNotFoundError);
+          });
+        });
+      });
+
+    });
+
   });
 });
