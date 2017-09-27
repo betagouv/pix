@@ -1427,10 +1427,16 @@ define('pix-live/components/password-reset-form', ['exports'], function (exports
   exports.default = Ember.Component.extend({
 
     email: '',
+    _displayErrorMessage: false,
 
     actions: {
       sendToRoutePasswordResetDemand: function sendToRoutePasswordResetDemand() {
-        this.get('onSubmit')(this.get('email'));
+        var _this = this;
+
+        this.set('_displayErrorMessage', false);
+        this.get('onSubmit')(this.get('email')).catch(function () {
+          _this.set('_displayErrorMessage', true);
+        });
       }
     }
   });
@@ -4260,9 +4266,9 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('/password-resets', function (schema, request) {
       var attrs = JSON.parse(request.requestBody);
       var sentEmail = attrs.data.attributes.email;
-      var matchingPasswordReset = schema.passwordResets.findBy({ email: sentEmail });
+      var matchingAccount = schema.users.findBy({ email: sentEmail });
 
-      if (matchingPasswordReset == null) {
+      if (matchingAccount != null) {
         return schema.passwordResets.create({ email: sentEmail });
       } else {
         return new _emberCliMirage.Response(400);
@@ -6858,7 +6864,7 @@ define('pix-live/routes/password-reset', ['exports', 'pix-live/routes/base-route
         var passwordResetDemand = store.createRecord('passwordReset', { email: email });
         return passwordResetDemand.save().then(function () {
           _this.transitionTo('login');
-        }).catch(function () {});
+        });
       }
     }
 
@@ -7500,7 +7506,7 @@ define("pix-live/templates/components/password-reset-form", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "OQkYqebr", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"password-reset-form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__pix-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__title\"],[7],[0,\"Mot de passe oublié ?\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__text\"],[7],[0,\"Entrez votre adresse e-mail ci-dessous, et c'est repartix\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__label\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__input\"],[7],[0,\"\\n    \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"type\",\"value\"],[\"password-reset-form__email-input\",\"pix-email\",\"email\",[19,0,[\"email\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__button\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"password-reset-form__submit-button\"],[3,\"action\",[[19,0,[]],\"sendToRoutePasswordResetDemand\"]],[7],[0,\"Envoyer\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/password-reset-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "YwRWRJ7Q", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"password-reset-form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__pix-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__title\"],[7],[0,\"Mot de passe oublié ?\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__text\"],[7],[0,\"Entrez votre adresse e-mail ci-dessous, et c'est repartix\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__label\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"_displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__error-message\"],[7],[0,\"une erreur est survenu\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__input\"],[7],[0,\"\\n    \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"type\",\"value\"],[\"password-reset-form__email-input\",\"pix-email\",\"email\",[19,0,[\"email\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__button\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"password-reset-form__submit-button\"],[3,\"action\",[[19,0,[]],\"sendToRoutePasswordResetDemand\"]],[7],[0,\"Envoyer\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/password-reset-form.hbs" } });
 });
 define("pix-live/templates/components/pix-logo", ["exports"], function (exports) {
   "use strict";
@@ -8709,6 +8715,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+20097b82"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+01f15f3a"});
 }
 //# sourceMappingURL=pix-live.map

@@ -3203,6 +3203,79 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
         }
       }, _callee2, this);
     })));
+
+    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              // given
+              server.create('user', {
+                id: 1,
+                firstName: 'Brandone',
+                lastName: 'Martins',
+                email: 'brandone.martins@pix.com',
+                password: '1024pix!'
+              });
+              _context3.next = 3;
+              return visit('/mot-passe-oublie');
+
+            case 3:
+              fillIn('.password-reset-form__email-input', 'brandone.martins@pix.com');
+
+              // when
+              _context3.next = 6;
+              return click('.password-reset-form__submit-button');
+
+            case 6:
+              return _context3.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
+              }));
+
+            case 7:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    (0, _mocha.it)('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // given
+              server.create('user', {
+                id: 1,
+                firstName: 'Brandone',
+                lastName: 'Martins',
+                email: 'brandone.martins@pix.com',
+                password: '1024pix!'
+              });
+              _context4.next = 3;
+              return visit('/mot-passe-oublie');
+
+            case 3:
+              fillIn('.password-reset-form__email-input', 'unexisting@user.com');
+
+              // when
+              _context4.next = 6;
+              return click('.password-reset-form__submit-button');
+
+            case 6:
+              return _context4.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+                (0, _chai.expect)(find('.password-reset-form__error-message')).to.have.lengthOf(1);
+              }));
+
+            case 7:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/terms-of-service-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
@@ -6066,6 +6139,35 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
 define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
   (0, _mocha.describe)('Integration | Component | password reset form', function () {
     (0, _emberMocha.setupComponentTest)('password-reset-form', {
       integration: true
@@ -6106,27 +6208,58 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       (0, _chai.expect)(this.$('.password-reset-form__button')).to.have.length(1);
     });
 
-    (0, _mocha.it)('should send a password reset demand to the route', function () {
-      // given
-      var email = 'email@example.com';
-      var sendToRoutePasswordResetDemandSpy = _sinon.default.spy();
-      this.set('sendToRoutePasswordResetemand', sendToRoutePasswordResetDemandSpy);
-      this.set('passwordResetDemand', function (givenEmail) {
-        // THEN
-        (0, _chai.expect)(givenEmail).to.equal(email);
-      });
+    (0, _mocha.it)('should send a password reset demand to the route', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var email, sendToRoutePasswordResetDemandSpy;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              // given
+              email = 'email@example.com';
+              sendToRoutePasswordResetDemandSpy = _sinon.default.spy();
 
+              this.set('sendToRoutePasswordResetDemand', sendToRoutePasswordResetDemandSpy);
+              this.set('passwordResetDemand', function (givenEmail) {
+                // THEN
+                //MANQUE UN TEST POUR VERIFIER QUE LE BOUTON SUBMIT A UNE ACTION. TOI REVIEWER ! RAPELLE LE MOI
+                //CE TEST TESTE SEULEMENT QUE S'IL Y A UNE ACTION, ELLE A LE BON NOM
+                (0, _chai.expect)(givenEmail).to.equal(email);
+                return Promise.resolve();
+              });
+
+              this.render(Ember.HTMLBars.template({
+                "id": "RQVdVhCM",
+                "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],[19,0,[\"passwordResetDemand\"]]],null]]]],false]],\"hasEval\":false}",
+                "meta": {}
+              }));
+
+              this.$('.password-reset-form__email-input').val(email);
+              this.$('.password-reset-form__email-input').change();
+
+              // when
+              $('.password-reset-form__submit-button').click();
+
+            case 8:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('should display error message when there is an error on password reset demand', function () {
+      // given
+      this.set('_displayErrorMessage', true);
+
+      // when
       this.render(Ember.HTMLBars.template({
-        "id": "RQVdVhCM",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],[19,0,[\"passwordResetDemand\"]]],null]]]],false]],\"hasEval\":false}",
+        "id": "qthArZ6H",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"_displayErrorMessage\"],[[19,0,[\"_displayErrorMessage\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
-      this.$('.password-reset-form__email-input').val(email);
-      this.$('.password-reset-form__email-input').change();
-
-      // when
-      $('.password-reset-form__submit-button').click();
+      // then
+      (0, _chai.expect)(this.$('.password-reset-form__error-message')).to.have.length(1);
     });
   });
 });
@@ -11005,8 +11138,9 @@ define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'sin
 
       (0, _mocha.it)('should send action to route password-reset', function () {
         // given
-        var onSubmitActionSpy = _sinon.default.spy();
-        component.set('onSubmit', onSubmitActionSpy);
+        var onSubmitActionStub = _sinon.default.stub();
+        onSubmitActionStub.resolves();
+        component.set('onSubmit', onSubmitActionStub);
         var submittedEmail = 'dumb@people.com';
         component.set('email', submittedEmail);
 
@@ -11014,8 +11148,8 @@ define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'sin
         component.send('sendToRoutePasswordResetDemand');
 
         // then
-        _sinon.default.assert.called(onSubmitActionSpy);
-        _sinon.default.assert.calledWith(onSubmitActionSpy, submittedEmail);
+        _sinon.default.assert.called(onSubmitActionStub);
+        _sinon.default.assert.calledWith(onSubmitActionStub, submittedEmail);
       });
     });
   });
@@ -13482,7 +13616,6 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
 
     var route = void 0;
     var sentEmail = 'dumb@people.com';
-
     var saveStub = _sinon.default.stub().resolves();
     var createRecordStub = _sinon.default.stub().returns({
       save: saveStub
@@ -13493,6 +13626,7 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
         createRecord: createRecordStub
       }));
       route = this.subject();
+      route.transitionTo = _sinon.default.stub();
     });
 
     (0, _mocha.it)('exists', function () {
@@ -13523,9 +13657,6 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
       });
 
       (0, _mocha.it)('should redirect to /connexion when resetPasswordDemand has been saved', function () {
-        // given
-        route.transitionTo = _sinon.default.stub();
-
         // when
         var promise = route.actions.passwordResetDemand.call(route, sentEmail);
 
@@ -13534,15 +13665,6 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
           _sinon.default.assert.called(route.transitionTo);
           _sinon.default.assert.calledWith(route.transitionTo, 'login');
         });
-      });
-
-      (0, _mocha.it)('should ', function () {
-        // given
-
-        // when
-
-        // then
-
       });
     });
   });
