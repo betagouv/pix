@@ -15,6 +15,12 @@ module.exports = {
   findByTemporaryKey(temporaryKey) {
     return ResetPasswordDemand.where({ temporaryKey, used: false })
       .fetch()
-      .then(resetDemand => !!resetDemand);
+      .then(resetDemand => {
+        if (!resetDemand) {
+          return false;
+        }
+
+        return resetDemand;
+      });
   }
 };

@@ -5,6 +5,7 @@ const resetPasswordService = require('../../../../lib/domain/services/password-r
 const tokenService = require('../../../../lib/domain/services/token-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
 const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const PaswwordResetDemand = require('../../../../lib/domain/models/data/password-reset-demand');
 
 describe('Unit | Service | Password Service', function() {
 
@@ -109,12 +110,14 @@ describe('Unit | Service | Password Service', function() {
 
         describe('and temporaryKey is related to a password reset demand', () => {
 
-          it('should verify temporaryKey existence and return the record temporary key', () => {
+          it('should verify temporaryKey existence and return the founded record in json', () => {
             // given
             const token = 'valid_token';
             tokenService.verifyValidity.returns(true);
-            const fetchedRecord = { temporaryKey: 'valid_token' };
-            resetPasswordRepository.findByTemporaryKey.resolves(fetchedRecord);
+
+            const fetchedRecord = { email: 'shi@fu.me', temporaryKey: 'temp key' };
+            const resetDemandModel = new PaswwordResetDemand(fetchedRecord);
+            resetPasswordRepository.findByTemporaryKey.resolves(resetDemandModel);
 
             // when
             const promise = resetPasswordService.verifyDemand(token);
@@ -125,7 +128,7 @@ describe('Unit | Service | Password Service', function() {
               sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey);
               sinon.assert.calledOnce(tokenService.verifyValidity);
               sinon.assert.calledWith(tokenService.verifyValidity, token);
-              expect(result).to.equal(fetchedRecord.temporaryKey);
+              expect(result).to.eql(fetchedRecord);
             });
 
           });

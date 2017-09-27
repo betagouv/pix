@@ -27,7 +27,7 @@ module.exports = {
         if (!fetchedDemand) {
           throw new PasswordResetDemandNotFoundError();
         }
-        return fetchedDemand.temporaryKey;
+        return fetchedDemand.toJSON();
       });
   }
 };

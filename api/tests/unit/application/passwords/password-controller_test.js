@@ -4,8 +4,11 @@ const passwordController = require('../../../../lib/application/passwords/passwo
 const userService = require('../../../../lib/domain/services/user-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/password-reset-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
+const ResetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
+const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const serializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
+const User = require('../../../../lib/domain/models/data/user');
 const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | PasswordController', () => {
@@ -70,7 +73,7 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
         sandbox.stub(resetPasswordService, 'generateTemporaryKey');
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
-        sandbox.stub(resetPasswordRepository, 'create');
+        sandbox.stub(ResetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
       });
 
@@ -168,7 +171,7 @@ describe('Unit | Controller | PasswordController', () => {
         const demand = { email: 'shi@fu.me', temporaryKey: generatedToken };
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
+        ResetPasswordRepository.create.resolves();
         replyStub.returns({
           code: () => {
           }
@@ -179,8 +182,8 @@ describe('Unit | Controller | PasswordController', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(resetPasswordRepository.create);
-          sinon.assert.calledWith(resetPasswordRepository.create, demand);
+          sinon.assert.calledOnce(ResetPasswordRepository.create);
+          sinon.assert.calledWith(ResetPasswordRepository.create, demand);
         });
       });
 
@@ -189,7 +192,7 @@ describe('Unit | Controller | PasswordController', () => {
         const generatedToken = 'token';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
+        ResetPasswordRepository.create.resolves();
 
         //when
         const promise = passwordController.resetDemand(request, replyStub);
@@ -206,7 +209,7 @@ describe('Unit | Controller | PasswordController', () => {
         const generatedToken = 'token';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
+        ResetPasswordRepository.create.resolves();
 
         //when
         const promise = passwordController.resetDemand(request, replyStub);
@@ -258,6 +261,8 @@ describe('Unit | Controller | PasswordController', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(resetPasswordService, 'verifyDemand').resolves();
       sandbox.stub(errorSerializer, 'serialize');
+      sandbox.stub(UserRepository, 'findByEmail');
+      sandbox.stub(serializer, 'serialize');
       reply = sinon.stub().returns({
         code: () => {
         }
@@ -280,12 +285,39 @@ describe('Unit | Controller | PasswordController', () => {
 
     });
 
-    describe('When temporaryKey is valid', () => {
+    describe('When temporaryKey is valid and related to a password reset demand', () => {
 
-      it('should reply with temporaryKey', () => {
+      it('should get user details from email', () => {
         // given
-        const verifyDemandTempKey = 'token';
-        resetPasswordService.verifyDemand.resolves(verifyDemandTempKey);
+        const fetchedPasswordResetDemand = {
+          email: 'lost_pwd@email.fr'
+        };
+        resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
+        UserRepository.findByEmail.resolves();
+
+        // when
+        const promise = passwordController.checkResetDemand(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(UserRepository.findByEmail);
+          sinon.assert.calledWith(UserRepository.findByEmail, fetchedPasswordResetDemand.email);
+        });
+      });
+
+      it('should reply with a serialized user with some fields', () => {
+        // given
+        const fetchedPasswordResetDemand = {
+          email: 'lost_pwd@email.com'
+        };
+        const fetchedUser = {
+          id: 'user_id',
+          email: 'email@lost-password.fr'
+        };
+        const serializedUser = {};
+        resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
+        UserRepository.findByEmail.resolves(new User(fetchedUser));
+        serializer.serialize.returns(serializedUser);
 
         // when
         const promise = passwordController.checkResetDemand(request, reply);
@@ -293,10 +325,13 @@ describe('Unit | Controller | PasswordController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(reply);
-          sinon.assert.calledWith(reply, request.params.temporaryKey);
+          sinon.assert.calledOnce(serializer.serialize);
+          sinon.assert.calledWith(serializer.serialize, fetchedUser);
+          sinon.assert.calledWith(reply, serializedUser);
         });
 
       });
+
     });
 
     describe('When temporaryKey is not valid', () => {
