@@ -12,7 +12,6 @@ describe('Unit | Route | password reset', function() {
 
   let route;
   const sentEmail = 'dumb@people.com';
-
   const saveStub = sinon.stub().resolves();
   const createRecordStub = sinon.stub().returns({
     save: saveStub
@@ -23,6 +22,7 @@ describe('Unit | Route | password reset', function() {
       createRecord: createRecordStub
     }));
     route = this.subject();
+    route.transitionTo = sinon.stub();
   });
 
   it('exists', function() {
@@ -38,7 +38,7 @@ describe('Unit | Route | password reset', function() {
       // then
       return promise.then(() => {
         sinon.assert.called(createRecordStub);
-        sinon.assert.calledWith(createRecordStub, 'passwordReset', { email : sentEmail });
+        sinon.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
       });
 
     });
@@ -54,9 +54,6 @@ describe('Unit | Route | password reset', function() {
     });
 
     it('should redirect to /connexion when resetPasswordDemand has been saved', function() {
-      // given
-      route.transitionTo = sinon.stub();
-
       // when
       const promise = route.actions.passwordResetDemand.call(route, sentEmail);
 
@@ -65,15 +62,6 @@ describe('Unit | Route | password reset', function() {
         sinon.assert.called(route.transitionTo);
         sinon.assert.calledWith(route.transitionTo, 'login');
       });
-    });
-
-    it('should ', function() {
-      // given
-
-      // when
-
-      // then
-
     });
 
   });

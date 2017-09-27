@@ -16,8 +16,9 @@ describe('Unit | Component | password-reset-form', function() {
 
     it('should send action to route password-reset', function() {
       // given
-      const onSubmitActionSpy = sinon.spy();
-      component.set('onSubmit', onSubmitActionSpy);
+      const onSubmitActionStub = sinon.stub();
+      onSubmitActionStub.resolves();
+      component.set('onSubmit', onSubmitActionStub);
       const submittedEmail = 'dumb@people.com';
       component.set('email', submittedEmail);
 
@@ -25,8 +26,8 @@ describe('Unit | Component | password-reset-form', function() {
       component.send('sendToRoutePasswordResetDemand');
 
       // then
-      sinon.assert.called(onSubmitActionSpy);
-      sinon.assert.calledWith(onSubmitActionSpy, submittedEmail);
+      sinon.assert.called(onSubmitActionStub);
+      sinon.assert.calledWith(onSubmitActionStub, submittedEmail);
     });
   });
 

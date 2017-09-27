@@ -77,9 +77,9 @@ export default function() {
   this.post('/password-resets', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
     const sentEmail = attrs.data.attributes.email;
-    const matchingPasswordReset = schema.passwordResets.findBy({ email: sentEmail });
+    const matchingAccount = schema.users.findBy({ email: sentEmail });
 
-    if (matchingPasswordReset == null) {
+    if (matchingAccount != null) {
       return schema.passwordResets.create({ email: sentEmail });
     } else {
       return new Response(400);

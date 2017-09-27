@@ -9,8 +9,6 @@ export default BaseRoute.extend({
       return passwordResetDemand.save()
         .then(() => {
           this.transitionTo('login');
-        })
-        .catch(() => {
         });
     }
   }
