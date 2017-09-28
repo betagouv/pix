@@ -49,6 +49,10 @@ describe('Unit | Router | user-router', () => {
   });
 
   describe('PATCH /api/users/{userId}', function() {
+
+    const userId = '12344';
+    const options = { method: 'PATCH', url: `/api/users/${userId}` };
+
     before(() => {
       sinon.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
     });
@@ -57,11 +61,47 @@ describe('Unit | Router | user-router', () => {
       UserController.updatePassword.restore();
     });
 
-    it('should exist', (done) => {
+    it('should exist', () => {
+      const wellFormedOptions = {
+        method: 'PATCH',
+        url: `/api/users/${userId}`,
+        payload: { data: { attributes: { password: '12345678ab+!' } } }
+      };
+
       // given
-      const userId = '12344';
-      return expectRouteToExist({ method: 'PATCH', url: `/api/users/${userId}` }, done);
+      return server.inject(wellFormedOptions).then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
     });
+
+    describe('Payload schema validation (password attribute in payload)', () => {
+
+      it('should have a payload', (done) => {
+        // then
+        server.inject(options, (res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+      });
+
+      it('should have a valid password format in payload', (done) => {
+        // given
+        options['payload'] = {
+          data: {
+            attributes: {
+              password: 'Mot de passe'
+            }
+          }
+        };
+        // then
+        server.inject(options, (res) => {
+          expect(res.statusCode).to.equal(400);
+          done();
+        });
+      });
+
+    });
+
   });
 
 });

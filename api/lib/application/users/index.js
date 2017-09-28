@@ -1,4 +1,7 @@
 const UserController = require('./user-controller');
+const Joi = require('joi');
+const { passwordValidationPattern } = require('../../settings');
+const XRegExp = require('xregexp');
 
 exports.register = function(server, options, next) {
 
@@ -16,7 +19,18 @@ exports.register = function(server, options, next) {
     {
       method: 'PATCH',
       path: '/api/users/{userId}',
-      config: { handler: UserController.updatePassword, tags: ['api'] }
+      config: {
+        handler: UserController.updatePassword,
+        validate: {
+          payload: {
+            data: {
+              attributes: {
+                password: Joi.string().regex(XRegExp(passwordValidationPattern)).required()
+              }
+            }
+          }
+        }, tags: ['api']
+      }
     }
   ]);
 
