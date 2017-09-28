@@ -48,4 +48,20 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('PATCH /api/users/{userId}', function() {
+    before(() => {
+      sinon.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.updatePassword.restore();
+    });
+
+    it('should exist', (done) => {
+      // given
+      const userId = '12344';
+      return expectRouteToExist({ method: 'PATCH', url: `/api/users/${userId}` }, done);
+    });
+  });
+
 });

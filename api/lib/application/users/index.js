@@ -12,6 +12,11 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/users/me',
       config: { handler: UserController.getAuthenticatedUserProfile, tags: ['api'] }
+    },
+    {
+      method: 'PATCH',
+      path: '/api/users/{userId}',
+      config: { handler: UserController.updatePassword, tags: ['api'] }
     }
   ]);
 

@@ -75,6 +75,10 @@ module.exports = {
 
         return _replyErrorWithMessage(reply, 'Une erreur est survenue lors de l’authentification de l’utilisateur', 500);
       });
+  },
+
+  updatePassword() {
+
   }
 
 };
