@@ -53,16 +53,5 @@ describe('Unit | Route | password reset', function() {
       });
     });
 
-    it('should redirect to /connexion when resetPasswordDemand has been saved', function() {
-      // when
-      const promise = route.actions.passwordResetDemand.call(route, sentEmail);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.called(route.transitionTo);
-        sinon.assert.calledWith(route.transitionTo, 'login');
-      });
-    });
-
   });
 });

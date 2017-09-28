@@ -47,7 +47,8 @@ describe('Acceptance | Reset Password', function() {
 
     // then
     return andThen(() => {
-      expect(currentURL()).to.equal('/connexion');
+      expect(currentURL()).to.equal('/mot-passe-oublie');
+      expect(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
     });
 
   });
