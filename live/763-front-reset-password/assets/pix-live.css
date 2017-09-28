@@ -1914,6 +1914,10 @@ h1.course-banner__name {
     .password-reset-form__form {
       width: 400px; } }
 
+.password-reset-form__form-success-message {
+  margin-top: 30px;
+  color: #13c9a0; }
+
 .password-reset-form__form-label {
   text-transform: uppercase;
   font-size: 9px; }
@@ -2909,6 +2913,9 @@ input.qcm-panel__proposal-checkbox {
   border-radius: 3px;
   outline: none;
   padding: 5px; }
+
+.signin-form__forgotten-password-link {
+  align-self: flex-end; }
 
 .signin-form__form-field-button {
   display: inline; }

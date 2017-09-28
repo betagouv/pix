@@ -3229,7 +3229,8 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
 
             case 6:
               return _context3.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/connexion');
+                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+                (0, _chai.expect)(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
               }));
 
             case 7:
@@ -13654,17 +13655,6 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
         // then
         return promise.then(function () {
           _sinon.default.assert.called(saveStub);
-        });
-      });
-
-      (0, _mocha.it)('should redirect to /connexion when resetPasswordDemand has been saved', function () {
-        // when
-        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
-
-        // then
-        return promise.then(function () {
-          _sinon.default.assert.called(route.transitionTo);
-          _sinon.default.assert.calledWith(route.transitionTo, 'login');
         });
       });
     });

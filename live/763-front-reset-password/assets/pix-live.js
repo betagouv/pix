@@ -1428,13 +1428,17 @@ define('pix-live/components/password-reset-form', ['exports'], function (exports
 
     email: '',
     _displayErrorMessage: false,
+    _displaySuccessMessage: false,
 
     actions: {
       sendToRoutePasswordResetDemand: function sendToRoutePasswordResetDemand() {
         var _this = this;
 
         this.set('_displayErrorMessage', false);
-        this.get('onSubmit')(this.get('email')).catch(function () {
+        this.set('_displaySuccessMessage', false);
+        this.get('onSubmit')(this.get('email')).then(function () {
+          _this.set('_displaySuccessMessage', true);
+        }).catch(function () {
           _this.set('_displayErrorMessage', true);
         });
       }
@@ -5937,7 +5941,8 @@ define('pix-live/models/password-reset', ['exports', 'ember-data'], function (ex
     value: true
   });
   exports.default = _emberData.default.Model.extend({
-    email: _emberData.default.attr('string')
+    email: _emberData.default.attr('string'),
+    temporaryKey: _emberData.default.attr('string')
   });
 });
 define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6858,13 +6863,9 @@ define('pix-live/routes/password-reset', ['exports', 'pix-live/routes/base-route
 
     actions: {
       passwordResetDemand: function passwordResetDemand(email) {
-        var _this = this;
-
         var store = this.get('store');
         var passwordResetDemand = store.createRecord('passwordReset', { email: email });
-        return passwordResetDemand.save().then(function () {
-          _this.transitionTo('login');
-        });
+        return passwordResetDemand.save();
       }
     }
 
@@ -7506,7 +7507,7 @@ define("pix-live/templates/components/password-reset-form", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "pFc2HUeb", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"password-reset-form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__pix-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__title\"],[7],[0,\"Mot de passe oublié ?\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__text\"],[7],[0,\"Entrez votre adresse e-mail ci-dessous, et c'est repartix\"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-label\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"_displayErrorMessage\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-error-message\"],[7],[0,\"L'e-mail entré ne correspond à aucun compte\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-input\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"type\",\"value\"],[\"password-reset-form__form-email-input\",\"pix-email\",\"email\",[19,0,[\"email\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__button\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"password-reset-form__submit-button\"],[3,\"action\",[[19,0,[]],\"sendToRoutePasswordResetDemand\"]],[7],[0,\"\\n      Envoyer\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/password-reset-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ZJ+7txLH", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"password-reset-form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__pix-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__title\"],[7],[0,\"Mot de passe oublié ?\"],[8],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__text\"],[7],[0,\"Entrez votre adresse e-mail ci-dessous, et c'est repartix\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_displaySuccessMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-success-message\"],[7],[0,\"Vous allez recevoir un lien par e-mail pour renouveler votre mot de passe\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-label\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"_displayErrorMessage\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-error-message\"],[7],[0,\"L'e-mail entré ne correspond à aucun compte\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[6,\"div\"],[9,\"class\",\"password-reset-form__form-input\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"type\",\"value\"],[\"password-reset-form__form-email-input\",\"pix-email\",\"email\",[19,0,[\"email\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"password-reset-form__button\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"password-reset-form__submit-button\"],[3,\"action\",[[19,0,[]],\"sendToRoutePasswordResetDemand\"]],[7],[0,\"\\n      Envoyer\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/password-reset-form.hbs" } });
 });
 define("pix-live/templates/components/pix-logo", ["exports"], function (exports) {
   "use strict";
@@ -7674,7 +7675,7 @@ define("pix-live/templates/components/signin-form", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "IG2ahHNz", "block": "{\"symbols\":[],\"statements\":[[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Revenir à la page d'accueil\\n  \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"signin-form__panel\"],[7],[0,\"\\n\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\\n  \"],[6,\"h1\"],[9,\"class\",\"signin-form__panel-title\"],[7],[0,\"Se connecter\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"signin-form__errors\"],[7],[0,\"L'adresse email et/ou le mot de passe saisi sont incorrects\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signin-form__form\"],[7],[0,\"\\n    \"],[6,\"form\"],[3,\"action\",[[19,0,[]],\"submit\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n        \"],[6,\"label\"],[9,\"for\",\"pix-email\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"placeholder\",\"value\"],[\"pix-email\",\"email\",\"nom@exemple.fr\",[19,0,[\"email\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\\n\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n        \"],[6,\"label\"],[9,\"for\",\"pix-password\"],[7],[0,\"Mot de passe\"],[8],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\"],[\"pix-password\",\"password\",[19,0,[\"password\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field signin-form__form-field-button\"],[7],[0,\"\\n        \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"signin-form__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"],[[\"allowedKeys\"],[\"enter\"]]],[7],[0,\"Je me connecte\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signin-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "qt4ZaAOR", "block": "{\"symbols\":[],\"statements\":[[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Revenir à la page d'accueil\\n  \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"signin-form__panel\"],[7],[0,\"\\n\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\\n  \"],[6,\"h1\"],[9,\"class\",\"signin-form__panel-title\"],[7],[0,\"Se connecter\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"signin-form__errors\"],[7],[0,\"L'adresse email et/ou le mot de passe saisi sont incorrects\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signin-form__form\"],[7],[0,\"\\n    \"],[6,\"form\"],[3,\"action\",[[19,0,[]],\"submit\"],[[\"on\"],[\"submit\"]]],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n        \"],[6,\"label\"],[9,\"for\",\"pix-email\"],[7],[0,\"Adresse e-mail\"],[8],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"placeholder\",\"value\"],[\"pix-email\",\"email\",\"nom@exemple.fr\",[19,0,[\"email\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\\n\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n        \"],[6,\"label\"],[9,\"for\",\"pix-password\"],[7],[0,\"Mot de passe\"],[8],[0,\"\\n        \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\"],[\"pix-password\",\"password\",[19,0,[\"password\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n        \"],[4,\"link-to\",[\"password-reset\"],[[\"class\"],[\"signin-form__forgotten-password-link\"]],{\"statements\":[[0,\"Mot de passe oublié ?\"]],\"parameters\":[]},null],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"signin-form__form-field signin-form__form-field-button\"],[7],[0,\"\\n        \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"signin-form__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"],[[\"allowedKeys\"],[\"enter\"]]],[7],[0,\"Je me connecte\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signin-form.hbs" } });
 });
 define("pix-live/templates/components/signup-form", ["exports"], function (exports) {
   "use strict";
@@ -8715,6 +8716,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+9f2904cb"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+c1661bfc"});
 }
 //# sourceMappingURL=pix-live.map
