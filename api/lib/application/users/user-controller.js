@@ -12,10 +12,12 @@ const profileSerializer = require('../../infrastructure/serializers/jsonapi/prof
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
+const passwordResetDemandService = require('../../domain/services/password-reset-service');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
+const { UserNotFoundError, PasswordResetDemandNotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -77,8 +79,20 @@ module.exports = {
       });
   },
 
-  updatePassword() {
+  updatePassword(request, reply) {
+    const { password } = request.payload.data.attributes;
+    return passwordResetDemandService
+      .hasUserAPasswordResetDemandInProgress(password)
+      .then((userId) => UserRepository.updatePassword(userId, password))
+      .catch((err) => {
+        if (err instanceof UserNotFoundError) {
+          return reply(validationErrorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
+        }
 
+        if (err instanceof PasswordResetDemandNotFoundError) {
+          return reply(validationErrorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
+        }
+      });
   }
 
 };

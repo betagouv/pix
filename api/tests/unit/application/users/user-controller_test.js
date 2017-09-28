@@ -14,6 +14,10 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
+const passwordResetService = require('../../../../lib/domain/services/password-reset-service');
+const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
+const { UserNotFoundError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -382,13 +386,13 @@ describe('Unit | Controller | user-controller', () => {
               source: { pointer: '/data/attributes/recaptcha-token' },
               meta: { field: 'recaptchaToken' }
             },
-            {
-              status: '400',
-              title: 'Invalid Attribute',
-              detail: 'Le champ CGU doit être renseigné.',
-              source: { pointer: '/data/attributes/cgu' },
-              meta: { field: 'cgu' }
-            }]
+              {
+                status: '400',
+                title: 'Invalid Attribute',
+                detail: 'Le champ CGU doit être renseigné.',
+                source: { pointer: '/data/attributes/cgu' },
+                meta: { field: 'cgu' }
+              }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
@@ -414,6 +418,119 @@ describe('Unit | Controller | user-controller', () => {
     it('should be a function', () => {
       // then
       expect(userController.getAuthenticatedUserProfile).to.be.a('function');
+    });
+  });
+
+  describe('#updatePassword', () => {
+
+    describe('When payload is good (with a payload and a password attribute)', () => {
+
+      let sandbox;
+      let reply;
+      const request = {
+        params: {
+          userId: 7
+        },
+        payload: {
+          data: {
+            attributes: {
+              password: 'Pix2017!'
+            }
+          }
+        }
+      };
+
+      beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+        sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
+        sandbox.stub(validationErrorSerializer, 'serialize');
+        sandbox.stub(UserRepository, 'updatePassword');
+        reply = sandbox.stub().returns({
+          code: () => {
+          }
+        });
+      });
+
+      afterEach(() => {
+        sandbox.restore();
+      });
+
+      it('should fetch check if user has a current password reset demand', () => {
+        // given
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
+
+        // when
+        const promise = userController.updatePassword(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(passwordResetService.hasUserAPasswordResetDemandInProgress);
+          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, request.payload.data.attributes.password);
+        });
+      });
+
+      it('should update user password', () => {
+        // given
+        const userId = 7;
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(userId);
+        UserRepository.updatePassword.resolves();
+
+        // when
+        const promise = userController.updatePassword(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(UserRepository.updatePassword);
+          sinon.assert.calledWith(UserRepository.updatePassword, request.params.userId, request.payload.data.attributes.password);
+        });
+      });
+
+      it('should invalidate current password reset demand (mark as being used)');
+
+      it('should reply with no content');
+
+      describe('When user has not a current password reset demand', () => {
+        it('should reply with a serialized Not found error', () => {
+          // given
+          const error = new PasswordResetDemandNotFoundError();
+          const serializedError = {};
+          validationErrorSerializer.serialize.returns(serializedError);
+          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
+
+          // when
+          const promise = userController.updatePassword(request, reply);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(reply);
+            sinon.assert.calledWith(reply, serializedError);
+            sinon.assert.calledOnce(validationErrorSerializer.serialize);
+            sinon.assert.calledWith(validationErrorSerializer.serialize, PasswordResetDemandNotFoundError.getErrorMessage());
+          });
+        });
+      });
+
+      describe('When user doesn’t exist', () => {
+        it('should reply with a serialized Not found error', () => {
+          // given
+          const error = new UserNotFoundError();
+          const serializedError = {};
+          validationErrorSerializer.serialize.returns(serializedError);
+          passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
+
+          // when
+          const promise = userController.updatePassword(request, reply);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(reply);
+            sinon.assert.calledWith(reply, serializedError);
+            sinon.assert.calledOnce(validationErrorSerializer.serialize);
+            sinon.assert.calledWith(validationErrorSerializer.serialize, UserNotFoundError.getErrorMessage());
+          });
+        });
+      });
+
     });
   });
 });
