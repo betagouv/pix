@@ -3221,7 +3221,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
               return visit('/mot-passe-oublie');
 
             case 3:
-              fillIn('.password-reset-form__email-input', 'brandone.martins@pix.com');
+              fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
 
               // when
               _context3.next = 6;
@@ -3257,7 +3257,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
               return visit('/mot-passe-oublie');
 
             case 3:
-              fillIn('.password-reset-form__email-input', 'unexisting@user.com');
+              fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
 
               // when
               _context4.next = 6;
@@ -3266,7 +3266,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
             case 6:
               return _context4.abrupt('return', andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
-                (0, _chai.expect)(find('.password-reset-form__error-message')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
               }));
 
             case 7:
@@ -6203,8 +6203,9 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       (0, _chai.expect)(this.$('.password-reset-form__pix-logo')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__title')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__text')).to.have.length(1);
-      (0, _chai.expect)(this.$('.password-reset-form__input')).to.have.length(1);
-      (0, _chai.expect)(this.$('.password-reset-form__label')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form-label')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form-input')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__button')).to.have.length(1);
     });
 
@@ -6233,8 +6234,8 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
                 "meta": {}
               }));
 
-              this.$('.password-reset-form__email-input').val(email);
-              this.$('.password-reset-form__email-input').change();
+              this.$('.password-reset-form__form-email-input').val(email);
+              this.$('.password-reset-form__form-email-input').change();
 
               // when
               $('.password-reset-form__submit-button').click();
@@ -6259,7 +6260,7 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       }));
 
       // then
-      (0, _chai.expect)(this.$('.password-reset-form__error-message')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form-error-message')).to.have.length(1);
     });
   });
 });
