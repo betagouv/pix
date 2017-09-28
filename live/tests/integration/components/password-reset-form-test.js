@@ -31,8 +31,9 @@ describe('Integration | Component | password reset form', function() {
     expect(this.$('.password-reset-form__pix-logo')).to.have.length(1);
     expect(this.$('.password-reset-form__title')).to.have.length(1);
     expect(this.$('.password-reset-form__text')).to.have.length(1);
-    expect(this.$('.password-reset-form__input')).to.have.length(1);
-    expect(this.$('.password-reset-form__label')).to.have.length(1);
+    expect(this.$('.password-reset-form__form')).to.have.length(1);
+    expect(this.$('.password-reset-form__form-label')).to.have.length(1);
+    expect(this.$('.password-reset-form__form-input')).to.have.length(1);
     expect(this.$('.password-reset-form__button')).to.have.length(1);
   });
 
@@ -51,8 +52,8 @@ describe('Integration | Component | password reset form', function() {
 
     this.render(hbs`{{password-reset-form onSubmit=(action passwordResetDemand)}}`);
 
-    this.$('.password-reset-form__email-input').val(email);
-    this.$('.password-reset-form__email-input').change();
+    this.$('.password-reset-form__form-email-input').val(email);
+    this.$('.password-reset-form__form-email-input').change();
 
     // when
     $('.password-reset-form__submit-button').click();
@@ -66,7 +67,7 @@ describe('Integration | Component | password reset form', function() {
     this.render(hbs`{{password-reset-form _displayErrorMessage=_displayErrorMessage}}`);
 
     // then
-    expect(this.$('.password-reset-form__error-message')).to.have.length(1);
+    expect(this.$('.password-reset-form__form-error-message')).to.have.length(1);
   });
 
 });

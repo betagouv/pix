@@ -40,7 +40,7 @@ describe('Acceptance | Reset Password', function() {
       password: '1024pix!'
     });
     await visit('/mot-passe-oublie');
-    fillIn('.password-reset-form__email-input', 'brandone.martins@pix.com');
+    fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
 
     // when
     await click('.password-reset-form__submit-button');
@@ -62,7 +62,7 @@ describe('Acceptance | Reset Password', function() {
       password: '1024pix!'
     });
     await visit('/mot-passe-oublie');
-    fillIn('.password-reset-form__email-input', 'unexisting@user.com');
+    fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
 
     // when
     await click('.password-reset-form__submit-button');
@@ -70,7 +70,7 @@ describe('Acceptance | Reset Password', function() {
     // then
     return andThen(() => {
       expect(currentURL()).to.equal('/mot-passe-oublie');
-      expect(find('.password-reset-form__error-message')).to.have.lengthOf(1);
+      expect(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
     });
 
   });
