@@ -34,5 +34,8 @@ module.exports = {
 
         return Promise.resolve(email);
       });
+  },
+  updatePassword() {
+
   }
 };

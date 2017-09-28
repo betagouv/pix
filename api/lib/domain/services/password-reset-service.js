@@ -29,5 +29,8 @@ module.exports = {
         }
         return fetchedDemand.toJSON();
       });
+  },
+
+  hasUserAPasswordResetDemandInProgress() {
   }
 };
