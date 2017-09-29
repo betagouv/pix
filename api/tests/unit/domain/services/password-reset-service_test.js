@@ -6,6 +6,7 @@ const tokenService = require('../../../../lib/domain/services/token-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
 const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 const PaswwordResetDemand = require('../../../../lib/domain/models/data/password-reset-demand');
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
 describe('Unit | Service | Password Service', function() {
 
@@ -125,7 +126,7 @@ describe('Unit | Service | Password Service', function() {
             // then
             return promise.then((result) => {
               sinon.assert.calledOnce(resetPasswordRepository.findByTemporaryKey);
-              sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey);
+              sinon.assert.calledWith(resetPasswordRepository.findByTemporaryKey, token);
               sinon.assert.calledOnce(tokenService.verifyValidity);
               sinon.assert.calledWith(tokenService.verifyValidity, token);
               expect(result).to.eql(fetchedRecord);
@@ -153,6 +154,49 @@ describe('Unit | Service | Password Service', function() {
 
       });
 
+    });
+
+  });
+
+  describe('#hasUserAPasswordResetDemandInProgress', () => {
+
+    beforeEach(() => {
+      sinon.stub(resetPasswordRepository, 'findByUserEmail');
+    });
+
+    afterEach(() => {
+      resetPasswordRepository.findByUserEmail.restore();
+    });
+
+    it('should verify user has a current password reset demand', () => {
+      // given
+      const userEmail = 'shi@fu.me';
+      const fetchedPasswordResetDemand = {};
+      resetPasswordRepository.findByUserEmail.resolves(fetchedPasswordResetDemand);
+
+      // when
+      const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(resetPasswordRepository.findByUserEmail);
+        sinon.assert.calledWith(resetPasswordRepository.findByUserEmail, userEmail);
+      });
+    });
+
+    it('should throw an PasswordResetDemandNotFoundError, when user has no password reset demand in progress', () => {
+      // given
+      const userEmail = 'shi@fu.me';
+      const error = new Bookshelf.Model.NotFoundError();
+      resetPasswordRepository.findByUserEmail.rejects(error);
+
+      // when
+      const promise = resetPasswordService.hasUserAPasswordResetDemandInProgress(userEmail);
+
+      // then
+      return promise.catch((err) => {
+        expect(err).to.be.an.instanceof(PasswordResetDemandNotFoundError);
+      });
     });
 
   });

@@ -2,7 +2,8 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../settings');
 const tokenService = require('../services/token-service');
 const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../errors');
-const resetPasswordDemandRepository = require('../../infrastructure/repositories/password-reset-demands-repository');
+const passwordResetDemandRepository = require('../../infrastructure/repositories/password-reset-demands-repository');
+const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 
 module.exports = {
   generateTemporaryKey() {
@@ -12,7 +13,7 @@ module.exports = {
   },
 
   invalidOldResetPasswordDemand(userEmail) {
-    return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
+    return passwordResetDemandRepository.markAsBeingUsed(userEmail);
   },
 
   verifyDemand(temporaryKey) {
@@ -21,7 +22,7 @@ module.exports = {
       return Promise.reject(new InvalidTemporaryKeyError());
     }
 
-    return resetPasswordDemandRepository
+    return passwordResetDemandRepository
       .findByTemporaryKey(temporaryKey)
       .then((fetchedDemand) => {
         if (!fetchedDemand) {
@@ -31,6 +32,12 @@ module.exports = {
       });
   },
 
-  hasUserAPasswordResetDemandInProgress() {
+  hasUserAPasswordResetDemandInProgress(email) {
+    return passwordResetDemandRepository.findByUserEmail(email)
+      .catch((err) => {
+        if (err instanceof Bookshelf.Model.NotFoundError) {
+          throw new PasswordResetDemandNotFoundError();
+        }
+      });
   }
 };
