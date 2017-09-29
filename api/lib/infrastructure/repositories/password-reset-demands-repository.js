@@ -19,8 +19,11 @@ module.exports = {
         if (!resetDemand) {
           return false;
         }
-
         return resetDemand;
       });
+  },
+
+  findByUserEmail(email) {
+    return ResetPasswordDemand.where({ email: email }).fetch({ require: true });
   }
 };

@@ -104,9 +104,42 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
         sinon.assert.calledOnce(ResetPasswordDemand.where);
         sinon.assert.calledWith(ResetPasswordDemand.where, expectedWhereArgs);
         sinon.assert.calledOnce(fetchStub);
-        expect(foundedRecord).to.equal(foundedDemand);
+        expect(foundedRecord).to.eql(foundedDemand);
       });
     });
 
+  });
+
+  describe('#findByUserEmail', () => {
+    beforeEach(() => {
+      sinon.stub(ResetPasswordDemand, 'where');
+    });
+
+    afterEach(() => {
+      ResetPasswordDemand.where.restore();
+    });
+
+    it('should retrieve a record', () => {
+      // given
+      const foundedDemand = {};
+      const fetchStub = sinon.stub().resolves(foundedDemand);
+      const userEmail = 'shi@fu.me';
+      ResetPasswordDemand.where.returns({
+        fetch: fetchStub
+      });
+      const expectedWhereArgs = { email: userEmail };
+
+      // when
+      const promise = ResetPasswordDemandRepository.findByUserEmail(userEmail);
+
+      // then
+      return promise.then((foundedRecord) => {
+        sinon.assert.calledOnce(ResetPasswordDemand.where);
+        sinon.assert.calledWith(ResetPasswordDemand.where, expectedWhereArgs);
+        sinon.assert.calledOnce(fetchStub);
+        sinon.assert.calledWith(fetchStub, { require: true });
+        expect(foundedRecord).to.equal(foundedDemand);
+      });
+    });
   });
 });
