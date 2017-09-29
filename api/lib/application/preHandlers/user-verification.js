@@ -6,7 +6,7 @@ module.exports = {
   verifyById(request, reply) {
     return userRepository
       .findUserById(request.params.id)
-      .then(reply)
+      .then((user) => reply(user.toJSON()))
       .catch(() => {
         const serializedError = errorSerializer.serialize(UserNotFoundError.getErrorMessage());
         reply(serializedError).code(404).takeover();
