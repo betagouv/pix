@@ -23,7 +23,7 @@ exports.register = function(server, options, next) {
       config: {
         pre: [{
           method: userVerification.verifyById,
-          assign: 'userVerification'
+          assign: 'user'
         }],
         handler: UserController.updatePassword,
         validate: {
