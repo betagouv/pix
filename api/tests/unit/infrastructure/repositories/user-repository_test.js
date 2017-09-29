@@ -163,7 +163,7 @@ describe('Unit | Repository | UserRepository', function() {
         sinon.assert.calledOnce(User.where);
         sinon.assert.calledOnce(saveStub);
         sinon.assert.calledWith(User.where, { id: userId });
-        expect(saveStub.getCalls()[0].args[0]).to.eql({ password: userPassword });
+        expect(saveStub.getCalls()[0].args[0]).to.eql({ password: userPassword, cgu: true });
         expect(saveStub.getCalls()[0].args[1]).to.eql({ patch: true, require: false });
       });
     });
