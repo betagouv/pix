@@ -13,6 +13,7 @@ const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptc
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
 const passwordResetDemandService = require('../../domain/services/password-reset-service');
+const encryptionService = require('../../domain/services/encryption-service');
 
 const Bookshelf = require('../../infrastructure/bookshelf');
 
@@ -79,15 +80,16 @@ module.exports = {
       });
   },
 
-  updatePassword(request, reply) {
+  async updatePassword(request, reply) {
     const { password } = request.payload.data.attributes;
     const { id, email } = request.pre.user;
+    const hashedPassword = await encryptionService.hashPassword(password);
 
     return passwordResetDemandService
       .hasUserAPasswordResetDemandInProgress(email)
-      .then(() => UserRepository.updatePassword(id, password))
+      .then(() => UserRepository.updatePassword(id, hashedPassword))
       .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(email))
-      .then(() => reply())
+      .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return reply(validationErrorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);

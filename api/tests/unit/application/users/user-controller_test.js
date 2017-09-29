@@ -15,11 +15,12 @@ const logger = require('../../../../lib/infrastructure/logger');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const passwordResetService = require('../../../../lib/domain/services/password-reset-service');
+const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | Controller | user-controller', () => {
+describe('Unit | Controller | user-controller', () => {
 
   after((done) => {
     server.stop(done);
@@ -386,13 +387,13 @@ describe.only('Unit | Controller | user-controller', () => {
               source: { pointer: '/data/attributes/recaptcha-token' },
               meta: { field: 'recaptchaToken' }
             },
-              {
-                status: '400',
-                title: 'Invalid Attribute',
-                detail: 'Le champ CGU doit être renseigné.',
-                source: { pointer: '/data/attributes/cgu' },
-                meta: { field: 'cgu' }
-              }]
+            {
+              status: '400',
+              title: 'Invalid Attribute',
+              detail: 'Le champ CGU doit être renseigné.',
+              source: { pointer: '/data/attributes/cgu' },
+              meta: { field: 'cgu' }
+            }]
           };
           const replyErrorStub = sinon.stub();
           replyErrorStub.returns({
@@ -452,6 +453,7 @@ describe.only('Unit | Controller | user-controller', () => {
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
         sandbox.stub(UserRepository, 'updatePassword');
+        sandbox.stub(encryptionService, 'hashPassword');
         reply = sandbox.stub().returns({
           code: () => {
           }
@@ -476,10 +478,11 @@ describe.only('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should update user password', () => {
+      it('should update user password with a hashed password', async () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        UserRepository.updatePassword.resolves();
+        const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
+        encryptionService.hashPassword.resolves(encryptedPassword);
 
         // when
         const promise = userController.updatePassword(request, reply);
@@ -487,7 +490,9 @@ describe.only('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(UserRepository.updatePassword);
-          sinon.assert.calledWith(UserRepository.updatePassword, request.params.id, request.payload.data.attributes.password);
+          sinon.assert.calledOnce(encryptionService.hashPassword);
+          sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
+          sinon.assert.calledWith(UserRepository.updatePassword, request.pre.user.id, encryptedPassword);
         });
       });
 
