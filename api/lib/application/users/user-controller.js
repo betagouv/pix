@@ -81,9 +81,15 @@ module.exports = {
 
   updatePassword(request, reply) {
     const { password } = request.payload.data.attributes;
+    let userEmail;
     return passwordResetDemandService
       .hasUserAPasswordResetDemandInProgress(password)
-      .then((userId) => UserRepository.updatePassword(userId, password))
+      .then((user) => {
+        userEmail = user.email;
+        return UserRepository.updatePassword(user.id, password);
+      })
+      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(userEmail))
+      .then(() => reply())
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return reply(validationErrorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);

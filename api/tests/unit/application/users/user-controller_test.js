@@ -443,6 +443,7 @@ describe('Unit | Controller | user-controller', () => {
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
+        sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
         sandbox.stub(UserRepository, 'updatePassword');
         reply = sandbox.stub().returns({
@@ -471,8 +472,11 @@ describe('Unit | Controller | user-controller', () => {
 
       it('should update user password', () => {
         // given
-        const userId = 7;
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(userId);
+        const user = {
+          id: 7,
+          email: 'shif@fu.me'
+        };
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
         UserRepository.updatePassword.resolves();
 
         // when
@@ -485,9 +489,44 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should invalidate current password reset demand (mark as being used)');
+      it('should invalidate current password reset demand (mark as being used)', () => {
+        // given
+        const user = {
+          id: 7,
+          email: 'shif@fu.me'
+        };
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
+        UserRepository.updatePassword.resolves();
+        passwordResetService.invalidOldResetPasswordDemand.resolves();
 
-      it('should reply with no content');
+        // when
+        const promise = userController.updatePassword(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(passwordResetService.invalidOldResetPasswordDemand);
+          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, user.email);
+        });
+      });
+
+      it('should reply with no content', () => {
+        // given
+        const user = {
+          id: 7,
+          email: 'shif@fu.me'
+        };
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
+        UserRepository.updatePassword.resolves();
+        passwordResetService.invalidOldResetPasswordDemand.resolves();
+
+        // when
+        const promise = userController.updatePassword(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+        });
+      });
 
       describe('When user has not a current password reset demand', () => {
         it('should reply with a serialized Not found error', () => {
