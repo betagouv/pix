@@ -18,7 +18,7 @@ const encryptionService = require('../../domain/services/encryption-service');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { UserNotFoundError, PasswordResetDemandNotFoundError, InternalError } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -91,10 +91,6 @@ module.exports = {
       .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(email))
       .then(() => reply().code(204))
       .catch((err) => {
-        if (err instanceof UserNotFoundError) {
-          return reply(validationErrorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
-        }
-
         if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(validationErrorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
         }
