@@ -19,7 +19,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'PATCH',
-      path: '/api/users/{userId}',
+      path: '/api/users/{id}',
       config: {
         pre: [{
           method: userVerification.verifyById,
