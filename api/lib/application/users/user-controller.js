@@ -17,7 +17,7 @@ const passwordResetDemandService = require('../../domain/services/password-reset
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { UserNotFoundError, PasswordResetDemandNotFoundError } = require('../../domain/errors');
+const { UserNotFoundError, PasswordResetDemandNotFoundError, InternalError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -81,14 +81,12 @@ module.exports = {
 
   updatePassword(request, reply) {
     const { password } = request.payload.data.attributes;
-    let userEmail;
+    const { id, email } = request.pre.user;
+
     return passwordResetDemandService
-      .hasUserAPasswordResetDemandInProgress(password)
-      .then((user) => {
-        userEmail = user.email;
-        return UserRepository.updatePassword(user.id, password);
-      })
-      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(userEmail))
+      .hasUserAPasswordResetDemandInProgress(email)
+      .then(() => UserRepository.updatePassword(id, password))
+      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(email))
       .then(() => reply())
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
@@ -98,6 +96,7 @@ module.exports = {
         if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(validationErrorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
         }
+        return reply(validationErrorSerializer.serialize(InternalError.getErrorMessage())).code(500);
       });
   }
 

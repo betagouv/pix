@@ -17,9 +17,9 @@ const userSerializer = require('../../../../lib/infrastructure/serializers/jsona
 const passwordResetService = require('../../../../lib/domain/services/password-reset-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 
-const { UserNotFoundError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Controller | user-controller', () => {
+describe.only('Unit | Controller | user-controller', () => {
 
   after((done) => {
     server.stop(done);
@@ -429,7 +429,13 @@ describe('Unit | Controller | user-controller', () => {
       let reply;
       const request = {
         params: {
-          userId: 7
+          id: 7
+        },
+        pre: {
+          user: {
+            id: 7,
+            email: 'shu@ha.ri'
+          }
         },
         payload: {
           data: {
@@ -466,17 +472,13 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(passwordResetService.hasUserAPasswordResetDemandInProgress);
-          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, request.payload.data.attributes.password);
+          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, request.pre.user.email);
         });
       });
 
       it('should update user password', () => {
         // given
-        const user = {
-          id: 7,
-          email: 'shif@fu.me'
-        };
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         UserRepository.updatePassword.resolves();
 
         // when
@@ -485,17 +487,13 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(UserRepository.updatePassword);
-          sinon.assert.calledWith(UserRepository.updatePassword, request.params.userId, request.payload.data.attributes.password);
+          sinon.assert.calledWith(UserRepository.updatePassword, request.params.id, request.payload.data.attributes.password);
         });
       });
 
       it('should invalidate current password reset demand (mark as being used)', () => {
         // given
-        const user = {
-          id: 7,
-          email: 'shif@fu.me'
-        };
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         UserRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
@@ -505,17 +503,13 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(passwordResetService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, user.email);
+          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, request.pre.user.email);
         });
       });
 
       it('should reply with no content', () => {
         // given
-        const user = {
-          id: 7,
-          email: 'shif@fu.me'
-        };
-        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves(user);
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         UserRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
@@ -549,10 +543,10 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      describe('When user doesn’t exist', () => {
-        it('should reply with a serialized Not found error', () => {
+      describe('When unknown error is handle', () => {
+        it('should reply with a serialized  error', () => {
           // given
-          const error = new UserNotFoundError();
+          const error = new InternalError();
           const serializedError = {};
           validationErrorSerializer.serialize.returns(serializedError);
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
@@ -565,7 +559,7 @@ describe('Unit | Controller | user-controller', () => {
             sinon.assert.calledOnce(reply);
             sinon.assert.calledWith(reply, serializedError);
             sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, UserNotFoundError.getErrorMessage());
+            sinon.assert.calledWith(validationErrorSerializer.serialize, InternalError.getErrorMessage());
           });
         });
       });
