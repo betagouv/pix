@@ -35,7 +35,11 @@ module.exports = {
         return Promise.resolve(email);
       });
   },
-  updatePassword() {
 
+  updatePassword(id, password) {
+    return User.where({ id }).save({ password }, {
+      patch: true,
+      require: false
+    });
   }
 };
