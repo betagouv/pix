@@ -1,5 +1,6 @@
 const UserController = require('./user-controller');
 const Joi = require('joi');
+const userVerification = require('../preHandlers/user-verification');
 const { passwordValidationPattern } = require('../../settings');
 const XRegExp = require('xregexp');
 
@@ -20,6 +21,10 @@ exports.register = function(server, options, next) {
       method: 'PATCH',
       path: '/api/users/{userId}',
       config: {
+        pre: [{
+          method: userVerification.verifyById,
+          assign: 'userVerification'
+        }],
         handler: UserController.updatePassword,
         validate: {
           payload: {

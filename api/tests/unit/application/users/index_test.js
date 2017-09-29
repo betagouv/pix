@@ -1,6 +1,7 @@
 const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
+const userVerification = require('../../../../lib/application/preHandlers/user-verification');
 
 describe('Unit | Router | user-router', () => {
 
@@ -55,10 +56,12 @@ describe('Unit | Router | user-router', () => {
 
     before(() => {
       sinon.stub(UserController, 'updatePassword').callsFake((request, reply) => reply('ok'));
+      sinon.stub(userVerification, 'verifyById').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
       UserController.updatePassword.restore();
+      userVerification.verifyById.restore();
     });
 
     it('should exist', () => {
@@ -76,15 +79,15 @@ describe('Unit | Router | user-router', () => {
 
     describe('Payload schema validation (password attribute in payload)', () => {
 
-      it('should have a payload', (done) => {
+      it('should have a payload', () => {
         // then
-        server.inject(options, (res) => {
-          expect(res.statusCode).to.equal(400);
-          done();
-        });
+        return server.inject(options)
+          .then((res) => {
+            expect(res.statusCode).to.equal(400);
+          });
       });
 
-      it('should have a valid password format in payload', (done) => {
+      it('should have a valid password format in payload', () => {
         // given
         options['payload'] = {
           data: {
@@ -94,9 +97,23 @@ describe('Unit | Router | user-router', () => {
           }
         };
         // then
-        server.inject(options, (res) => {
+        return server.inject(options).then((res) => {
           expect(res.statusCode).to.equal(400);
-          done();
+        });
+      });
+
+      it('should passing thought user verification pre-handler', () => {
+        // given
+        options['payload'] = {
+          data: {
+            attributes: {
+              password: 'Mot de passe'
+            }
+          }
+        };
+        // then
+        return server.inject(options).then(() => {
+          sinon.assert.calledOnce(userVerification.verifyById);
         });
       });
 
