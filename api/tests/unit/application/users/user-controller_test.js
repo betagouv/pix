@@ -446,6 +446,7 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
+      let codeStub;
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -454,6 +455,7 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(validationErrorSerializer, 'serialize');
         sandbox.stub(UserRepository, 'updatePassword');
         sandbox.stub(encryptionService, 'hashPassword');
+        codeStub = sinon.stub();
         reply = sandbox.stub().returns({
           code: () => {
           }
@@ -552,6 +554,9 @@ describe('Unit | Controller | user-controller', () => {
         it('should reply with a serialized  error', () => {
           // given
           const error = new InternalError();
+          reply.returns({
+            code: codeStub
+          });
           const serializedError = {};
           validationErrorSerializer.serialize.returns(serializedError);
           passwordResetService.hasUserAPasswordResetDemandInProgress.rejects(error);
@@ -563,6 +568,7 @@ describe('Unit | Controller | user-controller', () => {
           return promise.then(() => {
             sinon.assert.calledOnce(reply);
             sinon.assert.calledWith(reply, serializedError);
+            sinon.assert.calledWith(codeStub, 500);
             sinon.assert.calledOnce(validationErrorSerializer.serialize);
             sinon.assert.calledWith(validationErrorSerializer.serialize, InternalError.getErrorMessage());
           });
