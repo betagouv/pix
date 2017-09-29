@@ -2,6 +2,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../..
 const userVerification = require('../../../../lib/application/preHandlers/user-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
+const User = require('../../../../lib/domain/models/data/user');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Pre-handler | User Verification', () => {
@@ -46,7 +47,8 @@ describe('Unit | Pre-handler | User Verification', () => {
       it('should reply with fetched user', () => {
         // given
         const fetchedUser = {};
-        userRepository.findUserById.resolves(fetchedUser);
+        const userData = new User({});
+        userRepository.findUserById.resolves(userData);
 
         // when
         const promise = userVerification.verifyById(request, reply);

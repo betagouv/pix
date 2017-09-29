@@ -49,7 +49,7 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
-  describe('PATCH /api/users/{userId}', function() {
+  describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';
     const options = { method: 'PATCH', url: `/api/users/${userId}` };
