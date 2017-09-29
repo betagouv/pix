@@ -14,7 +14,7 @@ describe('Unit | Pre-handler | User Verification', () => {
     let takeOverStub;
     const request = {
       params: {
-        userId: 7
+        id: 7
       }
     };
 
@@ -55,7 +55,7 @@ describe('Unit | Pre-handler | User Verification', () => {
         return promise.then(() => {
           sinon.assert.calledOnce(userRepository.findUserById);
           sinon.assert.calledOnce(reply);
-          sinon.assert.calledWith(userRepository.findUserById, request.params.userId);
+          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
           sinon.assert.calledWith(reply, fetchedUser);
         });
       });
