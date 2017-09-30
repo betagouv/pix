@@ -13,7 +13,6 @@ import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
-import postUsers from './routes/post-users';
 import postAuthentications from './routes/post-authentications';
 import getAuthenticatedUser from './routes/get-user-me';
 
@@ -47,8 +46,6 @@ export default function() {
   this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
-
-  this.post('/users', postUsers);
 
   //Nouveau Mirage
 
@@ -90,5 +87,6 @@ export default function() {
   });
 
   this.post('/followers');
+  this.post('/users');
 
 }
