@@ -4173,7 +4173,7 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
     name: 'sentry-setup'
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-users', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postUsers, _postAuthentications, _getUserMe) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postAuthentications, _getUserMe) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4209,8 +4209,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.patch('/answers/:id', _patchAnswer.default);
 
     this.post('/feedbacks', _postFeedbacks.default);
-
-    this.post('/users', _postUsers.default);
 
     //Nouveau Mirage
 
@@ -4252,6 +4250,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     });
 
     this.post('/followers');
+    this.post('/users');
   };
 });
 define('pix-live/mirage/data/answers/ref-qcm-answer', ['exports', 'pix-live/mirage/data/challenges/ref-qcm-challenge'], function (exports, _refQcmChallenge) {
@@ -4861,26 +4860,6 @@ define('pix-live/mirage/data/solutions/ref-solution', ['exports'], function (exp
       id: 'ref_solution_id',
       attributes: {
         value: '2,3'
-      }
-    }
-  };
-});
-define('pix-live/mirage/data/users/index', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = {
-    data: {
-      type: 'users',
-      id: 'user_id',
-      attributes: {
-        'first-name': 'Samurai',
-        'last-name': 'Jack',
-        'email': 'samurai.jack@cartoon-network.com',
-        'password': 'Back2TheP@st',
-        'cgu': true
       }
     }
   };
@@ -5506,18 +5485,6 @@ define('pix-live/mirage/routes/post-refresh-solution', ['exports'], function (ex
   exports.default = function () {
 
     return 'ok';
-  };
-});
-define('pix-live/mirage/routes/post-users', ['exports', 'pix-live/mirage/data/users'], function (exports, _users) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-  exports.default = function () {
-
-    return _users.default;
   };
 });
 define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
@@ -7817,10 +7784,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
-    it('mirage/data/users/index.js', function () {
-      // test passed
-    });
-
     it('mirage/factories/area.js', function () {
       // test passed
     });
@@ -7954,10 +7917,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/routes/post-refresh-solution.js', function () {
-      // test passed
-    });
-
-    it('mirage/routes/post-users.js', function () {
       // test passed
     });
 
@@ -8519,6 +8478,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+bff65ba6"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+f6bd31fa"});
 }
 //# sourceMappingURL=pix-live.map
