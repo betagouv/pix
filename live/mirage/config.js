@@ -11,7 +11,6 @@ import patchAnswer from './routes/patch-answer';
 import getAssessment from './routes/get-assessment';
 import postAssessments from './routes/post-assessments';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
-import postFollowers from './routes/post-followers';
 import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postUsers from './routes/post-users';
@@ -48,8 +47,6 @@ export default function() {
   this.patch('/answers/:id', patchAnswer);
 
   this.post('/feedbacks', postFeedbacks);
-
-  this.post('/followers', postFollowers);
 
   this.post('/users', postUsers);
 
@@ -91,4 +88,7 @@ export default function() {
 
     return schema.snapshots.where({ organizationId: organizationId });
   });
+
+  this.post('/followers');
+
 }
