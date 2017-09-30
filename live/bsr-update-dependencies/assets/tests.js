@@ -3951,7 +3951,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -3964,10 +3964,14 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
       component.set('challenge', challenge);
     }
 
+    function addAssessmentToContext(component, assessment) {
+      component.set('assessment', assessment);
+    }
+
     function renderChallengeStatement(component) {
       component.render(Ember.HTMLBars.template({
-        "id": "ST1V/8RZ",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\"],[[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
+        "id": "eD9nYLIU",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
     }
@@ -3978,6 +3982,17 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
      */
 
     (0, _mocha.describe)('Instruction section:', function () {
+
+      var clock = void 0;
+      var februaryTheFifth = new Date(2017, 1, 5);
+
+      beforeEach(function () {
+        clock = _sinon.default.useFakeTimers(februaryTheFifth);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
 
       // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
       (0, _mocha.it)('should render challenge instruction if it exists', function () {
@@ -4002,6 +4017,21 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
 
         // then
         (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should replace ${EMAIL} by a generated email', function () {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          id: 'recigAYl5bl96WGXj',
+          instruction: 'Veuillez envoyer un email à l\'adresse ${EMAIL} pour valider cette épreuve'
+        });
+
+        // when
+        renderChallengeStatement(this);
+
+        // then
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix.beta.gouv.fr pour valider cette épreuve');
       });
     });
 
