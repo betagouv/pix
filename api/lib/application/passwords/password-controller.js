@@ -38,9 +38,5 @@ module.exports = {
 };
 
 function _isPayloadWellFormed(request) {
-  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload))) {
-    return false;
-  }
-
-  return true;
+  return !(!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload)));
 }
