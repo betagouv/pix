@@ -16,7 +16,7 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-reset', () => {
     before(() => {
       sinon.stub(passwordController, 'resetDemand');
     });
