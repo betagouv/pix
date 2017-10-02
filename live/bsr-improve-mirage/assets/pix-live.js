@@ -4173,7 +4173,7 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
     name: 'sentry-setup'
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postAuthentications, _getUserMe) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me', 'pix-live/mirage/routes/get-organizations', 'pix-live/mirage/routes/get-snapshots'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postAuthentications, _getUserMe, _getOrganizations, _getSnapshots) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4212,18 +4212,11 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     //Nouveau Mirage
 
-    //CourseGroups
+    // CourseGroups
     this.get('/course-groups');
 
     //Courses
-    this.get('/courses/:id', function (schema, request) {
-
-      var id = request.params.id;
-      if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
-        return (0, _getCourse.default)(schema, request);
-      }
-      return schema.courses.find(id);
-    });
+    this.get('/courses/:id', _getCourse.default);
 
     this.post('/authentications', _postAuthentications.default);
     this.get('/users/me', _getUserMe.default);
@@ -4231,23 +4224,11 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.get('/areas/:id');
     this.get('/organizations/:id');
 
-    this.get('/organizations', function (schema, request) {
-
-      var code = request.queryParams['filter[code]'];
-
-      if (code) {
-        return schema.organizations.where({ code: code });
-      }
-
-      return schema.organizations.all();
-    });
+    this.get('/organizations', _getOrganizations.default);
 
     this.post('/snapshots');
     this.get('/snapshots/:id');
-    this.get('/organizations/:id/snapshots', function (schema, request) {
-      var organizationId = request.params.id;
-      return schema.snapshots.where({ organizationId: organizationId });
-    });
+    this.get('/organizations/:id/snapshots', _getSnapshots.default);
 
     this.post('/followers');
     this.post('/users');
@@ -5231,19 +5212,27 @@ define('pix-live/mirage/routes/get-course', ['exports', 'pix-live/utils/lodash-c
 
   exports.default = function (schema, request) {
 
+    var id = request.params.id;
+
     var allCourses = [_refCourse.default, _highlightedCourse.default, _refCourseTimedChallenges.default];
 
-    var courses = _lodashCustom.default.map(allCourses, function (oneCourse) {
-      return { id: oneCourse.data.id, obj: oneCourse };
-    });
+    if (allCourses.map(function (course) {
+      return course.data.id;
+    }).includes(id)) {
 
-    var course = _lodashCustom.default.find(courses, { id: request.params.id });
+      var courses = _lodashCustom.default.map(allCourses, function (oneCourse) {
+        return { id: oneCourse.data.id, obj: oneCourse };
+      });
 
-    if (course) {
-      return course.obj;
-    } else {
-      throw new Error('The course you required in the fake server does not exist ' + request.params.id);
+      var course = _lodashCustom.default.find(courses, { id: request.params.id });
+
+      if (course) {
+        return course.obj;
+      } else {
+        throw new Error('The course you required in the fake server does not exist ' + request.params.id);
+      }
     }
+    return schema.courses.find(id);
   };
 });
 define('pix-live/mirage/routes/get-courses-of-the-week', ['exports', 'pix-live/mirage/data/courses/highlighted-course'], function (exports, _highlightedCourse) {
@@ -5315,6 +5304,35 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
     } else {
       throw new Error('There is no challenge following challenge ' + request.params.challengeId);
     }
+  };
+});
+define('pix-live/mirage/routes/get-organizations', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (schema, request) {
+    var code = request.queryParams['filter[code]'];
+
+    if (code) {
+      return schema.organizations.where({ code: code });
+    }
+
+    return schema.organizations.all();
+  };
+});
+define("pix-live/mirage/routes/get-snapshots", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (schema, request) {
+    var organizationId = request.params.id;
+    return schema.snapshots.where({ organizationId: organizationId });
   };
 });
 define('pix-live/mirage/routes/get-user-me', ['exports'], function (exports) {
@@ -7903,6 +7921,14 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/routes/get-organizations.js', function () {
+      // test passed
+    });
+
+    it('mirage/routes/get-snapshots.js', function () {
+      // test passed
+    });
+
     it('mirage/routes/get-user-me.js', function () {
       // test passed
     });
@@ -8489,6 +8515,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+7f0d0c0f"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+828da8e5"});
 }
 //# sourceMappingURL=pix-live.map
