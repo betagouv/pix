@@ -31,13 +31,27 @@ describe('Unit | Router | Password router', () => {
         reply('ok');
       });
 
+      const options = {
+        method: 'POST',
+        url: '/api/password-reset',
+        payload: {
+          data: {
+            attributes: {
+              email: 'uzinagaz@unknown.xh'
+            }
+          }
+        }
+      };
+
       // when
       return server
-        .inject({ method: 'POST', url: '/api/password-reset' })
+        .inject(options)
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);
         });
     });
+
   });
+
 });

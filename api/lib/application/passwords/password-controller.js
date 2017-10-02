@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
@@ -8,11 +7,8 @@ const errorSerializer = require('../../infrastructure/serializers/jsonapi/valida
 
 module.exports = {
   createResetDemand(request, reply) {
-    if (!_isPayloadWellFormed(request)) {
-      return reply(Boom.badRequest());
-    }
 
-    const { email } = request.payload;
+    const { email } = request.payload.data.attributes;
     const passwordResetDemandBaseurl = _buildPasswordResetDemandBaseUrl(request);
     let temporarykey;
 
@@ -37,10 +33,6 @@ module.exports = {
       });
   }
 };
-
-function _isPayloadWellFormed(request) {
-  return !(!(request.hasOwnProperty('payload') && ('email' in request.payload)));
-}
 
 function _buildPasswordResetDemandBaseUrl(request) {
   return `${request.connection.info.protocol}://${request.info.host}`;

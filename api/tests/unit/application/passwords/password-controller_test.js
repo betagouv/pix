@@ -17,47 +17,16 @@ describe('Unit | Controller | PasswordController', () => {
       expect(passwordController.createResetDemand).to.be.a('function');
     });
 
-    describe('Payload bad format cases: ', () => {
-
-      let replyStub;
-      let sandbox;
-
-      beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        replyStub = sandbox.stub();
-        sandbox.stub(Boom, 'badRequest').returns({});
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      [
-        { request: {}, description: 'no payload' },
-        { request: { payload: {} }, description: 'empty payload' },
-        { request: { payload: { key: 'value' } }, description: 'no email key in payload' },
-
-      ].forEach(({ request, description }) => {
-        it(`should reply with 400 status, when ${description} provided`, () => {
-          // given
-          replyStub.returns({
-            code: () => {
-            }
-          });
-          // when
-          passwordController.createResetDemand(request, replyStub);
-
-          // then
-          sinon.assert.calledOnce(Boom.badRequest);
-          sinon.assert.calledWith(replyStub, Boom.badRequest());
-        });
-      });
-    });
-
     describe('When payload has a good format: ', () => {
 
       const request = {
-        payload: { email: 'shi@fu.me' },
+        payload: {
+          data: {
+            attributes: {
+              email: 'shi@fu.me'
+            }
+          }
+        },
         connection: { info: { protocol: 'http' } },
         info: { host: 'localhost' }
       };
@@ -96,7 +65,7 @@ describe('Unit | Controller | PasswordController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(userService.isUserExisting);
-            sinon.assert.calledWith(userService.isUserExisting, request.payload.email);
+            sinon.assert.calledWith(userService.isUserExisting, request.payload.data.attributes.email);
           });
         });
 
@@ -141,7 +110,7 @@ describe('Unit | Controller | PasswordController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.email);
+          sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.data.attributes.email);
         });
       });
 
@@ -200,7 +169,7 @@ describe('Unit | Controller | PasswordController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
-          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.email, hostBaseUrl, generatedToken);
+          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
         });
       });
 

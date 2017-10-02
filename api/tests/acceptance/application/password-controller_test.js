@@ -25,7 +25,7 @@ describe('Acceptance | Controller | password-controller', function() {
       return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
     });
 
-    describe('when no email or hostEnv is provided', () => {
+    describe('when payload has a bad format or  no email is provided', () => {
       beforeEach(() => {
         options = {
           method: 'POST',
@@ -49,8 +49,11 @@ describe('Acceptance | Controller | password-controller', function() {
           method: 'POST',
           url: '/api/password-reset',
           payload: {
-            email: 'uzinagaz@unknown.xh',
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: 'uzinagaz@unknown.xh'
+              }
+            }
           }
         };
       });
@@ -70,8 +73,11 @@ describe('Acceptance | Controller | password-controller', function() {
           method: 'POST',
           url: '/api/password-reset',
           payload: {
-            email: fakeUserEmail,
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: fakeUserEmail
+              }
+            }
           }
         };
 
@@ -97,8 +103,11 @@ describe('Acceptance | Controller | password-controller', function() {
           method: 'POST',
           url: '/api/password-reset',
           payload: {
-            email: fakeUserEmail,
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: fakeUserEmail
+              }
+            }
           }
         };
 
