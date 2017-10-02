@@ -16,7 +16,7 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/password-reset', () => {
+  describe('POST /api/password-resets', () => {
     before(() => {
       sinon.stub(passwordController, 'createResetDemand');
     });
@@ -33,7 +33,7 @@ describe('Unit | Router | Password router', () => {
 
       const options = {
         method: 'POST',
-        url: '/api/password-reset',
+        url: '/api/password-resets',
         payload: {
           data: {
             attributes: {
