@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
