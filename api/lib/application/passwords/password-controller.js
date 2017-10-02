@@ -12,7 +12,8 @@ module.exports = {
       return reply(Boom.badRequest());
     }
 
-    const { email, hostEnv } = request.payload;
+    const { email } = request.payload;
+    const passwordResetDemandBaseurl = _buildPasswordResetDemandBaseUrl(request);
     let temporarykey;
 
     return userService
@@ -24,7 +25,7 @@ module.exports = {
       })
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
       .then(() => {
-        mailService.sendResetPasswordDemandEmail(email, hostEnv, temporarykey);
+        mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseurl, temporarykey);
         return reply();
       })
       .catch((err) => {
@@ -38,5 +39,9 @@ module.exports = {
 };
 
 function _isPayloadWellFormed(request) {
-  return !(!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload)));
+  return !(!(request.hasOwnProperty('payload') && ('email' in request.payload)));
+}
+
+function _buildPasswordResetDemandBaseUrl(request) {
+  return `${request.connection.info.protocol}://${request.info.host}`;
 }

@@ -176,18 +176,15 @@ describe('Unit | Service | MailService', () => {
       expect(mailService.sendResetPasswordDemandEmail).to.be.a('function');
     });
 
-    describe('when provided hostEnv is not production', () => {
+    describe('when provided passwordResetDemandBaseUrl is not production', () => {
       it('should call Mailjet with a sub-domain prefix', () => {
         // Given
         const email = 'text@example.net';
         const fakeTemporaryKey = 'token';
-        const hostEnv = 'dev';
-
-        const resetUrl = `https://${hostEnv}.pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
-        const variables = { resetUrl };
+        const passwordResetDemandBaseUrl = 'http://dev.pix.beta.gouv.fr';
 
         // When
-        const promise = mailService.sendResetPasswordDemandEmail(email, hostEnv, fakeTemporaryKey);
+        const promise = mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseUrl, fakeTemporaryKey);
 
         // Then
         return promise.then(() => {
@@ -197,34 +194,9 @@ describe('Unit | Service | MailService', () => {
             from: 'ne-pas-repondre@pix.beta.gouv.fr',
             fromName: 'PIX - Ne pas répondre',
             subject: 'Demande de réinitialisation de mot de passe PIX',
-            variables
-          });
-        });
-      });
-    });
-
-    describe('when provided hostEnv is production', () => {
-      it('should use mailJet without a sub-domain prefix', () => {
-        // Given
-        const email = 'text@example.net';
-        const fakeTemporaryKey = 'token';
-        const hostEnv = 'production';
-
-        const resetUrl = `https://pix.beta.gouv.fr/compte/motdepasse/${fakeTemporaryKey}`;
-        const variables = { resetUrl };
-
-        // When
-        const promise = mailService.sendResetPasswordDemandEmail(email, hostEnv, fakeTemporaryKey);
-
-        // Then
-        return promise.then(() => {
-          sinon.assert.calledWith(sendEmailStub, {
-            to: email,
-            template: '207534',
-            from: 'ne-pas-repondre@pix.beta.gouv.fr',
-            fromName: 'PIX - Ne pas répondre',
-            subject: 'Demande de réinitialisation de mot de passe PIX',
-            variables
+            variables: {
+              resetUrl: `${passwordResetDemandBaseUrl}/compte/motdepasse/${fakeTemporaryKey}`
+            }
           });
         });
       });

@@ -35,15 +35,14 @@ function addEmailToRandomContactList(email) {
     });
 }
 
-function sendResetPasswordDemandEmail(email, hostEnv, temporaryKey) {
-  const baseUrl = (hostEnv !== 'production') ? `${hostEnv}.` : '';
+function sendResetPasswordDemandEmail(email, baseUrl, temporaryKey) {
   return mailJet.sendEmail({
     to: email,
     template: RESET_PASSWORD_DEMAND_EMAIL_TEMPLATE_ID,
     from: 'ne-pas-repondre@pix.beta.gouv.fr',
     fromName: 'PIX - Ne pas répondre',
     subject: 'Demande de réinitialisation de mot de passe PIX',
-    variables: { resetUrl: `https://${baseUrl}pix.beta.gouv.fr/compte/motdepasse/${temporaryKey}` }
+    variables: { resetUrl: `${baseUrl}/compte/motdepasse/${temporaryKey}` }
   });
 }
 
