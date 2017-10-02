@@ -15,6 +15,8 @@ import postFeedbacks from './routes/post-feedbacks';
 import postRefreshSolution from './routes/post-refresh-solution';
 import postAuthentications from './routes/post-authentications';
 import getAuthenticatedUser from './routes/get-user-me';
+import getOrganizations from './routes/get-organizations';
+import getSnapshots from './routes/get-snapshots';
 
 export default function() {
   this.logging = false;
@@ -49,18 +51,11 @@ export default function() {
 
   //Nouveau Mirage
 
-  //CourseGroups
+  // CourseGroups
   this.get('/course-groups');
 
   //Courses
-  this.get('/courses/:id', (schema, request) => {
-
-    const id = request.params.id;
-    if (['ref_course_id', 'highligthed_course_id', 'ref_timed_challenge_course_id'].includes(id)) {
-      return getCourse(schema, request);
-    }
-    return schema.courses.find(id);
-  });
+  this.get('/courses/:id', getCourse);
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
@@ -68,23 +63,11 @@ export default function() {
   this.get('/areas/:id');
   this.get('/organizations/:id');
 
-  this.get('/organizations', (schema, request) => {
-
-    const code = request.queryParams['filter[code]'];
-
-    if (code) {
-      return schema.organizations.where({ code });
-    }
-
-    return schema.organizations.all();
-  });
+  this.get('/organizations', getOrganizations);
 
   this.post('/snapshots');
   this.get('/snapshots/:id');
-  this.get('/organizations/:id/snapshots', (schema, request) => {
-    const organizationId = request.params.id;
-    return schema.snapshots.where({ organizationId });
-  });
+  this.get('/organizations/:id/snapshots', getSnapshots);
 
   this.post('/followers');
   this.post('/users');
