@@ -34,12 +34,11 @@ describe('Acceptance | Controller | password-controller', function() {
         };
       });
 
-      it('should reply with 400', (done) => {
+      it('should reply with 400', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(400);
-          done();
         });
       });
     });
@@ -56,12 +55,11 @@ describe('Acceptance | Controller | password-controller', function() {
         };
       });
 
-      it('should reply with 404', (done) => {
+      it('should reply with 404', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(404);
-          done();
         });
       });
     });
@@ -84,12 +82,11 @@ describe('Acceptance | Controller | password-controller', function() {
         mailjetService.sendResetPasswordDemandEmail.restore();
       });
 
-      it('should reply with 200', (done) => {
+      it('should reply with 200', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(200);
-          done();
         });
       });
     });
@@ -112,12 +109,11 @@ describe('Acceptance | Controller | password-controller', function() {
         resetPasswordDemandRepository.create.restore();
       });
 
-      it('should reply with 500', (done) => {
+      it('should reply with 500', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(500);
-          done();
         });
       });
     });

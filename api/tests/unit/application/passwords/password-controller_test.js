@@ -14,7 +14,7 @@ describe('Unit | Controller | PasswordController', () => {
 
     it('should be a function', () => {
       //then
-      expect(passwordController.resetDemand).to.be.a('function');
+      expect(passwordController.createResetDemand).to.be.a('function');
     });
 
     describe('Payload bad format cases: ', () => {
@@ -48,7 +48,7 @@ describe('Unit | Controller | PasswordController', () => {
             }
           });
           // when
-          passwordController.resetDemand(request, replyStub);
+          passwordController.createResetDemand(request, replyStub);
 
           // then
           sinon.assert.calledOnce(Boom.badRequest);
@@ -90,7 +90,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {
@@ -112,7 +112,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {
@@ -135,7 +135,7 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -155,7 +155,7 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -176,7 +176,7 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -193,7 +193,7 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordRepository.create.resolves();
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -210,7 +210,7 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordRepository.create.resolves();
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -232,7 +232,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {

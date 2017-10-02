@@ -11,9 +11,5 @@ module.exports = {
 
   invalidOldResetPasswordDemand(userEmail) {
     return resetPasswordDemandRepository.markAsBeingUsed(userEmail);
-  },
-
-  createDemand() {
-
   }
 };
