@@ -11,7 +11,7 @@ describe('Acceptance | Controller | password-controller', function() {
     server.stop(done);
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-reset', () => {
 
     let fakeUserEmail;
     let options;
@@ -29,7 +29,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {}
         };
       });
@@ -48,7 +48,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: 'uzinagaz@unknown.xh',
             hostEnv: 'dev'
@@ -70,7 +70,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-reset',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'

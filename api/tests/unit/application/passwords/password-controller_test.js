@@ -21,13 +21,11 @@ describe('Unit | Controller | PasswordController', () => {
 
       let replyStub;
       let sandbox;
-      let codeSpy;
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
         replyStub = sandbox.stub();
         sandbox.stub(Boom, 'badRequest').returns({});
-        codeSpy = sandbox.spy();
       });
 
       afterEach(() => {
@@ -55,7 +53,6 @@ describe('Unit | Controller | PasswordController', () => {
           // then
           sinon.assert.calledOnce(Boom.badRequest);
           sinon.assert.calledWith(replyStub, Boom.badRequest());
-          sinon.assert.calledWith(codeSpy, 400);
         });
       });
     });
@@ -75,8 +72,6 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordService, 'generateTemporaryKey');
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
         sandbox.stub(resetPasswordRepository, 'create');
-        sandbox.stub(errorSerializer, 'serialize');
-        sandbox.stub(userService, 'isUserExisting');
         sandbox.stub(errorSerializer, 'serialize');
       });
 
