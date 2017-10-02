@@ -7,7 +7,7 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/password-reset',
       config: {
-        handler: passwordController.resetDemand, tags: ['api']
+        handler: passwordController.createResetDemand, tags: ['api']
       }
     }
   ]);

@@ -18,16 +18,16 @@ describe('Unit | Router | Password router', () => {
 
   describe('POST /api/password-reset', () => {
     before(() => {
-      sinon.stub(passwordController, 'resetDemand');
+      sinon.stub(passwordController, 'createResetDemand');
     });
 
     after(() => {
-      passwordController.resetDemand.restore();
+      passwordController.createResetDemand.restore();
     });
 
     it('should exist', () => {
       // given
-      passwordController.resetDemand.callsFake((request, reply) => {
+      passwordController.createResetDemand.callsFake((request, reply) => {
         reply('ok');
       });
 

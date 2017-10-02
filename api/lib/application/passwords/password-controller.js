@@ -7,7 +7,7 @@ const { UserNotFoundError, InternalError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
-  resetDemand(request, reply) {
+  createResetDemand(request, reply) {
     if (!_isPayloadWellFormed(request)) {
       return reply(Boom.badRequest());
     }
