@@ -4243,9 +4243,9 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     });
 
     this.post('/snapshots');
+    this.get('/snapshots/:id');
     this.get('/organizations/:id/snapshots', function (schema, request) {
       var organizationId = request.params.id;
-
       return schema.snapshots.where({ organizationId: organizationId });
     });
 
@@ -4546,23 +4546,6 @@ define('pix-live/mirage/data/assessments/ref-assessment', ['exports', 'pix-live/
           }]
         }
       }
-    }
-  };
-});
-define('pix-live/mirage/data/authentications/index', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = {
-    data: {
-      type: 'authentication',
-      attributes: {
-        'user-id': 1,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJlbWFpbCI6InBpeEBjb250YWN0LmNvbSIsImlhdCI6MTQ5Njc0MjQwNywiZXhwIjoxNDk3MzQ3MjA3fQ.KateqHWs9Qaq5zxUxEcOATaPPPh72_HeZIBmCgmtWDo'
-      },
-      id: 1
     }
   };
 });
@@ -5099,21 +5082,6 @@ define('pix-live/mirage/fixtures/feedbacks', ['exports'], function (exports) {
   });
   exports.default = [{ id: 'ref_feedback_id', email: 'shi@fu.me', content: 'Some content', assessment: 'assessment_id', challenge: 'challenge_id' }];
 });
-define('pix-live/mirage/fixtures/organizations', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = [{
-    id: 1,
-    name: 'LexCorp',
-    email: 'lex@lexcorp.com',
-    type: 'PRO',
-    code: 'ABCD66',
-    user: 1
-  }];
-});
 define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
   'use strict';
 
@@ -5121,14 +5089,6 @@ define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
     value: true
   });
   exports.default = [{ id: 'ref_solution_id', value: '2' }, { id: 'ref_solution_id2', value: '2,3' }];
-});
-define('pix-live/mirage/fixtures/users', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = [{ id: 'user_id' }];
 });
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
@@ -5357,18 +5317,22 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
     }
   };
 });
-define("pix-live/mirage/routes/get-user-me", ["exports"], function (exports) {
-  "use strict";
+define('pix-live/mirage/routes/get-user-me', ['exports'], function (exports) {
+  'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = getAuthenticatedUser;
-  function getAuthenticatedUser(_ref) {
-    var users = _ref.users;
+  function getAuthenticatedUser(schema, request) {
 
+    var userToken = request.requestHeaders.Authorization.replace('Bearer ', '');
 
-    return users.find(1);
+    if (userToken === 'simple-user-token') return schema.users.find(1);
+
+    if (userToken === 'prescriber-user-token') return schema.users.find(2);
+
+    return schema.users.find(3);
   }
 });
 define('pix-live/mirage/routes/patch-answer', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcuAnswer, _refQruAnswer, _refQcmAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
@@ -5453,15 +5417,55 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
     }
   };
 });
-define('pix-live/mirage/routes/post-authentications', ['exports', 'pix-live/mirage/data/authentications'], function (exports, _authentications) {
+define('pix-live/mirage/routes/post-authentications', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
-  exports.default = function () {
-    return _authentications.default;
+  exports.default = function (schema, request) {
+
+    var email = JSON.parse(request.requestBody).data.attributes.email;
+
+    if (email === 'jane@acme.com') return simpleUserAuthentication;
+
+    if (email === 'john@acme.com') return prescriberAuthentication;
+
+    return otherUserAuthentication;
+  };
+
+  var simpleUserAuthentication = {
+    data: {
+      type: 'authentication',
+      attributes: {
+        'user-id': 1,
+        token: 'simple-user-token'
+      },
+      id: 1
+    }
+  };
+
+  var prescriberAuthentication = {
+    data: {
+      type: 'authentication',
+      attributes: {
+        'user-id': 2,
+        token: 'prescriber-user-token'
+      },
+      id: 2
+    }
+  };
+
+  var otherUserAuthentication = {
+    data: {
+      type: 'authentication',
+      attributes: {
+        'user-id': 3,
+        token: 'other-user-token'
+      },
+      id: 3
+    }
   };
 });
 define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/data/feedbacks/ref-feedback'], function (exports, _refFeedback) {
@@ -5502,22 +5506,41 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
     server.loadFixtures('areas');
     server.loadFixtures('competences');
 
-    var user = server.create('user', {
+    server.create('user', {
       id: 1,
-      firstName: 'François',
-      lastName: 'Hisquin',
-      email: 'benjamin.marteau@gmail.com',
-      password: 'FHI4EVER',
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jane@acme.com',
+      password: 'Jane1234',
       cgu: true,
       recaptchaToken: 'recaptcha-token-xxxxxx',
-      totalPixScore: '777',
+      totalPixScore: 456,
       competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     });
 
-    server.create('organization', { snapshots: snapshots, userId: 1 });
-    var snapshots = server.createList('snapshot', 3, { organizationId: 1 });
+    var prescriber = server.create('user', {
+      id: 2,
+      firstName: 'John',
+      lastName: 'Smith',
+      email: 'john@acme.com',
+      password: 'John1234',
+      cgu: true,
+      recaptchaToken: 'recaptcha-token-xxxxxx'
+    });
 
-    user.organizationsIds = [1];
+    var organization = server.create('organization', {
+      id: 1,
+      name: 'ACME',
+      email: 'contact@acme.com',
+      type: 'PRO',
+      code: 'ABCD00'
+    });
+
+    prescriber.organization = organization;
+    organization.user = prescriber;
+
+    var snapshots = server.createList('snapshot', 3, { organization: organization });
+    organization.snapshots = snapshots;
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -7728,10 +7751,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
-    it('mirage/data/authentications/index.js', function () {
-      // test passed
-    });
-
     it('mirage/data/challenges/ref-qcm-challenge.js', function () {
       // test passed
     });
@@ -7840,15 +7859,7 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
-    it('mirage/fixtures/organizations.js', function () {
-      // test passed
-    });
-
     it('mirage/fixtures/solutions.js', function () {
-      // test passed
-    });
-
-    it('mirage/fixtures/users.js', function () {
       // test passed
     });
 
@@ -8478,6 +8489,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+f6bd31fa"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+7f0d0c0f"});
 }
 //# sourceMappingURL=pix-live.map

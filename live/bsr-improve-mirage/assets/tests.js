@@ -815,7 +815,7 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
   (0, _mocha.describe)('Acceptance | Espace compte | Authentication', function () {
@@ -824,39 +824,18 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
 
-    function seedDatabaseForUserWithOrganization() {
-      server.create('organization', {
-        id: 1,
-        name: 'LexCorp',
-        email: 'lex@lexcorp.com',
-        type: 'PRO',
-        code: 'ABCD66'
-      });
-      server.create('user', {
-        id: 1,
-        firstName: 'Samurai',
-        lastName: 'Jack',
-        email: 'samurai.jack@aku.world',
-        password: 'B@ck2past',
-        cgu: true,
-        recaptchaToken: 'recaptcha-token-xxxxxx',
-        organizationIds: [1]
-      });
-    }
-
     (0, _mocha.describe)('Logged Menu', function () {
       (0, _mocha.describe)('after visiting the project page', function () {
         (0, _mocha.it)('should redirect to /compte user "Mon compte"', function () {
           // given
-          _seeds.default.injectUserAccount();
-          _testing.default.authenticateUser();
-
+          (0, _testing.authenticateAsSimpleUser)();
           visit('/projet');
 
           // when
@@ -875,9 +854,6 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
       (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
         (0, _mocha.it)('should redirect to the connexion page', function () {
-          // given
-          _seeds.default.injectUserAccount();
-
           // when
           visit('/compte');
 
@@ -891,8 +867,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
       (0, _mocha.describe)('Log-in phase', function () {
         (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
           // given
-          _seeds.default.injectUserAccount();
-          _testing.default.authenticateUser();
+          (0, _testing.authenticateAsSimpleUser)();
 
           // then
           return andThen(function () {
@@ -902,8 +877,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
         (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
           // given
-          seedDatabaseForUserWithOrganization();
-          _testing.default.authenticateUser();
+          (0, _testing.authenticateAsPrescriber)();
 
           // then
           return andThen(function () {
@@ -931,7 +905,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
   });
 });
-define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _seeds, _application) {
+define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/testing', 'pix-live/tests/helpers/application', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _testing, _application, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -968,22 +942,12 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
-
-    function seedDatabase() {
-      _seeds.default.injectUserAccount();
-    }
-
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
 
     (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -991,19 +955,18 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
           switch (_context.prev = _context.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsSimpleUser)();
 
               // when
-              _context.next = 4;
+              _context.next = 3;
               return visit('/compte');
 
-            case 4:
+            case 3:
               return _context.abrupt('return', andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/compte');
               }));
 
-            case 5:
+            case 4:
             case 'end':
               return _context.stop();
           }
@@ -1034,8 +997,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
       // given
-      seedDatabase();
-      authenticateUser();
+      (0, _testing.authenticateAsSimpleUser)();
 
       // when
       visit('/compte');
@@ -1049,8 +1011,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
       // given
-      seedDatabase();
-      authenticateUser();
+      (0, _testing.authenticateAsSimpleUser)();
 
       // when
       visit('/compte');
@@ -1063,8 +1024,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.it)('should display a hero banner for logged user', function () {
       // given
-      seedDatabase();
-      authenticateUser();
+      (0, _testing.authenticateAsSimpleUser)();
 
       // when
       visit('/compte');
@@ -1076,7 +1036,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
     });
   });
 });
-define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
+define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1227,16 +1187,12 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
-
-    function populateDatabaseWithAUserAndAnOrganization() {
-      _seeds.default.injectUserAccount();
-      _seeds.default.injectOrganization('ABCD00');
-    }
 
     function expectModalToBeOpened() {
       findWithAssert('.pix-modal');
@@ -1251,7 +1207,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectOrganizationNameToBeDisplayed() {
-      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Organization 0');
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
     }
 
     function expectToBeOnSuccessNotificationView() {
@@ -1259,7 +1215,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectSnapshotToHaveBeenCreated() {
-      (0, _chai.expect)(server.db.snapshots.length).to.equal(1);
+      (0, _chai.expect)(server.db.snapshots.length).to.equal(4);
     }
 
     function expectModalToBeClosed() {
@@ -1271,41 +1227,40 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
-              populateDatabaseWithAUserAndAnOrganization();
-              (0, _testing.authenticateUser)();
+              (0, _testing.authenticateAsSimpleUser)();
 
-              _context6.next = 4;
+              _context6.next = 3;
               return visitAccountPage();
 
-            case 4:
-              _context6.next = 6;
+            case 3:
+              _context6.next = 5;
               return openShareProfileModal();
 
-            case 6:
+            case 5:
               expectModalToBeOpened();
               expectToBeOnOrganizationCodeEntryView();
 
-              _context6.next = 10;
+              _context6.next = 9;
               return fillInAndSubmitOrganizationCode();
 
-            case 10:
+            case 9:
               expectToBeOnSharingConfirmationView();
               expectOrganizationNameToBeDisplayed();
 
-              _context6.next = 14;
+              _context6.next = 13;
               return confirmProfileSnapshotSharing();
 
-            case 14:
+            case 13:
               expectToBeOnSuccessNotificationView();
               expectSnapshotToHaveBeenCreated();
 
-              _context6.next = 18;
+              _context6.next = 17;
               return closeModal();
 
-            case 18:
+            case 17:
               expectModalToBeClosed();
 
-            case 19:
+            case 18:
             case 'end':
               return _context6.stop();
           }
@@ -2840,7 +2795,7 @@ define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/
     });
   });
 });
-define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2877,36 +2832,12 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
-
-    function seedDatabase() {
-      server.create('organization', {
-        id: 1,
-        name: 'LexCorp',
-        email: 'lex@lexcorp.com',
-        type: 'PRO',
-        code: 'ABCD66'
-      });
-      server.create('user', {
-        id: 1,
-        firstName: 'Benjamin',
-        lastName: 'Marteau',
-        email: 'benjamin.marteau@pix.com',
-        password: '1024pix!',
-        organizationIds: [1]
-      });
-    }
-
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'benjamin.marteau@pix.com');
-      fillIn('#pix-password', '1024pix!');
-      click('.signin-form__submit_button');
-    }
 
     (0, _mocha.it)('can visit /board', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2914,24 +2845,23 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
           switch (_context.prev = _context.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsPrescriber)();
 
               // when
-              _context.next = 4;
+              _context.next = 3;
               return visit('/board');
 
-            case 4:
+            case 3:
 
               // then
               andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/board');
               });
 
-              _context.next = 7;
+              _context.next = 6;
               return visit('/deconnexion');
 
-            case 7:
+            case 6:
             case 'end':
               return _context.stop();
           }
@@ -2944,21 +2874,21 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              // given
-              seedDatabase();
+              _context2.next = 2;
+              return visit('/deconnexion');
 
-              // when
-              _context2.next = 3;
+            case 2:
+              _context2.next = 4;
               return visit('/board');
 
-            case 3:
+            case 4:
 
               // then
               andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/connexion');
               });
 
-            case 4:
+            case 5:
             case 'end':
               return _context2.stop();
           }
@@ -2972,22 +2902,21 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
           switch (_context3.prev = _context3.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsPrescriber)();
 
               // when
-              _context3.next = 4;
+              _context3.next = 3;
               return visit('/board');
 
-            case 4:
+            case 3:
 
               // then
               (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('ACME');
               (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD00');
 
-            case 8:
+            case 7:
             case 'end':
               return _context3.stop();
           }
@@ -3001,20 +2930,19 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
           switch (_context4.prev = _context4.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsPrescriber)();
 
               // when
-              _context4.next = 4;
+              _context4.next = 3;
               return visit('/board');
 
-            case 4:
+            case 3:
 
               // then
               (0, _chai.expect)(find('.snapshot-list').length).to.equal(1);
               (0, _chai.expect)(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
 
-            case 6:
+            case 5:
             case 'end':
               return _context4.stop();
           }
@@ -3832,11 +3760,19 @@ define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.authenticateUser = authenticateUser;
-  function authenticateUser() {
+  exports.authenticateAsSimpleUser = authenticateAsSimpleUser;
+  exports.authenticateAsPrescriber = authenticateAsPrescriber;
+  function authenticateAsSimpleUser() {
     visit('/connexion');
-    fillIn('#pix-email', 'samurai.jack@aku.world');
-    fillIn('#pix-password', 'B@ck2past');
+    fillIn('#pix-email', 'jane@acme.com');
+    fillIn('#pix-password', 'Jane1234');
+    click('.signin-form__submit_button');
+  }
+
+  function authenticateAsPrescriber() {
+    visit('/connexion');
+    fillIn('#pix-email', 'john@acme.com');
+    fillIn('#pix-password', 'John1234');
     click('.signin-form__submit_button');
   }
 });
