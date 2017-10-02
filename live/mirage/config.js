@@ -80,10 +80,10 @@ export default function() {
   });
 
   this.post('/snapshots');
+  this.get('/snapshots/:id');
   this.get('/organizations/:id/snapshots', (schema, request) => {
     const organizationId = request.params.id;
-
-    return schema.snapshots.where({ organizationId: organizationId });
+    return schema.snapshots.where({ organizationId });
   });
 
   this.post('/followers');
