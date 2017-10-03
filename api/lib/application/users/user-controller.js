@@ -82,13 +82,14 @@ module.exports = {
 
   async updatePassword(request, reply) {
     const { password } = request.payload.data.attributes;
-    const { id, email } = request.pre.user;
     const hashedPassword = await encryptionService.hashPassword(password);
+    let user = await UserRepository.findUserById(request.params.id);
+    user = user.toJSON();
 
     return passwordResetDemandService
-      .hasUserAPasswordResetDemandInProgress(email)
-      .then(() => UserRepository.updatePassword(id, hashedPassword))
-      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(email))
+      .hasUserAPasswordResetDemandInProgress(user.email)
+      .then(() => UserRepository.updatePassword(user.id, hashedPassword))
+      .then(() => passwordResetDemandService.invalidOldResetPasswordDemand(user.email))
       .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {

@@ -1,8 +1,7 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
-const userVerification = require('../../../../lib/application/preHandlers/user-verification');
+const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
-const User = require('../../../../lib/domain/models/data/user');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 
 describe('Unit | Pre-handler | User Verification', () => {
@@ -21,7 +20,7 @@ describe('Unit | Pre-handler | User Verification', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'findUserById');
+      sandbox.stub(userRepository, 'countUserById');
       sandbox.stub(errorSerializer, 'serialize');
 
       takeOverStub = sandbox.stub();
@@ -44,21 +43,20 @@ describe('Unit | Pre-handler | User Verification', () => {
 
     describe('When user exist', () => {
 
-      it('should reply with fetched user', () => {
+      it('should passthrough to handler', () => {
         // given
-        const fetchedUser = {};
-        const userData = new User({});
-        userRepository.findUserById.resolves(userData);
+        const userCount = 1;
+        userRepository.countUserById.resolves(userCount);
 
         // when
         const promise = userVerification.verifyById(request, reply);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledOnce(userRepository.countUserById);
+          sinon.assert.calledWith(userRepository.countUserById, request.params.id);
           sinon.assert.calledOnce(reply);
-          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
-          sinon.assert.calledWith(reply, fetchedUser);
+          sinon.assert.calledWith(reply, userCount);
         });
       });
 
@@ -68,10 +66,10 @@ describe('Unit | Pre-handler | User Verification', () => {
 
       it('should reply 404 status with a serialized error and takeOver the request', () => {
         // given
-        const error = new UserNotFoundError();
-        userRepository.findUserById.rejects(error);
+        userRepository.countUserById.resolves(null);
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
+
         // when
         const promise = userVerification.verifyById(request, reply);
 

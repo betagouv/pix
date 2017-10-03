@@ -1,6 +1,6 @@
 const UserController = require('./user-controller');
 const Joi = require('joi');
-const userVerification = require('../preHandlers/user-verification');
+const userVerification = require('../preHandlers/user-existence-verification');
 const { passwordValidationPattern } = require('../../settings');
 const XRegExp = require('xregexp');
 

@@ -1,7 +1,7 @@
 const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const UserController = require('../../../../lib/application/users/user-controller');
-const userVerification = require('../../../../lib/application/preHandlers/user-verification');
+const userVerification = require('../../../../lib/application/preHandlers/user-existence-verification');
 
 describe('Unit | Router | user-router', () => {
 

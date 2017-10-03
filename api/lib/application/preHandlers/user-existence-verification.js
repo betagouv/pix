@@ -5,11 +5,18 @@ const { UserNotFoundError } = require('../../domain/errors');
 module.exports = {
   verifyById(request, reply) {
     return userRepository
-      .findUserById(request.params.id)
-      .then((user) => reply(user.toJSON()))
-      .catch(() => {
-        const serializedError = errorSerializer.serialize(UserNotFoundError.getErrorMessage());
-        reply(serializedError).code(404).takeover();
+      .countUserById(request.params.id)
+      .then((count) => {
+        if (!_isUserExist(count)) {
+          const serializedError = errorSerializer.serialize(UserNotFoundError.getErrorMessage());
+          return reply(serializedError).code(404).takeover();
+        }
+
+        reply(count);
       });
   }
 };
+
+function _isUserExist(count) {
+  return count && count === 1;
+}

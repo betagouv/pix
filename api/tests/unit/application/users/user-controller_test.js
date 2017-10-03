@@ -432,12 +432,6 @@ describe('Unit | Controller | user-controller', () => {
         params: {
           id: 7
         },
-        pre: {
-          user: {
-            id: 7,
-            email: 'shu@ha.ri'
-          }
-        },
         payload: {
           data: {
             attributes: {
@@ -446,6 +440,10 @@ describe('Unit | Controller | user-controller', () => {
           }
         }
       };
+      const user = new User({
+        id: 7,
+        email: 'maryz@acme.xh'
+      });
       let codeStub;
 
       beforeEach(() => {
@@ -454,6 +452,7 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
         sandbox.stub(UserRepository, 'updatePassword');
+        sandbox.stub(UserRepository, 'findUserById').resolves(user);
         sandbox.stub(encryptionService, 'hashPassword');
         codeStub = sinon.stub();
         reply = sandbox.stub().returns({
@@ -466,7 +465,21 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.restore();
       });
 
-      it('should fetch check if user has a current password reset demand', () => {
+      it('should get user by his id', () => {
+        // given
+        passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
+
+        // when
+        const promise = userController.updatePassword(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(UserRepository.findUserById);
+          sinon.assert.calledWith(UserRepository.findUserById, request.params.id);
+        });
+      });
+
+      it('should check if user has a current password reset demand', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
 
@@ -476,7 +489,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(passwordResetService.hasUserAPasswordResetDemandInProgress);
-          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, request.pre.user.email);
+          sinon.assert.calledWith(passwordResetService.hasUserAPasswordResetDemandInProgress, user.get('email'));
         });
       });
 
@@ -494,7 +507,7 @@ describe('Unit | Controller | user-controller', () => {
           sinon.assert.calledOnce(UserRepository.updatePassword);
           sinon.assert.calledOnce(encryptionService.hashPassword);
           sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-          sinon.assert.calledWith(UserRepository.updatePassword, request.pre.user.id, encryptedPassword);
+          sinon.assert.calledWith(UserRepository.updatePassword, request.params.id, encryptedPassword);
         });
       });
 
@@ -510,7 +523,7 @@ describe('Unit | Controller | user-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(passwordResetService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, request.pre.user.email);
+          sinon.assert.calledWith(passwordResetService.invalidOldResetPasswordDemand, user.get('email'));
         });
       });
 
