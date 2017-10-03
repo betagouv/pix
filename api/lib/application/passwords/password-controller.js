@@ -1,6 +1,7 @@
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
+const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const { UserNotFoundError, InternalError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -20,9 +21,10 @@ module.exports = {
         return temporarykey;
       })
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
-      .then(() => {
+      .then((savedPasswordResetDemand) => {
+        const passwordResetDemand = savedPasswordResetDemand.attributes;
         mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseurl, temporarykey);
-        return reply().code(201);
+        return reply(passwordResetSerializer.serialize(passwordResetDemand)).code(201);
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {

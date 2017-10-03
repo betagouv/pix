@@ -4,6 +4,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
+const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
@@ -42,6 +43,7 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordService, 'invalidOldResetPasswordDemand');
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
+        sandbox.stub(passwordResetSerializer, 'serialize');
       });
 
       afterEach(() => {
@@ -160,7 +162,8 @@ describe('Unit | Controller | PasswordController', () => {
         const hostBaseUrl = 'http://localhost';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
+        const resolvedPasswordReset = {attributes : {email: 'Giles75@hotmail.com', temporaryKey: 'one token', id: 15}};
+        resetPasswordRepository.create.resolves(resolvedPasswordReset);
         replyStub.returns({
           code: () => {
           }
@@ -178,14 +181,17 @@ describe('Unit | Controller | PasswordController', () => {
 
       it('should reply ok when all things are good', () => {
         // given
+
         const generatedToken = 'token';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        resetPasswordRepository.create.resolves();
+        const resolvedPasswordReset = {attributes : {email: 'Giles75@hotmail.com', temporaryKey: 'one token', id: 15}};
+        resetPasswordRepository.create.resolves(resolvedPasswordReset);
         replyStub.returns({
           code: () => {
           }
         });
+        passwordResetSerializer.serialize.resolves();
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -193,6 +199,8 @@ describe('Unit | Controller | PasswordController', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(replyStub);
+          sinon.assert.calledOnce(passwordResetSerializer.serialize);
+          sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
         });
       });
 
