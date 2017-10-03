@@ -11,7 +11,7 @@ describe('Acceptance | Controller | password-controller', function() {
     server.stop(done);
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-resets', () => {
 
     let fakeUserEmail;
     let options;
@@ -25,21 +25,20 @@ describe('Acceptance | Controller | password-controller', function() {
       return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
     });
 
-    describe('when no email or hostEnv is provided', () => {
+    describe('when payload has a bad format or  no email is provided', () => {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-resets',
           payload: {}
         };
       });
 
-      it('should reply with 400', (done) => {
+      it('should reply with 400', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(400);
-          done();
         });
       });
     });
@@ -48,20 +47,22 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-resets',
           payload: {
-            email: 'uzinagaz@unknown.xh',
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: 'uzinagaz@unknown.xh'
+              }
+            }
           }
         };
       });
 
-      it('should reply with 404', (done) => {
+      it('should reply with 404', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(404);
-          done();
         });
       });
     });
@@ -70,10 +71,13 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-resets',
           payload: {
-            email: fakeUserEmail,
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: fakeUserEmail
+              }
+            }
           }
         };
 
@@ -84,12 +88,11 @@ describe('Acceptance | Controller | password-controller', function() {
         mailjetService.sendResetPasswordDemandEmail.restore();
       });
 
-      it('should reply with 200', (done) => {
+      it('should reply with 200', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(200);
-          done();
         });
       });
     });
@@ -98,10 +101,13 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/reset-password',
+          url: '/api/password-resets',
           payload: {
-            email: fakeUserEmail,
-            hostEnv: 'dev'
+            data: {
+              attributes: {
+                email: fakeUserEmail
+              }
+            }
           }
         };
 
@@ -112,12 +118,11 @@ describe('Acceptance | Controller | password-controller', function() {
         resetPasswordDemandRepository.create.restore();
       });
 
-      it('should reply with 500', (done) => {
+      it('should reply with 500', () => {
         // when
-        server.inject(options).then((response) => {
+        return server.inject(options).then((response) => {
           // then
           expect(response.statusCode).to.equal(500);
-          done();
         });
       });
     });

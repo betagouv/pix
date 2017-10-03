@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
@@ -7,12 +6,10 @@ const { UserNotFoundError, InternalError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 module.exports = {
-  resetDemand(request, reply) {
-    if (!_isPayloadWellFormed(request)) {
-      return reply(Boom.badRequest());
-    }
+  createResetDemand(request, reply) {
 
-    const { email, hostEnv } = request.payload;
+    const { email } = request.payload.data.attributes;
+    const passwordResetDemandBaseurl = _buildPasswordResetDemandBaseUrl(request);
     let temporarykey;
 
     return userService
@@ -24,7 +21,7 @@ module.exports = {
       })
       .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
       .then(() => {
-        mailService.sendResetPasswordDemandEmail(email, hostEnv, temporarykey);
+        mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseurl, temporarykey);
         return reply();
       })
       .catch((err) => {
@@ -37,9 +34,6 @@ module.exports = {
   }
 };
 
-function _isPayloadWellFormed(request) {
-  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload))) {
-    return false;
-  }
-  return true;
+function _buildPasswordResetDemandBaseUrl(request) {
+  return `${request.connection.info.protocol}://${request.info.host}`;
 }

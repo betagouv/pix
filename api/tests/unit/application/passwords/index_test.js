@@ -16,29 +16,42 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/reset-password', () => {
+  describe('POST /api/password-resets', () => {
     before(() => {
-      sinon.stub(passwordController, 'resetDemand');
+      sinon.stub(passwordController, 'createResetDemand');
     });
 
     after(() => {
-      passwordController.resetDemand.restore();
+      passwordController.createResetDemand.restore();
     });
 
-    it('should exist', (done) => {
+    it('should exist', () => {
       // given
-      passwordController.resetDemand.callsFake((request, reply) => {
+      passwordController.createResetDemand.callsFake((request, reply) => {
         reply('ok');
       });
 
+      const options = {
+        method: 'POST',
+        url: '/api/password-resets',
+        payload: {
+          data: {
+            attributes: {
+              email: 'uzinagaz@unknown.xh'
+            }
+          }
+        }
+      };
+
       // when
-      server
-        .inject({ method: 'POST', url: '/api/reset-password' })
+      return server
+        .inject(options)
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);
-          done();
         });
     });
+
   });
+
 });

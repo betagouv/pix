@@ -1,4 +1,3 @@
-const Boom = require('boom');
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
@@ -14,51 +13,22 @@ describe('Unit | Controller | PasswordController', () => {
 
     it('should be a function', () => {
       //then
-      expect(passwordController.resetDemand).to.be.a('function');
-    });
-
-    describe('Payload bad format cases: ', () => {
-
-      let replyStub;
-      let sandbox;
-
-      beforeEach(() => {
-        sandbox = sinon.sandbox.create();
-        replyStub = sandbox.stub();
-        sandbox.stub(Boom, 'badRequest').returns({});
-      });
-
-      afterEach(() => {
-        sandbox.restore();
-      });
-
-      [
-        { request: {}, description: 'no payload' },
-        { request: { payload: {} }, description: 'empty payload' },
-        { request: { payload: { key: 'value' } }, description: 'no email or hostEnv key in payload' },
-        { request: { payload: { email: 'value' } }, description: 'email is provided but no hostEnv key in payload' },
-        { request: { payload: { hostEnv: 'value' } }, description: 'hostEnv is provided but no email key in payload' },
-
-      ].forEach(({ request, description }) => {
-        it(`should reply with 400 status, when ${description} provided`, () => {
-          // given
-          replyStub.returns({
-            code: () => {
-            }
-          });
-          // when
-          passwordController.resetDemand(request, replyStub);
-
-          // then
-          sinon.assert.calledOnce(Boom.badRequest);
-          sinon.assert.calledWith(replyStub, Boom.badRequest());
-        });
-      });
+      expect(passwordController.createResetDemand).to.be.a('function');
     });
 
     describe('When payload has a good format: ', () => {
 
-      const request = { payload: { email: 'shi@fu.me', hostEnv: 'dev' } };
+      const request = {
+        payload: {
+          data: {
+            attributes: {
+              email: 'shi@fu.me'
+            }
+          }
+        },
+        connection: { info: { protocol: 'http' } },
+        info: { host: 'localhost' }
+      };
 
       let replyStub;
       let sandbox;
@@ -89,12 +59,12 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(userService.isUserExisting);
-            sinon.assert.calledWith(userService.isUserExisting, request.payload.email);
+            sinon.assert.calledWith(userService.isUserExisting, request.payload.data.attributes.email);
           });
         });
 
@@ -111,7 +81,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {
@@ -134,12 +104,12 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(resetPasswordService.invalidOldResetPasswordDemand);
-          sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.email);
+          sinon.assert.calledWith(resetPasswordService.invalidOldResetPasswordDemand, request.payload.data.attributes.email);
         });
       });
 
@@ -154,7 +124,7 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -175,7 +145,7 @@ describe('Unit | Controller | PasswordController', () => {
         });
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -187,17 +157,18 @@ describe('Unit | Controller | PasswordController', () => {
       it('should send an email with a reset password link', () => {
         // given
         const generatedToken = 'token';
+        const hostBaseUrl = 'http://localhost';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(mailService.sendResetPasswordDemandEmail);
-          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.email, request.payload.hostEnv, generatedToken);
+          sinon.assert.calledWith(mailService.sendResetPasswordDemandEmail, request.payload.data.attributes.email, hostBaseUrl, generatedToken);
         });
       });
 
@@ -209,7 +180,7 @@ describe('Unit | Controller | PasswordController', () => {
         resetPasswordRepository.create.resolves();
 
         //when
-        const promise = passwordController.resetDemand(request, replyStub);
+        const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -231,7 +202,7 @@ describe('Unit | Controller | PasswordController', () => {
           });
 
           //when
-          const promise = passwordController.resetDemand(request, replyStub);
+          const promise = passwordController.createResetDemand(request, replyStub);
 
           // then
           return promise.then(() => {
