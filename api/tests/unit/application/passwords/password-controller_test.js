@@ -162,7 +162,13 @@ describe('Unit | Controller | PasswordController', () => {
         const hostBaseUrl = 'http://localhost';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        const resolvedPasswordReset = {attributes : {email: 'Giles75@hotmail.com', temporaryKey: 'one token', id: 15}};
+        const resolvedPasswordReset = {
+          attributes: {
+            email: 'Giles75@hotmail.com',
+            temporaryKey: 'one token',
+            id: 15
+          }
+        };
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
         replyStub.returns({
           code: () => {
@@ -185,7 +191,13 @@ describe('Unit | Controller | PasswordController', () => {
         const generatedToken = 'token';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        const resolvedPasswordReset = {attributes : {email: 'Giles75@hotmail.com', temporaryKey: 'one token', id: 15}};
+        const resolvedPasswordReset = {
+          attributes: {
+            email: 'Giles75@hotmail.com',
+            temporaryKey: 'one token',
+            id: 15
+          }
+        };
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
         replyStub.returns({
           code: () => {
