@@ -13,7 +13,8 @@ exports.register = function(server, options, next) {
           payload: Joi.object().required().keys({
             data: Joi.object().required().keys({
               attributes: Joi.object().required().keys({
-                email: Joi.string().email().required()
+                email: Joi.string().email().required(),
+                'temporary-key' : Joi.string()
               }),
               type : Joi.string()
             })
