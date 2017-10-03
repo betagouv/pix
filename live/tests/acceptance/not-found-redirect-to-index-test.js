@@ -14,7 +14,7 @@ describe('Acceptance | Page | Not Found Redirection', () => {
     destroyApp(application);
   });
 
-  it('unexistant page should redirect to home page', () => {
+  it('should redirect to home page when URL is a nonexistant page', () => {
 
     visit('/plop');
 
