@@ -88,11 +88,11 @@ describe('Acceptance | Controller | password-controller', function() {
         mailjetService.sendResetPasswordDemandEmail.restore();
       });
 
-      it('should reply with 200', () => {
+      it('should reply with 201', () => {
         // when
         return server.inject(options).then((response) => {
           // then
-          expect(response.statusCode).to.equal(200);
+          expect(response.statusCode).to.equal(201);
         });
       });
     });
