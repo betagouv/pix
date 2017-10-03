@@ -161,6 +161,10 @@ describe('Unit | Controller | PasswordController', () => {
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
+        replyStub.returns({
+          code: () => {
+          }
+        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -178,6 +182,10 @@ describe('Unit | Controller | PasswordController', () => {
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
+        replyStub.returns({
+          code: () => {
+          }
+        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
