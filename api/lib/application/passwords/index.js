@@ -14,7 +14,8 @@ exports.register = function(server, options, next) {
             data: Joi.object().required().keys({
               attributes: Joi.object().required().keys({
                 email: Joi.string().email().required()
-              })
+              }),
+              type : Joi.string()
             })
           })
         },
