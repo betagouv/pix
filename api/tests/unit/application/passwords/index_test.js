@@ -16,7 +16,7 @@ describe('Unit | Router | Password router', () => {
     server.stop();
   });
 
-  describe('POST /api/password-reset', () => {
+  describe('POST /api/password-reset-demands', () => {
     before(() => {
       sinon.stub(passwordController, 'resetDemand');
     });
@@ -33,7 +33,7 @@ describe('Unit | Router | Password router', () => {
 
       // when
       server
-        .inject({ method: 'POST', url: '/api/password-reset' })
+        .inject({ method: 'POST', url: '/api/password-reset-demands' })
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);
@@ -42,7 +42,7 @@ describe('Unit | Router | Password router', () => {
     });
   });
 
-  describe('GET /api/password-reset/{temporaryKey}', () => {
+  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
     before(() => {
       sinon.stub(passwordController, 'checkResetDemand');
     });
@@ -59,7 +59,7 @@ describe('Unit | Router | Password router', () => {
 
       // when
       server
-        .inject({ method: 'GET', url: '/api/password-reset/temporary_key' })
+        .inject({ method: 'GET', url: '/api/password-reset-demands/temporary_key' })
         .then((res) => {
           // then
           expect(res.statusCode).to.equal(200);

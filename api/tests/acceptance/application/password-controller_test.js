@@ -12,7 +12,7 @@ describe('Acceptance | Controller | password-controller', function() {
     server.stop(done);
   });
 
-  describe('POST /api/password-reset', () => {
+  describe('POST /api/password-reset-demands', () => {
 
     let fakeUserEmail;
     let options;
@@ -30,7 +30,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/password-reset',
+          url: '/api/password-reset-demands',
           payload: {}
         };
       });
@@ -49,7 +49,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/password-reset',
+          url: '/api/password-reset-demands',
           payload: {
             email: 'uzinagaz@unknown.xh',
             hostEnv: 'dev'
@@ -71,7 +71,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/password-reset',
+          url: '/api/password-reset-demands',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'
@@ -98,7 +98,7 @@ describe('Acceptance | Controller | password-controller', function() {
       beforeEach(() => {
         options = {
           method: 'POST',
-          url: '/api/password-reset',
+          url: '/api/password-reset-demands',
           payload: {
             email: fakeUserEmail,
             hostEnv: 'dev'
@@ -124,7 +124,7 @@ describe('Acceptance | Controller | password-controller', function() {
 
   });
 
-  describe('GET /api/password-reset/{temporaryKey}', () => {
+  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
     let fakeUserEmail;
     let options;
 
@@ -134,7 +134,7 @@ describe('Acceptance | Controller | password-controller', function() {
         // when
         options = {
           method: 'GET',
-          url: '/api/password-reset/invalid-temporary-key'
+          url: '/api/password-reset-demands/invalid-temporary-key'
         };
         return server.inject(options).then((response) => {
           // then
@@ -150,7 +150,7 @@ describe('Acceptance | Controller | password-controller', function() {
         const temporaryKey = passwordResetService.generateTemporaryKey();
         options = {
           method: 'GET',
-          url: `/api/password-reset/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`
         };
         return server.inject(options).then((response) => {
           // then
@@ -174,7 +174,7 @@ describe('Acceptance | Controller | password-controller', function() {
         const temporaryKey = passwordResetService.generateTemporaryKey();
         options = {
           method: 'GET',
-          url: `/api/password-reset/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`
         };
         return server.inject(options).then((response) => {
           // then
@@ -201,7 +201,7 @@ describe('Acceptance | Controller | password-controller', function() {
         // when
         options = {
           method: 'GET',
-          url: `/api/password-reset/${temporaryKey}`
+          url: `/api/password-reset-demands/${temporaryKey}`
         };
         return server.inject(options).then((response) => {
           // then
