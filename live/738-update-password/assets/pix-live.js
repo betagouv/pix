@@ -5887,6 +5887,14 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     snapshots: hasMany('snapshot')
   });
 });
+define('pix-live/models/password-reset-demand', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberData.default.Model.extend({});
+});
 define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -6026,6 +6034,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('board');
     this.route('legal-notices', { path: '/mentions-legales' });
     this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
+    this.route('changer-mot-de-passe', { path: '/changer-mot-de-passe/:temporaryKey' });
   });
 
   exports.default = Router;
@@ -6266,6 +6275,30 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'pix-live/utils/lod
         return that.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
       });
     }
+  });
+});
+define('pix-live/routes/changer-mot-de-passe', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
+
+    session: Ember.inject.service(),
+
+    model: function model(_ref) {
+      var _this = this;
+
+      var temporaryKey = _ref.temporaryKey;
+
+      return this.store.queryRecord('password-reset-demand', { temporaryKey: temporaryKey }).catch(function () {
+        return _this.transitionTo('index');
+      });
+    },
+
+
+    actions: {}
   });
 });
 define('pix-live/routes/competences', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -7189,6 +7222,14 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "N09sbnOm", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"id\",\"challenge-preview\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"container\"],[7],[0,\"\\n      \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\"],[[19,0,[\"model\",\"challenge\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/challenges/get-preview.hbs" } });
+});
+define("pix-live/templates/changer-mot-de-passe", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "RJBU+Zhd", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/changer-mot-de-passe.hbs" } });
 });
 define("pix-live/templates/competences", ["exports"], function (exports) {
   "use strict";
@@ -8625,6 +8666,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+de5b3b50"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+d0a1460d"});
 }
 //# sourceMappingURL=pix-live.map

@@ -3464,6 +3464,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/password-reset-demand.js', function () {
+      // test passed
+    });
+
     it('models/snapshot.js', function () {
       // test passed
     });
@@ -3509,6 +3513,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/challenges/get-preview.js', function () {
+      // test passed
+    });
+
+    it('routes/changer-mot-de-passe.js', function () {
       // test passed
     });
 
@@ -9539,6 +9547,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/password-reset-demand-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/snapshot-test.js', function () {
       // test passed
     });
@@ -9564,6 +9576,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/challenges/get-preview-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/changer-mot-de-passe-test.js', function () {
       // test passed
     });
 
@@ -12408,6 +12424,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
+define('pix-live/tests/unit/models/password-reset-demand-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | password reset demand', function () {
+    (0, _emberMocha.setupModelTest)('password-reset-demand', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -12626,6 +12659,98 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/changer-mot-de-passe-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  _mocha.describe.only('Unit | Route | changer mot de passe', function () {
+    (0, _emberMocha.setupTest)('route:changer-mot-de-passe', {
+      needs: ['service:session']
+    });
+
+    (0, _mocha.describe)('Route behavior', function () {
+
+      var storeStub = void 0;
+      var queryRecordStub = void 0;
+      var params = {
+        temporaryKey: 'pwd-reset-demand-token'
+      };
+      var transitionToStub = _sinon.default.stub();
+
+      (0, _mocha.beforeEach)(function () {
+        queryRecordStub = _sinon.default.stub();
+        storeStub = Ember.Service.extend({
+          queryRecord: queryRecordStub
+        });
+
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should exists', function () {
+        // when
+        var route = this.subject();
+
+        // then
+        (0, _chai.expect)(route).to.be.ok;
+      });
+
+      (0, _mocha.it)('should ask password reset demand validity', function () {
+        // given
+        queryRecordStub.resolves();
+        var route = this.subject();
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'password-reset-demand', { temporaryKey: params.temporaryKey });
+        });
+      });
+
+      (0, _mocha.describe)('when password reset demand is valid', function () {
+
+        (0, _mocha.it)('should fetch related user informations (FirstName and LastName)', function () {
+          // given
+          var fetchedUser = Ember.Object.create({
+            id: 7,
+            email: 'pix@qmail.fr'
+          });
+          queryRecordStub.resolves(fetchedUser);
+          var route = this.subject();
+
+          // when
+          var promise = route.model(params);
+
+          // then
+          return promise.then(function (user) {
+            (0, _chai.expect)(user).to.eql(fetchedUser);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('When password reset demand is not valid', function () {
+
+        (0, _mocha.it)('should redirect to home', function () {
+          // given
+          queryRecordStub.rejects();
+          var route = this.subject();
+          route.set('transitionTo', transitionToStub);
+
+          // when
+          var promise = route.model(params);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(transitionToStub);
+            _sinon.default.assert.calledWith(transitionToStub, 'index');
+          });
+        });
+      });
     });
   });
 });
