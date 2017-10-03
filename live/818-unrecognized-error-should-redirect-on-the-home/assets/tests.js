@@ -2855,7 +2855,7 @@ define('pix-live/tests/acceptance/not-found-redirect-to-index-test', ['mocha', '
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('unexistant page should redirect to home page', function () {
+    (0, _mocha.it)('should redirect to home page when URL is a nonexistant page', function () {
 
       visit('/plop');
 
