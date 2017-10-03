@@ -2840,6 +2840,31 @@ define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/
     });
   });
 });
+define('pix-live/tests/acceptance/not-found-redirect-to-index-test', ['mocha', 'pix-live/tests/helpers/application', 'chai'], function (_mocha, _application, _chai) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Not Found Redirection', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should redirect to home page when URL is a nonexistant page', function () {
+
+      visit('/plop');
+
+      return andThen(function () {
+        (0, _chai.expect)(currentURL()).to.eq('/');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3565,6 +3590,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/logout.js', function () {
+      // test passed
+    });
+
+    it('routes/not-found.js', function () {
       // test passed
     });
 
@@ -9202,6 +9231,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/legal-notices-page-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/not-found-redirect-to-index-test.js', function () {
       // test passed
     });
 
