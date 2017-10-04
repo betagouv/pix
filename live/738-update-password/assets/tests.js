@@ -3156,6 +3156,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('adapters/password-reset-demand.js', function () {
+      // test passed
+    });
+
     it('adapters/solution.js', function () {
       // test passed
     });
@@ -3516,10 +3520,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/changer-mot-de-passe.js', function () {
-      // test passed
-    });
-
     it('routes/competences.js', function () {
       // test passed
     });
@@ -3581,6 +3581,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/project.js', function () {
+      // test passed
+    });
+
+    it('routes/reset-password.js', function () {
       // test passed
     });
 
@@ -9387,6 +9391,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/adapters/password-reset-demand-test.js', function () {
+      // test passed
+    });
+
     it('unit/adapters/solution-test.js', function () {
       // test passed
     });
@@ -9579,10 +9587,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/changer-mot-de-passe-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/competences-test.js', function () {
       // test passed
     });
@@ -9632,6 +9636,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/project-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/reset-password-test.js', function () {
       // test passed
     });
 
@@ -9740,6 +9748,55 @@ define('pix-live/tests/unit/adapters/application-test', ['chai', 'mocha', 'ember
       // Then
       (0, _chai.expect)(applicationAdapter.get('headers')).to.deep.equal({
         'Authorization': ''
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/adapters/password-reset-demand-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Adapter | password reset demand', function () {
+    (0, _emberMocha.setupTest)('adapter:password-reset-demand', {
+      needs: ['service:session']
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('should exists', function () {
+      var adapter = this.subject();
+      (0, _chai.expect)(adapter).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#queryRecord', function () {
+      var adapter = void 0;
+      var query = {
+        temporaryKey: 'temporary_key'
+      };
+
+      (0, _mocha.beforeEach)(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.queryRecord).to.be.a('function');
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function () {
+        // when
+        var promise = adapter.queryRecord({}, {}, query);
+        // then
+        (0, _chai.expect)(promise).to.be.an.instanceOf(Promise);
+      });
+
+      (0, _mocha.it)('should called GET /api/password-reset-demands/temporaryKey', function () {
+        // when
+        adapter.queryRecord({}, {}, query);
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/password-reset-demands/temporary_key');
       });
     });
   });
@@ -12662,98 +12719,6 @@ define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/changer-mot-de-passe-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
-  'use strict';
-
-  _mocha.describe.only('Unit | Route | changer mot de passe', function () {
-    (0, _emberMocha.setupTest)('route:changer-mot-de-passe', {
-      needs: ['service:session']
-    });
-
-    (0, _mocha.describe)('Route behavior', function () {
-
-      var storeStub = void 0;
-      var queryRecordStub = void 0;
-      var params = {
-        temporaryKey: 'pwd-reset-demand-token'
-      };
-      var transitionToStub = _sinon.default.stub();
-
-      (0, _mocha.beforeEach)(function () {
-        queryRecordStub = _sinon.default.stub();
-        storeStub = Ember.Service.extend({
-          queryRecord: queryRecordStub
-        });
-
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-      });
-
-      (0, _mocha.it)('should exists', function () {
-        // when
-        var route = this.subject();
-
-        // then
-        (0, _chai.expect)(route).to.be.ok;
-      });
-
-      (0, _mocha.it)('should ask password reset demand validity', function () {
-        // given
-        queryRecordStub.resolves();
-        var route = this.subject();
-
-        // when
-        var promise = route.model(params);
-
-        // then
-        return promise.then(function () {
-          _sinon.default.assert.calledOnce(queryRecordStub);
-          _sinon.default.assert.calledWith(queryRecordStub, 'password-reset-demand', { temporaryKey: params.temporaryKey });
-        });
-      });
-
-      (0, _mocha.describe)('when password reset demand is valid', function () {
-
-        (0, _mocha.it)('should fetch related user informations (FirstName and LastName)', function () {
-          // given
-          var fetchedUser = Ember.Object.create({
-            id: 7,
-            email: 'pix@qmail.fr'
-          });
-          queryRecordStub.resolves(fetchedUser);
-          var route = this.subject();
-
-          // when
-          var promise = route.model(params);
-
-          // then
-          return promise.then(function (user) {
-            (0, _chai.expect)(user).to.eql(fetchedUser);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('When password reset demand is not valid', function () {
-
-        (0, _mocha.it)('should redirect to home', function () {
-          // given
-          queryRecordStub.rejects();
-          var route = this.subject();
-          route.set('transitionTo', transitionToStub);
-
-          // when
-          var promise = route.model(params);
-
-          // then
-          return promise.then(function () {
-            _sinon.default.assert.calledOnce(transitionToStub);
-            _sinon.default.assert.calledWith(transitionToStub, 'index');
-          });
-        });
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/routes/competences-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -13388,6 +13353,113 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | changer mot de passe', function () {
+    (0, _emberMocha.setupTest)('route:reset-password', {
+      needs: ['service:session', 'service:current-routed-modal']
+    });
+
+    (0, _mocha.describe)('Route behavior', function () {
+
+      var storeStub = void 0;
+      var queryRecordStub = void 0;
+      var params = {
+        temporaryKey: 'pwd-reset-demand-token'
+      };
+      var transitionToStub = _sinon.default.stub();
+
+      (0, _mocha.beforeEach)(function () {
+        queryRecordStub = _sinon.default.stub();
+        storeStub = Ember.Service.extend({
+          queryRecord: queryRecordStub
+        });
+
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should exists', function () {
+        // when
+        var route = this.subject();
+
+        // then
+        (0, _chai.expect)(route).to.be.ok;
+      });
+
+      (0, _mocha.it)('should ask password reset demand validity', function () {
+        // given
+        queryRecordStub.resolves();
+        var route = this.subject();
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'password-reset-demand', { temporaryKey: params.temporaryKey });
+        });
+      });
+
+      (0, _mocha.describe)('when password reset demand is valid', function () {
+
+        (0, _mocha.it)('should create a new ember user model with fetched data', function () {
+          // given
+          var fetchedOwnerDetails = {
+            data: {
+              id: 7,
+              attributes: {
+                email: 'pix@qmail.fr'
+              }
+            }
+          };
+          var expectedUser = {
+            user: {
+              data: {
+                id: 7,
+                attributes: {
+                  email: 'pix@qmail.fr'
+                }
+              }
+            }
+          };
+
+          queryRecordStub.resolves(fetchedOwnerDetails);
+          var route = this.subject();
+
+          // when
+          var promise = route.model(params);
+
+          // then
+          return promise.then(function (user) {
+            (0, _chai.expect)(user).to.eql(expectedUser);
+          });
+        });
+      });
+
+      (0, _mocha.describe)('When password reset demand is not valid', function () {
+
+        (0, _mocha.it)('should redirect to home', function () {
+          // given
+          queryRecordStub.rejects();
+          var route = this.subject();
+          route.set('transitionTo', transitionToStub);
+
+          // when
+          var promise = route.model(params);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(transitionToStub);
+            _sinon.default.assert.calledWith(transitionToStub, 'index');
+          });
+        });
+      });
     });
   });
 });

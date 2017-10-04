@@ -50,6 +50,19 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
     }
   });
 });
+define('pix-live/adapters/password-reset-demand', ['exports', 'pix-live/adapters/application'], function (exports, _application) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _application.default.extend({
+    queryRecord: function queryRecord(modelName, clazz, query) {
+      var url = this.buildURL('password-reset-demand', query.temporaryKey);
+      return this.ajax(url, 'GET');
+    }
+  });
+});
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'], function (exports, _application) {
   'use strict';
 
@@ -6034,7 +6047,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('board');
     this.route('legal-notices', { path: '/mentions-legales' });
     this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
-    this.route('changer-mot-de-passe', { path: '/changer-mot-de-passe/:temporaryKey' });
+    this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   });
 
   exports.default = Router;
@@ -6275,30 +6288,6 @@ define('pix-live/routes/challenges/get-preview', ['exports', 'pix-live/utils/lod
         return that.transitionTo('assessments.get-challenge', { assessment: assessment, challenge: challenge });
       });
     }
-  });
-});
-define('pix-live/routes/changer-mot-de-passe', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
-
-    session: Ember.inject.service(),
-
-    model: function model(_ref) {
-      var _this = this;
-
-      var temporaryKey = _ref.temporaryKey;
-
-      return this.store.queryRecord('password-reset-demand', { temporaryKey: temporaryKey }).catch(function () {
-        return _this.transitionTo('index');
-      });
-    },
-
-
-    actions: {}
   });
 });
 define('pix-live/routes/competences', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -6864,6 +6853,33 @@ define('pix-live/routes/project', ['exports', 'pix-live/routes/base-route'], fun
   });
   exports.default = _baseRoute.default.extend({});
 });
+define('pix-live/routes/reset-password', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
+
+    session: Ember.inject.service(),
+
+    model: function model(params) {
+      var _this = this;
+
+      var store = this.store;
+      var temporaryKey = params.temporaryKey;
+
+      return Ember.RSVP.hash({
+        user: store.queryRecord('password-reset-demand', { temporaryKey: temporaryKey }).catch(function () {
+          return _this.transitionTo('index');
+        })
+      });
+    },
+
+
+    actions: {}
+  });
+});
 define('pix-live/routes/terms-of-service', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
 
@@ -7222,14 +7238,6 @@ define("pix-live/templates/challenges/get-preview", ["exports"], function (expor
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "N09sbnOm", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"id\",\"challenge-preview\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"container\"],[7],[0,\"\\n      \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\"],[[19,0,[\"model\",\"challenge\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/challenges/get-preview.hbs" } });
-});
-define("pix-live/templates/changer-mot-de-passe", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "RJBU+Zhd", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/changer-mot-de-passe.hbs" } });
 });
 define("pix-live/templates/competences", ["exports"], function (exports) {
   "use strict";
@@ -7822,6 +7830,14 @@ define("pix-live/templates/project", ["exports"], function (exports) {
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "HyXAhjvl", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"project-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"project-page__panel project-page__header\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"project-page__header-text\"],[7],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__populations\"],[7],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"project-page__populations-headline\"],[7],[0,\"Le service sera accessible gratuitement et ouvert à tous les francophones :\"],[8],[0,\"\\n    \"],[6,\"ul\"],[9,\"class\",\"project-page__user-types\"],[7],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/schoolers.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Collégiens et lycéens\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/students.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Étudiants\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/professionals.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Professionnels de tous secteurs\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/citizens.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Citoyens\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"project-page__populations-description\"],[7],[0,\"Son objectif est d’accompagner l’élévation du niveau général de connaissances et de compétences numériques et ainsi de préparer la transformation digitale de l’ensemble de notre société et de notre économie.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--measure\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/measure.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Mesurer ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"PIX permettra d’obtenir un profil de compétences associé à un score global sur 1024 pix. En conformité avec le cadre de référence européen DIGCOMP, PIX évaluera les compétences numériques sur 8 niveaux et 5 grands domaines :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Informations et données\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Communication et collaboration\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Création de contenu\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Protection et sécurité\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Environnement numérique\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les épreuves évalueront les connaissances mais également les savoir-faire et la capacité à identifier les enjeux du numérique.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Des modalités innovantes d’évaluation seront proposées, dépassant le cadre habituel des QCM et privilégiant la mesure in vivo de compétences à partir d’activités réalisées dans leur environnement numérique réel : interactions, manipulations de fichiers, résolutions de problèmes, productions créatives, évaluations par les pairs, etc.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--develop\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/develop.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Développer ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les apports de PIX au développement des compétences de chacun sont triples :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"1. PIX permettra d’apprendre en se testant. Une part importante des épreuves PIX sont conçues sous la forme de défis à relever au cours desquels on développe ses compétences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"2. En s’appuyant sur les résultats des épreuves, PIX offrira également des recommandations ciblées de formation.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"3. Le service proposera enfin un accès dédié aux équipes pédagogiques (collège, lycée, enseignement supérieur) et aux responsables de formation continue. Ils pourront suivre l’évolution des compétences des publics qu’ils encadrent, et concevoir des stratégies de formation sur mesure.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour témoigner des progrès de manière continue et stimulante, les utilisateurs disposeront d’un compte personnel sécurisé qui leur permettra de faire valoir leurs nouveaux acquis à leur rythme et tout au long de la vie.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--valorize\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/valorize.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Valoriser ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"PIX proposera, de manière optionnelle, un mode « certifiant », permettant d’obtenir une certification\\n        officielle fiable et reconnue par l’éducation nationale, l’enseignement supérieur et le monde professionnel.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"Ce test complémentaire nécessitera, dans un premier temps, une passation en présentiel dans les centres\\n        agréés par PIX : collèges, lycées, établissements d’enseignement supérieur, structures partenaires.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"Des solutions de passation du mode certifiant à distance seront étudiées par la suite, à destination des\\n        professionnels.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"PIX se substituera au Brevet informatique et internet (B2i) et à la Certification informatique et internet\\n        (C2i) progressivement à partir de la rentrée 2017–2018.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"project-page__presentation\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__panel project-page__presentation-container\"],[7],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"project-page__presentation-header\"],[7],[0,\"\\n        \"],[6,\"h2\"],[9,\"class\",\"project-page__presentation-header-name\"],[7],[0,\"PIX, un service en ligne co-construit et évolutif\"],[8],[0,\"\\n        \"],[6,\"hr\"],[9,\"class\",\"project-page__presentation-header-line\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"project-page__presentation-body\"],[7],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX respectera l’exigence de neutralité du service public et sera compatible avec l’ensemble des environnements numériques : diversité des systèmes d’exploitation et des services en ligne, logiciels propriétaires comme logiciels libres, etc.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX est développé selon la méthodologie agile des « Startups d’État » dans le cadre d’un partenariat entre tous les acteurs du ministère de l’Éducation nationale, de l’Enseignement supérieur et la Recherche, le Conseil national éducation-économie et le secrétariat général à la modernisation de l’action publique.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le projet fait l’objet d’une démarche inédite de co-construction avec des acteurs du monde professionnel.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Des panels de tests sont organisés en établissement scolaire, dans l’enseignement supérieur ou en entreprise toutes les deux semaines pour mettre à l’épreuve les nouvelles fonctionnalités au fur et à mesure de leur développement et pour calibrer les épreuves.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX fait appel à la multitude des utilisateurs. Toutes les personnes, établissements et entreprises qui le souhaitent ont la possibilité de rejoindre la communauté des bêta-testeurs à distance. Le référentiel de compétences et les épreuves sont pensés pour évoluer dans le temps à l’aune des retours des utilisateurs.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le code source de la plateforme PIX est libre.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/project.hbs" } });
+});
+define("pix-live/templates/reset-password", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "xxesZ9EN", "block": "{\"symbols\":[],\"statements\":[[0,\"Hello\\n\"],[1,[20,[\"model\",\"user\",\"firstName\"]],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
 });
 define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   "use strict";
@@ -8666,6 +8682,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+d0a1460d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+2f34b1d9"});
 }
 //# sourceMappingURL=pix-live.map
