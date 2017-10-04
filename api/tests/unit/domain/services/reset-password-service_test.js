@@ -16,10 +16,6 @@ describe('Unit | Service | Password Service', function() {
       jsonwebtoken.sign.restore();
     });
 
-    it('should be a function', () => {
-      expect(resetPasswordService.generateTemporaryKey).to.exist.and.to.be.a('function');
-    });
-
     it('should call sign function from jwt', () => {
       // given
       const signParams = {
@@ -45,10 +41,6 @@ describe('Unit | Service | Password Service', function() {
 
     afterEach(() => {
       resetPasswordRepository.markAsBeingUsed.restore();
-    });
-
-    it('should be a function', () => {
-      expect(resetPasswordService.invalidOldResetPasswordDemand).to.exist.and.to.be.a('function');
     });
 
     it('should call reset password repository', () => {

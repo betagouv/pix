@@ -5,21 +5,19 @@ const nodeMailjet = require('node-mailjet');
 
 describe('Unit | Class | Mailjet', function() {
 
-  let mailJetConnectStub;
-
   beforeEach(() => {
-    mailJetConnectStub = sinon.stub(nodeMailjet, 'connect');
+    sinon.stub(nodeMailjet, 'connect');
   });
 
   afterEach(() => {
-    mailJetConnectStub.restore();
+    nodeMailjet.connect.restore();
   });
 
   describe('#sendEmail', () => {
 
     it('should create an instance of mailJet', () => {
       // Given
-      mailJetConnectStub.returns({
+      nodeMailjet.connect.returns({
         post: () => {
           return {
             request: () => {
@@ -32,13 +30,13 @@ describe('Unit | Class | Mailjet', function() {
       Mailjet.sendEmail();
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
+      sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should post a send instruction', () => {
       // Given
       const postStub = sinon.stub().returns({ request: _ => Promise.resolve() });
-      mailJetConnectStub.returns({ post: postStub });
+      nodeMailjet.connect.returns({ post: postStub });
 
       // When
       const result = Mailjet.sendEmail();
@@ -55,7 +53,7 @@ describe('Unit | Class | Mailjet', function() {
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
-      mailJetConnectStub.returns({ post: postStub });
+      nodeMailjet.connect.returns({ post: postStub });
 
       // When
       const result = Mailjet.sendEmail({
@@ -84,7 +82,7 @@ describe('Unit | Class | Mailjet', function() {
       const email = 'test@example.net';
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
-      mailJetConnectStub.returns({ post: postStub });
+      nodeMailjet.connect.returns({ post: postStub });
 
       // When
       const result = Mailjet.sendEmail({ template: '129291', to: email });
@@ -108,7 +106,7 @@ describe('Unit | Class | Mailjet', function() {
       const requestStub = sinon.stub().returns(Promise.resolve());
       const postStub = sinon.stub().returns({ request: requestStub });
       const variables = { resetUrl: 'token' };
-      mailJetConnectStub.returns({ post: postStub });
+      nodeMailjet.connect.returns({ post: postStub });
 
       // When
       const result = Mailjet.sendEmail({ template: '129291', to: email, variables });
@@ -165,7 +163,7 @@ describe('Unit | Class | Mailjet', function() {
       getStub = sinon.stub().returns({
         request: requestStub
       });
-      mailJetConnectStub.returns({
+      nodeMailjet.connect.returns({
         get: getStub
       });
     });
@@ -175,7 +173,7 @@ describe('Unit | Class | Mailjet', function() {
       Mailjet.getContactListByName();
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
+      sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should retrieve contact list', () => {
@@ -231,7 +229,7 @@ describe('Unit | Class | Mailjet', function() {
         post: postStub
       };
 
-      mailJetConnectStub.returns(mailJetMock);
+      nodeMailjet.connect.returns(mailJetMock);
     });
 
     it('should connect to mailjet', () => {
@@ -239,7 +237,7 @@ describe('Unit | Class | Mailjet', function() {
       Mailjet.addEmailToContactList(email, contactListID);
 
       // Then
-      sinon.assert.calledWith(mailJetConnectStub, 'test-api-ket', 'test-api-secret');
+      sinon.assert.calledWith(nodeMailjet.connect, 'test-api-ket', 'test-api-secret');
     });
 
     it('should add email to a contact list', () => {

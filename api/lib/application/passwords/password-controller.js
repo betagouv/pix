@@ -6,36 +6,33 @@ const resetPasswordDemandRepository = require('../../infrastructure/repositories
 const { UserNotFoundError, InternalError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
+function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
+  const passwordResetDemandUrl = `${request.connection.info.protocol}://${request.info.host}`;
+  return mailService
+    .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
+    .then(() => passwordResetDemand);
+}
+
 module.exports = {
   createResetDemand(request, reply) {
 
     const { email } = request.payload.data.attributes;
-    const passwordResetDemandBaseurl = _buildPasswordResetDemandBaseUrl(request);
-    let temporarykey;
 
-    return userService
-      .isUserExisting(email)
+    return userService.isUserExisting(email)
       .then(() => resetPasswordService.invalidOldResetPasswordDemand(email))
-      .then(() => {
-        temporarykey = resetPasswordService.generateTemporaryKey();
-        return temporarykey;
-      })
-      .then((temporaryKey) => resetPasswordDemandRepository.create({ email, temporaryKey }))
-      .then((savedPasswordResetDemand) => {
-        const passwordResetDemand = savedPasswordResetDemand.attributes;
-        mailService.sendResetPasswordDemandEmail(email, passwordResetDemandBaseurl, temporarykey);
-        return reply(passwordResetSerializer.serialize(passwordResetDemand)).code(201);
+      .then(resetPasswordService.generateTemporaryKey)
+      .then((temporaryKey) => {
+        return resetPasswordDemandRepository.create({ email, temporaryKey })
+          .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand))
+          .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
+          .then((serializedPayload) => reply(serializedPayload).code(201))
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
           return reply(errorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
         }
-
         return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);
       });
   }
 };
 
-function _buildPasswordResetDemandBaseUrl(request) {
-  return `${request.connection.info.protocol}://${request.info.host}`;
-}

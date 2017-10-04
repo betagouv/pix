@@ -6,16 +6,15 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 describe('Unit | Service | User Service', () => {
 
   describe('#isUserExisting', () => {
-    let sandbox;
+
     const email = 'shi@fu.me';
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(userRepository, 'findByEmail');
+      sinon.stub(userRepository, 'findByEmail');
     });
 
     afterEach(() => {
-      sandbox.restore();
+      userRepository.findByEmail.restore();
     });
 
     it('should call a userRepository#findByEmail', () => {

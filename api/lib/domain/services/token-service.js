@@ -35,5 +35,5 @@ function extractUserId(token) {
 module.exports = {
   createTokenFromUser,
   extractUserId,
-  extractTokenFromAuthChain,
+  extractTokenFromAuthChain
 };

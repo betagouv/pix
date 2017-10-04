@@ -4,23 +4,15 @@ const ResetPasswordDemand = require('../../../../lib/domain/models/data/reset-pa
 
 describe('Unit | Repository | Reset Password Demand Repository', function() {
 
+  beforeEach(() => {
+    sinon.stub(ResetPasswordDemand.prototype, 'save');
+  });
+
+  afterEach(() => {
+    ResetPasswordDemand.prototype.save.restore();
+  });
+
   describe('#create', () => {
-
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(ResetPasswordDemand.prototype, 'save');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should be a function', () => {
-      // then
-      expect(ResetPasswordDemandRepository.create).to.be.a('function');
-    });
 
     it('should save a new reset password demand', () => {
       // given
@@ -39,22 +31,6 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
 
   describe('#markAsBeingUsed', () => {
 
-    let sandbox;
-
-    beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(ResetPasswordDemand.prototype, 'save');
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should be a function', () => {
-      // then
-      expect(ResetPasswordDemandRepository.markAsBeingUsed).to.be.a('function');
-    });
-
     it('should save a new reset password demand', () => {
       // given
       const temporaryKey = 'temp_key';
@@ -65,7 +41,6 @@ describe('Unit | Repository | Reset Password Demand Repository', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(ResetPasswordDemand.prototype.save);
         sinon.assert.calledWith(ResetPasswordDemand.prototype.save, { used: true }, { patch: true, require: false });
       });
     });

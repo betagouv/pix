@@ -1,6 +1,6 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
-class passwordResetSerializer {
+module.exports = {
 
   serialize(passwordResets) {
     return new JSONAPISerializer('password-reset', {
@@ -12,6 +12,4 @@ class passwordResetSerializer {
     }).serialize(passwordResets);
   }
 
-}
-
-module.exports = new passwordResetSerializer();
+};

@@ -12,11 +12,6 @@ describe('Unit | Controller | PasswordController', () => {
 
   describe('#resetDemand', () => {
 
-    it('should be a function', () => {
-      //then
-      expect(passwordController.createResetDemand).to.be.a('function');
-    });
-
     describe('When payload has a good format: ', () => {
 
       const request = {
@@ -185,9 +180,8 @@ describe('Unit | Controller | PasswordController', () => {
         });
       });
 
-      it('should reply ok when all things are good', () => {
+      it('should reply with serialized password reset demand when all went well', () => {
         // given
-
         const generatedToken = 'token';
         userService.isUserExisting.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
@@ -198,6 +192,7 @@ describe('Unit | Controller | PasswordController', () => {
             id: 15
           }
         };
+        mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
         replyStub.returns({
           code: () => {
@@ -205,13 +200,12 @@ describe('Unit | Controller | PasswordController', () => {
         });
         passwordResetSerializer.serialize.resolves();
 
-        //when
+        // when
         const promise = passwordController.createResetDemand(request, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(replyStub);
-          sinon.assert.calledOnce(passwordResetSerializer.serialize);
           sinon.assert.calledWith(passwordResetSerializer.serialize, resolvedPasswordReset.attributes);
         });
       });

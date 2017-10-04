@@ -6,7 +6,7 @@ module.exports = {
   },
 
   markAsBeingUsed(email) {
-    return ResetPasswordDemand.where({ email: email }).save({ used: true }, {
+    return ResetPasswordDemand.where({ email }).save({ used: true }, {
       patch: true,
       require: false
     });

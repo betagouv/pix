@@ -25,24 +25,6 @@ describe('Acceptance | Controller | password-controller', function() {
       return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
     });
 
-    describe('when payload has a bad format or  no email is provided', () => {
-      beforeEach(() => {
-        options = {
-          method: 'POST',
-          url: '/api/password-resets',
-          payload: {}
-        };
-      });
-
-      it('should reply with 400', () => {
-        // when
-        return server.inject(options).then((response) => {
-          // then
-          expect(response.statusCode).to.equal(400);
-        });
-      });
-    });
-
     describe('when email provided is unknown', () => {
       beforeEach(() => {
         options = {
