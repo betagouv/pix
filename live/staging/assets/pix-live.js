@@ -4049,18 +4049,14 @@ define('pix-live/initializers/raven', ['exports', 'pix-live/config/environment']
   exports.initialize = initialize;
   function initialize() {
     var application = arguments[1] || arguments[0];
-    var _config$sentry$servic = _environment.default.sentry.serviceName,
-        serviceName = _config$sentry$servic === undefined ? 'raven' : _config$sentry$servic;
-
-    var lookupName = 'service:' + serviceName;
     var _config$sentry$expose = _environment.default.sentry.exposedPropertyName,
         exposedPropertyName = _config$sentry$expose === undefined ? 'raven' : _config$sentry$expose;
 
 
-    application.inject('route', exposedPropertyName, lookupName);
-    application.inject('component', exposedPropertyName, lookupName);
-    application.inject('controller', exposedPropertyName, lookupName);
-    application.inject('model', exposedPropertyName, lookupName);
+    application.inject('route', exposedPropertyName, 'service:raven');
+    application.inject('component', exposedPropertyName, 'service:raven');
+    application.inject('controller', exposedPropertyName, 'service:raven');
+    application.inject('model', exposedPropertyName, 'service:raven');
   }
 
   exports.default = {
@@ -4159,13 +4155,9 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
       throw new Error('`sentry` should be configured when not in development mode.');
     }
 
-    var _config$sentry$servic = _environment.default.sentry.serviceName,
-        serviceName = _config$sentry$servic === undefined ? 'raven' : _config$sentry$servic;
+    var container = application.lookup ? application : application.container;
 
-    var lookupName = 'service:' + serviceName;
-    var service = application.lookup ? application.lookup(lookupName) : application.container.lookup(lookupName);
-
-    service.setup(_environment.default);
+    container.lookup('service:raven').setup(_environment.default);
   }
 
   exports.default = {
@@ -8653,6 +8645,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+73e3f37e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+95b8e3cf"});
 }
 //# sourceMappingURL=pix-live.map
