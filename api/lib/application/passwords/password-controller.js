@@ -25,7 +25,7 @@ module.exports = {
         return resetPasswordDemandRepository.create({ email, temporaryKey })
           .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand))
           .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
-          .then((serializedPayload) => reply(serializedPayload).code(201))
+          .then((serializedPayload) => reply(serializedPayload).code(201));
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {

@@ -1,4 +1,4 @@
-const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-helper');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
 const mailService = require('../../../../lib/domain/services/mail-service');

@@ -1,4 +1,4 @@
-const { expect, describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
+const { describe, beforeEach, afterEach, it, sinon } = require('../../../test-helper');
 const ResetPasswordDemandRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const ResetPasswordDemand = require('../../../../lib/domain/models/data/reset-password-demand');
 
