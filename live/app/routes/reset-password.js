@@ -6,10 +6,16 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
 
-  model({ temporaryKey }) {
-    return this.store
-      .queryRecord('password-reset-demand', { temporaryKey })
-      .catch(() => this.transitionTo('index'));
+  model(params) {
+    const store = this.store;
+    const temporaryKey = params.temporaryKey;
+
+    return Ember.RSVP.hash({
+      user: store
+        .queryRecord('password-reset-demand', { temporaryKey })
+        .catch(() => this.transitionTo('index'))
+    });
+
   },
 
   actions: {}

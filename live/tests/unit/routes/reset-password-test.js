@@ -4,9 +4,9 @@ import { beforeEach, describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
-describe.only('Unit | Route | changer mot de passe', function() {
-  setupTest('route:changer-mot-de-passe', {
-    needs: ['service:session']
+describe('Unit | Route | changer mot de passe', function() {
+  setupTest('route:reset-password', {
+    needs: ['service:session', 'service:current-routed-modal']
   });
 
   describe('Route behavior', function() {
@@ -53,13 +53,28 @@ describe.only('Unit | Route | changer mot de passe', function() {
 
     describe('when password reset demand is valid', function() {
 
-      it('should fetch related user informations (FirstName and LastName)', function() {
+      it('should create a new ember user model with fetched data', function() {
         // given
-        const fetchedUser = Ember.Object.create({
-          id: 7,
-          email: 'pix@qmail.fr'
-        });
-        queryRecordStub.resolves(fetchedUser);
+        const fetchedOwnerDetails = {
+          data: {
+            id: 7,
+            attributes: {
+              email: 'pix@qmail.fr'
+            }
+          }
+        };
+        const expectedUser = {
+          user: {
+            data: {
+              id: 7,
+              attributes: {
+                email: 'pix@qmail.fr'
+              }
+            }
+          }
+        };
+
+        queryRecordStub.resolves(fetchedOwnerDetails);
         const route = this.subject();
 
         // when
@@ -67,7 +82,7 @@ describe.only('Unit | Route | changer mot de passe', function() {
 
         // then
         return promise.then((user) => {
-          expect(user).to.eql(fetchedUser);
+          expect(user).to.eql(expectedUser);
         });
       });
     });
