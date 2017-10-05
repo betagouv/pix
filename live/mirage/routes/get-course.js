@@ -25,7 +25,7 @@ export default function(schema, request) {
     if (course) {
       return course.obj;
     } else {
-      throw new Error('The course you required in the fake server does not exist ' + request.params.id);
+      throw new Error(`The course you required in the fake server does not exist ${request.params.id}`);
     }
   }
   return schema.courses.find(id);
