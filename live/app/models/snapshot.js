@@ -7,5 +7,6 @@ export default Model.extend({
   createdAt : attr('date'),
   organization: belongsTo('organization'),
   user: belongsTo('user'),
-  studentCode: attr('string')
+  studentCode: attr('string'),
+  campaignCode: attr('string')
 });

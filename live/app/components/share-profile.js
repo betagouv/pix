@@ -63,7 +63,7 @@ export default Ember.Component.extend({
 
     shareSnapshotAndGoToSuccessNotificationView() {
       this
-        .get('shareProfileSnapshot')(this.get('_organization'))
+        .get('shareProfileSnapshot')(this.get('_organization'), this.get('_studentCode'))
         .then(() => {
           this.set('_view', STEP_3_SUCCESS_NOTIFICATION);
         });

@@ -35,8 +35,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
       });
     },
 
-    shareProfileSnapshot(organization) {
-      return this.get('store').createRecord('snapshot', { organization }).save();
+    shareProfileSnapshot(organization, studentCode = null, campaignCode = null) {
+      return this.get('store').createRecord('snapshot', { organization, studentCode, campaignCode }).save();
     }
   }
 });

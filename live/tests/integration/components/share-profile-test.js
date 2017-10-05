@@ -148,15 +148,22 @@ describe('Integration | Component | share profile', function() {
 
     describe('when organization\'s type is SUP', function() {
 
-      it('should ask for student code', function() {
+      beforeEach(function() {
         // given
         this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SUP' }));
 
         // when
         this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+      });
 
+      it('should ask for student code (required)', function() {
         // then
         expect(document.querySelector('.share-profile__student-code-input')).to.exist;
+      });
+
+      it('should ask for campaign code (optionnal)', function() {
+        // then
+        expect(document.querySelector('.share-profile__campaign-code-input')).to.exist;
       });
 
     });
