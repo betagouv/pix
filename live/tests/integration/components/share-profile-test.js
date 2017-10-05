@@ -19,25 +19,25 @@ describe('Integration | Component | share profile', function() {
   });
 
   function expectToBeOnOrganizationCodeEntryView() {
-    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
-    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-    expect(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
+    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+    expect(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
   }
 
   function expectToBeSharingConfirmationView() {
-    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(1);
-    expect(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(1);
+    expect(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
   }
 
   function expectToBeOnSuccessNotificationView() {
-    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-    expect(Ember.$('.share-profile__section--success-notification')).to.have.length(1);
+    expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+    expect(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+    expect(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(1);
   }
 
   function expectModalToBeClosed() {
-    expect(Ember.$('.pix-modal')).to.have.length(0);
+    expect(Ember.$('.pix-modal')).to.have.lengthOf(0);
   }
 
   describe('Step 0 - "Share" button on modal wrapper', function() {
@@ -45,14 +45,14 @@ describe('Integration | Component | share profile', function() {
     it('should open profile sharing modal on "organization code entry" view', function() {
       // given
       this.render(hbs`{{share-profile}}`);
-      expect(Ember.$('.pix-modal')).to.have.length(0);
+      expect(Ember.$('.pix-modal')).to.have.lengthOf(0);
 
       // when
       Ember.run(() => document.querySelector(('.share-profile__share-button')).click());
 
       // then
-      expect(Ember.$('.pix-modal')).to.have.length(1);
-      expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+      expect(Ember.$('.pix-modal')).to.have.lengthOf(1);
+      expect(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
     });
   });
 
@@ -71,7 +71,7 @@ describe('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true}}`);
 
       // then
-      expect(Ember.$('.share-profile__organization-code-input')).to.have.length(1);
+      expect(Ember.$('.share-profile__organization-code-input')).to.have.lengthOf(1);
     });
 
     it('should contain a "Continue" button to find the organization', function() {
@@ -79,7 +79,7 @@ describe('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true}}`);
 
       // then
-      expect(Ember.$('.share-profile__continue-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__continue-button')).to.have.lengthOf(1);
     });
 
     it('should contain a "Cancel" button to cancel the profile sharing', function() {
@@ -87,7 +87,7 @@ describe('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true}}`);
 
       // then
-      expect(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
     });
 
     it('should redirect to "sharing confirmation" view when clicking on "Continue" button', function() {
@@ -116,7 +116,7 @@ describe('Integration | Component | share profile', function() {
       Ember.run(() => document.querySelector('.share-profile__continue-button').click());
 
       // then
-      expect(Ember.$('.share-profile__form-error')).to.have.length(1);
+      expect(Ember.$('.share-profile__form-error')).to.have.lengthOf(1);
       expectToBeOnOrganizationCodeEntryView();
     });
 
@@ -146,12 +146,27 @@ describe('Integration | Component | share profile', function() {
       expect(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
     });
 
+    describe('when organization\'s type is SUP', function() {
+
+      it('should ask for student code', function() {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SUP' }));
+
+        // when
+        this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+
+        // then
+        expect(document.querySelector('.share-profile__student-code-input')).to.exist;
+      });
+
+    });
+
     it('should contain a "Confirm" button to valid the profile sharing', function() {
       // when
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation"}}`);
 
       // then
-      expect(Ember.$('.share-profile__confirm-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__confirm-button')).to.have.lengthOf(1);
     });
 
     it('should contain a "Cancel" button to cancel the profile sharing for the given organization', function() {
@@ -159,7 +174,7 @@ describe('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation"}}`);
 
       // then
-      expect(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
     });
 
     it('should return back to "organization code entry" view when clicking on "Cancel" button', function() {
@@ -197,7 +212,7 @@ describe('Integration | Component | share profile', function() {
       this.render(hbs`{{share-profile _showingModal=true _view="success-notification"}}`);
 
       // then
-      expect(Ember.$('.share-profile__close-button')).to.have.length(1);
+      expect(Ember.$('.share-profile__close-button')).to.have.lengthOf(1);
     });
 
     it('should close the modal when clicking on "Cancel" button', function() {
@@ -208,7 +223,7 @@ describe('Integration | Component | share profile', function() {
       Ember.run(() => document.querySelector('.share-profile__close-button').click());
 
       // then
-      expect(Ember.$('.pix-modal')).to.have.length(0);
+      expect(Ember.$('.pix-modal')).to.have.lengthOf(0);
     });
   });
 

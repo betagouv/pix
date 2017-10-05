@@ -6,5 +6,6 @@ export default Model.extend({
   score : attr('number'),
   createdAt : attr('date'),
   organization: belongsTo('organization'),
-  user: belongsTo('user')
+  user: belongsTo('user'),
+  studentCode: attr('string')
 });

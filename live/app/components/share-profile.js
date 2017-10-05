@@ -20,10 +20,12 @@ export default Ember.Component.extend({
   _code: null,
   _organization: null,
   _organizationNotFound: false,
+  _studentId: null,
 
   // Computed
   stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
   stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
+  isOrganizationHasTypeSup: Ember.computed.equal('_organization.type', 'SUP'),
 
   actions: {
 

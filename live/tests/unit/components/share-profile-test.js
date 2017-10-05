@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
+import Ember from 'ember';
 
 describe('Unit | Component | share-profile', function() {
 
@@ -74,6 +75,32 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(component.get('_organization')).to.equal(null);
+    });
+
+  });
+
+  describe('#isOrganizationHasTypeSup', function() {
+
+    it('should return "true" when organization type is "SUP"', function() {
+      // given
+      component.set('_organization', Ember.Object.create({ type: 'SUP' }));
+
+      // when
+      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+      // then
+      expect(isOrganizationHasTypeSup).to.be.true;
+    });
+
+    it('should return "false" when organization type is not "SUP"', function() {
+      // given
+      component.set('_organization', Ember.Object.create({ type: 'SCO' }));
+
+      // when
+      const isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+      // then
+      expect(isOrganizationHasTypeSup).to.be.false;
     });
 
   });
