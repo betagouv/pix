@@ -1876,6 +1876,26 @@ h1.course-banner__name {
   left: 4px;
   height: 15px; }
 
+.password-reset__connexion {
+  color: #ffffff;
+  text-align: right;
+  margin: 8px 0; }
+
+.password-reset__connexion-link {
+  color: #ffffff; }
+
+.password-reset__connexion-link:hover,
+.password-reset__connexion-link:focus {
+  color: #ffffff;
+  text-decoration: none; }
+
+.password-reset__home-link_close {
+  border: solid 2px #ffffff;
+  padding: 2px;
+  width: 20px;
+  border-radius: 20px;
+  margin-left: 5px; }
+
 .password-reset-form {
   display: flex;
   flex-direction: column;
@@ -1883,7 +1903,8 @@ h1.course-banner__name {
   width: 100%;
   border-radius: 10px;
   background-color: white;
-  font-family: "Raleway", Arial, sans-serif; }
+  font-family: "Raleway", Arial, sans-serif;
+  margin-bottom: 10px; }
 
 .password-reset-form__pix-logo {
   margin-top: 50px; }
@@ -4246,7 +4267,6 @@ hr.project-page__presentation-header-line {
   max-width: 300px; }
   @media (min-width: 768px) {
     .course-groups-page__course-group-item {
-      max-width: -webkit-max-content;
       max-width: -moz-max-content;
       max-width: max-content; } }
 
@@ -4792,8 +4812,38 @@ hr.project-page__presentation-header-line {
   background-size: cover;
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center; }
+
+.password-reset-page__inscription {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-top: 30px; }
+  @media (min-width: 768px) {
+    .password-reset-page__inscription {
+      flex-direction: row;
+      align-items: center; } }
+
+.password-reset-page__inscription-text {
+  color: #ffffff;
+  font-size: 16px; }
+  @media (min-width: 768px) {
+    .password-reset-page__inscription-text {
+      margin-right: 10px; } }
+
+.password-reset-page__inscription-button {
+  border-radius: 20px;
+  border: solid 2px #ffffff;
+  margin: auto;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 10px 30px; }
+
+.password-reset-page__inscription-button:hover {
+  color: #ffffff;
+  text-decoration: none; }
 
 .password-reset-page__password-reset-form {
   padding: 0 10px;
