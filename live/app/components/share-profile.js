@@ -20,7 +20,8 @@ export default Ember.Component.extend({
   _code: null,
   _organization: null,
   _organizationNotFound: false,
-  _studentId: null,
+  _studentCode: null,
+  _campaignCode: null,
 
   // Computed
   stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
@@ -39,12 +40,16 @@ export default Ember.Component.extend({
       this.set('_code', null);
       this.set('_organization', null);
       this.set('_organizationNotFound', false);
+      this.set('_studentCode', null);
+      this.set('_campaignCode', null);
     },
 
     cancelSharingAndGoBackToOrganizationCodeEntryView() {
       this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
       this.set('_organization', null);
       this.set('_organizationNotFound', false);
+      this.set('_studentCode', null);
+      this.set('_campaignCode', null);
     },
 
     findOrganizationAndGoToSharingConfirmationView() {
@@ -63,7 +68,7 @@ export default Ember.Component.extend({
 
     shareSnapshotAndGoToSuccessNotificationView() {
       this
-        .get('shareProfileSnapshot')(this.get('_organization'), this.get('_studentCode'))
+        .get('shareProfileSnapshot')(this.get('_organization'), this.get('_studentCode'), this.get('_campaignCode'))
         .then(() => {
           this.set('_view', STEP_3_SUCCESS_NOTIFICATION);
         });

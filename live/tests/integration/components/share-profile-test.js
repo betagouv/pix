@@ -273,4 +273,63 @@ describe('Integration | Component | share profile', function() {
 
   });
 
+  describe('Actions', function() {
+
+    beforeEach(function() {
+      // given
+      this.set('showingModal', true);
+      this.set('view', 'sharing-confirmation');
+      this.set('code', 'ABCD1234');
+      this.set('organization', { foo: 'bar' });
+      this.set('organizationNotFound', true);
+      this.set('studentCode', 'student_code');
+      this.set('campaignCode', 'campaign_code');
+
+      this.render(hbs`{{share-profile 
+      _showingModal=showingModal 
+      _view=view 
+      _code=code
+      _organization=organization
+      _organizationNotFound=organizationNotFound
+      _studentCode=studentCode 
+      _campaignCode=campaignCode}}`);
+    });
+
+    describe('#closeModal', function() {
+
+      it('should remove all input information when modal is closed', function() {
+        // when
+        Ember.run(() => document.querySelector('.pix-modal__close-link').click());
+
+        // then
+        expect(this.get('showingModal')).to.be.false;
+        expect(this.get('view')).to.equal('organization-code-entry');
+        expect(this.get('code')).to.be.null;
+        expect(this.get('organization')).to.be.null;
+        expect(this.get('organizationNotFound')).to.be.false;
+        expect(this.get('studentCode')).to.be.null;
+        expect(this.get('campaignCode')).to.be.null;
+      });
+
+    });
+
+    describe('#cancelSharingAndGoBackToOrganizationCodeEntryView', function() {
+
+      it('should remove all input information but organization code when sharing confirmation is canceled', function() {
+        // when
+        Ember.run(() => document.querySelector('.share-profile__cancel-button').click());
+
+        // then
+        expect(this.get('showingModal')).to.be.true;
+        expect(this.get('view')).to.equal('organization-code-entry');
+        expect(this.get('code')).to.equal('ABCD1234');
+        expect(this.get('organization')).to.be.null;
+        expect(this.get('organizationNotFound')).to.be.false;
+        expect(this.get('studentCode')).to.be.null;
+        expect(this.get('campaignCode')).to.be.null;
+      });
+    });
+
+  });
+
 });

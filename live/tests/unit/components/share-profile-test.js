@@ -104,4 +104,5 @@ describe('Unit | Component | share-profile', function() {
     });
 
   });
+
 });
