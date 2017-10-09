@@ -747,7 +747,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
       var $courseListButton = findWithAssert('.course-banner__home-link');
-      (0, _chai.expect)($courseListButton.text()).to.equal('Retour à la liste des tests');
+      (0, _chai.expect)($courseListButton.text()).to.equal('Revenir à l\'accueil');
     });
 
     (0, _mocha.it)('b7.6 Quand je clique sur le bouton "Revenir à la liste des tests", je suis redirigé vers l\'index', function () {
@@ -819,34 +819,42 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
-define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
-  (0, _mocha.describe)('Acceptance | Espace compte', function () {
+  (0, _mocha.describe)('Acceptance | Espace compte | Authentication', function () {
 
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.describe)('Success cases', function () {
-      (0, _mocha.beforeEach)(function () {
-        server.create('user', {
-          id: 1,
-          firstName: 'François',
-          lastName: 'Hisquin',
-          email: 'fhi@octo.com',
-          password: 'FHI4EVER',
-          cgu: true,
-          recaptchaToken: 'recaptcha-token-xxxxxx',
-          competenceIds: []
+    (0, _mocha.describe)('Logged Menu', function () {
+      (0, _mocha.describe)('after visiting the project page', function () {
+        (0, _mocha.it)('should redirect to /compte user "Mon compte"', function () {
+          // given
+          (0, _testing.authenticateAsSimpleUser)();
+          visit('/projet');
+
+          // when
+          click('.logged-user-name__link');
+          click('a:contains("Mon compte")');
+
+          // then
+          return andThen(function () {
+            (0, _chai.expect)(currentURL()).to.equal('/compte');
+          });
         });
       });
+    });
+
+    (0, _mocha.describe)('Success cases', function () {
 
       (0, _mocha.describe)('m1.1 Accessing to the /compte page while disconnected', function () {
         (0, _mocha.it)('should redirect to the connexion page', function () {
@@ -855,56 +863,15 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
           // then
           return andThen(function () {
-            (0, _chai.expect)(currentURL()).to.equal('/');
+            (0, _chai.expect)(currentURL()).to.equal('/connexion');
           });
         });
       });
 
-      (0, _mocha.describe)('m1.2 Log-in phase', function () {
-
-        function seedDatabaseForUsualUser() {
-          server.loadFixtures('areas');
-          server.loadFixtures('competences');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            competenceIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
-          });
-        }
-
-        function seedDatabaseForUserWithOrganization() {
-          server.loadFixtures('organizations');
-          server.create('user', {
-            id: 1,
-            firstName: 'Samurai',
-            lastName: 'Jack',
-            email: 'samurai.jack@aku.world',
-            password: 'B@ck2past',
-            cgu: true,
-            recaptchaToken: 'recaptcha-token-xxxxxx',
-            organizationIds: [1]
-          });
-        }
-
-        function authenticateUser() {
-          // given
-          visit('/connexion');
-          fillIn('#pix-email', 'samurai.jack@aku.world');
-          fillIn('#pix-password', 'B@ck2past');
-
-          // when
-          click('.signin-form__submit_button');
-        }
-
+      (0, _mocha.describe)('Log-in phase', function () {
         (0, _mocha.it)('should redirect to the /compte after connexion for usual users', function () {
           // given
-          seedDatabaseForUsualUser();
-          authenticateUser();
+          (0, _testing.authenticateAsSimpleUser)();
 
           // then
           return andThen(function () {
@@ -914,8 +881,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
         (0, _mocha.it)('should redirect to the /board after connexion for users with organization', function () {
           // given
-          seedDatabaseForUserWithOrganization();
-          authenticateUser();
+          (0, _testing.authenticateAsPrescriber)();
 
           // then
           return andThen(function () {
@@ -926,8 +892,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
 
     (0, _mocha.describe)('Error case', function () {
-
-      function authenticateUnknownUser() {
+      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
         // given
         visit('/connexion');
         fillIn('#pix-email', 'anyone@pix.world');
@@ -935,12 +900,8 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
 
         // when
         click('.signin-form__submit_button');
-      }
 
-      (0, _mocha.it)('should stay in /connexion , when authentication failed', function () {
-        // given
-        authenticateUnknownUser();
-
+        // then
         return andThen(function () {
           (0, _chai.expect)(currentURL()).to.equal('/connexion');
         });
@@ -948,7 +909,7 @@ define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['moc
     });
   });
 });
-define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _seeds, _application) {
+define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'chai', 'pix-live/tests/helpers/testing', 'pix-live/tests/helpers/application', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _testing, _application, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -985,22 +946,12 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
-
-    function seedDatabase() {
-      _seeds.default.injectUserAccount();
-    }
-
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'samurai.jack@aku.world');
-      fillIn('#pix-password', 'B@ck2past');
-      click('.signin-form__submit_button');
-    }
 
     (0, _mocha.it)('can visit /compte', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1008,19 +959,18 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
           switch (_context.prev = _context.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsSimpleUser)();
 
               // when
-              _context.next = 4;
+              _context.next = 3;
               return visit('/compte');
 
-            case 4:
+            case 3:
               return _context.abrupt('return', andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/compte');
               }));
 
-            case 5:
+            case 4:
             case 'end':
               return _context.stop();
           }
@@ -1038,7 +988,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
             case 2:
               return _context2.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/');
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
               }));
 
             case 3:
@@ -1051,8 +1001,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.it)('should display user competences (with level) grouped by area', function () {
       // given
-      seedDatabase();
-      authenticateUser();
+      (0, _testing.authenticateAsSimpleUser)();
 
       // when
       visit('/compte');
@@ -1066,8 +1015,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
     (0, _mocha.it)('should display a link ’commencer’ with the correct url to start an adaptive course, for the first competence', function () {
       // given
-      seedDatabase();
-      authenticateUser();
+      (0, _testing.authenticateAsSimpleUser)();
 
       // when
       visit('/compte');
@@ -1077,9 +1025,22 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
         (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
       });
     });
+
+    (0, _mocha.it)('should display a hero banner for logged user', function () {
+      // given
+      (0, _testing.authenticateAsSimpleUser)();
+
+      // when
+      visit('/compte');
+
+      // then
+      return andThen(function () {
+        (0, _chai.expect)(find('.logged-user-profile-banner')).to.have.lengthOf(1);
+      });
+    });
   });
 });
-define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/seeds', 'pix-live/tests/helpers/testing'], function (_mocha, _chai, _application, _seeds, _testing) {
+define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -1111,88 +1072,204 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Compte | share profile', function () {
+  (0, _mocha.describe)('Acceptance | Sharing a Profile Snapshot with a given Organization', function () {
+    var visitAccountPage = function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return visit('/compte');
+
+              case 2:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      return function visitAccountPage() {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    var openShareProfileModal = function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return click('.share-profile__share-button');
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      return function openShareProfileModal() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    var fillInAndSubmitOrganizationCode = function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return fillIn('.share-profile__organization-code-input', 'ABCD00');
+
+              case 2:
+                _context3.next = 4;
+                return click('.share-profile__continue-button');
+
+              case 4:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      return function fillInAndSubmitOrganizationCode() {
+        return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var confirmProfileSnapshotSharing = function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return click('.share-profile__confirm-button');
+
+              case 2:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      return function confirmProfileSnapshotSharing() {
+        return _ref4.apply(this, arguments);
+      };
+    }();
+
+    var closeModal = function () {
+      var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return click('.share-profile__close-button');
+
+              case 2:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      return function closeModal() {
+        return _ref5.apply(this, arguments);
+      };
+    }();
 
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('display an error when the organization does not exists', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
+    function expectModalToBeOpened() {
+      findWithAssert('.pix-modal');
+    }
+
+    function expectToBeOnOrganizationCodeEntryView() {
+      findWithAssert('.share-profile__section--organization-code-entry');
+    }
+
+    function expectToBeOnSharingConfirmationView() {
+      findWithAssert('.share-profile__section--sharing-confirmation');
+    }
+
+    function expectOrganizationNameToBeDisplayed() {
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
+    }
+
+    function expectToBeOnSuccessNotificationView() {
+      findWithAssert('.share-profile__section--success-notification');
+    }
+
+    function expectSnapshotToHaveBeenCreated() {
+      (0, _chai.expect)(server.db.snapshots.length).to.equal(4);
+    }
+
+    function expectModalToBeClosed() {
+      (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+    }
+
+    (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      return regeneratorRuntime.wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              _testing.default.authenticateUser();
+              (0, _testing.authenticateAsSimpleUser)();
 
-              // when
-              _context.next = 4;
-              return visit('/compte');
+              _context6.next = 3;
+              return visitAccountPage();
 
-            case 4:
-
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD01');
-              click('.pix-modal__button--primary');
-
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code').val()).to.equal('ABCD01');
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').length).to.equal(1);
-                (0, _chai.expect)(find('.share-profile__modal-form > .share-profile__form-error').text()).to.equal('Ce code ne correspond à aucune organisation.');
-              }));
-
-            case 8:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
-
-    (0, _mocha.it)('should switch to another display', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      var organization;
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              // given
-              _seeds.default.injectUserAccount();
-              organization = _seeds.default.injectOrganization('ABCD00');
-
-              _testing.default.authenticateUser();
-
-              // when
-              _context2.next = 5;
-              return visit('/compte');
+            case 3:
+              _context6.next = 5;
+              return openShareProfileModal();
 
             case 5:
+              expectModalToBeOpened();
+              expectToBeOnOrganizationCodeEntryView();
 
-              click('.share-profile__share-button');
-              fillIn('.ember-modal-dialog #code', 'ABCD00');
-              click('.pix-modal__button--primary');
-
-              return _context2.abrupt('return', andThen(function () {
-                var MODAL_CONTENT = find('.share-profile__modal-content-organization-details');
-
-                (0, _chai.expect)(find('.ember-modal-dialog h1').text()).to.equal('Partage de votre profil');
-                (0, _chai.expect)(find('.ember-modal-dialog #code')).to.have.length(0);
-                (0, _chai.expect)(MODAL_CONTENT.find('.share-profile__modal-organization-name').text()).to.equal(organization.name);
-              }));
+              _context6.next = 9;
+              return fillInAndSubmitOrganizationCode();
 
             case 9:
+              expectToBeOnSharingConfirmationView();
+              expectOrganizationNameToBeDisplayed();
+
+              _context6.next = 13;
+              return confirmProfileSnapshotSharing();
+
+            case 13:
+              expectToBeOnSuccessNotificationView();
+              expectSnapshotToHaveBeenCreated();
+
+              _context6.next = 17;
+              return closeModal();
+
+            case 17:
+              expectModalToBeClosed();
+
+            case 18:
             case 'end':
-              return _context2.stop();
+              return _context6.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee6, this);
     })));
   });
 });
@@ -1967,6 +2044,72 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
     });
   });
 });
+define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | index page', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('Navbar header section', function () {
+      (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+          (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
+        });
+      });
+
+      (0, _mocha.it)('should have a link to log-in page when user is not authenticated', function () {
+        // when
+        visit('/');
+
+        // then
+        return andThen(function () {
+          var logInLink = findWithAssert('.navbar-header-links__link--connection');
+          (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Inscription', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should contain a link to "Terms of service" page', function () {
+
+      visit('/inscription');
+
+      return andThen(function () {
+        var $termsOfServiceLink = findWithAssert('.signup__cgu-link');
+        (0, _chai.expect)($termsOfServiceLink.attr('href').trim()).to.equal('/conditions-generales-d-utilisation');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -2631,7 +2774,57 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
     });
   });
 });
-define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Legal notices', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/mentions-legales"', function () {
+
+      visit('/mentions-legales');
+
+      return andThen(function () {
+        findWithAssert('.legal-notices-page');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/not-found-redirect-to-index-test', ['mocha', 'pix-live/tests/helpers/application', 'chai'], function (_mocha, _application, _chai) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Not Found Redirection', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should redirect to home page when URL is a nonexistant page', function () {
+
+      visit('/plop');
+
+      return andThen(function () {
+        (0, _chai.expect)(currentURL()).to.eq('/');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
   function _asyncToGenerator(fn) {
@@ -2668,30 +2861,12 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
+      (0, _default.default)(server);
     });
 
     (0, _mocha.afterEach)(function () {
       (0, _application.destroyApp)(application);
     });
-
-    function seedDatabase() {
-      server.loadFixtures('organizations');
-      server.create('user', {
-        id: 1,
-        firstName: 'Benjamin',
-        lastName: 'Marteau',
-        email: 'benjamin.marteau@pix.com',
-        password: '1024pix!',
-        organizationIds: [1]
-      });
-    }
-
-    function authenticateUser() {
-      visit('/connexion');
-      fillIn('#pix-email', 'benjamin.marteau@pix.com');
-      fillIn('#pix-password', '1024pix!');
-      click('.signin-form__submit_button');
-    }
 
     (0, _mocha.it)('can visit /board', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2699,19 +2874,23 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
           switch (_context.prev = _context.next) {
             case 0:
               // given
-              seedDatabase();
-              authenticateUser();
+              (0, _testing.authenticateAsPrescriber)();
 
               // when
-              _context.next = 4;
+              _context.next = 3;
               return visit('/board');
 
-            case 4:
-              return _context.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/board');
-              }));
+            case 3:
 
-            case 5:
+              // then
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/board');
+              });
+
+              _context.next = 6;
+              return visit('/deconnexion');
+
+            case 6:
             case 'end':
               return _context.stop();
           }
@@ -2719,33 +2898,85 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    (0, _mocha.it)('should not be accessible while the user is not connected', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              // given
-              seedDatabase();
-              authenticateUser();
+              _context2.next = 2;
+              return visit('/deconnexion');
 
-              // when
+            case 2:
               _context2.next = 4;
               return visit('/board');
 
             case 4:
 
               // then
-              (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('LexCorp');
-              (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD66');
+              andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/connexion');
+              });
 
-            case 8:
+            case 5:
             case 'end':
               return _context2.stop();
           }
         }
       }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('should display the name and the code of my organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              // given
+              (0, _testing.authenticateAsPrescriber)();
+
+              // when
+              _context3.next = 3;
+              return visit('/board');
+
+            case 3:
+
+              // then
+              (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('ACME');
+              (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD00');
+
+            case 7:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    (0, _mocha.it)('should display an empty list of snapshot', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // given
+              (0, _testing.authenticateAsPrescriber)();
+
+              // when
+              _context4.next = 3;
+              return visit('/board');
+
+            case 3:
+
+              // then
+              (0, _chai.expect)(find('.snapshot-list').length).to.equal(1);
+              (0, _chai.expect)(find('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+
+            case 5:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
     })));
   });
 });
@@ -2786,20 +3017,7 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
       });
     });
 
-    (0, _mocha.describe)('the "Challenges" section', function () {
-
-      (0, _mocha.it)('should have a title', function () {
-        var $title = findWithAssert('.index-page-challenges__presentation-title');
-        (0, _chai.expect)($title.text().trim()).to.equal('Les défis Pix de la semaine');
-      });
-
-      (0, _mocha.it)('should have a description', function () {
-        var $description = findWithAssert('.index-page-challenges__presentation-text');
-        (0, _chai.expect)($description.text().trim()).to.equal('Chaque semaine, testez vos compétences numériques sur un nouveau sujet.');
-      });
-    });
-
-    (0, _mocha.describe)('contains a section with a bbutton to save new partners', function () {
+    (0, _mocha.describe)('contains a section with a button to save new partners', function () {
 
       (0, _mocha.it)('a1.16 with a title', function () {
         var $title = findWithAssert('.partners-enrollment__title');
@@ -2853,6 +3071,31 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
 
       (0, _mocha.it)('should have a link to the "projet" page', function () {
         findWithAssert('.index-page-features__project-button[href="/projet"]');
+      });
+    });
+  });
+});
+define('pix-live/tests/acceptance/terms-of-service-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Terms of service', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should be accessible from "/conditions-generales-d-utilisation"', function () {
+
+      visit('/conditions-generales-d-utilisation');
+
+      return andThen(function () {
+        findWithAssert('.terms-of-service-page');
       });
     });
   });
@@ -2962,6 +3205,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/logged-user-profile-banner.js', function () {
+      // test passed
+    });
+
     it('components/medal-item.js', function () {
       // test passed
     });
@@ -3058,6 +3305,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/snapshot-list.js', function () {
+      // test passed
+    });
+
     it('components/timeout-jauge.js', function () {
       // test passed
     });
@@ -3143,6 +3394,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('models/organization.js', function () {
+      // test passed
+    });
+
+    it('models/snapshot.js', function () {
       // test passed
     });
 
@@ -3234,6 +3489,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/legal-notices.js', function () {
+      // test passed
+    });
+
     it('routes/login.js', function () {
       // test passed
     });
@@ -3242,11 +3501,19 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/not-found.js', function () {
+      // test passed
+    });
+
     it('routes/placement-tests.js', function () {
       // test passed
     });
 
     it('routes/project.js', function () {
+      // test passed
+    });
+
+    it('routes/terms-of-service.js', function () {
       // test passed
     });
 
@@ -3267,6 +3534,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/google-recaptcha.js', function () {
+      // test passed
+    });
+
+    it('services/raven.js', function () {
       // test passed
     });
 
@@ -3502,11 +3773,19 @@ define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.authenticateUser = authenticateUser;
-  function authenticateUser() {
+  exports.authenticateAsSimpleUser = authenticateAsSimpleUser;
+  exports.authenticateAsPrescriber = authenticateAsPrescriber;
+  function authenticateAsSimpleUser() {
     visit('/connexion');
-    fillIn('#pix-email', 'samurai.jack@aku.world');
-    fillIn('#pix-password', 'B@ck2past');
+    fillIn('#pix-email', 'jane@acme.com');
+    fillIn('#pix-password', 'Jane1234');
+    click('.signin-form__submit_button');
+  }
+
+  function authenticateAsPrescriber() {
+    visit('/connexion');
+    fillIn('#pix-email', 'john@acme.com');
+    fillIn('#pix-password', 'John1234');
     click('.signin-form__submit_button');
   }
 });
@@ -3527,8 +3806,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "EP4MIB23",
-        "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "drTmBW/o",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-actions\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3539,8 +3818,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
       (0, _mocha.it)('should be displayed and enable by default but not loader', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "EP4MIB23",
-          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "drTmBW/o",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-actions\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3554,8 +3833,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
           return new RSVP.Promise(function () {});
         });
         this.render(Ember.HTMLBars.template({
-          "id": "3ec6dWM6",
-          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "UWIlDu/5",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3573,8 +3852,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
           return RSVP.resolve();
         });
         this.render(Ember.HTMLBars.template({
-          "id": "3ec6dWM6",
-          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "UWIlDu/5",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3592,8 +3871,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
           return RSVP.reject('Some error');
         });
         this.render(Ember.HTMLBars.template({
-          "id": "3ec6dWM6",
-          "block": "{\"statements\":[[1,[33,[\"challenge-actions\"],null,[[\"answerValidated\"],[[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "UWIlDu/5",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3611,8 +3890,8 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
       (0, _mocha.it)('should be displayed and enable by default', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "EP4MIB23",
-          "block": "{\"statements\":[[1,[26,[\"challenge-actions\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "drTmBW/o",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-actions\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3621,7 +3900,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -3634,10 +3913,14 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
       component.set('challenge', challenge);
     }
 
+    function addAssessmentToContext(component, assessment) {
+      component.set('assessment', assessment);
+    }
+
     function renderChallengeStatement(component) {
       component.render(Ember.HTMLBars.template({
-        "id": "ucxCcrbv",
-        "block": "{\"statements\":[[1,[33,[\"challenge-statement\"],null,[[\"challenge\"],[[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "eD9nYLIU",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
     }
@@ -3648,6 +3931,17 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
      */
 
     (0, _mocha.describe)('Instruction section:', function () {
+
+      var clock = void 0;
+      var februaryTheFifth = new Date(2017, 1, 5);
+
+      beforeEach(function () {
+        clock = _sinon.default.useFakeTimers(februaryTheFifth);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
 
       // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
       (0, _mocha.it)('should render challenge instruction if it exists', function () {
@@ -3672,6 +3966,21 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
 
         // then
         (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should replace ${EMAIL} by a generated email', function () {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          id: 'recigAYl5bl96WGXj',
+          instruction: 'Veuillez envoyer un email à l\'adresse ${EMAIL} pour valider cette épreuve'
+        });
+
+        // when
+        renderChallengeStatement(this);
+
+        // then
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix.beta.gouv.fr pour valider cette épreuve');
       });
     });
 
@@ -3859,8 +4168,8 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "XrhrN5ED",
-        "block": "{\"statements\":[[1,[26,[\"challenge-stay\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "+dJnSZnH",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-stay\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -3869,8 +4178,8 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
     (0, _mocha.it)('should display a warning icon with an accessible description', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "XrhrN5ED",
-        "block": "{\"statements\":[[1,[26,[\"challenge-stay\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "+dJnSZnH",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-stay\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -3917,8 +4226,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('renders', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3928,8 +4237,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render challenge result in the header', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3939,8 +4248,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render challenge instruction', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3950,8 +4259,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3964,8 +4273,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('challenge', challenge);
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3980,8 +4289,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('solution', solution);
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -3994,8 +4303,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
         this.set('challenge', challenge);
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -4005,8 +4314,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
         //when
         this.render(Ember.HTMLBars.template({
-          "id": "tusRoHTL",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jxQ0rhF9",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         //then
@@ -4018,8 +4327,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
       (0, _mocha.it)('should have a max width of 900px and a margin auto in order to quit by clicking beside', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "XPYTajZT",
-          "block": "{\"statements\":[[1,[33,[\"comparison-window\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]],null],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "Qg6zjnHB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]],null],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -4034,8 +4343,8 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
 
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "tusRoHTL",
-            "block": "{\"statements\":[[1,[33,[\"comparison-window\"],null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[28,[\"answer\"]],[28,[\"challenge\"]],[28,[\"solution\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "jxQ0rhF9",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"challenge\"]],[19,0,[\"solution\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -4060,8 +4369,8 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
       (0, _mocha.it)('renders', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "1Zu65Rsf",
-          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "9c5X+hfd",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-area-list\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4072,8 +4381,8 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
       (0, _mocha.it)('should render a wrapper', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "1Zu65Rsf",
-          "block": "{\"statements\":[[1,[26,[\"competence-area-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "9c5X+hfd",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-area-list\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4091,8 +4400,8 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "hrj9uBr4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-area-list\",null,[[\"competences\"],[[19,0,[\"competences\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -4107,8 +4416,8 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "hrj9uBr4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-area-list\",null,[[\"competences\"],[[19,0,[\"competences\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -4125,8 +4434,8 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
           // when
           this.set('competences', competencesWithSameArea);
           this.render(Ember.HTMLBars.template({
-            "id": "izE4TL0M",
-            "block": "{\"statements\":[[1,[33,[\"competence-area-list\"],null,[[\"competences\"],[[28,[\"competences\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "hrj9uBr4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-area-list\",null,[[\"competences\"],[[19,0,[\"competences\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           // then
@@ -4147,8 +4456,8 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
     (0, _mocha.it)('should render', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "VrjYY9DC",
-        "block": "{\"statements\":[[1,[26,[\"competence-by-area-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "f1j3xkR5",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-by-area-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4163,8 +4472,8 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       this.set('competenceArea', areaWithOnlyOneCompetence);
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "7jLygV5q",
-        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "SyDSWwhM",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-by-area-item\",null,[[\"competenceArea\"],[[19,0,[\"competenceArea\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -4183,8 +4492,8 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       this.set('competenceArea', areaWithManyCompetences);
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "7jLygV5q",
-        "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "SyDSWwhM",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-by-area-item\",null,[[\"competenceArea\"],[[19,0,[\"competenceArea\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4201,8 +4510,8 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "7jLygV5q",
-          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "SyDSWwhM",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-by-area-item\",null,[[\"competenceArea\"],[[19,0,[\"competenceArea\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4218,8 +4527,8 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "7jLygV5q",
-          "block": "{\"statements\":[[1,[33,[\"competence-by-area-item\"],null,[[\"competenceArea\"],[[28,[\"competenceArea\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "SyDSWwhM",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-by-area-item\",null,[[\"competenceArea\"],[[19,0,[\"competenceArea\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4239,8 +4548,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "KsF1SyH6",
-        "block": "{\"statements\":[[1,[26,[\"competence-level-progress-bar\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "vvxLRPPr",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-level-progress-bar\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4255,8 +4564,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         //When
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "TitME7fh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4271,8 +4580,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         //When
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "TitME7fh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4292,8 +4601,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "TitME7fh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4311,8 +4620,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         //When
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "TitME7fh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4327,8 +4636,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "CApsTCe7",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "TitME7fh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4350,8 +4659,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "JPWaav0d",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"name\",\"level\",\"courseId\"],[[28,[\"name\"]],[28,[\"level\"]],[28,[\"courseId\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "eJISIBPu",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"name\",\"level\",\"courseId\"],[[19,0,[\"name\"]],[19,0,[\"level\"]],[19,0,[\"courseId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4372,8 +4681,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "ho6d9bbw",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"courseId\",\"name\"],[[28,[\"level\"]],[28,[\"courseId\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "E184vfw6",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\",\"courseId\",\"name\"],[[19,0,[\"level\"]],[19,0,[\"courseId\"]],[19,0,[\"name\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4393,8 +4702,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "PLyX0nTE",
-          "block": "{\"statements\":[[1,[33,[\"competence-level-progress-bar\"],null,[[\"level\",\"name\"],[[28,[\"level\"]],[28,[\"name\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "vtOgjxfh",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\",\"name\"],[[19,0,[\"level\"]],[19,0,[\"name\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4416,8 +4725,8 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
 
     (0, _emberMocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "U22p/XCA",
-        "block": "{\"statements\":[[1,[26,[\"corner-ribbon\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "Cg4x7wWg",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"corner-ribbon\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4437,8 +4746,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
       (0, _mocha.it)('renders', function () {
         this.render(Ember.HTMLBars.template({
-          "id": "IlH0PQOd",
-          "block": "{\"statements\":[[1,[26,[\"course-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "f8cJ0rAq",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-item\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4451,8 +4760,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4468,8 +4777,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4485,8 +4794,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4502,8 +4811,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4519,8 +4828,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4536,8 +4845,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4553,8 +4862,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4570,14 +4879,14 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "Ig9hFQ2w",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\"],[[28,[\"course\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "flJIsPQ0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\"],[[19,0,[\"course\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
         var $startAction = this.$('.course-item__begin-button');
-        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test \"My course\"');
+        (0, _chai.expect)($startAction.attr('title')).to.equal('Commencer le test "My course"');
       });
     });
 
@@ -4594,8 +4903,8 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "1Ht5d7Cr",
-          "block": "{\"statements\":[[1,[33,[\"course-item\"],null,[[\"course\",\"startCourse\"],[[28,[\"course\"]],\"actionHandler\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "VwczOs0D",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-item\",null,[[\"course\",\"startCourse\"],[[19,0,[\"course\"]],\"actionHandler\"]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4620,8 +4929,8 @@ define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha
 
       (0, _mocha.it)('renders', function () {
         this.render(Ember.HTMLBars.template({
-          "id": "ZbjKlqif",
-          "block": "{\"statements\":[[1,[26,[\"course-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "1q2q8BdB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-list\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4634,8 +4943,8 @@ define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "LDBKp7if",
-          "block": "{\"statements\":[[1,[33,[\"course-list\"],null,[[\"courses\"],[[28,[\"courses\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "YsW10XJb",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"course-list\",null,[[\"courses\"],[[19,0,[\"courses\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4663,8 +4972,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('renders', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "tBD0caAl",
-        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "9wZ9bias",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4673,8 +4982,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an icon', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "tBD0caAl",
-        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "9wZ9bias",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4686,8 +4995,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an title', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "tBD0caAl",
-        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "9wZ9bias",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4699,8 +5008,8 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
     (0, _mocha.it)('should render an description', function () {
       this.set('feature', feature);
       this.render(Ember.HTMLBars.template({
-        "id": "tBD0caAl",
-        "block": "{\"statements\":[[1,[33,[\"feature-item\"],null,[[\"feature\"],[[28,[\"feature\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "9wZ9bias",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4721,8 +5030,8 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "zQch9no4",
-        "block": "{\"statements\":[[1,[26,[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "/BQ0rxBJ",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feature-list\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -4731,8 +5040,8 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
     (0, _mocha.it)('should always render 5 feature-items', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "zQch9no4",
-        "block": "{\"statements\":[[1,[26,[\"feature-list\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "/BQ0rxBJ",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feature-list\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -4822,8 +5131,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should display the feedback Panel', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "vYG6y2lL",
-          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "mlLkZiBp",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feedback-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -4836,8 +5145,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
 
       beforeEach(function () {
         this.render(Ember.HTMLBars.template({
-          "id": "vYG6y2lL",
-          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "mlLkZiBp",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feedback-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -4896,8 +5205,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
         this.inject.service('store', { as: 'store' });
 
         this.render(Ember.HTMLBars.template({
-          "id": "qFA+EGeX",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "FOVLLaz0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\",\"collapsible\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]],false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -4942,8 +5251,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
           (0, _chai.expect)(isSaveMethodCalled).to.be.true;
           (0, _chai.expect)(saveMethodUrl).to.equal('feedback');
           (0, _chai.expect)(_lodashCustom.default.isObject(saveMethodBody)).to.equal(true);
-          (0, _chai.expect)(saveMethodBody.assessement).to.exists;
-          (0, _chai.expect)(saveMethodBody.challenge).to.exists;
+          (0, _chai.expect)(saveMethodBody.assessment).to.exist;
+          (0, _chai.expect)(saveMethodBody.challenge).to.exist;
           (0, _chai.expect)(saveMethodBody.content).to.equal(CONTENT_VALUE);
           (0, _chai.expect)(saveMethodBody.email).to.equal(EMAIL_VALUE);
           expectMercixViewToBeVisible(_this);
@@ -4972,8 +5281,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should not be visible if feedback-panel is not collapsible', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "qFA+EGeX",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "FOVLLaz0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\",\"collapsible\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]],false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4984,8 +5293,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should not be visible if status is not FORM_OPENED', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "LwVlgJUd",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[28,[\"assessment\"]],[28,[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "tRgJXA46",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\",\"collapsible\",\"_status\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]],true,\"FORM_CLOSED\"]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5000,8 +5309,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
               case 0:
                 // given
                 this.render(Ember.HTMLBars.template({
-                  "id": "5kGcVXmC",
-                  "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+                  "id": "rgA20Tt7",
+                  "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
                   "meta": {}
                 }));
 
@@ -5022,8 +5331,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should contain "cancel" button with label "Annuler" and placeholder "Votre message"', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "5kGcVXmC",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rgA20Tt7",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5039,8 +5348,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('clicking on "cancel" button should close the "form" view and and display the "link" view', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "5kGcVXmC",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"assessment\",\"challenge\"],[[28,[\"assessment\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rgA20Tt7",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"assessment\",\"challenge\"],[[19,0,[\"assessment\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5057,8 +5366,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should display error if "content" is empty', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "hpJwRXcm",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+2QWKOZD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"collapsible\"],[false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5073,8 +5382,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should display error if "content" is blank', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "hpJwRXcm",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+2QWKOZD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"collapsible\"],[false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         setContent(this, '');
@@ -5090,8 +5399,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should display error if "email" is set but invalid', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "hpJwRXcm",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+2QWKOZD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"collapsible\"],[false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         setEmail(this, 'wrong_email');
@@ -5107,8 +5416,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should not display error if "form" view (with error) was closed and re-opened', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "vYG6y2lL",
-          "block": "{\"statements\":[[1,[26,[\"feedback-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "mlLkZiBp",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feedback-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5129,8 +5438,8 @@ define('pix-live/tests/integration/components/feedback-panel-test', ['chai', 'mo
       (0, _mocha.it)('should display an error even if the user did not focus on email or content', function () {
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "hpJwRXcm",
-          "block": "{\"statements\":[[1,[33,[\"feedback-panel\"],null,[[\"collapsible\"],[false]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+2QWKOZD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feedback-panel\",null,[[\"collapsible\"],[false]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5157,8 +5466,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "3KqB2opg",
-        "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "rbScXj64",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5168,8 +5477,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       (0, _mocha.it)('should render submit button', function () {
         //When
         this.render(Ember.HTMLBars.template({
-          "id": "3KqB2opg",
-          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rbScXj64",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         //then
@@ -5179,8 +5488,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
       (0, _mocha.it)('should return true if input exist', function () {
         //When
         this.render(Ember.HTMLBars.template({
-          "id": "3KqB2opg",
-          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rbScXj64",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         //then
@@ -5245,8 +5554,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.inject.service('store', { as: 'store' });
 
         this.render(Ember.HTMLBars.template({
-          "id": "3KqB2opg",
-          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rbScXj64",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5275,8 +5584,8 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         this.register('service:store', storeStubRejection);
 
         this.render(Ember.HTMLBars.template({
-          "id": "3KqB2opg",
-          "block": "{\"statements\":[[1,[26,[\"follower-form\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rbScXj64",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5335,8 +5644,8 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "BuJ6Tpul",
-        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "rKDV9x6j",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"g-recaptcha\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5346,13 +5655,61 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
     (0, _mocha.it)('should append recaptcha element to container element', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "BuJ6Tpul",
-        "block": "{\"statements\":[[1,[26,[\"g-recaptcha\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "rKDV9x6j",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"g-recaptcha\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
       (0, _chai.expect)(this.$('#g-recaptcha-container').children()).to.have.lengthOf(1);
       (0, _chai.expect)(this.get('googleRecaptchaService.calledWithContainerId')).to.equal('g-recaptcha-container');
+    });
+  });
+});
+define('pix-live/tests/integration/components/logged-user-profile-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | logged user profile banner', function () {
+    (0, _emberMocha.setupComponentTest)('logged-user-profile-banner', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should display a banner', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should have a content text container', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.profile-banner__content-text-container')).to.have.lengthOf(1);
+    });
+
+    (0, _mocha.it)('should a button cta to scroll to profile section', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "YZH61OIE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"logged-user-profile-banner\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.profile-banner__button-scroll-container')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.button-scroll-to-profile')).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$('.button-scroll-to-profile').text()).to.equal('choisir un test');
     });
   });
 });
@@ -5366,8 +5723,8 @@ define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha'
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "DEjh4Bun",
-        "block": "{\"statements\":[[1,[26,[\"medal-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "pQozpuot",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"medal-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5380,8 +5737,8 @@ define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha'
 
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "+AQXWhT6",
-        "block": "{\"statements\":[[1,[33,[\"medal-item\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "LhSZQ2cR",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"medal-item\",null,[[\"pixScore\"],[[19,0,[\"pixScore\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -5392,8 +5749,8 @@ define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha'
     (0, _mocha.it)('should contain an image of a medal with the text pix', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "+AQXWhT6",
-        "block": "{\"statements\":[[1,[33,[\"medal-item\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "LhSZQ2cR",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"medal-item\",null,[[\"pixScore\"],[[19,0,[\"pixScore\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -5414,8 +5771,8 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "98vXZoLV",
-        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "DK2TnrEu",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"modal-mobile\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5424,8 +5781,8 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
     (0, _mocha.it)('should display a title with a "warning" icon', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "98vXZoLV",
-        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "DK2TnrEu",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"modal-mobile\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -5437,8 +5794,8 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
     (0, _mocha.it)('should display a message', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "98vXZoLV",
-        "block": "{\"statements\":[[1,[26,[\"modal-mobile\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "DK2TnrEu",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"modal-mobile\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -5463,8 +5820,8 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         this.inject.service('session', { as: 'session' });
 
         this.render(Ember.HTMLBars.template({
-          "id": "Jj0Mqu5s",
-          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "AV5n+32Z",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -5486,16 +5843,31 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
       });
+
+      (0, _mocha.it)('should display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+      });
     });
     (0, _mocha.describe)('Rendering for logged user', function () {
 
       (0, _mocha.beforeEach)(function () {
-        this.register('service:session', Ember.Service.extend({ isAuthenticated: true }));
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
         this.inject.service('session', { as: 'session' });
 
         this.render(Ember.HTMLBars.template({
-          "id": "Jj0Mqu5s",
-          "block": "{\"statements\":[[1,[26,[\"navbar-header\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "AV5n+32Z",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -5503,6 +5875,14 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       (0, _mocha.it)('should display logged user details informations', function () {
         // then
         (0, _chai.expect)(this.$('.logged-user-details')).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should not display link to inscription page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should not display link to connection page', function () {
+        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
       });
     });
   });
@@ -5520,8 +5900,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
       (0, _mocha.it)('should render', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "T/2+/GR4",
-          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rQ2sgNQ/",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"partners-enrollment-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5537,8 +5917,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         (0, _mocha.it)('should display a ' + type, function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "T/2+/GR4",
-            "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "rQ2sgNQ/",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"partners-enrollment-panel\"],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5551,8 +5931,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         // given
         this.set('_enrollment', { title: 'toto' });
         this.render(Ember.HTMLBars.template({
-          "id": "T/2+/GR4",
-          "block": "{\"statements\":[[1,[26,[\"partners-enrollment-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "rQ2sgNQ/",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"partners-enrollment-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5574,8 +5954,8 @@ define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 
 
     (0, _mocha.beforeEach)(function () {
       this.render(Ember.HTMLBars.template({
-        "id": "WqkNWQp7",
-        "block": "{\"statements\":[[1,[26,[\"pix-logo\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "b2v7xgk5",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"pix-logo\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
     });
@@ -5614,8 +5994,8 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
       (0, _mocha.it)('should be rendered', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "5+6XzRcc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"profile-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5626,8 +6006,8 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
       (0, _mocha.it)('should render a wrapper', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "5+6XzRcc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"profile-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5639,8 +6019,8 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
       (0, _mocha.it)('should render a profile header', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "5+6XzRcc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"profile-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5654,8 +6034,8 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
       (0, _mocha.it)('should render a competence profile block', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "hj/2/1ZO",
-          "block": "{\"statements\":[[1,[26,[\"profile-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "5+6XzRcc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"profile-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -5672,8 +6052,8 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
           this.set('totalPixScore', totalPixScore);
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "HTqT+ym1",
-            "block": "{\"statements\":[[1,[33,[\"profile-panel\"],null,[[\"totalPixScore\"],[[28,[\"totalPixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "ZIAK8zxb",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"profile-panel\",null,[[\"totalPixScore\"],[[19,0,[\"totalPixScore\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5699,8 +6079,8 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
       this.set('answer', { value: '' });
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "4s2urBYX",
-        "block": "{\"statements\":[[1,[33,[\"qcm-proposals\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "eMuNQ1pi",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-proposals\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -5714,8 +6094,8 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
       this.set('answer', { value: '2' });
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "4s2urBYX",
-        "block": "{\"statements\":[[1,[33,[\"qcm-proposals\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "eMuNQ1pi",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-proposals\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -5736,8 +6116,8 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
         actionAnswerValue = answerValue;
       });
       this.render(Ember.HTMLBars.template({
-        "id": "Cvzk/SeN",
-        "block": "{\"statements\":[[1,[33,[\"qcm-proposals\"],null,[[\"proposals\",\"answer\",\"answerChanged\"],[[28,[\"proposals\"]],[28,[\"answer\"]],[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "SDOwHswL",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-proposals\",null,[[\"proposals\",\"answer\",\"answerChanged\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // when
@@ -5791,8 +6171,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
       (0, _mocha.it)('Should renders', function () {
         this.render(Ember.HTMLBars.template({
-          "id": "lMfyMGVi",
-          "block": "{\"statements\":[[1,[26,[\"qcm-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "/1+HUo2o",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcm-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -5830,8 +6210,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "6bxZetM3",
-            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "wDwCdSzq",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5854,8 +6234,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "6bxZetM3",
-            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "wDwCdSzq",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5876,8 +6256,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "6bxZetM3",
-            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "wDwCdSzq",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5898,8 +6278,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "6bxZetM3",
-            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "wDwCdSzq",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5919,8 +6299,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "6bxZetM3",
-            "block": "{\"statements\":[[1,[33,[\"qcm-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "wDwCdSzq",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcm-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -5949,8 +6329,8 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
       this.set('answer', { value: '2' });
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "aholkO7a",
-        "block": "{\"statements\":[[1,[33,[\"qcu-proposals\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "lSL/e6+j",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-proposals\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -5964,8 +6344,8 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
       this.set('answer', { value: '2' });
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "aholkO7a",
-        "block": "{\"statements\":[[1,[33,[\"qcu-proposals\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "lSL/e6+j",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-proposals\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -5985,8 +6365,8 @@ define('pix-live/tests/integration/components/qcu-proposals-test', ['chai', 'moc
         actionAnswerValue = answerValue;
       });
       this.render(Ember.HTMLBars.template({
-        "id": "qKuab9gp",
-        "block": "{\"statements\":[[1,[33,[\"qcu-proposals\"],null,[[\"proposals\",\"answer\",\"answerChanged\"],[[28,[\"proposals\"]],[28,[\"answer\"]],[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "hMZ92EMr",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-proposals\",null,[[\"proposals\",\"answer\",\"answerChanged\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // when
@@ -6049,8 +6429,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
       (0, _mocha.it)('Should renders', function () {
         this.render(Ember.HTMLBars.template({
-          "id": "ImJDD4J6",
-          "block": "{\"statements\":[[1,[26,[\"qcu-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "B8Fg07WY",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcu-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.length(1);
@@ -6080,8 +6460,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           this.set('challenge', challenge);
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "YHeVDTOT",
-            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "lYsjGgv8",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6106,8 +6486,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "YHeVDTOT",
-            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "lYsjGgv8",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6128,8 +6508,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "YHeVDTOT",
-            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "lYsjGgv8",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6151,8 +6531,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "YHeVDTOT",
-            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "lYsjGgv8",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6172,8 +6552,8 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "YHeVDTOT",
-            "block": "{\"statements\":[[1,[33,[\"qcu-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "lYsjGgv8",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qcu-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6198,8 +6578,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "D54D+XbD",
-        "block": "{\"statements\":[[1,[26,[\"qroc-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "BWv3gn47",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-proposal\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -6214,8 +6594,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
         this.set('answer', { value: 'myValue' });
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "/ztviErB",
-          "block": "{\"statements\":[[1,[33,[\"qroc-proposal\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "yQPgWKQH",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-proposal\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -6238,8 +6618,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
           this.set('answer', { value: input });
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "/ztviErB",
-            "block": "{\"statements\":[[1,[33,[\"qroc-proposal\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "yQPgWKQH",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-proposal\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           // then
@@ -6260,8 +6640,8 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
         actionAnswerValue = answerValue;
       });
       this.render(Ember.HTMLBars.template({
-        "id": "wsVHKRev",
-        "block": "{\"statements\":[[1,[33,[\"qroc-proposal\"],null,[[\"proposals\",\"answer\",\"answerChanged\"],[[28,[\"proposals\"]],[28,[\"answer\"]],[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "Jz6Ecz0U",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-proposal\",null,[[\"proposals\",\"answer\",\"answerChanged\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // when
@@ -6294,8 +6674,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "NpKj63LV",
-        "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "gD2Zw7AP",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-solution-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -6304,8 +6684,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
       this.render(Ember.HTMLBars.template({
-        "id": "NpKj63LV",
-        "block": "{\"statements\":[[1,[26,[\"qroc-solution-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "gD2Zw7AP",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-solution-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       var input = this.$('input');
@@ -6323,8 +6703,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         // given
         this.set('answer', answer);
         this.render(Ember.HTMLBars.template({
-          "id": "MvdjYNn/",
-          "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+PvB6Pmz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-solution-panel\",null,[[\"answer\"],[[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // when
@@ -6350,8 +6730,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 
         this.set('answer', answer);
         this.render(Ember.HTMLBars.template({
-          "id": "MvdjYNn/",
-          "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+PvB6Pmz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-solution-panel\",null,[[\"answer\"],[[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -6388,8 +6768,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
           this.set('answer', answer);
           this.set('isResultWithoutAnswer', true);
           this.render(Ember.HTMLBars.template({
-            "id": "MvdjYNn/",
-            "block": "{\"statements\":[[1,[33,[\"qroc-solution-panel\"],null,[[\"answer\"],[[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+PvB6Pmz",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qroc-solution-panel\",null,[[\"answer\"],[[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
         });
@@ -6446,8 +6826,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "AQ8byhGY",
-        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "RYnbcPML",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"answer\",\"solution\",\"challenge\"],[[19,0,[\"answer\"]],[19,0,[\"solution\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -6456,8 +6836,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     (0, _mocha.it)('should disabled all inputs', function () {
       // given
       this.render(Ember.HTMLBars.template({
-        "id": "AQ8byhGY",
-        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "RYnbcPML",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"answer\",\"solution\",\"challenge\"],[[19,0,[\"answer\"]],[19,0,[\"solution\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       var input = this.$('input');
@@ -6468,8 +6848,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     (0, _mocha.it)('should contains three labels', function () {
       // given
       this.render(Ember.HTMLBars.template({
-        "id": "AQ8byhGY",
-        "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"answer\",\"solution\",\"challenge\"],[[28,[\"answer\"]],[28,[\"solution\"]],[28,[\"challenge\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "RYnbcPML",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"answer\",\"solution\",\"challenge\"],[[19,0,[\"answer\"]],[19,0,[\"solution\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       var labels = this.$(LABEL);
@@ -6484,8 +6864,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the right answer in green bold', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(FIRST_CORRECTION_BLOCK);
@@ -6507,8 +6887,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should not display the solution', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -6523,8 +6903,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the wrong answer in the second div line-throughed bold', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(SECOND_CORRECTION_BLOCK);
@@ -6544,8 +6924,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -6566,8 +6946,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display the empty answer in the third div with "pas de réponse" in italic', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var answerBlock = this.$(THIRD_CORRECTION_BLOCK);
@@ -6587,8 +6967,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         (0, _mocha.it)('should display one solution in bold green below the input', function () {
           // given
           this.render(Ember.HTMLBars.template({
-            "id": "18Tupy2D",
-            "block": "{\"statements\":[[1,[33,[\"qrocm-ind-solution-panel\"],null,[[\"challenge\",\"answer\",\"solution\"],[[28,[\"challenge\"]],[28,[\"answer\"]],[28,[\"solution\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "fMX1iNgK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"challenge\",\"answer\",\"solution\"],[[19,0,[\"challenge\"]],[19,0,[\"answer\"]],[19,0,[\"solution\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
           var solutionBlock = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
@@ -6617,8 +6997,8 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "EAv26+Pz",
-        "block": "{\"statements\":[[1,[26,[\"qrocm-proposal\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "wOWe8uzB",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qrocm-proposal\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -6630,8 +7010,8 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
       this.set('answer', { value: 'software1: Firefox\nsoftware2: LibreOffice\n' });
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "G0RYTy3N",
-        "block": "{\"statements\":[[1,[33,[\"qrocm-proposal\"],null,[[\"proposals\",\"answer\"],[[28,[\"proposals\"]],[28,[\"answer\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "hZBr5NAa",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-proposal\",null,[[\"proposals\",\"answer\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // then
@@ -6653,8 +7033,8 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
         actionAnswerValue = answerValue;
       });
       this.render(Ember.HTMLBars.template({
-        "id": "/EpQWJhG",
-        "block": "{\"statements\":[[1,[33,[\"qrocm-proposal\"],null,[[\"proposals\",\"answer\",\"answerChanged\"],[[28,[\"proposals\"]],[28,[\"answer\"]],[33,[\"action\"],[[28,[null]],[28,[\"externalAction\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "bXgrW/YR",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-proposal\",null,[[\"proposals\",\"answer\",\"answerChanged\"],[[19,0,[\"proposals\"]],[19,0,[\"answer\"]],[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       // when
@@ -6707,8 +7087,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6722,8 +7102,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6738,8 +7118,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6754,8 +7134,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6769,8 +7149,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
         this.set('answer', answer);
 
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // Then
@@ -6783,8 +7163,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6798,8 +7178,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6811,8 +7191,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
         // given
         this.set('answer', null);
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6829,8 +7209,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "f8lT9MrH",
-          "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LJ0iDxyk",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6847,8 +7227,8 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
 
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "f8lT9MrH",
-            "block": "{\"statements\":[[1,[33,[\"result-item\"],null,[[\"answer\",\"index\"],[[28,[\"answer\"]],[28,[\"index\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "LJ0iDxyk",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"result-item\",null,[[\"answer\",\"index\"],[[19,0,[\"answer\"]],[19,0,[\"index\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -6874,8 +7254,8 @@ define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mo
       (0, _mocha.it)('should render component', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "JpjlFNjP",
-          "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "0UCahRWj",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"score-pastille\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -6888,8 +7268,8 @@ define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mo
         (0, _mocha.it)('should display two dashes, when no pixScore provided', function () {
           // when
           this.render(Ember.HTMLBars.template({
-            "id": "JpjlFNjP",
-            "block": "{\"statements\":[[1,[26,[\"score-pastille\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "0UCahRWj",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"score-pastille\"],false]],\"hasEval\":false}",
             "meta": {}
           }));
           // then
@@ -6903,8 +7283,8 @@ define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mo
         this.set('pixScore', pixScore);
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "czvYLqz+",
-          "block": "{\"statements\":[[1,[33,[\"score-pastille\"],null,[[\"pixScore\"],[[28,[\"pixScore\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "XUwGDCU0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"score-pastille\",null,[[\"pixScore\"],[[19,0,[\"pixScore\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // then
@@ -6942,8 +7322,8 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
     (0, _mocha.describe)('On Component rendering:', function () {
       beforeEach(function () {
         this.render(Ember.HTMLBars.template({
-          "id": "d/VKRoUr",
-          "block": "{\"statements\":[[1,[26,[\"scoring-panel-tantpix\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "LWcKSbxD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"scoring-panel-tantpix\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7050,8 +7430,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "WOCk/+rI",
-        "block": "{\"statements\":[[1,[26,[\"scoring-panel\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "tQyqF4zz",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"scoring-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -7062,8 +7442,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndNoPix);
         this.render(Ember.HTMLBars.template({
-          "id": "2eDn5awa",
-          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "RojEJ77M",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7085,8 +7465,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
         this.render(Ember.HTMLBars.template({
-          "id": "2eDn5awa",
-          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "RojEJ77M",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7117,8 +7497,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithNoTrophyAndSomePix);
         this.render(Ember.HTMLBars.template({
-          "id": "2eDn5awa",
-          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "RojEJ77M",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7144,8 +7524,8 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
       (0, _mocha.beforeEach)(function () {
         this.set('assessment', assessmentWithTrophy);
         this.render(Ember.HTMLBars.template({
-          "id": "2eDn5awa",
-          "block": "{\"statements\":[[1,[33,[\"scoring-panel\"],null,[[\"assessment\"],[[28,[\"assessment\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "RojEJ77M",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7160,28 +7540,346 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
 define('pix-live/tests/integration/components/share-profile-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  var RSVP = Ember.RSVP;
+
+
   (0, _mocha.describe)('Integration | Component | share profile', function () {
+
     (0, _emberMocha.setupComponentTest)('share-profile', {
-      integration: true
+      integration: true,
+
+      beforeSetup: function beforeSetup() {
+        $.extend($.expr[':'], {
+          tabbable: function tabbable() {
+            return true;
+          }
+        });
+      }
     });
 
-    (0, _mocha.describe)('when the organization is found', function () {
+    function expectToBeOnOrganizationCodeEntryView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    }
 
-      (0, _mocha.it)('should render a wrapper', function () {
+    function expectToBeSharingConfirmationView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+    }
+
+    function expectToBeOnSuccessNotificationView() {
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(1);
+    }
+
+    function expectModalToBeClosed() {
+      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+    }
+
+    (0, _mocha.describe)('Step 0 - "Share" button on modal wrapper', function () {
+
+      (0, _mocha.it)('should open profile sharing modal on "organization code entry" view', function () {
         // given
-        var organization = Ember.Object.create({ name: 'Université de la côte d\'Opale' });
-        this.set('organization', organization);
-        this.set('isShowingModal', true);
+        this.render(Ember.HTMLBars.template({
+          "id": "LvTy9kIy",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"share-profile\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
 
         // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+      });
+    });
+
+    (0, _mocha.describe)('Step 1 - "Organization code entry" view', function () {
+
+      (0, _mocha.it)('should be the modal default view', function () {
+        // when
         this.render(Ember.HTMLBars.template({
-          "id": "BOAdfkfF",
-          "block": "{\"statements\":[[1,[33,[\"share-profile\"],null,[[\"isShowingModal\",\"organization\"],[true,[28,[\"organization\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "i4MD9OgK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\"],[true]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(Ember.$.find('.share-profile__modal-organization-name')[0].innerText).to.equal('Université de la côte d\'Opale');
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should contain a text input for the organization code', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "i4MD9OgK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\"],[true]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Continue" button to find the organization', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "i4MD9OgK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\"],[true]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "i4MD9OgK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\"],[true]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should redirect to "sharing confirmation" view when clicking on "Continue" button', function () {
+        // given
+        this.set('searchForOrganization', function () {
+          var organization = Ember.Object.create({ name: 'Pix' });
+          return RSVP.resolve(organization);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "fXbtybLH",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_code\",\"searchForOrganization\"],[true,\"ABCD01\",[19,0,[\"searchForOrganization\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__continue-button').click();
+        });
+
+        // then
+        expectToBeSharingConfirmationView();
+      });
+
+      (0, _mocha.it)('should display an error message when no organization was found for the given code', function () {
+        // given
+        this.set('searchForOrganization', function () {
+          return RSVP.resolve(null);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "BBePoQtp",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"searchForOrganization\"],[true,[19,0,[\"searchForOrganization\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__continue-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.length(1);
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "i4MD9OgK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\"],[true]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        expectModalToBeClosed();
+      });
+    });
+
+    (0, _mocha.describe)('Step 2 - "Sharing confirmation" view', function () {
+
+      (0, _mocha.it)('should display the name of the found organization', function () {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix' }));
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "gCqpvs7A",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
+      });
+
+      (0, _mocha.it)('should contain a "Confirm" button to valid the profile sharing', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "kuJ99qjz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing for the given organization', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "kuJ99qjz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should return back to "organization code entry" view when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "kuJ99qjz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should create a Snapshot and send it to the organization previously found when clicking on "Continue" button', function () {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix' }));
+        this.set('shareProfileSnapshot', function () {
+          return RSVP.resolve(null);
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "4J6n+Lat",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\",\"shareProfileSnapshot\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]],[19,0,[\"shareProfileSnapshot\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__confirm-button').click();
+        });
+
+        // then
+        expectToBeOnSuccessNotificationView();
+      });
+    });
+
+    (0, _mocha.describe)('Step 3 - "Success notification" view', function () {
+
+      (0, _mocha.it)('should contain a "Close" button that hide the modal', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "InyMCgqA",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.length(1);
+      });
+
+      (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "InyMCgqA",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__close-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+      });
+    });
+
+    (0, _mocha.describe)('Borderline cases', function () {
+
+      (0, _mocha.it)('should open the modal on default "organization code entry" view even if modal was previously closed on "sharing confirmation" view', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "kuJ99qjz",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"sharing-confirmation\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        Ember.run(function () {
+          return document.querySelector('.pix-modal__close-link').click();
+        });
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should open the modal on default "organization code entry" view even if modal was previously closed on "success notification" view', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "InyMCgqA",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\"],[true,\"success-notification\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        Ember.run(function () {
+          return document.querySelector('.pix-modal__close-link').click();
+        });
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__share-button').click();
+        });
+
+        // then
+        expectToBeOnOrganizationCodeEntryView();
+      });
+
+      (0, _mocha.it)('should display the code input filled with the previously set organization code even after canceling sharing (step 2)', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "kg75epFD",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_code\",\"_view\"],[true,\"ORGA00\",\"sharing-confirmation\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.share-profile__cancel-button').click();
+        });
+
+        // then
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input').val()).to.equal('ORGA00');
       });
     });
   });
@@ -7209,8 +7907,8 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
 
       // Given
       this.render(Ember.HTMLBars.template({
-        "id": "4FooPrbi",
-        "block": "{\"statements\":[[1,[33,[\"signin-form\"],null,[[\"onSubmit\"],[[33,[\"action\"],[[28,[null]],\"onSubmitAction\"],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "r2GvpNJE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signin-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],\"onSubmitAction\"],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -7230,8 +7928,8 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
       });
 
       this.render(Ember.HTMLBars.template({
-        "id": "4FooPrbi",
-        "block": "{\"statements\":[[1,[33,[\"signin-form\"],null,[[\"onSubmit\"],[[33,[\"action\"],[[28,[null]],\"onSubmitAction\"],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "r2GvpNJE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signin-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],\"onSubmitAction\"],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       _fillSigninForm(this, expectedEmail, expectedPassword);
@@ -7247,8 +7945,8 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
       });
 
       this.render(Ember.HTMLBars.template({
-        "id": "4FooPrbi",
-        "block": "{\"statements\":[[1,[33,[\"signin-form\"],null,[[\"onSubmit\"],[[33,[\"action\"],[[28,[null]],\"onSubmitAction\"],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "r2GvpNJE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signin-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],\"onSubmitAction\"],null]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
       _fillSigninForm(this, expectedEmail, expectedPassword);
@@ -7266,8 +7964,8 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
         return Promise.resolve();
       });
       this.render(Ember.HTMLBars.template({
-        "id": "iHC2d4zJ",
-        "block": "{\"statements\":[[1,[33,[\"signin-form\"],null,[[\"onSubmit\",\"displayErrorMessage\"],[[33,[\"action\"],[[28,[null]],\"onSubmitAction\"],null],\"true\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "2OKSvaj1",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signin-form\",null,[[\"onSubmit\",\"displayErrorMessage\"],[[25,\"action\",[[19,0,[]],\"onSubmitAction\"],null],\"true\"]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -7338,8 +8036,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       beforeEach(function () {
         this.set('user', userEmpty);
         this.render(Ember.HTMLBars.template({
-          "id": "1MFHuc1Q",
-          "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "+G/9hwVS",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -7416,8 +8114,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', user);
           this.render(Ember.HTMLBars.template({
-            "id": "IuLTjz0W",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "v5AueqXQ",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\"],[[19,0,[\"user\"]],\"signup\"]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7428,38 +8126,6 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           return (0, _wait.default)().then(function () {
             (0, _chai.expect)(isFormSubmitted).to.be.true;
           });
-        });
-
-        (0, _mocha.it)('should refresh all fields on form', function () {
-          // given
-          var hasRefreshBeenCalled = false;
-          this.set('refresh', function () {
-            hasRefreshBeenCalled = true;
-          });
-
-          var user = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "wzHVeIzf",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"refresh\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"refresh\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          (0, _chai.expect)(hasRefreshBeenCalled).to.be.true;
         });
 
         (0, _mocha.it)('should redirect automatically to user compte', function () {
@@ -7481,8 +8147,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
           this.set('user', user);
           this.render(Ember.HTMLBars.template({
-            "id": "oROc76vC",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[28,[\"user\"]],\"signup\",[33,[\"action\"],[[28,[null]],[28,[\"redirectToProfileRoute\"]]],null]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "mOOXX/kD",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\",\"signup\",\"redirectToProfileRoute\"],[[19,0,[\"user\"]],\"signup\",[25,\"action\",[[19,0,[]],[19,0,[\"redirectToProfileRoute\"]]],null]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7505,8 +8171,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7531,8 +8197,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7557,8 +8223,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7583,8 +8249,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7625,8 +8291,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCguNotAccepted);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7656,8 +8322,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userThatThrowAnErrorDuringSaving);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7693,8 +8359,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCaptchaNotValid);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7715,8 +8381,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7741,8 +8407,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7767,8 +8433,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7793,8 +8459,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           // given
           this.set('user', userEmpty);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7827,8 +8493,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', userWithCguAccepted);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7841,7 +8507,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           });
         });
 
-        (0, _mocha.it)('should display an success message on form title, when all things are ok and form is submited', function () {
+        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
           var _this13 = this;
 
           // given
@@ -7859,40 +8525,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           this.set('user', validUser);
           this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // when
-          this.$('.signup__submit-button').click();
-          // then
-          return (0, _wait.default)().then(function () {
-            var $notificationMessage = _this13.$('.signup-form__notification-message').text();
-            (0, _chai.expect)($notificationMessage.trim()).to.equal('Votre compte a bien été créé !');
-          });
-        });
-
-        (0, _mocha.it)('should reset validation property, when all things are ok and form is submitted', function () {
-          var _this14 = this;
-
-          // given
-          var validUser = Ember.Object.create({
-            email: 'toto@pix.fr',
-            firstName: 'Marion',
-            lastName: 'Yade',
-            password: 'gipix2017',
-            cgu: true,
-
-            save: function save() {
-              return new Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', validUser);
-          this.render(Ember.HTMLBars.template({
-            "id": "1MFHuc1Q",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\"],[[28,[\"user\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "+G/9hwVS",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
 
@@ -7901,39 +8535,8 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this14.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
-          });
-        });
-      });
-
-      (0, _mocha.describe)('Accessibility', function () {
-
-        (0, _mocha.it)('should render an accessible notification message when the account was successfully created', function () {
-          var _this15 = this;
-
-          // given
-          var user = Ember.Object.create({
-            save: function save() {
-              return Ember.RSVP.resolve();
-            }
-          });
-
-          this.set('user', user);
-          this.render(Ember.HTMLBars.template({
-            "id": "IuLTjz0W",
-            "block": "{\"statements\":[[1,[33,[\"signup-form\"],null,[[\"user\",\"signup\"],[[28,[\"user\"]],\"signup\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
-            "meta": {}
-          }));
-
-          // when
-          $(SUBMIT_BUTTON).click();
-
-          // then
-          return (0, _wait.default)().then(function () {
-
-            var $notificationMessage = _this15.$('.signup-form__notification-message');
-            (0, _chai.expect)($notificationMessage.attr('aria-live')).to.equal('polite');
           });
         });
       });
@@ -7969,8 +8572,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "nwMIYuK3",
-          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "RNxSWvw3",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -8018,8 +8621,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
         this.set('textfieldName', 'firstname');
 
         this.render(Ember.HTMLBars.template({
-          "id": "oQooY6uX",
-          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"textfieldName\"]],\"validate\"]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "k2d22+m7",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]],\"validate\"]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         // when
@@ -8041,8 +8644,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
           // When
           this.render(Ember.HTMLBars.template({
-            "id": "lfWgRj6S",
-            "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+            "id": "byQuiyM0",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
             "meta": {}
           }));
         });
@@ -8074,8 +8677,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "lfWgRj6S",
-          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "byQuiyM0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
         this.set('validationMessage', '');
@@ -8112,8 +8715,8 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // When
         this.render(Ember.HTMLBars.template({
-          "id": "lfWgRj6S",
-          "block": "{\"statements\":[[1,[33,[\"signup-textfield\"],null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[28,[\"label\"]],[28,[\"validationStatus\"]],[28,[\"validationMessage\"]],[28,[\"textfieldName\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "byQuiyM0",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -8137,6 +8740,94 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
     });
   });
 });
+define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | snapshot list', function () {
+    (0, _emberMocha.setupComponentTest)('snapshot-list', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should inform the user when no profile', function () {
+      // Given
+      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([]) });
+      this.set('organization', organization);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "hqqvwQ67",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(1);
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
+    });
+
+    (0, _mocha.it)('it should display as many snapshot items as shared', function () {
+      // Given
+      var snapshot1 = Ember.Object.create({ id: 1 });
+      var snapshot2 = Ember.Object.create({ id: 2 });
+      this.set('snapshots', [snapshot1, snapshot2]);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(0);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+      }.bind(this));
+    });
+
+    (0, _mocha.it)('should display snapshot informations', function () {
+      // Given
+      var user = Ember.Object.create({ id: 1, firstName: 'Werner', lastName: 'Heisenberg' });
+      var snapshot = Ember.Object.create({
+        id: 1,
+        score: 10,
+        completionPercentage: '25',
+        createdAt: '09/25/2017',
+        user: user
+      });
+      this.set('snapshots', [snapshot]);
+
+      // When
+      this.render(Ember.HTMLBars.template({
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // Then
+      return (0, _wait.default)().then(function () {
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
+      }.bind(this));
+    });
+  });
+});
 define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -8152,8 +8843,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "l29hgisL",
-          "block": "{\"statements\":[[1,[26,[\"timeout-jauge\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "trJ8ho0B",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"timeout-jauge\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -8164,8 +8855,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders a red clock if time is over', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "8Nzygbqf",
-          "block": "{\"statements\":[[1,[33,[\"timeout-jauge\"],null,[[\"allotedTime\"],[0]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "HC0bjM9i",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"timeout-jauge\",null,[[\"allotedTime\"],[0]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -8177,8 +8868,8 @@ define('pix-live/tests/integration/components/timeout-jauge-test', ['chai', 'moc
       (0, _mocha.it)('It renders a black clock if time is not over', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "5n8R0sRB",
-          "block": "{\"statements\":[[1,[33,[\"timeout-jauge\"],null,[[\"allotedTime\"],[1]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "jN4p/Xyt",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"timeout-jauge\",null,[[\"allotedTime\"],[1]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -8199,8 +8890,8 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
-        "id": "RCgefSjA",
-        "block": "{\"statements\":[[1,[26,[\"trophy-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "7zYrijVt",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"trophy-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
       (0, _chai.expect)(this.$()).to.have.length(1);
@@ -8213,8 +8904,8 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
 
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "QluA48OP",
-        "block": "{\"statements\":[[1,[33,[\"trophy-item\"],null,[[\"level\"],[[28,[\"level\"]]]]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "yeByk4WE",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"trophy-item\",null,[[\"level\"],[[19,0,[\"level\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -8225,8 +8916,8 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
     (0, _mocha.it)('should contain an image of a trophy with the text "NIVEAU"', function () {
       // when
       this.render(Ember.HTMLBars.template({
-        "id": "RCgefSjA",
-        "block": "{\"statements\":[[1,[26,[\"trophy-item\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+        "id": "7zYrijVt",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"trophy-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -8244,12 +8935,12 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
       integration: true
     });
 
-    (0, _mocha.describe)('Default rendering for logged user', function () {
+    (0, _mocha.describe)('when rendering for logged user', function () {
 
       beforeEach(function () {
         // given
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({
               firstName: 'FHI',
               lastName: '4EVER',
@@ -8257,12 +8948,18 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
             });
           }
         }));
+
+        this.register('service:session', Ember.Service.extend({
+          data: { authenticated: { userId: 123 } }
+        }));
+
         this.inject.service('store', { as: 'store' });
+        this.inject.service('session', { as: 'session' });
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "uJXA+F5m",
-          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
       });
@@ -8278,15 +8975,12 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
         (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
       });
-    });
-
-    (0, _mocha.describe)('behavior on user menu', function () {
 
       (0, _mocha.it)('should hide user menu, when no action on user-name', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "uJXA+F5m",
-          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -8294,31 +8988,18 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
       });
 
-      beforeEach(function () {
-        this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
-            return Ember.RSVP.resolve({
-              firstName: 'FHI',
-              lastName: '4EVER',
-              email: 'FHI@4EVER.fr'
-            });
-          }
-        }));
-        this.inject.service('store', { as: 'store' });
-      });
-
       (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
         var _this = this;
 
         // given
         this.render(Ember.HTMLBars.template({
-          "id": "uJXA+F5m",
-          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // when
-        this.$('.logged-user-name').click();
+        this.$('.logged-user-name__link').click();
 
         return (0, _wait.default)().then(function () {
           // then
@@ -8333,8 +9014,8 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "uJXA+F5m",
-          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
         this.$('.logged-user-name').click();
@@ -8345,32 +9026,136 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
           (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
         });
       });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+        var _this3 = this;
+
+        // when
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+        var _this4 = this;
+
+        // when
+        this.$('.logged-user-name').click();
+        this.$('.logged-user-name').click();
+
+        return (0, _wait.default)().then(function () {
+          // then
+          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.length(0);
+        });
+      });
+
+      (0, _mocha.describe)('button rendering', function () {
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this5 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'compte',
+            generateURL: function generateURL() {
+              return '/compte';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
+          var _this6 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            currentRouteName: 'board',
+            generateURL: function generateURL() {
+              return '/board';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+          });
+        });
+
+        (0, _mocha.it)('should render a button link to the profile when the user is not on compte page', function () {
+          var _this7 = this;
+
+          this.register('service:-routing', Ember.Service.extend({
+            generateURL: function generateURL() {
+              return '/autreRoute';
+            }
+          }));
+          this.inject.service('-routing', { as: '-routing' });
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "pah6OdLO",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+          this.$('.logged-user-name__link').click();
+
+          return (0, _wait.default)().then(function () {
+            // then
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').text().trim()).to.equal('Mon compte');
+            (0, _chai.expect)(_this7.$('.user-menu-item__account-link').length).to.equal(1);
+          });
+        });
+      });
     });
 
-    (0, _mocha.describe)('behavior when user is unlogged or not found', function () {
-
+    (0, _mocha.describe)('when user is unlogged or not found', function () {
       beforeEach(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.reject();
           }
         }));
+
         this.inject.service('store', { as: 'store' });
       });
 
       (0, _mocha.it)('should not display user information, for unlogged', function () {
-        var _this3 = this;
+        var _this8 = this;
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "uJXA+F5m",
-          "block": "{\"statements\":[[1,[26,[\"user-logged-menu\"]],false]],\"locals\":[],\"named\":[],\"yields\":[],\"hasPartials\":false}",
+          "id": "pah6OdLO",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this3.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.length(0);
         });
       });
     });
@@ -8474,6 +9259,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/index-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/inscription-page-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/j1-compare-answer-solution-test.js', function () {
       // test passed
     });
@@ -8490,11 +9283,23 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/legal-notices-page-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/not-found-redirect-to-index-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/o1-board-organization-test.js', function () {
       // test passed
     });
 
     it('acceptance/page-accueil-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/terms-of-service-page-test.js', function () {
       // test passed
     });
 
@@ -8571,6 +9376,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/g-recaptcha-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/logged-user-profile-banner-test.js', function () {
       // test passed
     });
 
@@ -8659,6 +9468,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/signup-textfield-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/snapshot-list-test.js', function () {
       // test passed
     });
 
@@ -8838,6 +9651,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/snapshot-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/user-test.js', function () {
       // test passed
     });
@@ -8894,6 +9711,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/legal-notices-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/login-test.js', function () {
       // test passed
     });
@@ -8911,6 +9732,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/series-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/terms-of-service-test.js', function () {
       // test passed
     });
 
@@ -9068,6 +9893,46 @@ define('pix-live/tests/unit/adapters/user-test', ['chai', 'mocha', 'sinon', 'emb
       (0, _mocha.it)('should called GET /api/users/me', function () {
         // when
         adapter.queryRecord();
+
+        // then
+        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
+      });
+    });
+
+    (0, _mocha.describe)('#findRecord', function () {
+
+      var adapter = void 0;
+
+      beforeEach(function () {
+        adapter = this.subject();
+        adapter.ajax = _sinon.default.stub().resolves();
+      });
+
+      (0, _mocha.it)('should exist', function () {
+        // when
+        var adapter = this.subject();
+        // then
+        return (0, _chai.expect)(adapter.findRecord()).to.be.ok;
+      });
+
+      (0, _mocha.it)('should not reload data from API when already in store', function () {
+        // when
+        var adapter = this.subject();
+
+        // then
+        (0, _chai.expect)(adapter.shouldBackgroundReloadRecord()).to.equal(false);
+      });
+
+      (0, _mocha.it)('should return a resolved promise', function (done) {
+        // when
+        var promise = adapter.findRecord();
+        // then
+        promise.then(done);
+      });
+
+      (0, _mocha.it)('should called GET /api/users/me', function () {
+        // when
+        adapter.findRecord();
 
         // then
         _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/users/me');
@@ -9642,7 +10507,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('any_image.png');
       });
 
@@ -9654,7 +10519,7 @@ define('pix-live/tests/unit/components/course-item-test', ['chai', 'mocha', 'emb
         var imageUrl = component.get('imageUrl');
 
         // then
-        (0, _chai.expect)(imageUrl).to.exists;
+        (0, _chai.expect)(imageUrl).to.exist;
         (0, _chai.expect)(imageUrl).to.equal('/images/course-default-image.png');
       });
     });
@@ -10727,95 +11592,73 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
     (0, _emberMocha.setupTest)('component:share-profile', {});
 
-    (0, _mocha.describe)('#init', function () {
-      (0, _mocha.it)('should set the overlay as translucent', function () {
-        // Given
-        var component = this.subject();
+    var component = void 0;
 
-        // then
-        (0, _chai.expect)(component.get('isShowingModal')).to.be.equal(false);
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#init', function () {
+
+      (0, _mocha.it)('should set the overlay as translucent', function () {
+        (0, _chai.expect)(component.get('_showingModal')).to.be.equal(false);
       });
 
-      (0, _mocha.it)('should set the organizationExists as true', function () {
-        // Given
-        var component = this.subject();
-
-        // then
-        (0, _chai.expect)(component.get('organizationExists')).to.be.equal(true);
+      (0, _mocha.it)('should set the organizationExists as false', function () {
+        (0, _chai.expect)(component.get('_organizationNotFound')).to.be.equal(false);
       });
     });
 
     (0, _mocha.describe)('#placeholder', function () {
       (0, _mocha.it)('should leave the placeholder empty with "focusIn"', function () {
-        // Given
-        var component = this.subject();
+        // then
+        component.send('focusInOrganizationCodeInput');
 
-        // Then
-        component.send('focusIn');
-
-        // When
-        (0, _chai.expect)(component.get('placeholder')).to.be.equal('');
+        // when
+        (0, _chai.expect)(component.get('_placeholder')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the placeholder to its default value with "focusOut"', function () {
         // Given
-        var component = this.subject();
         component.set('placeholder', 'Ex: EFGH89');
 
-        // Then
-        component.send('focusOut');
+        // then
+        component.send('focusOutOrganizationCodeInput');
 
-        // When
-        (0, _chai.expect)(component.get('placeholder')).to.be.equal('Ex: ABCD12');
+        // when
+        (0, _chai.expect)(component.get('_placeholder')).to.be.equal('Ex: ABCD12');
       });
     });
 
     (0, _mocha.describe)('#toggleSharingModal', function () {
-      (0, _mocha.it)('should use the "close" action', function () {
-        // Given
-        var component = this.subject();
-
+      (0, _mocha.it)('should use the "open" action', function () {
         // when
-        component.send('toggleSharingModal');
+        component.send('openModal');
 
         // then
-        (0, _chai.expect)(component.get('isShowingModal')).to.equal(true);
+        (0, _chai.expect)(component.get('_showingModal')).to.equal(true);
       });
 
       (0, _mocha.it)('should reset the code to default value', function () {
         // Given
-        var component = this.subject();
-        component.set('code', 'ABCD01');
+        component.set('_code', 'ABCD01');
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('code')).to.equal('');
-      });
-
-      (0, _mocha.it)('should the organizationExists to true', function () {
-        // Given
-        var component = this.subject();
-        component.set('organizationExists', false);
-
-        // when
-        component.send('toggleSharingModal');
-
-        // then
-        (0, _chai.expect)(component.get('organizationExists')).to.equal(true);
+        (0, _chai.expect)(component.get('_code')).to.be.null;
       });
 
       (0, _mocha.it)('should reset the organization to default value', function () {
         // Given
-        var component = this.subject();
         component.set('organization', {});
 
         // when
-        component.send('toggleSharingModal');
+        component.send('closeModal');
 
         // then
-        (0, _chai.expect)(component.get('organization')).to.equal(null);
+        (0, _chai.expect)(component.get('_organization')).to.equal(null);
       });
     });
   });
@@ -11031,17 +11874,29 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | User logged Menu', function () {
-    (0, _emberMocha.setupTest)('component:user-logged-menu', {});
+    (0, _emberMocha.setupTest)('component:user-logged-menu', {
+      needs: ['service:keyboard']
+    });
 
     (0, _mocha.describe)('action#toggleUserMenu', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.register('service:store', Ember.Service.extend({
-          queryRecord: function queryRecord() {
+          findRecord: function findRecord() {
             return Ember.RSVP.resolve({});
           }
         }));
         this.inject.service('store', { as: 'store' });
+
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
       });
 
       (0, _mocha.it)('should return true, when user details is clicked', function () {
@@ -11073,14 +11928,24 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
     });
 
     (0, _mocha.describe)('Display user details', function () {
-      var queryRecordArgs = void 0;
+      var findRecordArgs = void 0;
 
       (0, _mocha.describe)('When user is logged', function () {
 
         (0, _mocha.beforeEach)(function () {
+          this.register('service:session', Ember.Service.extend({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                userId: 1435
+              }
+            }
+          }));
+          this.inject.service('session', { as: 'session' });
+
           this.register('service:store', Ember.Service.extend({
-            queryRecord: function queryRecord() {
-              queryRecordArgs = Array.from(arguments);
+            findRecord: function findRecord() {
+              findRecordArgs = Array.from(arguments);
               return Ember.RSVP.resolve({
                 firstName: 'FHI',
                 lastName: '4EVER',
@@ -11096,8 +11961,72 @@ define('pix-live/tests/unit/components/user-logged-menu-test', ['chai', 'mocha',
           this.subject();
 
           // then
-          (0, _chai.expect)(queryRecordArgs).to.deep.equal(['user', {}]);
+          (0, _chai.expect)(findRecordArgs).to.deep.equal(['user', 1435]);
         });
+      });
+    });
+
+    (0, _mocha.describe)('canDisplayLinkToProfile', function () {
+
+      (0, _mocha.beforeEach)(function () {
+
+        this.register('service:session', Ember.Service.extend({}));
+        this.inject.service('session', { as: 'session' });
+
+        this.register('service:current-routed-modal', Ember.Service.extend({}));
+        this.inject.service('current-routed-modal', { as: 'current-routed-modal' });
+
+        this.register('service:store', Ember.Service.extend({
+          findRecord: function findRecord() {
+            return Ember.RSVP.resolve({});
+          }
+        }));
+        this.inject.service('store', { as: 'store' });
+      });
+
+      (0, _mocha.it)('should be false if the current route is /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'compte'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be false if the current route is /board', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'board'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.false;
+      });
+
+      (0, _mocha.it)('should be true if the current route is not /compte', function () {
+        // given
+        this.register('service:-routing', Ember.Service.extend({
+          currentRouteName: 'autreRoute'
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+        var component = this.subject();
+
+        // when
+        var result = component.get('canDisplayLinkToProfile');
+
+        // then
+        (0, _chai.expect)(result).to.be.true;
       });
     });
   });
@@ -11574,6 +12503,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
+define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | snapshot', function () {
+    (0, _emberMocha.setupModelTest)('snapshot', {
+      // Specify the other units that are required for this test.
+      needs: ['model:organization']
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -11652,64 +12598,90 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | board', function () {
+
     (0, _emberMocha.setupTest)('route:board', {
-      // Specify the other units that are required for this test.
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var findRecord = _sinon.default.stub();
+    var route = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+
+      this.register('service:store', Ember.Service.extend({
+        findRecord: findRecord
+      }));
+      this.inject.service('store', { as: 'store' });
+      this.register('service:session', Ember.Service.extend({
+        data: { authenticated: { userId: 12 } }
+      }));
+
+      this.inject.service('session', { as: 'session' });
+      route = this.subject();
+      route.transitionTo = _sinon.default.spy();
     });
 
     (0, _mocha.it)('exists', function () {
-      var route = this.subject();
+      route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-
-    var queryRecordStub = _sinon.default.stub();
-
-    beforeEach(function () {
-      this.register('service:store', Ember.Service.extend({
-        queryRecord: queryRecordStub
-      }));
-      this.inject.service('store', { as: 'store' });
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = function () {};
-
-      queryRecordStub.resolves();
+      findRecord.resolves();
 
       // when
       route.model();
 
       // then
-      _sinon.default.assert.calledOnce(queryRecordStub);
-      _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+      _sinon.default.assert.calledOnce(findRecord);
+      _sinon.default.assert.calledWith(findRecord, 'user', 12);
     });
 
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
-      var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
-
-      var route = this.subject();
-      route.transitionTo = function () {};
-
-      queryRecordStub.resolves(user);
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+      findRecord.resolves(user);
 
       // when
       var promise = route.model();
 
       // then
-      return promise.then(function (organization) {
-        (0, _chai.expect)(organization.id).to.equal(1);
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return load snapshots every time with reload', function () {
+      // given
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
+        _sinon.default.assert.calledWith(firstOrganization.get, 'snapshots');
+        _sinon.default.assert.calledOnce(reloadStub);
       });
     });
 
     (0, _mocha.it)('should return to home page if no user was found', function () {
       // given
-      var route = this.subject();
-      route.transitionTo = _sinon.default.spy();
-
-      queryRecordStub.rejects();
+      findRecord.rejects();
 
       // when
       var promise = route.model();
@@ -11718,6 +12690,21 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       return promise.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+    });
+
+    (0, _mocha.it)('should return to /compte when the user has no organization', function () {
+      // given
+      var user = Ember.Object.create({ id: 1, organizations: [] });
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (_) {
+        _sinon.default.assert.calledOnce(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
     });
   });
@@ -11760,23 +12747,91 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
       needs: ['service:current-routed-modal', 'service:session']
     });
 
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-
     (0, _mocha.it)('should redirect to / (Home)', function () {
       // Given
       var route = this.subject();
 
       // Then
-      (0, _chai.expect)(route.authenticationRoute).to.equal('/');
+      (0, _chai.expect)(route.authenticationRoute).to.equal('/connexion');
     });
 
-    (0, _mocha.describe)('searchForOrganization', function () {
+    (0, _mocha.describe)('model', function () {
+
+      var storyStub = void 0;
+      var findRecordStub = void 0;
+
+      (0, _mocha.before)(function () {
+        findRecordStub = _sinon.default.stub();
+        storyStub = Ember.Service.extend({
+          findRecord: findRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should redirect to logout when unable to find user details', function () {
+        // Given
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.catch(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to /board when the user as an organization', function () {
+        // Given
+        var linkedOrganization = Ember.Object.create({ id: 1 });
+        var foundUser = Ember.Object.create({ organizations: [linkedOrganization] });
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+
+      (0, _mocha.it)('should remain on /compte when the user as no organization linked (with a forced data reload)', function () {
+        // Given
+        var foundUser = Ember.Object.create({});
+
+        this.register('service:store', storyStub);
+        this.inject.service('store', { as: 'store' });
+
+        findRecordStub.resolves(foundUser);
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.model();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.notCalled(route.transitionTo);
+          _sinon.default.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#searchForOrganization', function () {
 
       var storeQueryStub = void 0;
-      var storyStub = void 0;
+      var storeStub = void 0;
       var organizations = void 0;
       var organizationCollectionStub = void 0;
 
@@ -11785,14 +12840,14 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
         organizations = { get: organizationCollectionStub, content: [{}] };
 
         storeQueryStub = _sinon.default.stub().resolves(organizations);
-        storyStub = Ember.Service.extend({
+        storeStub = Ember.Service.extend({
           query: storeQueryStub
         });
       });
 
       (0, _mocha.it)('should search for an organization', function () {
         // Given
-        this.register('service:store', storyStub);
+        this.register('service:store', storeStub);
         this.inject.service('store', { as: 'store' });
 
         var route = this.subject();
@@ -11814,7 +12869,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           // Given
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -11833,7 +12888,7 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           organizations.content = [];
           organizationCollectionStub.returns('THE FIRST OBJECT');
 
-          this.register('service:store', storyStub);
+          this.register('service:store', storeStub);
           this.inject.service('store', { as: 'store' });
           var route = this.subject();
 
@@ -11843,6 +12898,39 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           return routeActionResult.then(function (organization) {
             (0, _chai.expect)(organization).to.equal(null);
           });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#shareProfileSnapshot', function () {
+
+      var storeStub = void 0;
+      var storeCreateRecordStub = void 0;
+      var storeSaveStub = void 0;
+      var organization = void 0;
+
+      beforeEach(function () {
+        storeSaveStub = _sinon.default.stub().resolves();
+        organization = Ember.Object.create({ id: 1234, name: 'ACME', code: 'RVSG44', save: storeSaveStub });
+        storeCreateRecordStub = _sinon.default.stub().returns(organization);
+        storeStub = Ember.Service.extend({
+          createRecord: storeCreateRecordStub
+        });
+      });
+
+      (0, _mocha.it)('should create and save a new Snapshot', function () {
+        // given
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+        var route = this.subject();
+
+        // when
+        var promise = route.actions.shareProfileSnapshot.call(route, organization);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(storeCreateRecordStub);
+          _sinon.default.assert.called(storeSaveStub);
         });
       });
     });
@@ -11907,7 +12995,7 @@ define('pix-live/tests/unit/routes/enrollment-test', ['chai', 'mocha', 'ember-mo
     });
   });
 });
-define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | index', function () {
@@ -11920,50 +13008,128 @@ define('pix-live/tests/unit/routes/index-test', ['chai', 'mocha', 'ember-mocha']
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
     });
+
+    (0, _mocha.describe)('when the user is not logged id', function () {
+
+      (0, _mocha.it)('should leave the user on the current location', function () {
+        // Given
+        this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
+        this.inject.service('session', { as: 'session' });
+
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        route.beforeModel();
+
+        // Then
+        _sinon.default.assert.notCalled(route.transitionTo);
+      });
+    });
+
+    (0, _mocha.describe)('when the user is authenticated', function () {
+
+      var storeServiceStub = void 0;
+
+      beforeEach(function () {
+
+        storeServiceStub = {
+          findRecord: _sinon.default.stub().resolves(Ember.Object.create({ organizations: [] }))
+        };
+        this.register('service:store', Ember.Service.extend(storeServiceStub));
+        this.inject.service('store', { as: 'store' });
+
+        this.register('service:session', Ember.Service.extend({
+          isAuthenticated: true,
+          data: {
+            authenticated: {
+              userId: 1435
+            }
+          }
+        }));
+        this.inject.service('session', { as: 'session' });
+      });
+
+      (0, _mocha.it)('should redirect the user somewhere else', function () {
+        // Given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+        });
+      });
+
+      (0, _mocha.it)('should redirect the user to /compte by default', function () {
+        // Given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+        });
+      });
+
+      (0, _mocha.it)('should load user details from the store', function () {
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(storeServiceStub.findRecord);
+          _sinon.default.assert.calledWith(storeServiceStub.findRecord, 'user', 1435);
+        });
+      });
+
+      (0, _mocha.it)('should redirect to board when the user is linked to an organization', function () {
+        // Given
+        storeServiceStub.findRecord.resolves(Ember.Object.create({
+          organizations: [Ember.Object.create()]
+        }));
+
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledWith(route.transitionTo, 'board');
+        });
+      });
+
+      (0, _mocha.it)('should redirect to logout when we cannot retrieve user informations', function () {
+        // Given
+        storeServiceStub.findRecord.rejects();
+        var route = this.subject();
+        route.transitionTo = _sinon.default.stub();
+
+        // When
+        var promise = route.beforeModel();
+
+        // Then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(route.transitionTo);
+          _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+        });
+      });
+    });
   });
 });
-define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-    }
-
-    _createClass(SessionStub, [{
-      key: 'authenticate',
-      value: function authenticate() {
-        this.callArgs = Array.from(arguments);
-        return Promise.resolve();
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | inscription', function () {
     (0, _emberMocha.setupTest)('route:inscription', {
@@ -11979,14 +13145,15 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
       // Given
       var expectedEmail = 'email@example.net';
       var expectedPassword = 'Azertya1!';
-      var sessionStub = new SessionStub();
+      var authenticateStub = _sinon.default.stub().resolves();
+      var queryRecordStub = _sinon.default.stub().resolves();
+      var sessionStub = { authenticate: authenticateStub };
+      var storeStub = { queryRecord: queryRecordStub };
 
       var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
       route.set('session', sessionStub);
-      var transitionToArg = void 0;
-      route.transitionTo = function () {
-        transitionToArg = Array.from(arguments);
-      };
+      route.set('store', storeStub);
 
       // When
       var promise = route.actions.redirectToProfileRoute.call(route, {
@@ -11996,9 +13163,26 @@ define('pix-live/tests/unit/routes/inscription-test', ['chai', 'mocha', 'ember-m
 
       return promise.then(function () {
         // Then
-        (0, _chai.expect)(sessionStub.callArgs).to.deep.equal(['authenticator:simple', expectedEmail, expectedPassword]);
-        (0, _chai.expect)(transitionToArg).to.deep.equal(['compte']);
+        _sinon.default.assert.calledWith(authenticateStub, 'authenticator:simple', expectedEmail, expectedPassword);
+        _sinon.default.assert.calledWith(queryRecordStub, 'user', {});
+        _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/legal-notices-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | legal notices', function () {
+    (0, _emberMocha.setupTest)('route:legal-notices', {
+      // Specify the other units that are required for this test.
+      // needs: ['controller:foo']
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
@@ -12088,93 +13272,62 @@ define('pix-live/tests/unit/routes/login-test', ['mocha', 'ember-mocha', 'sinon'
     });
   });
 });
-define('pix-live/tests/unit/routes/logout-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha'], function (_sinon, _mocha, _emberMocha) {
   'use strict';
-
-  function _classCallCheck(instance, Constructor) {
-    if (!(instance instanceof Constructor)) {
-      throw new TypeError("Cannot call a class as a function");
-    }
-  }
-
-  var _createClass = function () {
-    function defineProperties(target, props) {
-      for (var i = 0; i < props.length; i++) {
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || false;
-        descriptor.configurable = true;
-        if ("value" in descriptor) descriptor.writable = true;
-        Object.defineProperty(target, descriptor.key, descriptor);
-      }
-    }
-
-    return function (Constructor, protoProps, staticProps) {
-      if (protoProps) defineProperties(Constructor.prototype, protoProps);
-      if (staticProps) defineProperties(Constructor, staticProps);
-      return Constructor;
-    };
-  }();
-
-  var SessionStub = function () {
-    function SessionStub() {
-      _classCallCheck(this, SessionStub);
-
-      this.isInvalidateCalled = false;
-    }
-
-    _createClass(SessionStub, [{
-      key: 'invalidate',
-      value: function invalidate() {
-        this.isInvalidateCalled = true;
-      }
-    }]);
-
-    return SessionStub;
-  }();
 
   (0, _mocha.describe)('Unit | Route | logout', function () {
     (0, _emberMocha.setupTest)('route:logout', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('should disconnect the user', function () {
       // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
       var route = this.subject();
-      var sessionStub = new SessionStub();
-      route.set('session', sessionStub);
       route.transitionTo = function () {};
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(sessionStub.isInvalidateCalled).to.be.true;
+      _sinon.default.assert.calledOnce(invalidateStub);
     });
 
     (0, _mocha.it)('should redirect after disconnection', function () {
       // Given
-      var isTransitionToCalled = false;
-      var isTransitionToArgs = [];
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: true, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
 
-      var sessionStub = new SessionStub();
       var route = this.subject();
-      route.set('session', sessionStub);
-      route.transitionTo = function () {
-        isTransitionToCalled = true;
-        isTransitionToArgs = Array.from(arguments);
-      };
+      route.transitionTo = _sinon.default.stub();
 
       // When
       route.beforeModel();
 
       // Then
-      (0, _chai.expect)(isTransitionToCalled).to.be.true;
-      (0, _chai.expect)(isTransitionToArgs).to.deep.equal(['/']);
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
+    });
+
+    (0, _mocha.it)('should redirect even if user was not authenticated', function () {
+      // Given
+      var invalidateStub = _sinon.default.stub();
+      this.register('service:session', Ember.Service.extend({ isAuthenticated: false, invalidate: invalidateStub }));
+      this.inject.service('session', { as: 'session' });
+
+      var route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+
+      // When
+      route.beforeModel();
+
+      // Then
+      _sinon.default.assert.calledOnce(route.transitionTo);
+      _sinon.default.assert.calledWith(route.transitionTo, '/');
     });
   });
 });
@@ -12213,6 +13366,21 @@ define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'
 
   (0, _mocha.describe)('Unit | Route | courseGroups', function () {
     (0, _emberMocha.setupTest)('route:courseGroups', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/terms-of-service-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | terms of service', function () {
+    (0, _emberMocha.setupTest)('route:terms-of-service', {
       // Specify the other units that are required for this test.
       needs: ['service:current-routed-modal']
     });
@@ -12803,8 +13971,27 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
   'use strict';
 
   (0, _mocha.describe)('Unit | Utility | password validator', function () {
+
+    (0, _mocha.describe)('Validation rules', function () {
+
+      (0, _mocha.it)('should contain at least 8 characters:', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('A1')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one letter ', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('12345678')).to.be.false;
+      });
+
+      (0, _mocha.it)('should contain at least one digit', function () {
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCD1234')).to.be.true;
+        (0, _chai.expect)((0, _passwordValidator.default)('ABCDEFGH')).to.be.false;
+      });
+    });
+
     (0, _mocha.describe)('Invalid password', function () {
-      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '1a      a1', '+!@)-=`"#&1', 'null 1' + null].forEach(function (badPassword) {
+      ['', ' ', null, '@pix', '@pix.fr', '1      1', 'password', '12345678&', '+!@)-=`"#&', '+!@)-=`"#&1'].forEach(function (badPassword) {
         (0, _mocha.it)('should return false when password is invalid: ' + badPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(badPassword)).to.be.false;
         });
@@ -12812,7 +13999,7 @@ define('pix-live/tests/unit/utils/password-validator-test', ['chai', 'mocha', 'p
     });
 
     (0, _mocha.describe)('Valid password', function () {
-      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&'].forEach(function (validPassword) {
+      ['PIXBETA1', 'PIXBETA12', 'NULLNULL1', '12345678a', '12345678ab', '12345678ab+', '12345678ab+!', '12345678ab+!@', '12345678ab+!@)-=`', '12345678ab+!@)-=`"', '12345678ab+!@)-=`"#&', '1234Password avec espace', '1A      A1', 'à1      '].forEach(function (validPassword) {
         (0, _mocha.it)('should return true if provided password is valid: ' + validPassword, function () {
           (0, _chai.expect)((0, _passwordValidator.default)(validPassword)).to.be.true;
         });
