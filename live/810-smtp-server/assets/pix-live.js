@@ -458,13 +458,15 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'pix-live/utils/l
 
   exports.default = ChallengeItemQrocm;
 });
-define('pix-live/components/challenge-statement', ['exports', 'moment'], function (exports, _moment) {
+define('pix-live/components/challenge-statement', ['exports', 'pix-live/config/environment'], function (exports, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
   exports.default = Ember.Component.extend({
+
+    mailGenerator: Ember.inject.service(),
 
     classNames: ['rounded-panel', 'challenge-statement'],
 
@@ -511,7 +513,7 @@ define('pix-live/components/challenge-statement', ['exports', 'moment'], functio
     },
 
     _formattedEmailForInstruction: function _formattedEmailForInstruction() {
-      return this.get('challenge.id') + '-' + this.get('assessment.id') + '-' + (0, _moment.default)().format('DDMM') + '@pix-infra.ovh';
+      return this.get('mailGenerator').generateEmail(this.get('challenge.id'), this.get('assessment.id'), window.location.hostname, _environment.default.environment);
     }
   });
 });
@@ -6970,6 +6972,26 @@ define('pix-live/services/keyboard', ['exports', 'ember-keyboard/services/keyboa
     }
   });
 });
+define('pix-live/services/mail-generator', ['exports', 'moment'], function (exports, _moment) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Service.extend({
+
+    generateEmail: function generateEmail(challengeId, assessmentId, host, environment) {
+
+      var applicationReviewName = '';
+      if (environment === 'integration' || environment === 'staging') {
+        applicationReviewName = '+' + host.split('.')[0];
+      }
+
+      return challengeId + '-' + assessmentId + '-' + (0, _moment.default)().format('DDMM') + applicationReviewName + '@pix-infra.ovh';
+    }
+
+  });
+});
 define('pix-live/services/metrics', ['exports', 'ember-metrics/services/metrics'], function (exports, _metrics) {
   'use strict';
 
@@ -8522,6 +8544,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+9713ed0b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+ed632e2a"});
 }
 //# sourceMappingURL=pix-live.map

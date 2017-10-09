@@ -3557,6 +3557,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('services/mail-generator.js', function () {
+      // test passed
+    });
+
     it('services/raven.js', function () {
       // test passed
     });
@@ -3934,7 +3938,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
     }
 
     function renderChallengeStatement(component) {
-      component.render(Ember.HTMLBars.template({
+      return component.render(Ember.HTMLBars.template({
         "id": "eD9nYLIU",
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -9634,6 +9638,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/services/mail-generator-test.js', function () {
+      // test passed
+    });
+
     it('unit/services/splash-test.js', function () {
       // test passed
     });
@@ -13417,6 +13425,84 @@ define('pix-live/tests/unit/services/delay-test', ['chai', 'mocha', 'ember-mocha
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
       (0, _chai.expect)(promise).to.respondsTo('then');
+    });
+  });
+});
+define('pix-live/tests/unit/services/mail-generator-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Service | mail generator', function () {
+    (0, _emberMocha.setupTest)('service:mail-generator', {});
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var service = this.subject();
+      (0, _chai.expect)(service).to.be.ok;
+    });
+
+    (0, _mocha.it)('should have a generateEmail function', function () {
+      // Given
+      var service = this.subject();
+
+      // When
+      (0, _chai.expect)(service).to.have.property('generateEmail').and.to.be.a('function');
+    });
+
+    (0, _mocha.describe)('#generateEmail', function () {
+      var service = void 0;
+      var clock = void 0;
+      var februaryTheFifth = new Date(2017, 1, 5);
+
+      beforeEach(function () {
+        service = this.subject();
+        clock = _sinon.default.useFakeTimers(februaryTheFifth);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      (0, _mocha.it)('when the environment is production', function () {
+        // Given
+        var host = 'pix.beta.gouv.fr';
+        var env = 'production';
+
+        // When
+        var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+        // Then
+        (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502@pix-infra.ovh');
+      });
+
+      (0, _mocha.describe)('when the environment is integration ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'integration';
+          var branchName = 'ma-branche';
+          var host = branchName + '.pix.beta.gouv.fr';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
+        });
+      });
+
+      (0, _mocha.describe)('when the environment is staging ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'staging';
+          var branchName = 'ma-branche';
+          var host = branchName + '.pix.beta.gouv.fr';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
+        });
+      });
     });
   });
 });
