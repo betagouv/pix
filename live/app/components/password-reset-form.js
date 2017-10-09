@@ -2,15 +2,19 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 
+  store: Ember.inject.service(),
+
   email: '',
-  _displayErrorMessage : false,
-  _displaySuccessMessage : false,
+  _displayErrorMessage: false,
+  _displaySuccessMessage: false,
 
   actions: {
-    sendToRoutePasswordResetDemand() {
+
+    savePasswordResetDemand() {
       this.set('_displayErrorMessage', false);
       this.set('_displaySuccessMessage', false);
-      this.get('onSubmit')(this.get('email'))
+      this.get('store').createRecord('passwordReset', { email: this.get('email') })
+        .save()
         .then(() => {
           this.set('_displaySuccessMessage', true);
         })
@@ -18,5 +22,6 @@ export default Ember.Component.extend({
           this.set('_displayErrorMessage', true);
         });
     }
+
   }
 });

@@ -1,34 +1,61 @@
 import { describe, it } from 'mocha';
+import { expect } from 'chai';
 import sinon from 'sinon';
 import { setupTest } from 'ember-mocha';
+import Ember from 'ember';
 
 describe('Unit | Component | password-reset-form', function() {
 
   setupTest('component:password-reset-form', {});
 
   let component;
+  const sentEmail = 'dumb@people.com';
+  let createRecordStub, saveStub;
 
-  beforeEach(function() {
-    component = this.subject();
-  });
+  describe('success save of password Reset Demand', function() {
 
-  describe('#sendToRoutePasswordResetDemand', function() {
+    beforeEach(function() {
 
-    it('should send action to route password-reset', function() {
-      // given
-      const onSubmitActionStub = sinon.stub();
-      onSubmitActionStub.resolves();
-      component.set('onSubmit', onSubmitActionStub);
-      const submittedEmail = 'dumb@people.com';
-      component.set('email', submittedEmail);
+      saveStub = sinon.stub().resolves();
+      createRecordStub = sinon.stub().returns({
+        save: saveStub
+      });
 
+      this.register('service:store', Ember.Service.extend({
+        createRecord: createRecordStub
+      }));
+      this.inject.service('store', { as: 'store' });
+
+      component = this.subject();
+      component.set('email', sentEmail);
+    });
+
+    it('should create a passwordResetDemand Record', function() {
       // when
-      component.send('sendToRoutePasswordResetDemand');
+      component.send('savePasswordResetDemand');
 
       // then
-      sinon.assert.called(onSubmitActionStub);
-      sinon.assert.calledWith(onSubmitActionStub, submittedEmail);
+      sinon.assert.called(createRecordStub);
+      sinon.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
     });
+
+    it('should save the password reset demand', function() {
+      // when
+      component.send('savePasswordResetDemand');
+
+      // then
+      sinon.assert.called(saveStub);
+    });
+
+    it('should display success message when save resolves', async function() {
+      // when
+      await component.send('savePasswordResetDemand');
+
+      // then
+      expect(component.get('_displaySuccessMessage')).to.be.true;
+      expect(component.get('_displayErrorMessage')).to.be.false;
+    });
+
   });
 
 });
