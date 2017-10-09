@@ -1,7 +1,7 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Assessments', function() {
+describe.skip('Acceptance | API | Assessments', function() {
 
   before(function(done) {
 
@@ -96,14 +96,7 @@ describe('Acceptance | API | Assessments', function() {
       });
     });
 
-    it('should return the first challenge if no challenge specified', function(done) {
-      const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
-      server.inject(options, (response) => {
-        expect(response.result.data.id).to.equal('z_first_challenge');
-        done();
-      });
-    });
-
   });
 
 });
+
