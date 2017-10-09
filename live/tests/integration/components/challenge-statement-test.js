@@ -19,7 +19,7 @@ describe('Integration | Component | ChallengeStatement', function() {
   }
 
   function renderChallengeStatement(component) {
-    component.render(hbs`{{challenge-statement challenge=challenge assessment=assessment}}`);
+    return component.render(hbs`{{challenge-statement challenge=challenge assessment=assessment}}`);
   }
 
   /*
@@ -80,7 +80,6 @@ describe('Integration | Component | ChallengeStatement', function() {
       expect(this.$('.challenge-statement__instruction').text().trim())
         .to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
     });
-
   });
 
   /*
