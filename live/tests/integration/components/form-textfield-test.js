@@ -4,7 +4,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 
-describe.only('Integration | Component | form textfield', function() {
+describe('Integration | Component | form textfield', function() {
   setupComponentTest('form-textfield', {
     integration: true
   });
