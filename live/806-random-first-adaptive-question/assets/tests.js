@@ -2840,6 +2840,31 @@ define('pix-live/tests/acceptance/legal-notices-page-test', ['mocha', 'pix-live/
     });
   });
 });
+define('pix-live/tests/acceptance/not-found-redirect-to-index-test', ['mocha', 'pix-live/tests/helpers/application', 'chai'], function (_mocha, _application, _chai) {
+  'use strict';
+
+  (0, _mocha.describe)('Acceptance | Page | Not Found Redirection', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('should redirect to home page when URL is a nonexistant page', function () {
+
+      visit('/plop');
+
+      return andThen(function () {
+        (0, _chai.expect)(currentURL()).to.eq('/');
+      });
+    });
+  });
+});
 define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
@@ -3568,6 +3593,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/not-found.js', function () {
+      // test passed
+    });
+
     it('routes/placement-tests.js', function () {
       // test passed
     });
@@ -3951,7 +3980,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | ChallengeStatement', function () {
@@ -3964,10 +3993,14 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
       component.set('challenge', challenge);
     }
 
+    function addAssessmentToContext(component, assessment) {
+      component.set('assessment', assessment);
+    }
+
     function renderChallengeStatement(component) {
       component.render(Ember.HTMLBars.template({
-        "id": "ST1V/8RZ",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\"],[[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
+        "id": "eD9nYLIU",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
     }
@@ -3978,6 +4011,17 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
      */
 
     (0, _mocha.describe)('Instruction section:', function () {
+
+      var clock = void 0;
+      var februaryTheFifth = new Date(2017, 1, 5);
+
+      beforeEach(function () {
+        clock = _sinon.default.useFakeTimers(februaryTheFifth);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
 
       // Inspired from: https://github.com/emberjs/ember-mocha/blob/0790a78d7464655fee0c103d2fa960fa53a056ca/tests/setup-component-test-test.js#L118-L122
       (0, _mocha.it)('should render challenge instruction if it exists', function () {
@@ -4002,6 +4046,21 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
 
         // then
         (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.lengthOf(0);
+      });
+
+      (0, _mocha.it)('should replace ${EMAIL} by a generated email', function () {
+        // given
+        addAssessmentToContext(this, { id: '267845' });
+        addChallengeToContext(this, {
+          id: 'recigAYl5bl96WGXj',
+          instruction: 'Veuillez envoyer un email à l\'adresse ${EMAIL} pour valider cette épreuve'
+        });
+
+        // when
+        renderChallengeStatement(this);
+
+        // then
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix.beta.gouv.fr pour valider cette épreuve');
       });
     });
 
@@ -8669,13 +8728,12 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       // Given
       var snapshot1 = Ember.Object.create({ id: 1 });
       var snapshot2 = Ember.Object.create({ id: 2 });
-      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot1, snapshot2]) });
-      this.set('organization', organization);
+      this.set('snapshots', [snapshot1, snapshot2]);
 
       // When
       this.render(Ember.HTMLBars.template({
-        "id": "hqqvwQ67",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -8696,13 +8754,12 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         createdAt: '09/25/2017',
         user: user
       });
-      var organization = Ember.Object.create({ id: 1, snapshots: Ember.RSVP.resolve([snapshot]) });
-      this.set('organization', organization);
+      this.set('snapshots', [snapshot]);
 
       // When
       this.render(Ember.HTMLBars.template({
-        "id": "hqqvwQ67",
-        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+        "id": "YuqZ1s+t",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"snapshots\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
 
@@ -9174,6 +9231,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/legal-notices-page-test.js', function () {
+      // test passed
+    });
+
+    it('acceptance/not-found-redirect-to-index-test.js', function () {
       // test passed
     });
 
@@ -12505,30 +12566,32 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | board', function () {
+
     (0, _emberMocha.setupTest)('route:board', {
       needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
 
     var findRecord = _sinon.default.stub();
     var route = void 0;
 
     (0, _mocha.beforeEach)(function () {
+
       this.register('service:store', Ember.Service.extend({
         findRecord: findRecord
       }));
       this.inject.service('store', { as: 'store' });
-
       this.register('service:session', Ember.Service.extend({
         data: { authenticated: { userId: 12 } }
       }));
+
       this.inject.service('session', { as: 'session' });
       route = this.subject();
       route.transitionTo = _sinon.default.spy();
+    });
+
+    (0, _mocha.it)('exists', function () {
+      route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
     });
 
     (0, _mocha.it)('should correctly call the store', function () {
@@ -12545,7 +12608,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
 
     (0, _mocha.it)('should return user first organization informations', function () {
       // given
-      var user = Ember.Object.create({ id: 1, organizations: [{ id: 1 }, { id: 2 }] });
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
       findRecord.resolves(user);
 
       // when
@@ -12554,6 +12622,28 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       // then
       return promise.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
+      });
+    });
+
+    (0, _mocha.it)('should return load snapshots every time with reload', function () {
+      // given
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      firstOrganization.get = _sinon.default.stub().returns({
+        reload: reloadStub
+      });
+
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+      findRecord.resolves(user);
+
+      // when
+      var promise = route.model();
+
+      // then
+      return promise.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
+        _sinon.default.assert.calledWith(firstOrganization.get, 'snapshots');
+        _sinon.default.assert.calledOnce(reloadStub);
       });
     });
 
