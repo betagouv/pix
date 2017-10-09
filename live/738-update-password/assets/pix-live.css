@@ -2738,7 +2738,7 @@ input.qcm-panel__proposal-checkbox {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 
-.signup-textfield__cgu-message--error {
+.form-textfield__cgu-message--error {
   color: #f45c00;
   font-size: 12px;
   margin-bottom: 7px;
@@ -2852,55 +2852,55 @@ input.qcm-panel__proposal-checkbox {
       margin: 40px 80px 0px 80px;
       border-radius: 3px; } }
 
-.signup-textfield {
+.form-textfield {
   position: relative; }
 
-.signup-textfield__label {
+.form-textfield__label {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: bold;
   color: #3e4149;
   text-transform: uppercase; }
 
-.signup-textfield__input-field-container {
+.form-textfield__input-field-container {
   display: flex;
   height: 35px;
   border-radius: 3px;
   margin-bottom: 20px;
   align-items: center; }
 
-.signup-textfield__input-container--default {
+.form-textfield__input-container--default {
   border: 1px solid #D8D8D8; }
 
-.signup-textfield__input-container--error {
+.form-textfield__input-container--error {
   border: 1px solid #f45c00; }
 
-.signup-textfield__input-container--success {
+.form-textfield__input-container--success {
   border: 1px solid #13c9a0; }
 
-.signup-textfield__input-field-container input {
+.form-textfield__input-field-container input {
   flex-grow: 1;
   border: none;
   margin-left: 10px;
   outline: none;
   color: #6a6d76; }
 
-.signup-textfield__message {
+.form-textfield__message {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 12px; }
 
-.signup-textfield__message--error {
+.form-textfield__message--error {
   color: #f45c00; }
 
-.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
+.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email {
   position: relative;
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px; }
 
-.signup-textfield__icon {
+.form-textfield__icon {
   width: 20px;
   height: 20px;
   margin: 6px 8px; }
@@ -3452,6 +3452,114 @@ input.qcm-panel__proposal-checkbox {
   letter-spacing: 1.5px;
   text-align: center;
   color: #ffffff; }
+
+.reset-password-form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 609px;
+  width: 100%;
+  margin: 25px 15px 15px;
+  max-height: 588px;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #ffffff; }
+  @media (min-width: 768px) {
+    .reset-password-form {
+      margin: 80px 0;
+      width: 609px; } }
+  @media (min-width: 980px) {
+    .reset-password-form {
+      margin: 10px 5px 10px;
+      padding: 50px 80px; } }
+
+.reset-password-form__heading {
+  position: relative;
+  width: 106px;
+  height: 79px;
+  margin: 26px auto 10px; }
+  @media (min-width: 768px) {
+    .reset-password-form__heading {
+      margin: 56px auto 53px; } }
+
+.reset-password-form__user-details {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 25px;
+  line-height: 42px;
+  text-align: center;
+  color: #3e4149;
+  text-transform: capitalize;
+  margin-top: 30px; }
+  @media (min-width: 980px) {
+    .reset-password-form__user-details {
+      font-size: 36px;
+      margin-top: 0; } }
+
+.reset-password-form__instruction {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 28px;
+  text-align: center;
+  color: #3e4149;
+  margin: 10px 0 40px; }
+  @media (min-width: 980px) {
+    .reset-password-form__instruction {
+      font-size: 22px;
+      margin: 28px 0 70px; } }
+
+.reset-password-form__password-textfield-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0px 20px; }
+  @media (min-width: 980px) {
+    .reset-password-form__password-textfield-container {
+      width: 449px;
+      padding: 0; } }
+
+.reset-password-form__password-textfield-container .form-textfield__label {
+  width: 83px;
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 15px; }
+
+.form-textfield__input-field-container {
+  height: 40px;
+  padding-left: 10px;
+  border: 1px solid #D8D8D8;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  width: 100%; }
+  .form-textfield__input-field-container:hover {
+    border: 1px solid #3d68ff;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5); }
+  @media (min-width: 980px) {
+    .form-textfield__input-field-container {
+      height: 50px; } }
+
+.reset-password-form__button-container {
+  margin: 30px 0; }
+  @media (min-width: 980px) {
+    .reset-password-form__button-container {
+      margin: 50px 0; } }
+
+.reset-password-form__button-container button {
+  height: 40px;
+  width: 170px;
+  border-radius: 25px;
+  background-color: #3d68ff;
+  color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  border: none; }
 
 /* pages */
 /* Sections:
@@ -4700,6 +4808,18 @@ hr.project-page__presentation-header-line {
   font-size: 16px;
   font-weight: 700;
   line-height: 19px; }
+
+.reset-password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh; }
+  @media screen and (min-width: 767px) {
+    .reset-password {
+      height: 100%; } }
 
 body {
   font-family: "Lato", Arial, sans-serif;

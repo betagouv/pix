@@ -1254,6 +1254,91 @@ define('pix-live/components/follower-form', ['exports', 'pix-live/config/environ
     }
   });
 });
+define('pix-live/components/form-textfield', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  var INPUT_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__input--default',
+    error: 'form-textfield__input--error',
+    success: 'form-textfield__input--success'
+  };
+
+  var ICON_TYPE_STATUS_MAP = {
+    default: '',
+    error: 'error',
+    success: 'success'
+  };
+
+  var MESSAGE_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__message--default',
+    error: 'form-textfield__message--error',
+    success: 'form-textfield__message--success'
+  };
+
+  var INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__input-container--default',
+    error: 'form-textfield__input-container--error',
+    success: 'form-textfield__input-container--success'
+  };
+
+  exports.default = Ember.Component.extend({
+    classNames: ['form-textfield'],
+
+    label: '',
+    textfieldName: '',
+    validationMessage: '',
+
+    textfieldType: Ember.computed('textfieldName', function () {
+      if (this.get('textfieldName') === 'password') {
+        return 'password';
+      }
+      if (this.get('textfieldName') === 'email') {
+        return 'email';
+      }
+      return 'text';
+    }),
+
+    _isValidationStatusNotDefault: function _isValidationStatusNotDefault() {
+      return this.get('validationStatus') !== 'default';
+    },
+
+
+    hasIcon: Ember.computed('validationStatus', 'user.errors.content', function () {
+      return this._isValidationStatusNotDefault();
+    }),
+
+    inputContainerStatusClass: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
+    }),
+
+    iconType: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    inputValidationStatus: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    validationMessageClass: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    actions: {
+      validate: function validate() {
+        this.sendAction('validate', this.get('textfieldName'));
+      }
+    }
+  });
+});
 define('pix-live/components/g-recaptcha', ['exports'], function (exports) {
   'use strict';
 
@@ -1789,6 +1874,53 @@ define('pix-live/components/qrocm-proposal', ['exports', 'pix-live/utils/proposa
 
   });
 });
+define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/password-validator'], function (exports, _passwordValidator) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var VALIDATION_MAP = {
+    default: {
+      status: 'default', message: null
+    },
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
+    },
+    success: {
+      status: 'success', message: null
+    }
+  };
+
+  exports.default = Ember.Component.extend({
+    classNames: ['reset-password-form'],
+    validation: VALIDATION_MAP['default'],
+
+    fullname: Ember.computed('user', function () {
+      return this.get('user.firstName') + ' ' + this.get('user.lastName');
+    }),
+
+    actions: {
+      validatePassword: function validatePassword() {
+        var password = this.get('user.password');
+        var validationStatus = (0, _passwordValidator.default)(password) ? 'success' : 'error';
+        this.set('validation', VALIDATION_MAP[validationStatus]);
+      },
+      handleResetPassword: function handleResetPassword() {
+        var _this = this;
+
+        return this.get('user').save().then(function () {
+          return _this.set('validation', VALIDATION_MAP['success']);
+        }).catch(function () {
+          return _this.set('validation', VALIDATION_MAP['error']);
+        });
+      }
+    }
+  });
+});
 define('pix-live/components/result-item', ['exports', 'pix-live/utils/result-icon-url'], function (exports, _resultIconUrl) {
   'use strict';
 
@@ -2216,91 +2348,6 @@ define('pix-live/components/signup-form', ['exports', 'pix-live/utils/email-vali
           _this3._updateInputsStatus();
           _this3.set('_tokenHasBeenUsed', true);
         });
-      }
-    }
-  });
-});
-define('pix-live/components/signup-textfield', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-
-  var INPUT_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__input--default',
-    error: 'signup-textfield__input--error',
-    success: 'signup-textfield__input--success'
-  };
-
-  var ICON_TYPE_STATUS_MAP = {
-    default: '',
-    error: 'error',
-    success: 'success'
-  };
-
-  var MESSAGE_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__message--default',
-    error: 'signup-textfield__message--error',
-    success: 'signup-textfield__message--success'
-  };
-
-  var INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__input-container--default',
-    error: 'signup-textfield__input-container--error',
-    success: 'signup-textfield__input-container--success'
-  };
-
-  exports.default = Ember.Component.extend({
-    classNames: ['signup-textfield'],
-
-    label: '',
-    textfieldName: '',
-    validationMessage: '',
-
-    textfieldType: Ember.computed('textfieldName', function () {
-      if (this.get('textfieldName') === 'password') {
-        return 'password';
-      }
-      if (this.get('textfieldName') === 'email') {
-        return 'email';
-      }
-      return 'text';
-    }),
-
-    _isValidationStatusNotDefault: function _isValidationStatusNotDefault() {
-      return this.get('validationStatus') !== 'default';
-    },
-
-
-    hasIcon: Ember.computed('validationStatus', 'user.errors.content', function () {
-      return this._isValidationStatusNotDefault();
-    }),
-
-    inputContainerStatusClass: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
-    }),
-
-    iconType: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    inputValidationStatus: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    validationMessageClass: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    actions: {
-      validate: function validate() {
-        this.sendAction('validate', this.get('textfieldName'));
       }
     }
   });
@@ -6874,10 +6921,7 @@ define('pix-live/routes/reset-password', ['exports', 'ember-simple-auth/mixins/u
           return _this.transitionTo('index');
         })
       });
-    },
-
-
-    actions: {}
+    }
   });
 });
 define('pix-live/routes/terms-of-service', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -7431,6 +7475,14 @@ define("pix-live/templates/components/follower-form", ["exports"], function (exp
   });
   exports.default = Ember.HTMLBars.template({ "id": "Zk2mWrf/", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"follower__form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"follower__form-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item follower__form-input-container\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"class\",\"placeholder\",\"type\",\"value\"],[\"follower-email\",\"Saisissez votre email\",\"email\",[19,0,[\"_followerEmail\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item\"],[7],[0,\"\\n      \"],[6,\"button\"],[10,\"class\",[26,[\"follower-form__button \",[25,\"if\",[[19,0,[\"isPending\"]],\"follower-form__button--pending\",\"follower-form__button--default\"],null]]]],[3,\"action\",[[19,0,[]],\"submit\"],[[\"allowedKeys\"],[\"enter\"]]],[7],[1,[18,\"submitButtonText\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"hasMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[\"follower-info-message \",[18,\"messageClassName\"]]]],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasError\"]]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--error\"],[9,\"style\",\"width:15px;height:15px;\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--success\"],[9,\"style\",\"width:12px;height:15px\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"    \"],[6,\"span\"],[7],[1,[18,\"infoMessage\"],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/follower-form.hbs" } });
 });
+define("pix-live/templates/components/form-textfield", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "iPjKSX4O", "block": "{\"symbols\":[],\"statements\":[[6,\"label\"],[10,\"for\",[26,[[18,\"textfieldName\"]]]],[9,\"class\",\"form-textfield__label\"],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"form-textfield__message \",[18,\"validationMessageClass\"],\" form-textfield__message-\",[18,\"textfieldType\"],\"\\n\"]]],[9,\"role\",\"alert\"],[7],[1,[18,\"validationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[6,\"div\"],[10,\"class\",[26,[\"form-textfield__input-field-container \",[18,\"inputContainerStatusClass\"]]]],[7],[0,\"\\n  \"],[1,[25,\"input\",[[25,\"-input-type\",[[19,0,[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[19,0,[\"textfieldType\"]],[19,0,[\"textfieldName\"]],[19,0,[\"inputBindingValue\"]],[25,\"action\",[[19,0,[]],\"validate\"],null],[25,\"concat\",[\"form-textfield__input\",\" \",[25,\"if\",[[19,0,[\"inputValidationStatus\"]],[25,\"-normalize-class\",[\"inputValidationStatus\",[19,0,[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[0,\"\\n\\n\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[4,\"if\",[[25,\"eq\",[[19,0,[\"validationStatus\"]],\"error\"],null]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"class\",\"form-textfield__icon form-textfield__icon--error\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"class\",\"form-textfield__icon form-textfield__icon--success validation-icon-success\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/form-textfield.hbs" } });
+});
 define("pix-live/templates/components/g-recaptcha", ["exports"], function (exports) {
   "use strict";
 
@@ -7567,6 +7619,14 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
   });
   exports.default = Ember.HTMLBars.template({ "id": "3uYF5oMv", "block": "{\"symbols\":[\"block\"],\"statements\":[[4,\"each\",[[19,0,[\"_blocks\"]]],null,{\"statements\":[[0,\"\\n\"],[4,\"if\",[[19,1,[\"text\"]]],null,{\"statements\":[[0,\"    \"],[6,\"span\"],[7],[1,[19,1,[\"text\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,1,[\"input\"]]],null,{\"statements\":[[0,\"    \"],[6,\"input\"],[9,\"class\",\"challenge-response__proposal-input\"],[9,\"type\",\"text\"],[10,\"name\",[19,1,[\"input\"]],null],[10,\"placeholder\",[19,1,[\"placeholder\"]],null],[10,\"value\",[25,\"property-of\",[[19,0,[\"answersValue\"]],[19,1,[\"input\"]]],null],null],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,1,[\"breakline\"]]],null,{\"statements\":[[0,\"    \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-proposal.hbs" } });
 });
+define("pix-live/templates/components/reset-password-form", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "L5rV6KhK", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password-form__heading\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__user-details\"],[7],[1,[18,\"fullname\"],false],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__instruction\"],[7],[0,\"Saisissez votre nouveau mot de passe\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__password-textfield-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__textfield\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"status\"]],\"validatePassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__button-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"reset-password-form__submit-button\"],[3,\"action\",[[19,0,[]],\"handleResetPassword\"]],[7],[0,\"envoyer\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/reset-password-form.hbs" } });
+});
 define("pix-live/templates/components/result-item", ["exports"], function (exports) {
   "use strict";
 
@@ -7653,15 +7713,7 @@ define("pix-live/templates/components/signup-form", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "g2pmLa68", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
-});
-define("pix-live/templates/components/signup-textfield", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "hPrgFICB", "block": "{\"symbols\":[],\"statements\":[[6,\"label\"],[10,\"for\",[26,[[18,\"textfieldName\"]]]],[9,\"class\",\"signup-textfield__label\"],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__message \",[18,\"validationMessageClass\"],\" signup-textfield__message-\",[18,\"textfieldType\"],\"\\n\"]]],[9,\"role\",\"alert\"],[7],[1,[18,\"validationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__input-field-container \",[18,\"inputContainerStatusClass\"]]]],[7],[0,\"\\n  \"],[1,[25,\"input\",[[25,\"-input-type\",[[19,0,[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[19,0,[\"textfieldType\"]],[19,0,[\"textfieldName\"]],[19,0,[\"inputBindingValue\"]],[25,\"action\",[[19,0,[]],\"validate\"],null],[25,\"concat\",[\"signup-textfield__input\",\" \",[25,\"if\",[[19,0,[\"inputValidationStatus\"]],[25,\"-normalize-class\",[\"inputValidationStatus\",[19,0,[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[0,\"\\n\\n\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[4,\"if\",[[25,\"eq\",[[19,0,[\"validationStatus\"]],\"error\"],null]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--error\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--success validation-icon-success\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "YKClQEby", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"form-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/snapshot-list", ["exports"], function (exports) {
   "use strict";
@@ -7837,7 +7889,7 @@ define("pix-live/templates/reset-password", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "xxesZ9EN", "block": "{\"symbols\":[],\"statements\":[[0,\"Hello\\n\"],[1,[20,[\"model\",\"user\",\"firstName\"]],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "3wZXbWKM", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\",\"user\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
 });
 define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   "use strict";
@@ -8682,6 +8734,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+2f34b1d9"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.23.0+d94d273c"});
 }
 //# sourceMappingURL=pix-live.map

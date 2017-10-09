@@ -3264,6 +3264,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/form-textfield.js', function () {
+      // test passed
+    });
+
     it('components/g-recaptcha.js', function () {
       // test passed
     });
@@ -3336,6 +3340,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/reset-password-form.js', function () {
+      // test passed
+    });
+
     it('components/result-item.js', function () {
       // test passed
     });
@@ -3361,10 +3369,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/signup-form.js', function () {
-      // test passed
-    });
-
-    it('components/signup-textfield.js', function () {
       // test passed
     });
 
@@ -5643,6 +5647,203 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
     });
   });
 });
+define('pix-live/tests/integration/components/form-textfield-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | form textfield', function () {
+    (0, _emberMocha.setupComponentTest)('form-textfield', {
+      integration: true
+    });
+
+    var LABEL = '.form-textfield__label';
+    var LABEL_TEXT = 'NOM';
+
+    var MESSAGE = '.form-textfield__message';
+    var MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
+    var MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
+    var MESSAGE_TEXT = '';
+
+    var INPUT = '.form-textfield__input';
+    var INPUT_DEFAULT_CLASS = 'form-textfield__input--default';
+    var INPUT_SUCCESS_CLASS = 'form-textfield__input--success';
+    var INPUT_ERROR_CLASS = 'form-textfield__input--error';
+
+    (0, _mocha.describe)('#Component rendering', function () {
+      beforeEach(function () {
+        this.set('label', 'nom');
+        this.set('validationStatus', '');
+        this.set('textfieldName', 'firstname');
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          "id": "+0uhQsTK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"form-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+      });
+
+      [{ expectedRendering: 'label', item: LABEL, expectedLength: 1 }, { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 }, { expectedRendering: 'input', item: INPUT, expectedLength: 1 }, { expectedRendering: 'div', item: '', expectedLength: 1 }].forEach(function (_ref2) {
+        var expectedRendering = _ref2.expectedRendering,
+            item = _ref2.item,
+            expectedLength = _ref2.expectedLength;
+
+        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
+          // Then
+          (0, _chai.expect)(this.$(item)).to.have.length(expectedLength);
+          (0, _chai.expect)(this.$(item).prop('nodeName')).to.equal(expectedRendering.toUpperCase());
+        });
+      });
+
+      [{ item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT }, { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT }].forEach(function (_ref3) {
+        var item = _ref3.item,
+            expectedRendering = _ref3.expectedRendering,
+            expectedText = _ref3.expectedText;
+
+        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
+          // Then
+          (0, _chai.expect)(this.$(item).text().toUpperCase()).to.equal(expectedText);
+        });
+      });
+    });
+
+    //behavior
+    (0, _mocha.describe)('#Component Interactions', function () {
+
+      (0, _mocha.it)('should handle action <validate> when input lost focus', function () {
+        // given
+        var isActionValidateHandled = false;
+        var inputValueToValidate = void 0;
+        var expectedInputValue = 'firstname';
+
+        this.on('validate', function (arg) {
+          isActionValidateHandled = true;
+          inputValueToValidate = arg;
+        });
+
+        this.set('label', 'nom');
+        this.set('validationStatus', '');
+        this.set('textfieldName', 'firstname');
+
+        this.render(Ember.HTMLBars.template({
+          "id": "Fq/cRq8R",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"form-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]],\"validate\"]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        // when
+        this.$(INPUT).val('pix');
+        this.$(INPUT).trigger('focusout');
+        // then
+        return (0, _wait.default)().then(function () {
+          (0, _chai.expect)(isActionValidateHandled).to.be.true;
+          (0, _chai.expect)(inputValueToValidate).to.deep.equal(expectedInputValue);
+        });
+      });
+
+      (0, _mocha.describe)('#When validationStatus gets "default", Component should ', function () {
+        beforeEach(function () {
+          this.set('label', 'nom');
+          this.set('validationStatus', 'default');
+          this.set('textfieldName', 'firstname');
+          this.set('validationMessage', '');
+
+          // When
+          this.render(Ember.HTMLBars.template({
+            "id": "fOMwrW48",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"form-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
+          // then
+          (0, _chai.expect)(this.$('img')).to.have.length(0);
+        });
+
+        (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
+          var input = this.$(INPUT);
+          // then
+          (0, _chai.expect)(input.attr('class')).to.contain(INPUT_DEFAULT_CLASS);
+          (0, _chai.expect)(input.val()).to.contain('');
+        });
+
+        (0, _mocha.it)('should not show a div for message validation status  when validationStatus is default', function () {
+          // then
+          (0, _chai.expect)(this.$(MESSAGE)).to.lengthOf(0);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#When validationStatus gets "error", Component should ', function () {
+      beforeEach(function () {
+        this.set('label', 'nom');
+        this.set('validationStatus', 'error');
+        this.set('textfieldName', 'firstname');
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          "id": "fOMwrW48",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"form-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        this.set('validationMessage', '');
+      });
+
+      (0, _mocha.it)('return true if any img does exist', function () {
+        var _this = this;
+
+        // then
+        return (0, _wait.default)().then(function () {
+          (0, _chai.expect)(_this.$('img')).to.have.length(1);
+          (0, _chai.expect)(_this.$('img').attr('class')).to.contain('form-textfield__icon--error');
+        });
+      });
+
+      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS }].forEach(function (_ref4) {
+        var item = _ref4.item,
+            itemSelector = _ref4.itemSelector,
+            expectedClass = _ref4.expectedClass;
+
+        (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
+          // then
+          (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#When validationStatus gets "success", Component should ', function () {
+      beforeEach(function () {
+        this.set('label', 'nom');
+        this.set('validationStatus', 'success');
+        this.set('validationMessage', '');
+        this.set('textfieldName', 'firstname');
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          "id": "fOMwrW48",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"form-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.it)('return true if any img does exist', function () {
+        // then
+        (0, _chai.expect)(this.$('img')).to.have.length(1);
+        (0, _chai.expect)(this.$('img').attr('class')).to.contain('form-textfield__icon--success');
+      });
+
+      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
+        var item = _ref5.item,
+            itemSelector = _ref5.itemSelector,
+            expectedClass = _ref5.expectedClass;
+
+        (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
+          // then
+          (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -6948,6 +7149,157 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
     });
   });
 });
+define('pix-live/tests/integration/components/reset-password-form-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
+  'use strict';
+
+  var PASSWORD_INPUT_CLASS = '.form-textfield__input';
+
+  (0, _mocha.describe)('Integration | Component | reset password form', function () {
+    (0, _emberMocha.setupComponentTest)('reset-password-form', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('Component rendering', function () {
+
+      (0, _mocha.it)('should be rendered', function () {
+        this.render(Ember.HTMLBars.template({
+          "id": "A4Ro+tal",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"reset-password-form\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      (0, _mocha.describe)('When component is rendered,', function () {
+
+        [{ item: '.reset-password-form' }, { item: '.reset-password-form__heading' }, { item: '.reset-password-form__user-details' }, { item: '.reset-password-form__instruction' }, { item: '.reset-password-form__password-textfield-container' }, { item: '.form-textfield__label' }, { item: '.reset-password__textfield' }, { item: '.form-textfield__input-field-container ' }].forEach(function (_ref2) {
+          var item = _ref2.item;
+
+          (0, _mocha.it)('should contains  a item with class: ' + item, function () {
+            // when
+            this.render(Ember.HTMLBars.template({
+              "id": "A4Ro+tal",
+              "block": "{\"symbols\":[],\"statements\":[[1,[18,\"reset-password-form\"],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+
+            // then
+            (0, _chai.expect)(this.$(item)).to.have.lengthOf(1);
+          });
+        });
+
+        (0, _mocha.it)('should display user’s fullname', function () {
+          // given
+          var user = { firstName: 'toto', lastName: 'riri' };
+          this.set('user', user);
+          var expectedFullname = user.firstName + ' ' + user.lastName;
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "UTnvAojt",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.reset-password-form__user-details').text().trim()).to.equal(expectedFullname);
+        });
+      });
+
+      (0, _mocha.describe)('A submit button', function () {
+
+        (0, _mocha.it)('should be rendered', function () {
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "A4Ro+tal",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"reset-password-form\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.reset-password-form__submit-button')).to.have.lengthOf(1);
+        });
+
+        (0, _mocha.describe)('Saving behavior', function () {
+
+          var isSaveMethodCalled = void 0;
+
+          var save = function save() {
+            isSaveMethodCalled = true;
+            return Ember.RSVP.resolve();
+          };
+
+          var saveWithRejection = function saveWithRejection() {
+            isSaveMethodCalled = true;
+            return Ember.RSVP.reject();
+          };
+
+          (0, _mocha.beforeEach)(function () {
+            isSaveMethodCalled = false;
+          });
+
+          (0, _mocha.it)('should save the new password, when button is clicked', function () {
+            var _this = this;
+
+            // given
+            var user = Ember.Object.create({ firstName: 'toto', lastName: 'riri', save: save });
+            this.set('user', user);
+            var validPassword = 'Pix 1 2 3!';
+
+            this.render(Ember.HTMLBars.template({
+              "id": "UTnvAojt",
+              "block": "{\"symbols\":[],\"statements\":[[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+
+            // when
+            this.$(PASSWORD_INPUT_CLASS).val(validPassword);
+            this.$(PASSWORD_INPUT_CLASS).change();
+
+            this.$('.reset-password-form__submit-button').click();
+
+            // then
+            return (0, _wait.default)().then(function () {
+              (0, _chai.expect)(isSaveMethodCalled).to.be.true;
+              (0, _chai.expect)(_this.get('user.password')).to.eql(validPassword);
+              (0, _chai.expect)(_this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
+              (0, _chai.expect)(_this.$('.form-textfield__message--success')).to.have.lengthOf(1);
+            });
+          });
+
+          (0, _mocha.it)('should get an error, when button is clicked and saving return error', function () {
+            var _this2 = this;
+
+            // given
+            var user = Ember.Object.create({ firstName: 'toto', lastName: 'riri', save: saveWithRejection });
+            this.set('user', user);
+            var validPassword = 'Pix 1 2 3!';
+
+            this.render(Ember.HTMLBars.template({
+              "id": "UTnvAojt",
+              "block": "{\"symbols\":[],\"statements\":[[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+
+            // when
+            this.$(PASSWORD_INPUT_CLASS).val(validPassword);
+            this.$(PASSWORD_INPUT_CLASS).change();
+
+            this.$('.reset-password-form__submit-button').click();
+
+            // then
+            return (0, _wait.default)().then(function () {
+              (0, _chai.expect)(isSaveMethodCalled).to.be.true;
+              (0, _chai.expect)(_this2.get('user.password')).to.eql(validPassword);
+              (0, _chai.expect)(_this2.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
+              (0, _chai.expect)(_this2.$('.form-textfield__message--error')).to.have.lengthOf(1);
+            });
+          });
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -7897,7 +8249,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var EXPECTED_FORM_HEADING_CONTENT = 'Inscription gratuite';
 
   var INPUT_TEXT_FIELD = '.signup-form__input-container';
-  var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'signup-textfield__input-container--default';
+  var INPUT_TEXT_FIELD_CLASS_DEFAULT = 'form-textfield__input-container--default';
 
   var CHECKBOX_CGU_CONTAINER = '.signup-form__cgu-container';
   var CHECKBOX_CGU_INPUT = '#pix-cgu';
@@ -7911,16 +8263,16 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
   var SUBMIT_BUTTON = '.signup__submit-button';
   var SUBMIT_BUTTON_CONTENT = 'Je m\'inscris';
 
-  var MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
+  var MESSAGE_ERROR_STATUS = 'form-textfield__message--error';
   var EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
 
   var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
   var EMPTY_EMAIL_ERROR_MESSAGE = 'Votre email n’est pas valide.';
   var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
-  var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
+  var MESSAGE_SUCCESS_STATUS = 'form-textfield__message--success';
 
-  var ICON_ERROR_CLASS = 'signup-textfield__icon--error';
-  var ICON_SUCCESS_CLASS = 'signup-textfield__icon--success';
+  var ICON_ERROR_CLASS = 'form-textfield__icon--error';
+  var ICON_SUCCESS_CLASS = 'form-textfield__icon--success';
 
   var userEmpty = Ember.Object.create({});
   var CAPTCHA_CONTAINER = '.signup-form__captcha-container';
@@ -8435,206 +8787,9 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
 
           // then
           return (0, _wait.default)().then(function () {
-            var inputFirst = _this13.$('.signup-textfield__input-field-container').first();
+            var inputFirst = _this13.$('.form-textfield__input-field-container').first();
             (0, _chai.expect)(inputFirst.prop('class')).to.includes(INPUT_TEXT_FIELD_CLASS_DEFAULT);
           });
-        });
-      });
-    });
-  });
-});
-define('pix-live/tests/integration/components/signup-textfield-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
-  'use strict';
-
-  (0, _mocha.describe)('Integration | Component | signup textfield', function () {
-    (0, _emberMocha.setupComponentTest)('signup-textfield', {
-      integration: true
-    });
-
-    var LABEL = '.signup-textfield__label';
-    var LABEL_TEXT = 'NOM';
-
-    var MESSAGE = '.signup-textfield__message';
-    var MESSAGE_ERROR_STATUS = 'signup-textfield__message--error';
-    var MESSAGE_SUCCESS_STATUS = 'signup-textfield__message--success';
-    var MESSAGE_TEXT = '';
-
-    var INPUT = '.signup-textfield__input';
-    var INPUT_DEFAULT_CLASS = 'signup-textfield__input--default';
-    var INPUT_SUCCESS_CLASS = 'signup-textfield__input--success';
-    var INPUT_ERROR_CLASS = 'signup-textfield__input--error';
-
-    (0, _mocha.describe)('#Component rendering', function () {
-      beforeEach(function () {
-        this.set('label', 'nom');
-        this.set('validationStatus', '');
-        this.set('textfieldName', 'firstname');
-
-        // When
-        this.render(Ember.HTMLBars.template({
-          "id": "RNxSWvw3",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-      });
-
-      [{ expectedRendering: 'label', item: LABEL, expectedLength: 1 }, { expectedRendering: 'div', item: MESSAGE, expectedLength: 1 }, { expectedRendering: 'input', item: INPUT, expectedLength: 1 }, { expectedRendering: 'div', item: '', expectedLength: 1 }].forEach(function (_ref2) {
-        var expectedRendering = _ref2.expectedRendering,
-            item = _ref2.item,
-            expectedLength = _ref2.expectedLength;
-
-        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
-          // Then
-          (0, _chai.expect)(this.$(item)).to.have.length(expectedLength);
-          (0, _chai.expect)(this.$(item).prop('nodeName')).to.equal(expectedRendering.toUpperCase());
-        });
-      });
-
-      [{ item: LABEL, expectedRendering: 'label', expectedText: LABEL_TEXT }, { item: MESSAGE, expectedRendering: 'div.message', expectedText: MESSAGE_TEXT }].forEach(function (_ref3) {
-        var item = _ref3.item,
-            expectedRendering = _ref3.expectedRendering,
-            expectedText = _ref3.expectedText;
-
-        (0, _mocha.it)('Should render a ' + expectedRendering, function () {
-          // Then
-          (0, _chai.expect)(this.$(item).text().toUpperCase()).to.equal(expectedText);
-        });
-      });
-    });
-
-    //behavior
-    (0, _mocha.describe)('#Component Interactions', function () {
-
-      (0, _mocha.it)('should handle action <validate> when input lost focus', function () {
-        // given
-        var isActionValidateHandled = false;
-        var inputValueToValidate = void 0;
-        var expectedInputValue = 'firstname';
-
-        this.on('validate', function (arg) {
-          isActionValidateHandled = true;
-          inputValueToValidate = arg;
-        });
-
-        this.set('label', 'nom');
-        this.set('validationStatus', '');
-        this.set('textfieldName', 'firstname');
-
-        this.render(Ember.HTMLBars.template({
-          "id": "k2d22+m7",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"textfieldName\",\"validate\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"textfieldName\"]],\"validate\"]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-        // when
-        this.$(INPUT).val('pix');
-        this.$(INPUT).trigger('focusout');
-        // then
-        return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(isActionValidateHandled).to.be.true;
-          (0, _chai.expect)(inputValueToValidate).to.deep.equal(expectedInputValue);
-        });
-      });
-
-      (0, _mocha.describe)('#When validationStatus gets "default", Component should ', function () {
-        beforeEach(function () {
-          this.set('label', 'nom');
-          this.set('validationStatus', 'default');
-          this.set('textfieldName', 'firstname');
-          this.set('validationMessage', '');
-
-          // When
-          this.render(Ember.HTMLBars.template({
-            "id": "byQuiyM0",
-            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-        });
-
-        (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
-          // then
-          (0, _chai.expect)(this.$('img')).to.have.length(0);
-        });
-
-        (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
-          var input = this.$(INPUT);
-          // then
-          (0, _chai.expect)(input.attr('class')).to.contain(INPUT_DEFAULT_CLASS);
-          (0, _chai.expect)(input.val()).to.contain('');
-        });
-
-        (0, _mocha.it)('should not show a div for message validation status  when validationStatus is default', function () {
-          // then
-          (0, _chai.expect)(this.$(MESSAGE)).to.lengthOf(0);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('#When validationStatus gets "error", Component should ', function () {
-      beforeEach(function () {
-        this.set('label', 'nom');
-        this.set('validationStatus', 'error');
-        this.set('textfieldName', 'firstname');
-
-        // When
-        this.render(Ember.HTMLBars.template({
-          "id": "byQuiyM0",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-        this.set('validationMessage', '');
-      });
-
-      (0, _mocha.it)('return true if any img does exist', function () {
-        var _this = this;
-
-        // then
-        return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this.$('img')).to.have.length(1);
-          (0, _chai.expect)(_this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
-        });
-      });
-
-      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_ERROR_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_ERROR_STATUS }].forEach(function (_ref4) {
-        var item = _ref4.item,
-            itemSelector = _ref4.itemSelector,
-            expectedClass = _ref4.expectedClass;
-
-        (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
-          // then
-          (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('#When validationStatus gets "success", Component should ', function () {
-      beforeEach(function () {
-        this.set('label', 'nom');
-        this.set('validationStatus', 'success');
-        this.set('validationMessage', '');
-        this.set('textfieldName', 'firstname');
-
-        // When
-        this.render(Ember.HTMLBars.template({
-          "id": "byQuiyM0",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"signup-textfield\",null,[[\"label\",\"validationStatus\",\"validationMessage\",\"textfieldName\"],[[19,0,[\"label\"]],[19,0,[\"validationStatus\"]],[19,0,[\"validationMessage\"]],[19,0,[\"textfieldName\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-      });
-
-      (0, _mocha.it)('return true if any img does exist', function () {
-        // then
-        (0, _chai.expect)(this.$('img')).to.have.length(1);
-        (0, _chai.expect)(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
-      });
-
-      [{ item: 'Input', itemSelector: INPUT, expectedClass: INPUT_SUCCESS_CLASS }, { item: 'Div for message validation status', itemSelector: MESSAGE, expectedClass: MESSAGE_SUCCESS_STATUS }].forEach(function (_ref5) {
-        var item = _ref5.item,
-            itemSelector = _ref5.itemSelector,
-            expectedClass = _ref5.expectedClass;
-
-        (0, _mocha.it)('contain an ' + item + ' with an additional class ' + expectedClass, function () {
-          // then
-          (0, _chai.expect)(this.$(itemSelector).attr('class')).to.contain(expectedClass);
         });
       });
     });
@@ -9271,6 +9426,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/form-textfield-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/g-recaptcha-test.js', function () {
       // test passed
     });
@@ -9335,6 +9494,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/reset-password-form-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/result-item-test.js', function () {
       // test passed
     });
@@ -9360,10 +9523,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/signup-form-test.js', function () {
-      // test passed
-    });
-
-    it('integration/components/signup-textfield-test.js', function () {
       // test passed
     });
 
@@ -9439,6 +9598,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/form-textfield-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/g-recaptcha-test.js', function () {
       // test passed
     });
@@ -9463,6 +9626,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/reset-password-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/result-item-test.js', function () {
       // test passed
     });
@@ -9476,10 +9643,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/share-profile-test.js', function () {
-      // test passed
-    });
-
-    it('unit/components/signup-textfield-test.js', function () {
       // test passed
     });
 
@@ -10739,6 +10902,151 @@ define('pix-live/tests/unit/components/follower-form-test', ['chai', 'mocha', 'e
     });
   });
 });
+define('pix-live/tests/unit/components/form-textfield-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
+  var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
+  var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
+
+  (0, _mocha.describe)('Unit | Component | signupTextfieldComponent', function () {
+
+    (0, _emberMocha.setupTest)('component:form-textfield', {});
+
+    (0, _mocha.describe)('Component should renders :', function () {
+
+      [{ renderingIntent: 'text', inputId: 'shi' }, { renderingIntent: 'text', inputId: '' }, { renderingIntent: 'email', inputId: 'email' }, { renderingIntent: 'password', inputId: 'password' }].forEach(function (_ref) {
+        var renderingIntent = _ref.renderingIntent,
+            inputId = _ref.inputId;
+
+        (0, _mocha.it)('an ' + renderingIntent + ' when input id is ' + inputId, function () {
+          // given
+          var component = this.subject();
+          // when
+          component.set('textfieldName', inputId);
+          var inputType = component.get('textfieldType');
+          // then
+          (0, _chai.expect)(inputType).to.equal(renderingIntent);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('When validationStatus gets "default", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--default' }, { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--default' }, { property: 'validationMessageClass', expectedValue: 'form-textfield__message--default' }].forEach(function (_ref2) {
+        var property = _ref2.property,
+            expectedValue = _ref2.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'default');
+          component.set('validationMessage', '');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is empty', message: '' }, { errorType: 'lastname is empty', message: '' }, { errorType: 'password is incorrect', message: '' }].forEach(function (_ref3) {
+          var errorType = _ref3.errorType,
+              message = _ref3.message;
+
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'default');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('When validationStatus gets "error", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--error' }, { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--error' }, { property: 'validationMessageClass', expectedValue: 'form-textfield__message--error' }].forEach(function (_ref4) {
+        var property = _ref4.property,
+            expectedValue = _ref4.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'error');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref5) {
+          var errorType = _ref5.errorType,
+              message = _ref5.message;
+
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'error');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('When validationStatus gets "success", Component computed property: ', function () {
+
+      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'form-textfield__input--success' }, { property: 'inputContainerStatusClass', expectedValue: 'form-textfield__input-container--success' }, { property: 'validationMessageClass', expectedValue: 'form-textfield__message--success' }].forEach(function (_ref6) {
+        var property = _ref6.property,
+            expectedValue = _ref6.expectedValue;
+
+        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
+          // Given
+          var component = this.subject();
+          // When
+          component.set('validationStatus', 'success');
+          var propertyValue = component.get(property);
+          // Then
+          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
+        });
+      });
+
+      (0, _mocha.describe)('#validationMessage: ', function () {
+
+        [{ errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref7) {
+          var errorType = _ref7.errorType,
+              message = _ref7.message;
+
+
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+            // Given
+            var component = this.subject();
+            // When
+            component.set('validationStatus', 'error');
+            component.set('validationMessage', message);
+            var propertyValue = component.get('validationMessage');
+            // Then
+            (0, _chai.expect)(propertyValue).to.equal(message);
+          });
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/g-recaptcha-test', ['mocha', 'chai', 'ember-mocha'], function (_mocha, _chai, _emberMocha) {
   'use strict';
 
@@ -11359,6 +11667,107 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['chai', 
     });
   });
 });
+define('pix-live/tests/unit/components/reset-password-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | reset password form', function () {
+    (0, _emberMocha.setupComponentTest)('reset-password-form', {
+      needs: ['component:form-textfield'],
+      unit: true
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // given
+      var component = this.subject();
+
+      // when
+      this.render();
+
+      // then
+      (0, _chai.expect)(component).to.be.ok;
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('fullname', function () {
+
+      var userIdentity = {
+        firstName: 'Manu',
+        lastName: 'Phillip'
+      };
+
+      var user = Ember.Object.create(userIdentity);
+
+      (0, _mocha.it)('should be computed when a user is provided', function () {
+        // given
+        var component = this.subject();
+        component.set('user', user);
+        var expectedFullname = userIdentity.firstName + ' ' + userIdentity.lastName;
+
+        // when
+        this.render();
+
+        // then
+        (0, _chai.expect)(component.get('fullname')).to.equal(expectedFullname);
+      });
+    });
+
+    (0, _mocha.describe)('validatePassword', function () {
+
+      var component = void 0;
+
+      var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+      var VALIDATION_MAP = {
+        default: {
+          status: 'default', message: null
+        },
+        error: {
+          status: 'error', message: ERROR_PASSWORD_MESSAGE
+        },
+        success: {
+          status: 'success', message: null
+        }
+      };
+
+      (0, _mocha.beforeEach)(function () {
+        component = this.subject();
+      });
+
+      (0, _mocha.it)('should set validation status to default, when component is rendered', function () {
+        // when
+        this.render();
+
+        // then
+        (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['default']);
+      });
+
+      (0, _mocha.it)('should set validation status to error, when there is an validation error on password field', function () {
+        //given
+        var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
+        component.set('user', userWithBadPassword);
+        this.render();
+
+        // when
+        component.send('validatePassword');
+
+        // then
+        (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+      });
+
+      (0, _mocha.it)('should set validation status to success, when password is valid', function () {
+        //given
+        var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0' };
+        component.set('user', userWithBadPassword);
+        this.render();
+
+        // when
+        component.send('validatePassword');
+
+        // then
+        (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+      });
+    });
+  });
+});
 define('pix-live/tests/unit/components/result-item-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -11616,151 +12025,6 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(component.get('_organization')).to.equal(null);
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/components/signup-textfield-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  var EMPTY_FIRSTNAME_ERROR_MESSAGE = 'Votre prénom n’est pas renseigné.';
-  var EMPTY_LASTNAME_ERROR_MESSAGE = 'Votre nom n’est pas renseigné.';
-  var INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et' + ' 8 caractères.';
-
-  (0, _mocha.describe)('Unit | Component | signupTextfieldComponent', function () {
-
-    (0, _emberMocha.setupTest)('component:signup-textfield', {});
-
-    (0, _mocha.describe)('Component should renders :', function () {
-
-      [{ renderingIntent: 'text', inputId: 'shi' }, { renderingIntent: 'text', inputId: '' }, { renderingIntent: 'email', inputId: 'email' }, { renderingIntent: 'password', inputId: 'password' }].forEach(function (_ref) {
-        var renderingIntent = _ref.renderingIntent,
-            inputId = _ref.inputId;
-
-        (0, _mocha.it)('an ' + renderingIntent + ' when input id is ' + inputId, function () {
-          // given
-          var component = this.subject();
-          // when
-          component.set('textfieldName', inputId);
-          var inputType = component.get('textfieldType');
-          // then
-          (0, _chai.expect)(inputType).to.equal(renderingIntent);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('When validationStatus gets "default", Component computed property: ', function () {
-
-      [{ property: 'hasIcon', expectedValue: false }, { property: 'iconType', expectedValue: '' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--default' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--default' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--default' }].forEach(function (_ref2) {
-        var property = _ref2.property,
-            expectedValue = _ref2.expectedValue;
-
-        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
-          // Given
-          var component = this.subject();
-          // When
-          component.set('validationStatus', 'default');
-          component.set('validationMessage', '');
-          var propertyValue = component.get(property);
-          // Then
-          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
-        });
-      });
-
-      (0, _mocha.describe)('#validationMessage: ', function () {
-
-        [{ errorType: 'firstname is empty', message: '' }, { errorType: 'lastname is empty', message: '' }, { errorType: 'password is incorrect', message: '' }].forEach(function (_ref3) {
-          var errorType = _ref3.errorType,
-              message = _ref3.message;
-
-
-          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
-            // Given
-            var component = this.subject();
-            // When
-            component.set('validationStatus', 'default');
-            component.set('validationMessage', message);
-            var propertyValue = component.get('validationMessage');
-            // Then
-            (0, _chai.expect)(propertyValue).to.equal(message);
-          });
-        });
-      });
-    });
-
-    (0, _mocha.describe)('When validationStatus gets "error", Component computed property: ', function () {
-
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'error' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--error' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--error' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--error' }].forEach(function (_ref4) {
-        var property = _ref4.property,
-            expectedValue = _ref4.expectedValue;
-
-        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
-          // Given
-          var component = this.subject();
-          // When
-          component.set('validationStatus', 'error');
-          var propertyValue = component.get(property);
-          // Then
-          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
-        });
-      });
-
-      (0, _mocha.describe)('#validationMessage: ', function () {
-
-        [{ errorType: 'firstname is empty', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is empty', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is incorrect', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref5) {
-          var errorType = _ref5.errorType,
-              message = _ref5.message;
-
-
-          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
-            // Given
-            var component = this.subject();
-            // When
-            component.set('validationStatus', 'error');
-            component.set('validationMessage', message);
-            var propertyValue = component.get('validationMessage');
-            // Then
-            (0, _chai.expect)(propertyValue).to.equal(message);
-          });
-        });
-      });
-    });
-
-    (0, _mocha.describe)('When validationStatus gets "success", Component computed property: ', function () {
-
-      [{ property: 'hasIcon', expectedValue: true }, { property: 'iconType', expectedValue: 'success' }, { property: 'inputValidationStatus', expectedValue: 'signup-textfield__input--success' }, { property: 'inputContainerStatusClass', expectedValue: 'signup-textfield__input-container--success' }, { property: 'validationMessageClass', expectedValue: 'signup-textfield__message--success' }].forEach(function (_ref6) {
-        var property = _ref6.property,
-            expectedValue = _ref6.expectedValue;
-
-        (0, _mocha.it)(property + ' should return ' + expectedValue + ' ', function () {
-          // Given
-          var component = this.subject();
-          // When
-          component.set('validationStatus', 'success');
-          var propertyValue = component.get(property);
-          // Then
-          (0, _chai.expect)(propertyValue).to.equal(expectedValue);
-        });
-      });
-
-      (0, _mocha.describe)('#validationMessage: ', function () {
-
-        [{ errorType: 'firstname is valid', message: EMPTY_FIRSTNAME_ERROR_MESSAGE }, { errorType: 'lastname is valid', message: EMPTY_LASTNAME_ERROR_MESSAGE }, { errorType: 'password is valid', message: INCORRECT_PASSWORD_FORMAT_ERROR_MESSAGE }].forEach(function (_ref7) {
-          var errorType = _ref7.errorType,
-              message = _ref7.message;
-
-
-          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
-            // Given
-            var component = this.subject();
-            // When
-            component.set('validationStatus', 'error');
-            component.set('validationMessage', message);
-            var propertyValue = component.get('validationMessage');
-            // Then
-            (0, _chai.expect)(propertyValue).to.equal(message);
-          });
-        });
       });
     });
   });
