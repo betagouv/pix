@@ -27,6 +27,9 @@ exports.register = function(server, options, next) {
         }],
         handler: UserController.updatePassword,
         validate: {
+          options: {
+            allowUnknown: true
+          },
           payload: {
             data: {
               attributes: {
