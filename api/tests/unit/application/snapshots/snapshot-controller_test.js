@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const profileService = require('../../../../lib/domain/services/profile-service');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const snapshotService = require('../../../../lib/domain/services/snapshot-service');
@@ -13,7 +13,6 @@ const logger = require('../../../../lib/infrastructure/logger');
 const { InvalidTokenError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const USER_ID = 1;
-const PROFILE_ID = 2;
 const ORGANIZATION_ID = 3;
 const SNAPSHOT_ID = 4;
 
@@ -22,80 +21,6 @@ const user = {
   firstName: 'Luke',
   lastName: 'Skywalker',
   email: 'luke@sky.fr'
-};
-
-const serializedUserProfile = {
-  data: {
-    type: 'users',
-    id: PROFILE_ID,
-    attributes: {
-      'first-name': 'Luke',
-      'last-name': 'Skywalker',
-      'total-pix-score': 128,
-      'email': 'luke@sky.fr'
-    },
-    relationships: {
-      competences: {
-        data: [
-          { type: 'competences', id: 'recCompA' },
-          { type: 'competences', id: 'recCompB' }
-        ]
-      }
-    },
-  },
-  included: [
-    {
-      type: 'areas',
-      id: 'recAreaA',
-      attributes: {
-        name: 'area-name-1'
-      }
-    },
-    {
-      type: 'areas',
-      id: 'recAreaB',
-      attributes: {
-        name: 'area-name-2'
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompA',
-      attributes: {
-        name: 'competence-name-1',
-        index: '1.1',
-        level: -1,
-        'course-id': 'recBxPAuEPlTgt72q11'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaA'
-          }
-        }
-      }
-    },
-    {
-      type: 'competences',
-      id: 'recCompB',
-      attributes: {
-        name: 'competence-name-2',
-        index: '1.2',
-        level: 8,
-        'pix-score': 128,
-        'course-id': 'recBxPAuEPlTgt72q99'
-      },
-      relationships: {
-        area: {
-          data: {
-            type: 'areas',
-            id: 'recAreaB'
-          }
-        }
-      }
-    }
-  ]
 };
 
 describe('Unit | Controller | snapshot-controller', () => {
