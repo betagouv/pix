@@ -6132,37 +6132,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
     });
   });
 });
-define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
 
   (0, _mocha.describe)('Integration | Component | password reset form', function () {
     (0, _emberMocha.setupComponentTest)('password-reset-form', {
@@ -6170,15 +6141,6 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
     });
 
     (0, _mocha.it)('renders', function () {
-      // Set any properties with this.set('myProperty', 'value');
-      // Handle any actions with this.on('myAction', function(val) { ... });
-      // Template block usage:
-      // this.render(hbs`
-      //   {{#password-reset-form}}
-      //     template content
-      //   {{/password-reset-form}}
-      // `);
-
       this.render(Ember.HTMLBars.template({
         "id": "AsAWcmkf",
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"password-reset-form\"],false]],\"hasEval\":false}",
@@ -6205,45 +6167,6 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       (0, _chai.expect)(this.$('.password-reset-form__button')).to.have.length(1);
     });
 
-    (0, _mocha.it)('should send a password reset demand to the route', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var email, sendToRoutePasswordResetDemandSpy;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              // given
-              email = 'email@example.com';
-              sendToRoutePasswordResetDemandSpy = _sinon.default.spy();
-
-              this.set('sendToRoutePasswordResetDemand', sendToRoutePasswordResetDemandSpy);
-              this.set('passwordResetDemand', function (givenEmail) {
-                // THEN
-                //MANQUE UN TEST POUR VERIFIER QUE LE BOUTON SUBMIT A UNE ACTION. TOI REVIEWER ! RAPELLE LE MOI
-                //CE TEST TESTE SEULEMENT QUE S'IL Y A UNE ACTION, ELLE A LE BON NOM
-                (0, _chai.expect)(givenEmail).to.equal(email);
-                return Promise.resolve();
-              });
-
-              this.render(Ember.HTMLBars.template({
-                "id": "RQVdVhCM",
-                "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"onSubmit\"],[[25,\"action\",[[19,0,[]],[19,0,[\"passwordResetDemand\"]]],null]]]],false]],\"hasEval\":false}",
-                "meta": {}
-              }));
-
-              this.$('.password-reset-form__form-email-input').val(email);
-              this.$('.password-reset-form__form-email-input').change();
-
-              // when
-              $('.password-reset-form__submit-button').click();
-
-            case 8:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
-
     (0, _mocha.it)('should display error message when there is an error on password reset demand', function () {
       // given
       this.set('_displayErrorMessage', true);
@@ -6257,6 +6180,21 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
 
       // then
       (0, _chai.expect)(this.$('.password-reset-form__form-error-message')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display success message when there is an error on password reset demand', function () {
+      // given
+      this.set('_displaySuccessMessage', true);
+
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "4F5tM8gk",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"_displaySuccessMessage\"],[[19,0,[\"_displaySuccessMessage\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.password-reset-form__form-success-message')).to.have.length(1);
     });
   });
 });
@@ -11122,36 +11060,103 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
     });
   });
 });
-define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'sinon', 'ember-mocha'], function (_mocha, _sinon, _emberMocha) {
+define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'chai', 'sinon', 'ember-mocha'], function (_mocha, _chai, _sinon, _emberMocha) {
   'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
 
   (0, _mocha.describe)('Unit | Component | password-reset-form', function () {
 
     (0, _emberMocha.setupTest)('component:password-reset-form', {});
 
     var component = void 0;
+    var sentEmail = 'dumb@people.com';
+    var createRecordStub = void 0,
+        saveStub = void 0;
 
-    beforeEach(function () {
-      component = this.subject();
-    });
+    (0, _mocha.describe)('success save of password Reset Demand', function () {
 
-    (0, _mocha.describe)('#sendToRoutePasswordResetDemand', function () {
+      beforeEach(function () {
 
-      (0, _mocha.it)('should send action to route password-reset', function () {
-        // given
-        var onSubmitActionStub = _sinon.default.stub();
-        onSubmitActionStub.resolves();
-        component.set('onSubmit', onSubmitActionStub);
-        var submittedEmail = 'dumb@people.com';
-        component.set('email', submittedEmail);
+        saveStub = _sinon.default.stub().resolves();
+        createRecordStub = _sinon.default.stub().returns({
+          save: saveStub
+        });
 
+        this.register('service:store', Ember.Service.extend({
+          createRecord: createRecordStub
+        }));
+        this.inject.service('store', { as: 'store' });
+
+        component = this.subject();
+        component.set('email', sentEmail);
+      });
+
+      (0, _mocha.it)('should create a passwordResetDemand Record', function () {
         // when
-        component.send('sendToRoutePasswordResetDemand');
+        component.send('savePasswordResetDemand');
 
         // then
-        _sinon.default.assert.called(onSubmitActionStub);
-        _sinon.default.assert.calledWith(onSubmitActionStub, submittedEmail);
+        _sinon.default.assert.called(createRecordStub);
+        _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
       });
+
+      (0, _mocha.it)('should save the password reset demand', function () {
+        // when
+        component.send('savePasswordResetDemand');
+
+        // then
+        _sinon.default.assert.called(saveStub);
+      });
+
+      (0, _mocha.it)('should display success message when save resolves', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return component.send('savePasswordResetDemand');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(component.get('_displaySuccessMessage')).to.be.true;
+                (0, _chai.expect)(component.get('_displayErrorMessage')).to.be.false;
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
     });
   });
 });
@@ -13606,7 +13611,7 @@ define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | password reset', function () {
@@ -13616,46 +13621,13 @@ define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'embe
     });
 
     var route = void 0;
-    var sentEmail = 'dumb@people.com';
-    var saveStub = _sinon.default.stub().resolves();
-    var createRecordStub = _sinon.default.stub().returns({
-      save: saveStub
-    });
 
     beforeEach(function () {
-      this.register('service:store', Ember.Service.extend({
-        createRecord: createRecordStub
-      }));
       route = this.subject();
-      route.transitionTo = _sinon.default.stub();
     });
 
     (0, _mocha.it)('exists', function () {
       (0, _chai.expect)(route).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#passwordResetDemand', function () {
-
-      (0, _mocha.it)('should create a passwordResetDemand Record', function () {
-        // when
-        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
-
-        // then
-        return promise.then(function () {
-          _sinon.default.assert.called(createRecordStub);
-          _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
-        });
-      });
-
-      (0, _mocha.it)('should save the password reset demand', function () {
-        // when
-        var promise = route.actions.passwordResetDemand.call(route, sentEmail);
-
-        // then
-        return promise.then(function () {
-          _sinon.default.assert.called(saveStub);
-        });
-      });
     });
   });
 });
