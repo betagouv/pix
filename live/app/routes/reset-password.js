@@ -16,7 +16,5 @@ export default BaseRoute.extend(UnauthenticatedRouteMixin, {
         .catch(() => this.transitionTo('index'))
     });
 
-  },
-
-  actions: {}
+  }
 });
