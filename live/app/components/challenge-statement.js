@@ -51,6 +51,6 @@ export default Component.extend({
   },
 
   _formattedEmailForInstruction: function() {
-    return `${this.get('challenge.id')}-${this.get('assessment.id')}-${moment().format('DDMM')}@pix.beta.gouv.fr`;
+    return `${this.get('challenge.id')}-${this.get('assessment.id')}-${moment().format('DDMM')}@pix-infra.ovh`;
   },
 });
