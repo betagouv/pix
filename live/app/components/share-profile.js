@@ -32,13 +32,13 @@ export default Ember.Component.extend({
     if (this.get('_organization.type') === 'PRO') {
       return {
         text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :',
-        text2: 'En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes :',
+        text2: 'En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :',
         text3: 'Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
       };
     }
     return {
       text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :',
-      text2: 'En cliquant sur le bouton «Envoyer», il recevra les informations suivantes :',
+      text2: 'En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :',
       text3: 'Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
     };
   }),
