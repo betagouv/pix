@@ -8,7 +8,7 @@ const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, Inva
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
 function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
-  const passwordResetDemandUrl = `${request.connection.info.protocol}://${request.info.host}`;
+  const passwordResetDemandUrl = `${request.headers.origin}`;
   return mailService
     .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
     .then(() => passwordResetDemand);
