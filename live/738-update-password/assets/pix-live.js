@@ -1896,6 +1896,7 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
 
 
   var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a été bien mis à jour';
   var VALIDATION_MAP = {
     default: {
       status: 'default', message: null
@@ -1904,7 +1905,7 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
       status: 'error', message: ERROR_PASSWORD_MESSAGE
     },
     success: {
-      status: 'success', message: null
+      status: 'success', message: PASSWORD_SUCCESS_MESSAGE
     }
   };
 
@@ -1926,7 +1927,8 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
         var _this = this;
 
         return this.get('user').save().then(function () {
-          return _this.set('validation', VALIDATION_MAP['success']);
+          _this.set('validation', VALIDATION_MAP['success']);
+          _this.set('user.password', null);
         }).catch(function () {
           return _this.set('validation', VALIDATION_MAP['error']);
         });
@@ -7830,7 +7832,7 @@ define("pix-live/templates/reset-password", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "3wZXbWKM", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\",\"user\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "+zxnLyKX", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__link-to-home\"],[7],[0,\"\\n    \"],[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Annuler\\n      \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\",\"user\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
 });
 define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   "use strict";
@@ -8631,6 +8633,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+02e60053"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+bc6b13c0"});
 }
 //# sourceMappingURL=pix-live.map

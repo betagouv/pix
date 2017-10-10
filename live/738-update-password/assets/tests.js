@@ -7256,8 +7256,8 @@ define('pix-live/tests/integration/components/reset-password-form-test', ['chai'
             // then
             return (0, _wait.default)().then(function () {
               (0, _chai.expect)(isSaveMethodCalled).to.be.true;
-              (0, _chai.expect)(_this.get('user.password')).to.eql(validPassword);
-              (0, _chai.expect)(_this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
+              (0, _chai.expect)(_this.get('user.password')).to.eql(null);
+              (0, _chai.expect)(_this.$(PASSWORD_INPUT_CLASS).val()).to.equal('');
               (0, _chai.expect)(_this.$('.form-textfield__message--success')).to.have.lengthOf(1);
             });
           });
@@ -9625,7 +9625,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/components/reset-password-test.js', function () {
+    it('unit/components/reset-password-form-test.js', function () {
       // test passed
     });
 
@@ -11662,8 +11662,21 @@ define('pix-live/tests/unit/components/qrocm-ind-solution-panel-test', ['chai', 
     });
   });
 });
-define('pix-live/tests/unit/components/reset-password-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
+
+  var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var VALIDATION_MAP = {
+    default: {
+      status: 'default', message: null
+    },
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
+    },
+    success: {
+      status: 'success', message: 'Votre mot de passe a été bien mis à jour'
+    }
+  };
 
   (0, _mocha.describe)('Unit | Component | reset password form', function () {
     (0, _emberMocha.setupComponentTest)('reset-password-form', {
@@ -11710,19 +11723,6 @@ define('pix-live/tests/unit/components/reset-password-test', ['chai', 'mocha', '
 
       var component = void 0;
 
-      var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
-      var VALIDATION_MAP = {
-        default: {
-          status: 'default', message: null
-        },
-        error: {
-          status: 'error', message: ERROR_PASSWORD_MESSAGE
-        },
-        success: {
-          status: 'success', message: null
-        }
-      };
-
       (0, _mocha.beforeEach)(function () {
         component = this.subject();
       });
@@ -11750,8 +11750,8 @@ define('pix-live/tests/unit/components/reset-password-test', ['chai', 'mocha', '
 
       (0, _mocha.it)('should set validation status to success, when password is valid', function () {
         //given
-        var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0' };
-        component.set('user', userWithBadPassword);
+        var userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
+        component.set('user', userWithGoodPassword);
         this.render();
 
         // when
@@ -11759,6 +11759,70 @@ define('pix-live/tests/unit/components/reset-password-test', ['chai', 'mocha', '
 
         // then
         (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+      });
+    });
+
+    (0, _mocha.describe)('handleResetPassword', function () {
+      var component = void 0;
+      var save = function save() {
+        return Ember.RSVP.resolve();
+      };
+
+      var userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #', save: save };
+
+      (0, _mocha.beforeEach)(function () {
+        component = this.subject();
+      });
+
+      (0, _mocha.describe)('When user password is saved', function () {
+        (0, _mocha.it)('should update validation with success data', function () {
+          // given
+          component.set('user', userWithGoodPassword);
+          this.render();
+
+          // when
+          Ember.run(function () {
+            component.send('handleResetPassword');
+          });
+
+          // then
+          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+        });
+
+        (0, _mocha.it)('should reset paswword input', function () {
+          // given
+          component.set('user', userWithGoodPassword);
+          this.render();
+
+          // when
+          Ember.run(function () {
+            component.send('handleResetPassword');
+          });
+
+          // then
+          (0, _chai.expect)(component.get('user.password')).to.eql(null);
+        });
+      });
+
+      (0, _mocha.describe)('When user password saving fails', function () {
+        var saveWithRejection = function saveWithRejection() {
+          return Ember.RSVP.reject();
+        };
+
+        (0, _mocha.it)('should set validation with errors data', function () {
+          // given
+          var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix', save: saveWithRejection };
+          component.set('user', userWithBadPassword);
+          this.render();
+
+          // when
+          Ember.run(function () {
+            component.send('handleResetPassword');
+          });
+
+          // then
+          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+        });
       });
     });
   });
