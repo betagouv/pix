@@ -11652,6 +11652,35 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
         (0, _chai.expect)(isOrganizationHasTypeSup).to.be.false;
       });
     });
+
+    (0, _mocha.describe)('.organizationLabels', function () {
+
+      (0, _mocha.it)('should return adapted ("orgnisation"-based) labels when organization type is PRO', function () {
+        // given
+        component.set('_organization', { type: 'PRO' });
+
+        // when
+        var organizationLabel = component.get('organizationLabels');
+
+        // then
+        (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      });
+
+      (0, _mocha.it)('should return adapted ("établissement"-based) labels when organization type is SUP or SCO', function () {
+        // given
+        component.set('_organization', { type: 'SUP' });
+
+        // when
+        var organizationLabel = component.get('organizationLabels');
+
+        // then
+        (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      });
+    });
   });
 });
 define('pix-live/tests/unit/components/signup-textfield-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
