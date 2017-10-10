@@ -76,7 +76,6 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }

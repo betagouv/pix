@@ -131,14 +131,6 @@ class Assessment {
     return filteredFirstChallenges[0];
   }
 
-  get _firstChallenge() {
-    const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => challenge.hardestSkill.difficulty == 2 && challenge.timer === undefined
-    );
-    filteredFirstChallenges.sort(() => 0.5 - Math.random());
-    return filteredFirstChallenges[0];
-  }
-
   get nextChallenge() {
     if (this.answers.length == 0) {
       return this._firstChallenge;

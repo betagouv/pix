@@ -1,7 +1,7 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
 const server = require('../../../server');
 
-describe.skip('Acceptance | API | Assessments', function() {
+describe('Acceptance | API | Assessments', function() {
 
   before(function(done) {
 
@@ -16,6 +16,7 @@ describe.skip('Acceptance | API | Assessments', function() {
           // a bunch of fields
           'Adaptatif ?': true,
           '\u00c9preuves': [
+            'z_third_challenge',
             'z_second_challenge',
             'z_first_challenge',
           ],
@@ -49,6 +50,25 @@ describe.skip('Acceptance | API | Assessments', function() {
           'acquis': ['web3']
         },
       });
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Epreuves')
+      .query(true)
+      .reply(200, [{
+        'id': 'z_second_challenge',
+        'fields': {
+          'acquis': ['web2']
+        }
+      }, {
+        'id': 'z_first_challenge',
+        'fields': {
+          'acquis': ['web1']
+        }
+      }, {
+        'id': 'z_third_challenge',
+        'fields': {
+          'acquis': ['web3']
+        }
+      }]);
 
     done();
   });
@@ -76,7 +96,9 @@ describe.skip('Acceptance | API | Assessments', function() {
     });
 
     afterEach(function(done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function(done) {
@@ -91,12 +113,13 @@ describe.skip('Acceptance | API | Assessments', function() {
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
       server.inject(options, (response) => {
         const contentType = response.headers['content-type'];
-        expect(contentType).to.contain('application/json');
+        expect(contentType).to.contain('text/html');
         done();
       });
     });
 
   });
 
-});
+})
+;
 
