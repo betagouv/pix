@@ -1,9 +1,9 @@
 const jsonwebtoken = require('jsonwebtoken');
 const settings = require('../../settings');
-const tokenService = require('../services/token-service');
-const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../errors');
+const tokenService = require('../../domain/services/token-service');
+const Bookshelf = require('../../infrastructure/bookshelf');
 const passwordResetDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const Bookshelf = require('../../../lib/infrastructure/bookshelf');
+const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../domain/errors');
 
 module.exports = {
   generateTemporaryKey() {

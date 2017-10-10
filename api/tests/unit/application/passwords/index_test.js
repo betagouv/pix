@@ -1,4 +1,4 @@
-const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 
@@ -7,64 +7,76 @@ describe('Unit | Router | Password router', () => {
   let server;
 
   beforeEach(() => {
+    // server dependencies must be stubbed before server registration
+    sinon.stub(passwordController, 'createResetDemand');
+
     server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/passwords') });
   });
 
   afterEach(() => {
+    passwordController.createResetDemand.restore();
     server.stop();
   });
 
-  describe('POST /api/password-reset-demands', () => {
-    before(() => {
-      sinon.stub(passwordController, 'resetDemand');
-    });
+  describe('POST /api/password-resets', () => {
 
-    after(() => {
-      passwordController.resetDemand.restore();
-    });
-
-    it('should exist', (done) => {
+    it('should exist', () => {
       // given
-      passwordController.resetDemand.callsFake((request, reply) => {
+      passwordController.createResetDemand.callsFake((request, reply) => {
         reply('ok');
       });
 
+      const options = {
+        method: 'POST',
+        url: '/api/password-resets',
+        payload: {
+          data: {
+            attributes: {
+              email: 'uzinagaz@unknown.xh',
+              'temporary-key': 'clé'
+            },
+            type: 'password-reset'
+          }
+        }
+      };
+
       // when
-      server
-        .inject({ method: 'POST', url: '/api/password-reset-demands' })
-        .then((res) => {
-          // then
-          expect(res.statusCode).to.equal(200);
-          done();
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((res) => {
+        expect(res.statusCode).to.equal(200);
+      });
+    });
+
+    describe('when payload has a bad format or no email is provided', () => {
+
+      it('should reply with 400', () => {
+        // given
+        const options = {
+          method: 'POST',
+          url: '/api/password-resets',
+          payload: {
+            data: {
+              attributes: {}
+            }
+          }
+        };
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(400);
+          expect(response.statusMessage).to.equal('Bad Request');
         });
-    });
-  });
-
-  describe('GET /api/password-reset-demands/{temporaryKey}', () => {
-    before(() => {
-      sinon.stub(passwordController, 'checkResetDemand');
-    });
-
-    after(() => {
-      passwordController.checkResetDemand.restore();
-    });
-
-    it('should exist', (done) => {
-      // given
-      passwordController.checkResetDemand.callsFake((request, reply) => {
-        reply('ok');
       });
 
-      // when
-      server
-        .inject({ method: 'GET', url: '/api/password-reset-demands/temporary_key' })
-        .then((res) => {
-          // then
-          expect(res.statusCode).to.equal(200);
-          done();
-        });
     });
+
   });
+
 });

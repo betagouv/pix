@@ -1,33 +1,32 @@
-const Boom = require('boom');
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
-const resetPasswordService = require('../../domain/services/password-reset-service');
+const resetPasswordService = require('../../domain/services/reset-password-service');
+const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
+const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const UserRepository = require('../../infrastructure/repositories/user-repository');
-const ResetPasswordDemandRepository = require('../../infrastructure/repositories/password-reset-demands-repository');
-const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../domain/errors');
+const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
-const serializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
+
+function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
+  const passwordResetDemandUrl = `${request.connection.info.protocol}://${request.info.host}`;
+  return mailService
+    .sendResetPasswordDemandEmail(email, passwordResetDemandUrl, temporaryKey)
+    .then(() => passwordResetDemand);
+}
 
 module.exports = {
-  resetDemand(request, reply) {
-    if (!_isPayloadWellFormed(request)) {
-      return reply(Boom.badRequest());
-    }
+  createResetDemand(request, reply) {
 
-    const { email, hostEnv } = request.payload;
-    let temporarykey;
+    const { email } = request.payload.data.attributes;
 
-    return userService
-      .isUserExisting(email)
+    return userService.isUserExisting(email)
       .then(() => resetPasswordService.invalidOldResetPasswordDemand(email))
-      .then(() => {
-        temporarykey = resetPasswordService.generateTemporaryKey();
-        return temporarykey;
-      })
-      .then((temporaryKey) => ResetPasswordDemandRepository.create({ email, temporaryKey }))
-      .then(() => {
-        mailService.sendResetPasswordDemandEmail(email, hostEnv, temporarykey);
-        return reply();
+      .then(resetPasswordService.generateTemporaryKey)
+      .then((temporaryKey) => {
+        return resetPasswordDemandRepository.create({ email, temporaryKey })
+          .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand))
+          .then((passwordResetDemand) => passwordResetSerializer.serializeResetDemand(passwordResetDemand.attributes))
+          .then((serializedPayload) => reply(serializedPayload).code(201));
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
@@ -45,7 +44,7 @@ module.exports = {
       .then(({ email }) => {
         return UserRepository.findByEmail(email);
       })
-      .then((user) => serializer.serialize(user.toJSON()))
+      .then((user) => passwordResetSerializer.serializeUser(user.toJSON()))
       .then(reply)
       .catch((err) => {
         if (err instanceof InvalidTemporaryKeyError) {
@@ -59,9 +58,3 @@ module.exports = {
   }
 };
 
-function _isPayloadWellFormed(request) {
-  if (!(request.hasOwnProperty('payload') && ('email' in request.payload) && ('hostEnv' in request.payload))) {
-    return false;
-  }
-  return true;
-}

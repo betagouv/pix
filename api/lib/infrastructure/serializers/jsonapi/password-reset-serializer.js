@@ -1,7 +1,7 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
 module.exports = {
-  serialize(user) {
+  serializeUser(user) {
     return new JSONAPISerializer('user', {
       attributes: ['firstName', 'lastName'],
       transform(user) {
@@ -9,5 +9,15 @@ module.exports = {
         return user;
       }
     }).serialize(user);
+  },
+
+  serializeResetDemand(passwordResets) {
+    return new JSONAPISerializer('password-reset', {
+      attributes: ['email', 'temporaryKey'],
+      transform(passwordReset) {
+        passwordReset.id = passwordReset.id.toString();
+        return passwordReset;
+      }
+    }).serialize(passwordResets);
   }
 };

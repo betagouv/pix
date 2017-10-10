@@ -22,7 +22,7 @@ describe('Acceptance | Controller | users-controller', function() {
     });
 
     afterEach(() => {
-      return Promise.all([knex('users').delete(), knex('password-reset-demands').delete()]);
+      return Promise.all([knex('users').delete(), knex('reset-password-demands').delete()]);
     });
 
     it('should reply with 204 status code, when password is updated', async () => {
@@ -85,5 +85,5 @@ function _insertUser(email) {
 
 function _insertPasswordResetDemand(temporaryKey, email) {
   const resetDemandRaw = { email, temporaryKey };
-  return knex('password-reset-demands').insert(resetDemandRaw);
+  return knex('reset-password-demands').insert(resetDemandRaw);
 }

@@ -3,9 +3,9 @@ const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../..
 const settings = require('../../../../lib/settings');
 const resetPasswordService = require('../../../../lib/domain/services/password-reset-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
-const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/password-reset-demands-repository');
+const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const { InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
-const PaswwordResetDemand = require('../../../../lib/domain/models/data/password-reset-demand');
+const PaswwordResetDemand = require('../../../../lib/domain/models/data/reset-password-demand');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
 describe('Unit | Service | Password Service', function() {

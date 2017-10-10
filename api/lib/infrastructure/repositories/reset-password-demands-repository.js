@@ -1,4 +1,4 @@
-const ResetPasswordDemand = require('../../../lib/domain/models/data/password-reset-demand');
+const ResetPasswordDemand = require('../../../lib/domain/models/data/reset-password-demand');
 
 module.exports = {
   create(demand) {
@@ -6,12 +6,12 @@ module.exports = {
   },
 
   markAsBeingUsed(email) {
-    return ResetPasswordDemand.where({ email: email }).save({ used: true }, {
+    return ResetPasswordDemand.where({ email }).save({ used: true }, {
       patch: true,
       require: false
     });
   },
-
+  
   findByTemporaryKey(temporaryKey) {
     return ResetPasswordDemand.where({ temporaryKey, used: false })
       .fetch()

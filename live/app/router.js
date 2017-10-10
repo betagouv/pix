@@ -55,6 +55,8 @@ Router.map(function() {
   this.route('legal-notices', { path: '/mentions-legales' });
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
+
+  this.route('not-found', { path: '/*path' });
 });
 
 export default Router;

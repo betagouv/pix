@@ -5,8 +5,8 @@ module.exports = {
   isUserExisting(email) {
     return userRepository
       .findByEmail(email)
-      .then(_ => true)
-      .catch(_ => {
+      .then(() => true)
+      .catch(() => {
         throw new UserNotFoundError();
       });
   }

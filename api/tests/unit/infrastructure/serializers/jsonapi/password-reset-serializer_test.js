@@ -1,9 +1,9 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 
-describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
+describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
 
-  describe('#serialize', () => {
+  describe('#serializeUser', () => {
     it('should convert a snapshot into a JSON:API compliant object', () => {
       // given
       const user = {
@@ -25,10 +25,38 @@ describe('Unit | Serializer | JSONAPI | snapshot-serializer', () => {
       };
 
       // when
-      const result = serializer.serialize(user);
+      const result = serializer.serializeUser(user);
 
       // then
       expect(result).to.deep.equal(expectedSerializedUser);
+
+    });
+  });
+
+  describe('#serializeResetDemand', function() {
+
+    it('should convert password-reset-object to JSON-API', () => {
+      // given
+      const passwordResetDemand = {
+        id: 1,
+        email: 'toto@pix.fr',
+        temporaryKey: 'one key'
+      };
+      const expectedSerializedPasswordReset = {
+        data: {
+          type: 'password-resets',
+          id: '1',
+          attributes: {
+            email: 'toto@pix.fr',
+            'temporary-key': 'one key'
+          }
+        }
+      };
+
+      const result = serializer.serializeResetDemand(passwordResetDemand);
+
+      // then
+      expect(result).to.deep.equal(expectedSerializedPasswordReset);
     });
   });
 
