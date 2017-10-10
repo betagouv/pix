@@ -4268,7 +4268,6 @@ hr.project-page__presentation-header-line {
   max-width: 300px; }
   @media (min-width: 768px) {
     .course-groups-page__course-group-item {
-      max-width: -webkit-max-content;
       max-width: -moz-max-content;
       max-width: max-content; } }
 
