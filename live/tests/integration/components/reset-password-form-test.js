@@ -53,6 +53,7 @@ describe('Integration | Component | reset password form', function() {
         expect(this.$('.reset-password-form__user-details').text().trim()).to.equal(expectedFullname);
 
       });
+
     });
 
     describe('A submit button', () => {
@@ -100,8 +101,8 @@ describe('Integration | Component | reset password form', function() {
           // then
           return wait().then(() => {
             expect(isSaveMethodCalled).to.be.true;
-            expect(this.get('user.password')).to.eql(validPassword);
-            expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal(validPassword);
+            expect(this.get('user.password')).to.eql(null);
+            expect(this.$(PASSWORD_INPUT_CLASS).val()).to.equal('');
             expect(this.$('.form-textfield__message--success')).to.have.lengthOf(1);
           });
         });
@@ -135,6 +136,5 @@ describe('Integration | Component | reset password form', function() {
 
   });
 
-})
-;
+});
 

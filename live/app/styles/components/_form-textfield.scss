@@ -50,6 +50,10 @@
   color: $pure-orange;
 }
 
+.form-textfield__message--success {
+  color: $caribbean-green;
+}
+
 .form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email {
   position: relative;
   text-align: right;
