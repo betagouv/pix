@@ -24,12 +24,7 @@ module.exports = {
 
     return passwordResetDemandRepository
       .findByTemporaryKey(temporaryKey)
-      .then((fetchedDemand) => {
-        if (!fetchedDemand) {
-          throw new PasswordResetDemandNotFoundError();
-        }
-        return fetchedDemand.toJSON();
-      });
+      .then((fetchedDemand) => fetchedDemand.toJSON());
   },
 
   hasUserAPasswordResetDemandInProgress(email) {

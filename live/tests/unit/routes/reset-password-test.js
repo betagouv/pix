@@ -5,6 +5,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | changer mot de passe', function() {
+
   setupTest('route:reset-password', {
     needs: ['service:session', 'service:current-routed-modal']
   });
@@ -12,16 +13,16 @@ describe('Unit | Route | changer mot de passe', function() {
   describe('Route behavior', function() {
 
     let storeStub;
-    let queryRecordStub;
+    let findRecordStub;
     const params = {
       temporaryKey: 'pwd-reset-demand-token'
     };
     const transitionToStub = sinon.stub();
 
     beforeEach(function() {
-      queryRecordStub = sinon.stub();
+      findRecordStub = sinon.stub();
       storeStub = Ember.Service.extend({
-        queryRecord: queryRecordStub
+        findRecord: findRecordStub
       });
 
       this.register('service:store', storeStub);
@@ -38,7 +39,7 @@ describe('Unit | Route | changer mot de passe', function() {
 
     it('should ask password reset demand validity', function() {
       // given
-      queryRecordStub.resolves();
+      findRecordStub.resolves();
       const route = this.subject();
 
       // when
@@ -46,8 +47,8 @@ describe('Unit | Route | changer mot de passe', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(queryRecordStub);
-        sinon.assert.calledWith(queryRecordStub, 'password-reset-demand', { temporaryKey: params.temporaryKey });
+        sinon.assert.calledOnce(findRecordStub);
+        sinon.assert.calledWith(findRecordStub, 'password-reset-demand', params.temporaryKey);
       });
     });
 
@@ -64,17 +65,15 @@ describe('Unit | Route | changer mot de passe', function() {
           }
         };
         const expectedUser = {
-          user: {
-            data: {
-              id: 7,
-              attributes: {
-                email: 'pix@qmail.fr'
-              }
+          data: {
+            id: 7,
+            attributes: {
+              email: 'pix@qmail.fr'
             }
           }
         };
 
-        queryRecordStub.resolves(fetchedOwnerDetails);
+        findRecordStub.resolves(fetchedOwnerDetails);
         const route = this.subject();
 
         // when
@@ -91,7 +90,7 @@ describe('Unit | Route | changer mot de passe', function() {
 
       it('should redirect to home', function() {
         // given
-        queryRecordStub.rejects();
+        findRecordStub.rejects();
         const route = this.subject();
         route.set('transitionTo', transitionToStub);
 

@@ -1,4 +1,5 @@
 const ResetPasswordDemand = require('../../../lib/domain/models/data/reset-password-demand');
+const { PasswordResetDemandNotFoundError } = require('../../../lib/domain/errors');
 
 module.exports = {
   create(demand) {
@@ -11,15 +12,14 @@ module.exports = {
       require: false
     });
   },
-  
+
   findByTemporaryKey(temporaryKey) {
     return ResetPasswordDemand.where({ temporaryKey, used: false })
-      .fetch()
-      .then(resetDemand => {
-        if (!resetDemand) {
-          return false;
+      .fetch({ require: true })
+      .catch((err) => {
+        if(err instanceof ResetPasswordDemand.NotFoundError){
+          throw new PasswordResetDemandNotFoundError();
         }
-        return resetDemand;
       });
   },
 

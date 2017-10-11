@@ -21,15 +21,12 @@ function extractTokenFromAuthChain(authChain) {
 }
 
 function verifyValidity(token) {
-  let decoded;
-
   try {
-    decoded = jsonwebtoken.verify(token, settings.authentication.secret);
+    return jsonwebtoken.verify(token, settings.authentication.secret);
   }
-  catch (e) {
-    decoded = false;
+  catch (err) {
+    return false;
   }
-  return decoded;
 }
 
 function extractUserId(token) {

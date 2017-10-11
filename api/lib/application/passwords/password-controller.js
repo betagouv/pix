@@ -3,7 +3,7 @@ const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const UserRepository = require('../../infrastructure/repositories/user-repository');
+const userRepository = require('../../infrastructure/repositories/user-repository');
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
@@ -41,9 +41,7 @@ module.exports = {
     const temporaryKey = request.params.temporaryKey;
 
     return resetPasswordService.verifyDemand(temporaryKey)
-      .then(({ email }) => {
-        return UserRepository.findByEmail(email);
-      })
+      .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
       .then((user) => passwordResetSerializer.serializeUser(user.toJSON()))
       .then(reply)
       .catch((err) => {
