@@ -168,6 +168,50 @@ describe('Integration | Component | share profile', function() {
 
     });
 
+    describe('when organization\'s type is SCO', function() {
+
+      beforeEach(function() {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SCO' }));
+
+        // when
+        this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+      });
+
+      it('should not ask for student code (required)', function() {
+        // then
+        expect(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+      });
+
+      it('should not ask for campaign code (optionnal)', function() {
+        // then
+        expect(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+      });
+
+    });
+
+    describe('when organization\'s type is PRO', function() {
+
+      beforeEach(function() {
+        // given
+        this.set('organization', Ember.Object.create({ name: 'Pix', type: 'PRO' }));
+
+        // when
+        this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation" _organization=organization}}`);
+      });
+
+      it('should not ask for student code (required)', function() {
+        // then
+        expect(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+      });
+
+      it('should not ask for campaign code (optionnal)', function() {
+        // then
+        expect(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+      });
+
+    });
+
     it('should contain a "Confirm" button to valid the profile sharing', function() {
       // when
       this.render(hbs`{{share-profile _showingModal=true _view="sharing-confirmation"}}`);
