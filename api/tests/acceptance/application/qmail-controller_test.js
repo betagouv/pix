@@ -98,7 +98,7 @@ describe('Acceptance | Controller | qmail-controller', function() {
           })
           .then(answers => {
 
-            expect(answers).to.have.length(1);
+            expect(answers).to.have.lengthOf(1);
 
             const answerThatShouldBeValidated = answers.shift();
             expect(answerThatShouldBeValidated.result).to.equal('ok');
