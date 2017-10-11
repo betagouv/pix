@@ -1120,7 +1120,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return fillIn('.share-profile__organization-code-input', 'ABCD00');
+                return fillIn('.share-profile__organization-code-input', 'PRO001');
 
               case 2:
                 _context3.next = 4;
@@ -1207,7 +1207,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectOrganizationNameToBeDisplayed() {
-      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Mon Entreprise');
     }
 
     function expectToBeOnSuccessNotificationView() {
@@ -2937,9 +2937,9 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
               // then
               (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('ACME');
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('Mon Entreprise');
               (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD00');
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('PRO001');
 
             case 7:
             case 'end':
@@ -7633,6 +7633,56 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         (0, _mocha.it)('should ask for campaign code (optionnal)', function () {
           // then
           (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.exist;
+        });
+      });
+
+      (0, _mocha.describe)('when organization\'s type is SCO', function () {
+
+        beforeEach(function () {
+          // given
+          this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SCO' }));
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "gCqpvs7A",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('should not ask for student code (required)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+        });
+
+        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+        });
+      });
+
+      (0, _mocha.describe)('when organization\'s type is PRO', function () {
+
+        beforeEach(function () {
+          // given
+          this.set('organization', Ember.Object.create({ name: 'Pix', type: 'PRO' }));
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "gCqpvs7A",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('should not ask for student code (required)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+        });
+
+        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
         });
       });
 

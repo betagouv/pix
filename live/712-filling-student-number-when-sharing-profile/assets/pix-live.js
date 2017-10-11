@@ -5558,19 +5558,35 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       recaptchaToken: 'recaptcha-token-xxxxxx'
     });
 
-    var organization = server.create('organization', {
+    var company = server.create('organization', {
       id: 1,
-      name: 'ACME',
-      email: 'contact@acme.com',
+      name: 'Mon Entreprise',
+      email: 'contact@company.com',
       type: 'PRO',
-      code: 'ABCD00'
+      code: 'PRO001'
     });
 
-    prescriber.organization = organization;
-    organization.user = prescriber;
+    server.create('organization', {
+      id: 2,
+      name: 'Mon École',
+      email: 'contact@school.org',
+      type: 'SCO',
+      code: 'SCO002'
+    });
 
-    var snapshots = server.createList('snapshot', 3, { organization: organization });
-    organization.snapshots = snapshots;
+    server.create('organization', {
+      id: 3,
+      name: 'Mon Université',
+      email: 'contact@university.org',
+      type: 'SUP',
+      code: 'SUP003'
+    });
+
+    prescriber.organization = company;
+    company.user = prescriber;
+
+    var snapshots = server.createList('snapshot', 3, { organization: company });
+    company.snapshots = snapshots;
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -8544,6 +8560,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+4e2f8d97"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+6a7ee4d2"});
 }
 //# sourceMappingURL=pix-live.map
