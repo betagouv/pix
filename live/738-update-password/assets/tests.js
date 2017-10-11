@@ -3109,10 +3109,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('adapters/password-reset-demand.js', function () {
-      // test passed
-    });
-
     it('adapters/solution.js', function () {
       // test passed
     });
@@ -9549,10 +9545,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/adapters/password-reset-demand-test.js', function () {
-      // test passed
-    });
-
     it('unit/adapters/solution-test.js', function () {
       // test passed
     });
@@ -9906,55 +9898,6 @@ define('pix-live/tests/unit/adapters/application-test', ['chai', 'mocha', 'ember
       // Then
       (0, _chai.expect)(applicationAdapter.get('headers')).to.deep.equal({
         'Authorization': ''
-      });
-    });
-  });
-});
-define('pix-live/tests/unit/adapters/password-reset-demand-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Adapter | password reset demand', function () {
-    (0, _emberMocha.setupTest)('adapter:password-reset-demand', {
-      needs: ['service:session']
-    });
-
-    // Replace this with your real tests.
-    (0, _mocha.it)('should exists', function () {
-      var adapter = this.subject();
-      (0, _chai.expect)(adapter).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#queryRecord', function () {
-      var adapter = void 0;
-      var query = {
-        temporaryKey: 'temporary_key'
-      };
-
-      (0, _mocha.beforeEach)(function () {
-        adapter = this.subject();
-        adapter.ajax = _sinon.default.stub().resolves();
-      });
-
-      (0, _mocha.it)('should exist', function () {
-        // when
-        var adapter = this.subject();
-        // then
-        return (0, _chai.expect)(adapter.queryRecord).to.be.a('function');
-      });
-
-      (0, _mocha.it)('should return a resolved promise', function () {
-        // when
-        var promise = adapter.queryRecord({}, {}, query);
-        // then
-        (0, _chai.expect)(promise).to.be.an.instanceOf(Promise);
-      });
-
-      (0, _mocha.it)('should called GET /api/password-reset-demands/temporaryKey', function () {
-        // when
-        adapter.queryRecord({}, {}, query);
-
-        // then
-        _sinon.default.assert.calledWith(adapter.ajax, 'http://localhost:3000/api/password-reset-demands/temporary_key');
       });
     });
   });
@@ -11678,16 +11621,20 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
     }
   };
 
-  (0, _mocha.describe)('Unit | Component | reset password form', function () {
+  _mocha.describe.only('Unit | Component | reset password form', function () {
+
     (0, _emberMocha.setupComponentTest)('reset-password-form', {
       needs: ['component:form-textfield'],
       unit: true
     });
 
-    (0, _mocha.it)('should be rendered', function () {
-      // given
-      var component = this.subject();
+    var component = void 0;
 
+    (0, _mocha.beforeEach)(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
       // when
       this.render();
 
@@ -11696,42 +11643,23 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.describe)('fullname', function () {
+    (0, _mocha.describe)('@fullname', function () {
 
-      var userIdentity = {
-        firstName: 'Manu',
-        lastName: 'Phillip'
-      };
-
-      var user = Ember.Object.create(userIdentity);
-
-      (0, _mocha.it)('should be computed when a user is provided', function () {
+      (0, _mocha.it)('should concatenate user first and last name', function () {
         // given
-        var component = this.subject();
-        component.set('user', user);
-        var expectedFullname = userIdentity.firstName + ' ' + userIdentity.lastName;
+        component.set('user', Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' }));
 
         // when
-        this.render();
+        var fullname = component.get('fullname');
 
         // then
-        (0, _chai.expect)(component.get('fullname')).to.equal(expectedFullname);
+        (0, _chai.expect)(fullname).to.equal('Manu Phillip');
       });
     });
 
-    (0, _mocha.describe)('validatePassword', function () {
-
-      var component = void 0;
-
-      (0, _mocha.beforeEach)(function () {
-        component = this.subject();
-      });
+    (0, _mocha.describe)('#validatePassword', function () {
 
       (0, _mocha.it)('should set validation status to default, when component is rendered', function () {
-        // when
-        this.render();
-
-        // then
         (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['default']);
       });
 
@@ -11739,7 +11667,6 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
         //given
         var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
         component.set('user', userWithBadPassword);
-        this.render();
 
         // when
         component.send('validatePassword');
@@ -11752,7 +11679,6 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
         //given
         var userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
         component.set('user', userWithGoodPassword);
-        this.render();
 
         // when
         component.send('validatePassword');
@@ -11762,23 +11688,21 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       });
     });
 
-    (0, _mocha.describe)('handleResetPassword', function () {
-      var component = void 0;
-      var save = function save() {
-        return Ember.RSVP.resolve();
-      };
+    (0, _mocha.describe)('#handleResetPassword', function () {
 
-      var userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #', save: save };
-
-      (0, _mocha.beforeEach)(function () {
-        component = this.subject();
+      var userWithGoodPassword = Ember.Object.create({
+        firstName: 'toto',
+        lastName: 'riri',
+        password: 'Pix123 0 #',
+        save: function save() {
+          return Ember.RSVP.resolve();
+        }
       });
 
       (0, _mocha.describe)('When user password is saved', function () {
         (0, _mocha.it)('should update validation with success data', function () {
           // given
           component.set('user', userWithGoodPassword);
-          this.render();
 
           // when
           Ember.run(function () {
@@ -11792,7 +11716,6 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
         (0, _mocha.it)('should reset paswword input', function () {
           // given
           component.set('user', userWithGoodPassword);
-          this.render();
 
           // when
           Ember.run(function () {
@@ -11805,15 +11728,18 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       });
 
       (0, _mocha.describe)('When user password saving fails', function () {
-        var saveWithRejection = function saveWithRejection() {
-          return Ember.RSVP.reject();
-        };
 
         (0, _mocha.it)('should set validation with errors data', function () {
           // given
-          var userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix', save: saveWithRejection };
+          var userWithBadPassword = Ember.Object.create({
+            firstName: 'toto',
+            lastName: 'riri',
+            password: 'Pix',
+            save: function save() {
+              return Ember.RSVP.reject();
+            }
+          });
           component.set('user', userWithBadPassword);
-          this.render();
 
           // when
           Ember.run(function () {
@@ -13666,6 +13592,7 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | changer mot de passe', function () {
+
     (0, _emberMocha.setupTest)('route:reset-password', {
       needs: ['service:session', 'service:current-routed-modal']
     });
@@ -13673,16 +13600,16 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
     (0, _mocha.describe)('Route behavior', function () {
 
       var storeStub = void 0;
-      var queryRecordStub = void 0;
+      var findRecordStub = void 0;
       var params = {
         temporaryKey: 'pwd-reset-demand-token'
       };
       var transitionToStub = _sinon.default.stub();
 
       (0, _mocha.beforeEach)(function () {
-        queryRecordStub = _sinon.default.stub();
+        findRecordStub = _sinon.default.stub();
         storeStub = Ember.Service.extend({
-          queryRecord: queryRecordStub
+          findRecord: findRecordStub
         });
 
         this.register('service:store', storeStub);
@@ -13699,7 +13626,7 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
 
       (0, _mocha.it)('should ask password reset demand validity', function () {
         // given
-        queryRecordStub.resolves();
+        findRecordStub.resolves();
         var route = this.subject();
 
         // when
@@ -13707,8 +13634,8 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
 
         // then
         return promise.then(function () {
-          _sinon.default.assert.calledOnce(queryRecordStub);
-          _sinon.default.assert.calledWith(queryRecordStub, 'password-reset-demand', { temporaryKey: params.temporaryKey });
+          _sinon.default.assert.calledOnce(findRecordStub);
+          _sinon.default.assert.calledWith(findRecordStub, 'password-reset-demand', params.temporaryKey);
         });
       });
 
@@ -13725,17 +13652,15 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
             }
           };
           var expectedUser = {
-            user: {
-              data: {
-                id: 7,
-                attributes: {
-                  email: 'pix@qmail.fr'
-                }
+            data: {
+              id: 7,
+              attributes: {
+                email: 'pix@qmail.fr'
               }
             }
           };
 
-          queryRecordStub.resolves(fetchedOwnerDetails);
+          findRecordStub.resolves(fetchedOwnerDetails);
           var route = this.subject();
 
           // when
@@ -13752,7 +13677,7 @@ define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'embe
 
         (0, _mocha.it)('should redirect to home', function () {
           // given
-          queryRecordStub.rejects();
+          findRecordStub.rejects();
           var route = this.subject();
           route.set('transitionTo', transitionToStub);
 

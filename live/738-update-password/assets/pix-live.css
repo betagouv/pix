@@ -4831,7 +4831,7 @@ hr.project-page__presentation-header-line {
   width: 100%;
   min-height: 100vh;
   padding: 0 10px; }
-  @media screen and (min-width: 767px) {
+  @media (min-width: 768px) {
     .reset-password {
       height: 100%;
       padding: 0; } }

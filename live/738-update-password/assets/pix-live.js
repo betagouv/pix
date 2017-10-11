@@ -50,19 +50,6 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
     }
   });
 });
-define('pix-live/adapters/password-reset-demand', ['exports', 'pix-live/adapters/application'], function (exports, _application) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _application.default.extend({
-    queryRecord: function queryRecord(modelName, clazz, query) {
-      var url = this.buildURL('password-reset-demand', query.temporaryKey);
-      return this.ajax(url, 'GET');
-    }
-  });
-});
 define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'], function (exports, _application) {
   'use strict';
 
@@ -6856,13 +6843,10 @@ define('pix-live/routes/reset-password', ['exports', 'ember-simple-auth/mixins/u
     model: function model(params) {
       var _this = this;
 
-      var store = this.store;
       var temporaryKey = params.temporaryKey;
 
-      return Ember.RSVP.hash({
-        user: store.queryRecord('password-reset-demand', { temporaryKey: temporaryKey }).catch(function () {
-          return _this.transitionTo('index');
-        })
+      return this.get('store').findRecord('password-reset-demand', temporaryKey).catch(function () {
+        return _this.transitionTo('index');
       });
     }
   });
@@ -7832,7 +7816,7 @@ define("pix-live/templates/reset-password", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "+zxnLyKX", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__link-to-home\"],[7],[0,\"\\n    \"],[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Annuler\\n      \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\",\"user\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "H9imyJwJ", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__link-to-home\"],[7],[0,\"\\n    \"],[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Annuler\\n      \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
 });
 define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   "use strict";
@@ -8633,6 +8617,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+933a7f20"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+8812061c"});
 }
 //# sourceMappingURL=pix-live.map
