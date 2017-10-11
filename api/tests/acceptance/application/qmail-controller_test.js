@@ -1,13 +1,13 @@
-const {describe, it, after, beforeEach, afterEach, expect, knex} = require('../../test-helper');
+const { describe, it, after, beforeEach, afterEach, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | qmail-controller', function () {
+describe('Acceptance | Controller | qmail-controller', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('POST /api/qmail', function () {
+  describe('POST /api/qmail', function() {
 
     const challengeId = 'recLt9uwa2dR3IYpi';
     const assessmentId = '12345';
@@ -62,13 +62,13 @@ describe('Acceptance | Controller | qmail-controller', function () {
           date: '2017-10-10T15:17:36.000Z',
           'x-mailer': 'sendEmail-1.56',
           'mime-version': '1.0',
-          'content-type': {value: 'multipart/related', params: []}
+          'content-type': { value: 'multipart/related', params: [] }
         }
     };
 
     const options = {
       method: 'POST',
-      url: `/api/qmail`,
+      url: '/api/qmail',
       payload: emailSample
     };
 
@@ -81,7 +81,7 @@ describe('Acceptance | Controller | qmail-controller', function () {
         return knex('answers').delete();
       });
 
-      it('should validate an answer', function () {
+      it('should validate an answer', function() {
         // When
         const request = server.injectThen(options);
 
@@ -94,7 +94,7 @@ describe('Acceptance | Controller | qmail-controller', function () {
               .where('challengeId', challengeId)
               .andWhere('assessmentId', assessmentId)
               .limit(1)
-              .select()
+              .select();
           })
           .then(answers => {
 
@@ -106,14 +106,14 @@ describe('Acceptance | Controller | qmail-controller', function () {
       });
     });
 
-    it('should return 200 even if the answer is not found', function () {
+    it('should return 200 even if the answer is not found', function() {
       // When
       const request = server.injectThen(options);
 
       // Then
       return request.then((response) => {
-          expect(response.statusCode).to.equal(200);
-        });
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
   });

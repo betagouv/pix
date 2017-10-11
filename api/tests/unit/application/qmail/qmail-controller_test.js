@@ -1,10 +1,10 @@
-const {describe, it, expect, sinon, beforeEach, afterEach} = require('../../../test-helper');
+const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const QmailController = require('../../../../lib/application/qmail/qmail-controller');
 const Boom = require('boom');
 
-describe.only('Unit | Controller | qmailController', () => {
+describe('Unit | Controller | qmailController', () => {
 
   describe('#validate', () => {
 
@@ -17,10 +17,10 @@ describe.only('Unit | Controller | qmailController', () => {
     const emailSample = {
       mail: {
         to: {
-            value: [],
-            html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr</a></span>`,
-            text: `${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr`
-          }
+          value: [],
+          html: `<span class="mp_address_group"><a href="mailto:${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr" class="mp_address_email">${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr</a></span>`,
+          text: `${challengeId}-${assessmentId}-0609@pix.beta.gouv.fr`
+        }
       },
       headers: {
         to: {
@@ -30,7 +30,6 @@ describe.only('Unit | Controller | qmailController', () => {
         }
       }
     };
-
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -60,9 +59,7 @@ describe.only('Unit | Controller | qmailController', () => {
 
     it('should validate the answer', () => {
       // When
-      const promise = QmailController.validate({
-        payload: emailSample
-      }, replyStub);
+      const promise = QmailController.validate({ payload: emailSample }, replyStub);
 
       // Then
       return promise.then(() => {
@@ -115,7 +112,6 @@ describe.only('Unit | Controller | qmailController', () => {
         });
       });
 
-
       it('should return INTERNAL_ERROR when saving is failing', () => {
         // Given
         const error = new Error();
@@ -133,7 +129,6 @@ describe.only('Unit | Controller | qmailController', () => {
         });
       });
     });
-
 
   });
 });

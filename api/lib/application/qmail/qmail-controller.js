@@ -17,7 +17,7 @@ module.exports = {
   validate(request, reply) {
 
     const emailRecipient = request.payload.mail.to.text;
-    const {challengeId, assessmentId} = qmailService.extractChallengeIdAndAssessmentFromEmail(emailRecipient);
+    const { challengeId, assessmentId } = qmailService.extractChallengeIdAndAssessmentFromEmail(emailRecipient);
 
     return AnswerRepository
       .findByChallengeAndAssessment(challengeId, assessmentId)

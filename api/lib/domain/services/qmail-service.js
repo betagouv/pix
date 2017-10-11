@@ -7,7 +7,7 @@ module.exports = {
     const challengeId = regexMatches[1];
     const assessmentId = regexMatches[2];
 
-    return {challengeId, assessmentId};
+    return { challengeId, assessmentId };
   }
 
 };
