@@ -1219,7 +1219,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectModalToBeClosed() {
-      (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+      (0, _chai.expect)(find('.pix-modal')).to.have.lengthOf(0);
     }
 
     (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
@@ -3830,7 +3830,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-actions\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Validate button (and placeholding loader)', function () {
@@ -4192,7 +4192,7 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-stay\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should display a warning icon with an accessible description', function () {
@@ -4262,7 +4262,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render challenge instruction', function () {
@@ -4273,7 +4273,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.length(1);
+        (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
@@ -4284,7 +4284,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.length(0);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
@@ -4298,7 +4298,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROCM-ind', function () {
@@ -4314,7 +4314,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QCM', function () {
@@ -4328,7 +4328,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.qcm-solution-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$('.qcm-solution-panel')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
@@ -4339,7 +4339,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         //then
-        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
       });
@@ -4395,7 +4395,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a wrapper', function () {
@@ -4408,7 +4408,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         // then
         var WRAPPER_CLASS = '.competence-area-list';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('Rendering when different areas', function () {
@@ -4482,7 +4482,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       }));
 
       // then
-      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.length(1);
+      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should render a title', function () {
@@ -4518,7 +4518,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       }));
 
       // then
-      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
+      (0, _chai.expect)(this.$('.competence__name')).to.have.lengthOf(5);
     });
 
     (0, _mocha.describe)('Competence rendering', function () {
@@ -4572,7 +4572,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-level-progress-bar\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('if the level is not defined', function () {
@@ -4590,7 +4590,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
@@ -4606,7 +4606,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
       });
     });
 
@@ -4627,9 +4627,9 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
       });
 
@@ -4646,7 +4646,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
@@ -4685,8 +4685,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
       });
 
@@ -4707,8 +4707,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
       });
     });
 
@@ -4728,8 +4728,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
       });
     });
   });
@@ -4749,7 +4749,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"corner-ribbon\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -4770,7 +4770,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-item\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
@@ -4953,7 +4953,7 @@ define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-list\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render as many course-item as courses elements', function () {
@@ -4996,7 +4996,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should render an icon', function () {
@@ -5054,7 +5054,7 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feature-list\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should always render 5 feature-items', function () {
@@ -5490,7 +5490,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Test Component form', function () {
@@ -5668,7 +5668,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"g-recaptcha\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
@@ -5702,7 +5702,7 @@ define('pix-live/tests/integration/components/logged-user-profile-banner-test', 
       }));
 
       // then
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       (0, _chai.expect)(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
     });
 
@@ -5747,7 +5747,7 @@ define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha'
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"medal-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should contain the number of pix passed in the component', function () {
@@ -5795,7 +5795,7 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"modal-mobile\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should display a title with a "warning" icon', function () {
@@ -5847,7 +5847,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       });
 
       (0, _mocha.it)('renders', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display the Pix logo', function () {
@@ -5861,7 +5861,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
       (0, _mocha.it)('should display a link to "referential" page', function () {
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
+        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should display link to inscription page', function () {
@@ -5926,8 +5926,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.lengthOf(1);
       });
 
       [{ itemClass: '.partners-enrollment__title', type: 'title' }, { itemClass: '.partners-enrollment__description', type: 'description' }, { itemClass: '.partners-enrollment__link-container', type: 'link container' }].forEach(function (_ref2) {
@@ -5943,7 +5943,7 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
           }));
 
           // then
-          (0, _chai.expect)(this.$(itemClass)).to.have.length(1);
+          (0, _chai.expect)(this.$(itemClass)).to.have.lengthOf(1);
         });
       });
 
@@ -5957,7 +5957,7 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         }));
 
         // then
-        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.partners-enrollment__link').text().trim()).to.equal('En savoir plus');
       });
     });
@@ -6020,7 +6020,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a wrapper', function () {
@@ -6033,7 +6033,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
 
         // then
         var WRAPPER_CLASS = '.profile-panel';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a profile header', function () {
@@ -6047,7 +6047,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         // Then
         var HEADER_CLASS = '.profile-panel__header';
         var HEADER_TITLE = '.profile-header__title';
-        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
       });
 
@@ -6061,7 +6061,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
 
         // Then
         var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
-        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
+        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('behavior according to totalPixScore value', function () {
@@ -6078,7 +6078,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
           }));
 
           // then
-          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.lengthOf(1);
         });
       });
     });
@@ -6099,7 +6099,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcm-proposals\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -6147,7 +6147,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcm-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
@@ -6388,7 +6388,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcu-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
@@ -6537,7 +6537,7 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-proposal\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Component behavior when user fill input of challenge:', function () {
@@ -6607,7 +6607,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-solution-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should disabled all inputs', function () {
@@ -6641,12 +6641,12 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         var answerBlock = this.$(ANSWER_BLOCK);
         var solutionBlock = this.$(SOLUTION_BLOCK);
         // then
-        (0, _chai.expect)(answerInput).to.have.length(1);
-        (0, _chai.expect)(answerBlock).to.have.length(1);
+        (0, _chai.expect)(answerInput).to.have.lengthOf(1);
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
         (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(solutionBlock).to.have.length(0);
+        (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
       });
     });
 
@@ -6708,7 +6708,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
           var answerBlock = this.$(ANSWER_BLOCK);
           var answerInput = this.$(ANSWER_INPUT);
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
           (0, _chai.expect)(answerInput.css('font-style')).to.be.equal('italic');
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         });
@@ -6759,7 +6759,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"answer\",\"solution\",\"challenge\"],[[19,0,[\"answer\"]],[19,0,[\"solution\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should disabled all inputs', function () {
@@ -6783,7 +6783,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       }));
       var labels = this.$(LABEL);
       // then
-      (0, _chai.expect)(labels).to.have.length(3);
+      (0, _chai.expect)(labels).to.have.lengthOf(3);
     });
 
     (0, _mocha.describe)('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function () {
@@ -6802,9 +6802,9 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
@@ -6823,7 +6823,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(0);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
         });
       });
 
@@ -6841,9 +6841,9 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
@@ -6861,8 +6861,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionText = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(1);
-          (0, _chai.expect)(solutionText).to.have.length(1);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
@@ -6884,9 +6884,9 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
@@ -6904,8 +6904,8 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(1);
-          (0, _chai.expect)(solutionText).to.have.length(1);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
           (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
@@ -6931,7 +6931,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
         "meta": {}
       }));
 
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -6980,7 +6980,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render an index 1 when 0 provided', function () {
@@ -7147,7 +7147,7 @@ define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mo
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('Component dashes rendering instead of zero cases:', function () {
@@ -7216,7 +7216,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
       });
 
       (0, _mocha.it)('should render successfully component wrapper', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
       });
 
@@ -7321,7 +7321,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"scoring-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Default display', function () {
@@ -7445,25 +7445,25 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
     });
 
     function expectToBeOnOrganizationCodeEntryView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
     }
 
     function expectToBeSharingConfirmationView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(1);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
     }
 
     function expectToBeOnSuccessNotificationView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(1);
     }
 
     function expectModalToBeClosed() {
-      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
     }
 
     (0, _mocha.describe)('Step 0 - "Share" button on modal wrapper', function () {
@@ -7475,7 +7475,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"share-profile\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
 
         // when
         Ember.run(function () {
@@ -7483,8 +7483,8 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(1);
-        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
       });
     });
 
@@ -7511,7 +7511,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Continue" button to find the organization', function () {
@@ -7523,7 +7523,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing', function () {
@@ -7535,7 +7535,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should redirect to "sharing confirmation" view when clicking on "Continue" button', function () {
@@ -7576,7 +7576,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.lengthOf(1);
         expectToBeOnOrganizationCodeEntryView();
       });
 
@@ -7624,7 +7624,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing for the given organization', function () {
@@ -7636,7 +7636,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should return back to "organization code entry" view when clicking on "Cancel" button', function () {
@@ -7689,7 +7689,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
@@ -7706,7 +7706,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
       });
     });
 
@@ -7842,7 +7842,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
       this.$('.signin-form__form form').submit();
 
       // Then
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(0);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(0);
     });
 
     (0, _mocha.it)('should hide the error message if it was previously displayed', function () {
@@ -7856,14 +7856,14 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
         "meta": {}
       }));
 
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(1);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(1);
       _fillSigninForm(this, expectedEmail, expectedPassword);
 
       // When
       this.$('.signin-form__form form').submit();
 
       // Then
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(0);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(0);
     });
 
     function _fillSigninForm(context, email, password) {
@@ -7930,7 +7930,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
 
       (0, _mocha.it)('renders', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('Should return true if heading content gets <' + EXPECTED_FORM_HEADING_CONTENT + '>', function () {
@@ -8539,7 +8539,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
           // then
-          (0, _chai.expect)(this.$('img')).to.have.length(0);
+          (0, _chai.expect)(this.$('img')).to.have.lengthOf(0);
         });
 
         (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
@@ -8576,7 +8576,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this.$('img')).to.have.length(1);
+          (0, _chai.expect)(_this.$('img')).to.have.lengthOf(1);
           (0, _chai.expect)(_this.$('img').attr('class')).to.contain('signup-textfield__icon--error');
         });
       });
@@ -8610,7 +8610,7 @@ define('pix-live/tests/integration/components/signup-textfield-test', ['chai', '
 
       (0, _mocha.it)('return true if any img does exist', function () {
         // then
-        (0, _chai.expect)(this.$('img')).to.have.length(1);
+        (0, _chai.expect)(this.$('img')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('img').attr('class')).to.contain('signup-textfield__icon--success');
       });
 
@@ -8644,7 +8644,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should inform the user when no profile', function () {
@@ -8660,7 +8660,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       }));
 
       // Then
-      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(1);
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.lengthOf(1);
       (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
     });
 
@@ -8679,8 +8679,8 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
 
       // Then
       return (0, _wait.default)().then(function () {
-        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(0);
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(2);
       }.bind(this));
     });
 
@@ -8705,7 +8705,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
 
       // Then
       return (0, _wait.default)().then(function () {
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
@@ -8781,7 +8781,7 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"trophy-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should contain the level passed in the component', function () {
@@ -8853,13 +8853,13 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       (0, _mocha.it)('should render component', function () {
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display logged user name ', function () {
         // then
-        (0, _chai.expect)(this.$('.logged-user-name')).to.have.length(1);
-        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
       });
 
@@ -8872,7 +8872,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         }));
 
         // then
-        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
+        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
@@ -8890,7 +8890,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.length(1);
+          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.lengthOf(1);
           (0, _chai.expect)(_this.$('.user-menu-item__details-firstname').text().trim()).to.equal('FHI');
           (0, _chai.expect)(_this.$('.user-menu-item__details-email').text().trim()).to.equal('FHI@4EVER.fr');
         });
@@ -8910,7 +8910,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -8923,7 +8923,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -8936,7 +8936,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -9042,7 +9042,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.lengthOf(0);
         });
       });
     });
