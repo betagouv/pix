@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import Helper from '@ember/component/helper';
+import $ from 'jquery';
 
 export function stripInstruction(params) {
   let result = $(params[0]).text();
@@ -7,4 +8,4 @@ export function stripInstruction(params) {
   return result;
 }
 
-export default Ember.Helper.helper(stripInstruction);
+export default Helper.helper(stripInstruction);

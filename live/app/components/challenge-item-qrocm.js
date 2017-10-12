@@ -19,8 +19,8 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   // and moreover, is a much more robust solution when you need to test it properly.
   _getRawAnswerValue() {
     const result = {};
-    $('.challenge-proposals input').each(function(index, element) {
-      result[$(element).attr('name')] = $(element).val();
+    this.$('.challenge-proposals input').each(function(index, element) {
+      result[this.$(element).attr('name')] = this.$(element).val();
     });
     return result;
   },

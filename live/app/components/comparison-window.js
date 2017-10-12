@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import Component from '@ember/component';
+import { inject as service } from '@ember/service';
+import $ from 'jquery';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
 import { EKMixin, keyUp } from 'ember-keyboard';
 import FocusableComponent from 'ember-component-focus/mixins/focusable-component';
@@ -41,9 +43,9 @@ const contentReference = {
   }
 };
 
-export default Ember.Component.extend(EKMixin, FocusableComponent, {
+export default Component.extend(EKMixin, FocusableComponent, {
 
-  modal: Ember.inject.service('current-routed-modal'),
+  modal: service('current-routed-modal'),
 
   classNames: [ 'comparison-window' ],
 
@@ -75,7 +77,7 @@ export default Ember.Component.extend(EKMixin, FocusableComponent, {
   },
 
   didDestroyElement() {
-    Ember.$('#open-comparison_' + this.get('index')).focus();
+    $('#open-comparison_' + this.get('index')).focus();
   },
 
   resultItem: Ember.computed('answer.result', function() {

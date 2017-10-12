@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
@@ -52,7 +51,7 @@ describe('Integration | Component | ChallengeStatement', function() {
       renderChallengeStatement(this);
 
       // then
-      expect(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
+      expect(this.$('.challenge-statement__instruction').text().trim()).to.equal('La consigne de mon test');
     });
 
     it('should not render challenge instruction if it does not exist', function() {

@@ -1,7 +1,7 @@
-import Ember from 'ember';
+import Helper from '@ember/component/helper';
 
 export function inc(params) {
   return params[0] + 1;
 }
 
-export default Ember.Helper.helper(inc);
+export default Helper.helper(inc);

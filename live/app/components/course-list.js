@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import { run } from '@ember/runloop';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 import ENV from 'pix-live/config/environment';
 
 function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
@@ -14,19 +16,19 @@ function _storeCourseToDisplayAfterWarning(that, course) {
 }
 
 function _displayWarningModal() {
-  $('#js-modal-mobile').modal();
+  this.$('#js-modal-mobile').modal();
 }
 
-const CourseList = Ember.Component.extend({
+const CourseList = Component.extend({
 
   courses: null,
   selectedCourse: null,
 
   classNames: ['course-list'],
 
-  isLoading: Ember.computed.readOnly('courses.isPending'),
+  isLoading: computed.readOnly('courses.isPending'),
 
-  filteredCourses: Ember.computed('courses.[]', function() {
+  filteredCourses: computed('courses.[]', function() {
     const courses = this.get('courses');
     let filteredCourses = [];
 
@@ -42,9 +44,9 @@ const CourseList = Ember.Component.extend({
 
   didInsertElement() {
     const that = this;
-    Ember.run.scheduleOnce('afterRender', this, function() {
-      $('button[data-confirm]').click(function() {
-        $('#js-modal-mobile').modal('hide');
+    run.scheduleOnce('afterRender', this, () => {
+      this.$('button[data-confirm]').click(() => {
+        this.$('#js-modal-mobile').modal('hide');
         that.sendAction('startCourse', that.get('selectedCourse'));
       });
     });
@@ -60,7 +62,7 @@ const CourseList = Ember.Component.extend({
     if (ENV.APP.isMobileSimulationEnabled) {
       return this.get('isSimulatedMobileScreen');
     }
-    return $(window).width() < 767;
+    return this.$(window).width() < 767;
   },
 
   actions: {

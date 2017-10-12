@@ -1,7 +1,10 @@
-import Ember from 'ember';
+import EmberRouter from '@ember/routing/router';
+import EmberService from '@ember/service';
+import { run } from '@ember/runloop';
+import EmberObject from '@ember/object';
 import config from './config/environment';
 
-const Router = Ember.Router.extend({
+const Router = EmberRouter.extend({
   location: config.locationType,
   rootURL: config.rootURL
 });
@@ -11,7 +14,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
   // do not make any sense in test ENV, therefore can be safely ignored
   /* istanbul ignore next */
   Router.reopen({
-    metrics: Ember.inject.service(),
+    metrics: EmberService.inject.service(),
 
     didTransition() {
       this._super(...arguments);
@@ -19,10 +22,10 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
     },
 
     _trackPage() {
-      Ember.run.scheduleOnce('afterRender', this, () => {
+      run.scheduleOnce('afterRender', this, () => {
         const page = this.get('url');
         const title = this.getWithDefault('currentRouteName', 'unknown');
-        Ember.get(this, 'metrics').trackPage({ page, title });
+        EmberObject.get(this, 'metrics').trackPage({ page, title });
       });
     }
   });
