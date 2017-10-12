@@ -113,7 +113,7 @@ describe('Unit | Component | reset password form', function() {
           component.send('handleResetPassword');
         });
 
-        // then
+        // then 
         expect(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
       });
 
