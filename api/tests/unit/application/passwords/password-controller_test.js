@@ -2,6 +2,7 @@ const { describe, it, beforeEach, afterEach, sinon } = require('../../../test-he
 const User = require('../../../../lib/domain/models/data/user');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
+const tokenService = require('../../../../lib/domain/services/token-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
@@ -261,6 +262,7 @@ describe('Unit | Controller | PasswordController', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(resetPasswordService, 'verifyDemand');
+      sandbox.stub(tokenService, 'verifyValidity').resolves({});
       sandbox.stub(errorSerializer, 'serialize');
       sandbox.stub(UserRepository, 'findByEmail').resolves(fetchedUser);
       sandbox.stub(userSerializer, 'serialize');
@@ -274,7 +276,19 @@ describe('Unit | Controller | PasswordController', () => {
       sandbox.restore();
     });
 
-    it('should verify password reset demand validity from provided temporary key', () => {
+    it('should verify temporary key validity (format, signature, expiration)', () => {
+      // when
+      const promise = passwordController.checkResetDemand(request, reply);
+
+      // then
+      return promise.catch(() => {
+        sinon.assert.calledOnce(tokenService.verifyValidity);
+        sinon.assert.calledWith(tokenService.verifyValidity, request.params.temporaryKey);
+      });
+
+    });
+
+    it('should verify password reset demand  from provided temporary key', () => {
       // when
       resetPasswordService.verifyDemand.resolves(fetchedPasswordResetDemand);
       const promise = passwordController.checkResetDemand(request, reply);

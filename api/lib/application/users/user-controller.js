@@ -11,7 +11,7 @@ const profileSerializer = require('../../infrastructure/serializers/jsonapi/prof
 const googleReCaptcha = require('../../../lib/infrastructure/validators/grecaptcha-validator');
 const { InvalidRecaptchaTokenError } = require('../../../lib/infrastructure/validators/errors');
 const bookshelfUtils = require('../../infrastructure/utils/bookshelf-utils');
-const passwordResetDemandService = require('../../domain/services/password-reset-service');
+const passwordResetDemandService = require('../../domain/services/reset-password-service');
 const encryptionService = require('../../domain/services/encryption-service');
 
 const Bookshelf = require('../../infrastructure/bookshelf');

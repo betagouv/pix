@@ -2,7 +2,7 @@ const { describe, it, after, afterEach, before, expect, knex } = require('../../
 const faker = require('faker');
 
 const server = require('../../../server');
-const passwordResetService = require('../../../lib/domain/services/password-reset-service');
+const passwordResetService = require('../../../lib/domain/services/reset-password-service');
 
 describe('Acceptance | Controller | users-controller', function() {
 

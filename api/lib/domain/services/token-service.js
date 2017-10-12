@@ -1,5 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
-
+const { InvalidTemporaryKeyError } = require('../../domain/errors');
 const settings = require('../../settings');
 
 function createTokenFromUser(user) {
@@ -21,19 +21,24 @@ function extractTokenFromAuthChain(authChain) {
 }
 
 function verifyValidity(token) {
-  let decoded;
 
+  return new Promise((resolve, reject) => {
+    const decoded = getDecodedToken(token);
+    return (!decoded) ? reject(new InvalidTemporaryKeyError()) : resolve(decoded);
+  });
+}
+
+function getDecodedToken(token) {
   try {
-    decoded = jsonwebtoken.verify(token, settings.authentication.secret);
+    return jsonwebtoken.verify(token, settings.authentication.secret);
   }
-  catch (e) {
-    decoded = false;
+  catch (err) {
+    return false;
   }
-  return decoded;
 }
 
 function extractUserId(token) {
-  const decoded = verifyValidity(token);
+  const decoded = getDecodedToken(token);
   return decoded.user_id || null;
 }
 

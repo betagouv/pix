@@ -1,9 +1,10 @@
 const userService = require('../../domain/services/user-service');
 const mailService = require('../../domain/services/mail-service');
 const resetPasswordService = require('../../domain/services/reset-password-service');
+const tokenService = require('../../domain/services/token-service');
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
-const UserRepository = require('../../infrastructure/repositories/user-repository');
+const userRepository = require('../../infrastructure/repositories/user-repository');
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
@@ -41,10 +42,9 @@ module.exports = {
   checkResetDemand(request, reply) {
     const temporaryKey = request.params.temporaryKey;
 
-    return resetPasswordService.verifyDemand(temporaryKey)
-      .then(({ email }) => {
-        return UserRepository.findByEmail(email);
-      })
+    return tokenService.verifyValidity(temporaryKey)
+      .then(() => resetPasswordService.verifyDemand(temporaryKey))
+      .then((passwordResetDemand) => userRepository.findByEmail(passwordResetDemand.email))
       .then((user) => userSerializer.serialize(user))
       .then(reply)
       .catch((err) => {

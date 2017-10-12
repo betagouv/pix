@@ -14,7 +14,7 @@ const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
-const passwordResetService = require('../../../../lib/domain/services/password-reset-service');
+const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 

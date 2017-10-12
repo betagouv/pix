@@ -16,16 +16,20 @@ const VALIDATION_MAP = {
   }
 };
 
-describe('Unit | Component | reset password form', function() {
+describe.only('Unit | Component | reset password form', function() {
+
   setupComponentTest('reset-password-form', {
     needs: ['component:form-textfield'],
     unit: true
   });
 
-  it('should be rendered', function() {
-    // given
-    const component = this.subject();
+  let component;
 
+  beforeEach(function() {
+    component = this.subject();
+  });
+
+  it('should be rendered', function() {
     // when
     this.render();
 
@@ -34,42 +38,23 @@ describe('Unit | Component | reset password form', function() {
     expect(this.$()).to.have.length(1);
   });
 
-  describe('fullname', () => {
+  describe('@fullname', () => {
 
-    const userIdentity = {
-      firstName: 'Manu',
-      lastName: 'Phillip'
-    };
-
-    const user = Ember.Object.create(userIdentity);
-
-    it('should be computed when a user is provided', function() {
+    it('should concatenate user first and last name', function() {
       // given
-      const component = this.subject();
-      component.set('user', user);
-      const expectedFullname = `${userIdentity.firstName} ${userIdentity.lastName}`;
+      component.set('user', Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' }));
 
       // when
-      this.render();
+      const fullname = component.get('fullname');
 
       // then
-      expect(component.get('fullname')).to.equal(expectedFullname);
+      expect(fullname).to.equal('Manu Phillip');
     });
   });
 
-  describe('validatePassword', () => {
-
-    let component;
-
-    beforeEach(function() {
-      component = this.subject();
-    });
+  describe('#validatePassword', () => {
 
     it('should set validation status to default, when component is rendered', function() {
-      // when
-      this.render();
-
-      // then
       expect(component.get('validation')).to.eql(VALIDATION_MAP['default']);
     });
 
@@ -77,7 +62,6 @@ describe('Unit | Component | reset password form', function() {
       //given
       const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix' };
       component.set('user', userWithBadPassword);
-      this.render();
 
       // when
       component.send('validatePassword');
@@ -90,7 +74,6 @@ describe('Unit | Component | reset password form', function() {
       //given
       const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #' };
       component.set('user', userWithGoodPassword);
-      this.render();
 
       // when
       component.send('validatePassword');
@@ -101,23 +84,19 @@ describe('Unit | Component | reset password form', function() {
 
   });
 
-  describe('handleResetPassword', () => {
-    let component;
-    const save = () => {
-      return Ember.RSVP.resolve();
-    };
+  describe('#handleResetPassword', () => {
 
-    const userWithGoodPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix123 0 #', save };
-
-    beforeEach(function() {
-      component = this.subject();
+    const userWithGoodPassword = Ember.Object.create({
+      firstName: 'toto',
+      lastName: 'riri',
+      password: 'Pix123 0 #',
+      save: () => Ember.RSVP.resolve()
     });
 
     describe('When user password is saved', () => {
       it('should update validation with success data', function() {
         // given
         component.set('user', userWithGoodPassword);
-        this.render();
 
         // when
         Ember.run(() => {
@@ -131,7 +110,6 @@ describe('Unit | Component | reset password form', function() {
       it('should reset paswword input', function() {
         // given
         component.set('user', userWithGoodPassword);
-        this.render();
 
         // when
         Ember.run(() => {
@@ -145,15 +123,16 @@ describe('Unit | Component | reset password form', function() {
     });
 
     describe('When user password saving fails', () => {
-      const saveWithRejection = () => {
-        return Ember.RSVP.reject();
-      };
 
       it('should set validation with errors data', function() {
         // given
-        const userWithBadPassword = { firstName: 'toto', lastName: 'riri', password: 'Pix', save: saveWithRejection };
+        const userWithBadPassword = Ember.Object.create({
+          firstName: 'toto',
+          lastName: 'riri',
+          password: 'Pix',
+          save: () => Ember.RSVP.reject()
+        });
         component.set('user', userWithBadPassword);
-        this.render();
 
         // when
         Ember.run(() => {
