@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
+import { EKMixin, keyUp } from 'ember-keyboard';
 
 const contentReference = {
   ok: {
@@ -46,7 +47,7 @@ function _setFocusOnFirstTabbableElement(modalId) {
   $firstElementToFocus.focus();
 }
 
-export default Ember.Component.extend({
+export default Ember.Component.extend(EKMixin, {
 
   modal: Ember.inject.service('current-routed-modal'),
 
@@ -64,6 +65,14 @@ export default Ember.Component.extend({
   isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
   isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
 
+  activateKeyboard: Ember.on('init', function() {
+    this.set('keyboardActivated', true);
+  }),
+
+  closeOnEsc: Ember.on(keyUp('Escape'), function() {
+    this.get('modal').close();
+  }),
+
   didInsertElement() {
     this._super(...arguments);
 
@@ -74,14 +83,6 @@ export default Ember.Component.extend({
     Ember.$(modalId).find(':tabbable').last().on('blur', function() {
       _setFocusOnFirstTabbableElement(modalId);
     });
-  },
-
-  keyUp(event) {
-    if(event.key === 'Escape') {
-      this.get('modal').close();
-    }
-
-    event.preventDefault();
   },
 
   didDestroyElement() {
