@@ -3157,36 +3157,20 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
       }, _callee2, this);
     })));
 
-    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    (0, _mocha.it)('display a link to inscription page', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              // given
-              server.create('user', {
-                id: 1,
-                firstName: 'Brandone',
-                lastName: 'Martins',
-                email: 'brandone.martins@pix.com',
-                password: '1024pix!'
-              });
-              _context3.next = 3;
+              _context3.next = 2;
               return visit('/mot-passe-oublie');
 
+            case 2:
+
+              // then
+              (0, _chai.expect)(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
+
             case 3:
-              fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
-
-              // when
-              _context3.next = 6;
-              return click('.password-reset-form__submit-button');
-
-            case 6:
-              return _context3.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
-                (0, _chai.expect)(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
-              }));
-
-            case 7:
             case 'end':
               return _context3.stop();
           }
@@ -3194,7 +3178,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -3211,7 +3195,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
               return visit('/mot-passe-oublie');
 
             case 3:
-              fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
+              fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
 
               // when
               _context4.next = 6;
@@ -3220,7 +3204,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
             case 6:
               return _context4.abrupt('return', andThen(function () {
                 (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
-                (0, _chai.expect)(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
+                (0, _chai.expect)(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
               }));
 
             case 7:
@@ -3229,6 +3213,43 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
           }
         }
       }, _callee4, this);
+    })));
+
+    (0, _mocha.it)('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              // given
+              server.create('user', {
+                id: 1,
+                firstName: 'Brandone',
+                lastName: 'Martins',
+                email: 'brandone.martins@pix.com',
+                password: '1024pix!'
+              });
+              _context5.next = 3;
+              return visit('/mot-passe-oublie');
+
+            case 3:
+              fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
+
+              // when
+              _context5.next = 6;
+              return click('.password-reset-form__submit-button');
+
+            case 6:
+              return _context5.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+                (0, _chai.expect)(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
+              }));
+
+            case 7:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
     })));
   });
 });
@@ -6158,6 +6179,7 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
       }));
 
       // then
+      (0, _chai.expect)(this.$('.password-reset__connexion-link')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__pix-logo')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__title')).to.have.length(1);
       (0, _chai.expect)(this.$('.password-reset-form__text')).to.have.length(1);
