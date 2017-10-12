@@ -6,6 +6,7 @@ const resetPasswordDemandRepository = require('../../infrastructure/repositories
 const UserRepository = require('../../infrastructure/repositories/user-repository');
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
   const passwordResetDemandUrl = `${request.headers.origin}`;
@@ -25,7 +26,7 @@ module.exports = {
       .then((temporaryKey) => {
         return resetPasswordDemandRepository.create({ email, temporaryKey })
           .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand))
-          .then((passwordResetDemand) => passwordResetSerializer.serializeResetDemand(passwordResetDemand.attributes))
+          .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
           .then((serializedPayload) => reply(serializedPayload).code(201));
       })
       .catch((err) => {
@@ -44,7 +45,7 @@ module.exports = {
       .then(({ email }) => {
         return UserRepository.findByEmail(email);
       })
-      .then((user) => passwordResetSerializer.serializeUser(user.toJSON()))
+      .then((user) => userSerializer.serialize(user))
       .then(reply)
       .catch((err) => {
         if (err instanceof InvalidTemporaryKeyError) {

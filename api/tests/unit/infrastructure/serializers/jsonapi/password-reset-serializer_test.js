@@ -3,37 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 
 describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
 
-  describe('#serializeUser', () => {
-    it('should convert a snapshot into a JSON:API compliant object', () => {
-      // given
-      const user = {
-        id: '234567',
-        firstName: 'Luke',
-        lastName: 'Skywalker',
-        email: 'lskywalker@deathstar.empire',
-        password: ''
-      };
-      const expectedSerializedUser = {
-        data: {
-          attributes: {
-            'first-name': 'Luke',
-            'last-name': 'Skywalker',
-          },
-          id: '234567',
-          type: 'users'
-        }
-      };
-
-      // when
-      const result = serializer.serializeUser(user);
-
-      // then
-      expect(result).to.deep.equal(expectedSerializedUser);
-
-    });
-  });
-
-  describe('#serializeResetDemand', function() {
+  describe('#serialize', function() {
 
     it('should convert password-reset-object to JSON-API', () => {
       // given
@@ -53,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | password-reset-serializer', function() {
         }
       };
 
-      const result = serializer.serializeResetDemand(passwordResetDemand);
+      const result = serializer.serialize(passwordResetDemand);
 
       // then
       expect(result).to.deep.equal(expectedSerializedPasswordReset);
