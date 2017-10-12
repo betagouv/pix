@@ -5,12 +5,14 @@ export default Ember.Service.extend({
 
   generateEmail: (challengeId, assessmentId, host, environment) => {
 
+    const fdqn = (environment !== 'development') ? 'pix-infra.ovh' : 'localhost';
+
     let applicationReviewName = '';
     if(environment === 'integration' || environment === 'staging') {
       applicationReviewName = '+' + host.split('.')[0];
     }
 
-    return `${challengeId}-${assessmentId}-${moment().format('DDMM')}${applicationReviewName}@pix-infra.ovh`;
+    return `${challengeId}-${assessmentId}-${moment().format('DDMM')}${applicationReviewName}@${fdqn}`;
   }
 
 });

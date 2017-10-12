@@ -76,5 +76,20 @@ describe('Unit | Service | mail generator', function() {
         expect(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
       });
     });
+
+    describe('when the environment is development ', function() {
+      it('it should add a label to the email', function() {
+        // Given
+        const env = 'development';
+        const host = 'localhost';
+
+        // When
+        const email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+        // Then
+        expect(email).to.equal('recigAYl5bl96WGXj-267845-0502@localhost');
+      });
+    });
+
   });
 });
