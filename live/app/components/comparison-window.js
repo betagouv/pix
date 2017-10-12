@@ -1,5 +1,7 @@
 import Component from '@ember/component';
 import { inject as service } from '@ember/service';
+import { on } from '@ember/object/evented';
+import { computed } from '@ember/object';
 import $ from 'jquery';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
 import { EKMixin, keyUp } from 'ember-keyboard';
@@ -56,18 +58,18 @@ export default Component.extend(EKMixin, FocusableComponent, {
 
   focusNode: '.routable-modal--close-button',
 
-  isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
-  isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
-  isAssessmentChallengeTypeQcu: Ember.computed.equal('challenge.type', 'QCU'),
-  isAssessmentChallengeTypeQrocm: Ember.computed.equal('challenge.type', 'QROCM'),
-  isAssessmentChallengeTypeQrocmInd: Ember.computed.equal('challenge.type', 'QROCM-ind'),
-  isAssessmentChallengeTypeQrocmDep: Ember.computed.equal('challenge.type', 'QROCM-dep'),
+  isAssessmentChallengeTypeQroc: computed.equal('challenge.type', 'QROC'),
+  isAssessmentChallengeTypeQcm: computed.equal('challenge.type', 'QCM'),
+  isAssessmentChallengeTypeQcu: computed.equal('challenge.type', 'QCU'),
+  isAssessmentChallengeTypeQrocm: computed.equal('challenge.type', 'QROCM'),
+  isAssessmentChallengeTypeQrocmInd: computed.equal('challenge.type', 'QROCM-ind'),
+  isAssessmentChallengeTypeQrocmDep: computed.equal('challenge.type', 'QROCM-dep'),
 
-  activateKeyboard: Ember.on('init', function() {
+  activateKeyboard: on('init', function() {
     this.set('keyboardActivated', true);
   }),
 
-  closeOnEsc: Ember.on(keyUp('Escape'), function() {
+  closeOnEsc: on(keyUp('Escape'), function() {
     this.get('modal').close();
   }),
 
@@ -80,7 +82,7 @@ export default Component.extend(EKMixin, FocusableComponent, {
     $('#open-comparison_' + this.get('index')).focus();
   },
 
-  resultItem: Ember.computed('answer.result', function() {
+  resultItem: computed('answer.result', function() {
     let resultItem = contentReference['default'];
     const answerStatus = this.get('answer.result');
 
@@ -90,7 +92,7 @@ export default Component.extend(EKMixin, FocusableComponent, {
     return resultItem;
   }),
 
-  resultItemIcon: Ember.computed('resultItem', function() {
+  resultItemIcon: computed('resultItem', function() {
     return resultIconUrl(this.get('resultItem.status'));
   })
 });
