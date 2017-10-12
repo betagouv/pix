@@ -210,7 +210,7 @@ describe('Acceptance | API | Assessments', function() {
 
     afterEach(() => {
       return knex('assessments').delete()
-        .then(() => knex('assessments').delete())
+        .then(() => knex('assessments').delete());
     });
 
     it('should finish the test if there is no next challenge', function(done) {
