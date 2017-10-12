@@ -11609,6 +11609,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
   'use strict';
 
   var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a été bien mis à jour';
   var VALIDATION_MAP = {
     default: {
       status: 'default', message: null
@@ -11617,11 +11618,20 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       status: 'error', message: ERROR_PASSWORD_MESSAGE
     },
     success: {
-      status: 'success', message: 'Votre mot de passe a été bien mis à jour'
+      status: 'success', message: ''
     }
   };
 
-  _mocha.describe.only('Unit | Component | reset password form', function () {
+  var SUBMISSION_MAP = {
+    success: {
+      status: 'success', message: SUCCESS_VALIDATION_MESSAGE
+    },
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
+    }
+  };
+
+  (0, _mocha.describe)('Unit | Component | reset password form', function () {
 
     (0, _emberMocha.setupComponentTest)('reset-password-form', {
       needs: ['component:form-textfield'],
@@ -11710,7 +11720,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
           });
 
           // then
-          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+          (0, _chai.expect)(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
         });
 
         (0, _mocha.it)('should reset paswword input', function () {
@@ -11747,7 +11757,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
           });
 
           // then
-          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+          (0, _chai.expect)(component.get('validation')).to.eql(SUBMISSION_MAP['error']);
         });
       });
     });
