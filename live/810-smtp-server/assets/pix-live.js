@@ -6982,12 +6982,14 @@ define('pix-live/services/mail-generator', ['exports', 'moment'], function (expo
 
     generateEmail: function generateEmail(challengeId, assessmentId, host, environment) {
 
+      var fdqn = environment !== 'development' ? 'pix-infra.ovh' : 'localhost';
+
       var applicationReviewName = '';
       if (environment === 'integration' || environment === 'staging') {
         applicationReviewName = '+' + host.split('.')[0];
       }
 
-      return challengeId + '-' + assessmentId + '-' + (0, _moment.default)().format('DDMM') + applicationReviewName + '@pix-infra.ovh';
+      return challengeId + '-' + assessmentId + '-' + (0, _moment.default)().format('DDMM') + applicationReviewName + '@' + fdqn;
     }
 
   });
@@ -8544,6 +8546,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+8cfe161e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+0cbdf9a6"});
 }
 //# sourceMappingURL=pix-live.map

@@ -13503,6 +13503,20 @@ define('pix-live/tests/unit/services/mail-generator-test', ['chai', 'mocha', 'em
           (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
         });
       });
+
+      (0, _mocha.describe)('when the environment is development ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'development';
+          var host = 'localhost';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502@localhost');
+        });
+      });
     });
   });
 });
