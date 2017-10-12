@@ -1,6 +1,7 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
 module.exports = {
+
   serialize(passwordResets) {
     return new JSONAPISerializer('password-reset', {
       attributes: ['email', 'temporaryKey'],
@@ -10,4 +11,5 @@ module.exports = {
       }
     }).serialize(passwordResets);
   }
+
 };
