@@ -11719,7 +11719,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
             component.send('handleResetPassword');
           });
 
-          // then
+          // then 
           (0, _chai.expect)(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
         });
 
