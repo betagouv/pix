@@ -18,6 +18,7 @@ describe('Integration | Component | password reset form', function() {
     this.render(hbs`{{password-reset-form}}`);
 
     // then
+    expect(this.$('.password-reset__connexion-link')).to.have.length(1);
     expect(this.$('.password-reset-form__pix-logo')).to.have.length(1);
     expect(this.$('.password-reset-form__title')).to.have.length(1);
     expect(this.$('.password-reset-form__text')).to.have.length(1);

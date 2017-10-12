@@ -30,6 +30,14 @@ describe('Acceptance | Reset Password', function() {
     expect(find('.password-reset-page__password-reset-form')).to.have.lengthOf(1);
   });
 
+  it('display a link to inscription page', async function() {
+    // when
+    await visit('/mot-passe-oublie');
+
+    // then
+    expect(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
+  });
+
   it('should redirect to connexion page when email sent correspond to an existing user', async function() {
     // given
     server.create('user', {
