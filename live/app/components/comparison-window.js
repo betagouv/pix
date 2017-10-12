@@ -1,6 +1,7 @@
 import Ember from 'ember';
 import resultIconUrl from 'pix-live/utils/result-icon-url';
 import { EKMixin, keyUp } from 'ember-keyboard';
+import FocusableComponent from 'ember-component-focus/mixins/focusable-component';
 
 const contentReference = {
   ok: {
@@ -40,14 +41,7 @@ const contentReference = {
   }
 };
 
-function _setFocusOnFirstTabbableElement(modalId) {
-  const $tabbableElementInModal = Ember.$(modalId).find(':tabbable');
-
-  const $firstElementToFocus = $tabbableElementInModal.get(0);
-  $firstElementToFocus.focus();
-}
-
-export default Ember.Component.extend(EKMixin, {
+export default Ember.Component.extend(EKMixin, FocusableComponent, {
 
   modal: Ember.inject.service('current-routed-modal'),
 
@@ -57,6 +51,8 @@ export default Ember.Component.extend(EKMixin, {
   challenge: null,
   solution: null,
   index: null,
+
+  focusNode: '.routable-modal--close-button',
 
   isAssessmentChallengeTypeQroc: Ember.computed.equal('challenge.type', 'QROC'),
   isAssessmentChallengeTypeQcm: Ember.computed.equal('challenge.type', 'QCM'),
@@ -75,14 +71,7 @@ export default Ember.Component.extend(EKMixin, {
 
   didInsertElement() {
     this._super(...arguments);
-
-    const modalId = '#' + this.elementId;
-
-    _setFocusOnFirstTabbableElement(modalId);
-
-    Ember.$(modalId).find(':tabbable').last().on('blur', function() {
-      _setFocusOnFirstTabbableElement(modalId);
-    });
+    this.focus();
   },
 
   didDestroyElement() {
