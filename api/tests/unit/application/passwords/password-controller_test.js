@@ -71,7 +71,7 @@ describe('Unit | Controller | PasswordController', () => {
         it('should rejects an error, when user is not found', () => {
           // given
           const error = new UserNotFoundError();
-          const expectedErrorMessage = UserNotFoundError.getErrorMessage();
+          const expectedErrorMessage = error.getErrorMessage();
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExisting.rejects(error);
@@ -217,7 +217,7 @@ describe('Unit | Controller | PasswordController', () => {
         it('should reply with an serialized error', () => {
           // given
           const error = new InternalError();
-          const expectedErrorMessage = InternalError.getErrorMessage();
+          const expectedErrorMessage = error.getErrorMessage();
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExisting.rejects(error);
@@ -330,7 +330,7 @@ describe('Unit | Controller | PasswordController', () => {
       it('should reply with a InvalidTemporaryKeyError serialized', () => {
         // given
         const error = new InvalidTemporaryKeyError();
-        const expectedErrorMessage = InvalidTemporaryKeyError.getErrorMessage();
+        const expectedErrorMessage = error.getErrorMessage();
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
         resetPasswordService.verifyDemand.rejects(error);
@@ -353,7 +353,7 @@ describe('Unit | Controller | PasswordController', () => {
       it('should reply with a PasswordResetDemandNotFoundError serialized', () => {
         // given
         const error = new PasswordResetDemandNotFoundError();
-        const expectedErrorMessage = PasswordResetDemandNotFoundError.getErrorMessage();
+        const expectedErrorMessage = error.getErrorMessage();
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
         resetPasswordService.verifyDemand.rejects(error);
@@ -376,7 +376,7 @@ describe('Unit | Controller | PasswordController', () => {
       it('should reply with a InternalError serialized', () => {
         // given
         const error = new InternalError();
-        const expectedErrorMessage = InternalError.getErrorMessage();
+        const expectedErrorMessage = error.getErrorMessage();
         const serializedError = {};
         errorSerializer.serialize.returns(serializedError);
         resetPasswordService.verifyDemand.rejects(error);

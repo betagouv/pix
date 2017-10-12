@@ -80,7 +80,7 @@ describe('Unit | Pre-handler | User Verification', () => {
           sinon.assert.calledOnce(errorSerializer.serialize);
           sinon.assert.calledWith(codeStub, 404);
           sinon.assert.calledWith(reply, serializedError);
-          sinon.assert.calledWith(errorSerializer.serialize, UserNotFoundError.getErrorMessage());
+          sinon.assert.calledWith(errorSerializer.serialize, new UserNotFoundError().getErrorMessage());
         });
       });
 

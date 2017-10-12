@@ -31,10 +31,10 @@ module.exports = {
       })
       .catch((err) => {
         if (err instanceof UserNotFoundError) {
-          return reply(errorSerializer.serialize(UserNotFoundError.getErrorMessage())).code(404);
+          return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
 
-        return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);
+        return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   },
 
@@ -49,12 +49,12 @@ module.exports = {
       .then(reply)
       .catch((err) => {
         if (err instanceof InvalidTemporaryKeyError) {
-          return reply(errorSerializer.serialize(InvalidTemporaryKeyError.getErrorMessage())).code(401);
+          return reply(errorSerializer.serialize(err.getErrorMessage())).code(401);
         }
         if (err instanceof PasswordResetDemandNotFoundError) {
-          return reply(errorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
+          return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
-        return reply(errorSerializer.serialize(InternalError.getErrorMessage())).code(500);
+        return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   }
 };

@@ -8,7 +8,7 @@ module.exports = {
       .countUserById(request.params.id)
       .then((count) => {
         if (!_isUserExist(count)) {
-          const serializedError = errorSerializer.serialize(UserNotFoundError.getErrorMessage());
+          const serializedError = errorSerializer.serialize(new UserNotFoundError().getErrorMessage());
           return reply(serializedError).code(404).takeover();
         }
 

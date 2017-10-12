@@ -29,7 +29,7 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const userNotFoundError = errors.UserNotFoundError;
+      const userNotFoundError = new errors.UserNotFoundError();
       expect(userNotFoundError.getErrorMessage).to.be.a('function');
       expect(userNotFoundError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -49,7 +49,7 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = errors.InternalError;
+      const internalError = new errors.InternalError();
       expect(internalError.getErrorMessage).to.be.a('function');
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -69,7 +69,7 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = errors.PasswordResetDemandNotFoundError;
+      const internalError = new errors.PasswordResetDemandNotFoundError();
       expect(internalError.getErrorMessage).to.be.a('function');
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
@@ -89,7 +89,7 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const internalError = errors.InvalidTemporaryKeyError;
+      const internalError = new errors.InvalidTemporaryKeyError();
       expect(internalError.getErrorMessage).to.be.a('function');
       expect(internalError.getErrorMessage()).to.eql(expectedErrorMessage);
     });

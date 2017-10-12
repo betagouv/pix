@@ -92,9 +92,9 @@ module.exports = {
       .then(() => reply().code(204))
       .catch((err) => {
         if (err instanceof PasswordResetDemandNotFoundError) {
-          return reply(validationErrorSerializer.serialize(PasswordResetDemandNotFoundError.getErrorMessage())).code(404);
+          return reply(validationErrorSerializer.serialize(err.getErrorMessage())).code(404);
         }
-        return reply(validationErrorSerializer.serialize(InternalError.getErrorMessage())).code(500);
+        return reply(validationErrorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   }
 

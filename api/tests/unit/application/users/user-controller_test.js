@@ -558,7 +558,7 @@ describe('Unit | Controller | user-controller', () => {
             sinon.assert.calledOnce(reply);
             sinon.assert.calledWith(reply, serializedError);
             sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, PasswordResetDemandNotFoundError.getErrorMessage());
+            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
           });
         });
       });
@@ -583,7 +583,7 @@ describe('Unit | Controller | user-controller', () => {
             sinon.assert.calledWith(reply, serializedError);
             sinon.assert.calledWith(codeStub, 500);
             sinon.assert.calledOnce(validationErrorSerializer.serialize);
-            sinon.assert.calledWith(validationErrorSerializer.serialize, InternalError.getErrorMessage());
+            sinon.assert.calledWith(validationErrorSerializer.serialize, error.getErrorMessage());
           });
         });
       });
