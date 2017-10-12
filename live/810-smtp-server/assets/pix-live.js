@@ -17,11 +17,9 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
 
     headers: Ember.computed('session.data.authenticated.token', function () {
 
-      var tokenBearer = void 0;
+      var tokenBearer = '';
       if (this.get('session.data.authenticated.token')) {
         tokenBearer = 'Bearer ' + this.get('session.data.authenticated.token');
-      } else {
-        tokenBearer = '';
       }
 
       return {
@@ -1256,6 +1254,91 @@ define('pix-live/components/follower-form', ['exports', 'pix-live/config/environ
     }
   });
 });
+define('pix-live/components/form-textfield', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  var INPUT_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__input--default',
+    error: 'form-textfield__input--error',
+    success: 'form-textfield__input--success'
+  };
+
+  var ICON_TYPE_STATUS_MAP = {
+    default: '',
+    error: 'error',
+    success: 'success'
+  };
+
+  var MESSAGE_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__message--default',
+    error: 'form-textfield__message--error',
+    success: 'form-textfield__message--success'
+  };
+
+  var INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
+    default: 'form-textfield__input-container--default',
+    error: 'form-textfield__input-container--error',
+    success: 'form-textfield__input-container--success'
+  };
+
+  exports.default = Ember.Component.extend({
+    classNames: ['form-textfield'],
+
+    label: '',
+    textfieldName: '',
+    validationMessage: '',
+
+    textfieldType: Ember.computed('textfieldName', function () {
+      if (this.get('textfieldName') === 'password') {
+        return 'password';
+      }
+      if (this.get('textfieldName') === 'email') {
+        return 'email';
+      }
+      return 'text';
+    }),
+
+    _isValidationStatusNotDefault: function _isValidationStatusNotDefault() {
+      return this.get('validationStatus') !== 'default';
+    },
+
+
+    hasIcon: Ember.computed('validationStatus', 'user.errors.content', function () {
+      return this._isValidationStatusNotDefault();
+    }),
+
+    inputContainerStatusClass: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
+    }),
+
+    iconType: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    inputValidationStatus: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    validationMessageClass: Ember.computed('validationStatus', function () {
+      var inputValidationStatus = this.get('validationStatus');
+      return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
+    }),
+
+    actions: {
+      validate: function validate() {
+        this.sendAction('validate', this.get('textfieldName'));
+      }
+    }
+  });
+});
 define('pix-live/components/g-recaptcha', ['exports'], function (exports) {
   'use strict';
 
@@ -1791,6 +1874,55 @@ define('pix-live/components/qrocm-proposal', ['exports', 'pix-live/utils/proposa
 
   });
 });
+define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/password-validator'], function (exports, _passwordValidator) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+
+  var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var PASSWORD_SUCCESS_MESSAGE = 'Votre mot de passe a été bien mis à jour';
+  var VALIDATION_MAP = {
+    default: {
+      status: 'default', message: null
+    },
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
+    },
+    success: {
+      status: 'success', message: PASSWORD_SUCCESS_MESSAGE
+    }
+  };
+
+  exports.default = Ember.Component.extend({
+    classNames: ['reset-password-form'],
+    validation: VALIDATION_MAP['default'],
+
+    fullname: Ember.computed('user', function () {
+      return this.get('user.firstName') + ' ' + this.get('user.lastName');
+    }),
+
+    actions: {
+      validatePassword: function validatePassword() {
+        var password = this.get('user.password');
+        var validationStatus = (0, _passwordValidator.default)(password) ? 'success' : 'error';
+        this.set('validation', VALIDATION_MAP[validationStatus]);
+      },
+      handleResetPassword: function handleResetPassword() {
+        var _this = this;
+
+        return this.get('user').save().then(function () {
+          _this.set('validation', VALIDATION_MAP['success']);
+          _this.set('user.password', null);
+        }).catch(function () {
+          return _this.set('validation', VALIDATION_MAP['error']);
+        });
+      }
+    }
+  });
+});
 define('pix-live/components/result-item', ['exports', 'pix-live/utils/result-icon-url'], function (exports, _resultIconUrl) {
   'use strict';
 
@@ -2003,10 +2135,28 @@ define('pix-live/components/share-profile', ['exports'], function (exports) {
     _code: null,
     _organization: null,
     _organizationNotFound: false,
+    _studentCode: null,
+    _campaignCode: null,
 
     // Computed
     stepOrganizationCodeEntry: Ember.computed.equal('_view', STEP_1_ORGANIZATION_CODE_ENTRY),
     stepProfileSharingConfirmation: Ember.computed.equal('_view', STEP_2_SHARING_CONFIRMATION),
+    isOrganizationHasTypeSup: Ember.computed.equal('_organization.type', 'SUP'),
+
+    organizationLabels: Ember.computed('_organization.type', function () {
+      if (this.get('_organization.type') === 'PRO') {
+        return {
+          text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :',
+          text2: 'En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :',
+          text3: 'Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
+        };
+      }
+      return {
+        text1: 'Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :',
+        text2: 'En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :',
+        text3: 'Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.'
+      };
+    }),
 
     actions: {
       openModal: function openModal() {
@@ -2018,11 +2168,15 @@ define('pix-live/components/share-profile', ['exports'], function (exports) {
         this.set('_code', null);
         this.set('_organization', null);
         this.set('_organizationNotFound', false);
+        this.set('_studentCode', null);
+        this.set('_campaignCode', null);
       },
       cancelSharingAndGoBackToOrganizationCodeEntryView: function cancelSharingAndGoBackToOrganizationCodeEntryView() {
         this.set('_view', STEP_1_ORGANIZATION_CODE_ENTRY);
         this.set('_organization', null);
         this.set('_organizationNotFound', false);
+        this.set('_studentCode', null);
+        this.set('_campaignCode', null);
       },
       findOrganizationAndGoToSharingConfirmationView: function findOrganizationAndGoToSharingConfirmationView() {
         var _this = this;
@@ -2040,7 +2194,7 @@ define('pix-live/components/share-profile', ['exports'], function (exports) {
       shareSnapshotAndGoToSuccessNotificationView: function shareSnapshotAndGoToSuccessNotificationView() {
         var _this2 = this;
 
-        this.get('shareProfileSnapshot')(this.get('_organization')).then(function () {
+        this.get('shareProfileSnapshot')(this.get('_organization'), this.get('_studentCode'), this.get('_campaignCode')).then(function () {
           _this2.set('_view', STEP_3_SUCCESS_NOTIFICATION);
         });
       },
@@ -2218,91 +2372,6 @@ define('pix-live/components/signup-form', ['exports', 'pix-live/utils/email-vali
           _this3._updateInputsStatus();
           _this3.set('_tokenHasBeenUsed', true);
         });
-      }
-    }
-  });
-});
-define('pix-live/components/signup-textfield', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-
-
-  var INPUT_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__input--default',
-    error: 'signup-textfield__input--error',
-    success: 'signup-textfield__input--success'
-  };
-
-  var ICON_TYPE_STATUS_MAP = {
-    default: '',
-    error: 'error',
-    success: 'success'
-  };
-
-  var MESSAGE_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__message--default',
-    error: 'signup-textfield__message--error',
-    success: 'signup-textfield__message--success'
-  };
-
-  var INPUT_CONTAINER_VALIDATION_STATUS_MAP = {
-    default: 'signup-textfield__input-container--default',
-    error: 'signup-textfield__input-container--error',
-    success: 'signup-textfield__input-container--success'
-  };
-
-  exports.default = Ember.Component.extend({
-    classNames: ['signup-textfield'],
-
-    label: '',
-    textfieldName: '',
-    validationMessage: '',
-
-    textfieldType: Ember.computed('textfieldName', function () {
-      if (this.get('textfieldName') === 'password') {
-        return 'password';
-      }
-      if (this.get('textfieldName') === 'email') {
-        return 'email';
-      }
-      return 'text';
-    }),
-
-    _isValidationStatusNotDefault: function _isValidationStatusNotDefault() {
-      return this.get('validationStatus') !== 'default';
-    },
-
-
-    hasIcon: Ember.computed('validationStatus', 'user.errors.content', function () {
-      return this._isValidationStatusNotDefault();
-    }),
-
-    inputContainerStatusClass: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return INPUT_CONTAINER_VALIDATION_STATUS_MAP[inputValidationStatus] || null;
-    }),
-
-    iconType: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return ICON_TYPE_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    inputValidationStatus: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return INPUT_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    validationMessageClass: Ember.computed('validationStatus', function () {
-      var inputValidationStatus = this.get('validationStatus');
-      return MESSAGE_VALIDATION_STATUS_MAP[inputValidationStatus] || '';
-    }),
-
-    actions: {
-      validate: function validate() {
-        this.sendAction('validate', this.get('textfieldName'));
       }
     }
   });
@@ -5540,19 +5609,35 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       recaptchaToken: 'recaptcha-token-xxxxxx'
     });
 
-    var organization = server.create('organization', {
+    var company = server.create('organization', {
       id: 1,
-      name: 'ACME',
-      email: 'contact@acme.com',
+      name: 'Mon Entreprise',
+      email: 'contact@company.com',
       type: 'PRO',
-      code: 'ABCD00'
+      code: 'PRO001'
     });
 
-    prescriber.organization = organization;
-    organization.user = prescriber;
+    server.create('organization', {
+      id: 2,
+      name: 'Mon École',
+      email: 'contact@school.org',
+      type: 'SCO',
+      code: 'SCO002'
+    });
 
-    var snapshots = server.createList('snapshot', 3, { organization: organization });
-    organization.snapshots = snapshots;
+    server.create('organization', {
+      id: 3,
+      name: 'Mon Université',
+      email: 'contact@university.org',
+      type: 'SUP',
+      code: 'SUP003'
+    });
+
+    prescriber.organization = company;
+    company.user = prescriber;
+
+    var snapshots = server.createList('snapshot', 3, { organization: company });
+    company.snapshots = snapshots;
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -5815,6 +5900,14 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     snapshots: hasMany('snapshot')
   });
 });
+define('pix-live/models/password-reset-demand', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberData.default.Model.extend({});
+});
 define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -5829,7 +5922,9 @@ define('pix-live/models/snapshot', ['exports', 'ember-data'], function (exports,
     score: attr('number'),
     createdAt: attr('date'),
     organization: belongsTo('organization'),
-    user: belongsTo('user')
+    user: belongsTo('user'),
+    studentCode: attr('string'),
+    campaignCode: attr('string')
   });
 });
 define('pix-live/models/solution', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -5954,6 +6049,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('board');
     this.route('legal-notices', { path: '/mentions-legales' });
     this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
+    this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
 
     this.route('not-found', { path: '/*path' });
   });
@@ -6338,8 +6434,8 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
           return isOrganizationFound ? organisations.get('firstObject') : null;
         });
       },
-      shareProfileSnapshot: function shareProfileSnapshot(organization) {
-        return this.get('store').createRecord('snapshot', { organization: organization }).save();
+      shareProfileSnapshot: function shareProfileSnapshot(organization, studentCode, campaignCode) {
+        return this.get('store').createRecord('snapshot', { organization: organization, studentCode: studentCode, campaignCode: campaignCode }).save();
       }
     }
   });
@@ -6773,6 +6869,27 @@ define('pix-live/routes/project', ['exports', 'pix-live/routes/base-route'], fun
     value: true
   });
   exports.default = _baseRoute.default.extend({});
+});
+define('pix-live/routes/reset-password', ['exports', 'ember-simple-auth/mixins/unauthenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _unauthenticatedRouteMixin, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend(_unauthenticatedRouteMixin.default, {
+
+    session: Ember.inject.service(),
+
+    model: function model(params) {
+      var _this = this;
+
+      var temporaryKey = params.temporaryKey;
+
+      return this.get('store').findRecord('password-reset-demand', temporaryKey).catch(function () {
+        return _this.transitionTo('index');
+      });
+    }
+  });
 });
 define('pix-live/routes/terms-of-service', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
   'use strict';
@@ -7347,6 +7464,14 @@ define("pix-live/templates/components/follower-form", ["exports"], function (exp
   });
   exports.default = Ember.HTMLBars.template({ "id": "Zk2mWrf/", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"follower__form\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"follower__form-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item follower__form-input-container\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"class\",\"placeholder\",\"type\",\"value\"],[\"follower-email\",\"Saisissez votre email\",\"email\",[19,0,[\"_followerEmail\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"follower__form-item\"],[7],[0,\"\\n      \"],[6,\"button\"],[10,\"class\",[26,[\"follower-form__button \",[25,\"if\",[[19,0,[\"isPending\"]],\"follower-form__button--pending\",\"follower-form__button--default\"],null]]]],[3,\"action\",[[19,0,[]],\"submit\"],[[\"allowedKeys\"],[\"enter\"]]],[7],[1,[18,\"submitButtonText\"],false],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"hasMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[10,\"class\",[26,[\"follower-info-message \",[18,\"messageClassName\"]]]],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasError\"]]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--error\"],[9,\"style\",\"width:15px;height:15px;\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"class\",\"follower-form__icon follower-form__icon--success\"],[9,\"style\",\"width:12px;height:15px\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"    \"],[6,\"span\"],[7],[1,[18,\"infoMessage\"],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/follower-form.hbs" } });
 });
+define("pix-live/templates/components/form-textfield", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "iPjKSX4O", "block": "{\"symbols\":[],\"statements\":[[6,\"label\"],[10,\"for\",[26,[[18,\"textfieldName\"]]]],[9,\"class\",\"form-textfield__label\"],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"form-textfield__message \",[18,\"validationMessageClass\"],\" form-textfield__message-\",[18,\"textfieldType\"],\"\\n\"]]],[9,\"role\",\"alert\"],[7],[1,[18,\"validationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[6,\"div\"],[10,\"class\",[26,[\"form-textfield__input-field-container \",[18,\"inputContainerStatusClass\"]]]],[7],[0,\"\\n  \"],[1,[25,\"input\",[[25,\"-input-type\",[[19,0,[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[19,0,[\"textfieldType\"]],[19,0,[\"textfieldName\"]],[19,0,[\"inputBindingValue\"]],[25,\"action\",[[19,0,[]],\"validate\"],null],[25,\"concat\",[\"form-textfield__input\",\" \",[25,\"if\",[[19,0,[\"inputValidationStatus\"]],[25,\"-normalize-class\",[\"inputValidationStatus\",[19,0,[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[0,\"\\n\\n\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[4,\"if\",[[25,\"eq\",[[19,0,[\"validationStatus\"]],\"error\"],null]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"class\",\"form-textfield__icon form-textfield__icon--error\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"class\",\"form-textfield__icon form-textfield__icon--success validation-icon-success\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/form-textfield.hbs" } });
+});
 define("pix-live/templates/components/g-recaptcha", ["exports"], function (exports) {
   "use strict";
 
@@ -7483,6 +7608,14 @@ define("pix-live/templates/components/qrocm-proposal", ["exports"], function (ex
   });
   exports.default = Ember.HTMLBars.template({ "id": "3uYF5oMv", "block": "{\"symbols\":[\"block\"],\"statements\":[[4,\"each\",[[19,0,[\"_blocks\"]]],null,{\"statements\":[[0,\"\\n\"],[4,\"if\",[[19,1,[\"text\"]]],null,{\"statements\":[[0,\"    \"],[6,\"span\"],[7],[1,[19,1,[\"text\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,1,[\"input\"]]],null,{\"statements\":[[0,\"    \"],[6,\"input\"],[9,\"class\",\"challenge-response__proposal-input\"],[9,\"type\",\"text\"],[10,\"name\",[19,1,[\"input\"]],null],[10,\"placeholder\",[19,1,[\"placeholder\"]],null],[10,\"value\",[25,\"property-of\",[[19,0,[\"answersValue\"]],[19,1,[\"input\"]]],null],null],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,1,[\"breakline\"]]],null,{\"statements\":[[0,\"    \"],[6,\"br\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qrocm-proposal.hbs" } });
 });
+define("pix-live/templates/components/reset-password-form", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "L5rV6KhK", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password-form__heading\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__user-details\"],[7],[1,[18,\"fullname\"],false],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__instruction\"],[7],[0,\"Saisissez votre nouveau mot de passe\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__password-textfield-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__textfield\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"status\"]],\"validatePassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__button-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"reset-password-form__submit-button\"],[3,\"action\",[[19,0,[]],\"handleResetPassword\"]],[7],[0,\"envoyer\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/reset-password-form.hbs" } });
+});
 define("pix-live/templates/components/result-item", ["exports"], function (exports) {
   "use strict";
 
@@ -7553,7 +7686,7 @@ define("pix-live/templates/components/share-profile", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "BEKWaZl4", "block": "{\"symbols\":[\"&default\"],\"statements\":[[6,\"button\"],[9,\"class\",\"share-profile__share-button\"],[3,\"action\",[[19,0,[]],\"openModal\"]],[7],[0,\"\\n  Partager \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[0,\"mon profile\"],[8],[0,\"\\n  \"],[6,\"img\"],[9,\"class\",\"share-profile__share-button-image\"],[9,\"src\",\"/images/icon-partager.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_showingModal\"]]],null,{\"statements\":[[4,\"pix-modale\",null,[[\"containerClass\",\"onClose\"],[\"share-profile__modal\",\"closeModal\"]],{\"statements\":[[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"pix-modal__container\"],[7],[0,\"\\n\\n      \"],[6,\"a\"],[9,\"href\",\"#\"],[9,\"class\",\"pix-modal__close-link\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\\n        \"],[6,\"img\"],[9,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[9,\"alt\",\"Fermer la fenêtre modale\"],[9,\"width\",\"24\"],[9,\"height\",\"24\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"h1\"],[7],[0,\"Partage de votre profil\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"stepOrganizationCodeEntry\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--organization-code-entry\"],[7],[0,\"\\n          \"],[6,\"p\"],[9,\"class\",\"pix-modal__text\"],[7],[0,\"Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).\"],[8],[0,\"\\n\\n          \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"placeholder\",\"focus-in\",\"focus-out\",\"value\",\"enter\"],[\"pix-modal__input share-profile__organization-code-input\",\"code\",[19,0,[\"_placeholder\"]],\"focusInOrganizationCodeInput\",\"focusOutOrganizationCodeInput\",[19,0,[\"_code\"]],\"findOrganizationAndGoToSharingConfirmationView\"]]],false],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_organizationNotFound\"]]],null,{\"statements\":[[0,\"            \"],[6,\"p\"],[9,\"class\",\"pix-modal__text share-profile__form-error\"],[7],[0,\"Ce code ne correspond à aucune organisation.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__continue-button\"],[3,\"action\",[[19,0,[]],\"findOrganizationAndGoToSharingConfirmationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"stepProfileSharingConfirmation\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--sharing-confirmation\"],[7],[0,\"\\n          \"],[6,\"p\"],[9,\"class\",\"pix-modal__text\"],[7],[0,\"Vous vous apprêtez à transmettre une copie de votre profil Pix à l'organisation :\"],[8],[0,\"\\n          \"],[6,\"p\"],[9,\"class\",\"pix-modal__text share-profile__organization-name\"],[7],[1,[20,[\"_organization\",\"name\"]],false],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__disclaimer\"],[7],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"pix-modal__text\"],[7],[0,\"En cliquant sur le bouton «Envoyer», elle recevra les informations suivantes:\"],[8],[0,\"\\n            \"],[6,\"ul\"],[9,\"class\",\"pix-modal__list\"],[7],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› votre nom et prénom\"],[8],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› l'état actuel de votre profil\"],[8],[0,\"\\n            \"],[8],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"pix-modal__text\"],[7],[0,\"Elle ne recevra pas les évolutions futures de votre profil.\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__confirm-button\"],[3,\"action\",[[19,0,[]],\"shareSnapshotAndGoToSuccessNotificationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"cancelSharingAndGoBackToOrganizationCodeEntryView\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--success-notification\"],[7],[0,\"\\n          \"],[6,\"p\"],[9,\"class\",\"pix-modal__text share-profile__statement\"],[7],[0,\"Votre profil a été envoyé avec succès.\"],[8],[0,\"\\n          \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__close-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n      \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n\\n\"],[11,1],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/share-profile.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ofWNDARl", "block": "{\"symbols\":[\"&default\"],\"statements\":[[6,\"button\"],[9,\"class\",\"share-profile__share-button\"],[3,\"action\",[[19,0,[]],\"openModal\"]],[7],[0,\"\\n  Partager \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[0,\"mon profile\"],[8],[0,\"\\n  \"],[6,\"img\"],[9,\"class\",\"share-profile__share-button-image\"],[9,\"src\",\"/images/icon-partager.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_showingModal\"]]],null,{\"statements\":[[4,\"pix-modale\",null,[[\"containerClass\",\"onClose\"],[\"share-profile__modal\",\"closeModal\"]],{\"statements\":[[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"pix-modal__container\"],[7],[0,\"\\n\\n      \"],[6,\"a\"],[9,\"href\",\"#\"],[9,\"class\",\"pix-modal__close-link\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\\n        \"],[6,\"img\"],[9,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[9,\"alt\",\"Fermer la fenêtre modale\"],[9,\"width\",\"24\"],[9,\"height\",\"24\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"h1\"],[7],[0,\"Partage de votre profil\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"stepOrganizationCodeEntry\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--organization-code-entry\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[0,\"Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).\"],[8],[0,\"\\n\\n            \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"placeholder\",\"focus-in\",\"focus-out\",\"value\",\"enter\"],[\"pix-modal__input share-profile__organization-code-input\",\"code\",[19,0,[\"_placeholder\"]],\"focusInOrganizationCodeInput\",\"focusOutOrganizationCodeInput\",[19,0,[\"_code\"]],\"findOrganizationAndGoToSharingConfirmationView\"]]],false],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_organizationNotFound\"]]],null,{\"statements\":[[0,\"              \"],[6,\"p\"],[9,\"class\",\"share-profile__form-error\"],[7],[0,\"Ce code ne correspond à aucune organisation.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__continue-button\"],[3,\"action\",[[19,0,[]],\"findOrganizationAndGoToSharingConfirmationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"stepProfileSharingConfirmation\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--sharing-confirmation\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--organization-name\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text1\"]],false],[8],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"share-profile__organization-name\"],[7],[1,[20,[\"_organization\",\"name\"]],false],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"isOrganizationHasTypeSup\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--student-code\"],[7],[0,\"\\n              \"],[6,\"p\"],[7],[0,\"Veuillez saisir votre numéro d'étudiant :\"],[8],[0,\"\\n              \"],[1,[25,\"input\",null,[[\"class\",\"value\"],[\"pix-modal__input share-profile__student-code-input\",[19,0,[\"_studentCode\"]]]]],false],[0,\"\\n            \"],[8],[0,\"\\n\\n            \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--campaign-code\"],[7],[0,\"\\n              \"],[6,\"p\"],[7],[0,\"Précisez le code campagne s'il vous a été fourni :\"],[8],[0,\"\\n              \"],[1,[25,\"input\",null,[[\"class\",\"value\"],[\"pix-modal__input share-profile__campaign-code-input\",[19,0,[\"_campaignCode\"]]]]],false],[0,\"\\n            \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--disclaimer\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text2\"]],false],[8],[0,\"\\n            \"],[6,\"ul\"],[9,\"class\",\"pix-modal__list\"],[7],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› votre nom et prénom\"],[8],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› l'état actuel de votre profil\"],[8],[0,\"\\n            \"],[8],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text3\"]],false],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__confirm-button\"],[3,\"action\",[[19,0,[]],\"shareSnapshotAndGoToSuccessNotificationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"cancelSharingAndGoBackToOrganizationCodeEntryView\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--success-notification\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row\"],[7],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"share-profile__statement\"],[7],[0,\"Votre profil a été envoyé avec succès.\"],[8],[0,\"\\n          \"],[8],[0,\"\\n          \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__close-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n      \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n\\n\"],[11,1],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/share-profile.hbs" } });
 });
 define("pix-live/templates/components/signin-form", ["exports"], function (exports) {
   "use strict";
@@ -7569,15 +7702,7 @@ define("pix-live/templates/components/signup-form", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "g2pmLa68", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"signup-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
-});
-define("pix-live/templates/components/signup-textfield", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "hPrgFICB", "block": "{\"symbols\":[],\"statements\":[[6,\"label\"],[10,\"for\",[26,[[18,\"textfieldName\"]]]],[9,\"class\",\"signup-textfield__label\"],[7],[1,[18,\"label\"],false],[8],[0,\"\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__message \",[18,\"validationMessageClass\"],\" signup-textfield__message-\",[18,\"textfieldType\"],\"\\n\"]]],[9,\"role\",\"alert\"],[7],[1,[18,\"validationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[6,\"div\"],[10,\"class\",[26,[\"signup-textfield__input-field-container \",[18,\"inputContainerStatusClass\"]]]],[7],[0,\"\\n  \"],[1,[25,\"input\",[[25,\"-input-type\",[[19,0,[\"textfieldType\"]]],null]],[[\"type\",\"id\",\"value\",\"focus-out\",\"class\"],[[19,0,[\"textfieldType\"]],[19,0,[\"textfieldName\"]],[19,0,[\"inputBindingValue\"]],[25,\"action\",[[19,0,[]],\"validate\"],null],[25,\"concat\",[\"signup-textfield__input\",\" \",[25,\"if\",[[19,0,[\"inputValidationStatus\"]],[25,\"-normalize-class\",[\"inputValidationStatus\",[19,0,[\"inputValidationStatus\"]]],null]],null],\" \"],null]]]],false],[0,\"\\n\\n\\n\"],[4,\"if\",[[19,0,[\"hasIcon\"]]],null,{\"statements\":[[4,\"if\",[[25,\"eq\",[[19,0,[\"validationStatus\"]],\"error\"],null]],null,{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-error.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--error\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[6,\"img\"],[9,\"src\",\"/images/icons/icon-success.svg\"],[9,\"class\",\"signup-textfield__icon signup-textfield__icon--success validation-icon-success\"],[7],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"parameters\":[]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-textfield.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "YKClQEby", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"form-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/snapshot-list", ["exports"], function (exports) {
   "use strict";
@@ -7746,6 +7871,14 @@ define("pix-live/templates/project", ["exports"], function (exports) {
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "HyXAhjvl", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"project-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"project-page__panel project-page__header\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"project-page__header-text\"],[7],[0,\"PIX est un projet public de plateforme en ligne d’évaluation et de certification des compétences numériques, en cours de développement.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__populations\"],[7],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"project-page__populations-headline\"],[7],[0,\"Le service sera accessible gratuitement et ouvert à tous les francophones :\"],[8],[0,\"\\n    \"],[6,\"ul\"],[9,\"class\",\"project-page__user-types\"],[7],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/schoolers.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Collégiens et lycéens\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/students.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Étudiants\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/professionals.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Professionnels de tous secteurs\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"li\"],[9,\"class\",\"project-page__user-type\"],[7],[0,\"\\n        \"],[6,\"img\"],[9,\"class\",\"project-page__user-type-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/citizens.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n        \"],[6,\"span\"],[9,\"class\",\"project-page__user-type-name\"],[7],[0,\"Citoyens\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"project-page__populations-description\"],[7],[0,\"Son objectif est d’accompagner l’élévation du niveau général de connaissances et de compétences numériques et ainsi de préparer la transformation digitale de l’ensemble de notre société et de notre économie.\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--measure\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/measure.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Mesurer ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"PIX permettra d’obtenir un profil de compétences associé à un score global sur 1024 pix. En conformité avec le cadre de référence européen DIGCOMP, PIX évaluera les compétences numériques sur 8 niveaux et 5 grands domaines :\"],[8],[0,\"\\n      \"],[6,\"ul\"],[7],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Informations et données\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Communication et collaboration\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Création de contenu\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Protection et sécurité\"],[8],[0,\"\\n        \"],[6,\"li\"],[7],[0,\"Environnement numérique\"],[8],[0,\"\\n      \"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les épreuves évalueront les connaissances mais également les savoir-faire et la capacité à identifier les enjeux du numérique.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Des modalités innovantes d’évaluation seront proposées, dépassant le cadre habituel des QCM et privilégiant la mesure in vivo de compétences à partir d’activités réalisées dans leur environnement numérique réel : interactions, manipulations de fichiers, résolutions de problèmes, productions créatives, évaluations par les pairs, etc.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--develop\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/develop.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Développer ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Les apports de PIX au développement des compétences de chacun sont triples :\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"1. PIX permettra d’apprendre en se testant. Une part importante des épreuves PIX sont conçues sous la forme de défis à relever au cours desquels on développe ses compétences.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"2. En s’appuyant sur les résultats des épreuves, PIX offrira également des recommandations ciblées de formation.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"3. Le service proposera enfin un accès dédié aux équipes pédagogiques (collège, lycée, enseignement supérieur) et aux responsables de formation continue. Ils pourront suivre l’évolution des compétences des publics qu’ils encadrent, et concevoir des stratégies de formation sur mesure.\"],[8],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"Pour témoigner des progrès de manière continue et stimulante, les utilisateurs disposeront d’un compte personnel sécurisé qui leur permettra de faire valoir leurs nouveaux acquis à leur rythme et tout au long de la vie.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"rounded-panel project-page__panel project-page__value project-page__value--valorize\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-header\"],[7],[0,\"\\n      \"],[6,\"img\"],[9,\"class\",\"project-page__value-header-image\"],[10,\"src\",[26,[[18,\"rootURL\"],\"images/project/valorize.png\"]]],[9,\"alt\",\"\"],[7],[8],[0,\"\\n      \"],[6,\"h2\"],[9,\"class\",\"project-page__value-header-name\"],[7],[0,\"Valoriser ses compétences numériques\"],[8],[0,\"\\n      \"],[6,\"hr\"],[9,\"class\",\"project-page__value-header-line\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__value-body\"],[7],[0,\"\\n      \"],[6,\"p\"],[7],[0,\"PIX proposera, de manière optionnelle, un mode « certifiant », permettant d’obtenir une certification\\n        officielle fiable et reconnue par l’éducation nationale, l’enseignement supérieur et le monde professionnel.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"Ce test complémentaire nécessitera, dans un premier temps, une passation en présentiel dans les centres\\n        agréés par PIX : collèges, lycées, établissements d’enseignement supérieur, structures partenaires.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"Des solutions de passation du mode certifiant à distance seront étudiées par la suite, à destination des\\n        professionnels.\"],[8],[0,\"\\n\\n      \"],[6,\"p\"],[7],[0,\"PIX se substituera au Brevet informatique et internet (B2i) et à la Certification informatique et internet\\n        (C2i) progressivement à partir de la rentrée 2017–2018.\"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"section\"],[9,\"class\",\"project-page__presentation\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"project-page__panel project-page__presentation-container\"],[7],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"project-page__presentation-header\"],[7],[0,\"\\n        \"],[6,\"h2\"],[9,\"class\",\"project-page__presentation-header-name\"],[7],[0,\"PIX, un service en ligne co-construit et évolutif\"],[8],[0,\"\\n        \"],[6,\"hr\"],[9,\"class\",\"project-page__presentation-header-line\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"div\"],[9,\"class\",\"project-page__presentation-body\"],[7],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX respectera l’exigence de neutralité du service public et sera compatible avec l’ensemble des environnements numériques : diversité des systèmes d’exploitation et des services en ligne, logiciels propriétaires comme logiciels libres, etc.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX est développé selon la méthodologie agile des « Startups d’État » dans le cadre d’un partenariat entre tous les acteurs du ministère de l’Éducation nationale, de l’Enseignement supérieur et la Recherche, le Conseil national éducation-économie et le secrétariat général à la modernisation de l’action publique.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le projet fait l’objet d’une démarche inédite de co-construction avec des acteurs du monde professionnel.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Des panels de tests sont organisés en établissement scolaire, dans l’enseignement supérieur ou en entreprise toutes les deux semaines pour mettre à l’épreuve les nouvelles fonctionnalités au fur et à mesure de leur développement et pour calibrer les épreuves.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"PIX fait appel à la multitude des utilisateurs. Toutes les personnes, établissements et entreprises qui le souhaitent ont la possibilité de rejoindre la communauté des bêta-testeurs à distance. Le référentiel de compétences et les épreuves sont pensés pour évoluer dans le temps à l’aune des retours des utilisateurs.\"],[8],[0,\"\\n        \"],[6,\"p\"],[7],[0,\"Le code source de la plateforme PIX est libre.\"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/project.hbs" } });
+});
+define("pix-live/templates/reset-password", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "H9imyJwJ", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__link-to-home\"],[7],[0,\"\\n    \"],[6,\"a\"],[9,\"href\",\"/\"],[9,\"class\",\"signin-form__home-link\"],[7],[0,\"Annuler\\n      \"],[6,\"img\"],[9,\"class\",\"signin-form__home-link_close\"],[9,\"alt\",\"\"],[9,\"src\",\"/images/icons/icon-close.svg\"],[7],[8],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"reset-password-form\",null,[[\"user\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/reset-password.hbs" } });
 });
 define("pix-live/templates/terms-of-service", ["exports"], function (exports) {
   "use strict";
@@ -8546,6 +8679,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+0cbdf9a6"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+3fb2403d"});
 }
 //# sourceMappingURL=pix-live.map
