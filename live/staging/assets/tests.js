@@ -1120,7 +1120,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
-                return fillIn('.share-profile__organization-code-input', 'ABCD00');
+                return fillIn('.share-profile__organization-code-input', 'PRO001');
 
               case 2:
                 _context3.next = 4;
@@ -1207,7 +1207,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectOrganizationNameToBeDisplayed() {
-      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('ACME');
+      (0, _chai.expect)(find('.share-profile__organization-name').text().trim()).to.equal('Mon Entreprise');
     }
 
     function expectToBeOnSuccessNotificationView() {
@@ -2937,9 +2937,9 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
 
               // then
               (0, _chai.expect)(find('.board-page__header-organisation__name').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('ACME');
+              (0, _chai.expect)(find('.board-page__header-organisation__name').text().trim()).to.equal('Mon Entreprise');
               (0, _chai.expect)(find('.board-page__header-code__text').length).to.equal(1);
-              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('ABCD00');
+              (0, _chai.expect)(find('.board-page__header-code__text').text().trim()).to.equal('PRO001');
 
             case 7:
             case 'end':
@@ -7441,25 +7441,25 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
     });
 
     function expectToBeOnOrganizationCodeEntryView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
     }
 
     function expectToBeSharingConfirmationView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(1);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(0);
     }
 
     function expectToBeOnSuccessNotificationView() {
-      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.length(0);
-      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.length(1);
+      (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--sharing-confirmation')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.share-profile__section--success-notification')).to.have.lengthOf(1);
     }
 
     function expectModalToBeClosed() {
-      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+      (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
     }
 
     (0, _mocha.describe)('Step 0 - "Share" button on modal wrapper', function () {
@@ -7471,7 +7471,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"share-profile\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
 
         // when
         Ember.run(function () {
@@ -7479,8 +7479,8 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(1);
-        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.share-profile__section--organization-code-entry')).to.have.lengthOf(1);
       });
     });
 
@@ -7507,7 +7507,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__organization-code-input')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Continue" button to find the organization', function () {
@@ -7519,7 +7519,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__continue-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing', function () {
@@ -7531,7 +7531,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should redirect to "sharing confirmation" view when clicking on "Continue" button', function () {
@@ -7572,7 +7572,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__form-error')).to.have.lengthOf(1);
         expectToBeOnOrganizationCodeEntryView();
       });
 
@@ -7611,6 +7611,81 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         (0, _chai.expect)(Ember.$('.share-profile__organization-name').text().trim()).to.equal('Pix');
       });
 
+      (0, _mocha.describe)('when organization\'s type is SUP', function () {
+
+        beforeEach(function () {
+          // given
+          this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SUP' }));
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "gCqpvs7A",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('should ask for student code (required)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.exist;
+        });
+
+        (0, _mocha.it)('should ask for campaign code (optionnal)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.exist;
+        });
+      });
+
+      (0, _mocha.describe)('when organization\'s type is SCO', function () {
+
+        beforeEach(function () {
+          // given
+          this.set('organization', Ember.Object.create({ name: 'Pix', type: 'SCO' }));
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "gCqpvs7A",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('should not ask for student code (required)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+        });
+
+        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+        });
+      });
+
+      (0, _mocha.describe)('when organization\'s type is PRO', function () {
+
+        beforeEach(function () {
+          // given
+          this.set('organization', Ember.Object.create({ name: 'Pix', type: 'PRO' }));
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "gCqpvs7A",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_organization\"],[true,\"sharing-confirmation\",[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+        });
+
+        (0, _mocha.it)('should not ask for student code (required)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+        });
+
+        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+          // then
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+        });
+      });
+
       (0, _mocha.it)('should contain a "Confirm" button to valid the profile sharing', function () {
         // when
         this.render(Ember.HTMLBars.template({
@@ -7620,7 +7695,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__confirm-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should contain a "Cancel" button to cancel the profile sharing for the given organization', function () {
@@ -7632,7 +7707,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__cancel-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should return back to "organization code entry" view when clicking on "Cancel" button', function () {
@@ -7685,7 +7760,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.length(1);
+        (0, _chai.expect)(Ember.$('.share-profile__close-button')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should close the modal when clicking on "Cancel" button', function () {
@@ -7702,7 +7777,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
         });
 
         // then
-        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.length(0);
+        (0, _chai.expect)(Ember.$('.pix-modal')).to.have.lengthOf(0);
       });
     });
 
@@ -7763,6 +7838,64 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
 
         // then
         (0, _chai.expect)(Ember.$('.share-profile__organization-code-input').val()).to.equal('ORGA00');
+      });
+    });
+
+    (0, _mocha.describe)('Actions', function () {
+
+      beforeEach(function () {
+        // given
+        this.set('showingModal', true);
+        this.set('view', 'sharing-confirmation');
+        this.set('code', 'ABCD1234');
+        this.set('organization', { foo: 'bar' });
+        this.set('organizationNotFound', true);
+        this.set('studentCode', 'student_code');
+        this.set('campaignCode', 'campaign_code');
+
+        this.render(Ember.HTMLBars.template({
+          "id": "SuIjuFeF",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"share-profile\",null,[[\"_showingModal\",\"_view\",\"_code\",\"_organization\",\"_organizationNotFound\",\"_studentCode\",\"_campaignCode\"],[[19,0,[\"showingModal\"]],[19,0,[\"view\"]],[19,0,[\"code\"]],[19,0,[\"organization\"]],[19,0,[\"organizationNotFound\"]],[19,0,[\"studentCode\"]],[19,0,[\"campaignCode\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+      });
+
+      (0, _mocha.describe)('#closeModal', function () {
+
+        (0, _mocha.it)('should remove all input information when modal is closed', function () {
+          // when
+          Ember.run(function () {
+            return document.querySelector('.pix-modal__close-link').click();
+          });
+
+          // then
+          (0, _chai.expect)(this.get('showingModal')).to.be.false;
+          (0, _chai.expect)(this.get('view')).to.equal('organization-code-entry');
+          (0, _chai.expect)(this.get('code')).to.be.null;
+          (0, _chai.expect)(this.get('organization')).to.be.null;
+          (0, _chai.expect)(this.get('organizationNotFound')).to.be.false;
+          (0, _chai.expect)(this.get('studentCode')).to.be.null;
+          (0, _chai.expect)(this.get('campaignCode')).to.be.null;
+        });
+      });
+
+      (0, _mocha.describe)('#cancelSharingAndGoBackToOrganizationCodeEntryView', function () {
+
+        (0, _mocha.it)('should remove all input information but organization code when sharing confirmation is canceled', function () {
+          // when
+          Ember.run(function () {
+            return document.querySelector('.share-profile__cancel-button').click();
+          });
+
+          // then
+          (0, _chai.expect)(this.get('showingModal')).to.be.true;
+          (0, _chai.expect)(this.get('view')).to.equal('organization-code-entry');
+          (0, _chai.expect)(this.get('code')).to.equal('ABCD1234');
+          (0, _chai.expect)(this.get('organization')).to.be.null;
+          (0, _chai.expect)(this.get('organizationNotFound')).to.be.false;
+          (0, _chai.expect)(this.get('studentCode')).to.be.null;
+          (0, _chai.expect)(this.get('campaignCode')).to.be.null;
+        });
       });
     });
   });
@@ -11542,6 +11675,60 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(component.get('_organization')).to.equal(null);
+      });
+    });
+
+    (0, _mocha.describe)('#isOrganizationHasTypeSup', function () {
+
+      (0, _mocha.it)('should return "true" when organization type is "SUP"', function () {
+        // given
+        component.set('_organization', Ember.Object.create({ type: 'SUP' }));
+
+        // when
+        var isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+        // then
+        (0, _chai.expect)(isOrganizationHasTypeSup).to.be.true;
+      });
+
+      (0, _mocha.it)('should return "false" when organization type is not "SUP"', function () {
+        // given
+        component.set('_organization', Ember.Object.create({ type: 'SCO' }));
+
+        // when
+        var isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+
+        // then
+        (0, _chai.expect)(isOrganizationHasTypeSup).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('.organizationLabels', function () {
+
+      (0, _mocha.it)('should return adapted ("orgnisation"-based) labels when organization type is PRO', function () {
+        // given
+        component.set('_organization', { type: 'PRO' });
+
+        // when
+        var organizationLabel = component.get('organizationLabels');
+
+        // then
+        (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      });
+
+      (0, _mocha.it)('should return adapted ("établissement"-based) labels when organization type is SUP or SCO', function () {
+        // given
+        component.set('_organization', { type: 'SUP' });
+
+        // when
+        var organizationLabel = component.get('organizationLabels');
+
+        // then
+        (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
       });
     });
   });
