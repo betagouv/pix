@@ -16,15 +16,15 @@ describe('Acceptance | Reset Password', function() {
 
   it('can visit /mot-passe-oublie', async function() {
     // when
-    await visit('/mot-passe-oublie');
+    await visit('/mot-de-passe-oublie');
 
     // then
-    expect(currentURL()).to.equal('/mot-passe-oublie');
+    expect(currentURL()).to.equal('/mot-de-passe-oublie');
   });
 
   it('display a form to reset the email', async function() {
     // when
-    await visit('/mot-passe-oublie');
+    await visit('/mot-de-passe-oublie');
 
     // then
     expect(find('.password-reset-page__password-reset-form')).to.have.lengthOf(1);
@@ -32,7 +32,7 @@ describe('Acceptance | Reset Password', function() {
 
   it('display a link to inscription page', async function() {
     // when
-    await visit('/mot-passe-oublie');
+    await visit('/mot-de-passe-oublie');
 
     // then
     expect(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
@@ -47,7 +47,7 @@ describe('Acceptance | Reset Password', function() {
       email: 'brandone.martins@pix.com',
       password: '1024pix!'
     });
-    await visit('/mot-passe-oublie');
+    await visit('/mot-de-passe-oublie');
     fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
 
     // when
@@ -55,7 +55,7 @@ describe('Acceptance | Reset Password', function() {
 
     // then
     return andThen(() => {
-      expect(currentURL()).to.equal('/mot-passe-oublie');
+      expect(currentURL()).to.equal('/mot-de-passe-oublie');
       expect(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
     });
 
@@ -70,7 +70,7 @@ describe('Acceptance | Reset Password', function() {
       email: 'brandone.martins@pix.com',
       password: '1024pix!'
     });
-    await visit('/mot-passe-oublie');
+    await visit('/mot-de-passe-oublie');
     fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
 
     // when
@@ -78,7 +78,7 @@ describe('Acceptance | Reset Password', function() {
 
     // then
     return andThen(() => {
-      expect(currentURL()).to.equal('/mot-passe-oublie');
+      expect(currentURL()).to.equal('/mot-de-passe-oublie');
       expect(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
     });
 
