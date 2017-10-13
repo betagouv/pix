@@ -6100,7 +6100,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('legal-notices', { path: '/mentions-legales' });
     this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
     this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
-    this.route('password-reset-demand', { path: 'mot-passe-oublie' });
+    this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
     this.route('not-found', { path: '/*path' });
   });
 
@@ -8735,6 +8735,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+b73ad6a0"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+a186b58a"});
 }
 //# sourceMappingURL=pix-live.map

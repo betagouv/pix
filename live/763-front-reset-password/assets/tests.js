@@ -3121,12 +3121,12 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return visit('/mot-passe-oublie');
+              return visit('/mot-de-passe-oublie');
 
             case 2:
 
               // then
-              (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+              (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
 
             case 3:
             case 'end':
@@ -3142,7 +3142,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return visit('/mot-passe-oublie');
+              return visit('/mot-de-passe-oublie');
 
             case 2:
 
@@ -3163,7 +3163,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
           switch (_context3.prev = _context3.next) {
             case 0:
               _context3.next = 2;
-              return visit('/mot-passe-oublie');
+              return visit('/mot-de-passe-oublie');
 
             case 2:
 
@@ -3192,7 +3192,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
                 password: '1024pix!'
               });
               _context4.next = 3;
-              return visit('/mot-passe-oublie');
+              return visit('/mot-de-passe-oublie');
 
             case 3:
               fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
@@ -3203,7 +3203,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
 
             case 6:
               return _context4.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+                (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
                 (0, _chai.expect)(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
               }));
 
@@ -3229,7 +3229,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
                 password: '1024pix!'
               });
               _context5.next = 3;
-              return visit('/mot-passe-oublie');
+              return visit('/mot-de-passe-oublie');
 
             case 3:
               fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
@@ -3240,7 +3240,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
 
             case 6:
               return _context5.abrupt('return', andThen(function () {
-                (0, _chai.expect)(currentURL()).to.equal('/mot-passe-oublie');
+                (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
                 (0, _chai.expect)(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
               }));
 
