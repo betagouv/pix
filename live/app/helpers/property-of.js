@@ -1,4 +1,4 @@
-import Helper from '@ember/component/helper';
+import { helper } from '@ember/component/helper';
 import _ from 'pix-live/utils/lodash-custom';
 
 export function propertyOf(params) {
@@ -10,4 +10,4 @@ export function propertyOf(params) {
   return '';
 }
 
-export default Helper.helper(propertyOf);
+export default helper(propertyOf);

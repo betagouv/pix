@@ -1,4 +1,4 @@
-import Helper from '@ember/component/helper';
+import { helper } from '@ember/component/helper';
 import _ from 'pix-live/utils/lodash-custom';
 
 export function eq(params) {
@@ -9,4 +9,4 @@ export function eq(params) {
   return isEqual;
 }
 
-export default Helper.helper(eq);
+export default helper(eq);

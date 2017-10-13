@@ -1,4 +1,4 @@
-import Helper from '@ember/component/helper';
+import { helper } from '@ember/component/helper';
 import $ from 'jquery';
 
 export function stripInstruction(params) {
@@ -8,4 +8,4 @@ export function stripInstruction(params) {
   return result;
 }
 
-export default Helper.helper(stripInstruction);
+export default helper(stripInstruction);

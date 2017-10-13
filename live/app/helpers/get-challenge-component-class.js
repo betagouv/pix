@@ -1,4 +1,4 @@
-import Helper from '@ember/component/helper';
+import { helper } from '@ember/component/helper';
 import _ from 'pix-live/utils/lodash-custom';
 
 export function getChallengeComponentClass(params) {
@@ -17,4 +17,4 @@ export function getChallengeComponentClass(params) {
   return 'challenge-item-' + result;
 }
 
-export default Helper.helper(getChallengeComponentClass);
+export default helper(getChallengeComponentClass);

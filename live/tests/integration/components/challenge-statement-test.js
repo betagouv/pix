@@ -173,8 +173,8 @@ describe('Integration | Component | ChallengeStatement', function() {
       };
 
       const challengeQROC = {
-        instruction : 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
-        hasInternetAllowed : false,
+        instruction: 'Dans la présentation à télécharger, un mot est caché sous le parchemin. Trouvez-le !',
+        hasInternetAllowed: false,
         hasSingleAttachment: false,
         hasAttachment: true,
         hasMultipleAttachments: true,
