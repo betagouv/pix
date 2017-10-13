@@ -5888,7 +5888,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         id: 1,
         score: 10,
         completionPercentage: '25',
-        createdAt: '09/25/2017',
+        createdAt: '2017-09-25 12:14:33',
         user: user
       });
       this.set('snapshots', [snapshot]);
@@ -8079,7 +8079,7 @@ define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember
 
         var component = this.subject();
         component.sendAction = sendActionStub;
-        component.trigger((0, _emberKeyboard.keyDown)('Escape'));
+        component.trigger((0, _emberKeyboard.keyUp)('Escape'));
 
         // then
         _sinon.default.assert.calledWith(sendActionStub, 'close');
