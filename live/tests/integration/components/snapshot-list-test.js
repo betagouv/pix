@@ -54,7 +54,7 @@ describe('Integration | Component | snapshot list', function() {
       id: 1,
       score: 10,
       completionPercentage: '25',
-      createdAt: '09/25/2017',
+      createdAt: '2017-09-25 12:14:33',
       user
     });
     this.set('snapshots', [snapshot]);
