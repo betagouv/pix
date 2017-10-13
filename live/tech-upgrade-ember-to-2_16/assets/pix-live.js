@@ -8,14 +8,16 @@ define('pix-live/adapters/application', ['exports', 'ember-data', 'pix-live/conf
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var service = Ember.inject.service;
+  var computed = Ember.computed;
   exports.default = _emberData.default.JSONAPIAdapter.extend({
 
     namespace: 'api',
     host: _environment.default.APP.API_HOST,
 
-    session: Ember.inject.service(),
+    session: service(),
 
-    headers: Ember.computed('session.data.authenticated.token', function () {
+    headers: computed('session.data.authenticated.token', function () {
 
       var tokenBearer = '';
       if (this.get('session.data.authenticated.token')) {
@@ -54,17 +56,18 @@ define('pix-live/adapters/solution', ['exports', 'pix-live/adapters/application'
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var $ = Ember.$;
   var RSVP = Ember.RSVP;
   exports.default = _application.default.extend({
     queryRecord: function queryRecord(modelName, clazz, query) {
-      return Ember.$.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
+      return $.getJSON(this.host + '/' + this.namespace + '/assessments/' + query.assessmentId + '/solutions/' + query.answerId, function (data) {
         return RSVP.resolve(data);
       });
     },
 
     // refresh cache
     refreshRecord: function refreshRecord(modelName, clazz) {
-      return Ember.$.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
+      return $.post(this.host + '/' + this.namespace + '/challenges/' + clazz.challengeId + '/solution', function (data) {
         return RSVP.resolve(data);
       });
     }
@@ -115,10 +118,11 @@ define('pix-live/authenticators/simple', ['exports', 'ember-simple-auth/authenti
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var service = Ember.inject.service;
   var RSVP = Ember.RSVP;
   exports.default = _base.default.extend({
 
-    ajax: Ember.inject.service(),
+    ajax: service(),
 
     restore: function restore(data) {
       return RSVP.resolve(data);
@@ -198,11 +202,10 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
 
         this.set('_validateButtonStatus', 'pending');
 
-        var promise = this.get('answerValidated')();
-        promise.then(function () {
-          _this.set('_validateButtonStatus', 'enable');
+        this.get('answerValidated')().then(function () {
+          return _this.set('_validateButtonStatus', 'enable');
         }).catch(function () {
-          _this.set('_validateButtonStatus', 'enable');
+          return _this.set('_validateButtonStatus', 'enable');
         });
       }
     }
@@ -426,6 +429,7 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'pix-live/utils/l
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var $ = Ember.$;
 
 
   var ChallengeItemQrocm = _challengeItemGeneric.default.extend({
@@ -441,8 +445,8 @@ define('pix-live/components/challenge-item-qrocm', ['exports', 'pix-live/utils/l
     },
     _getRawAnswerValue: function _getRawAnswerValue() {
       var result = {};
-      this.$('.challenge-proposals input').each(function (index, element) {
-        result[this.$(element).attr('name')] = this.$(element).val();
+      $('.challenge-proposals input').each(function (index, element) {
+        result[$(element).attr('name')] = $(element).val();
       });
       return result;
     },
@@ -804,6 +808,7 @@ define('pix-live/components/course-list', ['exports', 'pix-live/config/environme
   var run = Ember.run;
   var computed = Ember.computed;
   var Component = Ember.Component;
+  var $ = Ember.$;
 
 
   function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
@@ -819,7 +824,7 @@ define('pix-live/components/course-list', ['exports', 'pix-live/config/environme
   }
 
   function _displayWarningModal() {
-    this.$('#js-modal-mobile').modal();
+    $('#js-modal-mobile').modal();
   }
 
   var CourseList = Component.extend({
@@ -852,7 +857,7 @@ define('pix-live/components/course-list', ['exports', 'pix-live/config/environme
       run.scheduleOnce('afterRender', this, function () {
         _this.$('button[data-confirm]').click(function () {
           _this.$('#js-modal-mobile').modal('hide');
-          that.sendAction('startCourse', that.get('selectedCourse'));
+          _this.sendAction('startCourse', that.get('selectedCourse'));
         });
       });
 
@@ -866,7 +871,7 @@ define('pix-live/components/course-list', ['exports', 'pix-live/config/environme
       if (_environment.default.APP.isMobileSimulationEnabled) {
         return this.get('isSimulatedMobileScreen');
       }
-      return this.$(window).width() < 767;
+      return $(window).width() < 767;
     },
 
 
@@ -1861,7 +1866,9 @@ define('pix-live/components/qrocm-proposal', ['exports', 'pix-live/utils/proposa
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Component.extend({
+  var Component = Ember.Component;
+  var computed = Ember.computed;
+  exports.default = Component.extend({
 
     classNames: ['qrocm-proposal'],
 
@@ -1869,15 +1876,13 @@ define('pix-live/components/qrocm-proposal', ['exports', 'pix-live/utils/proposa
     answersValue: null,
     answerChanged: null, // action
 
-    _blocks: Ember.computed('proposals', function () {
+    _blocks: computed('proposals', function () {
       return (0, _proposalsAsBlocks.default)(this.get('proposals'));
     }),
 
     didInsertElement: function didInsertElement() {
-      var _this = this;
-
       this.$('input').keydown(function () {
-        _this.get('answerChanged')();
+        this.get('answerChanged')();
       });
     }
 
@@ -2901,7 +2906,7 @@ define('pix-live/helpers/convert-to-html', ['exports', 'showdown', 'pix-live/uti
     value: true
   });
   exports.convertToHtml = convertToHtml;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function convertToHtml(params) {
     if (_lodashCustom.default.isArray(params) && params.length > 0) {
       var converter = new _showdown.default.Converter();
@@ -2910,7 +2915,7 @@ define('pix-live/helpers/convert-to-html', ['exports', 'showdown', 'pix-live/uti
     return '';
   }
 
-  exports.default = Helper.helper(convertToHtml);
+  exports.default = helper(convertToHtml);
 });
 define('pix-live/helpers/cos', ['exports', 'ember-math-helpers/helpers/cos'], function (exports, _cos) {
   'use strict';
@@ -2976,7 +2981,7 @@ define('pix-live/helpers/eq', ['exports', 'pix-live/utils/lodash-custom'], funct
     value: true
   });
   exports.eq = eq;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function eq(params) {
     var isEqual = false;
     if (_lodashCustom.default.isArray(params) && params.length > 0) {
@@ -2985,7 +2990,7 @@ define('pix-live/helpers/eq', ['exports', 'pix-live/utils/lodash-custom'], funct
     return isEqual;
   }
 
-  exports.default = Helper.helper(eq);
+  exports.default = helper(eq);
 });
 define('pix-live/helpers/exp', ['exports', 'ember-math-helpers/helpers/exp'], function (exports, _exp) {
   'use strict';
@@ -3032,14 +3037,14 @@ define('pix-live/helpers/extract-extension', ['exports'], function (exports) {
     value: true
   });
   exports.extractExtension = extractExtension;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function extractExtension(params) {
     var parts = params[0].split('.');
     var lastIndex = parts.length - 1;
     return parts[lastIndex];
   }
 
-  exports.default = Helper.helper(extractExtension);
+  exports.default = helper(extractExtension);
 });
 define('pix-live/helpers/floor', ['exports', 'ember-math-helpers/helpers/floor'], function (exports, _floor) {
   'use strict';
@@ -3086,7 +3091,7 @@ define('pix-live/helpers/get-challenge-component-class', ['exports', 'pix-live/u
     value: true
   });
   exports.getChallengeComponentClass = getChallengeComponentClass;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function getChallengeComponentClass(params) {
     var result = void 0;
     var challenge = params[0];
@@ -3103,7 +3108,7 @@ define('pix-live/helpers/get-challenge-component-class', ['exports', 'pix-live/u
     return 'challenge-item-' + result;
   }
 
-  exports.default = Helper.helper(getChallengeComponentClass);
+  exports.default = helper(getChallengeComponentClass);
 });
 define('pix-live/helpers/hypot', ['exports', 'ember-math-helpers/helpers/hypot'], function (exports, _hypot) {
   'use strict';
@@ -3169,12 +3174,12 @@ define('pix-live/helpers/inc', ['exports'], function (exports) {
     value: true
   });
   exports.inc = inc;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function inc(params) {
     return params[0] + 1;
   }
 
-  exports.default = Helper.helper(inc);
+  exports.default = helper(inc);
 });
 define('pix-live/helpers/is-after', ['exports', 'pix-live/config/environment', 'ember-moment/helpers/is-after'], function (exports, _environment, _isAfter) {
   'use strict';
@@ -3553,7 +3558,7 @@ define('pix-live/helpers/or', ['exports', 'pix-live/utils/lodash-custom'], funct
     value: true
   });
   exports.or = or;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
 
 
   function _isATruthyValue(value) {
@@ -3568,7 +3573,7 @@ define('pix-live/helpers/or', ['exports', 'pix-live/utils/lodash-custom'], funct
     return hasTruthyValue;
   }
 
-  exports.default = Helper.helper(or);
+  exports.default = helper(or);
 });
 define('pix-live/helpers/pluralize', ['exports', 'ember-inflector/lib/helpers/pluralize'], function (exports, _pluralize) {
   'use strict';
@@ -3604,7 +3609,7 @@ define('pix-live/helpers/property-of', ['exports', 'pix-live/utils/lodash-custom
     value: true
   });
   exports.propertyOf = propertyOf;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   function propertyOf(params) {
     var map = params[0];
     var key = params[1];
@@ -3614,7 +3619,7 @@ define('pix-live/helpers/property-of', ['exports', 'pix-live/utils/lodash-custom
     return '';
   }
 
-  exports.default = Helper.helper(propertyOf);
+  exports.default = helper(propertyOf);
 });
 define('pix-live/helpers/random', ['exports', 'ember-math-helpers/helpers/random'], function (exports, _random) {
   'use strict';
@@ -3739,7 +3744,7 @@ define('pix-live/helpers/strip-instruction', ['exports'], function (exports) {
     value: true
   });
   exports.stripInstruction = stripInstruction;
-  var Helper = Ember.Helper;
+  var helper = Ember.Helper.helper;
   var $ = Ember.$;
   function stripInstruction(params) {
     var result = $(params[0]).text();
@@ -3748,7 +3753,7 @@ define('pix-live/helpers/strip-instruction', ['exports'], function (exports) {
     return result;
   }
 
-  exports.default = Helper.helper(stripInstruction);
+  exports.default = helper(stripInstruction);
 });
 define('pix-live/helpers/sub', ['exports', 'ember-math-helpers/helpers/sub'], function (exports, _sub) {
   'use strict';
@@ -8692,6 +8697,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+1f5077e4"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+570b15aa"});
 }
 //# sourceMappingURL=pix-live.map
