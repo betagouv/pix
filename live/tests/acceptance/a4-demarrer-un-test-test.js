@@ -23,12 +23,12 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
 
   it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
     await visit('/courses/ref_course_id');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
   });
 
   it('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', async function() {
     await visit('/courses/ref_course_id/assessment');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
   });
 
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {

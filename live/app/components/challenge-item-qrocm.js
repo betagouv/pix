@@ -1,4 +1,5 @@
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 import ChallengeItemGeneric from './challenge-item-generic';
 
@@ -19,8 +20,8 @@ const ChallengeItemQrocm = ChallengeItemGeneric.extend({
   // and moreover, is a much more robust solution when you need to test it properly.
   _getRawAnswerValue() {
     const result = {};
-    this.$('.challenge-proposals input').each(function(index, element) {
-      result[this.$(element).attr('name')] = this.$(element).val();
+    $('.challenge-proposals input').each(function(index, element) {
+      result[$(element).attr('name')] = $(element).val();
     });
     return result;
   },

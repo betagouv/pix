@@ -22,14 +22,9 @@ export default Component.extend({
     validateAnswer() {
       this.set('_validateButtonStatus', 'pending');
 
-      const promise = this.get('answerValidated')();
-      promise
-        .then(() => {
-          this.set('_validateButtonStatus', 'enable');
-        })
-        .catch(() => {
-          this.set('_validateButtonStatus', 'enable');
-        });
+      this.get('answerValidated')()
+        .then(() => this.set('_validateButtonStatus', 'enable'))
+        .catch(() => this.set('_validateButtonStatus', 'enable'));
     }
   }
 

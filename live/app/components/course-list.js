@@ -2,6 +2,7 @@ import { run } from '@ember/runloop';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 import ENV from 'pix-live/config/environment';
+import $ from 'jquery';
 
 function _userNotAlreadyWarnedAboutMobileIncompleteSupport(that) {
   return that._isMobile() && !localStorage.getItem('pix-mobile-warning');
@@ -16,7 +17,7 @@ function _storeCourseToDisplayAfterWarning(that, course) {
 }
 
 function _displayWarningModal() {
-  this.$('#js-modal-mobile').modal();
+  $('#js-modal-mobile').modal();
 }
 
 const CourseList = Component.extend({
@@ -47,7 +48,7 @@ const CourseList = Component.extend({
     run.scheduleOnce('afterRender', this, () => {
       this.$('button[data-confirm]').click(() => {
         this.$('#js-modal-mobile').modal('hide');
-        that.sendAction('startCourse', that.get('selectedCourse'));
+        this.sendAction('startCourse', that.get('selectedCourse'));
       });
     });
 
@@ -62,7 +63,7 @@ const CourseList = Component.extend({
     if (ENV.APP.isMobileSimulationEnabled) {
       return this.get('isSimulatedMobileScreen');
     }
-    return this.$(window).width() < 767;
+    return $(window).width() < 767;
   },
 
   actions: {
