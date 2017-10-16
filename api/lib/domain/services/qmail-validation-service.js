@@ -18,15 +18,15 @@ function _allRulesAreValidated(listOfRulesResults) {
 }
 
 function _isEmailField(operator) {
-  return operator === 'SUJET' || operator === 'CORPS';
+  return operator === 'SUJET' || operator === 'CORPS';
 }
 
 function _isFieldCondition(operator) {
-  return operator === 'EST' || operator === 'CONTIENT';
+  return operator === 'EST' || operator === 'CONTIENT';
 }
 
 function _isLogicalCondition(operator) {
-  return operator === 'OU' || operator === 'ET';
+  return operator === 'OU' || operator === 'ET';
 }
 
 function _validRule(mail, field, validator, value) {
@@ -44,7 +44,7 @@ function _validRule(mail, field, validator, value) {
 
 function _validateRulesTwo(email, currentOperator, rules, field) {
 
-  let results = [];
+  const results = [];
   const subOperators = _.keys(rules);
 
   subOperators.forEach((operator) => {
@@ -76,8 +76,7 @@ module.exports = {
 
     const initialCondition = _.keys(parsedRules)[0];
 
-    const initialOperator =
-      (initialCondition === 'OU' || initialCondition === 'ET') ? initialCondition : 'ET';
+    const initialOperator = (initialCondition === 'OU' || initialCondition === 'ET') ? initialCondition : 'ET';
 
     return _validateRulesTwo(email, initialOperator, parsedRules, null);
   }

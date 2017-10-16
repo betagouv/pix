@@ -1,7 +1,7 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, expect } = require('../../../test-helper');
 const qmailValidationService = require('../../../../lib/domain/services/qmail-validation-service');
 
-describe.only('Unit | Service | QMail Validation', function() {
+describe('Unit | Service | QMail Validation', function() {
 
   describe('#validateEmail', () => {
 
@@ -53,7 +53,6 @@ describe.only('Unit | Service | QMail Validation', function() {
           'content-type': { value: 'multipart/related', params: [] }
         }
     };
-
 
     it('should exists', () => {
       expect(qmailValidationService).to.have.property('validateEmail')
@@ -331,7 +330,6 @@ describe.only('Unit | Service | QMail Validation', function() {
           '          CONTIENT: Café\n' +
           '        - \n' +
           '          CONTIENT: Ouverture\n';
-
 
         // When
         const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
