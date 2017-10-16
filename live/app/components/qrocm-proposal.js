@@ -15,7 +15,7 @@ export default Component.extend({
   }),
 
   didInsertElement: function() {
-    this.$('input').keydown(function() {
+    this.$('input').keydown(() => {
       this.get('answerChanged')();
     });
   }
