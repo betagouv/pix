@@ -115,4 +115,13 @@ describe('Unit | Route | board', function() {
     });
   });
 
+  describe('#_organizationSnaphostsExportUrl', function () {
+    it('should return export URL with organization ID', function () {
+      // when
+      const url = route._getOrganizationSnapshotsExportUrl();
+
+      // then
+      expect(url).to.be.equal('http://localhost:3000/api/organizations/12/snapshots/export');
+    });
+  });
 });

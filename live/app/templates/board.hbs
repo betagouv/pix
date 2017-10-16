@@ -16,7 +16,12 @@
     </div>
   </div>
 
-  <div class="board-page__profiles-title">Profils Partagés</div>
+  <div class="board-page__profiles-title">Profils Partagés
+    <a class="board-page__profiles-title__export-csv" href="{{model.organizationSnapshotsExportUrl}}" target="_blank"
+       download>
+      Exporter (.csv)
+    </a>
+  </div>
 
   {{snapshot-list snapshots=model.snapshots}}
 

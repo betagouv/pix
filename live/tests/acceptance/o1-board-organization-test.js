@@ -71,4 +71,16 @@ describe('Acceptance | o1 - board organization', function() {
 
   });
 
+  it('should display a link to download snapshots', async function () {
+    // given
+    authenticateAsPrescriber();
+
+    // when
+    await visit('/board');
+
+    // then
+    const $exportLink = findWithAssert('.board-page__profiles-title__export-csv');
+    expect($exportLink.text().trim()).to.equal('Exporter (.csv)');
+  });
+
 });
