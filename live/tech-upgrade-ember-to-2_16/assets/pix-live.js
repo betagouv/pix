@@ -1881,8 +1881,10 @@ define('pix-live/components/qrocm-proposal', ['exports', 'pix-live/utils/proposa
     }),
 
     didInsertElement: function didInsertElement() {
+      var _this = this;
+
       this.$('input').keydown(function () {
-        this.get('answerChanged')();
+        _this.get('answerChanged')();
       });
     }
 
@@ -6019,7 +6021,6 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
   var EmberRouter = Ember.Router;
   var service = Ember.inject.service;
   var run = Ember.run;
-  var EmberObject = Ember.Object;
 
 
   var Router = EmberRouter.extend({
@@ -6044,7 +6045,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
         run.scheduleOnce('afterRender', this, function () {
           var page = _this.get('url');
           var title = _this.getWithDefault('currentRouteName', 'unknown');
-          EmberObject.get(_this, 'metrics').trackPage({ page: page, title: title });
+          _this.get('metrics').trackPage({ page: page, title: title });
         });
       }
     });
@@ -8697,6 +8698,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+104617cd"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+6af3d076"});
 }
 //# sourceMappingURL=pix-live.map
