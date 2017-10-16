@@ -1,5 +1,5 @@
 import EmberRouter from '@ember/routing/router';
-import EmberService from '@ember/service';
+import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import EmberObject from '@ember/object';
 import config from './config/environment';
@@ -14,7 +14,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
   // do not make any sense in test ENV, therefore can be safely ignored
   /* istanbul ignore next */
   Router.reopen({
-    metrics: EmberService.inject.service(),
+    metrics: service(),
 
     didTransition() {
       this._super(...arguments);
