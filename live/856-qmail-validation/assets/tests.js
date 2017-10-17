@@ -1502,7 +1502,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
 
             case 2:
-              (0, _chai.expect)(progressBarText()).to.equal('1 / 5');
+              (0, _chai.expect)(progressBarText()).to.equal('1 / 4');
 
             case 3:
             case 'end':
@@ -1526,7 +1526,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
               // Then
               $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
 
-              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 5');
+              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 4');
 
             case 4:
             case 'end':
@@ -1926,24 +1926,20 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
 
     (0, _mocha.describe)('h2- Test affichage ou non de la page avec le warning', function () {
 
-      (0, _mocha.beforeEach)(function () {
-        visit(TIMED_CHALLENGE_URL);
-      });
-
-      //XXX: Deux cas car on test aussi une absence d'affichage
-      (0, _mocha.it)('h2.1- doit cacher le contenu du challenge si l\'épreuve est timée mais l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      (0, _mocha.it)('doit cacher le contenu du challenge si l\'épreuve est timée', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _context.next = 2;
+                return visit(TIMED_CHALLENGE_URL);
+
+              case 2:
+
+                // Then
                 (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
-                _context.next = 3;
-                return visit(NOT_TIMED_CHALLENGE_URL);
 
               case 3:
-                (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
-
-              case 4:
               case 'end':
                 return _context.stop();
             }
@@ -1951,19 +1947,20 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
         }, _callee, this);
       })));
 
-      (0, _mocha.it)('h2.2- doit afficher le warning si l\'épreuve est timée mais ne pas l\'afficher dans le cas contraire ', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('doit afficher le contenu du challenge si l\'épreuve n\'est pas timée', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
-                _context2.next = 3;
+                _context2.next = 2;
                 return visit(NOT_TIMED_CHALLENGE_URL);
 
-              case 3:
-                (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(0);
+              case 2:
 
-              case 4:
+                // Then
+                (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+
+              case 3:
               case 'end':
                 return _context2.stop();
             }
@@ -1971,13 +1968,51 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
         }, _callee2, this);
       })));
 
-      (0, _mocha.it)('h2.3- vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', function () {
-        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
-      });
+      (0, _mocha.it)('vérifier que le timer n\'est pas démarré automatiquement lorsque l\'épreuve est timée', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return visit(TIMED_CHALLENGE_URL);
 
-      (0, _mocha.it)('h2.4 le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', function () {
-        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(0);
-      });
+              case 2:
+                _context3.next = 4;
+                return visit(NOT_TIMED_CHALLENGE_URL);
+
+              case 4:
+
+                // Then
+                (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+
+              case 5:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      })));
+
+      (0, _mocha.it)('le formulaire de signalement n\'est pas affiché pour une épreuve chronométrée tant que l\'usager n\'a pas confirmé être prêt pour l\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return visit(TIMED_CHALLENGE_URL);
+
+              case 2:
+
+                // Then
+                (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(0);
+
+              case 3:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      })));
     });
 
     (0, _mocha.describe)('h2-Test comportement lorsque le bouton de confirmation est cliqué', function () {
@@ -2009,20 +2044,20 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
       var PASS_BUTTON = '.challenge-actions__action-skip';
 
-      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context3.next = 2;
+                _context5.next = 2;
                 return visit(ASSESSMENT_WITH_TWO_TIMED_CHALLENGE);
 
               case 2:
-                _context3.next = 4;
+                _context5.next = 4;
                 return click(CHALLENGE_ITEM_WARNING_BUTTON);
 
               case 4:
-                _context3.next = 6;
+                _context5.next = 6;
                 return click(PASS_BUTTON);
 
               case 6:
@@ -2032,10 +2067,10 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
 
               case 7:
               case 'end':
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee5, this);
       })));
     });
   });
@@ -2176,11 +2211,10 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
               case 2:
                 (0, _chai.expect)($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
                 (0, _chai.expect)($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
-                (0, _chai.expect)($('.result-item:eq(2) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QRU
-                (0, _chai.expect)($('.result-item:eq(3) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
-                (0, _chai.expect)($('.result-item:eq(4) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+                (0, _chai.expect)($('.result-item:eq(2) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
+                (0, _chai.expect)($('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
 
-              case 7:
+              case 6:
               case 'end':
                 return _context.stop();
             }
@@ -2680,13 +2714,13 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
         }, _callee, _this);
       })));
 
-      (0, _mocha.it)('Le formulaire de signalement d\'une épreuve est remis à zéro dès que je change d\'épreuve', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
-                return visit('/assessments/ref_assessment_id/challenges/ref_qru_challenge_id');
+                return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
               case 2:
                 assertThatFeedbackFormIsClosed();
@@ -2710,62 +2744,31 @@ define('pix-live/tests/acceptance/l1-signaler-une-epreuve-test', ['mocha', 'chai
           }
         }, _callee2, _this);
       })));
-
-      (0, _mocha.it)('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-
-              case 2:
-                assertThatFeedbackFormIsClosed();
-
-                _context3.next = 5;
-                return click('.feedback-panel__open-link');
-
-              case 5:
-                assertThatFeedbackFormIsOpen();
-
-                _context3.next = 8;
-                return click('.challenge-actions__action-skip');
-
-              case 8:
-                assertThatFeedbackFormIsClosed();
-
-              case 9:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, _this);
-      })));
     });
 
     (0, _mocha.describe)('l1.2 Depuis la fenêtre de comparaison', function () {
       var _this2 = this;
 
-      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      (0, _mocha.it)('Je peux signaler une épreuve (page de résultat du test)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return visit('/assessments/ref_assessment_id/results/compare/ref_answer_qcm_id/1');
 
               case 2:
                 assertThatFeedbackFormIsOpen();
                 // XXX test env needs the modal to be closed manually
-                _context4.next = 5;
+                _context3.next = 5;
                 return click('.close-button-container');
 
               case 5:
               case 'end':
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, _this2);
+        }, _callee3, _this2);
       })));
     });
   });
@@ -11754,7 +11757,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
     }
   };
 
-  _mocha.describe.only('Unit | Component | reset password form', function () {
+  (0, _mocha.describe)('Unit | Component | reset password form', function () {
 
     (0, _emberMocha.setupComponentTest)('reset-password-form', {
       needs: ['component:form-textfield'],
@@ -12521,7 +12524,7 @@ define('pix-live/tests/unit/helpers/get-challenge-component-class-test', ['chai'
 
   (0, _mocha.describe)('Unit | Helper | get challenge component class', function () {
 
-    [{ challengeType: 'QCU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QRU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' }, { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }].forEach(function (useCase) {
+    [{ challengeType: 'QCU', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' }, { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' }, { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' }, { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' }, { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }].forEach(function (useCase) {
 
       (0, _mocha.it)('should return component class "' + useCase.expectedClass + '" when challenge type is "' + useCase.challengeType + '"', function () {
         // given
