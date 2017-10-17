@@ -5,7 +5,8 @@ export function getChallengeComponentClass(params) {
   let result;
   const challenge = params[0];
   const challengeType = challenge.get('type').toUpperCase();
-  if (_(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU'])) {
+
+  if (_(challengeType).isAmongst(['QCUIMG', 'QCU', 'QRU', 'QMAIL'])) {
     result = 'qcu';
   } else if (_(challengeType).isAmongst(['QCMIMG', 'QCM'])) {
     result = 'qcm';
