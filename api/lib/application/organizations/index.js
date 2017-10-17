@@ -20,7 +20,7 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/organizations/{id}/snapshots/export',
-      config: {handler: organisationController.exportedSharedSnapshots, tags: ['api']}
+      config: { handler: organisationController.exportedSharedSnapshots, tags: ['api'] }
     }
   ]);
 

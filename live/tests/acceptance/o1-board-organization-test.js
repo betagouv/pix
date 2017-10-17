@@ -71,7 +71,7 @@ describe('Acceptance | o1 - board organization', function() {
 
   });
 
-  it('should display a link to download snapshots', async function () {
+  it('should display a link to download snapshots', async function() {
     // given
     authenticateAsPrescriber();
 

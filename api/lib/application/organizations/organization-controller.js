@@ -88,7 +88,7 @@ module.exports = {
       .then((jsonSnapshots) => {
         return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
       })
-      .then((snapshotsTextCsv) => reply(snapshotsTextCsv).header('Content-Type', 'text/csv').header('Content-Disposition', 'attachment; filename=Pix-Export.csv'))
+      .then((snapshotsTextCsv) => reply(snapshotsTextCsv).header('Content-Type', 'text/csv').header('Content-Disposition', 'attachment; filename="Pix - Export données partagées.csv"'))
       .catch((err) => {
         logger.error(err);
         return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);

@@ -409,7 +409,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.restore();
     });
 
-    describe('Collaborations', function() {
+    describe('Collaborations', () => {
       it('should be an existing function', () => {
         // then
         expect(controller.getSharedProfiles).to.be.a('function');
@@ -571,7 +571,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.restore();
     });
 
-    describe('Collaborations', function () {
+    describe('Collaborations', function() {
       it('should be an existing function', () => {
         // then
         expect(controller.exportedSharedSnapshots).to.be.a('function');
@@ -631,7 +631,7 @@ describe('Unit | Controller | organizationController', () => {
       it('should call a reply function', () => {
         // then
         const snapshots = [];
-        const serializedSnapshots = {data: []};
+        const serializedSnapshots = { data: [] };
         snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
         snapshotSerializer.serialize.resolves(serializedSnapshots);
         const request = {
@@ -662,7 +662,7 @@ describe('Unit | Controller | organizationController', () => {
         // given
         const error = Snapshot.NotFoundError;
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
-        const serializedError = {errors: []};
+        const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
           params: {
@@ -687,7 +687,7 @@ describe('Unit | Controller | organizationController', () => {
         // given
         const error = new Error();
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
-        const serializedError = {errors: []};
+        const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
           params: {
