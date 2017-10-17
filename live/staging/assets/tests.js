@@ -58,7 +58,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
               return visit('/courses/ref_course_id');
 
             case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
 
             case 3:
             case 'end':
@@ -77,7 +77,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
               return visit('/courses/ref_course_id/assessment');
 
             case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
 
             case 3:
             case 'end':
@@ -99,7 +99,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
 
       var $startLink = findWithAssert(START_BUTTON);
 
-      (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+      (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
 
       // test on mobile
       triggerEvent('.course-list', 'simulateMobileScreen');
@@ -108,7 +108,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         window.localStorage.clear();
         (0, _chai.expect)(currentURL()).to.equals('/');
-        (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+        (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
       });
 
       // start a test
@@ -118,9 +118,9 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
         Ember.run.later(function () {
-          (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(1);
+          (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(1);
           (0, _chai.expect)(currentURL()).to.equals('/');
-          $('a[data-dismiss]').click();
+          find('a[data-dismiss]').click();
 
           return click($startLink).then(function () {
             (0, _chai.expect)(currentURL()).to.contain(URL_OF_FIRST_TEST);
@@ -137,7 +137,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         Ember.run.later(function () {
           (0, _chai.expect)(currentURL()).to.equals('/');
-          (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+          (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
         }, 500);
       });
       click($startLink);
@@ -585,6 +585,9 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
       });
     };
   }
+
+  var $ = Ember.$;
+
 
   (0, _mocha.describe)('Acceptance | b4 - Afficher un QROCM | ', function () {
 
@@ -4172,7 +4175,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
         renderChallengeStatement(this);
 
         // then
-        (0, _chai.expect)(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('La consigne de mon test');
       });
 
       (0, _mocha.it)('should not render challenge instruction if it does not exist', function () {
@@ -7199,7 +7202,10 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
 
     var assessment = Ember.Object.create({ id: 'assessment_id' });
-    var challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+    var challenge = Ember.Object.create({
+      id: 'challenge_id',
+      proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
+    });
     var answer = Ember.Object.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
@@ -7925,8 +7931,16 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
     });
 
     var assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({
+      estimatedLevel: 0,
+      pixScore: 20,
+      course: { isAdaptive: true }
+    });
+    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({
+      estimatedLevel: 0,
+      pixScore: 0,
+      course: { isAdaptive: true }
+    });
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
@@ -8041,6 +8055,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
   'use strict';
 
   var RSVP = Ember.RSVP;
+  var $ = Ember.$;
 
 
   (0, _mocha.describe)('Integration | Component | share profile', function () {
@@ -9240,7 +9255,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         id: 1,
         score: 10,
         completionPercentage: '25',
-        createdAt: '09/25/2017',
+        createdAt: '2017-09-25 12:14:33',
         user: user
       });
       this.set('snapshots', [snapshot]);
@@ -9597,8 +9612,10 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
     });
   });
 });
-define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (_resolver, _emberMocha, _mocha) {
+define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha', 'ember-exam/test-support/load'], function (_resolver, _emberMocha, _mocha, _load) {
   'use strict';
+
+  (0, _load.default)();
 
   _mocha.mocha.setup({
     // If a test is randomly killed by the timeout duration,
@@ -10490,7 +10507,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['chai', 'mocha'
   (0, _mocha.describe)('Unit | Component | comparison-window', function () {
 
     (0, _emberMocha.setupTest)('component:comparison-window', {
-      needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+      needs: ['service:current-routed-modal', 'service:keyboard', 'service:component-focus/focus-manager']
     });
 
     var component = void 0;
@@ -11665,7 +11682,7 @@ define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember
 
         var component = this.subject();
         component.sendAction = sendActionStub;
-        component.trigger((0, _emberKeyboard.keyDown)('Escape'));
+        component.trigger((0, _emberKeyboard.keyUp)('Escape'));
 
         // then
         _sinon.default.assert.calledWith(sendActionStub, 'close');
@@ -14890,7 +14907,10 @@ define('pix-live/tests/unit/utils/proposals-as-blocks-test', ['chai', 'mocha', '
 
   (0, _mocha.describe)('Unit | Utility | proposals as blocks', function () {
 
-    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] }, { data: '${plop}, ${plop} ${plop}', expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }] }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
+    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] }, {
+      data: '${plop}, ${plop} ${plop}',
+      expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
+    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
 
     testData.forEach(function (_ref) {
       var data = _ref.data,
@@ -14979,7 +14999,11 @@ define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['chai', 'moc
 
   (0, _mocha.describe)('Unit | Utility | value as array of boolean', function () {
     // Replace this with your real tests.
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, {
+      when: 'Resist to order, empty space and empty value',
+      input: ',4, 2 , 2,1,  ,',
+      expected: [true, true, false, true]
+    }];
 
     testData.forEach(function (_ref) {
       var when = _ref.when,
