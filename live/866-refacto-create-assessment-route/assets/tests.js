@@ -58,7 +58,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
               return visit('/courses/ref_course_id');
 
             case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.equal(true);
+              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
 
             case 3:
             case 'end':
@@ -80,7 +80,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
 
       var $startLink = findWithAssert(START_BUTTON);
 
-      (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+      (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
 
       // test on mobile
       triggerEvent('.course-list', 'simulateMobileScreen');
@@ -89,7 +89,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         window.localStorage.clear();
         (0, _chai.expect)(currentURL()).to.equals('/');
-        (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+        (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
       });
 
       // start a test
@@ -99,9 +99,9 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
         Ember.run.later(function () {
-          (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(1);
+          (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(1);
           (0, _chai.expect)(currentURL()).to.equals('/');
-          $('a[data-dismiss]').click();
+          find('a[data-dismiss]').click();
 
           return click($startLink).then(function () {
             (0, _chai.expect)(currentURL()).to.contain(URL_OF_FIRST_TEST);
@@ -118,7 +118,7 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       andThen(function () {
         Ember.run.later(function () {
           (0, _chai.expect)(currentURL()).to.equals('/');
-          (0, _chai.expect)($(MODAL_SELECTOR)).to.have.lengthOf(0);
+          (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
         }, 500);
       });
       click($startLink);
@@ -566,6 +566,9 @@ define('pix-live/tests/acceptance/b4-epreuve-qrocm-test', ['mocha', 'chai', 'pix
       });
     };
   }
+
+  var $ = Ember.$;
+
 
   (0, _mocha.describe)('Acceptance | b4 - Afficher un QROCM | ', function () {
 
@@ -2933,6 +2936,188 @@ define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-liv
     });
   });
 });
+define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Reset Password', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.it)('can visit /mot-passe-oublie', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return visit('/mot-de-passe-oublie');
+
+            case 2:
+
+              // then
+              (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
+
+            case 3:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
+
+    (0, _mocha.it)('display a form to reset the email', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _context2.next = 2;
+              return visit('/mot-de-passe-oublie');
+
+            case 2:
+
+              // then
+              (0, _chai.expect)(find('.password-reset-page__password-reset-form')).to.have.lengthOf(1);
+
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    })));
+
+    (0, _mocha.it)('display a link to inscription page', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return visit('/mot-de-passe-oublie');
+
+            case 2:
+
+              // then
+              (0, _chai.expect)(find('.password-reset-page__inscription-button')).to.have.lengthOf(1);
+
+            case 3:
+            case 'end':
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this);
+    })));
+
+    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              // given
+              server.create('user', {
+                id: 1,
+                firstName: 'Brandone',
+                lastName: 'Martins',
+                email: 'brandone.martins@pix.com',
+                password: '1024pix!'
+              });
+              _context4.next = 3;
+              return visit('/mot-de-passe-oublie');
+
+            case 3:
+              fillIn('.password-reset-form__form-email-input', 'brandone.martins@pix.com');
+
+              // when
+              _context4.next = 6;
+              return click('.password-reset-form__submit-button');
+
+            case 6:
+              return _context4.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
+                (0, _chai.expect)(find('.password-reset-form__form-success-message')).to.have.lengthOf(1);
+              }));
+
+            case 7:
+            case 'end':
+              return _context4.stop();
+          }
+        }
+      }, _callee4, this);
+    })));
+
+    (0, _mocha.it)('should stay in mot-passe-oublie page when sent email do not correspond to any existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              // given
+              server.create('user', {
+                id: 1,
+                firstName: 'Brandone',
+                lastName: 'Martins',
+                email: 'brandone.martins@pix.com',
+                password: '1024pix!'
+              });
+              _context5.next = 3;
+              return visit('/mot-de-passe-oublie');
+
+            case 3:
+              fillIn('.password-reset-form__form-email-input', 'unexisting@user.com');
+
+              // when
+              _context5.next = 6;
+              return click('.password-reset-form__submit-button');
+
+            case 6:
+              return _context5.abrupt('return', andThen(function () {
+                (0, _chai.expect)(currentURL()).to.equal('/mot-de-passe-oublie');
+                (0, _chai.expect)(find('.password-reset-form__form-error-message')).to.have.lengthOf(1);
+              }));
+
+            case 7:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
+    })));
+  });
+});
 define('pix-live/tests/acceptance/terms-of-service-page-test', ['mocha', 'pix-live/tests/helpers/application'], function (_mocha, _application) {
   'use strict';
 
@@ -3100,6 +3285,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/partners-enrollment-panel.js', function () {
+      // test passed
+    });
+
+    it('components/password-reset-form.js', function () {
       // test passed
     });
 
@@ -3283,7 +3472,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/password-reset-demand.js', function () {
+    it('models/password-reset.js', function () {
       // test passed
     });
 
@@ -3388,6 +3577,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/not-found.js', function () {
+      // test passed
+    });
+
+    it('routes/password-reset-demand.js', function () {
       // test passed
     });
 
@@ -3840,7 +4033,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
         renderChallengeStatement(this);
 
         // then
-        (0, _chai.expect)(Ember.$.trim(this.$('.challenge-statement__instruction').text())).to.equal('La consigne de mon test');
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('La consigne de mon test');
       });
 
       (0, _mocha.it)('should not render challenge instruction if it does not exist', function () {
@@ -6026,6 +6219,73 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
     });
   });
 });
+define('pix-live/tests/integration/components/password-reset-form-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | password reset form', function () {
+    (0, _emberMocha.setupComponentTest)('password-reset-form', {
+      integration: true
+    });
+
+    (0, _mocha.it)('renders', function () {
+      this.render(Ember.HTMLBars.template({
+        "id": "AsAWcmkf",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"password-reset-form\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.it)('renders all the necessary elements of the form ', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "AsAWcmkf",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"password-reset-form\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.password-reset__connexion-link')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__pix-logo')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__title')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__text')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form-label')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__form-input')).to.have.length(1);
+      (0, _chai.expect)(this.$('.password-reset-form__button')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display error message when there is an error on password reset demand', function () {
+      // given
+      this.set('_displayErrorMessage', true);
+
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "qthArZ6H",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"_displayErrorMessage\"],[[19,0,[\"_displayErrorMessage\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.password-reset-form__form-error-message')).to.have.length(1);
+    });
+
+    (0, _mocha.it)('should display success message when there is an error on password reset demand', function () {
+      // given
+      this.set('_displaySuccessMessage', true);
+
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "4F5tM8gk",
+        "block": "{\"symbols\":[],\"statements\":[[1,[25,\"password-reset-form\",null,[[\"_displaySuccessMessage\"],[[19,0,[\"_displaySuccessMessage\"]]]]],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$('.password-reset-form__form-success-message')).to.have.length(1);
+    });
+  });
+});
 define('pix-live/tests/integration/components/pix-logo-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -6800,7 +7060,10 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
     });
 
     var assessment = Ember.Object.create({ id: 'assessment_id' });
-    var challenge = Ember.Object.create({ id: 'challenge_id', proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}' });
+    var challenge = Ember.Object.create({
+      id: 'challenge_id',
+      proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
+    });
     var answer = Ember.Object.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
@@ -7526,8 +7789,16 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
     });
 
     var assessmentWithTrophy = Ember.Object.create({ estimatedLevel: 1, pixScore: 67, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({ estimatedLevel: 0, pixScore: 20, course: { isAdaptive: true } });
-    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({ estimatedLevel: 0, pixScore: 0, course: { isAdaptive: true } });
+    var assessmentWithNoTrophyAndSomePix = Ember.Object.create({
+      estimatedLevel: 0,
+      pixScore: 20,
+      course: { isAdaptive: true }
+    });
+    var assessmentWithNoTrophyAndNoPix = Ember.Object.create({
+      estimatedLevel: 0,
+      pixScore: 0,
+      course: { isAdaptive: true }
+    });
 
     (0, _mocha.it)('renders', function () {
       this.render(Ember.HTMLBars.template({
@@ -7642,6 +7913,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
   'use strict';
 
   var RSVP = Ember.RSVP;
+  var $ = Ember.$;
 
 
   (0, _mocha.describe)('Integration | Component | share profile', function () {
@@ -8841,7 +9113,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         id: 1,
         score: 10,
         completionPercentage: '25',
-        createdAt: '09/25/2017',
+        createdAt: '2017-09-25 12:14:33',
         user: user
       });
       this.set('snapshots', [snapshot]);
@@ -9198,8 +9470,10 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
     });
   });
 });
-define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha'], function (_resolver, _emberMocha, _mocha) {
+define('pix-live/tests/test-helper', ['pix-live/tests/helpers/resolver', 'ember-mocha', 'mocha', 'ember-exam/test-support/load'], function (_resolver, _emberMocha, _mocha, _load) {
   'use strict';
+
+  (0, _load.default)();
 
   _mocha.mocha.setup({
     // If a test is randomly killed by the timeout duration,
@@ -9332,6 +9606,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/password-reset-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/terms-of-service-page-test.js', function () {
       // test passed
     });
@@ -9433,6 +9711,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/partners-enrollment-panel-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/password-reset-form-test.js', function () {
       // test passed
     });
 
@@ -9588,6 +9870,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/password-reset-form-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/pix-modal-test.js', function () {
       // test passed
     });
@@ -9696,6 +9982,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/password-reset-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/snapshot-test.js', function () {
       // test passed
     });
@@ -9764,6 +10054,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/password-reset-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/placement-tests-test.js', function () {
       // test passed
     });
@@ -9772,7 +10066,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/reset-password-test.js', function () {
+    it('unit/routes/reset-password-demand-test.js', function () {
       // test passed
     });
 
@@ -10063,7 +10357,7 @@ define('pix-live/tests/unit/components/comparison-window-test', ['chai', 'mocha'
   (0, _mocha.describe)('Unit | Component | comparison-window', function () {
 
     (0, _emberMocha.setupTest)('component:comparison-window', {
-      needs: ['service:current-routed-modal', 'initializer:jquery-tabbable']
+      needs: ['service:current-routed-modal', 'service:keyboard', 'service:component-focus/focus-manager']
     });
 
     var component = void 0;
@@ -11104,6 +11398,106 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
     });
   });
 });
+define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'chai', 'sinon', 'ember-mocha'], function (_mocha, _chai, _sinon, _emberMocha) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Unit | Component | password-reset-form', function () {
+
+    (0, _emberMocha.setupTest)('component:password-reset-form', {});
+
+    var component = void 0;
+    var sentEmail = 'dumb@people.com';
+    var createRecordStub = void 0,
+        saveStub = void 0;
+
+    (0, _mocha.describe)('success save of password Reset Demand', function () {
+
+      beforeEach(function () {
+
+        saveStub = _sinon.default.stub().resolves();
+        createRecordStub = _sinon.default.stub().returns({
+          save: saveStub
+        });
+
+        this.register('service:store', Ember.Service.extend({
+          createRecord: createRecordStub
+        }));
+        this.inject.service('store', { as: 'store' });
+
+        component = this.subject();
+        component.set('email', sentEmail);
+      });
+
+      (0, _mocha.it)('should create a passwordResetDemand Record', function () {
+        // when
+        component.send('savePasswordResetDemand');
+
+        // then
+        _sinon.default.assert.called(createRecordStub);
+        _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
+      });
+
+      (0, _mocha.it)('should save the password reset demand', function () {
+        // when
+        component.send('savePasswordResetDemand');
+
+        // then
+        _sinon.default.assert.called(saveStub);
+      });
+
+      (0, _mocha.it)('should display success message when save resolves', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return component.send('savePasswordResetDemand');
+
+              case 2:
+
+                // then
+                (0, _chai.expect)(component.get('_displaySuccessMessage')).to.be.true;
+                (0, _chai.expect)(component.get('_displayErrorMessage')).to.be.false;
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
+    });
+  });
+});
 define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember-mocha', 'sinon', 'ember-keyboard'], function (_chai, _mocha, _emberMocha, _sinon, _emberKeyboard) {
   'use strict';
 
@@ -11138,7 +11532,7 @@ define('pix-live/tests/unit/components/pix-modal-test', ['chai', 'mocha', 'ember
 
         var component = this.subject();
         component.sendAction = sendActionStub;
-        component.trigger((0, _emberKeyboard.keyDown)('Escape'));
+        component.trigger((0, _emberKeyboard.keyUp)('Escape'));
 
         // then
         _sinon.default.assert.calledWith(sendActionStub, 'close');
@@ -11592,6 +11986,8 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
   'use strict';
 
   var ERROR_PASSWORD_MESSAGE = 'Votre mot de passe doit comporter au moins une lettre, un chiffre et 8 caractères.';
+  var SUCCESS_VALIDATION_MESSAGE = 'Votre mot de passe a été bien mis à jour';
+
   var VALIDATION_MAP = {
     default: {
       status: 'default', message: null
@@ -11600,7 +11996,16 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       status: 'error', message: ERROR_PASSWORD_MESSAGE
     },
     success: {
-      status: 'success', message: 'Votre mot de passe a été bien mis à jour'
+      status: 'success', message: ''
+    }
+  };
+
+  var SUBMISSION_MAP = {
+    success: {
+      status: 'success', message: SUCCESS_VALIDATION_MESSAGE
+    },
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
     }
   };
 
@@ -11693,7 +12098,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
           });
 
           // then
-          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['success']);
+          (0, _chai.expect)(component.get('validation')).to.eql(SUBMISSION_MAP['success']);
         });
 
         (0, _mocha.it)('should reset paswword input', function () {
@@ -11730,7 +12135,7 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
           });
 
           // then
-          (0, _chai.expect)(component.get('validation')).to.eql(VALIDATION_MAP['error']);
+          (0, _chai.expect)(component.get('validation')).to.eql(SUBMISSION_MAP['error']);
         });
       });
     });
@@ -12767,6 +13172,23 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
+define('pix-live/tests/unit/models/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | password reset demand', function () {
+    (0, _emberMocha.setupModelTest)('password-reset', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -13580,6 +14002,26 @@ define('pix-live/tests/unit/routes/logout-test', ['sinon', 'mocha', 'ember-mocha
     });
   });
 });
+define('pix-live/tests/unit/routes/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | password reset', function () {
+    (0, _emberMocha.setupTest)('route:password-reset-demand', {
+      // Specify the other units that are required for this test.
+      needs: ['service:current-routed-modal']
+    });
+
+    var route = void 0;
+
+    beforeEach(function () {
+      route = this.subject();
+    });
+
+    (0, _mocha.it)('exists', function () {
+      (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/routes/placement-tests-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -13610,7 +14052,7 @@ define('pix-live/tests/unit/routes/project-test', ['chai', 'mocha', 'ember-mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/reset-password-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+define('pix-live/tests/unit/routes/reset-password-demand-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | changer mot de passe', function () {
@@ -14311,7 +14753,10 @@ define('pix-live/tests/unit/utils/proposals-as-blocks-test', ['chai', 'mocha', '
 
   (0, _mocha.describe)('Unit | Utility | proposals as blocks', function () {
 
-    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] }, { data: '${plop}, ${plop} ${plop}', expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }] }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
+    var testData = [{ data: '', expected: [] }, { data: 'Text', expected: [{ text: 'Text' }] }, { data: 'Text test plop', expected: [{ text: 'Text test plop' }] }, { data: '${qroc}', expected: [{ input: 'qroc' }] }, { data: 'Test: ${test}', expected: [{ text: 'Test:' }, { input: 'test' }] }, { data: 'Test: ${test} (kilometres)', expected: [{ text: 'Test:' }, { input: 'test' }, { text: '(kilometres)' }] }, {
+      data: '${plop}, ${plop} ${plop}',
+      expected: [{ input: 'plop' }, { text: ',' }, { input: 'plop' }, { input: 'plop' }]
+    }, { data: '${plop#var}', expected: [{ input: 'plop', placeholder: 'var' }] }, { data: 'line1\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\r\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\rline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }, { data: 'line1\n\nline2', expected: [{ text: 'line1' }, { breakline: true }, { text: 'line2' }] }];
 
     testData.forEach(function (_ref) {
       var data = _ref.data,
@@ -14400,7 +14845,11 @@ define('pix-live/tests/unit/utils/value-as-array-of-boolean-test', ['chai', 'moc
 
   (0, _mocha.describe)('Unit | Utility | value as array of boolean', function () {
     // Replace this with your real tests.
-    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, { when: 'Resist to order, empty space and empty value', input: ',4, 2 , 2,1,  ,', expected: [true, true, false, true] }];
+    var testData = [{ when: 'Empty String', input: '', expected: [] }, { when: 'Wrong type as input', input: new Date(), expected: [] }, { when: 'Undefined input', input: undefined, expected: [] }, { when: 'Nominal case', input: '2,3', expected: [false, true, true] }, { when: 'Only one value', input: '4', expected: [false, false, false, true] }, {
+      when: 'Resist to order, empty space and empty value',
+      input: ',4, 2 , 2,1,  ,',
+      expected: [true, true, false, true]
+    }];
 
     testData.forEach(function (_ref) {
       var when = _ref.when,
