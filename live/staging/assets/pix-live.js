@@ -1937,6 +1937,15 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
       status: 'error', message: ERROR_PASSWORD_MESSAGE
     },
     success: {
+      status: 'success', message: ''
+    }
+  };
+
+  var SUBMISSION_MAP = {
+    error: {
+      status: 'error', message: ERROR_PASSWORD_MESSAGE
+    },
+    success: {
       status: 'success', message: PASSWORD_SUCCESS_MESSAGE
     }
   };
@@ -1959,10 +1968,10 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
         var _this = this;
 
         return this.get('user').save().then(function () {
-          _this.set('validation', VALIDATION_MAP['success']);
+          _this.set('validation', SUBMISSION_MAP['success']);
           _this.set('user.password', null);
         }).catch(function () {
-          return _this.set('validation', VALIDATION_MAP['error']);
+          return _this.set('validation', SUBMISSION_MAP['error']);
         });
       }
     }
@@ -8778,6 +8787,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+125ec555"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+f9aaab58"});
 }
 //# sourceMappingURL=pix-live.map
