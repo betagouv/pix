@@ -77,7 +77,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
     });
 
     (0, _mocha.it)('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
-
       var $startLink = findWithAssert(START_BUTTON);
 
       (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
