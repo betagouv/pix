@@ -25,11 +25,7 @@ export default BaseRoute.extend({
         return challengeAdapter.queryNext(store, assessment.get('id'));
       })
       .then(challenge => {
-        if (challenge) {
-          this.transitionTo('assessments.get-challenge', { assessment, challenge });
-        } else {
-          this.transitionTo('assessments.get-results', { assessment });
-        }
+        this.transitionTo('assessments.get-challenge', { assessment, challenge });
       });
   }
 
