@@ -8,7 +8,6 @@ describe('Unit | Helper | get challenge component class', function() {
   [
     { challengeType: 'QCU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCUIMG', expectedClass: 'challenge-item-qcu' },
-    { challengeType: 'QRU', expectedClass: 'challenge-item-qcu' },
     { challengeType: 'QCM', expectedClass: 'challenge-item-qcm' },
     { challengeType: 'QCMIMG', expectedClass: 'challenge-item-qcm' },
     { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' },
