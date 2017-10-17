@@ -13,7 +13,8 @@ describe('Unit | Helper | get challenge component class', function() {
     { challengeType: 'QROC', expectedClass: 'challenge-item-qroc' },
     { challengeType: 'QROCm', expectedClass: 'challenge-item-qrocm' },
     { challengeType: 'QROCm-ind', expectedClass: 'challenge-item-qrocm' },
-    { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' }
+    { challengeType: 'QROCm-dep', expectedClass: 'challenge-item-qrocm' },
+    { challengeType: 'QMAIL', expectedClass: 'challenge-item-qmail' }
   ].forEach((useCase) => {
 
     it(`should return component class "${useCase.expectedClass}" when challenge type is "${useCase.challengeType}"`, function() {
