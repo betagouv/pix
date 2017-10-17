@@ -35,7 +35,6 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
   });
 
   it('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
-
     const $startLink = findWithAssert(START_BUTTON);
 
     expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
