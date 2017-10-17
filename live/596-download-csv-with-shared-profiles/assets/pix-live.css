@@ -4639,6 +4639,35 @@ hr.project-page__presentation-header-line {
       margin: auto;
       max-width: 970px; } }
 
+.board-page__profiles-title__export-csv {
+  float: right;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  line-height: 40px;
+  background-color: #7e8086;
+  color: #ffffff;
+  text-transform: none;
+  font-size: 0;
+  text-align: center;
+  font-weight: 700;
+  margin-right: 20px; }
+  .board-page__profiles-title__export-csv:hover, .board-page__profiles-title__export-csv:visited {
+    color: #ffffff; }
+  @media (min-width: 768px) {
+    .board-page__profiles-title__export-csv {
+      font-size: 16px;
+      height: 40px;
+      width: 190px;
+      margin-top: 8px;
+      margin-right: 0px; } }
+
+.board-page__profiles-title__export-csv__icon {
+  margin-left: 0px; }
+  @media (min-width: 768px) {
+    .board-page__profiles-title__export-csv__icon {
+      margin-left: 15px; } }
+
 .terms-of-service-page {
   display: flex;
   flex-flow: column;
