@@ -68,25 +68,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return visit('/courses/ref_course_id/assessment');
-
-            case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
-
-            case 3:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
-
     (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
@@ -96,7 +77,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
     });
 
     (0, _mocha.it)('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
-
       var $startLink = findWithAssert(START_BUTTON);
 
       (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
@@ -1644,125 +1624,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
           }
         }, _callee8, this);
       })));
-    });
-  });
-});
-define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
-
-    (0, _mocha.describe)('Prévisualiser la première page d\'un test |', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit('/courses/ref_course_id/preview');
-      });
-
-      (0, _mocha.it)('f1.1 L\'accès à la preview d\'un test se fait en accédant à l\'URL /courses/:course_id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview');
-      });
-
-      var $preview = void 0;
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          $preview = findWithAssert('#course-preview');
-        });
-
-        (0, _mocha.it)('f1.2 le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contain('First Course');
-        });
-
-        (0, _mocha.it)('f1.3 la description du test', function () {
-          var $courseDescription = $preview.find('.course-description');
-          var instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-          (0, _chai.expect)($courseDescription.text()).to.contain(instructionText);
-        });
-
-        (0, _mocha.it)('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
-          var $playButton = findWithAssert('.simulate-button');
-          (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
-          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
-
-      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-
-              case 2:
-                _context.next = 4;
-                return click('.challenge-item-warning button');
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      })));
-
-      (0, _mocha.it)('f1.5 L\'accès à la preview d\'une épreuve d\'un test se fait en accédant à l\'URL /courses/:course_id/preview/challenges/:challenge_id', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-      });
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        (0, _mocha.it)('f1.6 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
-        });
-
-        (0, _mocha.it)('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-actions__action-validate').text()).to.contain('Je valide');
-        });
-      });
     });
   });
 });
@@ -3687,10 +3548,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/courses/get-challenge-preview.js', function () {
-      // test passed
-    });
-
-    it('routes/courses/get-course-preview.js', function () {
       // test passed
     });
 
@@ -9696,10 +9553,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/f1-previsualisation-test-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/g1-bandeau-no-internet-no-outils-test.js', function () {
       // test passed
     });
@@ -10173,10 +10026,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses/get-challenge-preview-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/courses/get-course-preview-test.js', function () {
       // test passed
     });
 
@@ -13794,21 +13643,6 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai',
 
     (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
       needs: ['service:current-routed-modal', 'service:assessment']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | CoursePreview', function () {
-
-    (0, _emberMocha.setupTest)('route:courses/get-course-preview', {
-      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
