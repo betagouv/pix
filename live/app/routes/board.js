@@ -9,8 +9,8 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
 
-  _getOrganizationSnapshotsExportUrl() {
-    return `${ENV.APP.API_HOST}/api/organizations/${this.get('session.data.authenticated.userId')}/snapshots/export`;
+  _getOrganizationSnapshotsExportUrl(organizationId) {
+    return `${ENV.APP.API_HOST}/api/organizations/${organizationId}/snapshots/export`;
   },
 
   model() {
@@ -25,7 +25,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return RSVP.hash({
           organization,
           snapshots: organization.get('snapshots').reload(),
-          organizationSnapshotsExportUrl: this._getOrganizationSnapshotsExportUrl()
+          organizationSnapshotsExportUrl: this._getOrganizationSnapshotsExportUrl(organization.get('id'))
         });
       })
       .catch(_ => {

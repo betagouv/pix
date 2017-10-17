@@ -86,6 +86,30 @@ describe('Unit | Route | board', function() {
     });
   });
 
+  it('should call _organizationSnaphostsExportUrl with organizationId', function() {
+    // given
+    const firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+    const reloadStub = sinon.stub();
+    sinon.stub(firstOrganization, 'get')
+      .withArgs('id').returns(2)
+      .withArgs('snapshots').returns({
+        reload: reloadStub
+      });
+
+    const user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+    findRecord.resolves(user);
+    sinon.stub(route, '_getOrganizationSnapshotsExportUrl');
+
+    // when
+    const promise = route.model();
+
+    // then
+    return promise.then(_ => {
+      sinon.assert.calledOnce(route._getOrganizationSnapshotsExportUrl);
+      sinon.assert.calledWith(route._getOrganizationSnapshotsExportUrl, 2);
+    });
+  });
+
   it('should return to home page if no user was found', function() {
     // given
     findRecord.rejects();
@@ -115,13 +139,13 @@ describe('Unit | Route | board', function() {
     });
   });
 
-  describe('#_organizationSnaphostsExportUrl', function () {
-    it('should return export URL with organization ID', function () {
+  describe('#_organizationSnaphostsExportUrl', function() {
+    it('should return export URL with organization ID passed in parameters', function() {
       // when
-      const url = route._getOrganizationSnapshotsExportUrl();
+      const url = route._getOrganizationSnapshotsExportUrl(2);
 
       // then
-      expect(url).to.be.equal('http://localhost:3000/api/organizations/12/snapshots/export');
+      expect(url).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export');
     });
   });
 });
