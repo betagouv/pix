@@ -39,12 +39,8 @@ Router.map(function() {
   this.route('inscription');
   this.route('compte');
   this.route('enrollment', { path: 'rejoindre' });
-
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
-
-  this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
