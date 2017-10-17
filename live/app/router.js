@@ -40,7 +40,6 @@ Router.map(function() {
 
   this.route('challenges.get-preview', { path: '/challenges/:challenge_id/preview' });
 
-  this.route('courses.get-course-preview', { path: '/courses/:course_id/preview' });
   this.route('courses.get-challenge-preview', { path: '/courses/:course_id/preview/challenges/:challenge_id' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('courses.create-assessment-old', { path: '/courses/:course_id/assessment' });
