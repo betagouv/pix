@@ -12,6 +12,7 @@ const snapshotSerializer = require('../../../../lib/infrastructure/serializers/j
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const Snapshot = require('../../../../lib/domain/models/data/snapshot');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
+const snapshotsCsvConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
@@ -552,4 +553,165 @@ describe('Unit | Controller | organizationController', () => {
 
   });
 
+  describe('#exportedSharedSnapshots', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(logger, 'error');
+      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sandbox.stub(snapshotSerializer, 'serialize');
+      sandbox.stub(validationErrorSerializer, 'serialize');
+      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
+      sandbox.stub(snapshotsCsvConverter, 'convertJsonToCsv');
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    describe('Collaborations', function () {
+      it('should be an existing function', () => {
+        // then
+        expect(controller.exportedSharedSnapshots).to.be.a('function');
+      });
+
+      it('should call snapshot repository', () => {
+        // given
+        snapshotRepository.getSnapshotsByOrganizationId.resolves();
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+        // when
+        const promise = controller.exportedSharedSnapshots(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
+          sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
+        });
+      });
+
+      it('should call snapshot serializer', () => {
+        // given
+        const snapshots = [{
+          toJSON: () => {
+            return {};
+          }
+        }];
+        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
+        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.exportedSharedSnapshots(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(snapshotsCsvConverter.convertJsonToCsv);
+          sinon.assert.calledWith(snapshotsCsvConverter.convertJsonToCsv, [{}]);
+        });
+      });
+
+      it('should call a reply function', () => {
+        // then
+        const snapshots = [];
+        const serializedSnapshots = {data: []};
+        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
+        snapshotSerializer.serialize.resolves(serializedSnapshots);
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.exportedSharedSnapshots(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(reply);
+        });
+      });
+
+    });
+
+    describe('Error cases', () => {
+
+      it('should return an serialized NotFoundError, when no snapshot was found', () => {
+        // given
+        const error = Snapshot.NotFoundError;
+        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        const serializedError = {errors: []};
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 156778
+          }
+        };
+        const replyStub = sinon.stub().returns({
+          code: () => {
+          }
+        });
+
+        // when
+        const promise = controller.exportedSharedSnapshots(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedError);
+        });
+      });
+
+      it('should log an error, when unknown error has occured', () => {
+        // given
+        const error = new Error();
+        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        const serializedError = {errors: []};
+        validationErrorSerializer.serialize.returns(serializedError);
+        const request = {
+          params: {
+            id: 156778
+          }
+        };
+        const codeStub = sinon.stub().callsFake(() => {
+        });
+        const replyStub = sinon.stub().returns({
+          code: codeStub
+        });
+
+        // when
+        const promise = controller.exportedSharedSnapshots(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedError);
+          sinon.assert.calledOnce(logger.error);
+          sinon.assert.calledWith(codeStub, 500);
+        });
+      });
+
+    });
+
+  });
 });
