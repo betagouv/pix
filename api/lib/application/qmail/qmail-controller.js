@@ -3,7 +3,7 @@ const AnswerRepository = require('../../infrastructure/repositories/answer-repos
 const qmailService = require('../../domain/services/qmail-service');
 
 function _updateAnswerIfExists(answer) {
-  const answerDoesNotExists = answer === null;
+  const answerDoesNotExists = (answer === null);
   if(answerDoesNotExists)
     return;
 
@@ -22,9 +22,7 @@ module.exports = {
     return AnswerRepository
       .findByChallengeAndAssessment(challengeId, assessmentId)
       .then(_updateAnswerIfExists)
-      .then(() => {
-        reply();
-      })
+      .then(reply)
       .catch((err) => {
         reply(Boom.badImplementation(err));
       });
