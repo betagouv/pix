@@ -59,7 +59,7 @@ export default BaseRoute.extend({
     return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET')
       .then(nextChallenge => {
         if (nextChallenge) {
-          return this.transitionTo('assessments.get-challenge', assessment.get('id'), nextChallenge.data.id);
+          return this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
           return this.transitionTo('assessments.get-results', assessment.get('id'));
         }

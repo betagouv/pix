@@ -19,7 +19,7 @@ export default BaseRoute.extend({
       .then((course) => store.createRecord('assessment', { course }).save())
       .then((createdAssessment) => assessment = createdAssessment)
       .then(() => challengeAdapter.queryNext(store, assessment.get('id')))
-      .then(challenge => this.transitionTo('assessments.get-challenge', { assessment, challenge }));
+      .then(challenge => this.transitionTo('assessments.challenge', { assessment, challenge }));
   }
 
 });

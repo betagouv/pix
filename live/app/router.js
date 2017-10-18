@@ -42,7 +42,7 @@ Router.map(function() {
   this.route('enrollment', { path: '/rejoindre' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
-  this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
+  this.route('assessments.challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
   this.route('assessments.get-results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('login', { path: '/connexion' });
