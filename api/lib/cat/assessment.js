@@ -8,9 +8,11 @@ Set.prototype.union = function(setB) {
 
 Set.prototype.difference = function(setB) {
   const difference = new Set(this);
+
   for (const elem of setB) {
     difference.delete(elem);
   }
+
   return difference;
 };
 
@@ -158,6 +160,12 @@ class Assessment {
   get obtainedLevel() {
     const estimatedLevel = Math.floor(this.pixScore / NB_PIX_BY_LEVEL);
     return (estimatedLevel >= MAX_REACHABLE_LEVEL) ? MAX_REACHABLE_LEVEL : estimatedLevel;
+  }
+
+  get unproposedSkills() {
+    return this.course.competenceSkills
+      .difference(this.validatedSkills)
+      .difference(this.failedSkills);
   }
 }
 

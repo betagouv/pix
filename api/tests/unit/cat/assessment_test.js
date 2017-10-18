@@ -5,7 +5,7 @@ const Answer = require('../../../lib/cat/answer');
 const Challenge = require('../../../lib/cat/challenge');
 const Skill = require('../../../lib/cat/skill');
 
-describe('Unit | Model | Assessment', function() {
+describe.only('Unit | Model | Assessment', function() {
 
   describe('#_probaOfCorrectAnswer()', function() {
     it('should exist', function() {
@@ -563,4 +563,49 @@ describe('Unit | Model | Assessment', function() {
 
   });
 
+  describe('#unproposedSkills', () => {
+    it.skip('should exist', () => {
+      // given
+      const course = new Course([]);
+      const assessment = new Assessment(course, []);
+
+      // then
+      expect(assessment.unproposedSkills).to.exist;
+    });
+
+    it('should return all unproposed skills like an array (e.g [web3]', () => {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web3 = new Skill('web3');
+
+      const url5 = new Skill('url5');
+      const url6 = new Skill('url6');
+
+      const ch1 = new Challenge('a', 'validé', [web1, web2]);
+      const ch2 = new Challenge('b', 'validé', [url5]);
+      const ch3 = new Challenge('c', 'validé', [url6]);
+      const ch4 = new Challenge('c', 'validé', [web3]);
+
+      const answer1 = new Answer(ch1, 'ok');
+      const answer2 = new Answer(ch2, 'ko');
+      const answer3 = new Answer(ch3, 'ok');
+
+      const skillNames = ['web1', 'web2', 'web3', 'url4', 'url5', 'url6'];
+      const skills = {};
+      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
+      const competenceSkills = new Set(Object.values(skills));
+      const course = new Course([ch1, ch2, ch3, ch4], competenceSkills);
+
+      const assessment = new Assessment(course, [answer1, answer2, answer3]);
+
+      // when
+      const extractedSkills = [...assessment.unproposedSkills];
+
+      // then
+      expect(extractedSkills).to.deep.equal(['web3']);
+    });
+  });
+
 });
+
