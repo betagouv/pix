@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 
   level: null,
   courseId: null,
+  assessmentId : null,
   name: null,
 
   hasLevel: Ember.computed('level', function() {
@@ -39,4 +40,10 @@ export default Ember.Component.extend({
     }
     return true;
   }),
+
+  canUserResumeAssessment : Ember.computed('assessmentId', 'hasLevel', function() {
+    const hasLevel = this.get('hasLevel');
+    const assessmentId = this.get('assessmentId');
+    return !hasLevel && assessmentId != '' && assessmentId != null;
+  })
 });

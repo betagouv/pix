@@ -25,3 +25,12 @@
     {{/link-to}}
   </div>
 {{/if}}
+
+
+{{#if canUserResumeAssessment}}
+  <div class="competence-level-progress-bar__resume">
+    {{#link-to "" class="competence-level-progress-bar__resume-link" }}
+      Reprendre <div class="sr-only">le test "{{name}}"</div>
+    {{/link-to}}
+  </div>
+{{/if}}
