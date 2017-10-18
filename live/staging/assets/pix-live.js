@@ -1549,7 +1549,7 @@ define('pix-live/components/password-reset-form', ['exports'], function (exports
 
         this.set('_displayErrorMessage', false);
         this.set('_displaySuccessMessage', false);
-        this.get('store').createRecord('passwordReset', { email: this.get('email') }).save().then(function () {
+        this.get('store').createRecord('password-reset-demand', { email: this.get('email') }).save().then(function () {
           _this.set('_displaySuccessMessage', true);
         }).catch(function () {
           _this.set('_displayErrorMessage', true);
@@ -4359,13 +4359,13 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
     this.post('/followers');
     this.post('/users');
 
-    this.post('/password-resets', function (schema, request) {
+    this.post('/password-reset-demands', function (schema, request) {
       var attrs = JSON.parse(request.requestBody);
       var sentEmail = attrs.data.attributes.email;
       var matchingAccount = schema.users.findBy({ email: sentEmail });
 
       if (matchingAccount != null) {
-        return schema.passwordResets.create({ email: sentEmail });
+        return schema.passwordResetDemands.create({ email: sentEmail });
       } else {
         return new _emberCliMirage.Response(400);
       }
@@ -5209,14 +5209,6 @@ define('pix-live/mirage/fixtures/solutions', ['exports'], function (exports) {
   });
   exports.default = [{ id: 'ref_solution_id', value: '2' }, { id: 'ref_solution_id2', value: '2,3' }];
 });
-define('pix-live/mirage/models/password-reset', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _emberCliMirage.Model.extend({});
-});
 define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qru-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQruAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
   'use strict';
 
@@ -5983,7 +5975,7 @@ define('pix-live/models/organization', ['exports', 'ember-data'], function (expo
     snapshots: hasMany('snapshot')
   });
 });
-define('pix-live/models/password-reset', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/password-reset-demand', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -8118,10 +8110,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
-    it('mirage/models/password-reset.js', function () {
-      // test passed
-    });
-
     it('mirage/routes/get-answer-by-challenge-and-assessment.js', function () {
       // test passed
     });
@@ -8756,6 +8744,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+894cd03b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+4451f5b5"});
 }
 //# sourceMappingURL=pix-live.map

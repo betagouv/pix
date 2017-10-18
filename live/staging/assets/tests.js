@@ -3042,7 +3042,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -3471,7 +3471,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/password-reset.js', function () {
+    it('models/password-reset-demand.js', function () {
       // test passed
     });
 
@@ -6965,7 +6965,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         // then
         (0, _chai.expect)(answerInput).to.have.length(1);
         (0, _chai.expect)(answerBlock).to.have.length(1);
-        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(solutionBlock).to.have.length(0);
@@ -7006,7 +7006,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
         (0, _chai.expect)(blockSolution.css('align-items')).to.be.equal('stretch');
         (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('700');
       });
 
       (0, _mocha.describe)('comparison when the answer was not given', function () {
@@ -7134,7 +7134,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
@@ -7190,7 +7190,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(solutionText).to.have.length(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
@@ -7233,7 +7233,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(solutionText).to.have.length(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
@@ -9981,7 +9981,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/password-reset-test.js', function () {
+    it('unit/models/password-reset-demand-test.js', function () {
       // test passed
     });
 
@@ -11462,7 +11462,7 @@ define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'cha
 
         // then
         _sinon.default.assert.called(createRecordStub);
-        _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
+        _sinon.default.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
       });
 
       (0, _mocha.it)('should save the password reset demand', function () {
@@ -13171,11 +13171,11 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
-define('pix-live/tests/unit/models/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/password-reset-demand-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | password reset demand', function () {
-    (0, _emberMocha.setupModelTest)('password-reset', {
+    (0, _emberMocha.setupModelTest)('password-reset-demand', {
       // Specify the other units that are required for this test.
       needs: []
     });
