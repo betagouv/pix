@@ -2,6 +2,7 @@ import EmberRouter from '@ember/routing/router';
 import { inject as service } from '@ember/service';
 import { run } from '@ember/runloop';
 import config from './config/environment';
+import { get } from '@ember/object';
 
 const Router = EmberRouter.extend({
   location: config.locationType,
@@ -24,7 +25,7 @@ if (config.environment === 'integration' || config.environment === 'staging' || 
       run.scheduleOnce('afterRender', this, () => {
         const page = this.get('url');
         const title = this.getWithDefault('currentRouteName', 'unknown');
-        this.get('metrics').trackPage({ page, title });
+        get(this, 'metrics').trackPage({ page, title });
       });
     }
   });
