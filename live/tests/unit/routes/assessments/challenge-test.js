@@ -5,7 +5,7 @@ import { setupTest } from 'ember-mocha';
 describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
   setupTest('route:assessments.challenge', {
-    needs: ['service:assessment', 'service:current-routed-modal']
+    needs: ['service:current-routed-modal']
   });
 
   it('exists', function() {
