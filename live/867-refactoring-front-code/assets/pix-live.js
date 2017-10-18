@@ -39,8 +39,11 @@ define('pix-live/adapters/challenge', ['exports', 'pix-live/adapters/application
   });
   var RSVP = Ember.RSVP;
   exports.default = _application.default.extend({
-    queryNext: function queryNext(store, assessmentId) {
-      return this.ajax(this.host + '/' + this.namespace + '/assessments/' + assessmentId + '/next', 'GET').then(function (payload) {
+    queryNext: function queryNext(store, assessmentId, challengeId) {
+      var currentChallengeSuffix = challengeId ? '/' + challengeId : '';
+      var url = this.host + '/' + this.namespace + '/assessments/' + assessmentId + '/next' + currentChallengeSuffix;
+
+      return this.ajax(url, 'GET').then(function (payload) {
         var challenge = null;
         if (payload) {
           challenge = store.push(payload);
@@ -6124,8 +6127,10 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('enrollment', { path: '/rejoindre' });
     this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
     this.route('courses.create-assessment', { path: '/courses/:course_id' });
-    this.route('assessments.challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
-    this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
+    this.route('assessments', { path: '/assessments/:assessment_id' }, function () {
+      this.route('challenge', { path: '/challenges/:challenge_id' });
+      this.route('results', { path: '/results' });
+    });
     this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
@@ -6162,21 +6167,19 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
   });
   var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend({
-
-    assessmentService: Ember.inject.service('assessment'),
-
     model: function model(params) {
       var _this = this;
 
       var store = this.get('store');
 
-      var assessmentId = params.assessment_id;
+      var _paramsFor = this.paramsFor('assessments'),
+          assessmentId = _paramsFor.assessment_id;
+
       var challengeId = params.challenge_id;
 
       return RSVP.hash({
         assessment: store.findRecord('assessment', assessmentId),
-        challenge: store.findRecord('challenge', challengeId),
-        answers: store.queryRecord('answer', { assessment: assessmentId, challenge: challengeId })
+        challenge: store.findRecord('challenge', challengeId)
       }).catch(function (err) {
         var meta = 'errors' in err ? err.errors.get('firstObject').meta : null;
         if (meta.field === 'authorization') {
@@ -6185,8 +6188,16 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
       });
     },
     afterModel: function afterModel(model) {
-      return model.assessment.get('course').then(function (course) {
-        model.progress = course.getProgress(model.challenge);
+      var store = this.get('store');
+      var answers = store.queryRecord('answer', {
+        assessment: model.assessment.id,
+        challenge: model.challenge.id
+      });
+      var course = model.assessment.get('course');
+      return RSVP.all([answers, course]).then(function (values) {
+        model.progress = values[1].getProgress(model.challenge);
+        model.answers = answers;
+        model.course = course;
         return model;
       });
     },
@@ -6197,28 +6208,23 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
       };
     },
     _findOrCreateAnswer: function _findOrCreateAnswer(challenge, assessment) {
-      var answer = assessment.get('answers').findBy('challenge.id', challenge.get('id'));
+      var answer = assessment.get('answers').findBy('challenge.id', challenge.id);
       if (!answer) {
-        answer = this.get('store').createRecord('answer', {
-          assessment: assessment,
-          challenge: challenge
-        });
+        answer = this.get('store').createRecord('answer', { assessment: assessment, challenge: challenge });
       }
       return answer;
-    },
-    _urlForNextChallenge: function _urlForNextChallenge(adapter, assessmentId, challengeId) {
-      return adapter.buildURL('assessment', assessmentId) + '/next/' + challengeId;
     },
     _navigateToNextView: function _navigateToNextView(challenge, assessment) {
       var _this2 = this;
 
-      var adapter = this.get('store').adapterFor('application');
-      return adapter.ajax(this._urlForNextChallenge(adapter, assessment.get('id'), challenge.get('id')), 'GET').then(function (nextChallenge) {
+      var store = this.get('store');
+      var challengeAdapter = store.adapterFor('challenge');
+
+      return challengeAdapter.queryNext(store, assessment.id, challenge.id).then(function (nextChallenge) {
         if (nextChallenge) {
-          return _this2.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.data.id);
-        } else {
-          return _this2.transitionTo('assessments.results', assessment.get('id'));
+          return _this2.transitionTo('assessments.challenge', { assessment: assessment, challenge: nextChallenge });
         }
+        return _this2.transitionTo('assessments.results', assessment);
       });
     },
 
@@ -6279,17 +6285,6 @@ define('pix-live/routes/assessments/results', ['exports', 'pix-live/routes/base-
     value: true
   });
   exports.default = _baseRoute.default.extend({
-    model: function model(params) {
-      return Ember.RSVP.hash({
-        assessment: this.store.findRecord('assessment', params.assessment_id, { reload: true })
-      });
-    },
-    serialize: function serialize(model) {
-      return {
-        assessment_id: model.assessment.id
-      };
-    },
-
 
     actions: {
       openComparison: function openComparison(assessment_id, answer_id, index) {
@@ -6571,25 +6566,17 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
     value: true
   });
   exports.default = _baseRoute.default.extend({
-    model: function model(params) {
-      return {
-        courseId: params.course_id
-      };
-    },
-    afterModel: function afterModel(model) {
+    redirect: function redirect(course) {
       var _this = this;
 
+      var assessment = void 0;
       var store = this.get('store');
       var challengeAdapter = store.adapterFor('challenge');
 
-      var assessment = void 0;
-
-      return store.findRecord('course', model.courseId).then(function (course) {
-        return store.createRecord('assessment', { course: course }).save();
-      }).then(function (createdAssessment) {
+      return store.createRecord('assessment', { course: course }).save().then(function (createdAssessment) {
         return assessment = createdAssessment;
       }).then(function () {
-        return challengeAdapter.queryNext(store, assessment.get('id'));
+        return challengeAdapter.queryNext(store, assessment.id);
       }).then(function (challenge) {
         return _this.transitionTo('assessments.challenge', { assessment: assessment, challenge: challenge });
       });
@@ -6921,26 +6908,6 @@ define('pix-live/services/ajax', ['exports', 'ember-ajax/services/ajax', 'pix-li
     contentType: 'application/json; charset=utf-8'
   });
 });
-define('pix-live/services/assessment', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.Service.extend({
-    getNextChallenge: function getNextChallenge(currentChallenge, assessment) {
-
-      return assessment.get('course').then(function (course) {
-        return course.get('challenges');
-      }).then(function (challenges) {
-        if (challenges.get('lastObject.id') === currentChallenge.get('id')) {
-          return null;
-        }
-        return challenges.objectAt(challenges.indexOf(currentChallenge) + 1);
-      });
-    }
-  });
-});
 define('pix-live/services/component-focus/focus-manager', ['exports', 'ember-component-focus/services/component-focus/focus-manager'], function (exports, _focusManager) {
   'use strict';
 
@@ -7240,7 +7207,7 @@ define("pix-live/templates/assessments/results", ["exports"], function (exports)
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "xVuMSmLs", "block": "{\"symbols\":[\"answer\",\"index\"],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-results\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"assessment-results__logo-banner\"],[7],[0,\"\\n      \"],[1,[18,\"pix-logo\"],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__scoring\"],[7],[0,\"\\n      \"],[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"model\",\"assessment\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"assessment-results__course-banner\"],[7],[0,\"\\n      \"],[1,[25,\"course-banner\",null,[[\"course\"],[[19,0,[\"model\",\"assessment\",\"course\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-results__content\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"assessment-results__title\"],[7],[0,\"\\n      Vos résultats\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__list\"],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"model\",\"assessment\",\"answers\"]]],null,{\"statements\":[[0,\"        \"],[1,[25,\"result-item\",null,[[\"answer\",\"index\",\"openComparison\",\"a11y-focus-id\"],[[19,1,[]],[19,2,[]],\"openComparison\",[25,\"concat\",[\"open-comparison_\",[25,\"add\",[[19,2,[]],1],null]],null]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__index-link-container\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results__index-link__element\",\"button\"]],{\"statements\":[[0,\"        \"],[6,\"span\"],[9,\"class\",\"assessment-results__link-back\"],[7],[0,\"Revenir à l'accueil\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/results.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "UviMwGbE", "block": "{\"symbols\":[\"answer\",\"index\"],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-results\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"model\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"assessment-results__logo-banner\"],[7],[0,\"\\n      \"],[1,[18,\"pix-logo\"],false],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__scoring\"],[7],[0,\"\\n      \"],[1,[25,\"scoring-panel\",null,[[\"assessment\"],[[19,0,[\"model\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"assessment-results__course-banner\"],[7],[0,\"\\n      \"],[1,[25,\"course-banner\",null,[[\"course\"],[[19,0,[\"model\",\"course\"]]]]],false],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-results__content\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"assessment-results__title\"],[7],[0,\"\\n      Vos résultats\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__list\"],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"model\",\"answers\"]]],null,{\"statements\":[[0,\"        \"],[1,[25,\"result-item\",null,[[\"answer\",\"index\",\"openComparison\",\"a11y-focus-id\"],[[19,1,[]],[19,2,[]],\"openComparison\",[25,\"concat\",[\"open-comparison_\",[25,\"add\",[[19,2,[]],1],null]],null]]]],false],[0,\"\\n\"]],\"parameters\":[1,2]},null],[0,\"    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"assessment-results__index-link-container\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"index\"],[[\"class\",\"tagName\"],[\"assessment-results__index-link__element\",\"button\"]],{\"statements\":[[0,\"        \"],[6,\"span\"],[9,\"class\",\"assessment-results__link-back\"],[7],[0,\"Revenir à l'accueil\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/results.hbs" } });
 });
 define("pix-live/templates/board", ["exports"], function (exports) {
   "use strict";
@@ -8669,6 +8636,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+e79b7e36"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+4c0e81fe"});
 }
 //# sourceMappingURL=pix-live.map
