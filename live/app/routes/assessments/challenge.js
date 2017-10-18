@@ -61,7 +61,7 @@ export default BaseRoute.extend({
         if (nextChallenge) {
           return this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.data.id);
         } else {
-          return this.transitionTo('assessments.get-results', assessment.get('id'));
+          return this.transitionTo('assessments.results', assessment.get('id'));
         }
       });
   },
