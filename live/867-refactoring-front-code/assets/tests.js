@@ -3499,7 +3499,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/assessments/get-challenge.js', function () {
+    it('routes/assessments/challenge.js', function () {
       // test passed
     });
 
@@ -3507,7 +3507,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/assessments/get-results.js', function () {
+    it('routes/assessments/results.js', function () {
       // test passed
     });
 
@@ -9989,11 +9989,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-challenge-test.js', function () {
+    it('unit/routes/assessments/challenge-test.js', function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-results-test.js', function () {
+    it('unit/routes/assessments/results-test.js', function () {
       // test passed
     });
 
@@ -13237,12 +13237,12 @@ define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {
+    (0, _emberMocha.setupTest)('route:assessments.challenge', {
       needs: ['service:assessment', 'service:current-routed-modal']
     });
 
@@ -13252,12 +13252,12 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-results', {
+    (0, _emberMocha.setupTest)('route:assessments.results', {
       needs: ['service:current-routed-modal']
     });
 
