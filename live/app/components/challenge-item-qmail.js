@@ -1,10 +1,19 @@
-import Ember from 'ember';
+import ChallengeItemGeneric from './challenge-item-generic';
 
-export default Ember.Component.extend({
+export default ChallengeItemGeneric.extend({
 
-  actions: {
-    skipChallenge() {},
-    validateAnswer() {}
+  _isChecked: false,
+
+  _hasError: function() {
+    return !this.get('_isChecked');
+  },
+
+  _getErrorMessage() {
+    return 'Pour valider, sélectionner une réponse. Sinon, passer.';
+  },
+
+  _getAnswerValue() {
+    return '#PENDING#';
   }
 
 });

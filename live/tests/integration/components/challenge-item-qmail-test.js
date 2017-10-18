@@ -74,10 +74,11 @@ describe('Integration | Component | challenge item qmail', function() {
 
       const confirmationCheckox = document.querySelector('input[type=checkbox]');
       expect(confirmationCheckox).to.have.attribute('id', 'checkbox_qmail_confirmation');
+      expect(confirmationCheckox).not.to.match(':checked');
 
       const confirmationLabel = document.querySelector('label');
       expect(confirmationLabel).to.have.attribute('for', 'checkbox_qmail_confirmation');
-      expect(confirmationLabel).to.have.attribute('class', 'label-checkbox-proposal--qmail');
+      expect(confirmationLabel).to.have.attribute('class', 'label-checkbox-proposal');
       expect(confirmationLabel).to.have.text('Je l\'ai fait');
     });
   });
@@ -95,6 +96,37 @@ describe('Integration | Component | challenge item qmail', function() {
     expect(validationArea).to.exist;
     expect(validationArea).to.contain('.challenge-actions__action.challenge-actions__action-validate');
     expect(validationArea).to.contain('.challenge-actions__action.challenge-actions__action-skip');
+  });
+
+  describe('Error messages panel', function() {
+    it('should be displayed when an error message is present', function() {
+      // Given
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+      this.set('errorMessage', 'Une erreur est survenue');
+
+      // When
+      this.render(hbs `{{challenge-item-qmail challenge=challenge assessment=assessment errorMessage=errorMessage}}`);
+
+      // Then
+      const errorMessagePanel = document.querySelector('.alert.alert-danger');
+      expect(errorMessagePanel).to.exist;
+      expect(errorMessagePanel).to.contain.text('Une erreur est survenue');
+    });
+
+    it('should be hidden', function() {
+      // Given
+      this.set('assessment', assessment);
+      this.set('challenge', challenge);
+
+      // When
+      this.render(hbs `{{challenge-item-qmail challenge=challenge assessment=assessment}}`);
+
+      // Then
+      const errorMessagePanel = document.querySelector('.alert.alert-danger');
+      expect(errorMessagePanel).not.to.exist;
+    });
+
   });
 
 });
