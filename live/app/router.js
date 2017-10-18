@@ -39,7 +39,7 @@ Router.map(function() {
   this.route('competences');
   this.route('inscription');
   this.route('compte');
-  this.route('enrollment', { path: 'rejoindre' });
+  this.route('enrollment', { path: '/rejoindre' });
   this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
   this.route('courses.create-assessment', { path: '/courses/:course_id' });
   this.route('assessments.get-challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
