@@ -2,9 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 
-describe('Unit | Route | challenges.preview', function() {
+describe('Unit | Route | challenges-preview', function() {
 
-  setupTest('route:challenges.preview', {
+  setupTest('route:challenge-preview', {
     needs: ['service:current-routed-modal']
   });
 
