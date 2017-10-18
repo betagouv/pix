@@ -1,11 +1,12 @@
 import Component from '@ember/component';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 import $ from 'jquery';
 import config from 'pix-live/config/environment';
 
 export default Component.extend({
 
-  mailGenerator: Ember.inject.service(),
+  mailGenerator: service(),
 
   classNames: ['rounded-panel', 'challenge-statement'],
 
