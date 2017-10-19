@@ -20,7 +20,7 @@ describe('Unit | Route | board', function() {
     }));
     this.inject.service('store', { as: 'store' });
     this.register('service:session', Ember.Service.extend({
-      data: { authenticated: { userId: 12 } }
+      data: { authenticated: { userId: 12, token: 'tt12' } }
     }));
 
     this.inject.service('session', { as: 'session' });
@@ -86,7 +86,7 @@ describe('Unit | Route | board', function() {
     });
   });
 
-  it('should call _organizationSnaphostsExportUrl with organizationId', function() {
+  it('should return url to download snapshots CSV', function() {
     // given
     const firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
     const reloadStub = sinon.stub();
@@ -95,18 +95,17 @@ describe('Unit | Route | board', function() {
       .withArgs('snapshots').returns({
         reload: reloadStub
       });
-
     const user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
     findRecord.resolves(user);
-    sinon.stub(route, '_getOrganizationSnapshotsExportUrl');
 
     // when
     const promise = route.model();
 
     // then
-    return promise.then(_ => {
-      sinon.assert.calledOnce(route._getOrganizationSnapshotsExportUrl);
-      sinon.assert.calledWith(route._getOrganizationSnapshotsExportUrl, 2);
+    return promise.then((model) => {
+      expect(model.organization.id).to.equal(1);
+      expect(model.organization.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export/tt-12');
+
     });
   });
 
@@ -136,16 +135,6 @@ describe('Unit | Route | board', function() {
     return promise.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'compte');
-    });
-  });
-
-  describe('#_organizationSnaphostsExportUrl', function() {
-    it('should return export URL with organization ID passed in parameters', function() {
-      // when
-      const url = route._getOrganizationSnapshotsExportUrl(2);
-
-      // then
-      expect(url).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export');
     });
   });
 });

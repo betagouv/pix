@@ -9,10 +9,6 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
 
   session: Ember.inject.service(),
 
-  _getOrganizationSnapshotsExportUrl(organizationId) {
-    return `${ENV.APP.API_HOST}/api/organizations/${organizationId}/snapshots/export`;
-  },
-
   model() {
     return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
       .then((user) => {
@@ -20,12 +16,11 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         if (user.get('organizations.length') <= 0) {
           return this.transitionTo('compte');
         }
-
         const organization = user.get('organizations.firstObject');
         return RSVP.hash({
           organization,
           snapshots: organization.get('snapshots').reload(),
-          organizationSnapshotsExportUrl: this._getOrganizationSnapshotsExportUrl(organization.get('id'))
+          organizationSnapshotsExportUrl: `${ENV.APP.API_HOST}/api/organizations/${organization.get('id')}/snapshots/export/${this.get('session.data.authenticated.token')}`
         });
       })
       .catch(_ => {
