@@ -7184,6 +7184,9 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
 define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  var EmberObject = Ember.Object;
+
+
   var FIRST_CORRECTION_BLOCK = '.correction-qrocm:nth-child(1)';
   var SECOND_CORRECTION_BLOCK = '.correction-qrocm:nth-child(2)';
   var THIRD_CORRECTION_BLOCK = '.correction-qrocm:nth-child(3)';
@@ -7201,19 +7204,19 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       integration: true
     });
 
-    var assessment = Ember.Object.create({ id: 'assessment_id' });
-    var challenge = Ember.Object.create({
+    var assessment = EmberObject.create({ id: 'assessment_id' });
+    var challenge = EmberObject.create({
       id: 'challenge_id',
       proposals: 'answer1 : ${key1}\nCarte mémoire (SD) : ${key2}\nblabla : ${key3}'
     });
-    var answer = Ember.Object.create({
+    var answer = EmberObject.create({
       id: 'answer_id',
       value: 'key1: \'rightAnswer1\' key2: \'wrongAnswer2\' key3: \'\'',
       resultDetails: 'key1: true\nkey2: false\nkey3: false',
       assessment: assessment,
       challenge: challenge
     });
-    var solution = Ember.Object.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
+    var solution = EmberObject.create({ value: 'key1:\n- rightAnswer1\nkey2:\n- rightAnswer20\n- rightAnswer21\nkey3 :\n- rightAnswer3' });
 
     (0, _mocha.beforeEach)(function () {
       this.set('answer', answer);
