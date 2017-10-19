@@ -3912,25 +3912,6 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
       });
 
-      (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
-        // given
-        this.set('externalAction', function () {
-          return RSVP.resolve();
-        });
-        this.render(Ember.HTMLBars.template({
-          "id": "UWIlDu/5",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // when
-        this.$('.challenge-actions__action-validate').click();
-
-        // then
-        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
-      });
-
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
         // given
         this.set('externalAction', function () {
