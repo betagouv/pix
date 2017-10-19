@@ -1,0 +1,29 @@
+const tokenService = require('../../../lib/domain/services/token-service');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+
+module.exports = {
+  verify(request, reply) {
+    const token = request.params.userToken || tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const userId = tokenService.extractUserId(token);
+    const organizationId = request.params.id;
+
+    return organizationRepository
+      .getByUserId(userId)
+      .then((organizations) => organizations.find((organization) => organization.attributes.id == organizationId))
+      .then((organizationFind) => organizationFind ? Promise.resolve() : Promise.reject())
+      .then(reply)
+      .catch(() => {
+        const buildedError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à ces profils partagés');
+        return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
+      });
+  }
+};
+
+function _handleWhenInvalidAuthorization(errorMessage) {
+  return {
+    data: {
+      authorization: [errorMessage]
+    }
+  };
+}
