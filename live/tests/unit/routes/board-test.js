@@ -104,7 +104,7 @@ describe('Unit | Route | board', function() {
     // then
     return promise.then((model) => {
       expect(model.organization.id).to.equal(1);
-      expect(model.organization.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export/tt-12');
+      expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export/tt12');
 
     });
   });
