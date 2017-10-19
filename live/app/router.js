@@ -46,7 +46,7 @@ Router.map(function() {
     this.route('challenge', { path: '/challenges/:challenge_id' });
     this.route('results', { path: '/results' });
   });
-  this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+  this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('course-groups', { path: '/defis-pix' });
