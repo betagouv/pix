@@ -3503,7 +3503,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/assessments/get-comparison.js', function () {
+    it('routes/assessments/comparison.js', function () {
       // test passed
     });
 

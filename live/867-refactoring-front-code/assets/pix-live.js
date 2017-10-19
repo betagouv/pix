@@ -6134,7 +6134,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
       this.route('challenge', { path: '/challenges/:challenge_id' });
       this.route('results', { path: '/results' });
     });
-    this.route('assessments.get-comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+    this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
     this.route('course-groups', { path: '/defis-pix' });
@@ -6253,7 +6253,7 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
 
   });
 });
-define('pix-live/routes/assessments/get-comparison', ['exports', 'ember-routable-modal/mixins/route', 'pix-live/routes/base-route'], function (exports, _route, _baseRoute) {
+define('pix-live/routes/assessments/comparison', ['exports', 'ember-routable-modal/mixins/route', 'pix-live/routes/base-route'], function (exports, _route, _baseRoute) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6291,7 +6291,7 @@ define('pix-live/routes/assessments/results', ['exports', 'pix-live/routes/base-
 
     actions: {
       openComparison: function openComparison(assessment_id, answer_id, index) {
-        this.transitionTo('assessments.get-comparison', assessment_id, answer_id, index);
+        this.transitionTo('assessments.comparison', assessment_id, answer_id, index);
       }
     }
 
@@ -7196,13 +7196,13 @@ define("pix-live/templates/assessments/challenge", ["exports"], function (export
   });
   exports.default = Ember.HTMLBars.template({ "id": "GdfxcAIM", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n    \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n        \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"progress\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
 });
-define("pix-live/templates/assessments/get-comparison", ["exports"], function (exports) {
+define("pix-live/templates/assessments/comparison", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "d913L2XO", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"model\",\"answer\"]],[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"solution\"]],[19,0,[\"model\",\"index\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/get-comparison.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ZGqTh+Ao", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[19,0,[\"model\",\"answer\"]],[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"solution\"]],[19,0,[\"model\",\"index\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/comparison.hbs" } });
 });
 define("pix-live/templates/assessments/results", ["exports"], function (exports) {
   "use strict";
@@ -8639,6 +8639,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+b3e203e0"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+10398c2c"});
 }
 //# sourceMappingURL=pix-live.map
