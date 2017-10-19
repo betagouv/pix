@@ -8,7 +8,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.15.2
+ * @version   2.16.0
  */
 
 var enifed, requireModule, Ember;
@@ -1661,6 +1661,28 @@ enifed('ember-testing/helpers/pause_test', ['exports', 'ember-runtime', 'ember-c
    return pauseTest();
    click('.btn');
    ```
+  
+   You may want to turn off the timeout before pausing.
+  
+   qunit (as of 2.4.0):
+  
+   ```
+   visit('/');
+   assert.timeout(0);
+   return pauseTest();
+   click('.btn');
+   ```
+  
+   mocha:
+  
+   ```
+   visit('/');
+   this.timeout(0);
+   return pauseTest();
+   click('.btn');
+   ```
+  
+  
    @since 1.9.0
    @method pauseTest
    @return {Object} A promise that will never resolve
@@ -22101,7 +22123,9 @@ self.expect = self.chai.expect;
 
 /* globals require */
 document.addEventListener('DOMContentLoaded', function() {
-  require('ember-exam/test-support/load').default();
+  if (!require('ember-exam/test-support/load').default()) {
+    console.warn('DEPRECATION: ember-exam was auto-loaded on DOMContentLoaded. This method of loading is not recommended and will be removed in the next release. Use the `loadEmberExam` method instead. See http://bit.ly/2yqVGDC for more info.');
+  }
 });
 
 /* Sinon.JS 3.3.0, 2017-09-18, @license BSD-3 */(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.sinon = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
@@ -36258,7 +36282,12 @@ define('ember-cli-test-loader/test-support/index', ['exports'], function (export
   ;
 });
 define('ember-exam/test-support/-private/get-test-loader', ['exports'], function (exports) {
-  exports['default'] = getTestLoader;
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = getTestLoader;
   /* globals require, requirejs */
 
   function getTestLoader() {
@@ -36273,7 +36302,12 @@ define('ember-exam/test-support/-private/get-test-loader', ['exports'], function
   }
 });
 define('ember-exam/test-support/-private/get-url-params', ['exports'], function (exports) {
-  exports['default'] = getUrlParams;
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = getUrlParams;
   function decodeQueryParam(param) {
     return decodeURIComponent(param.replace(/\+/g, '%20'));
   }
@@ -36285,14 +36319,14 @@ define('ember-exam/test-support/-private/get-url-params', ['exports'], function 
     for (var i = 0; i < params.length; i++) {
       if (params[i]) {
         var param = params[i].split('=');
-        var _name = decodeQueryParam(param[0]);
+        var name = decodeQueryParam(param[0]);
 
         // Allow just a key to turn on a flag, e.g., test.html?noglobals
         var value = param.length === 1 || decodeQueryParam(param.slice(1).join('='));
-        if (_name in urlParams) {
-          urlParams[_name] = [].concat(urlParams[_name], value);
+        if (name in urlParams) {
+          urlParams[name] = [].concat(urlParams[name], value);
         } else {
-          urlParams[_name] = value;
+          urlParams[name] = value;
         }
       }
     }
@@ -36300,11 +36334,15 @@ define('ember-exam/test-support/-private/get-url-params', ['exports'], function 
     return urlParams;
   }
 });
-define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-exam/test-support/-private/get-url-params', 'ember-exam/test-support/-private/split-test-modules'], function (exports, _emberExamTestSupportPrivateGetUrlParams, _emberExamTestSupportPrivateSplitTestModules) {
-  exports['default'] = patchTestLoader;
+define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-exam/test-support/-private/get-url-params', 'ember-exam/test-support/-private/split-test-modules'], function (exports, _getUrlParams, _splitTestModules) {
+  'use strict';
 
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = patchTestLoader;
   function patchTestLoader(TestLoader) {
-    TestLoader._urlParams = (0, _emberExamTestSupportPrivateGetUrlParams['default'])();
+    TestLoader._urlParams = (0, _getUrlParams.default)();
 
     var _super = {
       require: TestLoader.prototype.require,
@@ -36338,7 +36376,7 @@ define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-
       testLoader._testModules = [];
       _super.loadModules.apply(testLoader, arguments);
 
-      var splitModules = (0, _emberExamTestSupportPrivateSplitTestModules['default'])(testLoader._testModules, split, partitions);
+      var splitModules = (0, _splitTestModules.default)(testLoader._testModules, split, partitions);
 
       splitModules.forEach(function (moduleName) {
         _super.require.call(testLoader, moduleName);
@@ -36348,11 +36386,15 @@ define('ember-exam/test-support/-private/patch-test-loader', ['exports', 'ember-
   }
 });
 define('ember-exam/test-support/-private/patch-testem-output', ['exports'], function (exports) {
-  exports['default'] = patchTestemOutput;
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = patchTestemOutput;
   /* globals Testem */
 
   // Add the partition number for better debugging when reading the reporter
-
   function patchTestemOutput(TestLoader) {
     Testem.on('test-result', function prependPartition(test) {
       var urlParams = TestLoader._urlParams;
@@ -36360,15 +36402,30 @@ define('ember-exam/test-support/-private/patch-testem-output', ['exports'], func
 
       if (split) {
         var partition = urlParams._partition || 1;
-        test.name = 'Exam Partition #' + partition + ' - ' + test.name;
+        test.name = 'Exam Partition ' + partition + ' - ' + test.name;
       }
     });
   }
 });
 define('ember-exam/test-support/-private/split-test-modules', ['exports'], function (exports) {
-  exports['default'] = splitTestModules;
+  'use strict';
 
-  function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) arr2[i] = arr[i]; return arr2; } else { return Array.from(arr); } }
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = splitTestModules;
+
+  function _toConsumableArray(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+
+      return arr2;
+    } else {
+      return Array.from(arr);
+    }
+  }
 
   function createGroups(num) {
     var groups = new Array(num);
@@ -36427,24 +36484,35 @@ define('ember-exam/test-support/-private/split-test-modules', ['exports'], funct
     return tests;
   }
 });
-define('ember-exam/test-support/load', ['exports', 'ember-exam/test-support/-private/get-test-loader', 'ember-exam/test-support/-private/patch-test-loader', 'ember-exam/test-support/-private/patch-testem-output'], function (exports, _emberExamTestSupportPrivateGetTestLoader, _emberExamTestSupportPrivatePatchTestLoader, _emberExamTestSupportPrivatePatchTestemOutput) {
-  exports['default'] = loadEmberExam;
+define('ember-exam/test-support/load', ['exports', 'ember-exam/test-support/-private/get-test-loader', 'ember-exam/test-support/-private/patch-test-loader', 'ember-exam/test-support/-private/patch-testem-output'], function (exports, _getTestLoader, _patchTestLoader, _patchTestemOutput) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = loadEmberExam;
+
 
   var loaded = false;
 
+  var ALREADY_LOADED = 1;
+  var LOAD_SUCCESS = 0;
+
   function loadEmberExam() {
     if (loaded) {
-      return;
+      return ALREADY_LOADED;
     }
 
     loaded = true;
 
-    var TestLoader = (0, _emberExamTestSupportPrivateGetTestLoader['default'])();
-    (0, _emberExamTestSupportPrivatePatchTestLoader['default'])(TestLoader);
+    var TestLoader = (0, _getTestLoader.default)();
+    (0, _patchTestLoader.default)(TestLoader);
 
     if (window.Testem) {
-      (0, _emberExamTestSupportPrivatePatchTestemOutput['default'])(TestLoader);
+      (0, _patchTestemOutput.default)(TestLoader);
     }
+
+    return LOAD_SUCCESS;
   }
 });
 define('ember-mocha', ['exports', 'ember-mocha/describe-module', 'ember-mocha/describe-component', 'ember-mocha/describe-model', 'ember-mocha/setup-test-factory', 'mocha', 'ember-test-helpers'], function (exports, _describeModule, _describeComponent, _describeModel, _setupTestFactory, _mocha, _emberTestHelpers) {

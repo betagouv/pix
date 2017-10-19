@@ -1890,6 +1890,110 @@ h1.course-banner__name {
   left: 4px;
   height: 15px; }
 
+.password-reset__connexion {
+  color: #ffffff;
+  text-align: right;
+  margin: 8px 0; }
+
+.password-reset__connexion-link {
+  color: #ffffff; }
+
+.password-reset__connexion-link:hover,
+.password-reset__connexion-link:focus {
+  color: #ffffff;
+  text-decoration: none; }
+
+.password-reset__home-link_close {
+  border: solid 2px #ffffff;
+  padding: 2px;
+  width: 20px;
+  border-radius: 20px;
+  margin-left: 5px; }
+
+.password-reset-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
+  font-family: "Raleway", Arial, sans-serif;
+  margin-bottom: 10px; }
+
+.password-reset-form__pix-logo {
+  margin-top: 50px; }
+
+.password-reset-form__title {
+  margin-top: 30px;
+  color: #3e4149;
+  font-size: 20px; }
+  @media (min-width: 768px) {
+    .password-reset-form__title {
+      font-size: 36px; } }
+
+.password-reset-form__text {
+  margin-top: 30px;
+  width: 280px;
+  text-align: center; }
+  @media (min-width: 768px) {
+    .password-reset-form__text {
+      width: 400px;
+      font-size: 22px; } }
+
+.password-reset-form__form {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px; }
+  @media (min-width: 768px) {
+    .password-reset-form__form {
+      width: 400px; } }
+
+.password-reset-form__form-success-message {
+  margin-top: 30px;
+  color: #13c9a0; }
+
+.password-reset-form__form-label {
+  text-transform: uppercase;
+  font-size: 9px; }
+  @media (min-width: 768px) {
+    .password-reset-form__form-label {
+      font-size: 12px; } }
+
+.password-reset-form__form-error-message {
+  font-size: 8px;
+  color: red;
+  align-self: flex-end;
+  margin-top: -11px; }
+  @media (min-width: 768px) {
+    .password-reset-form__form-error-message {
+      margin-top: -18px;
+      font-size: 12px; } }
+
+.password-reset-form__form-email-input {
+  border: 1px solid #d7d7d7;
+  width: 100%;
+  height: 50px;
+  margin-top: 5px; }
+
+.password-reset-form__button {
+  margin-top: 30px;
+  margin-bottom: 60px;
+  border-radius: 25px;
+  background-color: #3d68ff;
+  color: #ffffff;
+  width: 140px;
+  height: 40px;
+  vertical-align: center; }
+
+.password-reset-form__submit-button {
+  width: 100%;
+  height: 100%;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  background: transparent; }
+
 .correction-qroc-box--answer__input {
   height: 26px;
   border-radius: 3px;
@@ -2752,7 +2856,7 @@ input.qcm-panel__proposal-checkbox {
     .signup-form__submit-container {
       margin: 31px auto 34px; } }
 
-.signup-textfield__cgu-message--error {
+.form-textfield__cgu-message--error {
   color: #f45c00;
   font-size: 12px;
   margin-bottom: 7px;
@@ -2845,6 +2949,9 @@ input.qcm-panel__proposal-checkbox {
   outline: none;
   padding: 5px; }
 
+.signin-form__forgotten-password-link {
+  align-self: flex-end; }
+
 .signin-form__form-field-button {
   display: inline; }
 
@@ -2866,55 +2973,58 @@ input.qcm-panel__proposal-checkbox {
       margin: 40px 80px 0px 80px;
       border-radius: 3px; } }
 
-.signup-textfield {
+.form-textfield {
   position: relative; }
 
-.signup-textfield__label {
+.form-textfield__label {
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
   font-weight: bold;
   color: #3e4149;
   text-transform: uppercase; }
 
-.signup-textfield__input-field-container {
+.form-textfield__input-field-container {
   display: flex;
   height: 35px;
   border-radius: 3px;
   margin-bottom: 20px;
   align-items: center; }
 
-.signup-textfield__input-container--default {
+.form-textfield__input-container--default {
   border: 1px solid #D8D8D8; }
 
-.signup-textfield__input-container--error {
+.form-textfield__input-container--error {
   border: 1px solid #f45c00; }
 
-.signup-textfield__input-container--success {
+.form-textfield__input-container--success {
   border: 1px solid #13c9a0; }
 
-.signup-textfield__input-field-container input {
+.form-textfield__input-field-container input {
   flex-grow: 1;
   border: none;
   margin-left: 10px;
   outline: none;
   color: #6a6d76; }
 
-.signup-textfield__message {
+.form-textfield__message {
   position: absolute;
   top: 0;
   right: 0;
   font-size: 12px; }
 
-.signup-textfield__message--error {
+.form-textfield__message--error {
   color: #f45c00; }
 
-.signup-textfield__message--error.signup-textfield__message-password, .signup-textfield__message--error.signup-textfield__message-email {
+.form-textfield__message--success {
+  color: #13c9a0; }
+
+.form-textfield__message--error.form-textfield__message-password, .form-textfield__message--error.form-textfield__message-email {
   position: relative;
   text-align: right;
   margin-top: -5px;
   margin-bottom: 5px; }
 
-.signup-textfield__icon {
+.form-textfield__icon {
   width: 20px;
   height: 20px;
   margin: 6px 8px; }
@@ -3474,6 +3584,124 @@ p.share-profile__organization-name {
   letter-spacing: 1.5px;
   text-align: center;
   color: #ffffff; }
+
+.reset-password-form {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  max-width: 609px;
+  width: 100%;
+  margin: 25px 15px 15px;
+  max-height: 588px;
+  flex-direction: column;
+  border-radius: 10px;
+  background-color: #ffffff; }
+  @media (min-width: 768px) {
+    .reset-password-form {
+      margin: 80px 0;
+      width: 609px; } }
+  @media (min-width: 980px) {
+    .reset-password-form {
+      margin: 10px 5px 10px;
+      padding: 50px 80px; } }
+
+.reset-password-form__heading {
+  position: relative;
+  width: 106px;
+  height: 79px;
+  margin: 26px auto 10px; }
+  @media (min-width: 768px) {
+    .reset-password-form__heading {
+      margin: 56px auto 53px; } }
+
+.reset-password-form__user-details {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 25px;
+  line-height: 42px;
+  text-align: center;
+  color: #3e4149;
+  text-transform: capitalize;
+  margin-top: 30px; }
+  @media (min-width: 980px) {
+    .reset-password-form__user-details {
+      font-size: 36px;
+      margin-top: 0; } }
+
+.reset-password-form__instruction {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 28px;
+  text-align: center;
+  color: #3e4149;
+  margin: 10px 0 40px; }
+  @media (min-width: 980px) {
+    .reset-password-form__instruction {
+      font-size: 22px;
+      margin: 28px 0 70px; } }
+
+.reset-password-form__notification-message {
+  max-width: 449px;
+  width: 100%;
+  text-align: center;
+  border-radius: 3px;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 9px;
+  background: #13c9a0; }
+
+.reset-password-form__password-textfield-container {
+  max-width: 449px;
+  width: 100%;
+  padding: 0px 20px; }
+  @media (min-width: 980px) {
+    .reset-password-form__password-textfield-container {
+      width: 449px;
+      padding: 0; } }
+
+.reset-password-form__password-textfield-container .form-textfield__label {
+  width: 83px;
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: bold;
+  line-height: 15px; }
+
+.form-textfield__input-field-container {
+  height: 40px;
+  padding-left: 10px;
+  border: 1px solid #D8D8D8;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  width: 100%; }
+  .form-textfield__input-field-container:hover {
+    border: 1px solid #3d68ff;
+    box-shadow: 0 0 5px 0 rgba(61, 104, 255, 0.5); }
+  @media (min-width: 980px) {
+    .form-textfield__input-field-container {
+      height: 50px; } }
+
+.reset-password-form__button-container {
+  margin: 30px 0; }
+  @media (min-width: 980px) {
+    .reset-password-form__button-container {
+      margin: 30px 0; } }
+
+.reset-password-form__button-container button {
+  height: 40px;
+  width: 170px;
+  border-radius: 25px;
+  background-color: #3d68ff;
+  color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 16px;
+  text-align: center;
+  text-transform: uppercase;
+  border: none; }
 
 /* pages */
 /* Sections:
@@ -4652,7 +4880,7 @@ hr.project-page__presentation-header-line {
   text-align: center;
   font-weight: 700;
   margin-right: 20px; }
-  .board-page__profiles-title__export-csv:hover, .board-page__profiles-title__export-csv:visited {
+  .board-page__profiles-title__export-csv:hover, .board-page__profiles-title__export-csv:focus, .board-page__profiles-title__export-csv:active {
     color: #ffffff; }
   @media (min-width: 768px) {
     .board-page__profiles-title__export-csv {
@@ -4750,6 +4978,72 @@ hr.project-page__presentation-header-line {
   font-size: 16px;
   font-weight: 700;
   line-height: 19px; }
+
+.reset-password {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 10px; }
+  @media (min-width: 768px) {
+    .reset-password {
+      height: 100%;
+      padding: 0; } }
+
+.reset-password__link-to-home {
+  text-align: right;
+  max-width: 609px;
+  width: 100%; }
+
+.password-reset-page {
+  background: url("/images/signup-bg.jpg") no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; }
+
+.password-reset-page__inscription {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-top: 30px; }
+  @media (min-width: 768px) {
+    .password-reset-page__inscription {
+      flex-direction: row;
+      align-items: center; } }
+
+.password-reset-page__inscription-text {
+  color: #ffffff;
+  font-size: 16px; }
+  @media (min-width: 768px) {
+    .password-reset-page__inscription-text {
+      margin-right: 10px; } }
+
+.password-reset-page__inscription-button {
+  border-radius: 20px;
+  border: solid 2px #ffffff;
+  margin: auto;
+  color: #ffffff;
+  text-transform: uppercase;
+  padding: 10px 30px; }
+
+.password-reset-page__inscription-button:hover {
+  color: #ffffff;
+  text-decoration: none; }
+
+.password-reset-page__password-reset-form {
+  padding: 0 10px;
+  width: 100%; }
+  @media (min-width: 768px) {
+    .password-reset-page__password-reset-form {
+      max-width: 750px;
+      margin: auto; } }
 
 body {
   font-family: "Lato", Arial, sans-serif;
