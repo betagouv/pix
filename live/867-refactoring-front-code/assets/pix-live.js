@@ -4204,25 +4204,6 @@ define('pix-live/initializers/raven', ['exports', 'pix-live/config/environment']
     name: 'raven'
   };
 });
-define('pix-live/initializers/router', ['exports'], function (exports) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.initialize = initialize;
-
-  // See http://stackoverflow.com/questions/18302463/get-current-route-name-in-ember
-  function initialize(application) {
-    application.inject('route', 'router', 'router:main');
-    application.inject('component', 'router', 'router:main');
-  }
-
-  exports.default = {
-    name: 'router',
-    initialize: initialize
-  };
-});
 define('pix-live/initializers/store', ['exports'], function (exports) {
   'use strict';
 
@@ -8639,6 +8620,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+10398c2c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.24.0+17d8f70a"});
 }
 //# sourceMappingURL=pix-live.map

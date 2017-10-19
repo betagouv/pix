@@ -3423,10 +3423,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('initializers/router.js', function () {
-      // test passed
-    });
-
     it('models/answer.js', function () {
       // test passed
     });
