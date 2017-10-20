@@ -179,9 +179,9 @@ describe('Integration | Component | competence level progress bar', function() {
       this.render(hbs`{{competence-level-progress-bar level=level assessmentId=assessmentId name=name}}`);
 
       // then
-      expect(this.$('.competence-level-progress-bar__resume')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__resume-link')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__resume-link').text().trim()).to.be.equal('Commencer le test "deuxième test"');
+      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+      expect(this.$('a.competence-level-progress-bar__link-resume')).to.have.lengthOf(1);
+      expect(this.$('a.competence-level-progress-bar__link-resume').text().trim()).to.be.equal('Reprendre le test "deuxième test"');
     });
   });
 
