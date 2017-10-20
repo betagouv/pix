@@ -47,6 +47,7 @@ Router.map(function() {
     this.route('results', { path: '/results' });
   });
   this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+  this.route('assessments.resume', { path: '/assessments/:assessment_id' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
   this.route('course-groups', { path: '/defis-pix' });
