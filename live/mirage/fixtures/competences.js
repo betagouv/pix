@@ -6,7 +6,7 @@ export default [
   { id: 5, name: 'Partager et publier', level: 3, index: '2.2', areaId: 2 },
   { id: 6, name: 'Collaborer', level: 4, index: '2.3', areaId: 2 },
   { id: 7, name: 'Gérer sa présence en ligne', level: 5, index: '2.4', areaId: 2 },
-  { id: 8, name: 'Développer des documents textuels', level: -1, index: '3.1', areaId: 3 },
+  { id: 8, name: 'Développer des documents textuels', level: -1, index: '3.1', areaId: 3, courseId: 'pix_name_course_id', assessmentId : 'pix_name_assessment_id' },
   { id: 9, name: 'Développer des documents multimedia', level: -1, index: '3.2', areaId: 3 },
   { id: 10, name: 'Adapter les documents à leur finalité', level: -1, index: '3.3', areaId: 3 },
   { id: 11, name: 'Programmer', level: -1, index: '3.4', areaId: 3 },

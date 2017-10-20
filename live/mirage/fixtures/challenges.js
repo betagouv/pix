@@ -48,5 +48,32 @@ export default [
     attachments: ['http://example_of_url'],
     instruction: 'Une question timée contient un décompte en bas a droite qui se decremente à chaque seconde ',
     proposals: '- Une seule possibilite '
+  },
+
+  {
+    id: 'first_challenge_id',
+    type: 'QROC',
+    instruction: 'Citez le nom du CEO de Pix',
+    proposals: '${name}'
+  }, {
+    id: 'second_challenge_id',
+    type: 'QROC',
+    instruction: 'Citez le nom du CTO de Pix',
+    proposals: '${name}'
+  }, {
+    id: 'third_challenge_id',
+    type: 'QROC',
+    instruction: 'Citez le nom du designer de Pix',
+    proposals: '${name}'
+  }, {
+    id: 'fourth_challenge_id',
+    type: 'QROC',
+    instruction: 'Citez le nom d\'un dev de Pix',
+    proposals: '${name}'
+  }, {
+    id: 'fifth_challenge_id',
+    type: 'QROC',
+    instruction: 'Citez le nom d\'un producteur d\'epreuves de Pix',
+    proposals: '${name}'
   }
 ];

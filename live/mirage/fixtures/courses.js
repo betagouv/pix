@@ -19,5 +19,12 @@ export default [
     duration: 10,
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
     challenges: ['ref_timed_challenge_id', 'ref_timed_challenge_bis_id']
+  }, {
+    id: 'pix_name_course_id',
+    name: 'Numeroted Course',
+    description: 'Contient des challenges qui se suivent et est fait pour vérifier qu\'il est possible de reprendre un challenge',
+    duration: 10,
+    'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
+    challengeId: ['first_challenge_id', 'second_challenge_id', 'third_challenge_id', 'fourth_challenge_id', 'fifth_challenge_id']
   }
 ];
