@@ -13,6 +13,7 @@ const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+const exportCsvFileName = 'Pix - Export données partagées.csv';
 
 module.exports = {
   create: (request, reply) => {
@@ -79,7 +80,9 @@ module.exports = {
       .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
         logger.error(err);
-        return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
+        return reply(validationErrorSerializer.serialize(
+          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
+        )).code(500);
       });
   },
 
@@ -88,10 +91,15 @@ module.exports = {
       .then((jsonSnapshots) => {
         return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
       })
-      .then((snapshotsTextCsv) => reply(snapshotsTextCsv).header('Content-Type', 'text/csv').header('Content-Disposition', 'attachment; filename="Pix - Export données partagées.csv"'))
+      .then((snapshotsTextCsv) => reply(snapshotsTextCsv)
+        .header('Content-Type', 'text/csv')
+        .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`)
+      )
       .catch((err) => {
         logger.error(err);
-        return reply(validationErrorSerializer.serialize(_buildErrorMessage('une erreur est survenue lors de la récupération des profils'))).code(500);
+        return reply(validationErrorSerializer.serialize(
+          _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
+        )).code(500);
       });
   }
 };
