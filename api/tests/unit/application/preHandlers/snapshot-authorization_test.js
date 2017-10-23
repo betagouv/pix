@@ -14,13 +14,16 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       headers: { authorization: 'VALID_TOKEN' },
       params: {
         id: 8
-      }
+      },
+      query: { }
     };
 
     const requestWithTokenInParams = {
       headers: { },
       params: {
         id: 8,
+      },
+      query: {
         userToken: 'tt8'
       }
     };
@@ -61,7 +64,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       });
     });
 
-    it('should get userId from token in params', () => {
+    it('should get userId from token in queryString', () => {
       // given
       tokenService.extractUserId.returns('userId');
       organizationRepository.getByUserId.resolves([{ attributes : { id: 8 } }]);
@@ -72,7 +75,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, requestWithTokenInParams.params.userToken);
+        sinon.assert.calledWith(tokenService.extractUserId, requestWithTokenInParams.query.userToken);
       });
     });
 
@@ -86,7 +89,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         organizationRepository.getByUserId.resolves(fetchedOrganization);
 
         // when
-        const promise = snapshotAuthorization.verify(request, replyStub);
+        const promise = snapshotAuthorization.verify(requestWithTokenInParams, replyStub);
 
         // then
         promise.then(() => {
@@ -110,7 +113,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves([]);
         // when
-        const promise = snapshotAuthorization.verify(request, replyStub);
+        const promise = snapshotAuthorization.verify(requestWithTokenInParams, replyStub);
 
         // then
         return promise.then(() => {

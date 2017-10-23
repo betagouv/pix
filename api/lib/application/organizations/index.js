@@ -20,7 +20,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/organizations/{id}/snapshots/export/{userToken}',
+      path: '/api/organizations/{id}/snapshots/export',
       config: {
         pre: [{
           method: snapshotsAuthorization.verify,

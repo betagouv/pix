@@ -20,7 +20,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
         return RSVP.hash({
           organization,
           snapshots: organization.get('snapshots').reload(),
-          organizationSnapshotsExportUrl: `${ENV.APP.API_HOST}/api/organizations/${organization.get('id')}/snapshots/export/${this.get('session.data.authenticated.token')}`
+          organizationSnapshotsExportUrl: `${ENV.APP.API_HOST}/api/organizations/${organization.get('id')}/snapshots/export?userToken=${this.get('session.data.authenticated.token')}`
         });
       })
       .catch(_ => {

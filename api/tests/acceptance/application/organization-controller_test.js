@@ -200,7 +200,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
   });
 
-  describe('GET /api/organizations/{id}/snapshots/export/{userToken}', () => {
+  describe('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
     const payload = {};
     let organizationId;
     let userToken;
@@ -226,7 +226,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
     it('should return 200 HTTP status code', () => {
       // given
-      const url = `/api/organizations/${organizationId}/snapshots/export/${userToken}`;
+      const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
       const expectedCsvSnapshots = '"Nom","Prénom","Numéro Etudiant","Code Campagne","Date","Score Pix","Tests Réalisés","competence-name-1","competence-name-2",\n"Doe","john","","",31/08/2017,15,"1/2",,8,\n';
       const options = {
         method: 'GET', url, payload
