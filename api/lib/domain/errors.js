@@ -28,7 +28,6 @@ class NotElligibleToQMAILError extends Error {
   }
 }
 
-
 class PasswordNotMatching extends Error {
   constructor(message) {
     super(message);

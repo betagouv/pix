@@ -7,7 +7,7 @@ const QmailValidationService = require('../../../../lib/domain/services/qmail-va
 const Boom = require('boom');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | Controller | qmailController', () => {
+describe('Unit | Controller | qmailController', () => {
 
   describe('#validate', () => {
 
@@ -187,7 +187,7 @@ describe.only('Unit | Controller | qmailController', () => {
       context('when the challenge does not exists', () => {
 
         let boomBadRequestStub;
-        let boomError = {};
+        const boomError = {};
         const notFoundError = new NotFoundError('Damn, an error');
 
         beforeEach(() => {
@@ -215,7 +215,7 @@ describe.only('Unit | Controller | qmailController', () => {
       context('when the challenge is not the QMAIL kind', () => {
 
         let boomBadRequestStub;
-        let boomError = {};
+        const boomError = {};
 
         beforeEach(() => {
           SolutionRepository.get.resolves({ type: 'QCU' });

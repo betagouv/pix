@@ -34,10 +34,6 @@ module.exports = {
 
         const isEmailValidated = qmailValidationService.validateEmail(request.payload, challengeSolution.value);
 
-        console.log(request.payload);
-        console.log(challengeSolution.value);
-        console.log(isEmailValidated);
-
         if(isEmailValidated) {
           answer.set('result', 'ok');
         } else {
