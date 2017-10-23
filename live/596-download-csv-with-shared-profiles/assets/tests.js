@@ -13408,7 +13408,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       // then
       return promise.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
-        (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export/tt12');
+        (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=tt12');
       });
     });
 
