@@ -29,8 +29,9 @@ module.exports = {
       .then((answer) => {
         const answerDoesNotExists = (answer === null);
 
-        if(answerDoesNotExists)
+        if(answerDoesNotExists) {
           return;
+        }
 
         const isEmailValidated = qmailValidationService.validateEmail(request.payload, challengeSolution.value);
 
