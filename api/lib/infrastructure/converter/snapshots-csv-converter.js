@@ -1,6 +1,7 @@
 const moment = require('moment');
+const _ = require('lodash');
 
-const headersWithoutCompetences = ['Nom', 'Prénom', 'Numéro Etudiant', 'Code Campagne', 'Date', 'Score Pix', 'Tests Réalisés'];
+const headersWithoutCompetences = ['"Nom"', '"Prénom"', '"Numéro Etudiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Réalisés"'];
 
 module.exports = {
   convertJsonToCsv(jsonData) {
@@ -11,23 +12,17 @@ module.exports = {
     }
 
     textCsv += _createHeaderLine(JSON.parse(jsonData[0].profile));
-    jsonData.forEach((snapshot) => textCsv += _createProfileLine(snapshot));
+    textCsv += jsonData.map(_createProfileLine).join('');
 
     return textCsv;
   }
 };
 
 function _createHeaderLine(jsonProfil) {
-  let textCsvLineHeaders = '';
-
-  textCsvLineHeaders += headersWithoutCompetences.reduce((textHeader, title) => {
-    return `${textHeader}"${title}",`;
-  }, '');
+  let textCsvLineHeaders = headersWithoutCompetences.join(',');
 
   const listCompetences = _cleanArrayCompetences(jsonProfil.included);
-  listCompetences.forEach(competence => {
-    textCsvLineHeaders += `"${competence.name}",`;
-  });
+  textCsvLineHeaders += ',' + listCompetences.map(_.property('name')).join(',');
 
   textCsvLineHeaders += '\n';
   return textCsvLineHeaders;
@@ -57,7 +52,7 @@ function _cleanArrayCompetences(arrayCompetences) {
     })
     .map(competence => {
       return {
-        name: competence.attributes.name,
+        name: `"${competence.attributes.name}"`,
         index: competence.attributes.index,
         level: competence.attributes.level
       };
