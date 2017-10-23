@@ -68,25 +68,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       }, _callee, this);
     })));
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis l\'ancienne url "courses/:course_id/assessment"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return visit('/courses/ref_course_id/assessment');
-
-            case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
-
-            case 3:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
-
     (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
       return click($startLink).then(function () {
@@ -96,7 +77,6 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
     });
 
     (0, _mocha.it)('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function (done) {
-
       var $startLink = findWithAssert(START_BUTTON);
 
       (0, _chai.expect)(find(MODAL_SELECTOR)).to.have.lengthOf(0);
@@ -339,7 +319,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
               // When
               _context5.next = 8;
-              return click($('.label-checkbox-proposal--qcu:eq(0)'));
+              return click($('.label-checkbox-proposal:eq(0)'));
 
             case 8:
               // Click on label trigger the event.
@@ -393,7 +373,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
               // When
               _context6.next = 9;
-              return click($('.label-checkbox-proposal--qcu:eq(3)'));
+              return click($('.label-checkbox-proposal:eq(3)'));
 
             case 9:
               _context6.next = 11;
@@ -1222,7 +1202,7 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     }
 
     function expectModalToBeClosed() {
-      (0, _chai.expect)(find('.pix-modal')).to.have.length(0);
+      (0, _chai.expect)(find('.pix-modal')).to.have.lengthOf(0);
     }
 
     (0, _mocha.it)('should be possible to share a snapshot of her own profile to a given organization', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
@@ -1644,125 +1624,6 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
           }
         }, _callee8, this);
       })));
-    });
-  });
-});
-define('pix-live/tests/acceptance/f1-previsualisation-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | f1 - Prévisualisation  d\'un test |', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
-
-    (0, _mocha.describe)('Prévisualiser la première page d\'un test |', function () {
-
-      (0, _mocha.beforeEach)(function () {
-        visit('/courses/ref_course_id/preview');
-      });
-
-      (0, _mocha.it)('f1.1 L\'accès à la preview d\'un test se fait en accédant à l\'URL /courses/:course_id/preview', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview');
-      });
-
-      var $preview = void 0;
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        (0, _mocha.beforeEach)(function () {
-          $preview = findWithAssert('#course-preview');
-        });
-
-        (0, _mocha.it)('f1.2 le nom du test', function () {
-          (0, _chai.expect)($preview.find('.course-name').text()).to.contain('First Course');
-        });
-
-        (0, _mocha.it)('f1.3 la description du test', function () {
-          var $courseDescription = $preview.find('.course-description');
-          var instructionText = 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.';
-          (0, _chai.expect)($courseDescription.text()).to.contain(instructionText);
-        });
-
-        (0, _mocha.it)('f1.4 un bouton pour démarrer la simulation du test et qui mène à la première question', function () {
-          var $playButton = findWithAssert('.simulate-button');
-          (0, _chai.expect)($playButton.text()).to.be.equals('Simuler le test');
-          (0, _chai.expect)($playButton.attr('href')).to.be.equals('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-        });
-      });
-    });
-
-    (0, _mocha.describe)('Prévisualiser une épreuve dans le cadre d\'un test |', function () {
-
-      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-
-              case 2:
-                _context.next = 4;
-                return click('.challenge-item-warning button');
-
-              case 4:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      })));
-
-      (0, _mocha.it)('f1.5 L\'accès à la preview d\'une épreuve d\'un test se fait en accédant à l\'URL /courses/:course_id/preview/challenges/:challenge_id', function () {
-        (0, _chai.expect)(currentURL()).to.equal('/courses/ref_course_id/preview/challenges/ref_qcm_challenge_id');
-      });
-
-      (0, _mocha.describe)('On affiche', function () {
-
-        (0, _mocha.it)('f1.6 la consigne de l\'épreuve', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-statement__instruction').html()).to.contain('Un QCM propose plusieurs choix');
-        });
-
-        (0, _mocha.it)('f1.7 un bouton pour accéder à l\'épreuve suivante', function () {
-          (0, _chai.expect)(findWithAssert('.challenge-preview .challenge-actions__action-validate').text()).to.contain('Je valide');
-        });
-      });
     });
   });
 });
@@ -3184,7 +3045,7 @@ define('pix-live/tests/acceptance/password-reset-test', ['mocha', 'chai', 'pix-l
       }, _callee3, this);
     })));
 
-    (0, _mocha.it)('should redirect to connexion page when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+    (0, _mocha.it)('should stay on mot de passe oublié page, and show success message, when email sent correspond to an existing user', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
       return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
@@ -3617,7 +3478,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/password-reset.js', function () {
+    it('models/password-reset-demand.js', function () {
       // test passed
     });
 
@@ -3697,10 +3558,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/courses/get-course-preview.js', function () {
-      // test passed
-    });
-
     it('routes/enrollment.js', function () {
       // test passed
     });
@@ -3766,6 +3623,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/google-recaptcha.js', function () {
+      // test passed
+    });
+
+    it('services/mail-generator.js', function () {
       // test passed
     });
 
@@ -4038,7 +3899,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-actions\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Validate button (and placeholding loader)', function () {
@@ -4134,7 +3995,7 @@ define('pix-live/tests/integration/components/challenge-item-qmail-test', ['chai
   var EmberObject = Ember.Object;
 
 
-  _mocha.describe.only('Integration | Component | challenge item qmail', function () {
+  (0, _mocha.describe)('Integration | Component | challenge item qmail', function () {
     (0, _emberMocha.setupComponentTest)('challenge-item-qmail', {
       integration: true
     });
@@ -4219,10 +4080,11 @@ define('pix-live/tests/integration/components/challenge-item-qmail-test', ['chai
 
         var confirmationCheckox = document.querySelector('input[type=checkbox]');
         (0, _chai.expect)(confirmationCheckox).to.have.attribute('id', 'checkbox_qmail_confirmation');
+        (0, _chai.expect)(confirmationCheckox).not.to.match(':checked');
 
         var confirmationLabel = document.querySelector('label');
         (0, _chai.expect)(confirmationLabel).to.have.attribute('for', 'checkbox_qmail_confirmation');
-        (0, _chai.expect)(confirmationLabel).to.have.attribute('class', 'label-checkbox-proposal--qmail');
+        (0, _chai.expect)(confirmationLabel).to.have.attribute('class', 'label-checkbox-proposal');
         (0, _chai.expect)(confirmationLabel).to.have.text('Je l\'ai fait');
       });
     });
@@ -4245,6 +4107,44 @@ define('pix-live/tests/integration/components/challenge-item-qmail-test', ['chai
       (0, _chai.expect)(validationArea).to.contain('.challenge-actions__action.challenge-actions__action-validate');
       (0, _chai.expect)(validationArea).to.contain('.challenge-actions__action.challenge-actions__action-skip');
     });
+
+    (0, _mocha.describe)('Error messages panel', function () {
+      (0, _mocha.it)('should be displayed when an error message is present', function () {
+        // Given
+        this.set('assessment', assessment);
+        this.set('challenge', challenge);
+        this.set('errorMessage', 'Une erreur est survenue');
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          "id": "TlXP7BdX",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-item-qmail\",null,[[\"challenge\",\"assessment\",\"errorMessage\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]],[19,0,[\"errorMessage\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // Then
+        var errorMessagePanel = document.querySelector('.alert.alert-danger');
+        (0, _chai.expect)(errorMessagePanel).to.exist;
+        (0, _chai.expect)(errorMessagePanel).to.contain.text('Une erreur est survenue');
+      });
+
+      (0, _mocha.it)('should be hidden', function () {
+        // Given
+        this.set('assessment', assessment);
+        this.set('challenge', challenge);
+
+        // When
+        this.render(Ember.HTMLBars.template({
+          "id": "ZSs0Umu5",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-item-qmail\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // Then
+        var errorMessagePanel = document.querySelector('.alert.alert-danger');
+        (0, _chai.expect)(errorMessagePanel).not.to.exist;
+      });
+    });
   });
 });
 define('pix-live/tests/integration/components/challenge-statement-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
@@ -4265,7 +4165,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
     }
 
     function renderChallengeStatement(component) {
-      component.render(Ember.HTMLBars.template({
+      return component.render(Ember.HTMLBars.template({
         "id": "eD9nYLIU",
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-statement\",null,[[\"challenge\",\"assessment\"],[[19,0,[\"challenge\"]],[19,0,[\"assessment\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
@@ -4327,7 +4227,7 @@ define('pix-live/tests/integration/components/challenge-statement-test', ['chai'
         renderChallengeStatement(this);
 
         // then
-        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix.beta.gouv.fr pour valider cette épreuve');
+        (0, _chai.expect)(this.$('.challenge-statement__instruction').text().trim()).to.equal('Veuillez envoyer un email à l\'adresse recigAYl5bl96WGXj-267845-0502@pix-infra.ovh pour valider cette épreuve');
       });
     });
 
@@ -4519,7 +4419,7 @@ define('pix-live/tests/integration/components/challenge-stay-test', ['chai', 'mo
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"challenge-stay\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should display a warning icon with an accessible description', function () {
@@ -4589,7 +4489,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__header')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render challenge instruction', function () {
@@ -4600,7 +4500,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.length(1);
+        (0, _chai.expect)(this.$('.challenge-statement__instruction')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should not render corrected answers when challenge has no type', function () {
@@ -4611,7 +4511,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.length(0);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROC', function () {
@@ -4625,7 +4525,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qroc')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QROCM-ind', function () {
@@ -4641,7 +4541,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qrocm')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__corrected-answers--qrocm')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render corrected answers when challenge type is QCM', function () {
@@ -4655,7 +4555,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         // then
-        (0, _chai.expect)(this.$('.qcm-solution-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$('.qcm-solution-panel')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a feedback panel already opened', function () {
@@ -4666,7 +4566,7 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           "meta": {}
         }));
         //then
-        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$('.comparison-window__feedback-panel')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(FEEDBACK_FORM)).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(LINK_OPEN_FORM)).to.have.lengthOf(0);
       });
@@ -4722,7 +4622,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a wrapper', function () {
@@ -4735,7 +4635,7 @@ define('pix-live/tests/integration/components/competence-area-list-test', ['chai
 
         // then
         var WRAPPER_CLASS = '.competence-area-list';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('Rendering when different areas', function () {
@@ -4809,7 +4709,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       }));
 
       // then
-      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.length(1);
+      (0, _chai.expect)(this.$('.competence-by-area-item')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should render a title', function () {
@@ -4845,7 +4745,7 @@ define('pix-live/tests/integration/components/competence-by-area-item-test', ['c
       }));
 
       // then
-      (0, _chai.expect)(this.$('.competence__name')).to.have.length(5);
+      (0, _chai.expect)(this.$('.competence__name')).to.have.lengthOf(5);
     });
 
     (0, _mocha.describe)('Competence rendering', function () {
@@ -4899,7 +4799,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-level-progress-bar\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('if the level is not defined', function () {
@@ -4917,7 +4817,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
@@ -4933,7 +4833,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
       });
     });
 
@@ -4954,9 +4854,9 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
       });
 
@@ -4973,7 +4873,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
@@ -5012,8 +4912,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
       });
 
@@ -5034,8 +4934,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
       });
     });
 
@@ -5055,8 +4955,8 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.length(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.length(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
       });
     });
   });
@@ -5076,7 +4976,7 @@ define('pix-live/tests/integration/components/corner-ribbon-test', ['chai', 'emb
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"corner-ribbon\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -5097,7 +4997,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-item\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render course picture if it is defined', function () {
@@ -5280,7 +5180,7 @@ define('pix-live/tests/integration/components/course-list-test', ['chai', 'mocha
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"course-list\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render as many course-item as courses elements', function () {
@@ -5323,7 +5223,7 @@ define('pix-live/tests/integration/components/feature-item-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"feature-item\",null,[[\"feature\"],[[19,0,[\"feature\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should render an icon', function () {
@@ -5381,7 +5281,7 @@ define('pix-live/tests/integration/components/feature-list-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"feature-list\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should always render 5 feature-items', function () {
@@ -5817,7 +5717,7 @@ define('pix-live/tests/integration/components/follower-form-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"follower-form\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Test Component form', function () {
@@ -6066,7 +5966,7 @@ define('pix-live/tests/integration/components/form-textfield-test', ['chai', 'mo
 
         (0, _mocha.it)('return true if any svg doesn\'t exist', function () {
           // then
-          (0, _chai.expect)(this.$('img')).to.have.length(0);
+          (0, _chai.expect)(this.$('img')).to.have.lengthOf(0);
         });
 
         (0, _mocha.it)('contain an input with an additional class ' + INPUT_DEFAULT_CLASS, function () {
@@ -6103,7 +6003,7 @@ define('pix-live/tests/integration/components/form-textfield-test', ['chai', 'mo
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this.$('img')).to.have.length(1);
+          (0, _chai.expect)(_this.$('img')).to.have.lengthOf(1);
           (0, _chai.expect)(_this.$('img').attr('class')).to.contain('form-textfield__icon--error');
         });
       });
@@ -6137,7 +6037,7 @@ define('pix-live/tests/integration/components/form-textfield-test', ['chai', 'mo
 
       (0, _mocha.it)('return true if any img does exist', function () {
         // then
-        (0, _chai.expect)(this.$('img')).to.have.length(1);
+        (0, _chai.expect)(this.$('img')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('img').attr('class')).to.contain('form-textfield__icon--success');
       });
 
@@ -6192,7 +6092,7 @@ define('pix-live/tests/integration/components/g-recaptcha-test', ['chai', 'mocha
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"g-recaptcha\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     // XXX Inspired of https://guides.emberjs.com/v2.13.0/tutorial/service/#toc_integration-testing-the-map-component
@@ -6226,7 +6126,7 @@ define('pix-live/tests/integration/components/logged-user-profile-banner-test', 
       }));
 
       // then
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       (0, _chai.expect)(this.$('.logged-user-profile-banner')).to.have.lengthOf(1);
     });
 
@@ -6271,7 +6171,7 @@ define('pix-live/tests/integration/components/medal-item-test', ['chai', 'mocha'
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"medal-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should contain the number of pix passed in the component', function () {
@@ -6319,7 +6219,7 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"modal-mobile\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should display a title with a "warning" icon', function () {
@@ -6371,7 +6271,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       });
 
       (0, _mocha.it)('renders', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display the Pix logo', function () {
@@ -6385,7 +6285,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
       (0, _mocha.it)('should display a link to "referential" page', function () {
         (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.length(0);
+        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should display link to inscription page', function () {
@@ -6450,8 +6350,8 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
-        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.partners-enrollment-panel')).to.have.lengthOf(1);
       });
 
       [{ itemClass: '.partners-enrollment__title', type: 'title' }, { itemClass: '.partners-enrollment__description', type: 'description' }, { itemClass: '.partners-enrollment__link-container', type: 'link container' }].forEach(function (_ref2) {
@@ -6467,7 +6367,7 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
           }));
 
           // then
-          (0, _chai.expect)(this.$(itemClass)).to.have.length(1);
+          (0, _chai.expect)(this.$(itemClass)).to.have.lengthOf(1);
         });
       });
 
@@ -6481,7 +6381,7 @@ define('pix-live/tests/integration/components/partners-enrollment-panel-test', [
         }));
 
         // then
-        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.partners-enrollment__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.partners-enrollment__link').text().trim()).to.equal('En savoir plus');
       });
     });
@@ -6611,7 +6511,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a wrapper', function () {
@@ -6624,7 +6524,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
 
         // then
         var WRAPPER_CLASS = '.profile-panel';
-        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(WRAPPER_CLASS)).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render a profile header', function () {
@@ -6638,7 +6538,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
         // Then
         var HEADER_CLASS = '.profile-panel__header';
         var HEADER_TITLE = '.profile-header__title';
-        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.length(1);
+        (0, _chai.expect)(this.$(HEADER_CLASS)).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(HEADER_TITLE).text().trim()).to.be.equal('Votre profil');
       });
 
@@ -6652,7 +6552,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
 
         // Then
         var COMPETENCY_BLOCK = '.profile-panel__competence-areas';
-        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.length(1);
+        (0, _chai.expect)(this.$(COMPETENCY_BLOCK)).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('behavior according to totalPixScore value', function () {
@@ -6669,7 +6569,7 @@ define('pix-live/tests/integration/components/profile-panel-test', ['chai', 'moc
           }));
 
           // then
-          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.length(1);
+          (0, _chai.expect)(this.$('.profile-header__score-pastille-wrapper')).to.have.lengthOf(1);
         });
       });
     });
@@ -6690,7 +6590,7 @@ define('pix-live/tests/integration/components/qcm-proposals-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcm-proposals\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -6738,7 +6638,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcm-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
@@ -6979,7 +6879,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qcu-solution-panel\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
@@ -7128,7 +7028,7 @@ define('pix-live/tests/integration/components/qroc-proposal-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-proposal\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Component behavior when user fill input of challenge:', function () {
@@ -7198,7 +7098,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"qroc-solution-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should disabled all inputs', function () {
@@ -7232,12 +7132,12 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         var answerBlock = this.$(ANSWER_BLOCK);
         var solutionBlock = this.$(SOLUTION_BLOCK);
         // then
-        (0, _chai.expect)(answerInput).to.have.length(1);
-        (0, _chai.expect)(answerBlock).to.have.length(1);
-        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(answerInput).to.have.lengthOf(1);
+        (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
         (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(solutionBlock).to.have.length(0);
+        (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
       });
     });
 
@@ -7275,7 +7175,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
         (0, _chai.expect)(blockSolution.css('align-items')).to.be.equal('stretch');
         (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('bold');
+        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('700');
       });
 
       (0, _mocha.describe)('comparison when the answer was not given', function () {
@@ -7299,7 +7199,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
           var answerBlock = this.$(ANSWER_BLOCK);
           var answerInput = this.$(ANSWER_INPUT);
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
           (0, _chai.expect)(answerInput.css('font-style')).to.be.equal('italic');
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         });
@@ -7353,7 +7253,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"qrocm-ind-solution-panel\",null,[[\"answer\",\"solution\",\"challenge\"],[[19,0,[\"answer\"]],[19,0,[\"solution\"]],[19,0,[\"challenge\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should disabled all inputs', function () {
@@ -7377,7 +7277,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
       }));
       var labels = this.$(LABEL);
       // then
-      (0, _chai.expect)(labels).to.have.length(3);
+      (0, _chai.expect)(labels).to.have.lengthOf(3);
     });
 
     (0, _mocha.describe)('comparison of a qrocm-ind with a right answer, a wrong answer and one empty answer', function () {
@@ -7396,14 +7296,14 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(FIRST_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
@@ -7417,7 +7317,7 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionBlock = this.$(FIRST_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(0);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
         });
       });
 
@@ -7435,9 +7335,9 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(SECOND_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
@@ -7455,11 +7355,11 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionText = this.$(SECOND_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(1);
-          (0, _chai.expect)(solutionText).to.have.length(1);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
@@ -7478,9 +7378,9 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var answerInput = this.$(THIRD_CORRECTION_BLOCK + ' ' + INPUT);
 
           // then
-          (0, _chai.expect)(answerBlock).to.have.length(1);
-          (0, _chai.expect)(answerLabel).to.have.length(1);
-          (0, _chai.expect)(answerInput).to.have.length(1);
+          (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
+          (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
           (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
           (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
@@ -7498,11 +7398,11 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           var solutionText = this.$(THIRD_CORRECTION_BLOCK + ' ' + SOLUTION_BLOCK + ' ' + SOLUTION_TEXT);
 
           // then
-          (0, _chai.expect)(solutionBlock).to.have.length(1);
-          (0, _chai.expect)(solutionText).to.have.length(1);
+          (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
+          (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
           (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('bold');
+          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
@@ -7525,7 +7425,7 @@ define('pix-live/tests/integration/components/qrocm-proposal-test', ['chai', 'mo
         "meta": {}
       }));
 
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
   });
 });
@@ -7725,7 +7625,7 @@ define('pix-live/tests/integration/components/result-item-test', ['chai', 'mocha
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should render an index 1 when 0 provided', function () {
@@ -7892,7 +7792,7 @@ define('pix-live/tests/integration/components/score-pastille-test', ['chai', 'mo
         }));
 
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.describe)('Component dashes rendering instead of zero cases:', function () {
@@ -7961,7 +7861,7 @@ define('pix-live/tests/integration/components/scoring-panel-tantpix-test', ['cha
       });
 
       (0, _mocha.it)('should render successfully component wrapper', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
         (0, _chai.expect)(this.$(COMPONENT_WRAPPER)).to.lengthOf(1);
       });
 
@@ -8074,7 +7974,7 @@ define('pix-live/tests/integration/components/scoring-panel-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"scoring-panel\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.describe)('Default display', function () {
@@ -8729,7 +8629,7 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
       this.$('.signin-form__form form').submit();
 
       // Then
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(0);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(0);
     });
 
     (0, _mocha.it)('should hide the error message if it was previously displayed', function () {
@@ -8743,14 +8643,14 @@ define('pix-live/tests/integration/components/signin-form-test', ['chai', 'mocha
         "meta": {}
       }));
 
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(1);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(1);
       _fillSigninForm(this, expectedEmail, expectedPassword);
 
       // When
       this.$('.signin-form__form form').submit();
 
       // Then
-      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.length(0);
+      (0, _chai.expect)(this.$('.signin-form__errors')).to.have.lengthOf(0);
     });
 
     function _fillSigninForm(context, email, password) {
@@ -8817,7 +8717,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
       });
 
       (0, _mocha.it)('renders', function () {
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('Should return true if heading content gets <' + EXPECTED_FORM_HEADING_CONTENT + '>', function () {
@@ -9334,7 +9234,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         "block": "{\"symbols\":[],\"statements\":[[1,[25,\"snapshot-list\",null,[[\"organization\"],[[19,0,[\"organization\"]]]]],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should inform the user when no profile', function () {
@@ -9350,7 +9250,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       }));
 
       // Then
-      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(1);
+      (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.lengthOf(1);
       (0, _chai.expect)(this.$('.snapshot-list__no-profile').text()).to.equal('Aucun profil partagé pour le moment');
     });
 
@@ -9369,8 +9269,8 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
 
       // Then
       return (0, _wait.default)().then(function () {
-        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.length(0);
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(2);
+        (0, _chai.expect)(this.$('.snapshot-list__no-profile')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(2);
       }.bind(this));
     });
 
@@ -9395,7 +9295,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
 
       // Then
       return (0, _wait.default)().then(function () {
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.length(1);
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(0)').text().trim()).to.equal(user.get('lastName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
@@ -9471,7 +9371,7 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"trophy-item\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.length(1);
+      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('should contain the level passed in the component', function () {
@@ -9543,13 +9443,13 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       (0, _mocha.it)('should render component', function () {
         // then
-        (0, _chai.expect)(this.$()).to.have.length(1);
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display logged user name ', function () {
         // then
-        (0, _chai.expect)(this.$('.logged-user-name')).to.have.length(1);
-        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.length(1);
+        (0, _chai.expect)(this.$('.logged-user-name')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.logged-user-name__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.logged-user-name__link').text().trim()).to.be.equal('FHI 4EVER');
       });
 
@@ -9562,7 +9462,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         }));
 
         // then
-        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.length(0);
+        (0, _chai.expect)(this.$('.logged-user-menu')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should display a user menu, when user-name is clicked', function () {
@@ -9580,7 +9480,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.length(1);
+          (0, _chai.expect)(_this.$('.logged-user-menu')).to.have.lengthOf(1);
           (0, _chai.expect)(_this.$('.user-menu-item__details-firstname').text().trim()).to.equal('FHI');
           (0, _chai.expect)(_this.$('.user-menu-item__details-email').text().trim()).to.equal('FHI@4EVER.fr');
         });
@@ -9600,7 +9500,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this2.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -9613,7 +9513,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this3.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -9626,7 +9526,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         return (0, _wait.default)().then(function () {
           // then
-          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.length(0);
+          (0, _chai.expect)(_this4.$('.logged-user-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -9732,7 +9632,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // then
         return (0, _wait.default)().then(function () {
-          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.length(0);
+          (0, _chai.expect)(_this8.$('.logged-user-name')).to.have.lengthOf(0);
         });
       });
     });
@@ -9819,10 +9719,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('acceptance/d1-epreuve-validation-test.js', function () {
-      // test passed
-    });
-
-    it('acceptance/f1-previsualisation-test-test.js', function () {
       // test passed
     });
 
@@ -10102,6 +9998,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/challenge-item-qmail-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/comparison-window-test.js', function () {
       // test passed
     });
@@ -10258,7 +10158,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/password-reset-test.js', function () {
+    it('unit/models/password-reset-demand-test.js', function () {
       // test passed
     });
 
@@ -10303,10 +10203,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses/get-challenge-preview-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/courses/get-course-preview-test.js', function () {
       // test passed
     });
 
@@ -10363,6 +10259,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/services/delay-test.js', function () {
+      // test passed
+    });
+
+    it('unit/services/mail-generator-test.js', function () {
       // test passed
     });
 
@@ -10619,6 +10519,89 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
       return promise.then(function (data) {
         (0, _chai.expect)(data.userId).to.equal(expectedUserId);
         (0, _chai.expect)(data.token).to.equal(expectedToken);
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/challenge-item-qmail-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | QMAIL Item', function () {
+
+    (0, _emberMocha.setupTest)('component:challenge-item-qmail', {});
+
+    (0, _mocha.describe)('_hasError', function () {
+      (0, _mocha.it)('should exists', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        (0, _chai.expect)(component).to.have.property('_hasError').and.to.be.a('function');
+      });
+
+      (0, _mocha.it)('should return true when checkbox is not checked', function () {
+        // Given
+        var component = this.subject();
+
+        // When
+        var hasError = component._hasError();
+
+        // Then
+        (0, _chai.expect)(hasError).to.be.true;
+      });
+
+      (0, _mocha.it)('should return false when checkbox is checked', function () {
+        // Given
+        var component = this.subject();
+        component.set('_isChecked', true);
+
+        // When
+        var hasError = component._hasError();
+
+        // Then
+        (0, _chai.expect)(hasError).to.be.false;
+      });
+    });
+
+    (0, _mocha.describe)('_getErrorMessage', function () {
+      (0, _mocha.it)('should exists', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        (0, _chai.expect)(component).to.have.property('_getErrorMessage').and.to.be.a('function');
+      });
+
+      (0, _mocha.it)('should define an error message', function () {
+        // Given
+        var component = this.subject();
+
+        // When
+        var errorMessage = component._getErrorMessage();
+
+        // Then
+        (0, _chai.expect)(errorMessage).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
+      });
+    });
+
+    (0, _mocha.describe)('_getAnswerValue', function () {
+      (0, _mocha.it)('should exists', function () {
+        // Given
+        var component = this.subject();
+
+        // Then
+        (0, _chai.expect)(component).to.have.property('_getAnswerValue').and.to.be.a('function');
+      });
+
+      (0, _mocha.it)('should always return #PENDING# while doing a QMAIL challenge', function () {
+        // Given
+        var component = this.subject();
+
+        // When
+        var answerValue = component._getAnswerValue();
+
+        // Then
+        (0, _chai.expect)(answerValue).to.equal('#PENDING#');
       });
     });
   });
@@ -11743,7 +11726,7 @@ define('pix-live/tests/unit/components/password-reset-form-test', ['mocha', 'cha
 
         // then
         _sinon.default.assert.called(createRecordStub);
-        _sinon.default.assert.calledWith(createRecordStub, 'passwordReset', { email: sentEmail });
+        _sinon.default.assert.calledWith(createRecordStub, 'password-reset-demand', { email: sentEmail });
       });
 
       (0, _mocha.it)('should save the password reset demand', function () {
@@ -13452,11 +13435,11 @@ define('pix-live/tests/unit/models/organization-test', ['chai', 'mocha', 'ember-
     });
   });
 });
-define('pix-live/tests/unit/models/password-reset-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/models/password-reset-demand-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Model | password reset demand', function () {
-    (0, _emberMocha.setupModelTest)('password-reset', {
+    (0, _emberMocha.setupModelTest)('password-reset-demand', {
       // Specify the other units that are required for this test.
       needs: []
     });
@@ -13924,21 +13907,6 @@ define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai',
 
     (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
       needs: ['service:current-routed-modal', 'service:assessment']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses/get-course-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | CoursePreview', function () {
-
-    (0, _emberMocha.setupTest)('route:courses/get-course-preview', {
-      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -14605,6 +14573,98 @@ define('pix-live/tests/unit/services/delay-test', ['chai', 'mocha', 'ember-mocha
       (0, _chai.expect)(delay).to.respondsTo('ms');
       var promise = delay.ms(0);
       (0, _chai.expect)(promise).to.respondsTo('then');
+    });
+  });
+});
+define('pix-live/tests/unit/services/mail-generator-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Service | mail generator', function () {
+    (0, _emberMocha.setupTest)('service:mail-generator', {});
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var service = this.subject();
+      (0, _chai.expect)(service).to.be.ok;
+    });
+
+    (0, _mocha.it)('should have a generateEmail function', function () {
+      // Given
+      var service = this.subject();
+
+      // When
+      (0, _chai.expect)(service).to.have.property('generateEmail').and.to.be.a('function');
+    });
+
+    (0, _mocha.describe)('#generateEmail', function () {
+      var service = void 0;
+      var clock = void 0;
+      var februaryTheFifth = new Date(2017, 1, 5);
+
+      beforeEach(function () {
+        service = this.subject();
+        clock = _sinon.default.useFakeTimers(februaryTheFifth);
+      });
+
+      afterEach(function () {
+        clock.restore();
+      });
+
+      (0, _mocha.it)('when the environment is production', function () {
+        // Given
+        var host = 'pix.beta.gouv.fr';
+        var env = 'production';
+
+        // When
+        var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+        // Then
+        (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502@pix-infra.ovh');
+      });
+
+      (0, _mocha.describe)('when the environment is integration ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'integration';
+          var branchName = 'ma-branche';
+          var host = branchName + '.pix.beta.gouv.fr';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
+        });
+      });
+
+      (0, _mocha.describe)('when the environment is staging ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'staging';
+          var branchName = 'ma-branche';
+          var host = branchName + '.pix.beta.gouv.fr';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502+ma-branche@pix-infra.ovh');
+        });
+      });
+
+      (0, _mocha.describe)('when the environment is development ', function () {
+        (0, _mocha.it)('it should add a label to the email', function () {
+          // Given
+          var env = 'development';
+          var host = 'localhost';
+
+          // When
+          var email = service.generateEmail('recigAYl5bl96WGXj', '267845', host, env);
+
+          // Then
+          (0, _chai.expect)(email).to.equal('recigAYl5bl96WGXj-267845-0502@localhost');
+        });
+      });
     });
   });
 });
