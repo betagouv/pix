@@ -63,7 +63,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
       expect(result).to.contains(expectedTextCSVSecondUser);
     });
 
-    it('should return string with headers and users informations', () => {
+    it('should return string with headers and users informations in this exact order', () => {
       // when
       const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots);
 
