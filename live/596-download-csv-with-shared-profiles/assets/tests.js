@@ -2855,9 +2855,9 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
             case 3:
 
               // then
-              $exportLink = findWithAssert('.board-page__profiles-title__export-csv');
+              $exportLink = findWithAssert('.profiles-title__export-csv');
 
-              (0, _chai.expect)($exportLink.text().trim()).to.equal('Exporter (.csv)');
+              (0, _chai.expect)($exportLink.text()).to.contains('Exporter (.csv)');
 
             case 5:
             case 'end':
@@ -13326,7 +13326,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       }));
       this.inject.service('store', { as: 'store' });
       this.register('service:session', Ember.Service.extend({
-        data: { authenticated: { userId: 12, token: 'tt12' } }
+        data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
       }));
 
       this.inject.service('session', { as: 'session' });
@@ -13408,7 +13408,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       // then
       return promise.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
-        (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=tt12');
+        (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
       });
     });
 
@@ -13432,10 +13432,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (_) {
+      return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
