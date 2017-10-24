@@ -19,10 +19,10 @@ module.exports = {
 };
 
 function _createHeaderLine(jsonProfil) {
-  let textCsvLineHeaders = headersWithoutCompetences.join(',');
+  let textCsvLineHeaders = headersWithoutCompetences.join(';');
 
   const listCompetences = _cleanArrayCompetences(jsonProfil.included);
-  textCsvLineHeaders += ',' + listCompetences.map(_.property('name')).join(',');
+  textCsvLineHeaders += ';' + listCompetences.map(_.property('name')).join(';');
 
   textCsvLineHeaders += '\n';
   return textCsvLineHeaders;
@@ -35,10 +35,10 @@ function _createProfileLine(snapshot) {
     return sumRealisedTest + (competence.level >= 0);
   }, 0);
 
-  snapshotCsvLine += `"${snapshot.user.lastName}","${snapshot.user.firstName}","${snapshot.studentCode || ''}","${snapshot.campaignCode || ''}",${moment(snapshot.createdAt).format('DD/MM/YYYY')},${snapshot.score || ''},`;
-  snapshotCsvLine += `"${numberRealisedTest}/${listCompetences.length}",`;
+  snapshotCsvLine += `"${snapshot.user.lastName}";"${snapshot.user.firstName}";"${snapshot.studentCode || ''}";"${snapshot.campaignCode || ''}";${moment(snapshot.createdAt).format('DD/MM/YYYY')};${snapshot.score || ''};`;
+  snapshotCsvLine += `="${numberRealisedTest}/${listCompetences.length}";`;
 
-  listCompetences.forEach(competence => snapshotCsvLine += `${competence.level < 0 ? '' : competence.level},`);
+  listCompetences.forEach(competence => snapshotCsvLine += `${competence.level < 0 ? '' : competence.level};`);
 
   snapshotCsvLine += '\n';
   return snapshotCsvLine;
