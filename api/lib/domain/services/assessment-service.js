@@ -58,7 +58,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getScoredAssessment(assessmentId) {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competenceId;
+  let assessmentPix, answersPix, challengesPix, coursePix, competenceId, skills;
 
   return assessmentRepository
     .get(assessmentId)
@@ -90,14 +90,19 @@ function getScoredAssessment(assessmentId) {
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
-
+        skills = {
+          assessmentId,
+          validatedSkills: [...assessment.validatedSkills],
+          /*failedSkills: [...assessment.failedSkills]*/
+        };
+        console.log(assessment.obtainedLevel);
         assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
         assessmentPix.set('pixScore', assessment.displayedPixScore);
       } else {
         assessmentPix.set('estimatedLevel', 0);
         assessmentPix.set('pixScore', 0);
       }
-      return assessmentPix;
+      return { assessmentPix, skills };
     });
 }
 
