@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const snapshotAuthorization = require('../../../../lib/application/preHandlers/snapshot-authorization');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -11,20 +11,12 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
     let replyStub;
     let codeStub;
     const request = {
-      headers: { authorization: 'VALID_TOKEN' },
-      params: {
-        id: 8
-      },
-      query: { }
-    };
-
-    const requestWithTokenInParams = {
       headers: { },
       params: {
         id: 8,
       },
       query: {
-        userToken: 'tt8'
+        userToken: 'VALID-TOKEN'
       }
     };
 
@@ -43,14 +35,8 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       sandbox.restore();
     });
 
-    it('should be a function', () => {
-      // then
-      expect(snapshotAuthorization.verify).to.be.a('function');
-    });
-
-    it('should get userId from token in headers', () => {
+    it('should get userId from token in queryString', () => {
       // given
-      tokenService.extractTokenFromAuthChain.returns('VALID_TOKEN');
       tokenService.extractUserId.returns('userId');
       organizationRepository.getByUserId.resolves([{ get: sinon.stub().withArgs('id').returns(8) }]);
 
@@ -60,22 +46,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, request.headers.authorization);
-      });
-    });
-
-    it('should get userId from token in queryString', () => {
-      // given
-      tokenService.extractUserId.returns('userId');
-      organizationRepository.getByUserId.resolves([{ get: sinon.stub().withArgs('id').returns(8) }]);
-
-      // when
-      const promise = snapshotAuthorization.verify(requestWithTokenInParams, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(tokenService.extractUserId);
-        sinon.assert.calledWith(tokenService.extractUserId, requestWithTokenInParams.query.userToken);
+        sinon.assert.calledWith(tokenService.extractUserId, request.query.userToken);
       });
     });
 
@@ -89,7 +60,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         organizationRepository.getByUserId.resolves(fetchedOrganization);
 
         // when
-        const promise = snapshotAuthorization.verify(requestWithTokenInParams, replyStub);
+        const promise = snapshotAuthorization.verify(request, replyStub);
 
         // then
         promise.then(() => {
@@ -113,7 +84,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves([]);
         // when
-        const promise = snapshotAuthorization.verify(requestWithTokenInParams, replyStub);
+        const promise = snapshotAuthorization.verify(request, replyStub);
 
         // then
         return promise.then(() => {

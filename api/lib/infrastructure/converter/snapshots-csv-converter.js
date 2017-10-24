@@ -21,8 +21,10 @@ module.exports = {
 function _createHeaderLine(jsonProfil) {
   let textCsvLineHeaders = headersWithoutCompetences.join(';');
 
+  textCsvLineHeaders += ';';
+
   const listCompetences = _cleanArrayCompetences(jsonProfil.included);
-  textCsvLineHeaders += ';' + listCompetences.map(_.property('name')).join(';');
+  textCsvLineHeaders += listCompetences.map(_.property('name')).join(';');
 
   textCsvLineHeaders += '\n';
   return textCsvLineHeaders;

@@ -56,10 +56,10 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then((model) => {
+    return result.then((model) => {
       expect(model.organization.id).to.equal(1);
     });
   });
@@ -76,10 +76,10 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then((model) => {
+    return result.then((model) => {
       expect(model.organization.id).to.equal(1);
       sinon.assert.calledWith(firstOrganization.get, 'snapshots');
       sinon.assert.calledOnce(reloadStub);
@@ -99,10 +99,10 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then((model) => {
+    return result.then((model) => {
       expect(model.organization.id).to.equal(1);
       expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
 
@@ -114,10 +114,10 @@ describe('Unit | Route | board', function() {
     findRecord.rejects();
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then(_ => {
+    return result.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'index');
     });

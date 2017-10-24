@@ -2,7 +2,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../..
 
 const User = require('../../../../lib/domain/models/data/user');
 const Organisation = require('../../../../lib/domain/models/data/organization');
-const controller = require('../../../../lib/application/organizations/organization-controller');
+const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
@@ -64,12 +64,12 @@ describe('Unit | Controller | organizationController', () => {
     });
 
     it('should provide get method', () => {
-      expect(controller.create).to.exist;
+      expect(organizationController.create).to.exist;
     });
 
     it('should use reply', () => {
       // When
-      const promise = controller.create(request, replyStub);
+      const promise = organizationController.create(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -79,7 +79,7 @@ describe('Unit | Controller | organizationController', () => {
 
     it('should try to register a new user', () => {
       // When
-      const promise = controller.create(request, replyStub);
+      const promise = organizationController.create(request, replyStub);
 
       // Then
       return promise.then(() => {
@@ -101,7 +101,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should reply 400', () => {
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -128,7 +128,7 @@ describe('Unit | Controller | organizationController', () => {
     describe('when the user account has been created', () => {
       it('should deserialize an organization', () => {
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -138,7 +138,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should persist the organisation with the userID', () => {
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -155,7 +155,7 @@ describe('Unit | Controller | organizationController', () => {
         organizationSerializer.serialize.returns(serializedOrganization);
 
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -172,7 +172,7 @@ describe('Unit | Controller | organizationController', () => {
       describe('generating a code for the organization', () => {
         it('should generate a code', () => {
           // When
-          const promise = controller.create(request, replyStub);
+          const promise = organizationController.create(request, replyStub);
 
           // Then
           return promise.then(() => {
@@ -182,7 +182,7 @@ describe('Unit | Controller | organizationController', () => {
 
         it('should verify if the code is unique', () => {
           // Then
-          const promise = controller.create(request, replyStub);
+          const promise = organizationController.create(request, replyStub);
 
           // When
           return promise.then(() => {
@@ -201,7 +201,7 @@ describe('Unit | Controller | organizationController', () => {
           organisationRepository.isCodeAvailable.withArgs('CODE03').resolves('CODE03');
 
           // Then
-          const promise = controller.create(request, replyStub);
+          const promise = organizationController.create(request, replyStub);
 
           // When
           return promise.then(() => {
@@ -216,7 +216,7 @@ describe('Unit | Controller | organizationController', () => {
           organisationRepository.isCodeAvailable.resolves(code);
 
           // Then
-          const promise = controller.create(request, replyStub);
+          const promise = organizationController.create(request, replyStub);
 
           // When
           return promise.then(() => {
@@ -230,7 +230,7 @@ describe('Unit | Controller | organizationController', () => {
       describe('when the organization payload is invalid', () => {
         it('should reply 400', () => {
           // When
-          const promise = controller.create(request, replyStub);
+          const promise = organizationController.create(request, replyStub);
 
           // Then
           return promise.catch(() => {
@@ -262,7 +262,7 @@ describe('Unit | Controller | organizationController', () => {
         userRepository.isEmailAvailable.rejects(error);
 
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -277,7 +277,7 @@ describe('Unit | Controller | organizationController', () => {
         userRepository.isEmailAvailable.rejects(error);
 
         // When
-        const promise = controller.create(request, replyStub);
+        const promise = organizationController.create(request, replyStub);
 
         // Then
         return promise.then(() => {
@@ -313,7 +313,7 @@ describe('Unit | Controller | organizationController', () => {
     describe('when no filters are given', () => {
       it('should return an array', () => {
         // when
-        const promise = controller.search({}, replyStub);
+        const promise = organizationController.search({}, replyStub);
 
         // then
         return promise.then(() => {
@@ -325,7 +325,7 @@ describe('Unit | Controller | organizationController', () => {
     describe('when filters are given', () => {
       it('should retrieve organizations with one filter', () => {
         // when
-        const promise = controller.search({ query: { 'filter[query]': 'my search' } }, replyStub);
+        const promise = organizationController.search({ query: { 'filter[query]': 'my search' } }, replyStub);
 
         // then
         return promise.then(() => {
@@ -335,7 +335,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should retrieve organizations with two different filters', () => {
         // when
-        const promise = controller.search({
+        const promise = organizationController.search({
           query: {
             'filter[first]': 'my search',
             'filter[second]': 'with params'
@@ -354,7 +354,7 @@ describe('Unit | Controller | organizationController', () => {
         organisationRepository.findBy.rejects(error);
 
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
 
         // then
         return promise.then(() => {
@@ -368,7 +368,7 @@ describe('Unit | Controller | organizationController', () => {
         organisationRepository.findBy.rejects(error);
 
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
 
         // then
         return promise.then(() => {
@@ -379,7 +379,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should serialize results', () => {
         // when
-        const promise = controller.search({ query: { 'filter[first]': 'with params' } }, replyStub);
+        const promise = organizationController.search({ query: { 'filter[first]': 'with params' } }, replyStub);
 
         // then
         return promise.then(() => {
@@ -412,7 +412,7 @@ describe('Unit | Controller | organizationController', () => {
     describe('Collaborations', () => {
       it('should be an existing function', () => {
         // then
-        expect(controller.getSharedProfiles).to.be.a('function');
+        expect(organizationController.getSharedProfiles).to.be.a('function');
       });
 
       it('should call snapshot repository', () => {
@@ -428,7 +428,7 @@ describe('Unit | Controller | organizationController', () => {
           }
         });
         // when
-        const promise = controller.getSharedProfiles(request, reply);
+        const promise = organizationController.getSharedProfiles(request, reply);
 
         // then
         return promise.then(() => {
@@ -457,7 +457,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.getSharedProfiles(request, reply);
+        const promise = organizationController.getSharedProfiles(request, reply);
 
         // then
         return promise.then(() => {
@@ -484,7 +484,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.getSharedProfiles(request, reply);
+        const promise = organizationController.getSharedProfiles(request, reply);
 
         // then
         return promise.then(() => {
@@ -513,7 +513,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.getSharedProfiles(request, replyStub);
+        const promise = organizationController.getSharedProfiles(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -539,7 +539,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.getSharedProfiles(request, replyStub);
+        const promise = organizationController.getSharedProfiles(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -572,10 +572,6 @@ describe('Unit | Controller | organizationController', () => {
     });
 
     describe('Collaborations', function() {
-      it('should be an existing function', () => {
-        // then
-        expect(controller.exportedSharedSnapshots).to.be.a('function');
-      });
 
       it('should call snapshot repository', () => {
         // given
@@ -590,7 +586,7 @@ describe('Unit | Controller | organizationController', () => {
           }
         });
         // when
-        const promise = controller.exportedSharedSnapshots(request, reply);
+        const promise = organizationController.exportedSharedSnapshots(request, reply);
 
         // then
         return promise.then(() => {
@@ -599,7 +595,7 @@ describe('Unit | Controller | organizationController', () => {
         });
       });
 
-      it('should call snapshot serializer', () => {
+      it('should call snapshot converter', () => {
         // given
         const snapshots = [{
           toJSON: () => {
@@ -619,7 +615,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.exportedSharedSnapshots(request, reply);
+        const promise = organizationController.exportedSharedSnapshots(request, reply);
 
         // then
         return promise.then(() => {
@@ -629,7 +625,7 @@ describe('Unit | Controller | organizationController', () => {
       });
 
       it('should call a reply function', () => {
-        // then
+        // given
         const snapshots = [];
         const serializedSnapshots = { data: [] };
         snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
@@ -646,7 +642,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.exportedSharedSnapshots(request, reply);
+        const promise = organizationController.exportedSharedSnapshots(request, reply);
 
         // then
         return promise.then(() => {
@@ -666,7 +662,7 @@ describe('Unit | Controller | organizationController', () => {
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
           params: {
-            id: 156778
+            id: 'unexisting id'
           }
         };
         const replyStub = sinon.stub().returns({
@@ -675,11 +671,12 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.exportedSharedSnapshots(request, replyStub);
+        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledWith(replyStub, serializedError);
+          sinon.assert.calledWith(codeStub, 500);
         });
       });
 
@@ -691,7 +688,7 @@ describe('Unit | Controller | organizationController', () => {
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
           params: {
-            id: 156778
+            id: 'unexisting id'
           }
         };
         const codeStub = sinon.stub().callsFake(() => {
@@ -701,12 +698,11 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = controller.exportedSharedSnapshots(request, replyStub);
+        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
 
         // then
         return promise.then(() => {
           sinon.assert.calledWith(replyStub, serializedError);
-          sinon.assert.calledOnce(logger.error);
           sinon.assert.calledWith(codeStub, 500);
         });
       });

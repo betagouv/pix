@@ -74,9 +74,7 @@ module.exports = {
 
   getSharedProfiles: (request, reply) => {
     return _extractSnapshotsForOrganization(request.params.id)
-      .then((jsonSnapshots) => {
-        return snapshotSerializer.serialize(jsonSnapshots);
-      })
+      .then((jsonSnapshots) => snapshotSerializer.serialize(jsonSnapshots))
       .then((serializedSnapshots) => reply(serializedSnapshots).code(200))
       .catch((err) => {
         logger.error(err);

@@ -4,7 +4,7 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 module.exports = {
   verify(request, reply) {
-    const token = request.query.userToken || tokenService.extractTokenFromAuthChain(request.headers.authorization);
+    const token = request.query.userToken;
     const userId = tokenService.extractUserId(token);
     const organizationId = request.params.id;
 
@@ -14,13 +14,13 @@ module.exports = {
       .then((organizationFound) => organizationFound ? Promise.resolve() : Promise.reject())
       .then(reply)
       .catch(() => {
-        const buildedError = _handleWhenInvalidAuthorization('Vous n’êtes pas autorisé à accéder à ces profils partagés');
+        const buildedError = _dataAuthorizationPayload('Vous n’êtes pas autorisé à accéder à ces profils partagés');
         return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
   }
 };
 
-function _handleWhenInvalidAuthorization(errorMessage) {
+function _dataAuthorizationPayload(errorMessage) {
   return {
     data: {
       authorization: [errorMessage]
