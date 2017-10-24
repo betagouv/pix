@@ -81,7 +81,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
 
         expect(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(answerInput.css('font-weight')).to.be.equal('700');
+        expect(answerInput.css('font-weight')).to.be.oneOf(['bold', '700']);
         expect(answerInput.css('text-decoration')).to.contain('none');
       });
 
@@ -125,7 +125,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(solutionText).to.have.length(1);
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('700');
+        expect(solutionText.css('font-weight')).to.be.oneOf(['bold', '700']);
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });
@@ -160,7 +160,7 @@ describe('Integration | Component | qrocm solution panel', function() {
         expect(solutionText).to.have.length(1);
 
         expect(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        expect(solutionText.css('font-weight')).to.be.equal('700');
+        expect(solutionText.css('font-weight')).to.be.oneOf(['bold', '700']);
         expect(solutionText.css('text-decoration')).to.contain('none');
       });
     });
