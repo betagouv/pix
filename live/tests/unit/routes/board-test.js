@@ -20,7 +20,7 @@ describe('Unit | Route | board', function() {
     }));
     this.inject.service('store', { as: 'store' });
     this.register('service:session', Ember.Service.extend({
-      data: { authenticated: { userId: 12, token: 'tt12' } }
+      data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
     }));
 
     this.inject.service('session', { as: 'session' });
@@ -104,7 +104,7 @@ describe('Unit | Route | board', function() {
     // then
     return promise.then((model) => {
       expect(model.organization.id).to.equal(1);
-      expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=tt12');
+      expect(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
 
     });
   });
@@ -129,10 +129,10 @@ describe('Unit | Route | board', function() {
     findRecord.resolves(user);
 
     // when
-    const promise = route.model();
+    const result = route.model();
 
     // then
-    return promise.then(_ => {
+    return result.then(_ => {
       sinon.assert.calledOnce(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'compte');
     });

@@ -86,7 +86,7 @@
   }
 }
 
-.board-page__profiles-title__export-csv {
+.profiles-title__export-csv {
   float: right;
   height: 40px;
   width: 40px;
@@ -112,7 +112,7 @@
 
 }
 
-.board-page__profiles-title__export-csv__icon {
+.profiles-title__export-csv-icon {
   margin-left: 0px;
   @include device-is('tablet') {
     margin-left: 15px;

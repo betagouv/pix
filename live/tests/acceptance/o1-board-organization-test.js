@@ -79,8 +79,8 @@ describe('Acceptance | o1 - board organization', function() {
     await visit('/board');
 
     // then
-    const $exportLink = findWithAssert('.board-page__profiles-title__export-csv');
-    expect($exportLink.text().trim()).to.equal('Exporter (.csv)');
+    const $exportLink = findWithAssert('.profiles-title__export-csv');
+    expect($exportLink.text()).to.contains('Exporter (.csv)');
   });
 
 });
