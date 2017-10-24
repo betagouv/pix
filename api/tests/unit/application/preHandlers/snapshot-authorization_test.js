@@ -38,7 +38,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
     it('should get userId from token in queryString', () => {
       // given
       tokenService.extractUserId.returns('userId');
-      organizationRepository.getByUserId.resolves([{ get: sinon.stub().withArgs('id').returns(8) }]);
+      organizationRepository.getByUserId.resolves([{ get: () => 8 }]);
 
       // when
       const promise = snapshotAuthorization.verify(request, replyStub);
@@ -52,9 +52,9 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
 
     describe('When snapshot is linked to userId (userId exist)', () => {
 
-      it('should reply', (done) => {
+      it('should reply', () => {
         // given
-        const fetchedOrganization =[{ get: sinon.stub().withArgs('id').returns(8) }];
+        const fetchedOrganization =[{ get: () => 8 }];
         const extractedUserId = 'userId';
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves(fetchedOrganization);
@@ -63,17 +63,18 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         const promise = snapshotAuthorization.verify(request, replyStub);
 
         // then
-        promise.then(() => {
+        return promise.then(() => {
           sinon.assert.calledOnce(organizationRepository.getByUserId);
           sinon.assert.calledWith(organizationRepository.getByUserId, extractedUserId);
           sinon.assert.calledOnce(replyStub);
-          done();
         });
       });
     });
 
     describe('When userId (from token) is not linked to organization', () => {
       it('should take over the request and response with 401 status code', () => {
+        // XXX should take over to avoid the call of controller
+
         // given
         const extractedUserId = null;
         const takeOverSpy = sinon.spy();
@@ -83,6 +84,7 @@ describe('Unit | Pre-handler | Snapshot Authorization', () => {
         });
         tokenService.extractUserId.returns(extractedUserId);
         organizationRepository.getByUserId.resolves([]);
+
         // when
         const promise = snapshotAuthorization.verify(request, replyStub);
 
