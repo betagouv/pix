@@ -13,7 +13,7 @@ const _ = require('lodash');
 const logger = require('../../infrastructure/logger');
 
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
-const exportCsvFileName = 'Pix - Export données partagées.csv';
+const exportCsvFileName = 'Pix - Export donnees partagees.csv';
 
 module.exports = {
   create: (request, reply) => {

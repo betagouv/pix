@@ -30,7 +30,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     }
   }];
 
-  const expectedTextHeadersCSV = '"Nom";"Prénom";"Numéro Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Réalisés";"Interagir";"Sécuriser l\'environnement numérique"\n';
+  const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
   const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="0/2";;\n';
 

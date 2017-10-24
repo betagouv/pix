@@ -1,7 +1,7 @@
 const moment = require('moment');
 const _ = require('lodash');
 
-const headersWithoutCompetences = ['"Nom"', '"Prénom"', '"Numéro Etudiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Réalisés"'];
+const headersWithoutCompetences = ['"Nom"', '"Prenom"', '"Numero Etudiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Realises"'];
 
 module.exports = {
   convertJsonToCsv(jsonData) {
@@ -59,7 +59,7 @@ function _cleanArrayCompetences(arrayCompetences) {
     .filter(competence => competence.type === 'competences')
     .map(competence => {
       return {
-        name: `"${competence.attributes.name}"`,
+        name: `"${_cleanCompetenceName(competence.attributes.name)}"`,
         index: competence.attributes.index,
         level: competence.attributes.level
       };
@@ -68,4 +68,11 @@ function _cleanArrayCompetences(arrayCompetences) {
 
 function _emptyData(jsonData) {
   return !jsonData[0];
+}
+
+function _cleanCompetenceName(name) {
+  return name
+    .replace(/é/g,'e')
+    .replace(/é/g,'e')
+    .replace(/ê/g,'e');
 }
