@@ -1,21 +1,18 @@
-import { expect, assert } from 'chai';
+import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Ember from 'ember';
 import _ from 'lodash';
 
-describe.only('Unit | Route | resume', function() {
+describe.skip('Unit | Route | resume', function() {
   setupTest('route:assessments.resume', {
-    // Specify the other units that are required for this test.
-    // needs: ['controller:foo']
+    needs: ['service:current-routed-modal']
   });
 
   it('exists', function() {
     const route = this.subject();
     expect(route).to.be.ok;
   });
-
 
   class StoreStub {
     constructor(storeContent) {
@@ -25,15 +22,15 @@ describe.only('Unit | Route | resume', function() {
     findRecord(model, id) {
 
       if (!_(this.storeContent).has(model)) {
-        return Promise.reject("Unknown model");
+        return Promise.reject('Unknown model');
       }
 
-      let result = _(this.storeContent[model]).find({ id });
+      const result = _(this.storeContent[model]).find({ id });
 
       if (!!result) {
         return Promise.resolve(result);
       } else {
-        return Promise.reject("Model not found");
+        return Promise.reject('Model not found');
       }
     }
   }
@@ -42,7 +39,7 @@ describe.only('Unit | Route | resume', function() {
     it('can be instancied', function() {
       // given
       // when
-      let store = new StoreStub({});
+      const store = new StoreStub({});
       // then
       expect(store).to.be.instanceOf(StoreStub);
     });
@@ -51,47 +48,46 @@ describe.only('Unit | Route | resume', function() {
 
       it('returns a promise', function() {
         // given
-        let store = new StoreStub({});
+        const store = new StoreStub({});
         // when
-        let result = store.findRecord('aModel', 0);
+        const result = store.findRecord('aModel', 0);
         // then
         return expect(result).to.be.instanceOf(Promise);
       });
 
       it('rejects when the store doesnt have the given model class', function() {
         // given
-        let store = new StoreStub({
+        const store = new StoreStub({
           assessment: [{ id: 12 }]
         });
         // when
-        let result = store.findRecord('aModel', 12);
+        const result = store.findRecord('aModel', 12);
         // then
         return expect(result).to.be.rejected;
       });
 
       it('rejects when the model instance isnt in store', function() {
         // given
-        let store = new StoreStub({
+        const store = new StoreStub({
           assessment: [{ id: 12 }]
         });
         // when
-        let result = store.findRecord('assessment', 41);
+        const result = store.findRecord('assessment', 41);
         // then
         return expect(result).to.be.rejected;
       });
 
       it('resolve with the right model when OK', function() {
-        let store = new StoreStub({
+        const store = new StoreStub({
           assessment: [{ id: 12 }]
         });
         // when
-        let result = store.findRecord('assessment', 12);
+        const result = store.findRecord('assessment', 12);
         // then
         return expect(result).to.be.resolved;
       });
     });
   });
-
 
   describe('given a non-existing assessment', function() {
 
@@ -121,7 +117,7 @@ describe.only('Unit | Route | resume', function() {
         route.send('error');
 
         // then
-        sinon.assert.calledWith(route.transitionTo, 'compte')
+        sinon.assert.calledWith(route.transitionTo, 'compte');
       });
     });
   });
@@ -152,7 +148,7 @@ describe.only('Unit | Route | resume', function() {
         }));
 
         // when
-        let result = route.model({ assessment_id: assessment.id });
+        const result = route.model({ assessment_id: assessment.id });
 
         // then
         return expect(result).to.eventually.have.property('nextChallenge');
