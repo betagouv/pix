@@ -54,12 +54,7 @@ describe('Unit | Service | QMail Validation', function() {
         }
     };
 
-    it('should exists', () => {
-      expect(qmailValidationService).to.have.property('validateEmail')
-        .and.to.be.a('function');
-    });
-
-    it('should validate the email when no rules is given', () => {
+    it('should validate the email when no rules defined', () => {
       // When
       const isEmailValid = qmailValidationService.validateEmail(emailSample, '');
 
@@ -275,6 +270,19 @@ describe('Unit | Service | QMail Validation', function() {
         expect(isEmailValid).to.equal(true);
       });
 
+      it('should validate the email when every condition is OK', () => {
+        // Given
+        const rulesInYaml = '--- \n' +
+          'CORPS: \n' +
+          '  ET: \n';
+
+        // When
+        const isEmailValid = qmailValidationService.validateEmail(emailSample, rulesInYaml);
+
+        // Then
+        expect(isEmailValid).to.equal(true);
+      });
+
       it('shoud work on a multiple level', () => {
         // Given
         const rulesInYaml = '--- \n' +
@@ -297,7 +305,7 @@ describe('Unit | Service | QMail Validation', function() {
       });
     });
 
-    describe('OR logical condition', () => {
+    describe('OU logical condition', () => {
       it('should valid the email when the email\'s suject contains one of the given words', () => {
         // Given
         const rulesInYaml = '--- \n' +

@@ -10,23 +10,23 @@ function _getMailField(mail, field) {
 }
 
 function _atLeastOneRuleIsValid(listOfRulesResults) {
-  return listOfRulesResults.filter(value => value === true).length >= 1;
+  return listOfRulesResults.filter(value => value === true).length > 0;
 }
 
 function _allRulesAreValidated(listOfRulesResults) {
-  return listOfRulesResults.filter(value => value === false).length <= 0;
+  return listOfRulesResults.filter(value => value === false).length === 0;
 }
 
 function _isEmailField(operator) {
   return operator === 'SUJET' || operator === 'CORPS';
 }
 
-function _isFieldCondition(operator) {
-  return operator === 'EST' || operator === 'CONTIENT';
+function _isComparisonCondition(comparisonOperator) {
+  return comparisonOperator === 'EST' || comparisonOperator === 'CONTIENT';
 }
 
-function _isLogicalCondition(operator) {
-  return operator === 'OU' || operator === 'ET';
+function _isLogicalCondition(logicalOperator) {
+  return logicalOperator === 'OU' || logicalOperator === 'ET';
 }
 
 function _validRule(mail, field, validator, value) {
@@ -36,26 +36,28 @@ function _validRule(mail, field, validator, value) {
   if(validator === 'EST') {
     result = fieldUnderTest.trim() === value;
   } else if(validator === 'CONTIENT') {
-    result = fieldUnderTest.search(value) >= 0;
+    result = fieldUnderTest.includes(value);
   }
 
   return result;
 }
 
-function _validateRulesTwo(email, currentOperator, rules, field) {
+function _validateRules(mail, currentOperator, rules, field) {
 
   const results = [];
   const subOperators = _.keys(rules);
 
   subOperators.forEach((operator) => {
     if(_isEmailField(operator)) {
-      results.push(_validateRulesTwo(email, currentOperator, rules[operator], operator));
-    } else if(_isFieldCondition(operator)) {
-      results.push(_validRule(email, field, operator, rules[operator]));
+      results.push(_validateRules(mail, currentOperator, rules[operator], operator));
+    } else if(_isComparisonCondition(operator)) {
+      results.push(_validRule(mail, field, operator, rules[operator]));
     } else if(_isLogicalCondition(operator)) {
-      results.push(_validateRulesTwo(email, operator, rules[operator], field));
+      results.push(_validateRules(mail, operator, rules[operator], field));
     } else {
-      results.push(_validateRulesTwo(email, currentOperator, rules[operator], field));
+      // When the previous LogicalCondition (ie. ET) applies to many ComparisonCondition,
+      // we iterate over the list of rules.
+      results.push(_validateRules(mail, currentOperator, rules[operator], field));
     }
   });
 
@@ -67,17 +69,13 @@ function _validateRulesTwo(email, currentOperator, rules, field) {
 }
 
 module.exports = {
-  validateEmail: (email, rules) => {
+  validateEmail: (mail, rules) => {
     const parsedRules = yamljs.parse(rules);
-
-    if(parsedRules === null) {
-      return true;
-    }
 
     const initialCondition = _.keys(parsedRules)[0];
 
     const initialOperator = (initialCondition === 'OU' || initialCondition === 'ET') ? initialCondition : 'ET';
 
-    return _validateRulesTwo(email, initialOperator, parsedRules, null);
+    return _validateRules(mail, initialOperator, parsedRules, null);
   }
 };

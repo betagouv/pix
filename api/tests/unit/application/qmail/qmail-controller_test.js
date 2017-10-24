@@ -180,7 +180,6 @@ describe('Unit | Controller | qmailController', () => {
         });
       });
 
-
       it('should reply OK after validating the answer', () => {
         // When
         const promise = QmailController.validate({ payload: emailSample }, replyStub);
@@ -195,7 +194,6 @@ describe('Unit | Controller | qmailController', () => {
         });
       });
     });
-
 
     context('when analysing goes wrong', () => {
 
