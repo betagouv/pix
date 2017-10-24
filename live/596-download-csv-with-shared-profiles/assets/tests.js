@@ -13362,10 +13362,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (model) {
+      return result.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
       });
     });
@@ -13382,10 +13382,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (model) {
+      return result.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
         _sinon.default.assert.calledWith(firstOrganization.get, 'snapshots');
         _sinon.default.assert.calledOnce(reloadStub);
@@ -13403,10 +13403,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (model) {
+      return result.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
         (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
       });
@@ -13417,10 +13417,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.rejects();
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (_) {
+      return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
