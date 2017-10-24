@@ -7,7 +7,7 @@ module.exports = {
   convertJsonToCsv(jsonData) {
     let textCsv = '';
 
-    if (!jsonData[0]) {
+    if(_emptyData(jsonData)) {
       return textCsv;
     }
 
@@ -33,14 +33,22 @@ function _createHeaderLine(jsonProfil) {
 function _createProfileLine(snapshot) {
   let snapshotCsvLine = '';
   const listCompetences = _cleanArrayCompetences(JSON.parse(snapshot.profile).included);
-  const numberRealisedTest = listCompetences.reduce((sumRealisedTest, competence) => {
-    return sumRealisedTest + (competence.level >= 0);
-  }, 0);
+  const numberRealisedTest = listCompetences.filter((competence) => competence.level >=0).length;
 
-  snapshotCsvLine += `"${snapshot.user.lastName}";"${snapshot.user.firstName}";"${snapshot.studentCode || ''}";"${snapshot.campaignCode || ''}";${moment(snapshot.createdAt).format('DD/MM/YYYY')};${snapshot.score || ''};`;
+  snapshotCsvLine += [`"${snapshot.user.lastName}"`,
+    `"${snapshot.user.firstName}"`,
+    `"${snapshot.studentCode || ''}"`,
+    `"${snapshot.campaignCode || ''}"`,
+    moment(snapshot.createdAt).format('DD/MM/YYYY'),
+    snapshot.score || '']
+    .join(';');
+
+  snapshotCsvLine += ';';
+
+  // XXX We add '=' before string to force Excel to read it as string, not as date
   snapshotCsvLine += `="${numberRealisedTest}/${listCompetences.length}";`;
 
-  listCompetences.forEach(competence => snapshotCsvLine += `${competence.level < 0 ? '' : competence.level};`);
+  snapshotCsvLine += _(listCompetences).map((comp) => comp.level < 0 ? '' : comp.level).join(';');
 
   snapshotCsvLine += '\n';
   return snapshotCsvLine;
@@ -59,4 +67,8 @@ function _cleanArrayCompetences(arrayCompetences) {
         level: competence.attributes.level
       };
     });
+}
+
+function _emptyData(jsonData) {
+  return !jsonData[0];
 }

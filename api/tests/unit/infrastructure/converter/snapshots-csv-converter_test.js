@@ -41,8 +41,8 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
   }];
 
   const expectedTextHeadersCSV = '"Nom";"Prénom";"Numéro Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Réalisés";"Mener une recherche et une veille d’information";"Gérer des données";"Traiter des données";"Interagir";"Partager et publier";"Collaborer";"S\'insérer dans le monde numérique";"Développer des documents textuels";"Développer des documents multimedia";"Adapter les documents à leur finalité";"Programmer";"Sécuriser l\'environnement numérique";"Protéger les données personnelles et la vie privée";"Protéger la santé, le bien-être et l\'environnement";"Résoudre des problèmes techniques";"Construire un environnement numérique"\n';
-  const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/16";2;;;;;;;;;;;;;;;3;\n';
-  const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="0/16";;;;;;;;;;;;;;;;;\n';
+  const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/16";2;;;;;;;;;;;;;;;3\n';
+  const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="0/16";;;;;;;;;;;;;;;;\n';
 
   describe('#convertJsonToCsv()', () => {
 
