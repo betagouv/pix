@@ -6,7 +6,7 @@ describe('Unit | Component | QMAIL Item', function() {
 
   setupTest('component:challenge-item-qmail', {});
 
-  describe('_hasError', function() {
+  describe('#hasError', function() {
     it('should exists', function() {
       // Given
       const component = this.subject();
@@ -39,7 +39,7 @@ describe('Unit | Component | QMAIL Item', function() {
     });
   });
 
-  describe('_getErrorMessage', function() {
+  describe('#getErrorMessage', function() {
     it('should exists', function() {
       // Given
       const component = this.subject();
@@ -60,7 +60,7 @@ describe('Unit | Component | QMAIL Item', function() {
     });
   });
 
-  describe('_getAnswerValue', function() {
+  describe('#getAnswerValue', function() {
     it('should exists', function() {
       // Given
       const component = this.subject();

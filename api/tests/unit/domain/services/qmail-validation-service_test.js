@@ -333,9 +333,9 @@ describe('Unit | Service | QMail Validation', function() {
           '    - \n' +
           '      CONTIENT: Café\n' +
           '    - \n' +
-          '      OU: \n' +
+          '      ET: \n' +
           '        - \n' +
-          '          CONTIENT: Café\n' +
+          '          CONTIENT: "bar commun"\n' +
           '        - \n' +
           '          CONTIENT: Ouverture\n';
 

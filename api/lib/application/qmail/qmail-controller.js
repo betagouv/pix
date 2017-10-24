@@ -3,12 +3,21 @@ const AnswerRepository = require('../../infrastructure/repositories/answer-repos
 const SolutionRepository = require('../../infrastructure/repositories/solution-repository');
 const qmailService = require('../../domain/services/qmail-service');
 const qmailValidationService = require('../../domain/services/qmail-validation-service');
-const { NotFoundError, NotElligibleToQMAILError } = require('../../domain/errors');
+const { NotFoundError, NotElligibleToQmailError } = require('../../domain/errors');
 
 function _checkThatChallengeIsQMAIL(challengeSolution) {
   if(challengeSolution.type !== 'QMAIL') {
-    throw new NotElligibleToQMAILError();
+    throw new NotElligibleToQmailError();
   }
+}
+
+function _updateAnswerResult(answer, mail, challengeSolution) {
+  const isEmailValidated = qmailValidationService.validateEmail(mail, challengeSolution);
+
+  const answerNewResult = isEmailValidated ? 'ok' : 'ko';
+  answer.set('result', answerNewResult);
+
+  return answer.save();
 }
 
 module.exports = {
@@ -23,31 +32,13 @@ module.exports = {
       .get(challengeId)
       .then((foundSolution) => challengeSolution = foundSolution)
       .then(_checkThatChallengeIsQMAIL)
-      .then(() => {
-        return AnswerRepository.findByChallengeAndAssessment(challengeId, assessmentId);
-      })
-      .then((answer) => {
-        const answerDoesNotExists = (answer === null);
-
-        if(answerDoesNotExists) {
-          return;
-        }
-
-        const isEmailValidated = qmailValidationService.validateEmail(request.payload, challengeSolution.value);
-
-        if(isEmailValidated) {
-          answer.set('result', 'ok');
-        } else {
-          answer.set('result', 'ko');
-        }
-
-        return answer.save();
-      })
+      .then(() => AnswerRepository.findByChallengeAndAssessment(challengeId, assessmentId))
+      .then((answer) => answer ? _updateAnswerResult(answer, request.payload, challengeSolution.value) : null)
       .then(reply)
       .catch((err) => {
         if(err instanceof NotFoundError) {
           reply(Boom.badRequest(`Le challenge ${challengeId} n'existe pas.`));
-        } else if(err instanceof NotElligibleToQMAILError) {
+        } else if(err instanceof NotElligibleToQmailError) {
           reply(Boom.badRequest(`Le challenge ${challengeId} n'est pas elligible à une validation QMAIL`));
         } else {
           reply(Boom.badImplementation(err));

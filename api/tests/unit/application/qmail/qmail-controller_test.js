@@ -135,7 +135,7 @@ describe('Unit | Controller | qmailController', () => {
         });
       });
 
-      describe('when analysing the email', () => {
+      context('when analysing the email', () => {
 
         it('should change answer result when the email is validated', () => {
           // When

@@ -22,7 +22,7 @@ class NotElligibleToScoringError extends Error {
   }
 }
 
-class NotElligibleToQMAILError extends Error {
+class NotElligibleToQmailError extends Error {
   constructor(message) {
     super(message);
   }
@@ -107,5 +107,5 @@ module.exports = {
   InternalError,
   PasswordResetDemandNotFoundError,
   InvalidTemporaryKeyError,
-  NotElligibleToQMAILError
+  NotElligibleToQmailError
 };
