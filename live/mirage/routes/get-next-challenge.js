@@ -7,13 +7,20 @@ import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
 export default function(schema, request) {
 
+  const assessmentId = request.params.assessmentId;
+  const currentChallengeId = request.params.challengeId;
+
   // case 1 : we're trying to reach the first challenge for a given assessment
-  if (!request.params.challengeId) {
-    switch (request.params.assessmentId) {
-      case 'ref_assessment_id':
-        return refQcmChallengeFull;
-      default:
-        throw new Error('This assessment is not defined ' + request.params.assessmentId);
+  if (!currentChallengeId) {
+    if (assessmentId === 'ref_assessment_id') {
+      return refQcmChallengeFull;
+    } else {
+      // get assessment
+      const assessment = schema.assessments.find(assessmentId);
+      if (!assessment) {
+        throw new Error(`This assessment is not defined ${assessmentId}`);
+      }
+      return assessment.course.challenges.models[0];
     }
   }
 
@@ -31,12 +38,20 @@ export default function(schema, request) {
 
   };
 
-  const challenge = nextChallenge[request.params.challengeId];
+  const challenge = nextChallenge[currentChallengeId];
 
   if (challenge) {
     return challenge;
-  }else {
-    throw new Error('There is no challenge following challenge ' + request.params.challengeId);
+  } else {
+    const assessment = schema.assessments.find(assessmentId);
+    const course = assessment.course;
+    const challenges = course.challenges.models;
+
+    const nextChallengeIndex = challenges.findIndex((challenge) => challenge.id === currentChallengeId) + 1;
+    if (nextChallengeIndex >= challenges.length) {
+      return null;
+    }
+    return challenges[nextChallengeIndex];
   }
 
 }
