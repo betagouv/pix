@@ -73,6 +73,7 @@ describe('Acceptance | b2 - Afficher un QCM | ', function() {
 
     //
     $('input:checkbox').prop('checked', false);
+    $('input:checkbox').change();
     expect($('input:checkbox:checked')).to.have.lengthOf(0);
 
     // When

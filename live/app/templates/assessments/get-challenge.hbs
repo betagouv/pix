@@ -11,10 +11,10 @@
       </div>
     {{/unless}}
 
-    {{component (get-challenge-component-class model.challenge)
+    {{challenge-item
         challenge=model.challenge
         assessment=model.assessment
-        answers=model.answers
+        answer=model.answer
         answerValidated=(route-action "saveAnswerAndNavigate")}}
   </div>
 </div>

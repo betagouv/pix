@@ -5,7 +5,8 @@
   <input type="checkbox"
          id="checkbox_{{inc index}}"
          checked={{labeledCheckbox.[1]}}
-         name="{{inc index}}"/>
+         name="{{inc index}}"
+         onchange={{action "inputChanged"}}/>
 
   {{!-- Surrounding label --}}
   <label for="checkbox_{{inc index}}"

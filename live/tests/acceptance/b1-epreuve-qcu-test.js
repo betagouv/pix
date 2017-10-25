@@ -47,6 +47,7 @@ describe('Acceptance | b1 - Afficher un QCU | ', function() {
     await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
     $(':radio').prop('checked', false);
+    $(':radio').change();
 
     // when
     await click('.challenge-actions__action-validate');

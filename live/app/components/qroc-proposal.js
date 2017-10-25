@@ -1,27 +1,35 @@
 import Ember from 'ember';
-import  proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
+import proposalsAsBlocks from 'pix-live/utils/proposals-as-blocks';
 
 export default Ember.Component.extend({
 
   classNames: ['qroc-proposal'],
 
+  // Input
   proposals: null,
-  answerValue: null,
-  answerChanged: null, // action
+  answer:    null,
+
+  // Action
+  answerChanged: null,
 
   _blocks: Ember.computed('proposals', function() {
     return proposalsAsBlocks(this.get('proposals'));
   }),
 
-  userAnswer : Ember.computed('answerValue', function() {
-    const answer = this.get('answerValue') || '';
+  userAnswer: Ember.computed('answer.value', function() {
+    const answer = this.get('answer.value') || '';
     return answer.indexOf('#ABAND#') > -1? '' : answer;
   }),
 
-  didInsertElement: function() {
+  // TODO: use bound properties instead of inspecting the DOM
+  getAnswerValueFromInputsState() {
+    return this.$('input[data-uid="qroc-proposal-uid"]').val();
+  },
 
-    this.$('input').keydown(() => {
-      this.get('answerChanged')();
-    });
+  actions: {
+    inputChanged() {
+      const answerValue = this.getAnswerValueFromInputsState();
+      this.get('answerChanged')(answerValue);
+    }
   }
 });

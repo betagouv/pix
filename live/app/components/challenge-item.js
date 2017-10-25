@@ -3,8 +3,9 @@ import RSVP from 'rsvp';
 import callOnlyOnce from '../utils/call-only-once';
 import _ from 'pix-live/utils/lodash-custom';
 import ENV from 'pix-live/config/environment';
+import AnswerValidator from 'pix-live/utils/answer-validators';
 
-const ChallengeItemGeneric = Ember.Component.extend({
+export default Ember.Component.extend({
 
   tagName: 'article',
   classNames: ['challenge-item'],
@@ -12,6 +13,11 @@ const ChallengeItemGeneric = Ember.Component.extend({
 
   answerValidated: null, // action
 
+  // Private
+  answerProposal: null,
+  previousAnswerValue: null,
+  errorMessage: null,
+  hasUserConfirmWarning: false,
   _elapsedTime: null,
   _timer: null,
   _isUserAwareThatChallengeIsTimed: false,
@@ -20,6 +26,16 @@ const ChallengeItemGeneric = Ember.Component.extend({
     this._super(...arguments);
     if (!_.isInteger(this.get('challenge.timer'))) {
       this._start();
+    }
+  },
+
+  didReceiveAttrs() {
+    this._super(...arguments);
+    const answerValue = this.get('answer.value');
+    const previousAnswerValue = this.get('previousAnswerValue');
+    if (answerValue !== previousAnswerValue) {
+      this.set('answerProposal', answerValue);
+      this.set('previousAnswerValue', answerValue);
     }
   },
 
@@ -37,8 +53,20 @@ const ChallengeItemGeneric = Ember.Component.extend({
     Ember.run.cancel(timer);
   },
 
-  hasUserConfirmWarning: Ember.computed('challenge', function() {
-    return false;
+  proposalsComponentClass: Ember.computed('challenge.type', function() {
+    const challengeType = this.get('challenge.type').toUpperCase();
+    const proposalComponentClasses = {
+      'QCUIMG':    'qcu-proposals',
+      'QCU':       'qcu-proposals',
+      'QRU':       'qcu-proposals',
+      'QCMIMG':    'qcm-proposals',
+      'QCM':       'qcm-proposals',
+      'QROC':      'qroc-proposal',
+      'QROCM':     'qrocm-proposal',
+      'QROCM-IND': 'qrocm-proposal',
+      'QROCM-DEP': 'qrocm-proposal'
+    };
+    return proposalComponentClasses[challengeType];
   }),
 
   hasChallengeTimer: Ember.computed('challenge', function() {
@@ -80,16 +108,21 @@ const ChallengeItemGeneric = Ember.Component.extend({
   },
 
   actions: {
+    updateAnswerValue(answerProposal) {
+      this.set('answerProposal', answerProposal);
+      this.set('errorMessage', null);
+    },
 
     validateAnswer() {
-      if (this._hasError()) {
-        const errorMessage = this._getErrorMessage();
-        this.set('errorMessage', errorMessage);
-        return RSVP.reject(errorMessage);
+      const validator = AnswerValidator.validatorForChallenge(this.get('challenge.type'), this.get('answerProposal'));
+      if (validator.isValid()) {
+        this.set('_isUserAwareThatChallengeIsTimed', false);
+        return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), this.get('answerProposal'), this._getTimeout(), this._getElapsedTime());
+
+      } else {
+        this.set('errorMessage', validator.errorMessage);
+        return RSVP.reject(validator.errorMessage);
       }
-      const answerValue = this._getAnswerValue();
-      this.set('_isUserAwareThatChallengeIsTimed', false);
-      return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
     },
 
     skipChallenge: callOnlyOnce(function() {
@@ -107,5 +140,3 @@ const ChallengeItemGeneric = Ember.Component.extend({
   }
 
 });
-
-export default ChallengeItemGeneric;
