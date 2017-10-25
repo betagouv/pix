@@ -2838,6 +2838,34 @@ define('pix-live/tests/acceptance/o1-board-organization-test', ['mocha', 'chai',
         }
       }, _callee4, this);
     })));
+
+    (0, _mocha.it)('should display a link to download snapshots', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+      var $exportLink;
+      return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              // given
+              (0, _testing.authenticateAsPrescriber)();
+
+              // when
+              _context5.next = 3;
+              return visit('/board');
+
+            case 3:
+
+              // then
+              $exportLink = findWithAssert('.profiles-title__export-csv');
+
+              (0, _chai.expect)($exportLink.text()).to.contains('Exporter (.csv)');
+
+            case 5:
+            case 'end':
+              return _context5.stop();
+          }
+        }
+      }, _callee5, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/page-accueil-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
@@ -13298,7 +13326,7 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       }));
       this.inject.service('store', { as: 'store' });
       this.register('service:session', Ember.Service.extend({
-        data: { authenticated: { userId: 12 } }
+        data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
       }));
 
       this.inject.service('session', { as: 'session' });
@@ -13334,10 +13362,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (model) {
+      return result.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
       });
     });
@@ -13354,13 +13382,33 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (model) {
+      return result.then(function (model) {
         (0, _chai.expect)(model.organization.id).to.equal(1);
         _sinon.default.assert.calledWith(firstOrganization.get, 'snapshots');
         _sinon.default.assert.calledOnce(reloadStub);
+      });
+    });
+
+    (0, _mocha.it)('should return url to download snapshots CSV', function () {
+      // given
+      var firstOrganization = Ember.Object.create({ id: 1, snapshots: [] });
+      var reloadStub = _sinon.default.stub();
+      _sinon.default.stub(firstOrganization, 'get').withArgs('id').returns(2).withArgs('snapshots').returns({
+        reload: reloadStub
+      });
+      var user = Ember.Object.create({ id: 1, organizations: [firstOrganization, { id: 2 }] });
+      findRecord.resolves(user);
+
+      // when
+      var result = route.model();
+
+      // then
+      return result.then(function (model) {
+        (0, _chai.expect)(model.organization.id).to.equal(1);
+        (0, _chai.expect)(model.organizationSnapshotsExportUrl).to.be.equal('http://localhost:3000/api/organizations/2/snapshots/export?userToken=VALID-TOKEN');
       });
     });
 
@@ -13369,10 +13417,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.rejects();
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (_) {
+      return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
@@ -13384,10 +13432,10 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       findRecord.resolves(user);
 
       // when
-      var promise = route.model();
+      var result = route.model();
 
       // then
-      return promise.then(function (_) {
+      return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
       });
