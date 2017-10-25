@@ -10530,7 +10530,7 @@ define('pix-live/tests/unit/components/challenge-item-qmail-test', ['chai', 'moc
 
     (0, _emberMocha.setupTest)('component:challenge-item-qmail', {});
 
-    (0, _mocha.describe)('_hasError', function () {
+    (0, _mocha.describe)('#hasError', function () {
       (0, _mocha.it)('should exists', function () {
         // Given
         var component = this.subject();
@@ -10563,7 +10563,7 @@ define('pix-live/tests/unit/components/challenge-item-qmail-test', ['chai', 'moc
       });
     });
 
-    (0, _mocha.describe)('_getErrorMessage', function () {
+    (0, _mocha.describe)('#getErrorMessage', function () {
       (0, _mocha.it)('should exists', function () {
         // Given
         var component = this.subject();
@@ -10584,7 +10584,7 @@ define('pix-live/tests/unit/components/challenge-item-qmail-test', ['chai', 'moc
       });
     });
 
-    (0, _mocha.describe)('_getAnswerValue', function () {
+    (0, _mocha.describe)('#getAnswerValue', function () {
       (0, _mocha.it)('should exists', function () {
         // Given
         var component = this.subject();
