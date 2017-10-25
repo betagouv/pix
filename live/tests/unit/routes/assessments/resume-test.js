@@ -2,11 +2,33 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import _ from 'lodash';
 
-describe.skip('Unit | Route | resume', function() {
+describe.only('Unit | Route | resume', function() {
   setupTest('route:assessments.resume', {
     needs: ['service:current-routed-modal']
+  });
+
+  let route;
+  let StoreStub;
+  let challengeAdapterStub;
+  let findRecordStub;
+
+  beforeEach(function() {
+    // define stubs
+    challengeAdapterStub = { queryNext: sinon.stub() };
+    findRecordStub = sinon.stub();
+    StoreStub = Ember.Service.extend({
+      adapterFor: () => challengeAdapterStub,
+      findRecord: findRecordStub
+    });
+
+    // manage dependency injection context
+    this.register('service:store', StoreStub);
+    this.inject.service('store', { as: 'store' });
+
+    // instance route object
+    route = this.subject();
+    route.transitionTo = sinon.stub();
   });
 
   it('exists', function() {
@@ -14,146 +36,94 @@ describe.skip('Unit | Route | resume', function() {
     expect(route).to.be.ok;
   });
 
-  class StoreStub {
-    constructor(storeContent) {
-      this.storeContent = storeContent;
-    }
+  describe('#model', function() {
 
-    findRecord(model, id) {
-
-      if (!_(this.storeContent).has(model)) {
-        return Promise.reject('Unknown model');
-      }
-
-      const result = _(this.storeContent[model]).find({ id });
-
-      if (!!result) {
-        return Promise.resolve(result);
-      } else {
-        return Promise.reject('Model not found');
-      }
-    }
-  }
-
-  describe('Class StoreStub', function() {
-    it('can be instancied', function() {
+    it('should fetch an assessment', function() {
       // given
+      route.get('store').findRecord.resolves();
+
       // when
-      const store = new StoreStub({});
+      const promise = route.model({ assessment_id: 123 });
+
       // then
-      expect(store).to.be.instanceOf(StoreStub);
-    });
-
-    describe('#findRecord', function() {
-
-      it('returns a promise', function() {
-        // given
-        const store = new StoreStub({});
-        // when
-        const result = store.findRecord('aModel', 0);
-        // then
-        return expect(result).to.be.instanceOf(Promise);
-      });
-
-      it('rejects when the store doesnt have the given model class', function() {
-        // given
-        const store = new StoreStub({
-          assessment: [{ id: 12 }]
-        });
-        // when
-        const result = store.findRecord('aModel', 12);
-        // then
-        return expect(result).to.be.rejected;
-      });
-
-      it('rejects when the model instance isnt in store', function() {
-        // given
-        const store = new StoreStub({
-          assessment: [{ id: 12 }]
-        });
-        // when
-        const result = store.findRecord('assessment', 41);
-        // then
-        return expect(result).to.be.rejected;
-      });
-
-      it('resolve with the right model when OK', function() {
-        const store = new StoreStub({
-          assessment: [{ id: 12 }]
-        });
-        // when
-        const result = store.findRecord('assessment', 12);
-        // then
-        return expect(result).to.be.resolved;
+      return promise.then(() => {
+        sinon.assert.calledOnce(findRecordStub);
+        sinon.assert.calledWith(findRecordStub, 'assessment', 123);
       });
     });
   });
 
-  describe('given a non-existing assessment', function() {
+  describe('#afterModel', function() {
 
-    describe('#model', function() {
+    const assessment = Ember.Object.create({ id: 123 });
 
-      it('should return a rejected promise', function() {
-        // arrange
-        const route = this.subject();
-        route.set('store', new StoreStub({}));
+    it('should get the next challenge of the assessment', function() {
+      // given
+      challengeAdapterStub.queryNext.resolves();
 
-        // act
-        const promise = route.model({ assessment_id: 'unexisting id' });
+      // when
+      const promise = route.afterModel(assessment);
 
-        // assert
-        return expect(promise).to.be.rejected;
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(challengeAdapterStub.queryNext);
+        sinon.assert.calledWith(challengeAdapterStub.queryNext, route.get('store'), 123);
       });
     });
 
-    describe('actions #error', function() {
+    context('when the next challenge exists', function() {
 
-      it('should redirect to compte', function() {
+      it('should redirect to the challenge view', function() {
         // given
-        const route = this.subject();
-        route.transitionTo = sinon.spy();
+        const nextChallenge = Ember.Object.create();
+        challengeAdapterStub.queryNext.resolves(nextChallenge);
 
         // when
-        route.send('error');
+        const promise = route.afterModel(assessment);
 
         // then
-        sinon.assert.calledWith(route.transitionTo, 'compte');
+        return promise.then(() => {
+          sinon.assert.calledOnce(route.transitionTo);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.get-challenge', { assessment, nextChallenge });
+        });
       });
+
+    });
+
+    context('when the next challenge does not exist (is null)', function() {
+
+      it('should redirect to assessment results page', function() {
+        // given
+        challengeAdapterStub.queryNext.rejects();
+
+        // when
+        const promise = route.afterModel(assessment);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(route.transitionTo);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.get-results', assessment.get('id'));
+        });
+      });
+
+    });
+  });
+
+  describe('#error', function() {
+
+    it('should redirect to index page', function() {
+      // given
+      const route = this.subject();
+      route.transitionTo = sinon.spy();
+
+      // when
+      route.send('error');
+
+      // then
+      sinon.assert.calledWith(route.transitionTo, 'index');
     });
   });
 
-  describe('given an existing assessment', function() {
+});
 
-    describe('#model', function() {
 
-      it('should get the current assessment informations', function() {
-        // given
-        const route = this.subject();
-        const assessment = { id: 12 };
-        route.set('store', new StoreStub({ assessment: [assessment] }));
-
-        // when
-        const promise = route.model({ assessment_id: assessment.id });
-
-        // then
-        return expect(promise).to.become({ id: 12 });
-      });
-
-      it.skip('should get the next challengeId for the found assessment', function() {
-        // given
-        const route = this.subject();
-        const assessment = { id: 53 };
-        route.set('store', new StoreStub({
-          assessment: [assessment]
-        }));
-
-        // when
-        const result = route.model({ assessment_id: assessment.id });
-
-        // then
-        return expect(result).to.eventually.have.property('nextChallenge');
-      });
-    });
-  });
-})
-;

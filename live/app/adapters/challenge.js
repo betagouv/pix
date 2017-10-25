@@ -11,8 +11,10 @@ export default ApplicationAdapter.extend({
       let challenge = null;
       if (payload) {
         challenge = store.push(payload);
+        return RSVP.resolve(challenge);
       }
-      return RSVP.resolve(challenge);
+
+      return RSVP.reject(new Error(`There is no next challenge for assessment ${assessmentId}`));
     });
   }
 
