@@ -6634,12 +6634,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
   var LABEL_INCORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcm-proposal-label__oracle:eq(0)';
 
-  var CSS_BOLD_FONT_WEIGHT = '900';
-  var CSS_NORMAL_FONT_WEIGHT = '400';
-
-  var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
-  var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
-
   var CSS_LINETHROUGH_ON = 'line-through';
   var CSS_LINETHROUGH_OFF = 'none';
 
@@ -6712,8 +6706,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -6732,8 +6724,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // Then
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -6754,8 +6744,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
 
           // Then
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -6777,8 +6765,6 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           // Then
           (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
@@ -6868,12 +6854,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
   var RADIO_INCORRECT_AND_UNCHECKED = '.picture-radio-proposal--qcu:eq(0)';
   var LABEL_INCORRECT_AND_UNCHECKED = '.qcu-proposal-label__oracle:eq(0)';
 
-  var CSS_BOLD_FONT_WEIGHT = '900';
-  var CSS_NORMAL_FONT_WEIGHT = '400';
-
-  var CSS_GREEN_COLOR = 'rgb(19, 201, 160)';
-  var CSS_BLACK_COLOR = 'rgb(51, 51, 51)';
-
   var CSS_LINETHROUGH_ON = 'line-through';
   var CSS_LINETHROUGH_OFF = 'none';
 
@@ -6945,8 +6925,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
 
           (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
           (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -6969,8 +6947,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
 
           (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_BOLD_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_GREEN_COLOR);
           (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -6990,8 +6966,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           // Then
           (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
@@ -7013,8 +6987,6 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           // Then
           (0, _chai.expect)($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
           (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('font-weight')).to.equal(CSS_NORMAL_FONT_WEIGHT);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('color')).to.equal(CSS_BLACK_COLOR);
           (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
@@ -7109,10 +7081,6 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
   var ANSWER_BLOCK = '.correction-qroc-box__answer';
   var ANSWER_INPUT = '.correction-qroc-box--answer__input';
   var SOLUTION_BLOCK = '.correction-qroc-box__solution';
-  var SOLUTION_DISPLAY = '.correction-qroc-box__solution-text';
-
-  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
-  var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
   (0, _mocha.describe)('Integration | Component | qroc solution panel', function () {
 
@@ -7162,9 +7130,7 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         // then
         (0, _chai.expect)(answerInput).to.have.lengthOf(1);
         (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
-        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('none');
-        (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
         (0, _chai.expect)(solutionBlock).to.have.lengthOf(0);
       });
     });
@@ -7190,20 +7156,16 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         var answerInput = this.$(ANSWER_INPUT);
         // then
         (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
-        (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
         (0, _chai.expect)(answerInput.css('text-decoration')).to.be.contains('line-through');
       });
 
       (0, _mocha.it)('should display the solution with an arrow and the solution in bold green', function () {
         // given
         var blockSolution = this.$(SOLUTION_BLOCK);
-        var blockSolutionText = this.$(SOLUTION_DISPLAY);
 
         // then
         (0, _chai.expect)(blockSolution).to.have.lengthOf(1);
         (0, _chai.expect)(blockSolution.css('align-items')).to.be.equal('stretch');
-        (0, _chai.expect)(blockSolutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-        (0, _chai.expect)(blockSolutionText.css('font-weight')).to.be.equal('700');
       });
 
       (0, _mocha.describe)('comparison when the answer was not given', function () {
@@ -7225,11 +7187,8 @@ define('pix-live/tests/integration/components/qroc-solution-panel-test', ['chai'
         (0, _mocha.it)('should display PAS DE REPONSE in italic', function () {
           // given
           var answerBlock = this.$(ANSWER_BLOCK);
-          var answerInput = this.$(ANSWER_INPUT);
           // then
           (0, _chai.expect)(answerBlock).to.have.lengthOf(1);
-          (0, _chai.expect)(answerInput.css('font-style')).to.be.equal('italic');
-          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
         });
       });
     });
@@ -7245,9 +7204,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
   var LABEL = '.correction-qrocm__label';
   var INPUT = '.correction-qrocm__answer-input';
   var SOLUTION_TEXT = '.correction-qrocm__solution-text';
-
-  var RIGHT_ANSWER_GREEN = 'rgb(19, 201, 160)';
-  var NO_ANSWER_GREY = 'rgb(62, 65, 73)';
 
   (0, _mocha.describe)('Integration | Component | qrocm solution panel', function () {
 
@@ -7328,10 +7284,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
           (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
-          (0, _chai.expect)(answerLabel.css('color')).to.be.equal(NO_ANSWER_GREY);
-
-          (0, _chai.expect)(answerInput.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
@@ -7367,8 +7319,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
           (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
-          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
-          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
           (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('line-through');
         });
 
@@ -7386,8 +7336,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
           (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
-          (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
@@ -7410,8 +7358,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(answerLabel).to.have.lengthOf(1);
           (0, _chai.expect)(answerInput).to.have.lengthOf(1);
 
-          (0, _chai.expect)(answerInput.css('color')).to.be.equal(NO_ANSWER_GREY);
-          (0, _chai.expect)(answerInput.css('font-weight')).to.be.equal('400');
           (0, _chai.expect)(answerInput.css('text-decoration')).to.contain('none');
         });
 
@@ -7429,8 +7375,6 @@ define('pix-live/tests/integration/components/qrocm-ind-solution-panel-test', ['
           (0, _chai.expect)(solutionBlock).to.have.lengthOf(1);
           (0, _chai.expect)(solutionText).to.have.lengthOf(1);
 
-          (0, _chai.expect)(solutionText.css('color')).to.be.equal(RIGHT_ANSWER_GREEN);
-          (0, _chai.expect)(solutionText.css('font-weight')).to.be.equal('700');
           (0, _chai.expect)(solutionText.css('text-decoration')).to.contain('none');
         });
       });
