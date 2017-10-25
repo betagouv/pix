@@ -2,8 +2,9 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
+import Ember from 'ember';
 
-describe.only('Unit | Route | resume', function() {
+describe('Unit | Route | resume', function() {
   setupTest('route:assessments.resume', {
     needs: ['service:current-routed-modal']
   });
@@ -125,5 +126,3 @@ describe.only('Unit | Route | resume', function() {
   });
 
 });
-
-
