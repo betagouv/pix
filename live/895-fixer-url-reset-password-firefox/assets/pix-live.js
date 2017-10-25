@@ -6300,7 +6300,7 @@ define('pix-live/routes/base-route', ['exports'], function (exports) {
     }
   });
 });
-define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
+define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route', 'pix-live/config/environment'], function (exports, _authenticatedRouteMixin, _baseRoute, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6308,7 +6308,6 @@ define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authentica
   });
   var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
-
     authenticationRoute: '/connexion',
 
     session: Ember.inject.service(),
@@ -6321,12 +6320,11 @@ define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authentica
         if (user.get('organizations.length') <= 0) {
           return _this.transitionTo('compte');
         }
-
         var organization = user.get('organizations.firstObject');
-
         return RSVP.hash({
           organization: organization,
-          snapshots: organization.get('snapshots').reload()
+          snapshots: organization.get('snapshots').reload(),
+          organizationSnapshotsExportUrl: _environment.default.APP.API_HOST + '/api/organizations/' + organization.get('id') + '/snapshots/export?userToken=' + _this.get('session.data.authenticated.token')
         });
       }).catch(function (_) {
         _this.transitionTo('index');
@@ -7306,7 +7304,7 @@ define("pix-live/templates/board", ["exports"], function (exports) {
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "AIzWMpZp", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"organization\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"organization\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\"],[8],[0,\"\\n\\n  \"],[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"model\",\"snapshots\"]]]]],false],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "bLvY7uqa", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"organization\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"organization\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\\n    \"],[6,\"a\"],[9,\"class\",\"profiles-title__export-csv\"],[10,\"href\",[26,[[20,[\"model\",\"organizationSnapshotsExportUrl\"]]]]],[9,\"target\",\"_blank\"],[9,\"download\",\"\"],[7],[0,\"\\n      Exporter (.csv)\\n      \"],[6,\"img\"],[9,\"class\",\"profiles-title__export-csv-icon\"],[9,\"src\",\"/images/icons/icon-export.svg\"],[9,\"alt\",\"Exporter les profils partagés\"],[9,\"width\",\"20\"],[9,\"height\",\"20\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[19,0,[\"model\",\"snapshots\"]]]]],false],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
 });
 define("pix-live/templates/challenges/get-preview", ["exports"], function (exports) {
   "use strict";
@@ -8731,6 +8729,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.25.0+a99b96f5"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.25.2+5855744f"});
 }
 //# sourceMappingURL=pix-live.map
