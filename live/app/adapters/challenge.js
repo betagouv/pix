@@ -1,5 +1,6 @@
 import ApplicationAdapter from './application';
 import RSVP from 'rsvp';
+import { singularize } from 'ember-inflector';
 
 export default ApplicationAdapter.extend({
 
@@ -10,6 +11,7 @@ export default ApplicationAdapter.extend({
     return this.ajax(url, 'GET').then(payload => {
       let challenge = null;
       if (payload) {
+        payload.data.type = singularize(payload.data.type);
         challenge = store.push(payload);
         return RSVP.resolve(challenge);
       }
