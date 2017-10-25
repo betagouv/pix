@@ -5,7 +5,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Service | User Service', () => {
 
-  describe('#isUserExisting', () => {
+  describe('#isUserExistingByEmail', () => {
 
     const email = 'shi@fu.me';
 
@@ -22,7 +22,7 @@ describe('Unit | Service | User Service', () => {
       userRepository.findByEmail.resolves();
 
       // when
-      const promise = userService.isUserExisting(email);
+      const promise = userService.isUserExistingByEmail(email);
 
       // then
       return promise.then(() => {
@@ -37,7 +37,7 @@ describe('Unit | Service | User Service', () => {
       userRepository.findByEmail.resolves(foundUser);
 
       // when
-      const promise = userService.isUserExisting(email);
+      const promise = userService.isUserExistingByEmail(email);
 
       // then
       return promise.then((result) => {
@@ -50,7 +50,7 @@ describe('Unit | Service | User Service', () => {
       userRepository.findByEmail.rejects();
 
       // when
-      const promise = userService.isUserExisting(email);
+      const promise = userService.isUserExistingByEmail(email);
 
       // then
       return promise.catch((result) => {
@@ -58,4 +58,60 @@ describe('Unit | Service | User Service', () => {
       });
     });
   });
+
+  describe('#isUserExistingById', () => {
+
+    const userId = 4367;
+
+    beforeEach(() => {
+      sinon.stub(userRepository, 'findUserById');
+    });
+
+    afterEach(() => {
+      userRepository.findUserById.restore();
+    });
+
+    it('should call a userRepository.findUserById', () => {
+      // given
+      userRepository.findUserById.resolves();
+
+      // when
+      const promise = userService.isUserExistingById(userId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(userRepository.findUserById);
+        sinon.assert.calledWith(userRepository.findUserById, userId);
+      });
+    });
+
+    it('should return true, when user is found', () => {
+      // given
+      const foundUser = {};
+      userRepository.findUserById.resolves(foundUser);
+
+      // when
+      const promise = userService.isUserExistingById(userId);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.equal(true);
+      });
+    });
+
+    it('should throw an error, when no user found', () => {
+      // given
+      userRepository.findUserById.rejects();
+
+      // when
+      const promise = userService.isUserExistingById(userId);
+
+      // then
+      return promise.catch((result) => {
+        expect(result).to.be.an.instanceOf(UserNotFoundError);
+      });
+    });
+  });
+
+
 });

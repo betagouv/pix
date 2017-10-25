@@ -1,10 +1,8 @@
-const { describe, it, after, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
+const { describe, it, afterEach, beforeEach, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const User = require('../../../../lib/domain/models/data/user');
 const Boom = require('boom');
-
-const server = require('../../../../server');
 
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -17,14 +15,13 @@ const userSerializer = require('../../../../lib/infrastructure/serializers/jsona
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userService = require('../../../../lib/domain/services/user-service');
+const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | user-controller', () => {
-
-  after((done) => {
-    server.stop(done);
-  });
 
   describe('#save', () => {
 
