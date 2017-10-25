@@ -27,73 +27,6 @@
   border: 1px solid #E14956;
   background-color: #E14956; }
 
-.button {
-  color: #ffffff;
-  font-size: 0.9em;
-  font-weight: 400;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  outline: none;
-  border-radius: 0.3125em;
-  padding: 12px 22px;
-  text-align: center;
-  background: #78C182 none;
-  text-decoration: none;
-  display: inline-block;
-  border: 1px solid;
-  box-shadow: 0 1px 1px -1px #909297;
-  cursor: pointer; }
-
-.button-primary {
-  color: #ffffff;
-  font-size: 0.9em;
-  font-weight: 400;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  outline: none;
-  border-radius: 0.3125em;
-  padding: 12px 22px;
-  text-align: center;
-  background-color: #78C182;
-  background-image: none;
-  text-decoration: none;
-  display: inline-block;
-  border: 1px solid;
-  box-shadow: 0 1px 1px -1px #909297; }
-
-.button-primary:hover,
-.button-primary:focus {
-  color: #ffffff;
-  background-color: #67b972;
-  border-color: #67b972;
-  border-bottom-color: #4aa256;
-  text-decoration: none; }
-
-.button-secondary {
-  color: #ffffff;
-  font-size: 0.9em;
-  font-weight: 400;
-  letter-spacing: 0.025em;
-  text-transform: uppercase;
-  outline: none;
-  border-radius: 0.3125em;
-  padding: 12px 22px;
-  text-align: center;
-  background-color: #a5a7ab;
-  background-image: none;
-  text-decoration: none;
-  display: inline-block;
-  border: 1px solid;
-  box-shadow: 0 1px 1px -1px #909297; }
-
-.button-secondary:hover,
-.button-secondary:focus {
-  color: #ffffff;
-  background-color: #989a9e;
-  border-color: #989a9e;
-  border-bottom-color: #7e8086;
-  text-decoration: none; }
-
 .app-loader {
   position: absolute;
   top: 0;
@@ -450,6 +383,13 @@ input[type=radio]:focus:before {
 
 .pix-modal__button--primary {
   background-color: #3d68ff; }
+
+.pix-modal__button--secondary {
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 10px 20px;
+  background-color: #DADADA;
+  margin-right: 10px; }
 
 /* Misc
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
