@@ -18,5 +18,7 @@ module.exports = {
       .catch(() => {
         throw new UserNotFoundError();
       });
-  }
+  },
+
+  getSkillProfile() {}
 };
