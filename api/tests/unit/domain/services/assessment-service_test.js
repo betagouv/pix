@@ -40,7 +40,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-describe.only('Unit | Domain | Services | assessment-service', function() {
+describe('Unit | Domain | Services | assessment-service', function() {
 
   it('should exist', function() {
     expect(service).to.exist;
@@ -111,7 +111,7 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
 
   });
 
-  describe.skip('#getScoredAssessment', () => {
+  describe('#getScoredAssessment', () => {
 
     it('checks sanity', () => {
       expect(service.getScoredAssessment).to.exist;
@@ -142,7 +142,7 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
         competences: ['competence_id']
       });
       getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetenceId').returns(challenges);
-      getSkillStub = sinon.stub(skillRepository, 'getFromCompetenceId').returns(new Set());
+      getSkillStub = sinon.stub(skillRepository.cache, 'getFromCompetenceId').returns(new Set());
       sinon.stub(assessmentAdapter, 'getAdaptedAssessment');
 
       findByAssessmentStub = sinon.stub(answerRepository, 'findByAssessment')
@@ -296,11 +296,12 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
             isAdaptive: true
           };
           getCourseStub.returns(Promise.resolve(course));
-          const web1 = new Skill('web1');
-          const web3 = new Skill('web3');
+          const expectedValitedSkills = _generateValitedSkills();
+          const expectedFailedSkills = _generateFailedSkills();
 
           assessmentAdapter.getAdaptedAssessment.returns({
-            validatedSkills: new Set([web1, web3]),
+            validatedSkills: _generateValitedSkills(),
+            failedSkills: _generateFailedSkills(),
             obtainedLevel: 50,
             displayedPixScore: 13
           });
@@ -311,13 +312,13 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
           // Then
           return promise
             .then(({ assessmentPix, skills }) => {
-              console.log(skills.validatedSkills);
               expect(assessmentPix.get('id')).to.equal(ASSESSMENT_ID);
               expect(assessmentPix.get('courseId')).to.deep.equal(COURSE_ID);
               expect(assessmentPix.get('estimatedLevel')).to.equal(50);
               expect(assessmentPix.get('pixScore')).to.equal(13);
               expect(skills.assessmentId).to.equal(ASSESSMENT_ID);
-              expect(skills.validatedSkills).to.deep.equal([web1, web3]);
+              expect([...skills.validatedSkills]).to.deep.equal([...expectedValitedSkills]);
+              expect([...skills.failedSkills]).to.deep.equal([...expectedFailedSkills]);
             });
         });
 
@@ -326,3 +327,23 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
   });
 
 });
+
+function _generateValitedSkills() {
+  const url2 = new Skill('@url2');
+  const web3 = new Skill('@web3');
+  const skill = new Set();
+  skill.add(url2);
+  skill.add(web3);
+
+  return skill;
+}
+
+function _generateFailedSkills() {
+  const recherche2 = new Skill('@recherch2');
+  const securite3 = new Skill('@securite3');
+  const skill = new Set();
+  skill.add(recherche2);
+  skill.add(securite3);
+
+  return skill;
+}

@@ -22,7 +22,7 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
       return challengeRepository.getFromCompetenceId(competenceId);
     }).then(challenges => {
       challengesPix = challenges;
-      return skillRepository.getFromCompetenceId(competenceId);
+      return skillRepository.cache.getFromCompetenceId(competenceId);
     }).then(skillNames => {
       return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skillNames);
     });
@@ -81,27 +81,26 @@ function getScoredAssessment(assessmentId) {
     .then(course => {
       coursePix = course;
       competenceId = coursePix.competences[0];
-      return challengeRepository.getFromCompetenceId(competenceId);
     })
     .then(challenges => {
       challengesPix = challenges;
-      return skillRepository.getFromCompetenceId(competenceId);
+      return skillRepository.cache.getFromCompetenceId(competenceId);
     })
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames);
         skills = {
           assessmentId,
-          validatedSkills: [...assessment.validatedSkills],
-          /*failedSkills: [...assessment.failedSkills]*/
+          validatedSkills: assessment.validatedSkills,
+          failedSkills: assessment.failedSkills
         };
-        console.log(assessment.obtainedLevel);
         assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
         assessmentPix.set('pixScore', assessment.displayedPixScore);
       } else {
         assessmentPix.set('estimatedLevel', 0);
         assessmentPix.set('pixScore', 0);
       }
+
       return { assessmentPix, skills };
     });
 }

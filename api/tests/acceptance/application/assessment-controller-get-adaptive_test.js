@@ -76,7 +76,9 @@ describe('Acceptance | API | Assessments', function() {
     });
 
     afterEach(function(done) {
-      knex('assessments').delete().then(() => {done();});
+      knex('assessments').delete().then(() => {
+        done();
+      });
     });
 
     it('should return 200 HTTP status code', function(done) {
