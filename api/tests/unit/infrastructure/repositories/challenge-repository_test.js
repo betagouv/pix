@@ -124,9 +124,10 @@ describe('Unit | Repository | challenge-repository', function() {
     const competenceId = 'competence_id';
     const cacheKey = `challenge-repository_get_from_competence_${competenceId}`;
     const challenges = [
-      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé'),
+      _buildChallengeWithCompetence('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé sans test'),
       _buildChallengeWithCompetence('challenge_id_2', 'Instruction #2', 'Proposals #2', 'other_competence_id', 'validé'),
-      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'validé')
+      _buildChallengeWithCompetence('challenge_id_3', 'Instruction #3', 'Proposals #3', 'competence_id', 'pré-validé'),
+      _buildChallengeWithCompetence('challenge_id_4', 'Instruction #4', 'Proposals #4', 'competence_id', 'poubelle')
     ];
 
     it('should reject with an error when the cache throws an error', function(done) {
@@ -345,6 +346,14 @@ describe('Unit | Repository | challenge-repository', function() {
         });
       });
     });
+  });
+
+  /*
+   * #_filterChallenges
+   */
+
+  describe('#_filterChallenges', function() {
+
   });
 
 });
