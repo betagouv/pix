@@ -81,6 +81,7 @@ function getScoredAssessment(assessmentId) {
     .then(course => {
       coursePix = course;
       competenceId = coursePix.competences[0];
+      return challengeRepository.getFromCompetenceId(competenceId);
     })
     .then(challenges => {
       challengesPix = challenges;

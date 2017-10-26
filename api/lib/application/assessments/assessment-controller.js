@@ -48,8 +48,8 @@ module.exports = {
 
     return assessmentService
       .getScoredAssessment(assessmentId)
-      .then((assessment) => {
-        const serializedAssessment = assessmentSerializer.serialize(assessment);
+      .then(({ assessmentPix }) => {
+        const serializedAssessment = assessmentSerializer.serialize(assessmentPix);
         return reply(serializedAssessment);
       })
       .catch(err => {
