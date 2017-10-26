@@ -295,7 +295,6 @@ describe('Unit | Service | User Service', () => {
         });
       });
 
-
       it('when the challenge id is not found', () => {
         // Given
         const answer = new Answer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });

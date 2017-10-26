@@ -16,7 +16,6 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
-const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
