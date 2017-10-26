@@ -1,6 +1,8 @@
 const _ = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
+const UserCompetence = require('../../../lib/domain/models/UserCompetence');
+const Skill = require('../../../lib/domain/models/Skill');
 
 const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
@@ -17,19 +19,18 @@ function _loadAnwsersByAssessments(assessments) {
   return Promise.all(fetchAnswersPromises);
 }
 
-function _extendEveryCompetenceWithSkill(competences) {
-  return _(competences).reduce((result, value) => {
-
-    value['skills'] = [];
-
-    result.push(value);
-
-    return result;
-  }, []);
-}
-
 function _getCompetenceById(competences, competenceId) {
   return _(competences).find((competence) => competence.id === competenceId);
+}
+
+function _castCompetencesToUserCompetences([challenges, competences, answersByAssessments]) {
+
+  competences = _(competences).reduce((result, value) => {
+    result.push(new UserCompetence(value));
+    return result;
+  }, []);
+
+  return [challenges, competences, answersByAssessments];
 }
 
 module.exports = {
@@ -58,9 +59,8 @@ module.exports = {
       .then((answersByAssessments) => Promise.all([
         challengeRepository.list(), competenceRepository.list(), answersByAssessments
       ]))
+      .then(_castCompetencesToUserCompetences)
       .then(([challenges, competences, answersByAssessments]) => {
-        competences = _extendEveryCompetenceWithSkill(competences);
-
         const answers = _.flatten(answersByAssessments).filter((answer) => answer.get('result') === 'ok');
         _(answers).forEach((answer) => {
 
@@ -71,11 +71,7 @@ module.exports = {
 
             _(challenge.knowledgeTags).forEach((skill) => {
               if(competence) {
-                const skills = competence.skills;
-
-                if(!_.includes(skills, skill)) {
-                  skills.push(skill);
-                }
+                competence.addSkill(new Skill(skill));
               }
             });
           }

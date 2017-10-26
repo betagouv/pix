@@ -8,6 +8,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
+const Skill = require('../../../../lib/domain/models/Skill');
 
 describe('Unit | Service | User Service', () => {
 
@@ -153,10 +154,12 @@ describe('Unit | Service | User Service', () => {
       sandbox.stub(competenceRepository, 'list').resolves([
         {
           id: 'competenceRecordIdOne',
+          index: '1.1',
           name: '1.1 Construire un flipper',
         },
         {
           id: 'competenceRecordIdTwo',
+          index: '1.2',
           name: '1.2 Adopter un dauphin',
         }]);
     });
@@ -223,13 +226,15 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
+              index: '1.1',
               name: '1.1 Construire un flipper',
               skills: []
             },
             {
               id: 'competenceRecordIdTwo',
+              index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: ['@remplir2']
+              skills: [new Skill('@remplir2')]
             }]);
         });
       });
@@ -249,13 +254,15 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
+              index: '1.1',
               name: '1.1 Construire un flipper',
               skills: []
             },
             {
               id: 'competenceRecordIdTwo',
+              index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: ['@remplir2']
+              skills: [new Skill('@remplir2')]
             }]);
         });
       });
@@ -275,11 +282,13 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
+              index: '1.1',
               name: '1.1 Construire un flipper',
               skills: []
             },
             {
               id: 'competenceRecordIdTwo',
+              index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: []
             }]);
@@ -302,11 +311,13 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
+              index: '1.1',
               name: '1.1 Construire un flipper',
               skills: []
             },
             {
               id: 'competenceRecordIdTwo',
+              index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: []
             }]);
@@ -328,11 +339,13 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
+              index: '1.1',
               name: '1.1 Construire un flipper',
               skills: []
             },
             {
               id: 'competenceRecordIdTwo',
+              index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: []
             }]);
