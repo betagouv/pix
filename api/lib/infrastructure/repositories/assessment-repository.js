@@ -14,7 +14,7 @@ module.exports = {
       .fetch({ withRelated: ['answers'] });
   },
 
-  findCompletedAssessmentsByUserId(userId) {
+  findLastAssessmentsForEachCoursesByUser(userId) {
     return Assessment
       .query(qb => {
         qb.where({ userId });

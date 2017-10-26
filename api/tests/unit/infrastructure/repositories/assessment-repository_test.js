@@ -146,7 +146,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
 
       // When
-      const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // Then
       whereStub.restore();
