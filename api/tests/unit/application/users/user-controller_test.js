@@ -594,6 +594,7 @@ describe('Unit | Controller | user-controller', () => {
 
     const request = { params: { id: 1 } };
     const jsonAPI404error = { message: 'Error' };
+    const jsonAPI500error = { message: 'Internal Error' };
 
     beforeEach(() => {
       replyStub = sinon.stub();
@@ -602,6 +603,8 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.stub(userService, 'isUserExistingById').resolves(true);
       sandbox.stub(userService, 'getSkillProfile').resolves([]);
       sandbox.stub(Boom, 'badRequest').returns(jsonAPI404error);
+      sandbox.stub(Boom, 'badImplementation').returns(jsonAPI500error);
+      sandbox.stub(logger, 'error').returns({});
     });
 
     afterEach(() => {
@@ -636,6 +639,42 @@ describe('Unit | Controller | user-controller', () => {
 
           sinon.assert.calledOnce(Boom.badRequest);
           sinon.assert.calledWith(Boom.badRequest, userNotFoundError);
+          sinon.assert.notCalled(Boom.badImplementation);
+        });
+      });
+    });
+
+    context('when loading user competences fails', () => {
+      it('should reply with an INTERNAL error', () => {
+        // Given
+        const anyErrorFromProfileBuilding = new Error();
+        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(replyStub);
+
+          sinon.assert.notCalled(Boom.badRequest);
+          sinon.assert.calledOnce(Boom.badImplementation);
+          sinon.assert.calledWith(Boom.badImplementation, anyErrorFromProfileBuilding);
+        });
+      });
+
+      it('should log the error', () => {
+        // Given
+        const anyErrorFromProfileBuilding = new Error();
+        userService.getSkillProfile.rejects(anyErrorFromProfileBuilding);
+
+        // When
+        const promise = userController.getSkillProfile(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledOnce(logger.error);
+          sinon.assert.calledWith(logger.error, anyErrorFromProfileBuilding);
         });
       });
     });

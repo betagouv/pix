@@ -18,7 +18,7 @@ const encryptionService = require('../../domain/services/encryption-service');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserNotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -32,9 +32,7 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(() => {
-        return user.save();
-      })
+      .then(() => user.save())
       .then((user) => {
         mailService.sendAccountCreationEmail(user.get('email'));
         reply(userSerializer.serialize(user)).code(201);
@@ -106,7 +104,16 @@ module.exports = {
       .isUserExistingById(userId)
       .then(() => userService.getSkillProfile(userId))
       .then(reply)
-      .catch((err) => reply(Boom.badRequest(err)));
+      .catch(err => {
+
+        if(err instanceof UserNotFoundError) {
+          return reply(Boom.badRequest(err));
+        }
+
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+
+      });
   }
 };
 
