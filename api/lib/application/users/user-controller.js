@@ -108,7 +108,6 @@ module.exports = {
       .then(reply)
       .catch((err) => reply(Boom.badRequest(err)));
   }
-
 };
 
 const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {

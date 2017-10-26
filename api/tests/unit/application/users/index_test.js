@@ -49,6 +49,20 @@ describe('Unit | Router | user-router', () => {
     });
   });
 
+  describe('GET /api/users/{id}/skills', function() {
+    before(() => {
+      sinon.stub(UserController, 'getSkillProfile').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      UserController.getSkillProfile.restore();
+    });
+
+    it('should exist', (done) => {
+      return expectRouteToExist({ method: 'GET', url: '/api/users/12/skills' }, done);
+    });
+  });
+
   describe('PATCH /api/users/{id}', function() {
 
     const userId = '12344';

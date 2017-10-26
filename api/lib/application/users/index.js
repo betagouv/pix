@@ -18,6 +18,11 @@ exports.register = function(server, options, next) {
       config: { handler: UserController.getAuthenticatedUserProfile, tags: ['api'] }
     },
     {
+      method: 'GET',
+      path: '/api/users/{id}/skills',
+      config: { handler: UserController.getSkillProfile, tags: ['api'] }
+    },
+    {
       method: 'PATCH',
       path: '/api/users/{id}',
       config: {
