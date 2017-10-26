@@ -5,23 +5,35 @@ import refQrocmChallengeFull from '../data/challenges/ref-qrocm-challenge';
 
 import refTimedChallengeBis from '../data/challenges/ref-timed-challenge-bis';
 
-export default function(schema, request) {
+function getNextChallengeForDynamicAssessment(assessment) {
+  const course = assessment.course;
+  const courseChallenges = course.challenges.models;
 
-  const assessmentId = request.params.assessmentId;
-  const currentChallengeId = request.params.challengeId;
+  const answers = assessment.answers.models;
 
+  // When the assessment has just begun
+  if (answers.length === 0) {
+    return courseChallenges[0];
+  }
+
+  const lastAnswer = answers[answers.length - 1];
+  const lastAnswerChallenge = lastAnswer.challenge;
+
+  // when the last answered challenge was the course's last one
+  const nextChallengeIndex = courseChallenges.indexOf(lastAnswerChallenge) + 1;
+  if (nextChallengeIndex >= courseChallenges.length) {
+    return null;
+  }
+
+  // when the last answered challenge was one of the course's normal one
+  const nextChallenge = courseChallenges.objectAt(nextChallengeIndex);
+  return nextChallenge;
+}
+
+function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) {
   // case 1 : we're trying to reach the first challenge for a given assessment
   if (!currentChallengeId) {
-    if (assessmentId === 'ref_assessment_id') {
-      return refQcmChallengeFull;
-    } else {
-      // get assessment
-      const assessment = schema.assessments.find(assessmentId);
-      if (!assessment) {
-        throw new Error(`This assessment is not defined ${assessmentId}`);
-      }
-      return assessment.course.challenges.models[0];
-    }
+    return refQcmChallengeFull;
   }
 
   // case 2 : test already started, challenge exists.
@@ -35,23 +47,22 @@ export default function(schema, request) {
 
     'ref_timed_challenge_id': refTimedChallengeBis,
     'ref_timed_challenge_bis_id': 'null'
-
   };
 
-  const challenge = nextChallenge[currentChallengeId];
+  return nextChallenge[currentChallengeId];
+}
 
-  if (challenge) {
-    return challenge;
-  } else {
-    const assessment = schema.assessments.find(assessmentId);
-    const course = assessment.course;
-    const challenges = course.challenges.models;
+export default function(schema, request) {
 
-    const nextChallengeIndex = challenges.findIndex((challenge) => challenge.id === currentChallengeId) + 1;
-    if (nextChallengeIndex >= challenges.length) {
-      return null;
-    }
-    return challenges[nextChallengeIndex];
+  const assessmentId = request.params.assessmentId;
+  const currentChallengeId = request.params.challengeId;
+
+  // dynamic assessment
+  const assessment = schema.assessments.find(assessmentId);
+  if (assessment) {
+    return getNextChallengeForDynamicAssessment(assessment);
   }
 
+  // testing assessment
+  return getNextChallengeForTestingAssessment(assessmentId, currentChallengeId);
 }
