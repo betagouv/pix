@@ -53,12 +53,13 @@
   left: -11px;
   top: 3px; }
 
-.label-checkbox-proposal--qcm {
+.label-checkbox-proposal {
   display: inline-block;
   padding-left: 20px;
   line-height: 21px;
   position: relative;
-  cursor: pointer; }
+  cursor: pointer;
+  font-weight: 400; }
 
 .qcu-proposal-label__radio-picture {
   position: absolute;
@@ -142,13 +143,6 @@ input[type="checkbox"]:checked:focus:before {
   position: absolute;
   left: -11px;
   top: 3px; }
-
-.label-checkbox-proposal--qcu {
-  display: inline-block;
-  padding-left: 20px;
-  line-height: 21px;
-  position: relative;
-  cursor: pointer; }
 
 input[type=radio]:before,
 input[type=radio]:checked:after {
@@ -4806,6 +4800,35 @@ hr.project-page__presentation-header-line {
     .board-page__profiles-title {
       margin: auto;
       max-width: 970px; } }
+
+.profiles-title__export-csv {
+  float: right;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+  line-height: 40px;
+  background-color: #7e8086;
+  color: #ffffff;
+  text-transform: none;
+  font-size: 0;
+  text-align: center;
+  font-weight: 700;
+  margin-right: 20px; }
+  .profiles-title__export-csv:hover, .profiles-title__export-csv:focus, .profiles-title__export-csv:active {
+    color: #ffffff; }
+  @media (min-width: 768px) {
+    .profiles-title__export-csv {
+      font-size: 16px;
+      height: 40px;
+      width: 190px;
+      margin-top: 8px;
+      margin-right: 0px; } }
+
+.profiles-title__export-csv-icon {
+  margin-left: 0px; }
+  @media (min-width: 768px) {
+    .profiles-title__export-csv-icon {
+      margin-left: 15px; } }
 
 .terms-of-service-page {
   display: flex;
