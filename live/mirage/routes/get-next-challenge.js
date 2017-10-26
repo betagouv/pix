@@ -20,7 +20,7 @@ function getNextChallengeForDynamicAssessment(assessment) {
   const lastAnswerChallenge = lastAnswer.challenge;
 
   // when the last answered challenge was the course's last one
-  const nextChallengeIndex = courseChallenges.indexOf(lastAnswerChallenge) + 1;
+  const nextChallengeIndex = courseChallenges.findIndex(challenge => lastAnswerChallenge.id === challenge.id) + 1;
   if (nextChallengeIndex >= courseChallenges.length) {
     return null;
   }

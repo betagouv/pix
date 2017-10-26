@@ -11,16 +11,16 @@ describe('Unit | Route | resume', function() {
 
   let route;
   let StoreStub;
-  let challengeAdapterStub;
   let findRecordStub;
+  let queryRecordStub;
 
   beforeEach(function() {
     // define stubs
-    challengeAdapterStub = { queryNext: sinon.stub() };
     findRecordStub = sinon.stub();
+    queryRecordStub = sinon.stub();
     StoreStub = Ember.Service.extend({
-      adapterFor: () => challengeAdapterStub,
-      findRecord: findRecordStub
+      findRecord: findRecordStub,
+      queryRecord: queryRecordStub
     });
 
     // manage dependency injection context
@@ -60,15 +60,15 @@ describe('Unit | Route | resume', function() {
 
     it('should get the next challenge of the assessment', function() {
       // given
-      challengeAdapterStub.queryNext.resolves();
+      queryRecordStub.resolves();
 
       // when
       const promise = route.afterModel(assessment);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(challengeAdapterStub.queryNext);
-        sinon.assert.calledWith(challengeAdapterStub.queryNext, route.get('store'), 123);
+        sinon.assert.calledOnce(queryRecordStub);
+        sinon.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: 123 });
       });
     });
 
@@ -76,8 +76,8 @@ describe('Unit | Route | resume', function() {
 
       it('should redirect to the challenge view', function() {
         // given
-        const nextChallenge = Ember.Object.create();
-        challengeAdapterStub.queryNext.resolves(nextChallenge);
+        const nextChallenge = Ember.Object.create({ id: 456 });
+        queryRecordStub.resolves(nextChallenge);
 
         // when
         const promise = route.afterModel(assessment);
@@ -85,7 +85,7 @@ describe('Unit | Route | resume', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.get-challenge', { assessment, nextChallenge });
+          sinon.assert.calledWith(route.transitionTo, 'assessments.get-challenge', 123, 456);
         });
       });
 
@@ -95,7 +95,7 @@ describe('Unit | Route | resume', function() {
 
       it('should redirect to assessment results page', function() {
         // given
-        challengeAdapterStub.queryNext.rejects();
+        queryRecordStub.rejects();
 
         // when
         const promise = route.afterModel(assessment);
@@ -103,7 +103,7 @@ describe('Unit | Route | resume', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.get-results', assessment.get('id'));
+          sinon.assert.calledWith(route.transitionTo, 'assessments.get-results', 123);
         });
       });
 
