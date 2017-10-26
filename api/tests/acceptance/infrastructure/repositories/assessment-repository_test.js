@@ -4,7 +4,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Acceptance | Infrastructure | Repositories | assessment-repository', () => {
 
-  describe('#findCompletedAssessmentsByUserId', () => {
+  describe('#findLastAssessmentsForEachCoursesByUser', () => {
     beforeEach(() => {
 
       return knex('assessments').insert([{
@@ -48,7 +48,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       const userId = 1;
 
       // when
-      const promise = assessmentRepository.findCompletedAssessmentsByUserId(userId);
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(userId);
 
       // then
       return promise.then(assessments => {
