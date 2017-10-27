@@ -1,4 +1,10 @@
 const Assessment = require('../../domain/models/data/assessment');
+const {groupBy, map, head} = require('lodash');
+
+function _selectLastAssessmentForEachCourse(assessments) {
+  const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
+  return map(assessmentsGroupedByCourse, head);
+}
 
 module.exports = {
 
@@ -10,13 +16,19 @@ module.exports = {
 
   findLastAssessmentsForEachCoursesByUser(userId) {
     return Assessment
+      .collection()
       .query(qb => {
-        qb.where({ userId });
-        qb.whereNotNull('estimatedLevel');
-        qb.whereNotNull('pixScore');
+        qb.select()
+          .where({ userId })
+          .orderBy('createdAt', 'desc');
       })
-      .fetchAll()
-      .then(assessments => assessments.models);
+      .fetch()
+      .then((assessments) => {
+        // XXX This kind of filter can be done with SQL but request differs according the database (PG, SQLite)
+        // we don't succeed to write the request with Bookshelf/knex
+        return _selectLastAssessmentForEachCourse(assessments);
+      });
+
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {

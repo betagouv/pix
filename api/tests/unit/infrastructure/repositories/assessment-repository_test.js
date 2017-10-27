@@ -12,21 +12,27 @@ describe('Unit | Repository | assessmentRepository', () => {
     const assessmentsInDb = [{
       id: 1,
       userId: JOHN,
-      courseId: 'courseId',
+      courseId: 'courseId1',
       estimatedLevel: 1,
       pixScore: 10
     }, {
       id: 2,
       userId: LAYLA,
-      courseId: 'courseId',
+      courseId: 'courseId1',
       estimatedLevel: 2,
       pixScore: 20
     }, {
       id: 3,
       userId: JOHN,
-      courseId: 'courseId',
+      courseId: 'courseId1',
       estimatedLevel: 3,
       pixScore: 30
+    }, {
+      id: 4,
+      userId: JOHN,
+      courseId: 'courseId2',
+      estimatedLevel: 3,
+      pixScore: 37
     }];
 
     before(() => {
@@ -37,7 +43,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments from JOHN', () => {
+    it('should return the list of assessments for each courses from JOHN', () => {
       // When
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
@@ -49,7 +55,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         expect(firstId).to.equal(1);
 
         const secondId = assessments[1].id;
-        expect(secondId).to.equal(3);
+        expect(secondId).to.equal(4);
       });
     });
 

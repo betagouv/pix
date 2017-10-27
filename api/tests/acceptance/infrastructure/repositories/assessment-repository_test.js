@@ -12,38 +12,44 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
         userId: 1,
         courseId: 'course_A',
         pixScore: null,
-        estimatedLevel: null
+        estimatedLevel: null,
+        createdAt : '2016-10-27 08:44:25'
       }, {
         id: 2,
         userId: 1,
         courseId: 'course_A',
         pixScore: 26,
-        estimatedLevel: 4
+        estimatedLevel: 4,
+        createdAt : '2017-10-27 08:44:25'
       }, {
         id: 3,
         userId: 1,
         courseId: 'course_A',
         pixScore: null,
-        estimatedLevel: null
+        estimatedLevel: null,
+        createdAt : '2018-10-27 08:44:25'
       }, {
         id: 4,
         userId: 1,
         courseId: 'course_B',
         pixScore: 46,
-        estimatedLevel: 5
+        estimatedLevel: 5,
+        createdAt : '2017-10-27 08:44:25'
       }, {
         id: 5,
         userId: 1,
         courseId: 'course_B',
         pixScore: null,
-        estimatedLevel: 5
+        estimatedLevel: 5,
+        createdAt : '2018-10-27 08:44:25'
       }]);
     });
 
     afterEach(() => {
       return knex('assessments').delete();
     });
-    it('should return only user assessments that he has completed (i.e. with a level and a score)', () => {
+
+    it('should return the user\'s assessments unique by course (and only the last ones)', () => {
       // given
       const userId = 1;
 
@@ -53,7 +59,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       // then
       return promise.then(assessments => {
         expect(assessments).to.have.lengthOf(2);
-        expect(assessments.map(assessment => assessment.id)).to.deep.equal([2, 4]);
+        expect(assessments.map(assessment => assessment.get('id'))).to.deep.equal([3, 5]);
       });
     });
   });
