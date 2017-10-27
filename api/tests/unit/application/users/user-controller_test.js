@@ -16,7 +16,6 @@ const passwordResetService = require('../../../../lib/domain/services/reset-pass
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
-const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 
@@ -613,35 +612,6 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should be a function', () => {
       expect(userController).to.have.property('getSkillProfile').and.to.be.a('function');
-    });
-
-    it('should load the user informations', () => {
-      // When
-      userController.getSkillProfile(request, replyStub);
-
-      // Then
-      sinon.assert.calledOnce(userService.isUserExistingById);
-      sinon.assert.calledWith(userService.isUserExistingById, 1);
-    });
-
-    context('when the user is not found', () => {
-      it('should reply with a 404 error', () => {
-        // Given
-        const userNotFoundError = new UserNotFoundError();
-        userService.isUserExistingById.rejects(userNotFoundError);
-
-        // When
-        const promise = userController.getSkillProfile(request, replyStub);
-
-        // Then
-        return promise.then(() => {
-          sinon.assert.calledOnce(replyStub);
-
-          sinon.assert.calledOnce(Boom.badRequest);
-          sinon.assert.calledWith(Boom.badRequest, userNotFoundError);
-          sinon.assert.notCalled(Boom.badImplementation);
-        });
-      });
     });
 
     context('when loading user competences fails', () => {

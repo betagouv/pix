@@ -18,7 +18,7 @@ const encryptionService = require('../../domain/services/encryption-service');
 const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
-const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError, UserNotFoundError } = require('../../domain/errors');
+const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -100,19 +100,11 @@ module.exports = {
   getSkillProfile(request, reply) {
     const userId = request.params.id;
 
-    return userService
-      .isUserExistingById(userId)
-      .then(() => userService.getSkillProfile(userId))
+    return userService.getSkillProfile(userId)
       .then(reply)
       .catch(err => {
-
-        if(err instanceof UserNotFoundError) {
-          return reply(Boom.badRequest(err));
-        }
-
         logger.error(err);
         reply(Boom.badImplementation(err));
-
       });
   }
 };

@@ -11,12 +11,12 @@ const answerRepository = require('../../../lib/infrastructure/repositories/answe
 const competenceRepository = require('../../../lib/infrastructure/repositories/competence-repository');
 
 function _loadAnwsersByAssessments(assessments) {
-  const fetchAnswersPromises = [];
+  const answersPromises = [];
   assessments.forEach((assessment) => {
-    fetchAnswersPromises.push(answerRepository.findByAssessment(assessment.id));
+    answersPromises.push(answerRepository.findByAssessment(assessment.id));
   });
 
-  return Promise.all(fetchAnswersPromises);
+  return Promise.all(answersPromises);
 }
 
 function _getCompetenceById(competences, competenceId) {
@@ -31,6 +31,12 @@ function _castCompetencesToUserCompetences([challenges, competences, answersByAs
   }, []);
 
   return [challenges, competences, answersByAssessments];
+}
+
+function _loadRequiredChallengesInformationsAndAnswers(answersByAssessments) {
+  return Promise.all([
+    challengeRepository.list(), competenceRepository.list(), answersByAssessments
+  ]);
 }
 
 module.exports = {
@@ -53,17 +59,17 @@ module.exports = {
   },
 
   getSkillProfile(userId) {
+
     return assessmentRepository
       .findCompletedAssessmentsByUserId(userId)
       .then(_loadAnwsersByAssessments)
-      .then((answersByAssessments) => Promise.all([
-        challengeRepository.list(), competenceRepository.list(), answersByAssessments
-      ]))
+      .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
       .then(([challenges, competences, answersByAssessments]) => {
-        const answers = _.flatten(answersByAssessments).filter((answer) => answer.get('result') === 'ok');
-        _(answers).forEach((answer) => {
 
+        const answers = _.flatten(answersByAssessments).filter((answer) => answer.get('result') === 'ok');
+
+        _(answers).forEach((answer) => {
           const challenge = _(challenges).find((challenge) => challenge.id === answer.get('challengeId'));
 
           if(challenge) {

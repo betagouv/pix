@@ -20,7 +20,14 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/users/{id}/skills',
-      config: { handler: UserController.getSkillProfile, tags: ['api'] }
+      config: {
+        pre: [{
+          method: userVerification.verifyById,
+          assign: 'user'
+        }],
+        handler: UserController.getSkillProfile
+        , tags: ['api']
+      }
     },
     {
       method: 'PATCH',
