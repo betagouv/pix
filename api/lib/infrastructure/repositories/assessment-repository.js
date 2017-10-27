@@ -1,5 +1,5 @@
 const Assessment = require('../../domain/models/data/assessment');
-const {groupBy, map, head} = require('lodash');
+const { groupBy, map, head } = require('lodash');
 
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));

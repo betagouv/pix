@@ -107,7 +107,8 @@ describe('Unit | Service | Profil User Service', function() {
               name: '1.1 Mener une recherche d’information',
               areaId: 'areaId1',
               level: 1,
-              pixScore: 10
+              pixScore: 10,
+              assessmentId: "assessmentId1"
             },
             {
               id: 'competenceId2',
