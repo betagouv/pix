@@ -57,11 +57,11 @@ describe('Unit | Service | Profil User Service', function() {
   }];
 
   const fakeOrganizationsRecords = [{
-    id : 'organizationId1',
-    name : 'orga 1'
+    id: 'organizationId1',
+    name: 'orga 1'
   }, {
-    id : 'organizationId2',
-    name : 'orga 2'
+    id: 'organizationId2',
+    name: 'orga 2'
   }];
 
   describe('#getUser', () => {
@@ -108,7 +108,7 @@ describe('Unit | Service | Profil User Service', function() {
               areaId: 'areaId1',
               level: 1,
               pixScore: 10,
-              assessmentId: "assessmentId1"
+              assessmentId: 'assessmentId1'
             },
             {
               id: 'competenceId2',
@@ -117,7 +117,7 @@ describe('Unit | Service | Profil User Service', function() {
               level: -1
             }],
           areas: fakeAreaRecords,
-          organizations : fakeOrganizationsRecords
+          organizations: fakeOrganizationsRecords
         };
 
         // When

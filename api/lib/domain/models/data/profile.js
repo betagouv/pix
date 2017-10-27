@@ -31,7 +31,7 @@ class Profile {
     });
   }
 
-  _setAssessmentToCompetence(assessments, courses){
+  _setAssessmentToCompetence(assessments, courses) {
     assessments.forEach(assessment => {
       const courseIdFromAssessment = assessment.get('courseId');
       const course = this._getCourseById(courses, courseIdFromAssessment);
