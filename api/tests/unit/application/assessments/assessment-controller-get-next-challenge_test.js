@@ -207,11 +207,11 @@ describe('Unit | Controller | assessment-controller', () => {
 function _generateValitedSkills() {
   const url2 = new Skill('@url2');
   const web3 = new Skill('@web3');
-  const skill = new Set();
-  skill.add(url2);
-  skill.add(web3);
+  const skills = new Set();
+  skills.add(url2);
+  skills.add(web3);
 
-  return skill;
+  return skills;
 }
 
 function _generateFailedSkills() {

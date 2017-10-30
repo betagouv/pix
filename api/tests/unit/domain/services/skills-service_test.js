@@ -15,11 +15,6 @@ describe('Unit | Service | Skills Service', () => {
       skillsRepository.db.save.restore();
     });
 
-    it('should be a function', () => {
-      // then
-      expect(skillsService.saveAssessmentSkills).to.be.a('function');
-    });
-
     it('should call Skills Repository#save with formatted skills', () => {
 
       const givenSkills = {
