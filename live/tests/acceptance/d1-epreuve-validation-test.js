@@ -44,7 +44,7 @@ describe('Acceptance | d1 - Valider une épreuve |', function() {
     expect(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
   });
 
-  describe('quand je valide ma réponse à une épreuve', function() {
+  describe.skip('quand je valide ma réponse à une épreuve', function() {
     beforeEach(async function() {
       // Given
       await visitTimedChallenge();

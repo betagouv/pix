@@ -82,7 +82,7 @@ describe('Acceptance | h2 - Warning prochaine page timée  | ', function() {
 
   });
 
-  describe('h2-Affichage de la page warning pour 2 epreuves timées du même types (suite au bug US-424)', function() {
+  describe.skip('h2-Affichage de la page warning pour 2 epreuves timées du même types (suite au bug US-424)', function() {
 
     const ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
     const PASS_BUTTON = '.challenge-actions__action-skip';
