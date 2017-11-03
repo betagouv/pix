@@ -14,6 +14,17 @@ module.exports = {
       .fetch({ withRelated: ['answers'] });
   },
 
+  findCompletedAssessmentsByUserId(userId) {
+    return Assessment
+      .query(qb => {
+        qb.where({ userId });
+        qb.whereNotNull('estimatedLevel');
+        qb.whereNotNull('pixScore');
+      })
+      .fetchAll()
+      .then(assessments => assessments.models);
+  },
+
   findLastAssessmentsForEachCoursesByUser(userId) {
     return Assessment
       .query(qb => {
