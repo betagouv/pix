@@ -1432,6 +1432,8 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     };
   }
 
+  var debounce = Ember.run.debounce;
+
   var visitTimedChallenge = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1443,7 +1445,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
 
             case 2:
               _context.next = 4;
-              return click('.challenge-item-warning button');
+              return click('.challenge-item-warning__confirm-btn');
 
             case 4:
             case 'end':
@@ -1538,92 +1540,43 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
       }, _callee4, this);
     })));
 
-    _mocha.describe.skip('quand je valide ma réponse à une épreuve', function () {
-      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return visitTimedChallenge();
+    (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
 
-              case 2:
-                _context5.next = 4;
-                return click('.proposal-text');
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante (et la barre de progression est mise à jour)', function () {
+        var _this = this;
 
-              case 4:
-                _context5.next = 6;
-                return click('.challenge-actions__action-validate');
+        // given
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        click('.challenge-item-warning__confirm-btn');
 
-              case 6:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      })));
+        // when
+        click('.challenge-actions__action-validate');
 
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+        // then
+        andThen(function () {
+          debounce(_this, function () {
+            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+            (0, _chai.expect)(findWithAssert('.pix-progress-bar').text().trim()).to.contain('2 / 4');
+          }, 150);
+        });
+      });
 
-              case 1:
-              case 'end':
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      })));
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
+        var _this2 = this;
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        var expectedText;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
+        // given
+        visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
 
-                // Then
-                expectedText = '2';
+        // when
+        click('.challenge-actions__action-validate');
 
-                (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
-
-              case 2:
-              case 'end':
-                return _context7.stop();
-            }
-          }
-        }, _callee7, this);
-      })));
-
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
-
-              case 2:
-                _context8.next = 4;
-                return click('.challenge-response__proposal-input');
-
-              case 4:
-                _context8.next = 6;
-                return click('.challenge-actions__action-validate');
-
-              case 6:
-                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
-
-              case 7:
-              case 'end':
-                return _context8.stop();
-            }
-          }
-        }, _callee8, this);
-      })));
+        // then
+        andThen(function () {
+          debounce(_this2, function () {
+            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
+          }, 150);
+        });
+      });
     });
   });
 });
