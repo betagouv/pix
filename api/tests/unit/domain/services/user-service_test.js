@@ -140,33 +140,33 @@ describe('Unit | Service | User Service', () => {
       sandbox.stub(challengeRepository, 'list').resolves([
         {
           'id': 'challengeRecordIdOne',
-          'knowledgeTags': ['@recherche4'],
+          'skills': ['@recherche4'],
           'competence': 'competenceRecordIdOne'
         },
         {
           'id': 'challengeRecordIdTwo',
-          'knowledgeTags': ['@remplir2'],
+          'skills': ['@remplir2'],
           'competence': 'competenceRecordIdTwo'
         },
         {
           'id': 'challengeRecordIdThree',
-          'knowledgeTags': ['@collaborer4'],
+          'skills': ['@collaborer4'],
           'competence': 'competenceRecordIdThatDoesNotExistAnymore',
           'attachments': []
         },
         {
           'id': 'challengeRecordIdFour',
-          'knowledgeTags': ['@remplir4'],
+          'skills': ['@remplir4'],
           'competence': 'competenceRecordIdTwo'
         },
         {
           'id': 'challengeRecordIdFive',
-          'knowledgeTags': ['@url3'],
+          'skills': ['@url3'],
           'competence': 'competenceRecordIdTwo'
         },
         {
           'id': 'challengeRecordIdSix',
-          'knowledgeTags': ['@web1'],
+          'skills': ['@web1'],
           'competence': 'competenceRecordIdTwo'
         }
       ]);

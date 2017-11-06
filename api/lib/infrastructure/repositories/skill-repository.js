@@ -7,7 +7,7 @@ function _fetchSkillsFromCompetence(competenceId, cacheKey, resolve, reject) {
   challengeRepository.getFromCompetenceId(competenceId)
     .then(challenges => {
       const skills = new Set();
-      challenges.forEach(challenge => challenge.knowledgeTags ? challenge.knowledgeTags.forEach(skill => skills.add(skill)) : null);
+      challenges.forEach(challenge => challenge.skills ? challenge.skills.forEach(skill => skills.add(skill)) : null);
       cache.set(cacheKey, skills);
       return resolve(skills);
     })

@@ -20,7 +20,7 @@ const { NotElligibleToScoringError } = require('../../../../lib/domain/errors');
 function _buildChallenge(challengeId, knowledgeTags) {
   const challenge = new Challenge();
   challenge.id = challengeId;
-  challenge.knowledgeTags = knowledgeTags;
+  challenge.skills = knowledgeTags;
   return challenge;
 }
 

@@ -96,18 +96,18 @@ module.exports = {
       .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
-      .then(([challenges, competences, answers]) => {
+      .then(([challenges, userCompetences, answers]) => {
         answers.forEach((answer) => {
           const challenge = _getRelatedChallengeById(challenges, answer);
-          const competence = _getCompetenceByChallengeCompetenceId(competences, challenge);
+          const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
           if (challenge && competence) {
-            challenge.knowledgeTags.forEach((skill) => {
+            challenge.skills.forEach((skill) => {
               competence.addSkill(new Skill(skill));
             });
           }
         });
-        return competences;
+        return userCompetences;
       })
       .then(_limitSkillsToTheThreeHighestOrderedByDifficultyDesc);
   }

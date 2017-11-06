@@ -14,8 +14,8 @@ function getAdaptedAssessment(coursePix, answersPix, challengesPix, skillNames) 
 
   challengesPix.forEach(challengePix => {
     const challengeSkills = [];
-    if (challengePix.knowledgeTags) {
-      challengePix.knowledgeTags.forEach(skillName => {
+    if (challengePix.skills) {
+      challengePix.skills.forEach(skillName => {
         if (!skills.hasOwnProperty(skillName)) {
           skills[skillName] = new Skill(skillName);
         }
