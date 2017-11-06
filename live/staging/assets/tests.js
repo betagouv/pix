@@ -3746,7 +3746,7 @@ define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-li
     }
   }
 });
-define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _getCmdKey) {
+define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/fixtures/mouse-buttons-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _mouseButtonsArray, _getCmdKey) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3765,16 +3765,34 @@ define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports'
     registerAsyncHelper('keyPress', function (app, attributes, element) {
       return keyEvent(app, attributes, 'keypress', element);
     });
+
+    registerAsyncHelper('mouseDown', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'mousedown', element);
+    });
+
+    registerAsyncHelper('mouseUp', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'mouseup', element);
+    });
+
+    registerAsyncHelper('touchStart', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'touchstart', element);
+    });
+
+    registerAsyncHelper('touchEnd', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'touchend', element);
+    });
   };
 
   var registerAsyncHelper = Ember.Test.registerAsyncHelper;
 
 
   var keyEvent = function keyEvent(app, attributes, type, element) {
-    var event = attributes.split('+').reduce(function (event, attribute) {
+    var event = (attributes || '').split('+').reduce(function (event, attribute) {
       if (_modifiersArray.default.indexOf(attribute) > -1) {
         attribute = attribute === 'cmd' ? (0, _getCmdKey.default)() : attribute;
         event[attribute + 'Key'] = true;
+      } else if (_mouseButtonsArray.default.indexOf(attribute) > -1) {
+        event.button = (0, _emberKeyboard.getMouseCode)(attribute);
       } else {
         event.keyCode = (0, _emberKeyboard.getKeyCode)(attribute);
       }
@@ -3782,7 +3800,7 @@ define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports'
       return event;
     }, {});
 
-    return app.testHelpers.triggerEvent(element || document, type, event);
+    return app.testHelpers.triggerEvent(element || document.body, type, event);
   };
 });
 define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _test) {
@@ -5064,7 +5082,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
         (0, _chai.expect)($description.text().trim()).to.equal(course.get('description'));
       });
 
-      (0, _mocha.it)('should render the number of challenges', function () {
+      (0, _mocha.it)('should render the number of challenges when the list of challenges is given', function () {
         // given
         var course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
         this.set('course', course);
@@ -5081,7 +5099,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
       });
 
-      (0, _mocha.it)('should render the number of challenges', function () {
+      (0, _mocha.it)('should render the number of challenges when the count of challenge is given', function () {
         // given
         var course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
         this.set('course', course);
@@ -9457,7 +9475,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         });
       });
 
-      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+      (0, _mocha.it)('should hide user menu, when the menu is opened then closed', function () {
         var _this4 = this;
 
         // when
@@ -9472,53 +9490,55 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       (0, _mocha.describe)('button rendering', function () {
 
-        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
-          var _this5 = this;
+        context('when the user is on compte page', function () {
+          (0, _mocha.it)('should not render a button link to the "profile" page', function () {
+            var _this5 = this;
 
-          this.register('service:-routing', Ember.Service.extend({
-            currentRouteName: 'compte',
-            generateURL: function generateURL() {
-              return '/compte';
-            }
-          }));
-          this.inject.service('-routing', { as: '-routing' });
+            this.register('service:-routing', Ember.Service.extend({
+              currentRouteName: 'compte',
+              generateURL: function generateURL() {
+                return '/compte';
+              }
+            }));
+            this.inject.service('-routing', { as: '-routing' });
 
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "pah6OdLO",
-            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-          this.$('.logged-user-name').click();
+            // when
+            this.render(Ember.HTMLBars.template({
+              "id": "pah6OdLO",
+              "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+            this.$('.logged-user-name').click();
 
-          return (0, _wait.default)().then(function () {
-            // then
-            (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+            return (0, _wait.default)().then(function () {
+              // then
+              (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+            });
           });
-        });
 
-        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
-          var _this6 = this;
+          (0, _mocha.it)('should not render a button link to the "board" page', function () {
+            var _this6 = this;
 
-          this.register('service:-routing', Ember.Service.extend({
-            currentRouteName: 'board',
-            generateURL: function generateURL() {
-              return '/board';
-            }
-          }));
-          this.inject.service('-routing', { as: '-routing' });
+            this.register('service:-routing', Ember.Service.extend({
+              currentRouteName: 'board',
+              generateURL: function generateURL() {
+                return '/board';
+              }
+            }));
+            this.inject.service('-routing', { as: '-routing' });
 
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "pah6OdLO",
-            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-          this.$('.logged-user-name').click();
+            // when
+            this.render(Ember.HTMLBars.template({
+              "id": "pah6OdLO",
+              "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+            this.$('.logged-user-name').click();
 
-          return (0, _wait.default)().then(function () {
-            // then
-            (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+            return (0, _wait.default)().then(function () {
+              // then
+              (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+            });
           });
         });
 
