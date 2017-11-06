@@ -3458,10 +3458,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('initializers/router.js', function () {
-      // test passed
-    });
-
     it('models/answer.js', function () {
       // test passed
     });
@@ -3534,15 +3530,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/assessments/get-challenge.js', function () {
+    it('routes/assessments/challenge.js', function () {
       // test passed
     });
 
-    it('routes/assessments/get-comparison.js', function () {
+    it('routes/assessments/comparison.js', function () {
       // test passed
     });
 
-    it('routes/assessments/get-results.js', function () {
+    it('routes/assessments/results.js', function () {
       // test passed
     });
 
@@ -3554,7 +3550,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/challenges/get-preview.js', function () {
+    it('routes/challenge-preview.js', function () {
       // test passed
     });
 
@@ -3574,15 +3570,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/courses/create-assessment-old.js', function () {
-      // test passed
-    });
-
     it('routes/courses/create-assessment.js', function () {
-      // test passed
-    });
-
-    it('routes/courses/get-challenge-preview.js', function () {
       // test passed
     });
 
@@ -3639,10 +3627,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/ajax.js', function () {
-      // test passed
-    });
-
-    it('services/assessment.js', function () {
       // test passed
     });
 
@@ -3964,25 +3948,6 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
         (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
-        // given
-        this.set('externalAction', function () {
-          return RSVP.resolve();
-        });
-        this.render(Ember.HTMLBars.template({
-          "id": "FDBJOTJO",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // when
-        this.$('.challenge-actions__action-validate').click();
-
-        // then
-        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
@@ -10149,11 +10114,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-challenge-test.js', function () {
+    it('unit/routes/assessments/challenge-test.js', function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-results-test.js', function () {
+    it('unit/routes/assessments/results-test.js', function () {
       // test passed
     });
 
@@ -10161,7 +10126,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/challenges/get-preview-test.js', function () {
+    it('unit/routes/challenges/preview-test.js', function () {
       // test passed
     });
 
@@ -10174,10 +10139,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/courses/get-challenge-preview-test.js', function () {
       // test passed
     });
 
@@ -10226,10 +10187,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/terms-of-service-test.js', function () {
-      // test passed
-    });
-
-    it('unit/services/assessment-test.js', function () {
       // test passed
     });
 
@@ -13488,13 +13445,13 @@ define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {
-      needs: ['service:assessment', 'service:current-routed-modal']
+    (0, _emberMocha.setupTest)('route:assessments.challenge', {
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -13503,12 +13460,12 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-results', {
+    (0, _emberMocha.setupTest)('route:assessments.results', {
       needs: ['service:current-routed-modal']
     });
 
@@ -13653,12 +13610,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/challenges/preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Route | challenges.get-preview', function () {
+  (0, _mocha.describe)('Unit | Route | challenges-preview', function () {
 
-    (0, _emberMocha.setupTest)('route:challenges.get-preview', {
+    (0, _emberMocha.setupTest)('route:challenge-preview', {
       needs: ['service:current-routed-modal']
     });
 
@@ -13887,21 +13844,6 @@ define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha
 
     (0, _emberMocha.setupTest)('route:courses', {
       needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
-
-    (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
-      needs: ['service:current-routed-modal', 'service:assessment']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -14443,111 +14385,6 @@ define('pix-live/tests/unit/routes/terms-of-service-test', ['chai', 'mocha', 'em
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/services/assessment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Service | AssessmentService', function () {
-
-    (0, _emberMocha.setupTest)('service:assessment', {
-      needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
-    });
-
-    function instantiateModels(store, challengesArray) {
-      var challenges = challengesArray.map(function (challenge) {
-        return store.createRecord('challenge', challenge);
-      });
-      var course = store.createRecord('course');
-      course.get('challenges').pushObjects(challenges);
-      var assessment = store.createRecord('assessment', { course: course });
-
-      return { challenges: challenges, assessment: assessment };
-    }
-
-    (0, _mocha.describe)('#getNextChallenge', function () {
-
-      (0, _mocha.it)('returns a promise', function () {
-        var _this = this;
-
-        return Ember.run(function () {
-          var store = _this.container.lookup('service:store');
-
-          var _instantiateModels = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels.challenges,
-              assessment = _instantiateModels.assessment;
-
-          (0, _chai.expect)(_this.subject().getNextChallenge(challenges[0], assessment)).to.respondsTo('then');
-        });
-      });
-
-      (0, _mocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
-        var _this2 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this2.container.lookup('service:store');
-
-          var _instantiateModels2 = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels2.challenges,
-              assessment = _instantiateModels2.assessment;
-
-          // when
-          return _this2.subject().getNextChallenge(challenges[0], assessment).then(function (actual) {
-            // then
-            (0, _chai.expect)(actual.get('id')).to.equal(challenges[1].get('id'));
-          });
-        });
-      });
-
-      (0, _mocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
-        var _this3 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this3.container.lookup('service:store');
-
-          var _instantiateModels3 = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels3.challenges,
-              assessment = _instantiateModels3.assessment;
-
-          // when
-          return _this3.subject().getNextChallenge(challenges[1], assessment).then(function (actual) {
-            // then
-            (0, _chai.expect)(actual).to.be.null;
-          });
-        });
-      });
-
-      (0, _mocha.it)('return challenge model objects well formed', function () {
-        var _this4 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this4.container.lookup('service:store');
-
-          var _instantiateModels4 = instantiateModels(store, [{ id: 1 }, { id: 2 }, { id: 3 }]),
-              challenges = _instantiateModels4.challenges,
-              assessment = _instantiateModels4.assessment;
-
-          // when
-          return _this4.subject().getNextChallenge(challenges[0], assessment).then(function (challenge1) {
-
-            (0, _chai.expect)(challenge1.get('id')).to.equal(challenges[1].get('id'));
-
-            return _this4.subject().getNextChallenge(challenge1, assessment);
-          }).then(function (challenge2) {
-
-            (0, _chai.expect)(challenge2.get('id')).to.equal(challenges[2].get('id'));
-
-            return _this4.subject().getNextChallenge(challenge2, assessment);
-          }).then(function (challenge3) {
-
-            (0, _chai.expect)(challenge3).to.be.null;
-          });
-        });
-      });
     });
   });
 });
