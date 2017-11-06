@@ -2,42 +2,57 @@ import Ember from 'ember';
 import { describe, it, beforeEach, afterEach } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
-import _ from 'pix-live/utils/lodash-custom';
 
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
 const START_BUTTON = '.course-item__begin-button';
 
-describe('Acceptance | a4 - Démarrer un test |', function() {
+describe.only('Acceptance | a4 - Démarrer un test |', function() {
 
   let application;
 
   beforeEach(function() {
     application = startApp();
-    visit('/');
   });
 
   afterEach(function() {
     destroyApp(application);
   });
 
-  it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', async function() {
-    await visit('/courses/ref_course_id');
-    expect(_.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
+  it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
+    // when
+    visit('/courses/ref_course_id');
+
+    // then
+    andThen(() => {
+      Ember.run.later(function() {
+        expect(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      }, 500);
+    });
   });
 
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
-    const $startLink = findWithAssert(START_BUTTON);
-    return click($startLink).then(function() {
-      findWithAssert('.assessment-challenge');
-      expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
+    // given
+    visit('/');
+
+    // when
+    click(START_BUTTON);
+
+    // then
+    andThen(() => {
+      Ember.run.later(function() {
+        findWithAssert('.assessment-challenge');
+        expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
+      }, 500);
     });
   });
 
   it('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
-    const $startLink = findWithAssert(START_BUTTON);
+    visit('/');
 
-    expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
+    andThen(() => {
+      expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
+    });
 
     // test on mobile
     triggerEvent('.course-list', 'simulateMobileScreen');
@@ -50,7 +65,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     });
 
     // start a test
-    click($startLink);
+    click(START_BUTTON);
 
     // blocked by modal
     andThen(() => {
@@ -60,7 +75,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
         expect(currentURL()).to.equals('/');
         find('a[data-dismiss]').click();
 
-        return click($startLink).then(() => {
+        return click(START_BUTTON).then(() => {
           expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
           done();
         });
