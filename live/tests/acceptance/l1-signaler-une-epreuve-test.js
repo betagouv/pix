@@ -37,7 +37,7 @@ describe('Acceptance | Signaler une épreuve', function() {
       assertThatFeedbackPanelExist();
     });
 
-    it.skip('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', async () => {
+    it('Le formulaire de signalement est remis à zéro même quand les 2 épreuves qui s\'enchaînent utilisent le même composant challenge-item-* (ex : q1 est de type "QCU" et q2 "QRU" ; toutes deux utilisent le composant challenge-item-qcu)', async () => {
       // In our Mirage data set, in the "ref course", the QCU challenge is followed by a QRU's one
       await visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
       assertThatFeedbackFormIsClosed();
