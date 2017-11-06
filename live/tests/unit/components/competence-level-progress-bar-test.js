@@ -73,7 +73,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
           component.set('courseId', courseId);
 
           // then
-          expect(component.get('canUserStartCourse')).to.be.equal(expected);
+          expect(component.get('canUserStartCourse')).to.equal(expected);
         });
       });
 
