@@ -60,7 +60,8 @@
 }
 
 .mariane-logo__item {
-  display: inline;
+  display: inline-block;
+  vertical-align: top;
   list-style-type: none;
 
   &:first-child {
