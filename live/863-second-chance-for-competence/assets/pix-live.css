@@ -1026,12 +1026,12 @@ button.routable-modal--close:active {
   font-weight: bold;
   color: #3d68ff; }
 
-.competence-level-progress-bar__start {
+.competence-level-progress-bar__link {
   text-align: right;
   padding: 2px 17px 3px 0;
   height: 24px; }
 
-.competence-level-progress-bar__start-link {
+.competence-level-progress-bar__link-start {
   width: 81px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
@@ -1040,7 +1040,19 @@ button.routable-modal--close:active {
   color: #3d68ff;
   text-decoration: none;
   cursor: pointer; }
-  .competence-level-progress-bar__start-link:hover {
+  .competence-level-progress-bar__link-start:hover {
+    color: #3d68ff; }
+
+.competence-level-progress-bar__link-resume {
+  width: 81px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #3d68ff;
+  text-decoration: none;
+  cursor: pointer; }
+  .competence-level-progress-bar__link-resume:hover {
     color: #3d68ff; }
 
 .course-banner {
