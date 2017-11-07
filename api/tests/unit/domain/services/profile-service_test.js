@@ -108,13 +108,15 @@ describe('Unit | Service | Profil User Service', function() {
               areaId: 'areaId1',
               level: 1,
               pixScore: 10,
-              assessmentId: 'assessmentId1'
+              assessmentId: 'assessmentId1',
+              status: 'evaluated'
             },
             {
               id: 'competenceId2',
               name: '1.2 Gérer des données',
               areaId: 'areaId2',
-              level: -1
+              level: -1,
+              status: 'notEvaluated'
             }],
           areas: fakeAreaRecords,
           organizations: fakeOrganizationsRecords
