@@ -526,7 +526,8 @@ button.routable-modal--close:active {
   margin: 0; }
 
 .mariane-logo__item {
-  display: inline;
+  display: inline-block;
+  vertical-align: top;
   list-style-type: none; }
   .mariane-logo__item:first-child {
     margin-right: 12px; }
