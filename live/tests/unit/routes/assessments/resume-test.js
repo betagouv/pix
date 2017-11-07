@@ -30,6 +30,7 @@ describe('Unit | Route | resume', function() {
     // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
+    route.paramsFor = sinon.stub().returns({ assessment_id: 123 });
   });
 
   it('exists', function() {
@@ -44,7 +45,7 @@ describe('Unit | Route | resume', function() {
       route.get('store').findRecord.resolves();
 
       // when
-      const promise = route.model({ assessment_id: 123 });
+      const promise = route.model();
 
       // then
       return promise.then(() => {
@@ -85,7 +86,7 @@ describe('Unit | Route | resume', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.get-challenge', 123, 456);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.challenge', 123, 456);
         });
       });
 
@@ -103,7 +104,7 @@ describe('Unit | Route | resume', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(route.transitionTo);
-          sinon.assert.calledWith(route.transitionTo, 'assessments.get-results', 123);
+          sinon.assert.calledWith(route.transitionTo, 'assessments.results', 123);
         });
       });
 
