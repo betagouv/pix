@@ -116,6 +116,8 @@ module.exports = {
           }
         });
 
+        userCompetences = _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(userCompetences);
+
         const challengeIdsAlreadyAnswered = answers.map(answer => answer.get('challengeId'));
         const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map(challengeId => _getChallengeById(challenges, challengeId));
 
@@ -131,7 +133,6 @@ module.exports = {
         });
 
         return userCompetences;
-      })
-      .then(_limitSkillsToTheThreeHighestOrderedByDifficultyDesc);
+      });
   }
 };

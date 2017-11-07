@@ -382,16 +382,16 @@ describe('Unit | Service | User Service', () => {
                   challenges: [
                     {
                       'competence': 'competenceRecordIdOne',
-                      'id': 'challengeRecordIdOne',
+                      'id': 'challengeRecordIdSeven',
                       'skills': [
-                        '@recherche4'
+                        '@citation4'
                       ]
                     },
                     {
                       'competence': 'competenceRecordIdOne',
-                      'id': 'challengeRecordIdSeven',
+                      'id': 'challengeRecordIdOne',
                       'skills': [
-                        '@citation4'
+                        '@recherche4'
                       ]
                     },
                     {
@@ -457,16 +457,16 @@ describe('Unit | Service | User Service', () => {
               skills: [new Skill('@url3'), new Skill('@remplir2')],
               challenges: [
                 {
-                  id: 'challengeRecordIdTwo',
-                  competence: 'competenceRecordIdTwo',
-                  skills: ['@remplir2']
-                },
-                {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFive',
                   skills: [
                     '@url3'
                   ]
+                },
+                {
+                  id: 'challengeRecordIdTwo',
+                  competence: 'competenceRecordIdTwo',
+                  skills: ['@remplir2']
                 }
               ]
             }]);
@@ -515,16 +515,16 @@ describe('Unit | Service | User Service', () => {
                 },
                 {
                   competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdTwo',
+                  id: 'challengeRecordIdFive',
                   skills: [
-                    '@remplir2'
+                    '@url3'
                   ]
                 },
                 {
                   competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFive',
+                  id: 'challengeRecordIdTwo',
                   skills: [
-                    '@url3'
+                    '@remplir2'
                   ]
                 }
               ]
