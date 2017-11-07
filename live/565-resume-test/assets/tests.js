@@ -1,36 +1,7 @@
 'use strict';
 
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _application, _lodashCustom) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
   var MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
@@ -49,24 +20,12 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return visit('/courses/ref_course_id');
-
-            case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
-
-            case 3:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function () {
+      visit('/courses/ref_course_id');
+      andThen(function () {
+        (0, _chai.expect)(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      });
+    });
 
     (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
@@ -3376,10 +3335,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('initializers/router.js', function () {
-      // test passed
-    });
-
     it('models/answer.js', function () {
       // test passed
     });
@@ -3452,15 +3407,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/assessments/get-challenge.js', function () {
+    it('routes/assessments/challenge.js', function () {
       // test passed
     });
 
-    it('routes/assessments/get-comparison.js', function () {
+    it('routes/assessments/comparison.js', function () {
       // test passed
     });
 
-    it('routes/assessments/get-results.js', function () {
+    it('routes/assessments/results.js', function () {
       // test passed
     });
 
@@ -3476,7 +3431,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/challenges/get-preview.js', function () {
+    it('routes/challenge-preview.js', function () {
       // test passed
     });
 
@@ -3496,15 +3451,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/courses/create-assessment-old.js', function () {
-      // test passed
-    });
-
     it('routes/courses/create-assessment.js', function () {
-      // test passed
-    });
-
-    it('routes/courses/get-challenge-preview.js', function () {
       // test passed
     });
 
@@ -3557,10 +3504,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('services/ajax.js', function () {
-      // test passed
-    });
-
-    it('services/assessment.js', function () {
       // test passed
     });
 
@@ -3680,7 +3623,7 @@ define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-li
     }
   }
 });
-define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _getCmdKey) {
+define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports', 'ember-keyboard', 'ember-keyboard/fixtures/modifiers-array', 'ember-keyboard/fixtures/mouse-buttons-array', 'ember-keyboard/utils/get-cmd-key'], function (exports, _emberKeyboard, _modifiersArray, _mouseButtonsArray, _getCmdKey) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3699,16 +3642,34 @@ define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports'
     registerAsyncHelper('keyPress', function (app, attributes, element) {
       return keyEvent(app, attributes, 'keypress', element);
     });
+
+    registerAsyncHelper('mouseDown', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'mousedown', element);
+    });
+
+    registerAsyncHelper('mouseUp', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'mouseup', element);
+    });
+
+    registerAsyncHelper('touchStart', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'touchstart', element);
+    });
+
+    registerAsyncHelper('touchEnd', function (app, attributes, element) {
+      return keyEvent(app, attributes, 'touchend', element);
+    });
   };
 
   var registerAsyncHelper = Ember.Test.registerAsyncHelper;
 
 
   var keyEvent = function keyEvent(app, attributes, type, element) {
-    var event = attributes.split('+').reduce(function (event, attribute) {
+    var event = (attributes || '').split('+').reduce(function (event, attribute) {
       if (_modifiersArray.default.indexOf(attribute) > -1) {
         attribute = attribute === 'cmd' ? (0, _getCmdKey.default)() : attribute;
         event[attribute + 'Key'] = true;
+      } else if (_mouseButtonsArray.default.indexOf(attribute) > -1) {
+        event.button = (0, _emberKeyboard.getMouseCode)(attribute);
       } else {
         event.keyCode = (0, _emberKeyboard.getKeyCode)(attribute);
       }
@@ -3716,7 +3677,7 @@ define('pix-live/tests/helpers/ember-keyboard/register-test-helpers', ['exports'
       return event;
     }, {});
 
-    return app.testHelpers.triggerEvent(element || document, type, event);
+    return app.testHelpers.triggerEvent(element || document.body, type, event);
   };
 });
 define('pix-live/tests/helpers/ember-simple-auth', ['exports', 'ember-simple-auth/authenticators/test'], function (exports, _test) {
@@ -3882,25 +3843,6 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
         (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should be enable again when the treatment succeeded', function () {
-        // given
-        this.set('externalAction', function () {
-          return RSVP.resolve();
-        });
-        this.render(Ember.HTMLBars.template({
-          "id": "FDBJOTJO",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"answerValidated\"],[[25,\"action\",[[19,0,[]],[20,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // when
-        this.$('.challenge-actions__action-validate').click();
-
-        // then
-        (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
@@ -5042,7 +4984,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
         (0, _chai.expect)($description.text().trim()).to.equal(course.get('description'));
       });
 
-      (0, _mocha.it)('should render the number of challenges', function () {
+      (0, _mocha.it)('should render the number of challenges when the list of challenges is given', function () {
         // given
         var course = Ember.Object.create({ challenges: ['c1', 'c2', 'c3', 'c4'] });
         this.set('course', course);
@@ -5059,7 +5001,7 @@ define('pix-live/tests/integration/components/course-item-test', ['chai', 'mocha
         (0, _chai.expect)($nbChallenges.text().trim()).to.equal('4 épreuves');
       });
 
-      (0, _mocha.it)('should render the number of challenges', function () {
+      (0, _mocha.it)('should render the number of challenges when the count of challenge is given', function () {
         // given
         var course = Ember.Object.create({ challenges: [], nbChallenges: 2 });
         this.set('course', course);
@@ -9435,7 +9377,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
         });
       });
 
-      (0, _mocha.it)('should hide user menu, when it was previously open and user press key escape', function () {
+      (0, _mocha.it)('should hide user menu, when the menu is opened then closed', function () {
         var _this4 = this;
 
         // when
@@ -9450,53 +9392,55 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
       (0, _mocha.describe)('button rendering', function () {
 
-        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
-          var _this5 = this;
+        context('when the user is on compte page', function () {
+          (0, _mocha.it)('should not render a button link to the "profile" page', function () {
+            var _this5 = this;
 
-          this.register('service:-routing', Ember.Service.extend({
-            currentRouteName: 'compte',
-            generateURL: function generateURL() {
-              return '/compte';
-            }
-          }));
-          this.inject.service('-routing', { as: '-routing' });
+            this.register('service:-routing', Ember.Service.extend({
+              currentRouteName: 'compte',
+              generateURL: function generateURL() {
+                return '/compte';
+              }
+            }));
+            this.inject.service('-routing', { as: '-routing' });
 
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "pah6OdLO",
-            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-          this.$('.logged-user-name').click();
+            // when
+            this.render(Ember.HTMLBars.template({
+              "id": "pah6OdLO",
+              "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+            this.$('.logged-user-name').click();
 
-          return (0, _wait.default)().then(function () {
-            // then
-            (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+            return (0, _wait.default)().then(function () {
+              // then
+              (0, _chai.expect)(_this5.$('.user-menu-item__account-link').length).to.equal(0);
+            });
           });
-        });
 
-        (0, _mocha.it)('should not render a button link to the profile when the user is on compte page', function () {
-          var _this6 = this;
+          (0, _mocha.it)('should not render a button link to the "board" page', function () {
+            var _this6 = this;
 
-          this.register('service:-routing', Ember.Service.extend({
-            currentRouteName: 'board',
-            generateURL: function generateURL() {
-              return '/board';
-            }
-          }));
-          this.inject.service('-routing', { as: '-routing' });
+            this.register('service:-routing', Ember.Service.extend({
+              currentRouteName: 'board',
+              generateURL: function generateURL() {
+                return '/board';
+              }
+            }));
+            this.inject.service('-routing', { as: '-routing' });
 
-          // when
-          this.render(Ember.HTMLBars.template({
-            "id": "pah6OdLO",
-            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
-            "meta": {}
-          }));
-          this.$('.logged-user-name').click();
+            // when
+            this.render(Ember.HTMLBars.template({
+              "id": "pah6OdLO",
+              "block": "{\"symbols\":[],\"statements\":[[1,[18,\"user-logged-menu\"],false]],\"hasEval\":false}",
+              "meta": {}
+            }));
+            this.$('.logged-user-name').click();
 
-          return (0, _wait.default)().then(function () {
-            // then
-            (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+            return (0, _wait.default)().then(function () {
+              // then
+              (0, _chai.expect)(_this6.$('.user-menu-item__account-link').length).to.equal(0);
+            });
           });
         });
 
@@ -10092,11 +10036,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-challenge-test.js', function () {
+    it('unit/routes/assessments/challenge-test.js', function () {
       // test passed
     });
 
-    it('unit/routes/assessments/get-results-test.js', function () {
+    it('unit/routes/assessments/results-test.js', function () {
       // test passed
     });
 
@@ -10108,7 +10052,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/challenges/get-preview-test.js', function () {
+    it('unit/routes/challenges/preview-test.js', function () {
       // test passed
     });
 
@@ -10121,10 +10065,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/courses-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/courses/get-challenge-preview-test.js', function () {
       // test passed
     });
 
@@ -10173,10 +10113,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/terms-of-service-test.js', function () {
-      // test passed
-    });
-
-    it('unit/services/assessment-test.js', function () {
       // test passed
     });
 
@@ -10959,7 +10895,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
             component.set('courseId', courseId);
 
             // then
-            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.equal(expected);
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.equal(expected);
           });
         });
 
@@ -13494,13 +13430,13 @@ define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-challenge', {
-      needs: ['service:assessment', 'service:current-routed-modal']
+    (0, _emberMocha.setupTest)('route:assessments.challenge', {
+      needs: ['service:current-routed-modal']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -13509,12 +13445,12 @@ define('pix-live/tests/unit/routes/assessments/get-challenge-test', ['chai', 'mo
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/get-results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
 
-    (0, _emberMocha.setupTest)('route:assessments.get-results', {
+    (0, _emberMocha.setupTest)('route:assessments.results', {
       needs: ['service:current-routed-modal']
     });
 
@@ -13782,12 +13718,12 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
   });
 });
-define('pix-live/tests/unit/routes/challenges/get-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/challenges/preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Route | challenges.get-preview', function () {
+  (0, _mocha.describe)('Unit | Route | challenges-preview', function () {
 
-    (0, _emberMocha.setupTest)('route:challenges.get-preview', {
+    (0, _emberMocha.setupTest)('route:challenge-preview', {
       needs: ['service:current-routed-modal']
     });
 
@@ -14016,21 +13952,6 @@ define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha
 
     (0, _emberMocha.setupTest)('route:courses', {
       needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses/get-challenge-preview-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | ChallengePreview', function () {
-
-    (0, _emberMocha.setupTest)('route:courses/get-challenge-preview', {
-      needs: ['service:current-routed-modal', 'service:assessment']
     });
 
     (0, _mocha.it)('exists', function () {
@@ -14572,111 +14493,6 @@ define('pix-live/tests/unit/routes/terms-of-service-test', ['chai', 'mocha', 'em
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
-    });
-  });
-});
-define('pix-live/tests/unit/services/assessment-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Service | AssessmentService', function () {
-
-    (0, _emberMocha.setupTest)('service:assessment', {
-      needs: ['model:assessment', 'model:challenge', 'model:course', 'model:answer']
-    });
-
-    function instantiateModels(store, challengesArray) {
-      var challenges = challengesArray.map(function (challenge) {
-        return store.createRecord('challenge', challenge);
-      });
-      var course = store.createRecord('course');
-      course.get('challenges').pushObjects(challenges);
-      var assessment = store.createRecord('assessment', { course: course });
-
-      return { challenges: challenges, assessment: assessment };
-    }
-
-    (0, _mocha.describe)('#getNextChallenge', function () {
-
-      (0, _mocha.it)('returns a promise', function () {
-        var _this = this;
-
-        return Ember.run(function () {
-          var store = _this.container.lookup('service:store');
-
-          var _instantiateModels = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels.challenges,
-              assessment = _instantiateModels.assessment;
-
-          (0, _chai.expect)(_this.subject().getNextChallenge(challenges[0], assessment)).to.respondsTo('then');
-        });
-      });
-
-      (0, _mocha.it)('return the next challenge when current challenge is not the assessment\'s last one', function () {
-        var _this2 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this2.container.lookup('service:store');
-
-          var _instantiateModels2 = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels2.challenges,
-              assessment = _instantiateModels2.assessment;
-
-          // when
-          return _this2.subject().getNextChallenge(challenges[0], assessment).then(function (actual) {
-            // then
-            (0, _chai.expect)(actual.get('id')).to.equal(challenges[1].get('id'));
-          });
-        });
-      });
-
-      (0, _mocha.it)('return the next challenge when current challenge is the assessment\'s latest', function () {
-        var _this3 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this3.container.lookup('service:store');
-
-          var _instantiateModels3 = instantiateModels(store, [{ id: 1 }, { id: 2 }]),
-              challenges = _instantiateModels3.challenges,
-              assessment = _instantiateModels3.assessment;
-
-          // when
-          return _this3.subject().getNextChallenge(challenges[1], assessment).then(function (actual) {
-            // then
-            (0, _chai.expect)(actual).to.be.null;
-          });
-        });
-      });
-
-      (0, _mocha.it)('return challenge model objects well formed', function () {
-        var _this4 = this;
-
-        return Ember.run(function () {
-          // given
-          var store = _this4.container.lookup('service:store');
-
-          var _instantiateModels4 = instantiateModels(store, [{ id: 1 }, { id: 2 }, { id: 3 }]),
-              challenges = _instantiateModels4.challenges,
-              assessment = _instantiateModels4.assessment;
-
-          // when
-          return _this4.subject().getNextChallenge(challenges[0], assessment).then(function (challenge1) {
-
-            (0, _chai.expect)(challenge1.get('id')).to.equal(challenges[1].get('id'));
-
-            return _this4.subject().getNextChallenge(challenge1, assessment);
-          }).then(function (challenge2) {
-
-            (0, _chai.expect)(challenge2.get('id')).to.equal(challenges[2].get('id'));
-
-            return _this4.subject().getNextChallenge(challenge2, assessment);
-          }).then(function (challenge3) {
-
-            (0, _chai.expect)(challenge3).to.be.null;
-          });
-        });
-      });
     });
   });
 });
