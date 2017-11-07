@@ -83,6 +83,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
         sandbox.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
+        sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
         sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 

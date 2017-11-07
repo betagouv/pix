@@ -1,16 +1,16 @@
 const _ = require('lodash');
 
 class Profile {
-  constructor(user, competences, areas, assessments, courses, organizations) {
+  constructor(user, competences, areas, lastAssessment, assessmentsCompleted, courses, organizations) {
     this.user = user;
     this.competences = competences;
     this.areas = areas;
     this.organizations = organizations;
     this._initCompetenceLevel();
-    this._setStatusToCompetences(assessments, courses);
-    this._setLevelAndPixScoreToCompetences(assessments, courses);
+    this._setStatusToCompetences(lastAssessment, assessmentsCompleted, courses);
+    this._setLevelAndPixScoreToCompetences(lastAssessment, courses);
     this._calculateTotalPixScore();
-    this._setAssessmentToCompetence(assessments, courses);
+    this._setAssessmentToCompetence(lastAssessment, courses);
   }
 
   _initCompetenceLevel() {
@@ -39,29 +39,23 @@ class Profile {
     });
   }
 
-  _setStatusToCompetences(assessments, courses) {
+  _setStatusToCompetences(lastAssessment, assessmentsCompleted, courses) {
     this.competences.forEach((competence) => {
-      const competencesAssesments = this._findAssessmentsByCompetenceId(assessments, courses, competence.id);
-      if(competencesAssesments.length === 0) {
+      const lastAssessmentByCompetenceId = this._findAssessmentsByCompetenceId(lastAssessment, courses, competence.id);
+      const assessmentsCompletedByCompetenceId = this._findAssessmentsByCompetenceId(assessmentsCompleted, courses, competence.id);
+      if (lastAssessmentByCompetenceId.length === 0) {
         competence.status = 'notEvaluated';
       } else {
-        competence.status = this._getCompetenceStatus(competencesAssesments);
+        competence.status = this._getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId);
       }
-  _setAssessmentToCompetence(assessments, courses) {
-    assessments.forEach(assessment => {
-      const courseIdFromAssessment = assessment.get('courseId');
-      const course = this._getCourseById(courses, courseIdFromAssessment);
-
-      const competence = this.competences.find(competence => course.competences.includes(competence.id));
-      competence.assessmentId = assessment.get('id');
     });
   }
 
-  _getCompetenceStatus(assessments) {
+  _getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId) {
     let status;
-    if(this._hasCompetenceAssessmentInProgress(assessments)) {
+    if(!lastAssessmentByCompetenceId[0].get('pixScore') && !lastAssessmentByCompetenceId[0].get('estimatedLevel')) {
       status = 'notCompleted';
-    } else if (this._canCompetenceBeReevaluated(assessments)) {
+    } else if (assessmentsCompletedByCompetenceId.length === 1) {
       status = 'evaluated';
     } else {
       status = 'replayed';
@@ -70,20 +64,21 @@ class Profile {
     return status;
   }
 
+  _setAssessmentToCompetence(assessments, courses) {
+    assessments.forEach(assessment => {
+      const courseIdFromAssessment = assessment.get('courseId');
+      const course = this._getCourseById(courses, courseIdFromAssessment);
+      const competence = this.competences.find(competence => course.competences.includes(competence.id));
+      competence.assessmentId = assessment.get('id');
+    });
+  }
+
   _findAssessmentsByCompetenceId(assessments, courses, competenceId) {
     return assessments.filter((assessment) => {
       const courseIdFromAssessment = assessment.get('courseId');
       const course = this._getCourseById(courses, courseIdFromAssessment);
       return course.competences.indexOf(competenceId) > -1;
     });
-  }
-
-  _hasCompetenceAssessmentInProgress(assessmentsByCompetence) {
-    return assessmentsByCompetence.find((assessment) => !assessment.get('pixScore') && !assessment.get('estimatedLevel'));
-  }
-
-  _canCompetenceBeReevaluated(assessmentsByCompetence) {
-    return assessmentsByCompetence.length === 1;
   }
 
   _getCourseById(courses, courseIdFromAssessment) {

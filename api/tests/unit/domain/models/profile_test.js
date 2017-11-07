@@ -14,6 +14,8 @@ describe('Unit | Domain | Models | Profile', () => {
     let areas;
     let courses;
     let assessments;
+    let assessmentsCompleted;
+    let lastAssessments;
     let competences;
 
     beforeEach(() => {
@@ -69,7 +71,7 @@ describe('Unit | Domain | Models | Profile', () => {
     });
 
     it('should be a class', () => {
-      expect(new Profile(user, competences, null, [], [])).to.be.an.instanceof(Profile);
+      expect(new Profile(user, competences, null, [], [], [])).to.be.an.instanceof(Profile);
     });
 
     it('should create an instance of Profile (with level -1 by default)', () => {
@@ -95,7 +97,7 @@ describe('Unit | Domain | Models | Profile', () => {
         }];
 
       // When
-      const profile = new Profile(user, competences, areas, assessments, courses);
+      const profile = new Profile(user, competences, areas, [], assessments, courses);
 
       // Then
       expect(profile).to.be.an.instanceof(Profile);
@@ -112,7 +114,7 @@ describe('Unit | Domain | Models | Profile', () => {
         pixScore: 10,
         estimatedLevel: 1,
         courseId: 'courseId8'
-      }),];
+      })];
 
       const expectedCompetences = [
         {
@@ -123,8 +125,8 @@ describe('Unit | Domain | Models | Profile', () => {
           level: 1,
           pixScore: 10,
           courseId: 'courseId8',
-          assessmentId : 'assessmentId1'
-          status: 'evaluated',
+          assessmentId : 'assessmentId1',
+          status: 'evaluated'
         },
         {
           id: 'competenceId2',
@@ -137,7 +139,7 @@ describe('Unit | Domain | Models | Profile', () => {
         }];
 
       // When
-      const profile = new Profile(user, competences, areas, assessments, courses);
+      const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
       // Then
       expect(profile).to.be.an.instanceof(Profile);
@@ -148,7 +150,7 @@ describe('Unit | Domain | Models | Profile', () => {
 
     it('should not assign pixScore and estimatedLevel to user competence if assessment is not completed', function() {
       courses[0].competences = ['competenceId1'];
-      assessments = [new Assessment({
+      lastAssessments = [new Assessment({
         id: 'assessmentId1',
         courseId: 'courseId8'
       }),];
@@ -161,7 +163,8 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId1',
           level: -1,
           courseId: 'courseId8',
-          assessmentId : 'assessmentId1'
+          assessmentId : 'assessmentId1',
+          status: 'notCompleted'
         },
         {
           id: 'competenceId2',
@@ -169,11 +172,12 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.2',
           areaId: 'areaId2',
           level: -1,
-          courseId: 'courseId9'
+          courseId: 'courseId9',
+          status: 'notEvaluated'
         }];
 
       // When
-      const profile = new Profile(user, competences, areas, assessments, courses);
+      const profile = new Profile(user, competences, areas, lastAssessments, [],  courses);
 
       // Then
       expect(profile).to.be.an.instanceof(Profile);
@@ -193,7 +197,7 @@ describe('Unit | Domain | Models | Profile', () => {
         id: 'assessment_B',
         courseId: 'courseId9'
       });
-      assessments = [assessmentA, assessmentB];
+      lastAssessments = [assessmentA, assessmentB];
 
       const expectedCompetences = [
         {
@@ -203,7 +207,8 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId1',
           level: -1,
           courseId: 'courseId8',
-          assessmentId: 'assessment_A'
+          assessmentId: 'assessment_A',
+          status: 'notCompleted'
         },
         {
           id: 'competenceId2',
@@ -212,13 +217,12 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId2',
           level: -1,
           courseId: 'courseId9',
-          assessmentId: 'assessment_B'
-          status: 'notEvaluated',
-          courseId: 'recBxPAuEPlTgt72q99'
+          assessmentId: 'assessment_B',
+          status: 'notCompleted'
         }];
 
       // When
-      const profile = new Profile(user, competences, areas, assessments, courses);
+      const profile = new Profile(user, competences, areas, lastAssessments, [],  courses);
 
       // Then
       expect(profile).to.be.an.instanceof(Profile);
@@ -231,7 +235,7 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence from assessment with status "replayed"', () => {
         // Given
         courses[0].competences = ['competenceId1'];
-        assessments = [new Assessment({
+        assessmentsCompleted = [new Assessment({
           id: 'assessmentId1',
           pixScore: 10,
           estimatedLevel: 1,
@@ -244,6 +248,19 @@ describe('Unit | Domain | Models | Profile', () => {
           courseId: 'courseId8'
         })];
 
+        lastAssessments = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
+          courseId: 'courseId8'
+        }),
+          new Assessment({
+            id: 'assessmentId2',
+            pixScore: 20,
+            estimatedLevel: 2,
+            courseId: 'courseId8'
+          })];
+
         const expectedCompetences = [
           {
             id: 'competenceId1',
@@ -252,8 +269,9 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId1',
             level: 2,
             pixScore: 20,
+            assessmentId: 'assessmentId2',
             status: 'replayed',
-            courseId: 'recBxPAuEPlTgt72q11'
+            courseId: 'courseId8'
           },
           {
             id: 'competenceId2',
@@ -262,11 +280,11 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId2',
             level: -1,
             status: 'notEvaluated',
-            courseId: 'recBxPAuEPlTgt72q99'
+            courseId: 'courseId9'
           }];
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
@@ -280,7 +298,7 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence at -1 with status "notCompleted"', () => {
         // Given
         courses[0].competences = ['competenceId1'];
-        assessments = [new Assessment({
+        lastAssessments = [new Assessment({
           id: 'assessmentId3',
           pixScore: null,
           estimatedLevel: null,
@@ -295,7 +313,8 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId1',
             level: -1,
             status: 'notCompleted',
-            courseId: 'recBxPAuEPlTgt72q11'
+            assessmentId: 'assessmentId3',
+            courseId: 'courseId8'
           },
           {
             id: 'competenceId2',
@@ -304,11 +323,11 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId2',
             level: -1,
             status: 'notEvaluated',
-            courseId: 'recBxPAuEPlTgt72q99'
+            courseId: 'courseId9'
           }];
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, lastAssessments, [], courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
@@ -320,16 +339,16 @@ describe('Unit | Domain | Models | Profile', () => {
       it('should assign level of competence from last assessment with status "notCompleted"', () => {
         // Given
         courses[0].competences = ['competenceId1'];
-        assessments = [new Assessment({
-          id: 'assessmentId1',
-          pixScore: 10,
-          estimatedLevel: 1,
-          courseId: 'courseId8'
-        }),
-        new Assessment({
+        lastAssessments = [new Assessment({
           id: 'assessmentId2',
           pixScore: null,
           estimatedLevel: null,
+          courseId: 'courseId8'
+        })];
+        assessmentsCompleted = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
           courseId: 'courseId8'
         })];
 
@@ -340,8 +359,9 @@ describe('Unit | Domain | Models | Profile', () => {
             index: '1.1',
             areaId: 'areaId1',
             level: -1,
+            assessmentId: 'assessmentId2',
             status: 'notCompleted',
-            courseId: 'recBxPAuEPlTgt72q11'
+            courseId: 'courseId8'
           },
           {
             id: 'competenceId2',
@@ -350,11 +370,11 @@ describe('Unit | Domain | Models | Profile', () => {
             areaId: 'areaId2',
             level: -1,
             status: 'notEvaluated',
-            courseId: 'recBxPAuEPlTgt72q99'
+            courseId: 'courseId9'
           }];
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
@@ -401,7 +421,7 @@ describe('Unit | Domain | Models | Profile', () => {
         };
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
@@ -426,7 +446,7 @@ describe('Unit | Domain | Models | Profile', () => {
         };
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
@@ -441,7 +461,7 @@ describe('Unit | Domain | Models | Profile', () => {
         };
 
         // When
-        const profile = new Profile(user, competences, areas, assessments, courses);
+        const profile = new Profile(user, competences, areas, assessments, assessments, courses);
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
