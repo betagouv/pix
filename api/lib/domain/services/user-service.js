@@ -1,4 +1,4 @@
-const { take, sortBy } = require('lodash');
+const { _, take, sortBy } = require('lodash');
 
 const { UserNotFoundError } = require('../errors');
 const UserCompetence = require('../../../lib/domain/models/UserCompetence');
@@ -18,7 +18,7 @@ function _findCorrectAnswersByAssessments(assessments) {
     .then(answersByAssessments => {
       return answersByAssessments.reduce((answersInJSON, answersByAssessment) => {
         answersByAssessment.models.forEach(answer => {
-          answersInJSON.push(answer.toJSON());
+          answersInJSON.push(answer);
         });
         return answersInJSON;
       }, []);
@@ -67,7 +67,15 @@ function _limitSkillsToTheThreeHighestOrderedByDifficultyDesc(competences) {
 }
 
 function _getRelatedChallengeById(challenges, answer) {
-  return challenges.find((challenge) => challenge.id === answer.challengeId);
+  return challenges.find((challenge) => challenge.id === answer.get('challengeId'));
+}
+
+function _getChallengeById(challenges, challengeId) {
+  return _(challenges).find((challenge) => challenge.id === challengeId);
+}
+
+function _findChallengeBySkill(challenges, skill) {
+  return _(challenges).filter((challenge) => _(challenge.skills).includes(skill.name)).value();
 }
 
 module.exports = {
@@ -107,6 +115,21 @@ module.exports = {
             });
           }
         });
+
+        const challengeIdsAlreadyAnswered = answers.map(answer => answer.get('challengeId'));
+        const challengesAlreadyAnswered = challengeIdsAlreadyAnswered.map(challengeId => _getChallengeById(challenges, challengeId));
+
+        userCompetences.forEach((userCompetence) => {
+          userCompetence.skills.forEach((skill) => {
+            const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
+            const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
+
+            const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+
+            userCompetence.addChallenge(challenge);
+          });
+        });
+
         return userCompetences;
       })
       .then(_limitSkillsToTheThreeHighestOrderedByDifficultyDesc);

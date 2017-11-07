@@ -152,7 +152,6 @@ describe('Unit | Service | User Service', () => {
           'id': 'challengeRecordIdThree',
           'skills': ['@collaborer4'],
           'competence': 'competenceRecordIdThatDoesNotExistAnymore',
-          'attachments': []
         },
         {
           'id': 'challengeRecordIdFour',
@@ -168,6 +167,20 @@ describe('Unit | Service | User Service', () => {
           'id': 'challengeRecordIdSix',
           'skills': ['@web1'],
           'competence': 'competenceRecordIdTwo'
+        },
+        {
+          'id': 'challengeRecordIdSeven',
+          'skills': ['@citation4'],
+          'competence': 'competenceRecordIdOne'
+        },
+        {
+          'id': 'challengeRecordIdEight',
+          'skills': ['@citation4', '@moteur3'],
+          'competence': 'competenceRecordIdOne'
+        },
+        {
+          'id': 'challengeRecordWithoutSkills',
+          'competence': 'competenceRecordIdOne'
         }
       ]);
       sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
@@ -249,14 +262,158 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@remplir2')]
+              skills: [new Skill('@remplir2')],
+              challenges: [
+                {
+                  id: 'challengeRecordIdTwo',
+                  competence: 'competenceRecordIdTwo',
+                  skills: ['@remplir2']
+                }
+              ]
             }]);
+        });
+      });
+
+      context('when selecting challenges to validate the skills per competence', () => {
+        context('when only one challenge validate the skill', () => {
+          it('should select the same challenge', () => {
+            // Given
+            const answer = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
+            const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
+
+            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithOneAnswer);
+
+            // When
+            const promise = userService.getSkillProfile(userId);
+
+            // Then
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
+                {
+                  id: 'competenceRecordIdOne',
+                  index: '1.1',
+                  name: '1.1 Construire un flipper',
+                  skills: [],
+                  challenges: []
+                },
+                {
+                  id: 'competenceRecordIdTwo',
+                  index: '1.2',
+                  name: '1.2 Adopter un dauphin',
+                  skills: [new Skill('@remplir2')],
+                  challenges: [
+                    {
+                      id: 'challengeRecordIdTwo',
+                      competence: 'competenceRecordIdTwo',
+                      skills: ['@remplir2']
+                    }
+                  ]
+                }]);
+            });
+          });
+        });
+
+        context('when two challenges validate the same skill', () => {
+          it('should select the unanswered challenge', () => {
+            // Given
+            const answer = new Answer({ challengeId: 'challengeRecordIdSeven', result: 'ok' });
+            const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
+
+            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+
+            // When
+            const promise = userService.getSkillProfile(userId);
+
+            // Then
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
+                {
+                  id: 'competenceRecordIdOne',
+                  index: '1.1',
+                  name: '1.1 Construire un flipper',
+                  skills: [new Skill('@citation4')],
+                  challenges: [
+                    {
+                      id: 'challengeRecordIdEight',
+                      competence: 'competenceRecordIdOne',
+                      skills: ['@citation4', '@moteur3']
+                    }
+                  ]
+                },
+                {
+                  id: 'competenceRecordIdTwo',
+                  index: '1.2',
+                  name: '1.2 Adopter un dauphin',
+                  skills: [],
+                  challenges: []
+                }]);
+            });
+          });
+
+          it('should select a challenge for every skill', () => {
+            // Given
+            const answer = new Answer({ challengeId: 'challengeRecordIdOne', result: 'ok' });
+            const answer2 = new Answer({ challengeId: 'challengeRecordIdEight', result: 'ok' });
+            const answerCollectionWithTwoAnswers = AnswerCollection.forge([answer, answer2]);
+
+            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithTwoAnswers);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+
+            // When
+            const promise = userService.getSkillProfile(userId);
+
+            // Then
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([
+                {
+                  id: 'competenceRecordIdOne',
+                  index: '1.1',
+                  name: '1.1 Construire un flipper',
+                  skills: [new Skill('@citation4'), new Skill('@recherche4'), new Skill('@moteur3')],
+                  challenges: [
+                    {
+                      'competence': 'competenceRecordIdOne',
+                      'id': 'challengeRecordIdOne',
+                      'skills': [
+                        '@recherche4'
+                      ]
+                    },
+                    {
+                      'competence': 'competenceRecordIdOne',
+                      'id': 'challengeRecordIdSeven',
+                      'skills': [
+                        '@citation4'
+                      ]
+                    },
+                    {
+                      'competence': 'competenceRecordIdOne',
+                      'id': 'challengeRecordIdEight',
+                      'skills': [
+                        '@citation4',
+                        '@moteur3'
+                      ]
+                    }
+                  ]
+                },
+                {
+                  id: 'competenceRecordIdTwo',
+                  index: '1.2',
+                  name: '1.2 Adopter un dauphin',
+                  skills: [],
+                  challenges: []
+                }]);
+            });
+          });
+
         });
       });
 
@@ -282,13 +439,36 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: [new Skill('@recherche4')]
+              skills: [new Skill('@recherche4')],
+              challenges: [
+                {
+                  competence: 'competenceRecordIdOne',
+                  id: 'challengeRecordIdOne',
+                  skills: [
+                    '@recherche4'
+                  ]
+                }
+              ]
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@url3'), new Skill('@remplir2')]
+              skills: [new Skill('@url3'), new Skill('@remplir2')],
+              challenges: [
+                {
+                  id: 'challengeRecordIdTwo',
+                  competence: 'competenceRecordIdTwo',
+                  skills: ['@remplir2']
+                },
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdFive',
+                  skills: [
+                    '@url3'
+                  ]
+                }
+              ]
             }]);
         });
       });
@@ -313,7 +493,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
@@ -323,6 +504,29 @@ describe('Unit | Service | User Service', () => {
                 new Skill('@remplir4'),
                 new Skill('@url3'),
                 new Skill('@remplir2')
+              ],
+              challenges: [
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdFour',
+                  skills: [
+                    '@remplir4'
+                  ]
+                },
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdTwo',
+                  skills: [
+                    '@remplir2'
+                  ]
+                },
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdFive',
+                  skills: [
+                    '@url3'
+                  ]
+                }
               ]
             }
           ]);
@@ -350,7 +554,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
@@ -360,6 +565,29 @@ describe('Unit | Service | User Service', () => {
                 new Skill('@remplir4'),
                 new Skill('@url3'),
                 new Skill('@remplir2')
+              ],
+              challenges: [
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdFour',
+                  skills: [
+                    '@remplir4'
+                  ]
+                },
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdFive',
+                  skills: [
+                    '@url3'
+                  ]
+                },
+                {
+                  competence: 'competenceRecordIdTwo',
+                  id: 'challengeRecordIdTwo',
+                  skills: [
+                    '@remplir2'
+                  ]
+                }
               ]
             }
           ]);
@@ -384,13 +612,21 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@remplir2')]
+              skills: [new Skill('@remplir2')],
+              challenges: [
+                {
+                  id: 'challengeRecordIdTwo',
+                  skills: ['@remplir2'],
+                  competence: 'competenceRecordIdTwo'
+                }
+              ]
             }]);
         });
       });
@@ -413,13 +649,15 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: []
+              skills: [],
+              challenges: []
             }]);
         });
       });
@@ -442,13 +680,15 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: []
+              skills: [],
+              challenges: []
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: []
+              skills: [],
+              challenges: []
             }]);
         });
       });
