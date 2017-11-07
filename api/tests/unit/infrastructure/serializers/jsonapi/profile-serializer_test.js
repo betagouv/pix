@@ -160,7 +160,8 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               level: 8,
               'pix-score': 128,
               'course-id': 'courseID1',
-              'assessment-id': 'assessmentID1'
+              'assessment-id': 'assessmentID1',
+              status: 'evaluated',
             },
             relationships: {
               area: {
@@ -178,6 +179,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-2',
               index: '1.2',
               level: -1,
+              status: 'notEvaluated',
               'course-id': 'courseID2',
               'assessment-id': 'assessmentID2'
             },
@@ -197,6 +199,7 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
               name: 'competence-name-3',
               index: '1.3',
               level: -1,
+              status: 'notEvaluated',
               'course-id': 'courseID3'
             },
             relationships: {
