@@ -7,12 +7,13 @@ const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_cha
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
 const START_BUTTON = '.course-item__begin-button';
 
-describe.only('Acceptance | a4 - Démarrer un test |', function() {
+describe('Acceptance | a4 - Démarrer un test |', function() {
 
   let application;
 
   beforeEach(function() {
     application = startApp();
+    visit('/');
   });
 
   afterEach(function() {
@@ -20,39 +21,24 @@ describe.only('Acceptance | a4 - Démarrer un test |', function() {
   });
 
   it('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function() {
-    // when
     visit('/courses/ref_course_id');
-
-    // then
     andThen(() => {
-      Ember.run.later(function() {
-        expect(currentURL()).to.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-      }, 500);
+      expect(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
     });
   });
 
   it('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function() {
-    // given
-    visit('/');
-
-    // when
-    click(START_BUTTON);
-
-    // then
-    andThen(() => {
-      Ember.run.later(function() {
-        findWithAssert('.assessment-challenge');
-        expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
-      }, 500);
+    const $startLink = findWithAssert(START_BUTTON);
+    return click($startLink).then(function() {
+      findWithAssert('.assessment-challenge');
+      expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
     });
   });
 
   it('a4.5 Quand je démarre un test sur mobile, une modale m\'averti que l\'expérience ne sera pas optimale, mais je peux quand même continuer', function(done) {
-    visit('/');
+    const $startLink = findWithAssert(START_BUTTON);
 
-    andThen(() => {
-      expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
-    });
+    expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
 
     // test on mobile
     triggerEvent('.course-list', 'simulateMobileScreen');
@@ -65,7 +51,7 @@ describe.only('Acceptance | a4 - Démarrer un test |', function() {
     });
 
     // start a test
-    click(START_BUTTON);
+    click($startLink);
 
     // blocked by modal
     andThen(() => {
@@ -75,7 +61,7 @@ describe.only('Acceptance | a4 - Démarrer un test |', function() {
         expect(currentURL()).to.equals('/');
         find('a[data-dismiss]').click();
 
-        return click(START_BUTTON).then(() => {
+        return click($startLink).then(() => {
           expect(currentURL()).to.contain(URL_OF_FIRST_TEST);
           done();
         });

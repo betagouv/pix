@@ -12,5 +12,4 @@ export default BaseRoute.extend({
       .then(() => store.queryRecord('challenge', { assessmentId: assessment.get('id') }))
       .then(challenge => this.transitionTo('assessments.challenge', { assessment, challenge }));
   }
-
 });
