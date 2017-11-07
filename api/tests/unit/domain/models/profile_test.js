@@ -81,7 +81,8 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.1',
           areaId: 'areaId1',
           level: -1,
-          courseId: 'courseId8'
+          courseId: 'courseId8',
+          status: 'notEvaluated'
         },
         {
           id: 'competenceId2',
@@ -89,7 +90,8 @@ describe('Unit | Domain | Models | Profile', () => {
           index: '1.2',
           areaId: 'areaId2',
           level: -1,
-          courseId: 'courseId9'
+          courseId: 'courseId9',
+          status: 'notEvaluated'
         }];
 
       // When
@@ -122,6 +124,7 @@ describe('Unit | Domain | Models | Profile', () => {
           pixScore: 10,
           courseId: 'courseId8',
           assessmentId : 'assessmentId1'
+          status: 'evaluated',
         },
         {
           id: 'competenceId2',
@@ -130,6 +133,7 @@ describe('Unit | Domain | Models | Profile', () => {
           areaId: 'areaId2',
           level: -1,
           courseId: 'courseId9',
+          status: 'notEvaluated'
         }];
 
       // When
@@ -209,6 +213,8 @@ describe('Unit | Domain | Models | Profile', () => {
           level: -1,
           courseId: 'courseId9',
           assessmentId: 'assessment_B'
+          status: 'notEvaluated',
+          courseId: 'recBxPAuEPlTgt72q99'
         }];
 
       // When
@@ -219,6 +225,144 @@ describe('Unit | Domain | Models | Profile', () => {
       expect(profile.user).to.be.equal(user);
       expect(profile.competences).to.be.deep.equal(expectedCompetences);
       expect(profile.areas).to.be.equal(areas);
+    });
+
+    context('when one competence has two completed assessments', () => {
+      it('should assign level of competence from assessment with status "replayed"', () => {
+        // Given
+        courses[0].competences = ['competenceId1'];
+        assessments = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
+          courseId: 'courseId8'
+        }),
+        new Assessment({
+          id: 'assessmentId2',
+          pixScore: 20,
+          estimatedLevel: 2,
+          courseId: 'courseId8'
+        })];
+
+        const expectedCompetences = [
+          {
+            id: 'competenceId1',
+            name: '1.1 Mener une recherche d’information',
+            index: '1.1',
+            areaId: 'areaId1',
+            level: 2,
+            pixScore: 20,
+            status: 'replayed',
+            courseId: 'recBxPAuEPlTgt72q11'
+          },
+          {
+            id: 'competenceId2',
+            name: '1.2 Gérer des données',
+            index: '1.2',
+            areaId: 'areaId2',
+            level: -1,
+            status: 'notEvaluated',
+            courseId: 'recBxPAuEPlTgt72q99'
+          }];
+
+        // When
+        const profile = new Profile(user, competences, areas, assessments, courses);
+
+        // Then
+        expect(profile).to.be.an.instanceof(Profile);
+        expect(profile.user).to.be.equal(user);
+        expect(profile.competences).to.be.deep.equal(expectedCompetences);
+        expect(profile.areas).to.be.equal(areas);
+      });
+    });
+
+    context('when at least one competence is started but not finished', () => {
+      it('should assign level of competence at -1 with status "notCompleted"', () => {
+        // Given
+        courses[0].competences = ['competenceId1'];
+        assessments = [new Assessment({
+          id: 'assessmentId3',
+          pixScore: null,
+          estimatedLevel: null,
+          courseId: 'courseId8'
+        })];
+
+        const expectedCompetences = [
+          {
+            id: 'competenceId1',
+            name: '1.1 Mener une recherche d’information',
+            index: '1.1',
+            areaId: 'areaId1',
+            level: -1,
+            status: 'notCompleted',
+            courseId: 'recBxPAuEPlTgt72q11'
+          },
+          {
+            id: 'competenceId2',
+            name: '1.2 Gérer des données',
+            index: '1.2',
+            areaId: 'areaId2',
+            level: -1,
+            status: 'notEvaluated',
+            courseId: 'recBxPAuEPlTgt72q99'
+          }];
+
+        // When
+        const profile = new Profile(user, competences, areas, assessments, courses);
+
+        // Then
+        expect(profile).to.be.an.instanceof(Profile);
+        expect(profile.user).to.be.equal(user);
+        expect(profile.competences).to.be.deep.equal(expectedCompetences);
+        expect(profile.areas).to.be.equal(areas);
+      });
+
+      it('should assign level of competence from last assessment with status "notCompleted"', () => {
+        // Given
+        courses[0].competences = ['competenceId1'];
+        assessments = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
+          courseId: 'courseId8'
+        }),
+        new Assessment({
+          id: 'assessmentId2',
+          pixScore: null,
+          estimatedLevel: null,
+          courseId: 'courseId8'
+        })];
+
+        const expectedCompetences = [
+          {
+            id: 'competenceId1',
+            name: '1.1 Mener une recherche d’information',
+            index: '1.1',
+            areaId: 'areaId1',
+            level: -1,
+            status: 'notCompleted',
+            courseId: 'recBxPAuEPlTgt72q11'
+          },
+          {
+            id: 'competenceId2',
+            name: '1.2 Gérer des données',
+            index: '1.2',
+            areaId: 'areaId2',
+            level: -1,
+            status: 'notEvaluated',
+            courseId: 'recBxPAuEPlTgt72q99'
+          }];
+
+        // When
+        const profile = new Profile(user, competences, areas, assessments, courses);
+
+        // Then
+        expect(profile).to.be.an.instanceof(Profile);
+        expect(profile.user).to.be.equal(user);
+        expect(profile.competences).to.be.deep.equal(expectedCompetences);
+        expect(profile.areas).to.be.equal(areas);
+      });
+
     });
 
     describe('when calculating score', () => {
