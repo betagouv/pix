@@ -14,12 +14,13 @@ const profileService = {
     const areas = areaRepository.list();
 
     const adaptiveCourses = courseRepository.getAdaptiveCourses();
-    const assessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
+    const lastAssessments = assessmentRepository.findLastAssessmentsForEachCoursesByUser(user_id);
+    const assessmentsCompleted = assessmentRepository.findCompletedAssessmentsByUserId(user_id);
     const organizations = organizationRepository.getByUserId(user_id);
 
-    return Promise.all([user, competences, areas, assessments, adaptiveCourses, organizations])
-      .then(([user, competences, areas, assessments, adaptiveCourses, organizations]) => {
-        return new Profile(user, competences, areas, assessments, adaptiveCourses, organizations);
+    return Promise.all([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations])
+      .then(([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations]) => {
+        return new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations);
       });
   }
 };
