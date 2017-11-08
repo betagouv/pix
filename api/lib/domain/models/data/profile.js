@@ -53,7 +53,7 @@ class Profile {
 
   _getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId) {
     let status;
-    if(!lastAssessmentByCompetenceId[0].get('pixScore') && !lastAssessmentByCompetenceId[0].get('estimatedLevel')) {
+    if(this._assessementIsNotCompleted(lastAssessmentByCompetenceId[0])) {
       status = 'notCompleted';
     } else if (assessmentsCompletedByCompetenceId.length === 1) {
       status = 'evaluated';
@@ -62,6 +62,11 @@ class Profile {
     }
 
     return status;
+  }
+
+  _assessementIsNotCompleted(assessment) {
+    return (!assessment.get('pixScore') && !assessment.get('estimatedLevel') && assessment.get('pixScore') !== 0
+            && assessment.get('estimatedLevel') !== 0)
   }
 
   _setAssessmentToCompetence(assessments, courses) {
