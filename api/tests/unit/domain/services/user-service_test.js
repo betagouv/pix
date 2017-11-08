@@ -11,6 +11,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
+const Competence = require('../../../../lib/domain/models/referential/competence');
 
 describe('Unit | Service | User Service', () => {
 
@@ -132,6 +133,46 @@ describe('Unit | Service | User Service', () => {
     });
     const answerCollectionWithEmptyData = AnswerCollection.forge([]);
 
+    function _createCompetence(id, index, name) {
+      const competence = new Competence();
+      competence.id = id;
+      competence.index = index;
+      competence.name = name;
+
+      return competence;
+    }
+
+    function _createChallenge(id, competence, skills) {
+      const challenge = new Challenge();
+      challenge.id = id;
+      challenge.skills = skills;
+      challenge.competence = competence;
+
+      return challenge;
+    }
+
+    const skillCitation4 = new Skill('@citation4');
+    const skillCollaborer4 = new Skill('@collaborer4');
+    const skillMoteur3 = new Skill('@moteur3');
+    const skillRecherche4 = new Skill('@recherche4');
+    const skillRemplir2 = new Skill('@remplir2');
+    const skillRemplir4 = new Skill('@remplir4');
+    const skillUrl3 = new Skill('@url3');
+    const skillWeb1 = new Skill('@web1');
+
+    const competenceFlipper = _createCompetence('competenceRecordIdOne','1.1','1.1 Construire un flipper');
+    const competenceDauphin = _createCompetence('competenceRecordIdTwo','1.2','1.2 Adopter un dauphin');
+
+    const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4]);
+    const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3]);
+    const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4]);
+    const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4]);
+    const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2]);
+    const challengeForSkillRemplir4 = _createChallenge('challengeRecordIdSix', competenceDauphin.id, [skillRemplir4]);
+    const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceDauphin.id, [skillUrl3]);
+    const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1]);
+    const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, []);
+
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
@@ -139,48 +180,22 @@ describe('Unit | Service | User Service', () => {
         { id: 13 }, { id: 1637 }
       ]);
 
-      function _createChallenge(id, competence, skills) {
-        const challenge = new Challenge();
-        challenge.id = id;
-        challenge.skills = skills;
-        challenge.competence = competence;
-
-        return challenge;
-      }
-
-      const challengeRecordIdOne = _createChallenge('challengeRecordIdOne', 'competenceRecordIdOne', [new Skill('@recherche4')]);
-      const challengeRecordIdTwo = _createChallenge('challengeRecordIdTwo', 'competenceRecordIdTwo', [new Skill('@remplir2')]);
-      const challengeRecordIdThree = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [new Skill('@collaborer4')]);
-      const challengeRecordIdFour = _createChallenge('challengeRecordIdFour', 'competenceRecordIdTwo', [new Skill('@remplir4')]);
-      const challengeRecordIdFive = _createChallenge('challengeRecordIdFive', 'competenceRecordIdTwo', [new Skill('@url3')]);
-      const challengeRecordIdSix = _createChallenge('challengeRecordIdSix', 'competenceRecordIdTwo', [new Skill('@web1')]);
-      const challengeRecordIdSeven = _createChallenge('challengeRecordIdSeven', 'competenceRecordIdOne', [new Skill('@citation4')]);
-      const challengeRecordIdEight = _createChallenge('challengeRecordIdEight', 'competenceRecordIdOne', [new Skill('@citation4'), new Skill('@moteur3')]);
-      const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdEight', 'competenceRecordIdOne', []);
-
       sandbox.stub(challengeRepository, 'list').resolves([
-        challengeRecordIdOne,
-        challengeRecordIdTwo,
-        challengeRecordIdThree,
-        challengeRecordIdFour,
-        challengeRecordIdFive,
-        challengeRecordIdSix,
-        challengeRecordIdSeven,
-        challengeRecordIdEight,
+        challengeForSkillCitation4,
+        challengeForSkillCitation4AndMoteur3,
+        challengeForSkillCollaborer4,
+        challengeForSkillRecherche4,
+        challengeForSkillRemplir2,
+        challengeForSkillRemplir4,
+        challengeForSkillUrl3,
+        challengeForSkillWeb1,
         challengeRecordWithoutSkills
       ]);
       sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
       sandbox.stub(competenceRepository, 'list').resolves([
-        {
-          id: 'competenceRecordIdOne',
-          index: '1.1',
-          name: '1.1 Construire un flipper',
-        },
-        {
-          id: 'competenceRecordIdTwo',
-          index: '1.2',
-          name: '1.2 Adopter un dauphin',
-        }]);
+        competenceFlipper,
+        competenceDauphin
+      ]);
     });
 
     afterEach(() => {
@@ -229,10 +244,9 @@ describe('Unit | Service | User Service', () => {
     });
 
     context('when all informations needed are collected', () => {
-
       it('should assign skill to related competence', () => {
         // Given
-        const answerInstance = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
+        const answerInstance = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionWithOneAnswer = AnswerCollection.forge([answerInstance]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
@@ -255,14 +269,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@remplir2')],
-              challenges: [
-                {
-                  id: 'challengeRecordIdTwo',
-                  competence: 'competenceRecordIdTwo',
-                  skills: [new Skill('@remplir2')]
-                }
-              ]
+              skills: [skillRemplir2],
+              challenges: [challengeForSkillRemplir2]
             }]);
         });
       });
@@ -271,7 +279,7 @@ describe('Unit | Service | User Service', () => {
         context('when only one challenge validate the skill', () => {
           it('should select the same challenge', () => {
             // Given
-            const answer = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
+            const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
@@ -294,14 +302,8 @@ describe('Unit | Service | User Service', () => {
                   id: 'competenceRecordIdTwo',
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
-                  skills: [new Skill('@remplir2')],
-                  challenges: [
-                    {
-                      id: 'challengeRecordIdTwo',
-                      competence: 'competenceRecordIdTwo',
-                      skills: [new Skill('@remplir2')]
-                    }
-                  ]
+                  skills: [skillRemplir2],
+                  challenges: [challengeForSkillRemplir2]
                 }]);
             });
           });
@@ -310,7 +312,7 @@ describe('Unit | Service | User Service', () => {
         context('when two challenges validate the same skill', () => {
           it('should select the unanswered challenge', () => {
             // Given
-            const answer = new Answer({ challengeId: 'challengeRecordIdSeven', result: 'ok' });
+            const answer = new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithOneAnswer);
@@ -326,14 +328,8 @@ describe('Unit | Service | User Service', () => {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
                   name: '1.1 Construire un flipper',
-                  skills: [new Skill('@citation4')],
-                  challenges: [
-                    {
-                      id: 'challengeRecordIdEight',
-                      competence: 'competenceRecordIdOne',
-                      skills: [new Skill('@citation4'), new Skill('@moteur3')]
-                    }
-                  ]
+                  skills: [skillCitation4],
+                  challenges: [challengeForSkillCitation4AndMoteur3]
                 },
                 {
                   id: 'competenceRecordIdTwo',
@@ -347,8 +343,8 @@ describe('Unit | Service | User Service', () => {
 
           it('should select a challenge for every skill', () => {
             // Given
-            const answer = new Answer({ challengeId: 'challengeRecordIdOne', result: 'ok' });
-            const answer2 = new Answer({ challengeId: 'challengeRecordIdEight', result: 'ok' });
+            const answer = new Answer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
+            const answer2 = new Answer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
             const answerCollectionWithTwoAnswers = AnswerCollection.forge([answer, answer2]);
 
             answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithTwoAnswers);
@@ -364,31 +360,8 @@ describe('Unit | Service | User Service', () => {
                   id: 'competenceRecordIdOne',
                   index: '1.1',
                   name: '1.1 Construire un flipper',
-                  skills: [new Skill('@citation4'), new Skill('@recherche4'), new Skill('@moteur3')],
-                  challenges: [
-                    {
-                      'competence': 'competenceRecordIdOne',
-                      'id': 'challengeRecordIdSeven',
-                      'skills': [
-                        new Skill('@citation4')
-                      ]
-                    },
-                    {
-                      'competence': 'competenceRecordIdOne',
-                      'id': 'challengeRecordIdOne',
-                      'skills': [
-                        new Skill('@recherche4')
-                      ]
-                    },
-                    {
-                      'competence': 'competenceRecordIdOne',
-                      'id': 'challengeRecordIdEight',
-                      'skills': [
-                        new Skill('@citation4'),
-                        new Skill('@moteur3')
-                      ]
-                    }
-                  ]
+                  skills: [skillCitation4, skillRecherche4, skillMoteur3],
+                  challenges: [challengeForSkillCitation4, challengeForSkillRecherche4, challengeForSkillCitation4AndMoteur3]
                 },
                 {
                   id: 'competenceRecordIdTwo',
@@ -399,17 +372,16 @@ describe('Unit | Service | User Service', () => {
                 }]);
             });
           });
-
         });
       });
 
       it('should group skills by competence ', () => {
         // Given
-        const answerA1 = new Answer({ challengeId: 'challengeRecordIdOne', result: 'ok' });
+        const answerA1 = new Answer({ challengeId: challengeForSkillRecherche4.id, result: 'ok' });
         const answerCollectionA = AnswerCollection.forge([answerA1]);
 
-        const answerB1 = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
-        const answerB2 = new Answer({ challengeId: 'challengeRecordIdFive', result: 'ok' });
+        const answerB1 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answerB2 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionB = AnswerCollection.forge([answerB1, answerB2]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionA);
@@ -425,45 +397,24 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdOne',
               index: '1.1',
               name: '1.1 Construire un flipper',
-              skills: [new Skill('@recherche4')],
-              challenges: [
-                {
-                  competence: 'competenceRecordIdOne',
-                  id: 'challengeRecordIdOne',
-                  skills: [
-                    new Skill('@recherche4')
-                  ]
-                }
-              ]
+              skills: [skillRecherche4],
+              challenges: [challengeForSkillRecherche4]
             },
             {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@url3'), new Skill('@remplir2')],
-              challenges: [
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFive',
-                  skills: [
-                    new Skill('@url3')
-                  ]
-                },
-                {
-                  id: 'challengeRecordIdTwo',
-                  competence: 'competenceRecordIdTwo',
-                  skills: [new Skill('@remplir2')]
-                }
-              ]
+              skills: [skillUrl3, skillRemplir2],
+              challenges: [challengeForSkillUrl3, challengeForSkillRemplir2]
             }]);
         });
       });
 
       it('should sort in desc grouped skills by competence', () => {
         // Given
-        const answer1 = new Answer({ challengeId: 'challengeRecordIdFour', result: 'ok' });
-        const answer2 = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
-        const answer3 = new Answer({ challengeId: 'challengeRecordIdFive', result: 'ok' });
+        const answer1 = new Answer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
+        const answer2 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
@@ -486,34 +437,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [
-                new Skill('@remplir4'),
-                new Skill('@url3'),
-                new Skill('@remplir2')
-              ],
-              challenges: [
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFour',
-                  skills: [
-                    new Skill('@remplir4')
-                  ]
-                },
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFive',
-                  skills: [
-                    new Skill('@url3')
-                  ]
-                },
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdTwo',
-                  skills: [
-                    new Skill('@remplir2')
-                  ]
-                }
-              ]
+              skills: [skillRemplir4, skillUrl3, skillRemplir2],
+              challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
         });
@@ -521,10 +446,10 @@ describe('Unit | Service | User Service', () => {
 
       it('should return the three most difficult skills sorted in desc grouped by competence', () => {
         // Given
-        const answer1 = new Answer({ challengeId: 'challengeRecordIdFour', result: 'ok' });
-        const answer2 = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
-        const answer3 = new Answer({ challengeId: 'challengeRecordIdFive', result: 'ok' });
-        const answer4 = new Answer({ challengeId: 'challengeRecordIdSix', result: 'ok' });
+        const answer1 = new Answer({ challengeId: challengeForSkillRemplir4.id, result: 'ok' });
+        const answer2 = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
+        const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
+        const answer4 = new Answer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3, answer4]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
@@ -547,34 +472,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [
-                new Skill('@remplir4'),
-                new Skill('@url3'),
-                new Skill('@remplir2')
-              ],
-              challenges: [
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFour',
-                  skills: [
-                    new Skill('@remplir4')
-                  ]
-                },
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdFive',
-                  skills: [
-                    new Skill('@url3')
-                  ]
-                },
-                {
-                  competence: 'competenceRecordIdTwo',
-                  id: 'challengeRecordIdTwo',
-                  skills: [
-                    new Skill('@remplir2')
-                  ]
-                }
-              ]
+              skills: [skillRemplir4, skillUrl3, skillRemplir2],
+              challenges: [challengeForSkillRemplir4, challengeForSkillUrl3, challengeForSkillRemplir2]
             }
           ]);
         });
@@ -582,7 +481,7 @@ describe('Unit | Service | User Service', () => {
 
       it('should not add a skill twice', () => {
         // Given
-        const answer = new Answer({ challengeId: 'challengeRecordIdTwo', result: 'ok' });
+        const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer, answer]);
 
         answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
@@ -605,14 +504,8 @@ describe('Unit | Service | User Service', () => {
               id: 'competenceRecordIdTwo',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
-              skills: [new Skill('@remplir2')],
-              challenges: [
-                {
-                  id: 'challengeRecordIdTwo',
-                  skills: [new Skill('@remplir2')],
-                  competence: 'competenceRecordIdTwo'
-                }
-              ]
+              skills: [skillRemplir2],
+              challenges: [challengeForSkillRemplir2]
             }]);
         });
       });
@@ -678,8 +571,6 @@ describe('Unit | Service | User Service', () => {
             }]);
         });
       });
-
     });
   });
-
 });
