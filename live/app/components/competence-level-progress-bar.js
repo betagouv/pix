@@ -41,10 +41,10 @@ export default Ember.Component.extend({
   }),
 
   canUserResumeAssessment : Ember.computed('assessmentId', 'status', function() {
-    return (this.get('status') === 'notCompleted') && Ember.isPresent(this.get('assessmentId'));
+    return Boolean(this.get('status') === 'notCompleted') && Ember.isPresent(this.get('assessmentId'));
   }),
 
   canUserReplayAssessment : Ember.computed('courseId', 'status', function() {
-    return (this.get('status') === 'evaluated' && this.get('courseId'));
+    return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
   })
 });

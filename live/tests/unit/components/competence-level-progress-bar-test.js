@@ -176,7 +176,7 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
       it('should return true if status is "evaluated" and courseId exist', function() {
         // given
         const status = 'evaluated';
-        const courseId ='courseId';
+        const courseId = 'courseId';
         const component = this.subject();
 
         // when
