@@ -191,17 +191,21 @@ describe('Integration | Component | competence level progress bar', function() {
       // given
       const status = 'evaluated';
       const name = 'deuxième test';
+      const courseId = 'courseId';
+      const level = 3;
 
       this.set('status', status);
       this.set('name', name);
+      this.set('courseId', courseId);
+      this.set('level', level);
 
       // when
-      this.render(hbs`{{competence-level-progress-bar status=status name=name}}`);
+      this.render(hbs`{{competence-level-progress-bar status=status name=name courseId=courseId level=level}}`);
 
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
       expect(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Refaire le test "deuxième test"');
+      expect(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
     });
   });
 

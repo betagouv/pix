@@ -34,9 +34,9 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
 
     describe('#widthOfProgressBar', function() {
       [
-        { level: 0, expectedValue: 'width : 24px' },
         { level: 1, expectedValue: 'width : 12.5%' },
         { level: 2, expectedValue: 'width : 25%' },
+        { level: 0, expectedValue: 'width : 24px' },
         { level: 3, expectedValue: 'width : 37.5%' },
         { level: 4, expectedValue: 'width : 50%' },
         { level: 5, expectedValue: 'width : 62.5%' },
@@ -173,13 +173,15 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
     });
 
     describe('#canUserReplayAssessment', function() {
-      it('should return true if status is "evaluated"', function() {
+      it('should return true if status is "evaluated" and courseId exist', function() {
         // given
         const status = 'evaluated';
+        const courseId ='courseId';
         const component = this.subject();
 
         // when
         component.set('status', status);
+        component.set('courseId', courseId);
 
         // then
         expect(component.get('canUserReplayAssessment')).to.equal(true);
@@ -188,43 +190,17 @@ describe('Unit | Component | Competence-level-progress-bar ', function() {
       it('should return false if status is not "evaluated"', function() {
         // given
         const status = 'replayed';
+        const courseId ='courseId';
         const component = this.subject();
 
         // when
         component.set('status', status);
+        component.set('courseId', courseId);
 
         // then
         expect(component.get('canUserReplayAssessment')).to.equal(false);
       });
 
     });
-    describe('#cannotUserReplayAssessment', function() {
-      it('should return true if status is "replayed"', function() {
-        // given
-        const status = 'replayed';
-        const component = this.subject();
-
-        // when
-        component.set('status', status);
-
-        // then
-        expect(component.get('cannotUserReplayAssessment')).to.equal(true);
-      });
-
-      it('should return false if status is not "replayed"', function() {
-        // given
-        const status = 'evaluated';
-        const component = this.subject();
-
-        // when
-        component.set('status', status);
-
-        // then
-        expect(component.get('cannotUserReplayAssessment')).to.equal(false);
-      });
-
-    });
-
   });
-
 });

@@ -65,8 +65,8 @@ class Profile {
   }
 
   _assessementIsNotCompleted(assessment) {
-    return (!assessment.get('pixScore') && !assessment.get('estimatedLevel') && assessment.get('pixScore') !== 0
-            && assessment.get('estimatedLevel') !== 0)
+    return (!assessment.get('pixScore') && !assessment.get('estimatedLevel')
+      && assessment.get('pixScore') !== 0 && assessment.get('estimatedLevel') !== 0);
   }
 
   _setAssessmentToCompetence(assessments, courses) {
