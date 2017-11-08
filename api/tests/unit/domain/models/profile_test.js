@@ -254,12 +254,12 @@ describe('Unit | Domain | Models | Profile', () => {
           estimatedLevel: 1,
           courseId: 'courseId8'
         }),
-          new Assessment({
-            id: 'assessmentId2',
-            pixScore: 20,
-            estimatedLevel: 2,
-            courseId: 'courseId8'
-          })];
+        new Assessment({
+          id: 'assessmentId2',
+          pixScore: 20,
+          estimatedLevel: 2,
+          courseId: 'courseId8'
+        })];
 
         const expectedCompetences = [
           {
