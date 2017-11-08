@@ -45,16 +45,8 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
 }
 
 function _sortThreeMostDifficultSkillsInDesc(skills) {
-  const skillsWithExtractedLevel = skills.map((skill) => {
-    return {
-      name: skill,
-      difficulty: parseInt(skill.name.slice(-1))
-    };
-  });
-
-  const sortedSkills = sortBy(skillsWithExtractedLevel, ['difficulty'])
-    .reverse()
-    .map((skill) => skill.name);
+  const sortedSkills = sortBy(skills, ['difficulty'])
+    .reverse();
 
   return take(sortedSkills, 3);
 }
@@ -75,7 +67,9 @@ function _getChallengeById(challenges, challengeId) {
 }
 
 function _findChallengeBySkill(challenges, skill) {
-  return _(challenges).filter((challenge) => _(challenge.skills).includes(skill.name)).value();
+  return _(challenges).filter((challenge) => {
+    return challenge.hasSkill(skill);
+  }).value();
 }
 
 module.exports = {
@@ -111,7 +105,7 @@ module.exports = {
 
           if (challenge && competence) {
             challenge.skills.forEach((skill) => {
-              competence.addSkill(new Skill(skill));
+              competence.addSkill(skill);
             });
           }
         });

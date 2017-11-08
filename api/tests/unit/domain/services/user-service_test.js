@@ -10,6 +10,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Skill = require('../../../../lib/domain/models/Skill');
+const Challenge = require('../../../../lib/domain/models/referential/challenge');
 
 describe('Unit | Service | User Service', () => {
 
@@ -137,51 +138,36 @@ describe('Unit | Service | User Service', () => {
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         { id: 13 }, { id: 1637 }
       ]);
+
+      function _createChallenge(id, competence, skills) {
+        const challenge = new Challenge();
+        challenge.id = id;
+        challenge.skills = skills;
+        challenge.competence = competence;
+
+        return challenge;
+      }
+
+      const challengeRecordIdOne = _createChallenge('challengeRecordIdOne', 'competenceRecordIdOne', [new Skill('@recherche4')]);
+      const challengeRecordIdTwo = _createChallenge('challengeRecordIdTwo', 'competenceRecordIdTwo', [new Skill('@remplir2')]);
+      const challengeRecordIdThree = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [new Skill('@collaborer4')]);
+      const challengeRecordIdFour = _createChallenge('challengeRecordIdFour', 'competenceRecordIdTwo', [new Skill('@remplir4')]);
+      const challengeRecordIdFive = _createChallenge('challengeRecordIdFive', 'competenceRecordIdTwo', [new Skill('@url3')]);
+      const challengeRecordIdSix = _createChallenge('challengeRecordIdSix', 'competenceRecordIdTwo', [new Skill('@web1')]);
+      const challengeRecordIdSeven = _createChallenge('challengeRecordIdSeven', 'competenceRecordIdOne', [new Skill('@citation4')]);
+      const challengeRecordIdEight = _createChallenge('challengeRecordIdEight', 'competenceRecordIdOne', [new Skill('@citation4'), new Skill('@moteur3')]);
+      const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdEight', 'competenceRecordIdOne', []);
+
       sandbox.stub(challengeRepository, 'list').resolves([
-        {
-          'id': 'challengeRecordIdOne',
-          'skills': ['@recherche4'],
-          'competence': 'competenceRecordIdOne'
-        },
-        {
-          'id': 'challengeRecordIdTwo',
-          'skills': ['@remplir2'],
-          'competence': 'competenceRecordIdTwo'
-        },
-        {
-          'id': 'challengeRecordIdThree',
-          'skills': ['@collaborer4'],
-          'competence': 'competenceRecordIdThatDoesNotExistAnymore',
-        },
-        {
-          'id': 'challengeRecordIdFour',
-          'skills': ['@remplir4'],
-          'competence': 'competenceRecordIdTwo'
-        },
-        {
-          'id': 'challengeRecordIdFive',
-          'skills': ['@url3'],
-          'competence': 'competenceRecordIdTwo'
-        },
-        {
-          'id': 'challengeRecordIdSix',
-          'skills': ['@web1'],
-          'competence': 'competenceRecordIdTwo'
-        },
-        {
-          'id': 'challengeRecordIdSeven',
-          'skills': ['@citation4'],
-          'competence': 'competenceRecordIdOne'
-        },
-        {
-          'id': 'challengeRecordIdEight',
-          'skills': ['@citation4', '@moteur3'],
-          'competence': 'competenceRecordIdOne'
-        },
-        {
-          'id': 'challengeRecordWithoutSkills',
-          'competence': 'competenceRecordIdOne'
-        }
+        challengeRecordIdOne,
+        challengeRecordIdTwo,
+        challengeRecordIdThree,
+        challengeRecordIdFour,
+        challengeRecordIdFive,
+        challengeRecordIdSix,
+        challengeRecordIdSeven,
+        challengeRecordIdEight,
+        challengeRecordWithoutSkills
       ]);
       sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
       sandbox.stub(competenceRepository, 'list').resolves([
@@ -274,7 +260,7 @@ describe('Unit | Service | User Service', () => {
                 {
                   id: 'challengeRecordIdTwo',
                   competence: 'competenceRecordIdTwo',
-                  skills: ['@remplir2']
+                  skills: [new Skill('@remplir2')]
                 }
               ]
             }]);
@@ -313,7 +299,7 @@ describe('Unit | Service | User Service', () => {
                     {
                       id: 'challengeRecordIdTwo',
                       competence: 'competenceRecordIdTwo',
-                      skills: ['@remplir2']
+                      skills: [new Skill('@remplir2')]
                     }
                   ]
                 }]);
@@ -345,7 +331,7 @@ describe('Unit | Service | User Service', () => {
                     {
                       id: 'challengeRecordIdEight',
                       competence: 'competenceRecordIdOne',
-                      skills: ['@citation4', '@moteur3']
+                      skills: [new Skill('@citation4'), new Skill('@moteur3')]
                     }
                   ]
                 },
@@ -384,22 +370,22 @@ describe('Unit | Service | User Service', () => {
                       'competence': 'competenceRecordIdOne',
                       'id': 'challengeRecordIdSeven',
                       'skills': [
-                        '@citation4'
+                        new Skill('@citation4')
                       ]
                     },
                     {
                       'competence': 'competenceRecordIdOne',
                       'id': 'challengeRecordIdOne',
                       'skills': [
-                        '@recherche4'
+                        new Skill('@recherche4')
                       ]
                     },
                     {
                       'competence': 'competenceRecordIdOne',
                       'id': 'challengeRecordIdEight',
                       'skills': [
-                        '@citation4',
-                        '@moteur3'
+                        new Skill('@citation4'),
+                        new Skill('@moteur3')
                       ]
                     }
                   ]
@@ -445,7 +431,7 @@ describe('Unit | Service | User Service', () => {
                   competence: 'competenceRecordIdOne',
                   id: 'challengeRecordIdOne',
                   skills: [
-                    '@recherche4'
+                    new Skill('@recherche4')
                   ]
                 }
               ]
@@ -460,13 +446,13 @@ describe('Unit | Service | User Service', () => {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFive',
                   skills: [
-                    '@url3'
+                    new Skill('@url3')
                   ]
                 },
                 {
                   id: 'challengeRecordIdTwo',
                   competence: 'competenceRecordIdTwo',
-                  skills: ['@remplir2']
+                  skills: [new Skill('@remplir2')]
                 }
               ]
             }]);
@@ -510,21 +496,21 @@ describe('Unit | Service | User Service', () => {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFour',
                   skills: [
-                    '@remplir4'
+                    new Skill('@remplir4')
                   ]
                 },
                 {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFive',
                   skills: [
-                    '@url3'
+                    new Skill('@url3')
                   ]
                 },
                 {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdTwo',
                   skills: [
-                    '@remplir2'
+                    new Skill('@remplir2')
                   ]
                 }
               ]
@@ -571,21 +557,21 @@ describe('Unit | Service | User Service', () => {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFour',
                   skills: [
-                    '@remplir4'
+                    new Skill('@remplir4')
                   ]
                 },
                 {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdFive',
                   skills: [
-                    '@url3'
+                    new Skill('@url3')
                   ]
                 },
                 {
                   competence: 'competenceRecordIdTwo',
                   id: 'challengeRecordIdTwo',
                   skills: [
-                    '@remplir2'
+                    new Skill('@remplir2')
                   ]
                 }
               ]
@@ -623,7 +609,7 @@ describe('Unit | Service | User Service', () => {
               challenges: [
                 {
                   id: 'challengeRecordIdTwo',
-                  skills: ['@remplir2'],
+                  skills: [new Skill('@remplir2')],
                   competence: 'competenceRecordIdTwo'
                 }
               ]
