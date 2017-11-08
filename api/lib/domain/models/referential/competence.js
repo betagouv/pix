@@ -1,6 +1,4 @@
-const AirtableModel = require('./airtable-model');
-
-class Competence extends AirtableModel {
+class Competence {
 }
 
 module.exports = Competence;

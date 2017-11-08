@@ -1,5 +1,5 @@
 const { describe, it, expect } = require('../../../test-helper');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const Challenge = require('../../../../lib/domain/models/Challenge');
 const Skill = require('../../../../lib/domain/models/Skill');
 
 describe('Unit | Domain | Models | Challenge', () => {

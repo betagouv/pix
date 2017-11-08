@@ -1,8 +1,5 @@
-const AirtableModel = require('./airtable-model');
-
-class Challenge extends AirtableModel {
+class Challenge {
   constructor() {
-    super();
     this.skills = [];
   }
 

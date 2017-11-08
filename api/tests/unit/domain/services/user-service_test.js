@@ -10,7 +10,7 @@ const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
 const Skill = require('../../../../lib/domain/models/Skill');
-const Challenge = require('../../../../lib/domain/models/referential/challenge');
+const Challenge = require('../../../../lib/domain/models/Challenge');
 
 describe('Unit | Service | User Service', () => {
 

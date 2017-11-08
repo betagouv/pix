@@ -1,5 +1,5 @@
 const _ = require('../../utils/lodash-utils');
-const Challenge = require('../../../domain/models/referential/challenge');
+const Challenge = require('../../../domain/models/Challenge');
 const Skill = require('../../../domain/models/Skill');
 const AirtableSerializer = require('./airtable-serializer');
 
