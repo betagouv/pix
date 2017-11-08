@@ -4882,21 +4882,25 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         // given
         var status = 'evaluated';
         var name = 'deuxième test';
+        var courseId = 'courseId';
+        var level = 3;
 
         this.set('status', status);
         this.set('name', name);
+        this.set('courseId', courseId);
+        this.set('level', level);
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "ZUmDFkDd",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"status\",\"name\"],[[20,[\"status\"]],[20,[\"name\"]]]]],false]],\"hasEval\":false}",
+          "id": "07CjnPD7",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"status\",\"name\",\"courseId\",\"level\"],[[20,[\"status\"]],[20,[\"name\"]],[20,[\"courseId\"]],[20,[\"level\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
         (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.competence-level-progress-bar__link-replay')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Refaire le test "deuxième test"');
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-replay').text().trim()).to.be.equal('Seconde chance pour le test "deuxième test"');
       });
     });
   });
@@ -10887,7 +10891,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
       });
 
       (0, _mocha.describe)('#widthOfProgressBar', function () {
-        [{ level: 0, expectedValue: 'width : 24px' }, { level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
+        [{ level: 1, expectedValue: 'width : 12.5%' }, { level: 2, expectedValue: 'width : 25%' }, { level: 0, expectedValue: 'width : 24px' }, { level: 3, expectedValue: 'width : 37.5%' }, { level: 4, expectedValue: 'width : 50%' }, { level: 5, expectedValue: 'width : 62.5%' }].forEach(function (_ref2) {
           var level = _ref2.level,
               expectedValue = _ref2.expectedValue;
 
@@ -11014,13 +11018,15 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
       });
 
       (0, _mocha.describe)('#canUserReplayAssessment', function () {
-        (0, _mocha.it)('should return true if status is "evaluated"', function () {
+        (0, _mocha.it)('should return true if status is "evaluated" and courseId exist', function () {
           // given
           var status = 'evaluated';
+          var courseId = 'courseId';
           var component = this.subject();
 
           // when
           component.set('status', status);
+          component.set('courseId', courseId);
 
           // then
           (0, _chai.expect)(component.get('canUserReplayAssessment')).to.equal(true);
@@ -11029,38 +11035,15 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
         (0, _mocha.it)('should return false if status is not "evaluated"', function () {
           // given
           var status = 'replayed';
+          var courseId = 'courseId';
           var component = this.subject();
 
           // when
           component.set('status', status);
+          component.set('courseId', courseId);
 
           // then
           (0, _chai.expect)(component.get('canUserReplayAssessment')).to.equal(false);
-        });
-      });
-      (0, _mocha.describe)('#cannotUserReplayAssessment', function () {
-        (0, _mocha.it)('should return true if status is "replayed"', function () {
-          // given
-          var status = 'replayed';
-          var component = this.subject();
-
-          // when
-          component.set('status', status);
-
-          // then
-          (0, _chai.expect)(component.get('cannotUserReplayAssessment')).to.equal(true);
-        });
-
-        (0, _mocha.it)('should return false if status is not "replayed"', function () {
-          // given
-          var status = 'evaluated';
-          var component = this.subject();
-
-          // when
-          component.set('status', status);
-
-          // then
-          (0, _chai.expect)(component.get('cannotUserReplayAssessment')).to.equal(false);
         });
       });
     });
@@ -11426,7 +11409,7 @@ define('pix-live/tests/unit/components/form-textfield-test', ['chai', 'mocha', '
               message = _ref3.message;
 
 
-          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function () {
+          (0, _mocha.it)('gets ' + message + ' when ' + errorType, function (done) {
             // Given
             var component = this.subject();
             // When
@@ -11435,6 +11418,7 @@ define('pix-live/tests/unit/components/form-textfield-test', ['chai', 'mocha', '
             var propertyValue = component.get('validationMessage');
             // Then
             (0, _chai.expect)(propertyValue).to.equal(message);
+            done();
           });
         });
       });
