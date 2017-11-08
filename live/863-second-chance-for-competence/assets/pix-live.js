@@ -777,11 +777,18 @@ define('pix-live/components/competence-level-progress-bar', ['exports'], functio
       return Boolean(courseId && !hasLevel && !assessmentId);
     }),
 
-    canUserResumeAssessment: Ember.computed('assessmentId', 'hasLevel', function () {
-      var hasLevel = this.get('hasLevel');
-      var assessmentId = this.get('assessmentId');
-      return !hasLevel && Ember.isPresent(assessmentId);
+    canUserResumeAssessment: Ember.computed('assessmentId', 'status', function () {
+      return this.get('status') === 'notCompleted' && Ember.isPresent(this.get('assessmentId'));
+    }),
+
+    canUserReplayAssessment: Ember.computed('status', function () {
+      return this.get('status') === 'evaluated';
+    }),
+
+    cannotUserReplayAssessment: Ember.computed('status', function () {
+      return this.get('status') === 'replayed';
     })
+
   });
 });
 define('pix-live/components/corner-ribbon', ['exports'], function (exports) {
@@ -5951,7 +5958,8 @@ define('pix-live/models/competence', ['exports', 'ember-data'], function (export
     level: attr('number'),
     areaName: Ember.computed.alias('area.name'),
     courseId: attr('string'),
-    assessmentId: attr('string')
+    assessmentId: attr('string'),
+    status: attr('string')
   });
 });
 define('pix-live/models/course-group', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -7447,7 +7455,7 @@ define("pix-live/templates/components/competence-level-progress-bar", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "m/ei3wrJ", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[7],[0,\"\\n        \"],[1,[18,\"_LIMIT_LEVEL\"],false],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[7],[0,\"Disponible Prochainement\"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[7],[0,\"\\n      \"],[1,[18,\"_MAX_LEVEL\"],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__level\"],[10,\"style\",[18,\"widthOfProgressBar\"],null],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__level-indicator\"],[7],[0,\"\\n      \"],[1,[18,\"level\"],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"canUserStartCourse\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__link\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"courses.create-assessment\",[20,[\"courseId\"]]],[[\"class\"],[\"competence-level-progress-bar__link-start\"]],{\"statements\":[[0,\"      Commencer \"],[6,\"div\"],[9,\"class\",\"sr-only\"],[7],[0,\"le test \\\"\"],[1,[18,\"name\"],false],[0,\"\\\"\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"canUserResumeAssessment\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__link\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"assessments.resume\",[20,[\"assessmentId\"]]],[[\"class\"],[\"competence-level-progress-bar__link-resume\"]],{\"statements\":[[0,\"      Reprendre \"],[6,\"div\"],[9,\"class\",\"sr-only\"],[7],[0,\"le test \\\"\"],[1,[18,\"name\"],false],[0,\"\\\"\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "g1xKBkYa", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"hasLevel\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit-indicator\"],[7],[0,\"\\n        \"],[1,[18,\"_LIMIT_LEVEL\"],false],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[4,\"if\",[[20,[\"cannotUserReplayAssessment\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-available-soon-text\"],[7],[0,\"Disponible Prochainement\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__background-level-limit-max-indicator\"],[7],[0,\"\\n      \"],[1,[18,\"_MAX_LEVEL\"],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__level\"],[10,\"style\",[18,\"widthOfProgressBar\"],null],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__level-indicator\"],[7],[0,\"\\n      \"],[1,[18,\"level\"],false],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"canUserStartCourse\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__link\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"courses.create-assessment\",[20,[\"courseId\"]]],[[\"class\"],[\"competence-level-progress-bar__link-start\"]],{\"statements\":[[0,\"      Commencer \"],[6,\"div\"],[9,\"class\",\"sr-only\"],[7],[0,\"le test \\\"\"],[1,[18,\"name\"],false],[0,\"\\\"\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"canUserResumeAssessment\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__link\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"assessments.resume\",[20,[\"assessmentId\"]]],[[\"class\"],[\"competence-level-progress-bar__link-resume\"]],{\"statements\":[[0,\"      Reprendre \"],[6,\"div\"],[9,\"class\",\"sr-only\"],[7],[0,\"le test \\\"\"],[1,[18,\"name\"],false],[0,\"\\\"\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[20,[\"canUserReplayAssessment\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"competence-level-progress-bar__link\"],[7],[0,\"\\n\"],[4,\"link-to\",[\"courses.create-assessment\",[20,[\"courseId\"]]],[[\"class\"],[\"competence-level-progress-bar__link-replay\"]],{\"statements\":[[0,\"      Refaire \"],[6,\"div\"],[9,\"class\",\"sr-only\"],[7],[0,\"le test \\\"\"],[1,[18,\"name\"],false],[0,\"\\\"\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/competence-level-progress-bar.hbs" } });
 });
 define("pix-live/templates/components/corner-ribbon", ["exports"], function (exports) {
   "use strict";
@@ -8728,6 +8736,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+25351473"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+4db5c996"});
 }
 //# sourceMappingURL=pix-live.map
