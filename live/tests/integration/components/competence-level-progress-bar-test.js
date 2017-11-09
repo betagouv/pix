@@ -164,27 +164,6 @@ describe('Integration | Component | competence level progress bar', function() {
 
   });
 
-  describe('resume assessment link', function() {
-
-    it('should display `Reprendre` if level is not defined (-1) and there is an assessment related', function() {
-      // given
-      const level = -1;
-      const assessmentId = 'awesomeId';
-      const name = 'deuxième test';
-      this.set('level', level);
-      this.set('assessmentId', assessmentId);
-      this.set('name', name);
-
-      // when
-      this.render(hbs`{{competence-level-progress-bar level=level assessmentId=assessmentId name=name}}`);
-
-      // then
-      expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-resume')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-resume').text().trim()).to.be.equal('Reprendre le test "deuxième test"');
-    });
-  });
-
   describe('replay assessment link', function() {
 
     it('should display `Seconde Change` if status is "evaluated"', function() {
