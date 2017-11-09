@@ -7,6 +7,17 @@ const organizationRepository = require('../../infrastructure/repositories/organi
 
 const Profile = require('../../domain/models/data/profile');
 
+function _initCompetenceLevel(competences) {
+  if (competences) {
+    competences.forEach((competence) => {
+      competence['level'] = -1;
+      competence['status'] = 'notEvaluated';
+    });
+  }
+
+  return competences;
+}
+
 const profileService = {
   getByUserId(user_id) {
     const user = userRepository.findUserById(user_id);
@@ -20,7 +31,10 @@ const profileService = {
 
     return Promise.all([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations])
       .then(([user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations]) => {
-        return new Profile(user, competences, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations);
+
+        const competencesWithDefaultLevelAndStatus = _initCompetenceLevel(competences);
+
+        return new Profile(user, competencesWithDefaultLevelAndStatus, areas, lastAssessments, assessmentsCompleted, adaptiveCourses, organizations);
       });
   }
 };

@@ -57,7 +57,9 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           index: '1.1',
           areaId: 'recAreaA',
           courseId: 'courseID1',
-          assessmentId : 'assessmentId1'
+          assessmentId : 'assessmentId1',
+          level: -1,
+          status: 'notEvaluated'
         },
         {
           id: 'recCompB',
@@ -65,14 +67,18 @@ describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
           index: '1.2',
           areaId: 'recAreaB',
           courseId: 'courseID2',
-          assessmentId : 'assessmentId2'
+          assessmentId : 'assessmentId2',
+          level: -1,
+          status: 'notEvaluated'
         },
         {
           id: 'recCompC',
           name: 'competence-name-3',
           index: '1.3',
           areaId: 'recAreaB',
-          courseId: 'courseID3'
+          courseId: 'courseID3',
+          level: -1,
+          status: 'notEvaluated'
         }];
 
       organizations = [

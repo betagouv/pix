@@ -6,20 +6,11 @@ class Profile {
     this.competences = competences;
     this.areas = areas;
     this.organizations = organizations;
-    this._initCompetenceLevel();
+
     this._setStatusToCompetences(lastAssessment, assessmentsCompleted, courses);
     this._setLevelAndPixScoreToCompetences(lastAssessment, courses);
-    this._calculateTotalPixScore();
     this._setAssessmentToCompetence(lastAssessment, courses);
-  }
-
-  _initCompetenceLevel() {
-    if (this.competences) {
-      this.competences.forEach((competence) => {
-        competence['level'] = -1;
-        competence['status'] = 'notEvaluated';
-      });
-    }
+    this._calculateTotalPixScore();
   }
 
   _setLevelAndPixScoreToCompetences(assessments, courses) {
@@ -51,7 +42,7 @@ class Profile {
     });
   }
 
-  _getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId) {
+  _getCompetenceStatus(lastAssessmentByCompetenceId, assessmentsCompletedByCompetenceId) {
     let status;
     if(this._assessementIsNotCompleted(lastAssessmentByCompetenceId[0])) {
       status = 'notCompleted';

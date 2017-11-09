@@ -55,14 +55,18 @@ describe('Unit | Domain | Models | Profile', () => {
           name: '1.1 Mener une recherche d’information',
           index: '1.1',
           areaId: 'areaId1',
-          courseId: 'courseId8'
+          courseId: 'courseId8',
+          level: -1,
+          status: 'notEvaluated'
         },
         {
           id: 'competenceId2',
           name: '1.2 Gérer des données',
           index: '1.2',
           areaId: 'areaId2',
-          courseId: 'courseId9'
+          courseId: 'courseId9',
+          level: -1,
+          status: 'notEvaluated'
         }];
     });
 
@@ -72,38 +76,6 @@ describe('Unit | Domain | Models | Profile', () => {
 
     it('should be a class', () => {
       expect(new Profile(user, competences, null, [], [], [])).to.be.an.instanceof(Profile);
-    });
-
-    it('should create an instance of Profile (with level -1 by default)', () => {
-      // Given
-      const expectedCompetences = [
-        {
-          id: 'competenceId1',
-          name: '1.1 Mener une recherche d’information',
-          index: '1.1',
-          areaId: 'areaId1',
-          level: -1,
-          courseId: 'courseId8',
-          status: 'notEvaluated'
-        },
-        {
-          id: 'competenceId2',
-          name: '1.2 Gérer des données',
-          index: '1.2',
-          areaId: 'areaId2',
-          level: -1,
-          courseId: 'courseId9',
-          status: 'notEvaluated'
-        }];
-
-      // When
-      const profile = new Profile(user, competences, areas, [], assessments, courses);
-
-      // Then
-      expect(profile).to.be.an.instanceof(Profile);
-      expect(profile.user).to.be.equal(user);
-      expect(profile.competences).to.be.deep.equal(expectedCompetences);
-      expect(profile.areas).to.be.equal(areas);
     });
 
     it('should assign level of competence from assessment', () => {
