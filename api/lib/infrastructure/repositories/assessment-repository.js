@@ -27,17 +27,6 @@ module.exports = {
 
   findLastAssessmentsForEachCoursesByUser(userId) {
     return Assessment
-      .query(qb => {
-        qb.where({ userId });
-        qb.whereNotNull('estimatedLevel');
-        qb.whereNotNull('pixScore');
-      })
-      .fetchAll()
-      .then(assessments => assessments.models);
-  },
-
-  findLastAssessmentsForEachCoursesByUser(userId) {
-    return Assessment
       .collection()
       .query(qb => {
         qb.select()
