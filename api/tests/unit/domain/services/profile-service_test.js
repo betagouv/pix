@@ -64,7 +64,7 @@ describe('Unit | Service | Profil User Service', function() {
     name: 'orga 2'
   }];
 
-  describe('#getUser', () => {
+  describe('#getByUserId', () => {
 
     it('should exist', () => {
       expect(profileService.getByUserId).to.exist;
@@ -83,7 +83,7 @@ describe('Unit | Service | Profil User Service', function() {
         sandbox.stub(areaRepository, 'list').resolves(fakeAreaRecords);
         sandbox.stub(courseRepository, 'getAdaptiveCourses').resolves(fakeCoursesRecords);
         sandbox.stub(assessmentRepository, 'findLastAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
-        sandbox.stub(assessmentRepository, 'findCompletedAssessmentsByUserId').resolves(fakeAssessmentRecords);
+        sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves(fakeAssessmentRecords);
         sandbox.stub(organizationRepository, 'getByUserId').resolves(fakeOrganizationsRecords);
       });
 
@@ -151,6 +151,18 @@ describe('Unit | Service | Profil User Service', function() {
         return promise.then(() => {
           sinon.assert.called(assessmentRepository.findLastAssessmentsForEachCoursesByUser);
           sinon.assert.calledWith(assessmentRepository.findLastAssessmentsForEachCoursesByUser, 'user-id');
+        });
+      });
+
+      it('should call assessment repository to find all last assessments from the current user grouped by courseId', () => {
+
+        // When
+        const promise = profileService.getByUserId('user-id');
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.called(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
+          sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, 'user-id');
         });
       });
 
