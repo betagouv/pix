@@ -4620,12 +4620,6 @@ hr.project-page__presentation-header-line {
   .enrollment-page__steps-establishment__steps-list__step-description {
     font-size: 20px; } }
 
-.enrollment-page__steps-establishment__steps-list__step-note {
-  font-size: 10px; }
-  @media (min-width: 768px) {
-    .enrollment-page__steps-establishment__steps-list__step-note {
-      font-size: 12px; } }
-
 .enrollment-page__steps-establishment__steps-list__step-line {
   margin: auto;
   height: 2px;
