@@ -14,7 +14,7 @@ class Profile {
   }
 
   _initCompetenceLevel() {
-    if(this.competences) {
+    if (this.competences) {
       this.competences.forEach((competence) => {
         competence['level'] = -1;
         competence['status'] = 'notEvaluated';
@@ -31,7 +31,7 @@ class Profile {
         const competence = this.competences.find(competence => course.competences.includes(competence.id));
         competence.level = assessment.get('estimatedLevel');
         competence.pixScore = assessment.get('pixScore');
-        if(competence.status === 'notCompleted') {
+        if (competence.status === 'notCompleted') {
           competence.level = -1;
           delete competence.pixScore;
         }
@@ -53,7 +53,7 @@ class Profile {
 
   _getCompetenceStatus(lastAssessmentByCompetenceId,assessmentsCompletedByCompetenceId) {
     let status;
-    if(!lastAssessmentByCompetenceId[0].get('pixScore') && !lastAssessmentByCompetenceId[0].get('estimatedLevel')) {
+    if(this._assessementIsNotCompleted(lastAssessmentByCompetenceId[0])) {
       status = 'notCompleted';
     } else if (assessmentsCompletedByCompetenceId.length === 1) {
       status = 'evaluated';
@@ -62,6 +62,11 @@ class Profile {
     }
 
     return status;
+  }
+
+  _assessementIsNotCompleted(assessment) {
+    return (!assessment.get('pixScore') && !assessment.get('estimatedLevel')
+      && assessment.get('pixScore') !== 0 && assessment.get('estimatedLevel') !== 0);
   }
 
   _setAssessmentToCompetence(assessments, courses) {

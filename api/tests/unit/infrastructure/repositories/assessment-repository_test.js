@@ -214,6 +214,7 @@ describe('Unit | Repository | assessmentRepository', () => {
         expect(assessments).to.have.lengthOf(2);
         expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
         expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
+
       });
     });
 
@@ -227,7 +228,84 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
 
       // When
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
+
+      // Then
+      whereStub.restore();
+      return promise
+        .catch((err) => {
+          expect(err).to.equal(error);
+        });
+
+    });
+
+  });
+
+  describe('#findCompletedAssessmentsByUserId', () => {
+
+    const JOHN = 2;
+    const LAYLA = 3;
+    const COMPLETED_ASSESSMENT_A_ID = 1;
+    const COMPLETED_ASSESSMENT_B_ID = 2;
+    const UNCOMPLETE_ASSESSMENT_ID = 3;
+
+    const assessmentsInDb = [{
+      id: COMPLETED_ASSESSMENT_A_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 1,
+      pixScore: 10
+    }, {
+      id: COMPLETED_ASSESSMENT_B_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 3,
+      pixScore: 30
+    }, {
+      id: UNCOMPLETE_ASSESSMENT_ID,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: null,
+      pixScore: null
+    }, {
+      id: 4,
+      userId: LAYLA,
+      courseId: 'courseId',
+      estimatedLevel: 2,
+      pixScore: 20
+    }];
+
+    before(() => {
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    after(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should return the list of assessments from JOHN', () => {
+      // When
       const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
+
+      // Then
+      return promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(2);
+        expect(assessments[0].id).to.equal(COMPLETED_ASSESSMENT_A_ID);
+        expect(assessments[1].id).to.equal(COMPLETED_ASSESSMENT_B_ID);
+      });
+    });
+
+    it('should throw an error if something went wrong', () => {
+      //Given
+      const error = new Error('Unable to fetch');
+      const whereStub = sinon.stub(Assessment, 'where').returns({
+        fetchAll: () => {
+          return Promise.reject(error);
+        }
+      });
+
+      // When
+      const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
       // Then
       whereStub.restore();
