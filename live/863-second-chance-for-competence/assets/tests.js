@@ -13548,6 +13548,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
       // instance route object
       route = this.subject();
       route.transitionTo = _sinon.default.stub();
+      route.paramsFor = _sinon.default.stub().returns({ assessment_id: 123 });
     });
 
     (0, _mocha.it)('exists', function () {
@@ -13562,7 +13563,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
         route.get('store').findRecord.resolves();
 
         // when
-        var promise = route.model({ assessment_id: 123 });
+        var promise = route.model();
 
         // then
         return promise.then(function () {
@@ -13603,7 +13604,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
           // then
           return promise.then(function () {
             _sinon.default.assert.calledOnce(route.transitionTo);
-            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.get-challenge', 123, 456);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.challenge', 123, 456);
           });
         });
       });
@@ -13620,7 +13621,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
           // then
           return promise.then(function () {
             _sinon.default.assert.calledOnce(route.transitionTo);
-            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.get-results', 123);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', 123);
           });
         });
       });
