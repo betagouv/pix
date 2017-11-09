@@ -57,7 +57,7 @@ function _createProfileLine(snapshot) {
 
 function _cleanArrayCompetences(arrayCompetences) {
   return _.sortBy(arrayCompetences, 'attributes.index')
-    .filter(competence => competence.type === 'competences')
+    .filter(competence => (competence.type === 'competences' && competence.attributes.name))
     .map(competence => {
       return {
         name: `"${_cleanCompetenceName(competence.attributes.name)}"`,
