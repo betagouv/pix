@@ -106,7 +106,7 @@ describe('Integration | Component | competence level progress bar', function() {
       // then
       expect(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
       expect(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(1);
-      expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
+      expect(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.contains('Commencer le test "Premier test de positionnement"');
     });
 
     it('should not display ’commencer’ in progress bar, when the level is already defined', function() {
