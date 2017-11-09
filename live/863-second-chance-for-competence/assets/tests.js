@@ -4808,7 +4808,7 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         // then
         (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.contains('Commencer le test "Premier test de positionnement"');
       });
 
       (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
