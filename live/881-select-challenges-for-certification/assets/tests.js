@@ -1,36 +1,7 @@
 'use strict';
 
-define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/utils/lodash-custom'], function (_mocha, _chai, _application, _lodashCustom) {
+define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
 
   var URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
   var MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';
@@ -49,24 +20,12 @@ define('pix-live/tests/acceptance/a4-demarrer-un-test-test', ['mocha', 'chai', '
       (0, _application.destroyApp)(application);
     });
 
-    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return visit('/courses/ref_course_id');
-
-            case 2:
-              (0, _chai.expect)(_lodashCustom.default.endsWith(currentURL(), 'assessments/ref_assessment_id/challenges/ref_qcm_challenge_id')).to.be.true;
-
-            case 3:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    })));
+    (0, _mocha.it)('a4.2 Je peux démarrer un test directement depuis la nouvelle url "courses/:course_id"', function () {
+      visit('/courses/ref_course_id');
+      andThen(function () {
+        (0, _chai.expect)(currentURL()).to.be.equal('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      });
+    });
 
     (0, _mocha.it)('a4.4 Quand je démarre un test, je suis redirigé vers la première épreuve du test', function () {
       var $startLink = findWithAssert(START_BUTTON);
@@ -1001,7 +960,7 @@ define('pix-live/tests/acceptance/compte-display-competence-test', ['mocha', 'ch
 
       // then
       return andThen(function () {
-        (0, _chai.expect)(find('.competence-level-progress-bar__start-link:first').attr('href')).to.be.equal('/courses/ref_course_id');
+        (0, _chai.expect)(find('.competence-level-progress-bar__link-start:first').attr('href')).to.be.equal('/courses/ref_course_id');
       });
     });
 
@@ -1432,6 +1391,8 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     };
   }
 
+  var debounce = Ember.run.debounce;
+
   var visitTimedChallenge = function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1443,7 +1404,7 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
 
             case 2:
               _context.next = 4;
-              return click('.challenge-item-warning button');
+              return click('.challenge-item-warning__confirm-btn');
 
             case 4:
             case 'end':
@@ -1539,91 +1500,42 @@ define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai',
     })));
 
     (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-      (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return visitTimedChallenge();
 
-              case 2:
-                _context5.next = 4;
-                return click('.proposal-text');
+      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante (et la barre de progression est mise à jour)', function () {
+        var _this = this;
 
-              case 4:
-                _context5.next = 6;
-                return click('.challenge-actions__action-validate');
+        // given
+        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+        click('.challenge-item-warning__confirm-btn');
 
-              case 6:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      })));
+        // when
+        click('.challenge-actions__action-validate');
 
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+        // then
+        andThen(function () {
+          debounce(_this, function () {
+            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+            (0, _chai.expect)(findWithAssert('.pix-progress-bar').text().trim()).to.contain('2 / 4');
+          }, 150);
+        });
+      });
 
-              case 1:
-              case 'end':
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      })));
+      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
+        var _this2 = this;
 
-      (0, _mocha.it)('d1.4 La barre de progression avance d\'une unité, de 1 à 2.', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        var expectedText;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
+        // given
+        visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
 
-                // Then
-                expectedText = '2';
+        // when
+        click('.challenge-actions__action-validate');
 
-                (0, _chai.expect)(findWithAssert('.pix-progress-bar').text()).to.contain(expectedText);
-
-              case 2:
-              case 'end':
-                return _context7.stop();
-            }
-          }
-        }, _callee7, this);
-      })));
-
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
-
-              case 2:
-                _context8.next = 4;
-                return click('.challenge-response__proposal-input');
-
-              case 4:
-                _context8.next = 6;
-                return click('.challenge-actions__action-validate');
-
-              case 6:
-                (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
-
-              case 7:
-              case 'end':
-                return _context8.stop();
-            }
-          }
-        }, _callee8, this);
-      })));
+        // then
+        andThen(function () {
+          debounce(_this2, function () {
+            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
+          }, 150);
+        });
+      });
     });
   });
 });
@@ -1901,41 +1813,6 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       (0, _mocha.it)('h2.4 le formulaire de signalement est affiché', function () {
         (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
       });
-    });
-
-    (0, _mocha.describe)('h2-Affichage de la page warning pour 2 epreuves timées du même types (suite au bug US-424)', function () {
-
-      var ASSESSMENT_WITH_TWO_TIMED_CHALLENGE = '/assessments/ref_timed_challenge_assessment_id/challenges/ref_timed_challenge_id';
-      var PASS_BUTTON = '.challenge-actions__action-skip';
-
-      (0, _mocha.it)('doit afficher la \'warning page\' même si deux epreuves du même type et timées s\'enchaînent', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
-          while (1) {
-            switch (_context5.prev = _context5.next) {
-              case 0:
-                _context5.next = 2;
-                return visit(ASSESSMENT_WITH_TWO_TIMED_CHALLENGE);
-
-              case 2:
-                _context5.next = 4;
-                return click(CHALLENGE_ITEM_WARNING_BUTTON);
-
-              case 4:
-                _context5.next = 6;
-                return click(PASS_BUTTON);
-
-              case 6:
-
-                // then
-                (0, _chai.expect)($('.challenge-item-warning')).to.have.lengthOf(1);
-
-              case 7:
-              case 'end':
-                return _context5.stop();
-            }
-          }
-        }, _callee5, this);
-      })));
     });
   });
 });
@@ -3542,6 +3419,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('routes/assessments/resume.js', function () {
+      // test passed
+    });
+
     it('routes/base-route.js', function () {
       // test passed
     });
@@ -3619,10 +3500,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/terms-of-service.js', function () {
-      // test passed
-    });
-
-    it('serializers/challenge.js', function () {
       // test passed
     });
 
@@ -4813,103 +4690,106 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         "block": "{\"symbols\":[],\"statements\":[[1,[18,\"competence-level-progress-bar\"],false]],\"hasEval\":false}",
         "meta": {}
       }));
-      (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.describe)('if the level is not defined', function () {
+    (0, _mocha.describe)('progress bar', function () {
 
-      (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
-        //Given
-        var givenLevel = -1;
-        this.set('level', givenLevel);
+      context('if the level is not defined', function () {
 
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "6QNEzXyL",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
+        (0, _mocha.it)('should not display the background of progress bar which display limit and max level', function () {
+          //Given
+          var givenLevel = -1;
+          this.set('level', givenLevel);
 
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
+          //When
+          this.render(Ember.HTMLBars.template({
+            "id": "6QNEzXyL",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          //Then
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__background')).to.have.lengthOf(0);
+        });
+
+        (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
+          //Given
+          var givenLevel = undefined;
+          this.set('level', givenLevel);
+
+          //When
+          this.render(Ember.HTMLBars.template({
+            "id": "6QNEzXyL",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          //Then
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
+        });
       });
 
-      (0, _mocha.it)('should not display a progress bar if level is not defined (-1)', function () {
-        //Given
-        var givenLevel = undefined;
-        this.set('level', givenLevel);
+      context('if the level is defined', function () {
 
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "6QNEzXyL",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
+        (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
+          // given
+          var MAX_LEVEL = 8;
+          var LIMIT_LEVEL = 5;
+          var level = 4;
+          this.set('level', level);
 
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(0);
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "6QNEzXyL",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
+        });
+
+        (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
+          //Given
+          var givenLevel = 1;
+          this.set('level', givenLevel);
+
+          //When
+          this.render(Ember.HTMLBars.template({
+            "id": "6QNEzXyL",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          //Then
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
+        });
+
+        (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
+          // given
+          var level = 5;
+          this.set('level', level);
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "6QNEzXyL",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
+        });
       });
     });
 
-    (0, _mocha.describe)('if the level is defined', function () {
+    (0, _mocha.describe)('start course link', function () {
 
-      (0, _mocha.it)('should indicate the limit level and the max level reachable in the progress bar', function () {
-        // given
-        var MAX_LEVEL = 8;
-        var LIMIT_LEVEL = 5;
-        var level = 4;
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "6QNEzXyL",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-indicator').text().trim()).to.equal(LIMIT_LEVEL.toString());
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__background-level-limit-max-indicator').text().trim()).to.equal(MAX_LEVEL.toString());
-      });
-
-      (0, _mocha.it)('should display a progress bar if level is defined (equal or more than 0)', function () {
-        //Given
-        var givenLevel = 1;
-        this.set('level', givenLevel);
-
-        //When
-        this.render(Ember.HTMLBars.template({
-          "id": "6QNEzXyL",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        //Then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should indicate the level passed to the component at the end of the progress bar', function () {
-        // given
-        var level = 5;
-        this.set('level', level);
-
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "6QNEzXyL",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\"],[[20,[\"level\"]]]]],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__level-indicator').text().trim()).to.be.equal(level.toString());
-      });
-    });
-
-    (0, _mocha.describe)('when there is an associated course', function () {
-
-      (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1)', function () {
+      (0, _mocha.it)('should display ’commencer’ in progress bar, when the level is not defined (-1) and no assessment is related', function () {
         // given
         var courseId = 'rec123';
         var level = -1;
@@ -4926,9 +4806,9 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start').text().trim()).to.be.equal('Commencer le test "Premier test de positionnement"');
       });
 
       (0, _mocha.it)('should not display ’commencer’ in progress bar, when the level is already defined', function () {
@@ -4948,14 +4828,11 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
       });
-    });
 
-    (0, _mocha.describe)('when there is no associated course', function () {
-
-      (0, _mocha.it)('should not display ’commencer’ in progress bar', function () {
+      (0, _mocha.it)('should not display ’commencer’ in progress bar when there is no associated course', function () {
         // given
         var level = 3;
         this.set('level', level);
@@ -4969,8 +4846,33 @@ define('pix-live/tests/integration/components/competence-level-progress-bar-test
         }));
 
         // then
-        (0, _chai.expect)(this.$('.competence-level-progress-bar__start')).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('a.competence-level-progress-bar__start-link')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-start')).to.have.lengthOf(0);
+      });
+    });
+
+    (0, _mocha.describe)('resume assessment link', function () {
+
+      (0, _mocha.it)('should display `Reprendre` if level is not defined (-1) and there is an assessment related', function () {
+        // given
+        var level = -1;
+        var assessmentId = 'awesomeId';
+        var name = 'deuxième test';
+        this.set('level', level);
+        this.set('assessmentId', assessmentId);
+        this.set('name', name);
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "P5HNsImQ",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"competence-level-progress-bar\",null,[[\"level\",\"assessmentId\",\"name\"],[[20,[\"level\"]],[20,[\"assessmentId\"]],[20,[\"name\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.competence-level-progress-bar__link')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-resume')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('a.competence-level-progress-bar__link-resume').text().trim()).to.be.equal('Reprendre le test "deuxième test"');
       });
     });
   });
@@ -10142,6 +10044,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/assessments/resume-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/board-test.js', function () {
       // test passed
     });
@@ -10989,7 +10895,7 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
             component.set('courseId', courseId);
 
             // then
-            (0, _chai.expect)(component.get('canUserStartCourse')).to.be.equal(expected);
+            (0, _chai.expect)(component.get('canUserStartCourse')).to.equal(expected);
           });
         });
 
@@ -11021,6 +10927,65 @@ define('pix-live/tests/unit/components/competence-level-progress-bar-test', ['ch
 
           // then
           (0, _chai.expect)(component.get('canUserStartCourse')).to.be.false;
+        });
+      });
+
+      (0, _mocha.describe)('#canUserResumeAssessment', function () {
+
+        (0, _mocha.it)('should return true if assessmentId is defined and level of the competence is -1', function () {
+          // given
+          var level = -1;
+          var assessmentId = 'awesomeId';
+          var component = this.subject();
+
+          // when
+          component.set('level', level);
+          component.set('assessmentId', assessmentId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserResumeAssessment')).to.equal(true);
+        });
+
+        (0, _mocha.it)('should return false if assessmentId is defined and level of the competence is not -1', function () {
+          // given
+          var level = 3;
+          var assessmentId = 'awesomeId';
+          var component = this.subject();
+
+          // when
+          component.set('level', level);
+          component.set('assessmentId', assessmentId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserResumeAssessment')).to.equal(false);
+        });
+
+        (0, _mocha.it)('should return false if assessmentId is an empty string', function () {
+          // given
+          var level = -1;
+          var assessmentId = '';
+          var component = this.subject();
+
+          // when
+          component.set('level', level);
+          component.set('assessmentId', assessmentId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserResumeAssessment')).to.equal(false);
+        });
+
+        (0, _mocha.it)('should return false if assessmentId is not defined', function () {
+          // given
+          var level = -1;
+          var assessmentId = null;
+          var component = this.subject();
+
+          // when
+          component.set('level', level);
+          component.set('assessmentId', assessmentId);
+
+          // then
+          (0, _chai.expect)(component.get('canUserResumeAssessment')).to.equal(false);
         });
       });
     });
@@ -13492,6 +13457,130 @@ define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+  });
+});
+define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | resume', function () {
+    (0, _emberMocha.setupTest)('route:assessments.resume', {
+      needs: ['service:current-routed-modal']
+    });
+
+    var route = void 0;
+    var StoreStub = void 0;
+    var findRecordStub = void 0;
+    var queryRecordStub = void 0;
+
+    beforeEach(function () {
+      // define stubs
+      findRecordStub = _sinon.default.stub();
+      queryRecordStub = _sinon.default.stub();
+      StoreStub = Ember.Service.extend({
+        findRecord: findRecordStub,
+        queryRecord: queryRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
+      route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+      route.paramsFor = _sinon.default.stub().returns({ assessment_id: 123 });
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#model', function () {
+
+      (0, _mocha.it)('should fetch an assessment', function () {
+        // given
+        route.get('store').findRecord.resolves();
+
+        // when
+        var promise = route.model();
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(findRecordStub);
+          _sinon.default.assert.calledWith(findRecordStub, 'assessment', 123);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+
+      var assessment = Ember.Object.create({ id: 123 });
+
+      (0, _mocha.it)('should get the next challenge of the assessment', function () {
+        // given
+        queryRecordStub.resolves();
+
+        // when
+        var promise = route.afterModel(assessment);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: 123 });
+        });
+      });
+
+      context('when the next challenge exists', function () {
+
+        (0, _mocha.it)('should redirect to the challenge view', function () {
+          // given
+          var nextChallenge = Ember.Object.create({ id: 456 });
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          var promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.challenge', 123, 456);
+          });
+        });
+      });
+
+      context('when the next challenge does not exist (is null)', function () {
+
+        (0, _mocha.it)('should redirect to assessment results page', function () {
+          // given
+          queryRecordStub.rejects();
+
+          // when
+          var promise = route.afterModel(assessment);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', 123);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      (0, _mocha.it)('should redirect to index page', function () {
+        // given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.spy();
+
+        // when
+        route.send('error');
+
+        // then
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
     });
   });
 });
