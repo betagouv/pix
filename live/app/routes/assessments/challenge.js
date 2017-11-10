@@ -63,7 +63,9 @@ export default BaseRoute.extend({
         timeout: answerTimeout,
         elapsedTime: answerElapsedTime
       });
-      return answer.save().then(() => this._navigateToNextView(challenge, assessment));
+
+      return answer.save()
+        .then(() => this._navigateToNextView(challenge, assessment));
     }
   }
 
