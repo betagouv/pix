@@ -4641,15 +4641,13 @@ hr.project-page__presentation-header-line {
     .enrollment-page__steps-establishment__steps-list__step-date {
       font-size: 22px; } }
 
-@media (min-width: 768px) {
-  .enrollment-page__steps-establishment__steps-list__step-description {
-    font-size: 20px; } }
-
-.enrollment-page__steps-establishment__steps-list__step-note {
-  font-size: 10px; }
+.enrollment-page__steps-establishment__steps-list__step-description {
+  line-height: 23px;
+  font-size: 15px;
+  font-weight: 600; }
   @media (min-width: 768px) {
-    .enrollment-page__steps-establishment__steps-list__step-note {
-      font-size: 12px; } }
+    .enrollment-page__steps-establishment__steps-list__step-description {
+      font-size: 19px; } }
 
 .enrollment-page__steps-establishment__steps-list__step-line {
   margin: auto;

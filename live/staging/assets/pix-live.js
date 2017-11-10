@@ -6669,7 +6669,7 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
     destinataires: 'élèves',
     image: 'icon-college.svg',
     steps: [{
-      date: 'Jusqu\'à fin septembre 2017',
+      date: 'Jusqu\'à fin décembre 2017',
       description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
     }, {
       description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
@@ -6689,9 +6689,8 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
     destinataires: 'étudiants',
     image: 'icon-etudiants.svg',
     steps: [{
-      date: 'Jusqu\'à fin septembre 2017',
-      description: 'Inscription des établissements pour le 1er semestre et/ou le 2nd semestre.',
-      note: 'Les établissements qui souhaiteront s\'inscrire pour un démarrage au second semestre pourront le faire jusqu\'à la fin octobre 2017.'
+      date: 'Jusqu’à fin septembre 2017',
+      description: 'Inscription des établissements pour le 2nd semestre.'
     }, {
       description: 'Possibilité d\'organiser une pré-campagne d\'évaluation des étudiants en cycle d\'accueil (limitée à certaines compétences).'
     }, {
@@ -8725,6 +8724,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+31153fb3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+46a7612f"});
 }
 //# sourceMappingURL=pix-live.map
