@@ -285,17 +285,6 @@
   }
 }
 
-.enrollment-page__steps-title__note {
-  font-weight: $font-normal;
-  font-size: 12px;
-  margin-top: 6px;
-  font-weight: $font-light;
-
-  @include device-is('tablet') {
-    font-size: 22px;
-  }
-}
-
 .enrollment-page__steps-establishment__steps-list__step-line {
   margin: auto;
   height: 2px;
