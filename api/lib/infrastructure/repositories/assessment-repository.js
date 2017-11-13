@@ -42,11 +42,12 @@ module.exports = {
 
   },
 
-  findLastCompletedAssessmentsForEachCoursesByUser(userId) {
+  findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser(userId) {
     return Assessment
       .collection()
       .query(qb => {
         qb.where({ userId })
+          .andWhere('estimatedLevel', '>', 0)
           .whereNotNull('estimatedLevel')
           .whereNotNull('pixScore')
           .orderBy('createdAt', 'desc');
