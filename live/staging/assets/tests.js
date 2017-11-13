@@ -3295,6 +3295,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/tutorial-panel.js', function () {
+      // test passed
+    });
+
     it('components/user-logged-menu.js', function () {
       // test passed
     });
@@ -4491,6 +4495,18 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           (0, _chai.expect)(this.$('.comparison-window__result-icon--' + data.status)).to.have.lengthOf(1);
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
+      });
+
+      (0, _mocha.it)('should render a tutorial panel before feedback panel', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "fLyyRS5D",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"comparison-window\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.tutorial-panel')).to.have.lengthOf(1);
       });
     });
   });
@@ -9264,6 +9280,46 @@ define('pix-live/tests/integration/components/trophy-item-test', ['chai', 'mocha
     });
   });
 });
+define('pix-live/tests/integration/components/tutorial-panel-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | tutorial panel', function () {
+    (0, _emberMocha.setupComponentTest)('tutorial-panel', {
+      integration: true
+    });
+
+    (0, _mocha.describe)('component rendering', function () {
+
+      (0, _mocha.it)('should render component', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "Vbj4AuxK",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"tutorial-panel\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.length(1);
+      });
+
+      [{ itemClassName: '.tutorial-panel' }, { itemClassName: '.tutorial-panel__box-container' }, { itemClassName: '.tutorial-panel__box-title' }, { itemClassName: '.tutorial-panel__box-picto-container' }, { itemClassName: '.tutorial-panel__box-picto' }, { itemClassName: '.tutorial-panel__separator' }].forEach(function (_ref2) {
+        var itemClassName = _ref2.itemClassName;
+
+        (0, _mocha.it)('should render a div with class ' + itemClassName, function () {
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "Vbj4AuxK",
+            "block": "{\"symbols\":[],\"statements\":[[1,[18,\"tutorial-panel\"],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$(itemClassName)).to.have.lengthOf(1);
+        });
+      });
+    });
+  });
+});
 define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', 'mocha', 'ember-mocha', 'ember-test-helpers/wait'], function (_chai, _mocha, _emberMocha, _wait) {
   'use strict';
 
@@ -9833,6 +9889,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/trophy-item-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/tutorial-panel-test.js', function () {
       // test passed
     });
 

@@ -3662,6 +3662,41 @@ p.share-profile__organization-name {
   text-transform: uppercase;
   border: none; }
 
+.tutorial-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 23px; }
+
+.tutorial-panel__box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.3px dashed #7d808a;
+  max-width: 991px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 36px 0 28px; }
+
+.tutorial-panel__box-title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  color: #000000;
+  font-weight: 600;
+  margin-top: 10.2px; }
+  @media (min-width: 980px) {
+    .tutorial-panel__box-title {
+      font-size: 22px;
+      line-height: 26px; } }
+
+.tutorial-panel__separator {
+  height: 2px;
+  width: 100%;
+  max-width: 990px;
+  border: 1px solid #D8D8D8;
+  margin-top: 23px; }
+
 /* pages */
 /* Sections:
 
