@@ -13608,7 +13608,6 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
       // instance route object
       route = this.subject();
       route.transitionTo = _sinon.default.stub();
-      route.paramsFor = _sinon.default.stub().returns({ assessment_id: 123 });
     });
 
     (0, _mocha.it)('exists', function () {
@@ -13620,10 +13619,11 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
 
       (0, _mocha.it)('should fetch an assessment', function () {
         // given
+        var params = { assessment_id: 123 };
         route.get('store').findRecord.resolves();
 
         // when
-        var promise = route.model();
+        var promise = route.model(params);
 
         // then
         return promise.then(function () {
