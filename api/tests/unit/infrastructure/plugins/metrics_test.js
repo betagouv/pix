@@ -164,4 +164,46 @@ describe('Unit | Plugins | Metrics', () => {
       expect(result).to.equals('1');
     });
   });
+
+  describe('|> api_request_client_error', () => {
+
+    it('should start at 0', () => {
+      // given
+      const prometheusMetrics = Metrics.metrics.metrics();
+
+      // when
+      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+
+      // then
+      expect(result).to.equals('0');
+    });
+
+    it('should increment on response with statusCode 400', () => {
+      // given
+      const serverStub = new EventEmitter();
+      Metrics.register(serverStub, null, () => {});
+
+      // when
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }));
+
+      // then
+      const prometheusMetrics = Metrics.metrics.metrics();
+      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+      expect(result).to.equals('1');
+    });
+
+    it('should NOT increment on response event with statusCode 200 or 500', () => {
+      // given
+      const serverStub = new EventEmitter();
+      Metrics.register(serverStub, null, () => {});
+
+      // when
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }));
+
+      // then
+      const prometheusMetrics = Metrics.metrics.metrics();
+      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+      expect(result).to.equals('0');
+    });
+  });
 });

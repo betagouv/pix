@@ -22,7 +22,7 @@ describe('Unit | Controller | metricController', () => {
       metricController.get(null, replyStub);
 
       // then
-      expect(result).to.contains('api_request_total')
+      expect(result).to.contains('api_request_total');
     });
 
     it('should return metric api_request_success', () => {
