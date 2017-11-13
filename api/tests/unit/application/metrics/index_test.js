@@ -4,7 +4,7 @@ const { describe, it, expect, before, beforeEach, after, sinon } = require('../.
 const Hapi = require('hapi');
 const metricController = require(`${PROJECT_ROOT}/lib/application/metrics/metric-controller`);
 
-describe.only('Unit | Router | Metrics', () => {
+describe('Unit | Router | Metrics', () => {
 
   let server;
 

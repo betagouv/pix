@@ -5,7 +5,7 @@ const { describe, it, expect } = require(`${TESTS_ROOT}/test-helper`);
 const { EventEmitter } = require('events');
 const Metrics = require(`${PROJECT_ROOT}/lib/infrastructure/plugins/metrics`);
 
-describe.only('Unit | Plugins | Metrics', () => {
+describe('Unit | Plugins | Metrics', () => {
 
   beforeEach(() => {
     Metrics.reset();

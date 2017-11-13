@@ -3,7 +3,7 @@ const os = require('os');
 
 client.register.clear(); // XXX test:watch force us to clean the registry
 
-client.register.setDefaultLabels({ instance: os.hostname() })
+client.register.setDefaultLabels({ instance: os.hostname() });
 client.collectDefaultMetrics();
 
 const metrics = {
