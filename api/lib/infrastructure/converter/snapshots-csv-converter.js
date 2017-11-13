@@ -68,8 +68,7 @@ function _cleanArrayCompetences(arrayCompetences) {
 }
 
 function _verifyCorrectCompetence(competence) {
-  return (competence.type && competence.attributes) ?
-    (competence.type === 'competences' && competence.attributes.name) : false;
+  return competence.type === 'competences' && competence.attributes.name;
 }
 function _emptyData(jsonData) {
   return !jsonData[0];
