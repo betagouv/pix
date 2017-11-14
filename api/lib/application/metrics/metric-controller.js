@@ -1,10 +1,10 @@
 
-const { register } = require('prom-client');
+const { metrics } = require('../../infrastructure/plugins/metrics');
 
 module.exports = {
   get(request, reply) {
-    const metrics = register.metrics();
+    const metricsStr = metrics.metrics();
 
-    return reply(metrics).type('text/plain');
+    return reply(metricsStr).type('text/plain');
   }
 };

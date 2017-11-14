@@ -51,7 +51,7 @@ describe('Unit | Plugins | Metrics', () => {
     }
   }
 
-  describe('|> api_request_total', () => {
+  describe('the metric api_request_total', () => {
 
     it('should start at 0', () => {
       // given
@@ -79,7 +79,7 @@ describe('Unit | Plugins | Metrics', () => {
     });
   });
 
-  describe('|> api_request_success', () => {
+  describe('the metric api_request_success', () => {
 
     it('should start at 0', () => {
       // given
@@ -122,7 +122,7 @@ describe('Unit | Plugins | Metrics', () => {
     });
   });
 
-  describe('|> api_request_server_error', () => {
+  describe('the metric api_request_server_error', () => {
 
     it('should start at 0', () => {
       // given
@@ -165,7 +165,7 @@ describe('Unit | Plugins | Metrics', () => {
     });
   });
 
-  describe('|> api_request_client_error', () => {
+  describe('the metric api_request_client_error', () => {
 
     it('should start at 0', () => {
       // given
