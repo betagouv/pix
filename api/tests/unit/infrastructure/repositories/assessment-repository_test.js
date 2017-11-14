@@ -282,5 +282,40 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
 
   });
+
+  describe('#save', function() {
+
+    const assessment = { id: '1', type: 'CERTIFICATION' };
+    const assessmentBookshelf = new Assessment(assessment);
+
+    beforeEach(() => {
+      sinon.stub(Assessment.prototype, 'save').resolves(assessmentBookshelf);
+    });
+
+    afterEach(() => {
+      Assessment.prototype.save.restore();
+    });
+
+    it('should save a new assessment', function() {
+      // when
+      const promise = assessmentRepository.save(assessment);
+
+      // then
+      promise.then((savedAssessment) => {
+        sinon.assert.calledOnce(Assessment.prototype.save);
+      })
+    });
+
+
+    it('should return a JSON with the assessment', function() {
+      // when
+      const promise = assessmentRepository.save(assessment);
+
+      // then
+      promise.then((savedAssessment) => {
+        expect(savedAssessment).to.deep.equal(assessment);
+      })
+    });
+  });
 });
 

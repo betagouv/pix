@@ -59,5 +59,13 @@ module.exports = {
     return Assessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
       .fetch({ require: true });
-  }
+  },
+
+  save(assessment) {
+    const assessmentBookshelf = new Assessment(assessment);
+    return assessmentBookshelf.save()
+      .then((savedAssessment) => {
+        return savedAssessment.attributes;
+      });
+  },
 };
