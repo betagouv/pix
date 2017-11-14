@@ -22,6 +22,6 @@ exports.register = function(server, options, next) {
 };
 
 exports.register.attributes = {
-  name: 'course-groups-api',
+  name: 'certification-courses-api',
   version: '1.0.0'
 };
