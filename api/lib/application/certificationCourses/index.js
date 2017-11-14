@@ -10,7 +10,7 @@ exports.register = function(server, options, next) {
       config: {
         pre: [{
           method: connectedUserVerification.verifyByToken,
-          assign: 'authorizationCheck'
+          assign: 'userId'
         }],
         handler: certificationCourseController.save,
         tags: ['api']
