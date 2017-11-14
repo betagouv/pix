@@ -51,7 +51,7 @@ const Metrics = {
 };
 
 Metrics.register.attributes = {
-  name: 'Metrics-plugin'
+  name: 'metrics-plugin'
 };
 
 module.exports = Metrics;

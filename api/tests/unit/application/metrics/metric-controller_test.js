@@ -9,6 +9,18 @@ describe('Unit | Controller | metricController', () => {
     let result = null;
     const replyStub = (text) => { result = text; return { code() { }, type() { } }; };
 
+    it('should have type text/plain', () => {
+      // given
+      let type = null;
+      const typeStub = () => { return { type(t) { type = t; }, code() {} }; };
+
+      // when
+      metricController.get(null, typeStub);
+
+      // then
+      expect(type).to.equal('text/plain');
+    });
+
     it('should return default prometheus metrics', () => {
       // when
       metricController.get(null, replyStub);
