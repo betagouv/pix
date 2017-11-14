@@ -1,9 +1,8 @@
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const AssessmentRepository = require('../../infrastructure/repositories/assessment-repository');
-const AuthorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
 module.exports = {
-  save(request, reply){
+  save(request, reply) {
     const userId = request.pre.userId;
     return CertificationCourseRepository.save()
       .then((certificateCourse) => {
@@ -14,6 +13,12 @@ module.exports = {
         };
         return AssessmentRepository.save(assessmentCertificate);
       })
-      .then((assessmentSaved) => console.log(assessmentSaved))
+      .then((assessmentSaved) => {
+        reply(assessmentSaved).code(201);
+      })
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
   }
 }
