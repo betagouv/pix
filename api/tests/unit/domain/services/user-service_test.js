@@ -176,7 +176,7 @@ describe('Unit | Service | User Service', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser').resolves([
+      sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
         { id: 13 }, { id: 1637 }
       ]);
 
@@ -208,8 +208,8 @@ describe('Unit | Service | User Service', () => {
 
       // Then
       return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser);
-        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser, userId);
+        sinon.assert.calledOnce(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser);
+        sinon.assert.calledWith(assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser, userId);
       });
     });
 

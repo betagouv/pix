@@ -2,7 +2,6 @@ const { describe, it, expect, knex, beforeEach, afterEach } = require('../../../
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/data/assessment');
-const _ = require('lodash');
 
 describe('Acceptance | Infrastructure | Repositories | assessment-repository', () => {
 
@@ -136,7 +135,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
   });
 
-  describe('#findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser', () => {
+  describe('#findLastCompletedAssessmentsByUser', () => {
     const JOHN = 2;
     const LAYLA = 3;
 
@@ -175,14 +174,6 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       estimatedLevel: null,
       pixScore: null,
       createdAt: '2017-11-08 11:47:38'
-    },
-    {
-      id: 6,
-      userId: JOHN,
-      courseId: 'courseId3',
-      estimatedLevel: 0,
-      pixScore: 6,
-      createdAt: '2017-11-08 11:47:38'
     }
     ];
 
@@ -214,7 +205,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       ]);
 
       // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser(JOHN);
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(JOHN);
 
       // then
       return promise.then((assessements) => {
@@ -222,18 +213,6 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
         const assessmentInJson = assessements.map(assessment => assessment.toJSON());
         expect(assessmentInJson[0]).to.contains(expectedAssessments.get(0));
         expect(assessmentInJson[1]).to.contains(expectedAssessments.get(1));
-      });
-    });
-
-    it('should ignore assessments with level at 1', () => {
-      // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCourses_withLevelOneMinimum_ByUser(JOHN);
-
-      // then
-      return promise.then((assessements) => {
-        const arrayOfCourseIds = _(assessements).map(assessment => assessment.toJSON().courseId).value();
-
-        expect(arrayOfCourseIds).not.to.includes('courseId3');
       });
     });
   });
