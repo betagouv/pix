@@ -19,6 +19,7 @@ describe('Unit | Pre-handler | Connected User Verification', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       takeOverStub = sinon.stub();
+      sandbox.stub(tokenService, 'extractTokenFromAuthChain').returns('VALID_TOKEN');
       sandbox.stub(validationErrorSerializer, 'serialize');
       codeStub = sandbox.stub().returns({
         takeover : takeOverStub
@@ -30,6 +31,17 @@ describe('Unit | Pre-handler | Connected User Verification', () => {
 
     afterEach(() => {
       sandbox.restore();
+    });
+
+    it('should extract token from authorization field', function() {
+      // when
+      const promise = ConnectedUserVerification.verifyByToken(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(tokenService.extractTokenFromAuthChain);
+        sinon.assert.calledWith(tokenService.extractTokenFromAuthChain, request.headers.authorization);
+      });
     });
 
     it('should call verification from token', () => {

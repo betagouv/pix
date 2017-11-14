@@ -3,10 +3,12 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 module.exports = {
   verifyByToken(request, reply) {
-    return tokenService.verifyValidity(request.headers.authorization)
+    const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+
+    return tokenService.verifyValidity(token)
       .then((decodedToken) => reply(decodedToken.user_id))
       .catch(() => {
-        const buildedError = {data: { authorization : 'Vous n’êtes pas autorisé à passer un test de certification'}};
+        const buildedError = {data: {authorization : ['Vous n’êtes pas autorisé à passer un test de certification']}};
         return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
   }
