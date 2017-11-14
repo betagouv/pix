@@ -1,3 +1,5 @@
 module.exports = {
-  save(){}
+  save(){
+    return reply();
+  }
 }

@@ -1,4 +1,5 @@
 const certificationCourseController = require('./certification-course-controller');
+const connectedUserVerification= require('../../application/preHandlers/connected-user-verification');
 
 exports.register = function(server, options, next) {
 
@@ -6,7 +7,14 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/certification-courses',
-      config: { handler: certificationCourseController.save, tags: ['api'] }
+      config: {
+        pre: [{
+          method: connectedUserVerification.verifyByToken,
+          assign: 'authorizationCheck'
+        }],
+        handler: certificationCourseController.save,
+        tags: ['api']
+      }
     }
   ]);
 
