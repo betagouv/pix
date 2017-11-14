@@ -6,7 +6,7 @@ const Bookshelf = require('../../infrastructure/bookshelf');
 const _ = require('lodash');
 
 function _fetchSkillsFromCompetence(competenceId, cacheKey, resolve, reject) {
-  challengeRepository.getFromCompetenceId(competenceId)
+  challengeRepository.findByCompetence(competenceId)
     .then(challenges => {
       const skills = new Set();
 

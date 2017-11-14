@@ -20,7 +20,7 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
   return answerRepository.findByAssessment(assessmentPix.get('id'))
     .then(answers => {
       answersPix = answers;
-      return challengeRepository.getFromCompetenceId(competenceId);
+      return challengeRepository.findByCompetence(competenceId);
     }).then(challenges => {
       challengesPix = challenges;
       return skillRepository.cache.getFromCompetenceId(competenceId);
@@ -85,7 +85,7 @@ function getScoredAssessment(assessmentId) {
     .then(course => {
       coursePix = course;
       competenceId = coursePix.competences[0];
-      return challengeRepository.getFromCompetenceId(competenceId);
+      return challengeRepository.findByCompetence(competenceId);
     })
     .then(challenges => {
       challengesPix = challenges;

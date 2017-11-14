@@ -141,7 +141,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
         challenges: ['challenge_web_2', 'challenge_web_1'],
         competences: ['competence_id']
       });
-      getChallengesStub = sinon.stub(challengeRepository, 'getFromCompetenceId').returns(challenges);
+      getChallengesStub = sinon.stub(challengeRepository, 'findByCompetence').returns(challenges);
       getSkillStub = sinon.stub(skillRepository.cache, 'getFromCompetenceId').returns(new Set());
       sinon.stub(assessmentAdapter, 'getAdaptedAssessment');
 
