@@ -6189,11 +6189,9 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('enrollment', { path: '/rejoindre' });
     this.route('challenge-preview', { path: '/challenges/:challenge_id/preview' });
     this.route('courses.create-assessment', { path: '/courses/:course_id' });
-    this.route('assessments', { path: '/assessments/:assessment_id' }, function () {
-      this.route('resume', { path: '/' });
-      this.route('challenge', { path: '/challenges/:challenge_id' });
-      this.route('results', { path: '/results' });
-    });
+    this.route('assessments.challenge', { path: '/assessments/:assessment_id/challenges/:challenge_id' });
+    this.route('assessments.resume', { path: '/assessments/:assessment_id' });
+    this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
@@ -6235,9 +6233,7 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
 
       var store = this.get('store');
 
-      var _paramsFor = this.paramsFor('assessments'),
-          assessmentId = _paramsFor.assessment_id;
-
+      var assessmentId = params.assessment_id;
       var challengeId = params.challenge_id;
 
       return RSVP.hash({
@@ -6357,10 +6353,8 @@ define('pix-live/routes/assessments/resume', ['exports', 'pix-live/routes/base-r
     value: true
   });
   exports.default = _baseRoute.default.extend({
-    model: function model() {
-      var _paramsFor = this.paramsFor('assessments'),
-          assessmentId = _paramsFor.assessment_id;
-
+    model: function model(params) {
+      var assessmentId = params.assessment_id;
       return this.get('store').findRecord('assessment', assessmentId);
     },
     afterModel: function afterModel(assessment) {
@@ -6663,7 +6657,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
       }).then(function () {
         return store.queryRecord('challenge', { assessmentId: assessment.get('id') });
       }).then(function (challenge) {
-        return _this.transitionTo('assessments.challenge', { assessment: assessment, challenge: challenge });
+        return _this.replaceWith('assessments.challenge', { assessment: assessment, challenge: challenge });
       });
     }
   });
@@ -7874,7 +7868,15 @@ define("pix-live/templates/courses/create-assessment-loading", ["exports"], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "wAk+RIls", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"Votre test est en cours de préparation...\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment-loading.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "3BonbZcO", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n    \"],[6,\"br\"],[7],[8],[0,\"Cela peut prendre jusqu'à 1 minute.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment-loading.hbs" } });
+});
+define("pix-live/templates/courses/create-assessment", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "gnGT7qs8", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n    \"],[6,\"br\"],[7],[8],[0,\"Cela peut prendre jusqu'à 1 minute.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment.hbs" } });
 });
 define("pix-live/templates/enrollment", ["exports"], function (exports) {
   "use strict";
@@ -8747,6 +8749,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+badec27b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.27.0+7590606b"});
 }
 //# sourceMappingURL=pix-live.map
