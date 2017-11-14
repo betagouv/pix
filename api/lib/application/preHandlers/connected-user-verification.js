@@ -6,7 +6,7 @@ module.exports = {
     return tokenService.verifyValidity(request.headers.authorization)
       .then(reply)
       .catch(() => {
-        const buildedError = {data: { authorization :('Vous n’êtes pas autorisé à passer un test de certification')}};
+        const buildedError = {data: { authorization : 'Vous n’êtes pas autorisé à passer un test de certification'}};
         return reply(validationErrorSerializer.serialize(buildedError)).code(401).takeover();
       });
   }
