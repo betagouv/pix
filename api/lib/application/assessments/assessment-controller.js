@@ -92,6 +92,9 @@ module.exports = {
         return assessmentService
           .getScoredAssessment(request.params.id)
           .then(({ assessmentPix, skills }) => {
+
+            delete assessmentPix.attributes.successRate;
+
             return assessmentPix.save()
               .then(() => skillsService.saveAssessmentSkills(skills))
               .then(() => {
