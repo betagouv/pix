@@ -19,20 +19,32 @@ module.exports = {
       .query(qb => {
         qb.where({ userId });
         qb.whereNotNull('estimatedLevel');
-        qb.whereNotNull('pixScore');
+        qb.whereNotNull('pixScore')
+        qb.andWhere(function() {
+          this.where({ type: null })
+            .orWhereNot({ type: 'CERTIFICATION' })
+        });
       })
       .fetchAll()
       .then(assessments => assessments.models);
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
-    return Assessment
+    let query = Assessment
       .collection()
       .query(qb => {
-        qb.select()
+        let query = qb.select()
           .where({ userId })
+          .andWhere(function() {
+            this.where({ type: null })
+              .orWhereNot({ type: 'CERTIFICATION' })
+          })
           .orderBy('createdAt', 'desc');
-      })
+        return query;
+      });
+
+
+    return query
       .fetch()
       .then((assessments) => {
         // XXX This kind of filter can be done with SQL but request differs according the database (PG, SQLite)

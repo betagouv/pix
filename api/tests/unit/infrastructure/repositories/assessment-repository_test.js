@@ -13,25 +13,36 @@ describe('Unit | Repository | assessmentRepository', () => {
       userId: JOHN,
       courseId: 'courseId1',
       estimatedLevel: 1,
-      pixScore: 10
+      pixScore: 10,
+      type: null
     }, {
       id: 2,
       userId: LAYLA,
       courseId: 'courseId1',
       estimatedLevel: 2,
-      pixScore: 20
+      pixScore: 20,
+      type: null
     }, {
       id: 3,
       userId: JOHN,
       courseId: 'courseId1',
       estimatedLevel: 3,
-      pixScore: 30
+      pixScore: 30,
+      type: null
     }, {
       id: 4,
       userId: JOHN,
       courseId: 'courseId2',
       estimatedLevel: 3,
-      pixScore: 37
+      pixScore: 37,
+      type: null
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId3',
+      estimatedLevel: 3,
+      pixScore: 37,
+      type : 'CERTIFICATION'
     }];
 
     before(() => {
@@ -42,7 +53,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments for each courses from JOHN', () => {
+    it('should return the list of assessments (which are not Certifications) for each courses from JOHN', () => {
       // When
       const promise = assessmentRepository.findLastAssessmentsForEachCoursesByUser(JOHN);
 
@@ -195,6 +206,13 @@ describe('Unit | Repository | assessmentRepository', () => {
       courseId: 'courseId',
       estimatedLevel: 2,
       pixScore: 20
+    }, {
+      id: 5,
+      userId: JOHN,
+      courseId: 'courseId',
+      estimatedLevel: 3,
+      pixScore: 30,
+      type: 'CERTIFICATION'
     }];
 
     before(() => {
@@ -205,7 +223,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       return knex('assessments').delete();
     });
 
-    it('should return the list of assessments from JOHN', () => {
+    it('should return the list of assessments (which are not Certifications) from JOHN', () => {
       // When
       const promise = assessmentRepository.findCompletedAssessmentsByUserId(JOHN);
 
