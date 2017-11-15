@@ -3,11 +3,11 @@ const airtable = require('../airtable');
 const serializer = require('../serializers/airtable/competence-serializer');
 
 const AIRTABLE_TABLE_NAME = 'Competences';
-const cacheKey = 'competence-repository_list';
 
 module.exports = {
 
   list() {
+    const cacheKey = 'competence-repository_list';
     const cachedCompetences = cache.get(cacheKey);
 
     if (cachedCompetences) {
@@ -21,5 +21,21 @@ module.exports = {
         return competences;
       });
   },
+
+  get(recordId) {
+    const cacheKey = `competence-repository_get_${recordId}`;
+    const cachedCompetence = cache.get(cacheKey);
+
+    if (cachedCompetence) {
+      return Promise.resolve(cachedCompetence);
+    }
+
+    return airtable
+      .getRecord(AIRTABLE_TABLE_NAME, recordId, serializer)
+      .then((competence) => {
+        cache.set(cacheKey, competence);
+        return competence;
+      });
+  }
 
 };
