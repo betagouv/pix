@@ -2,11 +2,8 @@ const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/competence-serializer');
 
 describe('Unit | Serializer | competence-serializer', function() {
+
   describe('#Deserialize', () => {
-    it('should be a function', function() {
-      // then
-      expect(serializer.deserialize).to.be.a('function');
-    });
 
     describe('Success deserialization', () => {
       const airtableCompetencesRecord = {
@@ -15,15 +12,11 @@ describe('Unit | Serializer | competence-serializer', function() {
           'Référence': '1.1 Mener une recherche d\'information',
           'Titre': 'Mener une recherche d\'information',
           'Sous-domaine': '1.1',
-          'Domaine': [
-            'recvoGdo0z0z0pXWZ'
-          ],
-          'Epreuves': [
-            'recsvLz0W2ShyfD00',
-            'recsvLz0W2ShyfD01'
-          ],
+          'Domaine': ['recvoGdo0z0z0pXWZ'],
+          'Epreuves': ['recsvLz0W2ShyfD00', 'recsvLz0W2ShyfD01'],
           'Tests': ['Test de positionnement 1.1'],
-          'Tests Record ID': ['recAY0W7x9urA11OLZJJ']
+          'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
+          'Acquis': ['@url2', '@url5', '@utiliserserv6', '@rechinfo1', '@eval1', '@publi3', '@modèleEco1']
         }
       };
 
@@ -33,13 +26,9 @@ describe('Unit | Serializer | competence-serializer', function() {
           'Référence': '1.1 Mener une recherche d\'information',
           'Titre': 'Mener une recherche d\'information',
           'Sous-domaine': '1.1',
-          'Domaine': [
-            'recvoGdo0z0z0pXWZ'
-          ],
-          'Epreuves': [
-            'recsvLz0W2ShyfD00',
-            'recsvLz0W2ShyfD01'
-          ]
+          'Domaine': ['recvoGdo0z0z0pXWZ'],
+          'Epreuves': ['recsvLz0W2ShyfD00', 'recsvLz0W2ShyfD01'],
+          'Acquis': ['@url2', '@url5', '@utiliserserv6', '@rechinfo1', '@eval1', '@publi3', '@modèleEco1']
         }
       };
 
@@ -55,6 +44,7 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.courseId).to.equal(airtableCompetencesRecord.fields['Tests Record ID'][0]);
         expect(competences.Epreuves).to.not.exist;
         expect(competences.reference).to.equal(airtableCompetencesRecord.fields['Référence']);
+        expect(competences.skills).to.deep.equal(airtableCompetencesRecord.fields['Acquis']);
       });
 
       it('should get a new competence Model even if there is no course associated', () => {
@@ -69,6 +59,7 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.courseId).to.equal('');
         expect(competences.Epreuves).to.not.exist;
         expect(competences.reference).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Référence']);
+        expect(competences.skills).to.deep.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Acquis']);
       });
     });
 
