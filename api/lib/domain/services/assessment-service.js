@@ -77,20 +77,16 @@ function getScoredAssessment(assessmentId) {
     })
     .then(retrievedAnswers => {
       answersPix = retrievedAnswers;
-
       assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
-
-      return courseRepository.get(assessmentPix.get('courseId'));
     })
+    .then(() => courseRepository.get(assessmentPix.get('courseId')))
     .then(course => {
       coursePix = course;
       competenceId = coursePix.competences[0];
-      return challengeRepository.findByCompetence(competenceId);
     })
-    .then(challenges => {
-      challengesPix = challenges;
-      return skillRepository.cache.getFromCompetenceId(competenceId);
-    })
+    .then(() => challengeRepository.findByCompetence(competenceId))
+    .then(challenges => challengesPix = challenges)
+    .then(() => skillRepository.cache.getFromCompetenceId(competenceId))
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);

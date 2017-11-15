@@ -42,14 +42,6 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
 
 describe('Unit | Domain | Services | assessment-service', function() {
 
-  it('should exist', function() {
-    expect(service).to.exist;
-  });
-
-  it('#getAssessmentNextChallengeId should exist', function() {
-    expect(service.getAssessmentNextChallengeId).to.exist;
-  });
-
   describe('#getAssessmentNextChallengeId', function() {
 
     it('Should return the first challenge if no currentChallengeId is given', function(done) {
@@ -112,10 +104,6 @@ describe('Unit | Domain | Services | assessment-service', function() {
   });
 
   describe('#getScoredAssessment', () => {
-
-    it('checks sanity', () => {
-      expect(service.getScoredAssessment).to.exist;
-    });
 
     let getAssessmentStub;
     let getCourseStub;
