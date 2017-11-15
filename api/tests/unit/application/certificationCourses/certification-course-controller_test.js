@@ -3,6 +3,7 @@ const Hapi = require('hapi');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -30,6 +31,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox = sinon.sandbox.create();
       sandbox.stub(AssessmentRepository, 'save');
       sandbox.stub(CertificationCourseRepository, 'save').resolves({ id: 'CertificationCourseId' });
+      sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({})
     });
 
     afterEach(() => {
@@ -62,7 +64,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     });
 
-    it('should reply the certification-course id and assessment id', function() {
+    it('should reply the certification course serialized', function() {
       // given
       const savedAssessment = { id: 'assessmentId', courseId: 'CertificationCourseId' };
       AssessmentRepository.save.resolves(savedAssessment);
@@ -72,8 +74,9 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
+        sinon.assert.calledOnce(CertificationCourseSerializer.serialize);
+        sinon.assert.calledWith(CertificationCourseSerializer.serialize, {id: 'CertificationCourseId'})
         sinon.assert.calledOnce(replyStub);
-        sinon.assert.calledWith(replyStub, { id: 'assessmentId', courseId: 'CertificationCourseId' });
         sinon.assert.calledOnce(codeStub);
         sinon.assert.calledWith(codeStub, 201);
       })
