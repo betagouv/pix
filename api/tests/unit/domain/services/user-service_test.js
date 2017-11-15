@@ -9,6 +9,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 const { UserNotFoundError } = require('../../../../lib/domain/errors');
 
 const Answer = require('../../../../lib/domain/models/data/answer');
+const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Skill = require('../../../../lib/domain/models/Skill');
 const Challenge = require('../../../../lib/domain/models/Challenge');
 const Competence = require('../../../../lib/domain/models/referential/competence');
@@ -160,8 +161,8 @@ describe('Unit | Service | User Service', () => {
     const skillUrl3 = new Skill('@url3');
     const skillWeb1 = new Skill('@web1');
 
-    const competenceFlipper = _createCompetence('competenceRecordIdOne','1.1','1.1 Construire un flipper');
-    const competenceDauphin = _createCompetence('competenceRecordIdTwo','1.2','1.2 Adopter un dauphin');
+    const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
+    const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin');
 
     const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4]);
     const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3]);
@@ -177,7 +178,9 @@ describe('Unit | Service | User Service', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
-        { id: 13 }, { id: 1637 }
+        new Assessment({ id: 13, estimatedLevel: 1, courseId: 'courseId1' }),
+        new Assessment({ id: 1637, estimatedLevel: 2, courseId: 'courseId2' }),
+        new Assessment({ id: 145, estimatedLevel: 0, courseId: 'courseId3' })
       ]);
 
       sandbox.stub(challengeRepository, 'list').resolves([
@@ -230,6 +233,16 @@ describe('Unit | Service | User Service', () => {
       // Then
       return promise.then(() => {
         sinon.assert.calledTwice(answerRepository.findCorrectAnswersByAssessment);
+      });
+    });
+
+    it('should not list right answers for assessments that have an estimated level null or 1', () => {
+      // When
+      const promise = userService.getSkillProfile(userId);
+
+      // Then
+      return promise.then(() => {
+        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessment, 145);
       });
     });
 

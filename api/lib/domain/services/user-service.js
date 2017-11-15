@@ -71,6 +71,10 @@ function _findChallengeBySkill(challenges, skill) {
   }).value();
 }
 
+function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
+  return _(assessments).filter(assessment => assessment.get('estimatedLevel') >= 1).values();
+}
+
 module.exports = {
   isUserExistingByEmail(email) {
     return userRepository
@@ -94,6 +98,7 @@ module.exports = {
 
     return assessmentRepository
       .findLastCompletedAssessmentsForEachCoursesByUser(userId)
+      .then(_filterAssessmentWithEstimatedLevelGreaterThanZero)
       .then(_findCorrectAnswersByAssessments)
       .then(_loadRequiredChallengesInformationsAndAnswers)
       .then(_castCompetencesToUserCompetences)
