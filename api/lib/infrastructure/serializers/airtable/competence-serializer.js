@@ -9,11 +9,12 @@ class CompetenceSerializer extends AirtableSerializer {
     competence.id = airtableRecord.id;
 
     const fields = airtableRecord.fields;
-    if(fields) {
+    if (fields) {
       competence.name = fields['Titre'];
       competence.index = fields['Sous-domaine'];
       competence.areaId = fields['Domaine'];
       competence.courseId = fields['Tests Record ID'] ? fields['Tests Record ID'][0] : '';
+      competence.reference = fields['Référence'];
     }
 
     return competence;

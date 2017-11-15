@@ -48,12 +48,13 @@ describe('Unit | Serializer | competence-serializer', function() {
         const competences = serializer.deserialize(airtableCompetencesRecord);
 
         // Then
-        expect(competences.id).to.be.equal(airtableCompetencesRecord.id);
-        expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Titre']);
-        expect(competences.index).to.be.equal(airtableCompetencesRecord.fields['Sous-domaine']);
-        expect(competences.areaId).to.be.equal(airtableCompetencesRecord.fields['Domaine']);
-        expect(competences.courseId).to.be.equal(airtableCompetencesRecord.fields['Tests Record ID'][0]);
+        expect(competences.id).to.equal(airtableCompetencesRecord.id);
+        expect(competences.name).to.equal(airtableCompetencesRecord.fields['Titre']);
+        expect(competences.index).to.equal(airtableCompetencesRecord.fields['Sous-domaine']);
+        expect(competences.areaId).to.equal(airtableCompetencesRecord.fields['Domaine']);
+        expect(competences.courseId).to.equal(airtableCompetencesRecord.fields['Tests Record ID'][0]);
         expect(competences.Epreuves).to.not.exist;
+        expect(competences.reference).to.equal(airtableCompetencesRecord.fields['Référence']);
       });
 
       it('should get a new competence Model even if there is no course associated', () => {
@@ -61,12 +62,13 @@ describe('Unit | Serializer | competence-serializer', function() {
         const competences = serializer.deserialize(airtableCompetencesRecordWithNoCourseIdAssociated);
 
         // Then
-        expect(competences.id).to.be.equal(airtableCompetencesRecord.id);
-        expect(competences.name).to.be.equal(airtableCompetencesRecord.fields['Titre']);
-        expect(competences.index).to.be.equal(airtableCompetencesRecord.fields['Sous-domaine']);
-        expect(competences.areaId).to.deep.equal(airtableCompetencesRecord.fields['Domaine']);
-        expect(competences.courseId).to.be.equal('');
+        expect(competences.id).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.id);
+        expect(competences.name).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Titre']);
+        expect(competences.index).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Sous-domaine']);
+        expect(competences.areaId).to.deep.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Domaine']);
+        expect(competences.courseId).to.equal('');
         expect(competences.Epreuves).to.not.exist;
+        expect(competences.reference).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Référence']);
       });
     });
 
