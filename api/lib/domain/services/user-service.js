@@ -94,7 +94,7 @@ module.exports = {
       });
   },
 
-  getSkillProfile(userId) {
+  getCertificationProfile(userId) {
 
     return assessmentRepository
       .findLastCompletedAssessmentsForEachCoursesByUser(userId)

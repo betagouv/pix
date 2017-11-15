@@ -1,3 +1,4 @@
+// FIXME: Créer un constructor
 class Competence {
 }
 

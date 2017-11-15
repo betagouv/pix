@@ -26,6 +26,7 @@ class JSONAPISerializer {
       return null;
     }
 
+    // XXX : Code temporaire pour gérer la sérialisation entre les models bookshelf et ceux "métier"
     const entity = (modelObject instanceof Bookshelf.Model) ? modelObject.toJSON() : modelObject;
     const data = {};
     data.type = this.modelClassName;

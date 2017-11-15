@@ -204,19 +204,20 @@ describe('Acceptance | API | Assessments', function() {
     });
 
     afterEach(() => {
-      return knex('assessments').delete()
-        .then(() => knex('assessments').delete());
+      return knex('assessments').delete();
     });
 
-    it('should finish the test if there is no next challenge', function(done) {
-
+    it('should finish the test if there is no next challenge', () => {
+      // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge' };
-      server.inject(options, (response) => {
+
+      // when
+      const promise = server.injectThen(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.result).to.be.null;
-        done();
       });
     });
   });
-
-})
-;
+});
