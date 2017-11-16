@@ -24,14 +24,11 @@ module.exports = {
       });
   },
 
-  db: {
-    save(arraySkills) {
-      const SkillCollection = Bookshelf.Collection.extend({
-        model: Skill
-      });
-
-      return SkillCollection.forge(arraySkills)
-        .invokeThen('save');
-    }
+  save(arraySkills) {
+    const SkillCollection = Bookshelf.Collection.extend({
+      model: Skill
+    });
+    return SkillCollection.forge(arraySkills)
+      .invokeThen('save');
   }
 };

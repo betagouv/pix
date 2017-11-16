@@ -12,7 +12,7 @@ describe('Unit | Service | Skills Service', () => {
     });
 
     afterEach(() => {
-      skillsRepository.db.save.restore();
+      skillsRepository.save.restore();
     });
 
     it('should call Skills Repository#save with formatted skills', () => {
@@ -35,8 +35,8 @@ describe('Unit | Service | Skills Service', () => {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(skillsRepository.db.save);
-        sinon.assert.calledWith(skillsRepository.db.save, skillsFormatted);
+        sinon.assert.calledOnce(skillsRepository.save);
+        sinon.assert.calledWith(skillsRepository.save, skillsFormatted);
       });
     });
 

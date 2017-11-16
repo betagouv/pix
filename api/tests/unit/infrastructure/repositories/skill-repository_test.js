@@ -117,7 +117,7 @@ describe('Unit | Repository | skill-repository', function() {
       ];
 
       // when
-      const promise = skillRepository.db.save(skillsFormatted);
+      const promise = skillRepository.save(skillsFormatted);
 
       // then
       return promise.then(() => {
