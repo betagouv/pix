@@ -5,8 +5,8 @@ module.exports = {
   save(){
     const certificationCourse = new CertificationCourse();
     return certificationCourse.save()
-      .then((savedCertificationCours) => {
-        return savedCertificationCours.attributes;
+      .then((savedCertificationCourse) => {
+        return savedCertificationCourse.attributes;
       });
   }
 }
