@@ -61,20 +61,16 @@ function getScoredAssessment(assessmentId) {
 
   let assessmentPix, answersPix, challengesPix, coursePix, competenceId, skills;
 
-  return assessmentRepository
-    .get(assessmentId)
+  return assessmentRepository.get(assessmentId)
     .then(retrievedAssessment => {
-
       if (retrievedAssessment === null) {
         return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
       } else if (isPreviewAssessment(retrievedAssessment)) {
         return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
       }
-
       assessmentPix = retrievedAssessment;
-
-      return answerRepository.findByAssessment(assessmentPix.get('id'));
     })
+    .then(() => answerRepository.findByAssessment(assessmentPix.get('id')))
     .then(retrievedAnswers => {
       answersPix = retrievedAnswers;
       assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
