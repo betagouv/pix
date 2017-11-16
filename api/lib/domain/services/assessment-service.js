@@ -11,22 +11,18 @@ const _ = require('../../infrastructure/utils/lodash-utils');
 
 const { NotFoundError, NotElligibleToScoringError } = require('../../domain/errors');
 
-function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
+function _selectNextInAdaptiveMode(assessment, course) {
 
-  let answersPix, challengesPix;
+  let answers, challenges;
 
-  const competenceId = coursePix.competences[0];
+  const competenceId = course.competences[0];
 
-  return answerRepository.findByAssessment(assessmentPix.get('id'))
-    .then(answers => {
-      answersPix = answers;
-      return challengeRepository.findByCompetence(competenceId);
-    }).then(challenges => {
-      challengesPix = challenges;
-      return skillRepository.findByCompetence(competenceId);
-    }).then(skills => {
-      return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skills);
-    });
+  return answerRepository.findByAssessment(assessment.get('id'))
+    .then(fetchedAnswers => (answers = fetchedAnswers))
+    .then(() => challengeRepository.findByCompetence(competenceId))
+    .then(fetchedChallenges => (challenges = fetchedChallenges))
+    .then(() => skillRepository.findByCompetence(competenceId))
+    .then(skills => assessmentUtils.getNextChallengeInAdaptiveCourse(course, answers, challenges, skills));
 }
 
 function _selectNextInNormalMode(currentChallengeId, challenges) {
