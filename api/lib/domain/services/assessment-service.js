@@ -77,6 +77,9 @@ function getScoredAssessment(assessmentId) {
     })
     .then(retrievedAnswers => {
       answersPix = retrievedAnswers;
+
+      assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
+
       return courseRepository.get(assessmentPix.get('courseId'));
     })
     .then(course => {
@@ -102,8 +105,6 @@ function getScoredAssessment(assessmentId) {
         assessmentPix.set('estimatedLevel', 0);
         assessmentPix.set('pixScore', 0);
       }
-
-      assessmentPix.set('successRate', answerService.getAnswersSuccessRate(answersPix));
 
       return { assessmentPix, skills };
     });

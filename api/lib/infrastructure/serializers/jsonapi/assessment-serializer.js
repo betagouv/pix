@@ -34,7 +34,6 @@ class AssessmentSerializer extends JSONAPISerializer {
         });
       }
     }
-
   }
 
   deserialize(json) {

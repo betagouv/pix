@@ -12,11 +12,6 @@ describe('Unit | Domain | Services | answer-service', function() {
       model: Answers
     });
 
-    it('should exists', () => {
-      expect(certificationService).to.have.property('getAnswersSuccessRate')
-        .and.to.be.a('function');
-    });
-
     context('when no answers is given', () => {
       it('should have a trust level has unknown', () => {
         // given
