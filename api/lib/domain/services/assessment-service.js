@@ -23,9 +23,9 @@ function _selectNextInAdaptiveMode(assessmentPix, coursePix) {
       return challengeRepository.findByCompetence(competenceId);
     }).then(challenges => {
       challengesPix = challenges;
-      return skillRepository.cache.getFromCompetenceId(competenceId);
+      return skillRepository.findByCompetence(competenceId);
     }).then(skills => {
-      return assessmentUtils.getNextChallengeInAdaptiveCourse(answersPix, challengesPix, skills);
+      return assessmentUtils.getNextChallengeInAdaptiveCourse(coursePix, answersPix, challengesPix, skills);
     });
 }
 
@@ -86,7 +86,7 @@ function getScoredAssessment(assessmentId) {
     })
     .then(() => challengeRepository.findByCompetence(competenceId))
     .then(challenges => challengesPix = challenges)
-    .then(() => skillRepository.cache.getFromCompetenceId(competenceId))
+    .then(() => skillRepository.findByCompetence(competenceId))
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);
