@@ -8,9 +8,9 @@ describe('Unit | Repository | Certification Course', function() {
 
     let certificationCourse;
 
-    beforeEach(()=> {
-      certificationCourse = {id : 'certifId'};
-      const certificationCourseBookshelf = new CertificationCourse(certificationCourse)
+    beforeEach(() => {
+      certificationCourse = { id: 'certifId' };
+      const certificationCourseBookshelf = new CertificationCourse(certificationCourse);
       sinon.stub(CertificationCourse.prototype, 'save').resolves(certificationCourseBookshelf);
     });
 
@@ -23,19 +23,18 @@ describe('Unit | Repository | Certification Course', function() {
       const promise = CertificationCourseRepository.save();
 
       // then
-      return promise.then(()=> {
+      return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourse.prototype.save);
       });
 
     });
-
 
     it('return the saved certification course in JSON ', function() {
       // when
       const promise = CertificationCourseRepository.save();
 
       // then
-      return promise.then((savedCertification)=> {
+      return promise.then((savedCertification) => {
         expect(savedCertification).to.deep.equal(certificationCourse);
       });
 

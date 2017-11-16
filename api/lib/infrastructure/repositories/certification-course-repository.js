@@ -1,12 +1,12 @@
-const CertificationCourse =  require('../../domain/models/data/certification-course');
+const CertificationCourse = require('../../domain/models/data/certification-course');
 
 module.exports = {
 
-  save(){
+  save() {
     const certificationCourse = new CertificationCourse();
     return certificationCourse.save()
       .then((savedCertificationCourse) => {
         return savedCertificationCourse.attributes;
       });
   }
-}
+};

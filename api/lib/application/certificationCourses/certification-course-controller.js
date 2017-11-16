@@ -1,7 +1,8 @@
+const Boom = require('boom');
+const logger = require('../../infrastructure/logger');
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const AssessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-
 const userService = require('../../../lib/domain/services/user-service');
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 
@@ -27,4 +28,5 @@ module.exports = {
         reply(Boom.badImplementation(err));
       });
   }
-}
+
+};

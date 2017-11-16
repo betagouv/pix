@@ -1,12 +1,12 @@
 const CertificationChallenge = require('../../domain/models/data/certification-challenge');
 
 module.exports = {
-  save(challenge, certificationCourse){
+  save(challenge, certificationCourse) {
     const certificationChallenge = new CertificationChallenge({
-      challengeId : challenge.id,
-      competenceId : challenge.competence,
-      associatedSkill : challenge.testedSkill,
-      courseId : certificationCourse.id
+      challengeId: challenge.id,
+      competenceId: challenge.competence,
+      associatedSkill: challenge.testedSkill,
+      courseId: certificationCourse.id
     });
 
     return certificationChallenge.save()
@@ -14,4 +14,4 @@ module.exports = {
         return certificationChallenge.attributes;
       });
   }
-}
+};

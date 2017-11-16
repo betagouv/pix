@@ -4,10 +4,10 @@ module.exports = {
 
   saveChallenges(certificationProfile, certificationCourse) {
     const saveChallengePromises = [];
-    certificationProfile.forEach((userCompetence)=> {
-      userCompetence.challenges.forEach((challenge)=>{
+    certificationProfile.forEach((userCompetence) => {
+      userCompetence.challenges.forEach((challenge) => {
         saveChallengePromises.push(certificationChallengeRepository.save(challenge, certificationCourse));
-      })
+      });
     });
 
     return Promise.all(saveChallengePromises);

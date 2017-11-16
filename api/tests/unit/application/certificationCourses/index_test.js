@@ -26,7 +26,7 @@ describe('Unit | Router | certification-course-router', function() {
     });
 
     it('should exist', function(done) {
-      server.inject({method : 'POST', url : '/api/certification-courses'}, (res) => {
+      server.inject({ method: 'POST', url: '/api/certification-courses' }, (res) => {
         expect(res.statusCode).to.equal(200);
         done();
       });

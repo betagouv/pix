@@ -1,11 +1,11 @@
-const { describe, it, before, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const UserService = require('../../../../lib/domain/services/user-service');
-const CertificationCourseService = require ('../../../../lib/domain/services/certification-course-service');
+const CertificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -19,7 +19,7 @@ describe('Unit | Controller | certification-course-controller', function() {
     }
   };
   const certificationCourse = { id: 'CertificationCourseId' };
-  const userProfile = [{id: 'competence1', challenges: []}];
+  const userProfile = [{ id: 'competence1', challenges: [] }];
   before(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
@@ -52,7 +52,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseRepository.save);
-      })
+      });
     });
 
     it('should call repository to create assessment for certification-course with correct assessment', function() {
@@ -67,7 +67,7 @@ describe('Unit | Controller | certification-course-controller', function() {
           courseId: 'CertificationCourseId',
           userId: 'userId'
         });
-      })
+      });
     });
 
     it('should call user Service to get User Certification Profile', function() {
@@ -77,7 +77,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(UserService.getCertificationProfile);
-      })
+      });
     });
 
     it('should call Certification Course Service to save challenges', function() {
@@ -88,7 +88,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseService.saveChallenges);
         sinon.assert.calledWith(CertificationCourseService.saveChallenges, userProfile, certificationCourse);
-      })
+      });
     });
 
     it('should reply the certification course serialized', function() {
@@ -102,11 +102,11 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseSerializer.serialize);
-        sinon.assert.calledWith(CertificationCourseSerializer.serialize, {id: 'CertificationCourseId'})
+        sinon.assert.calledWith(CertificationCourseSerializer.serialize, { id: 'CertificationCourseId' });
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);
         sinon.assert.calledWith(codeStub, 201);
-      })
+      });
     });
 
   });

@@ -7,23 +7,23 @@ describe('Unit | Repository | certification-challenge-repository', () => {
 
   const challengeObject = {
     id: 'challenge_id',
-    competence :  'competenceId',
-    testedSkill : '@skill2'
+    competence: 'competenceId',
+    testedSkill: '@skill2'
   };
   const certificationCourseObject = { id: 'certification_course_id' };
   const certificationChallenge = {
     challengeId: 'challenge_id',
-    competenceId :  'competenceId',
-    associatedSkill : '@skill2',
-    courseId : 'certification_course_id'
+    competenceId: 'competenceId',
+    associatedSkill: '@skill2',
+    courseId: 'certification_course_id'
   };
-  let certificationChallengeBookshelf = new CertificationChallenge(certificationChallenge);
+  const certificationChallengeBookshelf = new CertificationChallenge(certificationChallenge);
 
-  beforeEach(()=>{
+  beforeEach(() => {
     sinon.stub(CertificationChallenge.prototype, 'save').resolves(certificationChallengeBookshelf);
   });
 
-  afterEach(()=> {
+  afterEach(() => {
     CertificationChallenge.prototype.save.restore();
   });
 
@@ -37,8 +37,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
     });
 
   });
-
-
+  
   it('should return certification challenge object', () => {
     // when
     const promise = certificationChallengeRepository.save(challengeObject, certificationCourseObject);

@@ -1,5 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/data/user');
+const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const ConnectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
@@ -22,7 +21,7 @@ describe('Unit | Pre-handler | Connected User Verification', () => {
       sandbox.stub(tokenService, 'extractTokenFromAuthChain').returns('VALID_TOKEN');
       sandbox.stub(validationErrorSerializer, 'serialize');
       codeStub = sandbox.stub().returns({
-        takeover : takeOverStub
+        takeover: takeOverStub
       });
       replyStub = sandbox.stub().returns({
         code: codeStub
@@ -85,7 +84,5 @@ describe('Unit | Pre-handler | Connected User Verification', () => {
         sinon.assert.called(takeOverStub);
       });
     });
-
-
   });
 });

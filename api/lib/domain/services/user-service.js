@@ -124,7 +124,7 @@ module.exports = {
             const challengesToValidateCurrentSkill = _findChallengeBySkill(challenges, skill);
             const challengesLeftToAnswer = _.difference(challengesToValidateCurrentSkill, challengesAlreadyAnswered);
 
-            let challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
+            const challenge = (_.isEmpty(challengesLeftToAnswer)) ? _.first(challengesToValidateCurrentSkill) : _.first(challengesLeftToAnswer);
 
             challenge.testedSkill = skill.name;
 

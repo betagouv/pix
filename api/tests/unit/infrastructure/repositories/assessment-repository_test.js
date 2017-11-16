@@ -319,11 +319,10 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.save(assessment);
 
       // then
-      promise.then((savedAssessment) => {
+      promise.then(() => {
         sinon.assert.calledOnce(Assessment.prototype.save);
-      })
+      });
     });
-
 
     it('should return a JSON with the assessment', function() {
       // when
@@ -332,7 +331,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       // then
       promise.then((savedAssessment) => {
         expect(savedAssessment).to.deep.equal(assessment);
-      })
+      });
     });
   });
 });
