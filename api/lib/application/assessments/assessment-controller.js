@@ -11,6 +11,7 @@ const challengeRepository = require('../../infrastructure/repositories/challenge
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
@@ -80,7 +81,6 @@ module.exports = {
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
         }
-
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {

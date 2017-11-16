@@ -3,8 +3,8 @@ const answerRepository = require('../../infrastructure/repositories/answer-repos
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
-
 const answerService = require('../services/answer-service');
 const assessmentUtils = require('./assessment-service-utils');
 const _ = require('../../infrastructure/utils/lodash-utils');
@@ -13,15 +13,15 @@ const { NotFoundError, NotElligibleToScoringError } = require('../../domain/erro
 
 function _selectNextInAdaptiveMode(assessment, course) {
 
-  let answers, challenges;
-
-  const competenceId = course.competences[0];
+  let answers, challenges, competence;
 
   return answerRepository.findByAssessment(assessment.get('id'))
     .then(fetchedAnswers => (answers = fetchedAnswers))
-    .then(() => challengeRepository.findByCompetence(competenceId))
+    .then(() => competenceRepository.get(course.competences[0]))
+    .then((fetchedCompetence) => (competence = fetchedCompetence))
+    .then(() => challengeRepository.findByCompetence(competence))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
-    .then(() => skillRepository.findByCompetence(competenceId))
+    .then(() => skillRepository.findByCompetence(competence))
     .then(skills => assessmentUtils.getNextChallengeInAdaptiveCourse(course, answers, challenges, skills));
 }
 
@@ -55,7 +55,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getScoredAssessment(assessmentId) {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competenceId, skills;
+  let assessmentPix, answersPix, challengesPix, coursePix, competencePix, competenceId, skills;
 
   return assessmentRepository.get(assessmentId)
     .then(retrievedAssessment => {
@@ -76,9 +76,11 @@ function getScoredAssessment(assessmentId) {
       coursePix = course;
       competenceId = coursePix.competences[0];
     })
-    .then(() => challengeRepository.findByCompetence(competenceId))
+    .then(() => competenceRepository.get(coursePix.competences[0]))
+    .then((fetchedCompetence) => (competencePix = fetchedCompetence))
+    .then(() => challengeRepository.findByCompetence(competencePix))
     .then(challenges => challengesPix = challenges)
-    .then(() => skillRepository.findByCompetence(competenceId))
+    .then(() => skillRepository.findByCompetence(competencePix))
     .then(skillNames => {
       if (coursePix.isAdaptive) {
         const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);
@@ -106,19 +108,19 @@ function getAssessmentNextChallengeId(assessment, currentChallengeId) {
       resolve(null);
     }
 
-    if (!assessment.get('courseId')) {
-      resolve(null);
-    }
-
-    if (_.startsWith(assessment.get('courseId'), 'null')) {
-      resolve(null);
-    }
-
     const courseId = assessment.get('courseId');
-    courseRepository
-      .get(courseId)
-      .then((course) => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
-      .catch((error) => reject(error));
+
+    if (!courseId) {
+      resolve(null);
+    }
+
+    if (_.startsWith(courseId, 'null')) {
+      resolve(null);
+    }
+
+    courseRepository.get(courseId)
+      .then(course => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
+      .catch(reject);
   });
 }
 
