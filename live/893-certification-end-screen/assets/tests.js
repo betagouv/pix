@@ -3087,6 +3087,14 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/certification-banner.js', function () {
+      // test passed
+    });
+
+    it('components/certification-results-template.js', function () {
+      // test passed
+    });
+
     it('components/challenge-actions.js', function () {
       // test passed
     });
@@ -3795,6 +3803,113 @@ define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
     fillIn('#pix-password', 'John1234');
     click('.signin-form__submit_button');
   }
+});
+define('pix-live/tests/integration/components/certification-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | Certification Banner', function () {
+
+    (0, _emberMocha.setupComponentTest)('certification-banner', {
+      integration: true
+    });
+
+    context('On component rendering', function () {
+      var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+
+      (0, _mocha.it)('should render component container', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "SzIDYsnG",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"certification-banner\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should render component with a div:certification-banner__user-fullname', function () {
+        // when
+        this.set('user', user);
+        this.render(Ember.HTMLBars.template({
+          "id": "SHNdCrAu",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
+      });
+
+      (0, _mocha.it)('should render component with a div:certification-banner__user-id', function () {
+        // when
+        this.set('user', user);
+        this.render(Ember.HTMLBars.template({
+          "id": "SHNdCrAu",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/certification-results-template-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var computed = Ember.computed;
+  var LinkComponent = Ember.LinkComponent;
+
+
+  (0, _mocha.describe)('Integration | Component | certification results template', function () {
+    (0, _emberMocha.setupComponentTest)('certification-results-template', {
+      integration: true
+    });
+
+    context('When component is rendered', function () {
+      var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      (0, _mocha.beforeEach)(function () {
+        this.set('user', user);
+      });
+
+      (0, _mocha.it)('should also render a certification banner', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "fZqpm9Sr",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-template\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+      });
+
+      (0, _mocha.it)('should have a button to logout', function () {
+        // given
+        LinkComponent.reopen({
+          href: computed.alias('qualifiedRouteName')
+        });
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "fZqpm9Sr",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-template\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.warning-logout-button')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.warning-logout-button').attr('href')).to.equal('logout');
+      });
+    });
+  });
 });
 define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
@@ -9748,6 +9863,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/certification-banner-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/certification-results-template-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/challenge-actions-test.js', function () {
       // test passed
     });
@@ -9949,6 +10072,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/authenticators/simple-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/certification-banner-test.js', function () {
       // test passed
     });
 
@@ -10474,6 +10601,59 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
         (0, _chai.expect)(data.userId).to.equal(expectedUserId);
         (0, _chai.expect)(data.token).to.equal(expectedToken);
       });
+    });
+  });
+});
+define('pix-live/tests/unit/components/certification-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Certification Banner', function () {
+
+    (0, _emberMocha.setupComponentTest)('certification-banner', {
+      needs: [],
+      unit: true
+    });
+
+    var component = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render();
+
+      // then
+      (0, _chai.expect)(component).to.be.ok;
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('@fullname', function () {
+
+      (0, _mocha.it)('should concatenate user first and last name', function () {
+        // given
+        var fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' });
+
+        // when
+        component.set('user', fakeUser);
+
+        // then
+        var fullname = component.get('fullname');
+        (0, _chai.expect)(fullname).to.equal('Manu Phillip');
+      });
+    });
+
+    (0, _mocha.it)('should return user id', function () {
+      // given
+      var fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip', id: 1 });
+
+      // when
+      component.set('user', fakeUser);
+
+      // then
+      var userId = component.get('user.id');
+      (0, _chai.expect)(userId).to.equal(1);
     });
   });
 });
