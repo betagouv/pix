@@ -28,7 +28,10 @@ describe('Unit | Repository | skill-repository', function() {
 
   describe('#findByCompetence', function() {
 
-    const competenceId = 'competence_id';
+    const competence = {
+      id: 'competence_id',
+      reference: 'X.Y Titre de la compétence'
+    };
 
     describe('when the skills has been cached', () => {
 
@@ -38,11 +41,11 @@ describe('Unit | Repository | skill-repository', function() {
         cache.get.returns(cachedSkills);
 
         // when
-        const promise = skillRepository.findByCompetence(competenceId);
+        const promise = skillRepository.findByCompetence(competence);
 
         // then
         return promise.then((skills) => {
-          expect(cache.get).to.have.been.calledWith(`skill-repository_find_by_competence_${competenceId}`);
+          expect(cache.get).to.have.been.calledWith(`skill-repository_find_by_competence_${competence.id}`);
           expect(skills).to.deep.equal(cachedSkills);
         });
       });
@@ -65,7 +68,7 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should resolve skills with the challenges fetched from Airtable', () => {
         // when
-        const promise = skillRepository.findByCompetence(competenceId);
+        const promise = skillRepository.findByCompetence(competence);
 
         // then
         return promise.then((skills) => {
@@ -76,11 +79,11 @@ describe('Unit | Repository | skill-repository', function() {
 
       it('should cache the skills fetched from Airtable', () => {
         // when
-        const promise = skillRepository.findByCompetence(competenceId);
+        const promise = skillRepository.findByCompetence(competence);
 
         // then
         return promise.then((skills) => {
-          expect(cache.set).to.have.been.calledWith(`skill-repository_find_by_competence_${competenceId}`, skills);
+          expect(cache.set).to.have.been.calledWith(`skill-repository_find_by_competence_${competence.id}`, skills);
         });
       });
     });

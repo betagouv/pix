@@ -5,15 +5,15 @@ const Bookshelf = require('../../infrastructure/bookshelf');
 
 module.exports = {
 
-  findByCompetence(competenceId) {
-    const cacheKey = `skill-repository_find_by_competence_${competenceId}`;
+  findByCompetence(competence) {
+    const cacheKey = `skill-repository_find_by_competence_${competence.id}`;
     const cachedSkills = cache.get(cacheKey);
 
     if (cachedSkills) {
       return Promise.resolve(cachedSkills);
     }
 
-    return challengeRepository.findByCompetence(competenceId)
+    return challengeRepository.findByCompetence(competence)
       .then(challenges => {
         const skills = new Set();
         _(challenges)
