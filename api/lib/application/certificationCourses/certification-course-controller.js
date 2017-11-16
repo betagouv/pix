@@ -2,6 +2,9 @@ const CertificationCourseRepository = require('../../infrastructure/repositories
 const AssessmentRepository = require('../../infrastructure/repositories/assessment-repository');
 const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 
+const userService = require('../../../lib/domain/services/user-service');
+const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
+
 module.exports = {
   save(request, reply) {
     let certificationCourse;
@@ -16,9 +19,9 @@ module.exports = {
         };
         return AssessmentRepository.save(assessmentCertificate);
       })
-      .then(() => {
-        reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201);
-      })
+      .then(() => userService.getCertificationProfile(userId))
+      .then((userProfile) => certificationCourseService.saveChallenges(userProfile, certificationCourse))
+      .then(() => reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));

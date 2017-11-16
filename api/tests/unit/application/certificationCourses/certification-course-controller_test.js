@@ -4,6 +4,8 @@ const CertificationCourseController = require('../../../../lib/application/certi
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const UserService = require('../../../../lib/domain/services/user-service');
+const CertificationCourseService = require ('../../../../lib/domain/services/certification-course-service');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -16,6 +18,8 @@ describe('Unit | Controller | certification-course-controller', function() {
       userId: 'userId'
     }
   };
+  const certificationCourse = { id: 'CertificationCourseId' };
+  const userProfile = [{id: 'competence1', challenges: []}];
   before(function() {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
@@ -30,8 +34,11 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       sandbox = sinon.sandbox.create();
       sandbox.stub(AssessmentRepository, 'save');
-      sandbox.stub(CertificationCourseRepository, 'save').resolves({ id: 'CertificationCourseId' });
-      sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({})
+      sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
+      sandbox.stub(UserService, 'getCertificationProfile').resolves(userProfile);
+      sandbox.stub(CertificationCourseService, 'saveChallenges').resolves({});
+      sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
+
     });
 
     afterEach(() => {
@@ -61,7 +68,27 @@ describe('Unit | Controller | certification-course-controller', function() {
           userId: 'userId'
         });
       })
+    });
 
+    it('should call user Service to get User Certification Profile', function() {
+      // when
+      const promise = CertificationCourseController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(UserService.getCertificationProfile);
+      })
+    });
+
+    it('should call Certification Course Service to save challenges', function() {
+      // when
+      const promise = CertificationCourseController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(CertificationCourseService.saveChallenges);
+        sinon.assert.calledWith(CertificationCourseService.saveChallenges, userProfile, certificationCourse);
+      })
     });
 
     it('should reply the certification course serialized', function() {
