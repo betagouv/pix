@@ -151,9 +151,12 @@ module.exports = {
         });
       })
       .then(({ answers, course, challenges }) => {
-        // fetch skillNames (requires course)
-        const competenceId = course.competences[0];
-        const skillNames = skillRepository.findByCompetence(competenceId);
+        return competenceRepository.get(course.competences[0]).then(competence => {
+          return { answers, course, challenges, competence };
+        });
+      })
+      .then(({ answers, course, challenges, competence }) => {
+        const skillNames = skillRepository.findByCompetence(competence);
         return Promise.all([skillNames]).then(values => {
           const skillNames = values[0];
           return { answers, course, challenges, skillNames };

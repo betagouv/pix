@@ -2,7 +2,7 @@ const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock }
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-describe.only('Acceptance | API | assessment-controller-get-solutions', () => {
+describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
   before(() => {
     return knex.migrate.latest()
@@ -17,6 +17,7 @@ describe.only('Acceptance | API | assessment-controller-get-solutions', () => {
               'fields': {
                 // a bunch of fields
                 'Adaptatif ?': false,
+                'Competence': ['competence_id'],
                 '\u00c9preuves': [
                   'q_second_challenge',
                   'q_first_challenge',
@@ -49,7 +50,7 @@ describe.only('Acceptance | API | assessment-controller-get-solutions', () => {
           .reply(200, {
             'id': 'competence_id',
             'fields': {
-              'Référence': '1.1 Mener une recherche et une veille d\'information',
+              'Référence': 'toto',
               'Titre': 'Mener une recherche et une veille d\'information',
               'Sous-domaine': '1.1',
               'Domaine': '1. Information et données',
@@ -60,7 +61,7 @@ describe.only('Acceptance | API | assessment-controller-get-solutions', () => {
 
         // TMP
         nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves?view=toto')
+          .get('/v0/test-base/Epreuves?view=competence_id')
           .query(true)
           .reply(200, {
             'records': [

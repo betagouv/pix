@@ -1,6 +1,8 @@
 const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock } = require('../../test-helper');
+const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
+// guilty
 describe('Acceptance | API | Assessments', () => {
 
   before(function(done) {
@@ -91,6 +93,7 @@ describe('Acceptance | API | Assessments', () => {
       .reply(200, {
         'id': 'w_first_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web2']
         }
@@ -101,6 +104,7 @@ describe('Acceptance | API | Assessments', () => {
       .reply(200, {
         'id': 'w_second_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web3']
         }
@@ -111,6 +115,7 @@ describe('Acceptance | API | Assessments', () => {
       .reply(200, {
         'id': 'w_third_challenge',
         'fields': {
+          'competences': ['competence_id'],
           'Statut': 'validé',
           'acquis': ['@web1']
         }
@@ -136,6 +141,7 @@ describe('Acceptance | API | Assessments', () => {
 
   after(function(done) {
     nock.cleanAll();
+    cache.flushAll();
     server.stop(done);
   });
 

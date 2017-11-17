@@ -50,7 +50,7 @@ describe('Acceptance | API | Assessments GET', function() {
       .reply(200, {
         'records': [
           {
-            'id': 'w_first_challenge',
+            'id': 'y_first_challenge',
             'fields': {
               'Statut': 'validé',
               'competences': ['competence_id'],
@@ -58,7 +58,7 @@ describe('Acceptance | API | Assessments GET', function() {
             }
           },
           {
-            'id': 'w_second_challenge',
+            'id': 'y_second_challenge',
             'fields': {
               'Statut': 'validé',
               'competences': ['competence_id'],
@@ -66,7 +66,7 @@ describe('Acceptance | API | Assessments GET', function() {
             },
           },
           {
-            'id': 'w_third_challenge',
+            'id': 'y_third_challenge',
             'fields': {
               'Statut': 'validé',
               'competences': ['competence_id'],
@@ -145,6 +145,7 @@ describe('Acceptance | API | Assessments GET', function() {
   });
 
   after((done) => {
+    nock.cleanAll();
     cache.flushAll();
     server.stop(done);
   });
