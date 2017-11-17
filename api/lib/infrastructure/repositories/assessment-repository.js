@@ -74,7 +74,7 @@ module.exports = {
     const assessmentBookshelf = new Assessment(assessment);
     return assessmentBookshelf.save()
       .then((savedAssessment) => {
-        return savedAssessment.attributes;
+        return savedAssessment.toJSON();
       });
   },
 };

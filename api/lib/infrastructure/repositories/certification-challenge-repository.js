@@ -11,7 +11,7 @@ module.exports = {
 
     return certificationChallenge.save()
       .then((certificationChallenge) => {
-        return certificationChallenge.attributes;
+        return certificationChallenge.toJSON();
       });
   }
 };
