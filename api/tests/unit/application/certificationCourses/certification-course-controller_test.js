@@ -5,7 +5,7 @@ const CertificationCourseRepository = require('../../../../lib/infrastructure/re
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const UserService = require('../../../../lib/domain/services/user-service');
-const CertificationCourseService = require('../../../../lib/domain/services/certification-course-service');
+const CertificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 
 describe('Unit | Controller | certification-course-controller', function() {
 
@@ -36,7 +36,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.stub(assessmentService, 'createCertificationAssessmentForUser');
       sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
       sandbox.stub(UserService, 'getCertificationProfile').resolves(userProfile);
-      sandbox.stub(CertificationCourseService, 'saveChallenges').resolves({});
+      sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves({});
       sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
 
     });
@@ -82,8 +82,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(CertificationCourseService.saveChallenges);
-        sinon.assert.calledWith(CertificationCourseService.saveChallenges, userProfile, certificationCourse);
+        sinon.assert.calledOnce(CertificationChallengesService.saveChallenges);
+        sinon.assert.calledWith(CertificationChallengesService.saveChallenges, userProfile, certificationCourse);
       });
     });
 

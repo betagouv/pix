@@ -1,8 +1,8 @@
 const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
-const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
+const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 
-describe('Unit | Service | Certification Course Service', function() {
+describe('Unit | Service | Certification Challenge Service', function() {
 
   describe('#saveChallenges', () => {
 
@@ -48,7 +48,7 @@ describe('Unit | Service | Certification Course Service', function() {
         // Given
 
         //When
-        const promise = certificationCourseService.saveChallenges(certificationProfileWithOneCompetence, certificationCourse);
+        const promise = certificationChallengesService.saveChallenges(certificationProfileWithOneCompetence, certificationCourse);
 
         //Then
         return promise.then(() => {
@@ -64,7 +64,7 @@ describe('Unit | Service | Certification Course Service', function() {
         // Given
 
         //When
-        const promise = certificationCourseService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
+        const promise = certificationChallengesService.saveChallenges(certificationProfileWithTwoCompetence, certificationCourse);
 
         //Then
         return promise.then(() => {

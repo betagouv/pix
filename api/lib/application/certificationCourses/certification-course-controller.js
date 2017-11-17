@@ -4,7 +4,7 @@ const CertificationCourseRepository = require('../../infrastructure/repositories
 const assessmentService = require('../../../lib/domain/services/assessment-service');
 const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const userService = require('../../../lib/domain/services/user-service');
-const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
+const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 
 module.exports = {
   save(request, reply) {
@@ -16,7 +16,7 @@ module.exports = {
         return assessmentService.createCertificationAssessmentForUser(certificationCourse, userId);
       })
       .then(() => userService.getCertificationProfile(userId))
-      .then((userProfile) => certificationCourseService.saveChallenges(userProfile, certificationCourse))
+      .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
       .then(() => reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
         logger.error(err);
