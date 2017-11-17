@@ -476,7 +476,7 @@ button.routable-modal--close:active {
   margin-right: -20px; }
 
 .app-footer {
-  padding: 20px;
+  padding: 20px 5px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -485,10 +485,12 @@ button.routable-modal--close:active {
   @media (min-width: 980px) {
     .app-footer {
       flex-direction: row;
-      justify-content: space-around;
+      justify-content: space-between;
       margin: 0 auto;
       height: 150px;
-      width: 100%; } }
+      width: 100%;
+      max-width: 1200px;
+      padding: 0; } }
 
 .app-footer__section {
   margin-bottom: 20px; }
@@ -502,7 +504,8 @@ button.routable-modal--close:active {
   text-align: center; }
   @media (min-width: 980px) {
     .app-footer__section--pix-logo {
-      margin: 0; } }
+      margin: 0;
+      width: auto; } }
 
 .app-footer__section--contact {
   order: 1; }
@@ -513,14 +516,24 @@ button.routable-modal--close:active {
 .app-footer__section--marianne-logo {
   order: 2;
   margin-bottom: 0;
-  width: 260px;
-  text-align: center; }
+  text-align: center;
+  max-width: 100%; }
   @media (min-width: 980px) {
     .app-footer__section--marianne-logo {
       margin: 0; } }
 
+.mariane-logo-container {
+  margin: 0; }
+
+.mariane-logo__item {
+  display: inline-block;
+  vertical-align: top;
+  list-style-type: none; }
+  .mariane-logo__item:first-child {
+    margin-right: 12px; }
+
 .app-footer__logo-marianne-img {
-  height: 60px; }
+  width: 80px; }
 
 .app-footer__link-text {
   color: #3e4149;
@@ -1026,12 +1039,12 @@ button.routable-modal--close:active {
   font-weight: bold;
   color: #3d68ff; }
 
-.competence-level-progress-bar__start {
+.competence-level-progress-bar__link {
   text-align: right;
   padding: 2px 17px 3px 0;
   height: 24px; }
 
-.competence-level-progress-bar__start-link {
+.competence-level-progress-bar__link-start {
   width: 81px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 14px;
@@ -1040,7 +1053,32 @@ button.routable-modal--close:active {
   color: #3d68ff;
   text-decoration: none;
   cursor: pointer; }
-  .competence-level-progress-bar__start-link:hover {
+  .competence-level-progress-bar__link-start:hover {
+    color: #3d68ff; }
+
+.competence-level-progress-bar__link-resume {
+  width: 81px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #3d68ff;
+  text-decoration: none;
+  cursor: pointer; }
+  .competence-level-progress-bar__link-resume:hover {
+    color: #3d68ff; }
+
+.competence-level-progress-bar__link-replay {
+  margin-top: -30px;
+  width: 81px;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #3d68ff;
+  text-decoration: none;
+  cursor: pointer; }
+  .competence-level-progress-bar__link-replay:hover {
     color: #3d68ff; }
 
 .course-banner {
@@ -3637,6 +3675,41 @@ p.share-profile__organization-name {
   text-transform: uppercase;
   border: none; }
 
+.tutorial-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 23px; }
+
+.tutorial-panel__box-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1.3px dashed #7d808a;
+  max-width: 991px;
+  width: 100%;
+  border-radius: 5px;
+  padding: 36px 0 28px; }
+
+.tutorial-panel__box-title {
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 17px;
+  text-align: center;
+  color: #000000;
+  font-weight: 600;
+  margin-top: 10.2px; }
+  @media (min-width: 980px) {
+    .tutorial-panel__box-title {
+      font-size: 22px;
+      line-height: 26px; } }
+
+.tutorial-panel__separator {
+  height: 2px;
+  width: 100%;
+  max-width: 990px;
+  border: 1px solid #D8D8D8;
+  margin-top: 23px; }
+
 /* pages */
 /* Sections:
 
@@ -4616,15 +4689,13 @@ hr.project-page__presentation-header-line {
     .enrollment-page__steps-establishment__steps-list__step-date {
       font-size: 22px; } }
 
-@media (min-width: 768px) {
-  .enrollment-page__steps-establishment__steps-list__step-description {
-    font-size: 20px; } }
-
-.enrollment-page__steps-establishment__steps-list__step-note {
-  font-size: 10px; }
+.enrollment-page__steps-establishment__steps-list__step-description {
+  line-height: 23px;
+  font-size: 15px;
+  font-weight: 600; }
   @media (min-width: 768px) {
-    .enrollment-page__steps-establishment__steps-list__step-note {
-      font-size: 12px; } }
+    .enrollment-page__steps-establishment__steps-list__step-description {
+      font-size: 19px; } }
 
 .enrollment-page__steps-establishment__steps-list__step-line {
   margin: auto;
