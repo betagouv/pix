@@ -2,7 +2,7 @@ const { describe, it, before, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const AssessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const UserService = require('../../../../lib/domain/services/user-service');
 const CertificationCourseService = require('../../../../lib/domain/services/certification-course-service');
@@ -33,7 +33,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(AssessmentRepository, 'save');
+      sandbox.stub(assessmentService, 'createCertificationAssessmentForUser');
       sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
       sandbox.stub(UserService, 'getCertificationProfile').resolves(userProfile);
       sandbox.stub(CertificationCourseService, 'saveChallenges').resolves({});
@@ -61,12 +61,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(AssessmentRepository.save);
-        sinon.assert.calledWith(AssessmentRepository.save, {
-          type: 'CERTIFICATION',
-          courseId: 'CertificationCourseId',
-          userId: 'userId'
-        });
+        sinon.assert.calledOnce(assessmentService.createCertificationAssessmentForUser);
+        sinon.assert.calledWith(assessmentService.createCertificationAssessmentForUser, certificationCourse, 'userId');
       });
     });
 
@@ -93,8 +89,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should reply the certification course serialized', function() {
       // given
-      const savedAssessment = { id: 'assessmentId', courseId: 'CertificationCourseId' };
-      AssessmentRepository.save.resolves(savedAssessment);
+      const savedAssessment = { id: 'assessmentId', courseId: 'CertificationCourseId', type: 'CERTIFICATION' };
+      assessmentService.createCertificationAssessmentForUser.resolves(savedAssessment);
 
       // when
       const promise = CertificationCourseController.save(request, replyStub);

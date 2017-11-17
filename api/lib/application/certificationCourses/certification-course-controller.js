@@ -1,7 +1,7 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const AssessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const assessmentService = require('../../../lib/domain/services/assessment-service');
 const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const userService = require('../../../lib/domain/services/user-service');
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
@@ -13,12 +13,7 @@ module.exports = {
     return CertificationCourseRepository.save()
       .then((savedCertificationCourse) => {
         certificationCourse = savedCertificationCourse;
-        const assessmentCertificate = {
-          type: 'CERTIFICATION',
-          courseId: certificationCourse.id,
-          userId: userId
-        };
-        return AssessmentRepository.save(assessmentCertificate);
+        return assessmentService.createCertificationAssessmentForUser(certificationCourse, userId);
       })
       .then(() => userService.getCertificationProfile(userId))
       .then((userProfile) => certificationCourseService.saveChallenges(userProfile, certificationCourse))
