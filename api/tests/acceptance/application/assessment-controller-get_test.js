@@ -130,7 +130,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('assessments').delete().then(() => {
         done();
       });
@@ -213,7 +213,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('assessments').delete().then(() => {
         done();
       });
@@ -236,7 +236,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
       userId: null
     };
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       inserted_answer_ids = [];
 
       knex('assessments').insert([inserted_assessment_with_user_null]).then((rows) => {

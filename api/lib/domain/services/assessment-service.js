@@ -55,7 +55,7 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getScoredAssessment(assessmentId) {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competencePix, competenceId, skills;
+  let assessmentPix, answersPix, challengesPix, coursePix, competencePix, skills;
 
   return assessmentRepository.get(assessmentId)
     .then(retrievedAssessment => {
@@ -72,10 +72,7 @@ function getScoredAssessment(assessmentId) {
       assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
     })
     .then(() => courseRepository.get(assessmentPix.get('courseId')))
-    .then(course => {
-      coursePix = course;
-      competenceId = coursePix.competences[0];
-    })
+    .then(course => (coursePix = course))
     .then(() => competenceRepository.get(coursePix.competences[0]))
     .then((fetchedCompetence) => (competencePix = fetchedCompetence))
     .then(() => challengeRepository.findByCompetence(competencePix))

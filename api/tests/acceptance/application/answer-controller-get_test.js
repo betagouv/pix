@@ -19,7 +19,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       assessmentId: '12345'
     };
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer]).then((id) => {
           inserted_answer_id = id;
@@ -29,7 +29,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       });
     });
 
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('answers').delete().then(() => {
         done();
       });

@@ -30,7 +30,7 @@ describe('Acceptance | Controller | answer-controller', function() {
       'result-details': null
     };
 
-    beforeEach(function(done) {
+    beforeEach((done) => {
       knex('answers').delete()
         .then(() => knex('answers').insert([insertedAnswer]))
         .then((id) => {
@@ -63,7 +63,7 @@ describe('Acceptance | Controller | answer-controller', function() {
           done();
         });
     });
-    afterEach(function(done) {
+    afterEach((done) => {
       knex('answers').delete().then(() => {
         done();
       });
