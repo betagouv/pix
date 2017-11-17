@@ -8,6 +8,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
 const Challenge = require('../../../../lib/domain/models/Challenge');
@@ -41,6 +42,14 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
 }
 
 describe('Unit | Domain | Services | assessment-service', function() {
+
+  beforeEach(() => {
+    sinon.stub(competenceRepository, 'get');
+  });
+
+  afterEach(() => {
+    competenceRepository.get.restore();
+  });
 
   describe('#getAssessmentNextChallengeId', function() {
 

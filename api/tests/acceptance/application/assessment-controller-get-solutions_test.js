@@ -2,48 +2,95 @@ const { describe, it, after, before, beforeEach, afterEach, expect, knex, nock }
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-describe('Acceptance | API | assessment-controller-get-solutions', () => {
+describe.only('Acceptance | API | assessment-controller-get-solutions', () => {
 
   before(() => {
     return knex.migrate.latest()
-      .then(() => {
-        return knex.seed.run();
-      })
+      .then(() => knex.seed.run())
       .then(() => {
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/non_adaptive_course_id')  // XXX cf. issue #204, there may be a conflict with course-controller_test
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'non_adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': false,
-              '\u00c9preuves': [
-                'q_second_challenge',
-                'q_first_challenge',
-              ],
-            },
-          }
+              'id': 'non_adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': false,
+                '\u00c9preuves': [
+                  'q_second_challenge',
+                  'q_first_challenge',
+                ],
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': true,
-              'Competence': ['competence_id'],
-              '\u00c9preuves': [
-                'q_third_challenge',
-                'q_second_challenge',
-                'q_first_challenge',
-              ],
-            },
-          }
+              'id': 'adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': true,
+                'Competence': ['competence_id'],
+                '\u00c9preuves': [
+                  'q_third_challenge',
+                  'q_second_challenge',
+                  'q_first_challenge',
+                ],
+              },
+            }
           );
+
+        nock('https://api.airtable.com')
+          .get('/v0/test-base/Competences/competence_id')
+          .query(true)
+          .reply(200, {
+            'id': 'competence_id',
+            'fields': {
+              'Référence': '1.1 Mener une recherche et une veille d\'information',
+              'Titre': 'Mener une recherche et une veille d\'information',
+              'Sous-domaine': '1.1',
+              'Domaine': '1. Information et données',
+              'Statut': 'validé',
+              'Acquis': ['@web1']
+            }
+          });
+
+        // TMP
+        nock('https://api.airtable.com')
+          .get('/v0/test-base/Epreuves?view=toto')
+          .query(true)
+          .reply(200, {
+            'records': [
+              {
+                'id': 'q_first_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web2']
+                }
+              },
+              {
+                'id': 'q_second_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web3']
+                },
+              },
+              {
+                'id': 'q_third_challenge',
+                'fields': {
+                  'Statut': 'validé',
+                  'competences': ['competence_id'],
+                  'acquis': ['@web1']
+                },
+              }
+            ]
+          });
+
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves')
           .query(true)
@@ -81,47 +128,46 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .query(true)
           .times(2)
           .reply(200, {
-            'id': 'q_first_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3'],
-              'Bonnes réponses': 'fromage'
-            },
-          }
+              'id': 'q_first_challenge',
+              'fields': {
+                'Statut': 'validé',
+                'competences': ['competence_id'],
+                'acquis': ['@web3'],
+                'Bonnes réponses': 'fromage'
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_second_challenge')
           .query(true)
           .times(2)
           .reply(200, {
-            'id': 'q_second_challenge',
-            'fields': {
-              'acquis': ['@web2'],
-              'Statut': 'validé',
-              'Bonnes réponses': 'truite'
-            },
-          }
+              'id': 'q_second_challenge',
+              'fields': {
+                'acquis': ['@web2'],
+                'Statut': 'validé',
+                'Bonnes réponses': 'truite'
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_third_challenge')
           .query(true)
           .times(1)
           .reply(200, {
-            'id': 'q_third_challenge',
-            'fields': {
-              'acquis': ['@web1'],
-              'Statut': 'validé',
-              'Bonnes réponses': 'dromadaire'
-            },
-          }
+              'id': 'q_third_challenge',
+              'fields': {
+                'acquis': ['@web1'],
+                'Statut': 'validé',
+                'Bonnes réponses': 'dromadaire'
+              },
+            }
           );
       });
   });
 
   after((done) => {
     cache.flushAll();
-    nock.cleanAll();
     server.stop(done);
   });
 
@@ -143,7 +189,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ insertedAssessment ])
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -161,7 +207,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([ inserted_answer_1, inserted_answer_2 ]);
+          return knex('answers').insert([inserted_answer_1, inserted_answer_2]);
         })
         .then((rows) => {
           insertedAnswerId = rows[0];
@@ -201,7 +247,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ insertedAssessment ]).then((rows) => {
+      return knex('assessments').insert([insertedAssessment]).then((rows) => {
         insertedAssessmentId = rows[0];
 
         const inserted_answer = {
@@ -211,7 +257,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           assessmentId: insertedAssessmentId
         };
 
-        return knex('answers').insert([ inserted_answer ]);
+        return knex('answers').insert([inserted_answer]);
       })
         .then((rows) => {
           insertedAnswerId = rows[0];
@@ -246,7 +292,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     beforeEach(() => {
       return knex('assessments')
-        .insert([ insertedAssessment ])
+        .insert([insertedAssessment])
         .then((rows) => {
 
           insertedAssessmentId = rows[0];
@@ -258,7 +304,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([ inserted_answer ]);
+          return knex('answers').insert([inserted_answer]);
         }).then((rows) => {
           insertedAnswerId = rows[0];
         });
@@ -302,7 +348,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ insertedAssessment ])
+      return knex('assessments').insert([insertedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -313,11 +359,11 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             assessmentId: insertedAssessmentId
           };
 
-          return knex('answers').insert([ inserted_answer ]);
+          return knex('answers').insert([inserted_answer]);
         }).then((rows) => {
           insertedAnswerId = rows[0];
 
-          return knex('scenarios').insert([ insertedScenario ]);
+          return knex('scenarios').insert([insertedScenario]);
         });
     });
 
