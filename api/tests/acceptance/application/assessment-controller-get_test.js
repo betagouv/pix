@@ -4,7 +4,7 @@ const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 
-describe('Acceptance | API | Assessments GET', function() {
+describe('Acceptance | API | assessment-controller-get', function() {
 
   before((done) => {
 
@@ -27,14 +27,13 @@ describe('Acceptance | API | Assessments GET', function() {
           ],
         },
       });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Competences/competence_id')
       .query(true)
       .reply(200, {
         'id': 'competence_id',
         'fields': {
-          'Référence': '1.1 Mener une recherche et une veille d\'information',
+          'Référence': 'challenge-view',
           'Titre': 'Mener une recherche et une veille d\'information',
           'Sous-domaine': '1.1',
           'Domaine': '1. Information et données',
@@ -42,43 +41,9 @@ describe('Acceptance | API | Assessments GET', function() {
           'Acquis': ['@web1']
         }
       });
-
-    // TMP
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves?view=challenge-view')
-      .query(true)
-      .reply(200, {
-        'records': [
-          {
-            'id': 'y_first_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web2']
-            }
-          },
-          {
-            'id': 'y_second_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3']
-            },
-          },
-          {
-            'id': 'y_third_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web1']
-            },
-          }
-        ]
-      });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query(true)
+      .query({ view: 'challenge-view' })
       .times(3)
       .reply(200, {
         'records': [
@@ -108,7 +73,6 @@ describe('Acceptance | API | Assessments GET', function() {
           }
         ]
       });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/y_first_challenge')
       .query(true)
@@ -141,7 +105,6 @@ describe('Acceptance | API | Assessments GET', function() {
       });
 
     done();
-
   });
 
   after((done) => {

@@ -43,14 +43,13 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
               },
             }
           );
-
         nock('https://api.airtable.com')
           .get('/v0/test-base/Competences/competence_id')
           .query(true)
           .reply(200, {
             'id': 'competence_id',
             'fields': {
-              'Référence': 'toto',
+              'Référence': 'challenge-view',
               'Titre': 'Mener une recherche et une veille d\'information',
               'Sous-domaine': '1.1',
               'Domaine': '1. Information et données',
@@ -58,43 +57,9 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
               'Acquis': ['@web1']
             }
           });
-
-        // TMP
-        nock('https://api.airtable.com')
-          .get('/v0/test-base/Epreuves?view=competence_id')
-          .query(true)
-          .reply(200, {
-            'records': [
-              {
-                'id': 'q_first_challenge',
-                'fields': {
-                  'Statut': 'validé',
-                  'competences': ['competence_id'],
-                  'acquis': ['@web2']
-                }
-              },
-              {
-                'id': 'q_second_challenge',
-                'fields': {
-                  'Statut': 'validé',
-                  'competences': ['competence_id'],
-                  'acquis': ['@web3']
-                },
-              },
-              {
-                'id': 'q_third_challenge',
-                'fields': {
-                  'Statut': 'validé',
-                  'competences': ['competence_id'],
-                  'acquis': ['@web1']
-                },
-              }
-            ]
-          });
-
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves')
-          .query(true)
+          .query({ view: 'challenge-view' })
           .times(3)
           .reply(200, {
             'records': [
@@ -168,6 +133,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
   });
 
   after((done) => {
+    nock.cleanAll();
     cache.flushAll();
     server.stop(done);
   });

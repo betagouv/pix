@@ -2,10 +2,9 @@ const { describe, it, before, after, beforeEach, afterEach, expect, knex, nock }
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
-// guilty
-describe('Acceptance | API | Assessments', () => {
+describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => {
 
-  before(function(done) {
+  before((done) => {
 
     nock.cleanAll();
 
@@ -20,11 +19,23 @@ describe('Acceptance | API | Assessments', () => {
           'Competence': ['competence_id']
         }
       });
-
+    nock('https://api.airtable.com')
+      .get('/v0/test-base/Competences/competence_id')
+      .query(true)
+      .reply(200, {
+        'id': 'competence_id',
+        'fields': {
+          'Référence': 'challenge-view',
+          'Titre': 'Mener une recherche et une veille d\'information',
+          'Sous-domaine': '1.1',
+          'Domaine': '1. Information et données',
+          'Statut': 'validé',
+          'Acquis': ['@web1']
+        }
+      });
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves')
-      .query(true)
-      .times(3)
+      .query({ view: 'challenge-view' })
       .reply(200, {
         'records': [
           {
@@ -53,40 +64,6 @@ describe('Acceptance | API | Assessments', () => {
           }
         ]
       });
-
-    // TMP
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Epreuves?view=toto')
-      .query(true)
-      .reply(200, {
-        'records': [
-          {
-            'id': 'w_first_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web2']
-            }
-          },
-          {
-            'id': 'w_second_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3']
-            },
-          },
-          {
-            'id': 'w_third_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web1']
-            },
-          }
-        ]
-      });
-
     nock('https://api.airtable.com')
       .get('/v0/test-base/Epreuves/w_first_challenge')
       .query(true)
@@ -121,25 +98,10 @@ describe('Acceptance | API | Assessments', () => {
         }
       });
 
-    nock('https://api.airtable.com')
-      .get('/v0/test-base/Competences/competence_id')
-      .query(true)
-      .reply(200, {
-        'id': 'competence_id',
-        'fields': {
-          'Référence': 'toto',
-          'Titre': 'Mener une recherche et une veille d\'information',
-          'Sous-domaine': '1.1',
-          'Domaine': '1. Information et données',
-          'Statut': 'validé',
-          'Acquis': ['@web1']
-        }
-      });
-
     done();
   });
 
-  after(function(done) {
+  after((done) => {
     nock.cleanAll();
     cache.flushAll();
     server.stop(done);
