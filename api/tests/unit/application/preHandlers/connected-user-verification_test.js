@@ -2,6 +2,7 @@ const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-he
 const tokenService = require('../../../../lib/domain/services/token-service');
 const ConnectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
+const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Pre-handler | Connected User Verification', () => {
 
@@ -70,18 +71,39 @@ describe('Unit | Pre-handler | Connected User Verification', () => {
       });
     });
 
-    it('should reply an 401 error if verification is not ok', () => {
-      // given
-      sandbox.stub(tokenService, 'verifyValidity').rejects();
+    context('when user is not connected', () => {
+      it('should return an error message', () => {
+        const error = new UserNotAuthorizedToCertifyError();
+        const expectedErrorMessage = error.getErrorMessage();
+        const serializedError = {};
+        validationErrorSerializer.serialize.returns(serializedError);
+        sandbox.stub(tokenService, 'verifyValidity').rejects();
 
-      // when
-      const promise = ConnectedUserVerification.verifyByToken(request, replyStub);
+        // when
+        const promise = ConnectedUserVerification.verifyByToken(request, replyStub);
 
-      // then
-      return promise.then(() => {
-        sinon.assert.called(replyStub);
-        sinon.assert.calledWith(codeStub, 401);
-        sinon.assert.called(takeOverStub);
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(replyStub);
+          sinon.assert.calledOnce(validationErrorSerializer.serialize);
+          sinon.assert.calledWith(validationErrorSerializer.serialize, expectedErrorMessage);
+          sinon.assert.calledWith(replyStub, serializedError);
+        });
+      });
+
+      it('should reply an 401 error', () => {
+        // given
+        sandbox.stub(tokenService, 'verifyValidity').rejects();
+
+        // when
+        const promise = ConnectedUserVerification.verifyByToken(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.called(replyStub);
+          sinon.assert.calledWith(codeStub, 401);
+          sinon.assert.called(takeOverStub);
+        });
       });
     });
   });
