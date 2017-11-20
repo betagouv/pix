@@ -22,7 +22,7 @@ function _selectNextInAdaptiveMode(assessment, course) {
     .then(() => challengeRepository.findByCompetence(competence))
     .then(fetchedChallenges => (challenges = fetchedChallenges))
     .then(() => skillRepository.findByCompetence(competence))
-    .then(skills => assessmentUtils.getNextChallengeInAdaptiveCourse(course, answers, challenges, skills));
+    .then(skills => assessmentUtils.getNextChallengeInAdaptiveCourse(answers, challenges, skills));
 }
 
 function _selectNextInNormalMode(currentChallengeId, challenges) {
@@ -53,57 +53,75 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
   return Promise.resolve(_selectNextInNormalMode(currentChallengeId, challenges));
 }
 
-function getScoredAssessment(assessmentId) {
+module.exports = {
 
-  let assessmentPix, answersPix, challengesPix, coursePix, competencePix, skills;
+  getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-  return assessmentRepository.get(assessmentId)
-    .then(retrievedAssessment => {
-      if (retrievedAssessment === null) {
-        return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
-      } else if (isPreviewAssessment(retrievedAssessment)) {
-        return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
-      }
-      assessmentPix = retrievedAssessment;
-    })
-    .then(() => answerRepository.findByAssessment(assessmentPix.get('id')))
-    .then(retrievedAnswers => {
-      answersPix = retrievedAnswers;
-      assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
-    })
-    .then(() => courseRepository.get(assessmentPix.get('courseId')))
-    .then(course => (coursePix = course))
-    .then(() => competenceRepository.get(coursePix.competences[0]))
-    .then((fetchedCompetence) => (competencePix = fetchedCompetence))
-    .then(() => challengeRepository.findByCompetence(competencePix))
-    .then(challenges => challengesPix = challenges)
-    .then(() => skillRepository.findByCompetence(competencePix))
-    .then(skillNames => {
-      if (coursePix.isAdaptive) {
-        const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);
-        skills = {
-          assessmentId,
-          validatedSkills: assessment.validatedSkills,
-          failedSkills: assessment.failedSkills
-        };
-        assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
-        assessmentPix.set('pixScore', assessment.displayedPixScore);
-      } else {
-        assessmentPix.set('estimatedLevel', 0);
-        assessmentPix.set('pixScore', 0);
+    return new Promise((resolve, reject) => {
+
+      if (!assessment) {
+        resolve(null);
       }
 
-      return { assessmentPix, skills };
+      const courseId = assessment.get('courseId');
+
+      if (!courseId) {
+        resolve(null);
+      }
+
+      if (_.startsWith(courseId, 'null')) {
+        resolve(null);
+      }
+
+      courseRepository.get(courseId)
+        .then(course => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
+        .catch(reject);
     });
-}
+  },
 
-function getAssessmentNextChallengeId(assessment, currentChallengeId) {
+  getScoredAssessment(assessmentId) {
 
-  return new Promise((resolve, reject) => {
+    let assessmentPix, answersPix, challengesPix, coursePix, competencePix, skills;
 
-    if (!assessment) {
-      resolve(null);
-    }
+    return assessmentRepository.get(assessmentId)
+      .then(retrievedAssessment => {
+        if (retrievedAssessment === null) {
+          return Promise.reject(new NotFoundError(`Unable to find assessment with ID ${assessmentId}`));
+        } else if (isPreviewAssessment(retrievedAssessment)) {
+          return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${assessmentId} is a preview Challenge`));
+        }
+        assessmentPix = retrievedAssessment;
+      })
+      .then(() => answerRepository.findByAssessment(assessmentPix.get('id')))
+      .then(retrievedAnswers => {
+        answersPix = retrievedAnswers;
+        assessmentPix.set('successRate', answerService.getAnswersSuccessRate(retrievedAnswers));
+      })
+      .then(() => courseRepository.get(assessmentPix.get('courseId')))
+      .then(course => (coursePix = course))
+      .then(() => competenceRepository.get(coursePix.competences[0]))
+      .then((fetchedCompetence) => (competencePix = fetchedCompetence))
+      .then(() => challengeRepository.findByCompetence(competencePix))
+      .then(challenges => challengesPix = challenges)
+      .then(() => skillRepository.findByCompetence(competencePix))
+      .then(skillNames => {
+        if (coursePix.isAdaptive) {
+          const assessment = assessmentAdapter.getAdaptedAssessment(answersPix, challengesPix, skillNames);
+          skills = {
+            assessmentId,
+            validatedSkills: assessment.validatedSkills,
+            failedSkills: assessment.failedSkills
+          };
+          assessmentPix.set('estimatedLevel', assessment.obtainedLevel);
+          assessmentPix.set('pixScore', assessment.displayedPixScore);
+        } else {
+          assessmentPix.set('estimatedLevel', 0);
+          assessmentPix.set('pixScore', 0);
+        }
+
+        return { assessmentPix, skills };
+      });
+  },
 
     const courseId = assessment.get('courseId');
 

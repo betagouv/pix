@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const cache = require('../cache');
 const challengeRepository = require('./challenge-repository');
 const Skill = require('../../domain/models/data/skill');

@@ -13,7 +13,6 @@ const solutionSerializer = require('../../infrastructure/serializers/jsonapi/sol
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
-
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
