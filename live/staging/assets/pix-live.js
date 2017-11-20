@@ -1984,10 +1984,6 @@ define('pix-live/components/reset-password-form', ['exports', 'pix-live/utils/pa
     classNames: ['reset-password-form'],
     validation: VALIDATION_MAP['default'],
 
-    fullname: Ember.computed('user', function () {
-      return this.get('user.firstName') + ' ' + this.get('user.lastName');
-    }),
-
     actions: {
       validatePassword: function validatePassword() {
         var password = this.get('user.password');
@@ -6127,6 +6123,10 @@ define('pix-live/models/user', ['exports', 'ember-data'], function (exports, _em
           });
         }, []);
       });
+    }),
+
+    fullName: Ember.computed('firstName', 'lastName', function () {
+      return this.get('firstName') + ' ' + this.get('lastName');
     })
   });
 });
@@ -7684,7 +7684,7 @@ define("pix-live/templates/components/reset-password-form", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "XKNIveF8", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password-form__heading\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__user-details\"],[7],[1,[18,\"fullname\"],false],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__instruction\"],[7],[0,\"Saisissez votre nouveau mot de passe\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__password-textfield-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__textfield\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[20,[\"validation\",\"status\"]],\"validatePassword\",[20,[\"user\",\"password\"]],[20,[\"validation\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__button-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"reset-password-form__submit-button\"],[3,\"action\",[[19,0,[]],\"handleResetPassword\"]],[7],[0,\"envoyer\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/reset-password-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Upy24M4g", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"reset-password-form__heading\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__user-details\"],[7],[1,[20,[\"user\",\"fullName\"]],false],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__instruction\"],[7],[0,\"Saisissez votre nouveau mot de passe\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__password-textfield-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"reset-password__textfield\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[20,[\"validation\",\"status\"]],\"validatePassword\",[20,[\"user\",\"password\"]],[20,[\"validation\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"reset-password-form__button-container\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"class\",\"reset-password-form__submit-button\"],[3,\"action\",[[19,0,[]],\"handleResetPassword\"]],[7],[0,\"envoyer\"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/reset-password-form.hbs" } });
 });
 define("pix-live/templates/components/result-item", ["exports"], function (exports) {
   "use strict";
@@ -8749,6 +8749,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+8f0ddd52"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+a95403a6"});
 }
 //# sourceMappingURL=pix-live.map

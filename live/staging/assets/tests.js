@@ -7372,11 +7372,10 @@ define('pix-live/tests/integration/components/reset-password-form-test', ['chai'
           });
         });
 
-        (0, _mocha.it)('should display user’s fullname', function () {
+        (0, _mocha.it)('should display user’s fullName', function () {
           // given
-          var user = { firstName: 'toto', lastName: 'riri' };
+          var user = { fullName: 'toto riri' };
           this.set('user', user);
-          var expectedFullname = user.firstName + ' ' + user.lastName;
 
           // when
           this.render(Ember.HTMLBars.template({
@@ -7386,7 +7385,7 @@ define('pix-live/tests/integration/components/reset-password-form-test', ['chai'
           }));
 
           // then
-          (0, _chai.expect)(this.$('.reset-password-form__user-details').text().trim()).to.equal(expectedFullname);
+          (0, _chai.expect)(this.$('.reset-password-form__user-details').text().trim()).to.equal(user.fullName);
         });
       });
 
@@ -12330,20 +12329,6 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.describe)('@fullname', function () {
-
-      (0, _mocha.it)('should concatenate user first and last name', function () {
-        // given
-        component.set('user', Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' }));
-
-        // when
-        var fullname = component.get('fullname');
-
-        // then
-        (0, _chai.expect)(fullname).to.equal('Manu Phillip');
-      });
-    });
-
     (0, _mocha.describe)('#validatePassword', function () {
 
       (0, _mocha.it)('should set validation status to default, when component is rendered', function () {
@@ -13508,6 +13493,9 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  var run = Ember.run;
+
+
   (0, _mocha.describe)('Unit | Model | user model', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
@@ -13518,6 +13506,25 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('@fullName', function () {
+      (0, _mocha.it)('should concatenate user first and last name', function () {
+        var _this = this;
+
+        return run(function () {
+          // given
+          var model = _this.subject();
+          model.set('firstName', 'Manu');
+          model.set('lastName', 'Phillip');
+
+          // when
+          var fullName = model.get('fullName');
+
+          // then
+          (0, _chai.expect)(fullName).to.equal('Manu Phillip');
+        });
+      });
     });
   });
 });
