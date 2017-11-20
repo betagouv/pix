@@ -3087,6 +3087,14 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/certification-banner.js', function () {
+      // test passed
+    });
+
+    it('components/certification-results-page.js', function () {
+      // test passed
+    });
+
     it('components/challenge-actions.js', function () {
       // test passed
     });
@@ -3432,6 +3440,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/board.js', function () {
+      // test passed
+    });
+
+    it('routes/certifications/results.js', function () {
       // test passed
     });
 
@@ -3791,6 +3803,113 @@ define('pix-live/tests/helpers/testing', ['exports'], function (exports) {
     fillIn('#pix-password', 'John1234');
     click('.signin-form__submit_button');
   }
+});
+define('pix-live/tests/integration/components/certification-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | Certification Banner', function () {
+
+    (0, _emberMocha.setupComponentTest)('certification-banner', {
+      integration: true
+    });
+
+    context('On component rendering', function () {
+      var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+
+      (0, _mocha.it)('should render component container', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "SzIDYsnG",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"certification-banner\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should render component with a div:certification-banner__user-fullname', function () {
+        // when
+        this.set('user', user);
+        this.render(Ember.HTMLBars.template({
+          "id": "SHNdCrAu",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
+      });
+
+      (0, _mocha.it)('should render component with a div:certification-banner__user-id', function () {
+        // when
+        this.set('user', user);
+        this.render(Ember.HTMLBars.template({
+          "id": "SHNdCrAu",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/certification-results-page-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var computed = Ember.computed;
+  var LinkComponent = Ember.LinkComponent;
+
+
+  (0, _mocha.describe)('Integration | Component | certification results template', function () {
+    (0, _emberMocha.setupComponentTest)('certification-results-page', {
+      integration: true
+    });
+
+    context('When component is rendered', function () {
+      var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      (0, _mocha.beforeEach)(function () {
+        this.set('user', user);
+      });
+
+      (0, _mocha.it)('should also render a certification banner', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "i6oCsELc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+      });
+
+      (0, _mocha.it)('should have a button to logout', function () {
+        // given
+        LinkComponent.reopen({
+          href: computed.alias('qualifiedRouteName')
+        });
+
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "i6oCsELc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.warning-logout-button')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.warning-logout-button').attr('href')).to.equal('logout');
+      });
+    });
+  });
 });
 define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
@@ -7372,11 +7491,10 @@ define('pix-live/tests/integration/components/reset-password-form-test', ['chai'
           });
         });
 
-        (0, _mocha.it)('should display user’s fullname', function () {
+        (0, _mocha.it)('should display user’s fullName', function () {
           // given
-          var user = { firstName: 'toto', lastName: 'riri' };
+          var user = { fullName: 'toto riri' };
           this.set('user', user);
-          var expectedFullname = user.firstName + ' ' + user.lastName;
 
           // when
           this.render(Ember.HTMLBars.template({
@@ -7386,7 +7504,7 @@ define('pix-live/tests/integration/components/reset-password-form-test', ['chai'
           }));
 
           // then
-          (0, _chai.expect)(this.$('.reset-password-form__user-details').text().trim()).to.equal(expectedFullname);
+          (0, _chai.expect)(this.$('.reset-password-form__user-details').text().trim()).to.equal(user.fullName);
         });
       });
 
@@ -9744,6 +9862,14 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/certification-banner-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/certification-results-page-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/challenge-actions-test.js', function () {
       // test passed
     });
@@ -9948,6 +10074,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/certification-banner-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/challenge-item-qmail-test.js', function () {
       // test passed
     });
@@ -10137,6 +10267,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/board-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/certifications/results-test.js', function () {
       // test passed
     });
 
@@ -10466,6 +10600,59 @@ define('pix-live/tests/unit/authenticators/simple-test', ['mocha', 'chai', 'embe
         (0, _chai.expect)(data.userId).to.equal(expectedUserId);
         (0, _chai.expect)(data.token).to.equal(expectedToken);
       });
+    });
+  });
+});
+define('pix-live/tests/unit/components/certification-banner-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Certification Banner', function () {
+
+    (0, _emberMocha.setupComponentTest)('certification-banner', {
+      needs: [],
+      unit: true
+    });
+
+    var component = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render();
+
+      // then
+      (0, _chai.expect)(component).to.be.ok;
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('@fullname', function () {
+
+      (0, _mocha.it)('should concatenate user first and last name', function () {
+        // given
+        var fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' });
+
+        // when
+        component.set('user', fakeUser);
+
+        // then
+        var fullname = component.get('fullname');
+        (0, _chai.expect)(fullname).to.equal('Manu Phillip');
+      });
+    });
+
+    (0, _mocha.it)('should return user id', function () {
+      // given
+      var fakeUser = Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip', id: 1 });
+
+      // when
+      component.set('user', fakeUser);
+
+      // then
+      var userId = component.get('user.id');
+      (0, _chai.expect)(userId).to.equal(1);
     });
   });
 });
@@ -12330,20 +12517,6 @@ define('pix-live/tests/unit/components/reset-password-form-test', ['chai', 'moch
       (0, _chai.expect)(this.$()).to.have.length(1);
     });
 
-    (0, _mocha.describe)('@fullname', function () {
-
-      (0, _mocha.it)('should concatenate user first and last name', function () {
-        // given
-        component.set('user', Ember.Object.create({ firstName: 'Manu', lastName: 'Phillip' }));
-
-        // when
-        var fullname = component.get('fullname');
-
-        // then
-        (0, _chai.expect)(fullname).to.equal('Manu Phillip');
-      });
-    });
-
     (0, _mocha.describe)('#validatePassword', function () {
 
       (0, _mocha.it)('should set validation status to default, when component is rendered', function () {
@@ -13508,6 +13681,9 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
+  var run = Ember.run;
+
+
   (0, _mocha.describe)('Unit | Model | user model', function () {
     (0, _emberMocha.setupModelTest)('user', {
       // Specify the other units that are required for this test.
@@ -13518,6 +13694,25 @@ define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'],
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('@fullName', function () {
+      (0, _mocha.it)('should concatenate user first and last name', function () {
+        var _this = this;
+
+        return run(function () {
+          // given
+          var model = _this.subject();
+          model.set('firstName', 'Manu');
+          model.set('lastName', 'Phillip');
+
+          // when
+          var fullName = model.get('fullName');
+
+          // then
+          (0, _chai.expect)(fullName).to.equal('Manu Phillip');
+        });
+      });
     });
   });
 });
@@ -13549,18 +13744,170 @@ define('pix-live/tests/unit/routes/application-test', ['chai', 'mocha', 'ember-m
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
-  (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
+  var EmberObject = Ember.Object;
+  var EmberService = Ember.Service;
 
+
+  (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
     (0, _emberMocha.setupTest)('route:assessments.challenge', {
       needs: ['service:current-routed-modal']
     });
 
+    var route = void 0;
+    var StoreStub = void 0;
+    var createRecordStub = void 0;
+    var queryRecordStub = void 0;
+
+    beforeEach(function () {
+      // define stubs
+      createRecordStub = _sinon.default.stub();
+      queryRecordStub = _sinon.default.stub();
+      StoreStub = EmberService.extend({
+        createRecord: createRecordStub,
+        queryRecord: queryRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
+      route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+    });
+
     (0, _mocha.it)('exists', function () {
-      var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#saveAnswerAndNavigate', function () {
+      var answerToChallengeOne = void 0;
+
+      var answerValue = '';
+      var answerTimeout = 120;
+      var answerElapsedTime = 65;
+      var challengeOne = EmberObject.create({ id: 'recChallengeOne' });
+      var nextChallenge = EmberObject.create({ id: 'recNextChallenge' });
+
+      beforeEach(function () {
+        answerToChallengeOne = EmberObject.create({ challenge: challengeOne });
+        answerToChallengeOne.save = _sinon.default.stub().resolves();
+        answerToChallengeOne.setProperties = _sinon.default.stub();
+      });
+
+      context('when the answer is already known', function () {
+        (0, _mocha.it)('should not create a new answer', function () {
+          // given
+          var assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+          createRecordStub.returns(answerToChallengeOne);
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          _sinon.default.assert.notCalled(createRecordStub);
+        });
+      });
+
+      context('when no answer was given', function () {
+        (0, _mocha.it)('should create an answer', function () {
+          // given
+          var assessment = EmberObject.create({ answers: [] });
+          createRecordStub.returns(answerToChallengeOne);
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          _sinon.default.assert.calledWith(createRecordStub, 'answer', {
+            assessment: assessment,
+            challenge: challengeOne
+          });
+        });
+      });
+
+      (0, _mocha.it)('should update the answer with the timeout and elapsedTime', function () {
+        // given
+        var assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+        createRecordStub.returns(answerToChallengeOne);
+        queryRecordStub.resolves(nextChallenge);
+
+        // when
+        route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+        // then
+        _sinon.default.assert.callOrder(answerToChallengeOne.setProperties, answerToChallengeOne.save);
+        _sinon.default.assert.calledOnce(answerToChallengeOne.save);
+        _sinon.default.assert.calledWith(answerToChallengeOne.setProperties, {
+          value: answerValue,
+          timeout: answerTimeout,
+          elapsedTime: answerElapsedTime
+        });
+      });
+
+      context('when the next challenge exists', function () {
+        (0, _mocha.it)('should redirect to the challenge view', function () {
+          // given
+          var assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+          createRecordStub.returns(answerToChallengeOne);
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.challenge', {
+              assessment: assessment,
+              challenge: nextChallenge
+            });
+          });
+        });
+      });
+
+      context('when the next challenge does not exist (is null)', function () {
+        context('when the assessment is a certification', function () {
+          (0, _mocha.it)('should redirect to the certification end page', function () {
+            // given
+            var assessment = EmberObject.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
+            createRecordStub.returns(answerToChallengeOne);
+            queryRecordStub.rejects();
+
+            // when
+            var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+            // then
+            return promise.then(function () {
+              _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
+              _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results', assessment.get('id'));
+            });
+          });
+        });
+
+        context('when the assessment is not certification', function () {
+          (0, _mocha.it)('should redirect to the assessment results page', function () {
+            // given
+            var assessment = EmberObject.create({ answers: [answerToChallengeOne] });
+            createRecordStub.returns(answerToChallengeOne);
+            queryRecordStub.rejects();
+
+            // when
+            var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+
+            // then
+            return promise.then(function () {
+              _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
+              _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
+            });
+          });
+        });
+      });
     });
   });
 });
@@ -13834,6 +14181,96 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | Certifications | Results', function () {
+
+    (0, _emberMocha.setupTest)('route:certifications.results', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('model', function () {
+
+      var route = void 0;
+      var storeStub = void 0;
+      var findRecordStub = void 0;
+
+      (0, _mocha.beforeEach)(function () {
+        findRecordStub = _sinon.default.stub();
+        storeStub = Ember.Service.extend({
+          findRecord: findRecordStub
+        });
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+      });
+
+      context('When no user is logged', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          this.register('service:session', Ember.Service.extend({
+            isAuthenticated: false
+          }));
+          this.inject.service('session', { as: 'session' });
+
+          route = this.subject();
+          route.transitionTo = _sinon.default.stub();
+        });
+
+        (0, _mocha.it)('should redirect to logout', function () {
+          // Given
+          findRecordStub.rejects();
+          // When
+          var promise = route.model();
+
+          // Then
+          return promise.then(function () {
+            _sinon.default.assert.calledWith(findRecordStub, 'user', undefined, { reload: true });
+            _sinon.default.assert.calledWith(route.transitionTo, 'logout');
+          });
+        });
+      });
+
+      context('When user is logged', function () {
+
+        (0, _mocha.beforeEach)(function () {
+          this.register('service:session', Ember.Service.extend({
+            isAuthenticated: true,
+            data: {
+              authenticated: {
+                userId: 1435
+              }
+            }
+          }));
+          this.inject.service('session', { as: 'session' });
+
+          route = this.subject();
+          route.transitionTo = _sinon.default.stub();
+        });
+
+        (0, _mocha.it)('should find logged user details', function () {
+          // Given
+          var expectedUser = {};
+          findRecordStub.resolves(expectedUser);
+
+          // When
+          var promise = route.model();
+
+          // Then
+          return promise.then(function (user) {
+            _sinon.default.assert.calledWith(findRecordStub, 'user', 1435, { reload: true });
+            (0, _chai.expect)(user).to.equal(expectedUser);
+          });
+        });
       });
     });
   });
