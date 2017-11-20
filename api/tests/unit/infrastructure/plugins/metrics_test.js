@@ -32,13 +32,31 @@ describe('Unit | Plugins | Metrics', () => {
       .split('\n')
       .find((line) => line.startsWith(metricName));
 
-    if (metricLine == undefined) {
+    if (metricLine === undefined) {
       throw new Error(`Expected metric ${metricName} to be found in:\n${allMetrics}`);
     }
 
     const matches = /(\d+)\s*$/.exec(metricLine);
 
-    if (matches == undefined) {
+    if (matches === undefined) {
+      throw new Error(`Expected to find numeric value in ${metricLine}`);
+    }
+
+    return matches[1];
+  }
+
+  function extractQuantileForMetric(metricName, quantile, path, allMetrics) {
+    const metricLine = allMetrics
+      .split('\n')
+      .find((line) => line.match(new RegExp(`${metricName}.*quantile="${quantile}",path="${path}"`)));
+
+    if (metricLine === undefined) {
+      throw new Error(`Expected metric ${metricName} to be found in:\n${allMetrics}`);
+    }
+
+    const matches = /(\d+)\s*$/.exec(metricLine);
+
+    if (matches === undefined) {
       throw new Error(`Expected to find numeric value in ${metricLine}`);
     }
 
@@ -46,8 +64,10 @@ describe('Unit | Plugins | Metrics', () => {
   }
 
   class ResponseStub {
-    constructor(object) {
-      this.response = object;
+    constructor(response, info, route) {
+      this.response = response;
+      this.info = info;
+      this.route = route;
     }
   }
 
@@ -70,7 +90,7 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -98,7 +118,7 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -112,8 +132,8 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -141,8 +161,8 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -156,7 +176,7 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -184,7 +204,7 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
@@ -198,12 +218,63 @@ describe('Unit | Plugins | Metrics', () => {
       Metrics.register(serverStub, null, () => {});
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
 
       // then
       const prometheusMetrics = Metrics.metrics.metrics();
       const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
       expect(result).to.equals('0');
+    });
+  });
+
+  describe('the metric api_request_duration', () => {
+
+    it('should start at 0', () => {
+      // given
+      const prometheusMetrics = Metrics.metrics.metrics();
+
+      // when
+      const result = extractNumericValueFromSingleMetric('api_request_duration', prometheusMetrics);
+
+      // then
+      expect(result).to.equals('0');
+    });
+
+    it('should count request duration metrics', () => {
+      // given
+      const serverStub = new EventEmitter();
+      Metrics.register(serverStub, null, () => {});
+
+      // when
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 100, received: 50 }, {}));
+
+      // then
+      const prometheusMetrics = Metrics.metrics.metrics();
+      const result = extractNumericValueFromSingleMetric('api_request_duration_count', prometheusMetrics);
+      expect(result).to.equals('1');
+    });
+
+    it('should register request duration per endpoint', () => {
+      // given
+      const serverStub = new EventEmitter();
+      Metrics.register(serverStub, null, () => {});
+
+      // when
+      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 11 }, { path: '/api/other/{id}' }));
+      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 2 }, { path: '/api/{id}' }));
+      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 4 }, { path: '/api/{id}' }));
+
+      // then
+      const prometheusMetrics = Metrics.metrics.metrics();
+
+      const routeAPIaverage50percent = extractQuantileForMetric('api_request_duration', '0.5', '/api/{id}', prometheusMetrics);
+      expect(routeAPIaverage50percent).to.equal('2');
+
+      const routeAPIaverage90percent = extractQuantileForMetric('api_request_duration', '0.9', '/api/{id}', prometheusMetrics);
+      expect(routeAPIaverage90percent).to.equal('3');
+
+      const otherRouteAverage50percent = extractQuantileForMetric('api_request_duration', '0.5', '/api/other/{id}', prometheusMetrics);
+      expect(otherRouteAverage50percent).to.equal('10');
     });
   });
 });
