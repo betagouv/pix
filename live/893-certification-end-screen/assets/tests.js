@@ -3091,7 +3091,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('components/certification-results-template.js', function () {
+    it('components/certification-results-page.js', function () {
       // test passed
     });
 
@@ -3858,7 +3858,7 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
     });
   });
 });
-define('pix-live/tests/integration/components/certification-results-template-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/certification-results-page-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
   var computed = Ember.computed;
@@ -3866,7 +3866,7 @@ define('pix-live/tests/integration/components/certification-results-template-tes
 
 
   (0, _mocha.describe)('Integration | Component | certification results template', function () {
-    (0, _emberMocha.setupComponentTest)('certification-results-template', {
+    (0, _emberMocha.setupComponentTest)('certification-results-page', {
       integration: true
     });
 
@@ -3879,8 +3879,8 @@ define('pix-live/tests/integration/components/certification-results-template-tes
       (0, _mocha.it)('should also render a certification banner', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "fZqpm9Sr",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-template\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "i6oCsELc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3899,8 +3899,8 @@ define('pix-live/tests/integration/components/certification-results-template-tes
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "fZqpm9Sr",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-template\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "i6oCsELc",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -9867,7 +9867,7 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('integration/components/certification-results-template-test.js', function () {
+    it('integration/components/certification-results-page-test.js', function () {
       // test passed
     });
 
