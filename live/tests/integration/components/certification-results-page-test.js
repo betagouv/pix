@@ -6,7 +6,7 @@ import hbs from 'htmlbars-inline-precompile';
 import LinkComponent from '@ember/routing/link-component';
 
 describe('Integration | Component | certification results template', function() {
-  setupComponentTest('certification-results-template', {
+  setupComponentTest('certification-results-page', {
     integration: true
   });
 
@@ -18,7 +18,7 @@ describe('Integration | Component | certification results template', function() 
 
     it('should also render a certification banner', function() {
       // when
-      this.render(hbs`{{certification-results-template user=user}}`);
+      this.render(hbs`{{certification-results-page user=user}}`);
 
       // then
       expect(this.$('.certification-banner')).to.have.lengthOf(1);
@@ -34,7 +34,7 @@ describe('Integration | Component | certification results template', function() 
       });
 
       // when
-      this.render(hbs`{{certification-results-template user=user}}`);
+      this.render(hbs`{{certification-results-page user=user}}`);
 
       // then
       expect(this.$('.warning-logout-button')).to.have.lengthOf(1);
