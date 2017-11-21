@@ -138,6 +138,11 @@ function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
 }
 
+function isCertificationAssessment(assessment) {
+   return assessment.get('type') === 'CERTIFICATION';
+}
+
+
 function createCertificationAssessmentForUser(certificationCourse, userId) {
   const assessmentCertification = {
     type: 'CERTIFICATION',
@@ -148,10 +153,17 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 
 }
 
-module.exports = {
+function getNextChallengeForCertificationCourse() {
+  // TODO
+}
 
+
+module.exports = {
   getAssessmentNextChallengeId,
   getScoredAssessment,
   isPreviewAssessment,
-  createCertificationAssessmentForUser
+  isCertificationAssessment,
+  createCertificationAssessmentForUser,
+  getAssessmentNextChallengeId,
+  getNextChallengeForCertificationCourse
 };

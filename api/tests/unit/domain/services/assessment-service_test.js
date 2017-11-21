@@ -354,6 +354,34 @@ describe('Unit | Domain | Services | assessment-service', function() {
     });
   });
 
+  describe('#isCertificationAssessment', () => {
+
+    context('if assessment type is \'CERTIFICATION\'', () => {
+      it('should return true', () => {
+        // given
+        const assessment = new Assessment({ type: 'CERTIFICATION' }) ;
+
+        // when
+        const result = service.isCertificationAssessment(assessment);
+
+        // then
+        expect(result).to.be.true;
+      });
+    });
+
+    context('if assessment type is different of \'CERTIFICATION\'', () => {
+      it('should return false', () => {
+        // given
+        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' }) ;
+
+        // when
+        const result = service.isCertificationAssessment(assessment);
+
+        // then
+        expect(result).to.be.false;
+      });
+    });
+  });
 });
 
 function _generateValidatedSkills() {
