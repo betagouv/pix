@@ -243,6 +243,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
       // Then
       return promise.then((response) => {
+        expect(response.statusCode).to.equal(202);
         expect(response.result).to.equal('null');
       });
     });

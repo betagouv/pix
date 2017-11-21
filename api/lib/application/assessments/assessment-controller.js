@@ -120,7 +120,7 @@ module.exports = {
       });
   },
 
-  getAssessmentSolutions(request, reply) {
+  getAssessmentSolution(request, reply) {
 
     assessmentRepository
       .get(request.params.id)
@@ -185,7 +185,7 @@ module.exports = {
               return reply(solutionSerializer.serialize(solution));
             });
         } else {
-          return reply('null');
+          return reply('null').code(202);
         }
 
       })
