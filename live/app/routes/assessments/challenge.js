@@ -3,6 +3,8 @@ import BaseRoute from 'pix-live/routes/base-route';
 
 export default BaseRoute.extend({
 
+  session: Ember.inject.service(),
+
   model(params) {
     const store = this.get('store');
 
@@ -28,10 +30,20 @@ export default BaseRoute.extend({
     if (model.assessment.get('type') !== 'CERTIFICATION') {
       return RSVP.hash({
         answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-        course: model.assessment.get('course')
-      }).then(({ answers, course }) => {
+        course: model.assessment.get('course'),
+        type: model.assessment.get('type')
+      }).then(({ answers, course, type }) => {
+
         model.answers = answers;
         model.progress = course.getProgress(model.challenge);
+        model.isCertification = (type === 'CERTIFICATION');
+        if(model.isCertification) {
+          return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'));
+        } else {
+          return null;
+        }
+      }).then(user => {
+        model.user = user;
         return model;
       });
     }
