@@ -22,9 +22,16 @@
 .challenge-actions__action-skip-text {
   width: 55px;
   height: 19px;
-  font-family: $font-open-sans;
-  font-size: 14px;
+  font-family: $font-lato;
+  font-size: 16pt;
   font-weight: $font-semi-bold;
+  color: $charcoal-grey;
+  margin-right: 40px;
+  letter-spacing: 0.5px;
+  &:hover {
+    text-decoration: underline;
+    color: $pix-blue;
+  }
 }
 
 .challenge-actions__action-validate {
@@ -71,6 +78,16 @@
   width: 40px;
   height: 40px;
   animation: spin 2s linear infinite;
+}
+
+
+.challenge-actions__loader-bar {
+  background: url('/images/loader-challenge.gif');
+  justify-content: center;
+  background-size: 256px 32px;
+  height: 32px;
+  width: 256px;
+  margin: 7px;
 }
 
 @keyframes spin {
