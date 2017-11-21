@@ -7,7 +7,7 @@ export default Ember.Component.extend({
   actions: {
     scrollToProfile() {
       Ember.$('html, body').animate({
-        scrollTop: Ember.$('.profile-panel__header').offset().top - 15 + 'px'
+        scrollTop: Ember.$('.profile-panel__header').offset().top - 15
       }, config.APP.SCROLL_DURATION);
     }
   }
