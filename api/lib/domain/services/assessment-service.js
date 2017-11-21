@@ -164,6 +164,5 @@ module.exports = {
   isPreviewAssessment,
   isCertificationAssessment,
   createCertificationAssessmentForUser,
-  getAssessmentNextChallengeId,
   getNextChallengeForCertificationCourse
 };
