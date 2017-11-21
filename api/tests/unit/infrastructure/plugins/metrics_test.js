@@ -7,8 +7,24 @@ const Metrics = require(`${PROJECT_ROOT}/lib/infrastructure/plugins/metrics`);
 
 describe('Unit | Plugins | Metrics', () => {
 
+  let serverStub;
+
+  const defaultRoute = {};
+  const defaultInfo = { responded: 2, received: 1 };
+
+  class ResponseStub {
+    constructor(response, info, route) {
+      this.response = response;
+      this.info = info;
+      this.route = route;
+    }
+  }
+
   beforeEach(() => {
     Metrics.reset();
+
+    serverStub = new EventEmitter();
+    Metrics.register(serverStub, null, () => {});
   });
 
   it('should be exposed as a Hapi Plugin', () => {
@@ -18,7 +34,7 @@ describe('Unit | Plugins | Metrics', () => {
   });
 
   it('should set the default labels to current instance', () => {
-    expect(Metrics.metrics.metrics()).to.contains('instance=');
+    expect(Metrics.prometheusClient.metrics()).to.contains('instance=');
   });
 
   describe('#register', () => {
@@ -27,7 +43,7 @@ describe('Unit | Plugins | Metrics', () => {
     });
   });
 
-  function extractNumericValueFromSingleMetric(metricName, allMetrics) {
+  function _extractNumericValueFromSingleMetric(allMetrics, metricName) {
     const metricLine = allMetrics
       .split('\n')
       .find((line) => line.startsWith(metricName));
@@ -45,13 +61,13 @@ describe('Unit | Plugins | Metrics', () => {
     return matches[1];
   }
 
-  function extractQuantileForMetric(metricName, quantile, path, allMetrics) {
+  function _extractCountPerEndpoint(allMetrics, path) {
     const metricLine = allMetrics
       .split('\n')
-      .find((line) => line.match(new RegExp(`${metricName}.*quantile="${quantile}",path="${path}"`)));
+      .find((line) => line.match(new RegExp(`api_request_duration_count.*path="${path}"`)));
 
     if (metricLine === undefined) {
-      throw new Error(`Expected metric ${metricName} to be found in:\n${allMetrics}`);
+      throw new Error(`Expected metric api_request_duration_count to be found in:\n${allMetrics}`);
     }
 
     const matches = /(\d+)\s*$/.exec(metricLine);
@@ -63,38 +79,26 @@ describe('Unit | Plugins | Metrics', () => {
     return matches[1];
   }
 
-  class ResponseStub {
-    constructor(response, info, route) {
-      this.response = response;
-      this.info = info;
-      this.route = route;
-    }
-  }
-
   describe('the metric api_request_total', () => {
 
     it('should start at 0', () => {
       // given
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
       // when
-      const result = extractNumericValueFromSingleMetric('api_request_total', prometheusMetrics);
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_total');
 
       // then
       expect(result).to.equals('0');
     });
 
     it('should increment on response event', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_total', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_total');
       expect(result).to.equals('1');
     });
   });
@@ -103,41 +107,33 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should start at 0', () => {
       // given
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
       // when
-      const result = extractNumericValueFromSingleMetric('api_request_success', prometheusMetrics);
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
 
       // then
       expect(result).to.equals('0');
     });
 
     it('should increment on successful response event', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_success', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
       expect(result).to.equals('1');
     });
 
     it('should not increment on error response event', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_success', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_success');
       expect(result).to.equals('0');
     });
   });
@@ -146,41 +142,33 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should start at 0', () => {
       // given
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
       // when
-      const result = extractNumericValueFromSingleMetric('api_request_server_error', prometheusMetrics);
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
 
       // then
       expect(result).to.equals('0');
     });
 
     it('should NOT increment on successful response event or 400s', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, { responded: 2, received: 1 }, {}));
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 200 }, defaultInfo, defaultRoute));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_server_error', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
       expect(result).to.equals('0');
     });
 
     it('should increment on error response event', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_server_error', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_server_error');
       expect(result).to.equals('1');
     });
   });
@@ -189,40 +177,32 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should start at 0', () => {
       // given
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
       // when
-      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
 
       // then
       expect(result).to.equals('0');
     });
 
     it('should increment on response with statusCode 400', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
       expect(result).to.equals('1');
     });
 
     it('should NOT increment on response event with statusCode 200 or 500', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, { responded: 2, received: 1 }, {}));
+      serverStub.emit('response', new ResponseStub({ statusCode: 500 }, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_client_error', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_client_error');
       expect(result).to.equals('0');
     });
   });
@@ -231,50 +211,44 @@ describe('Unit | Plugins | Metrics', () => {
 
     it('should start at 0', () => {
       // given
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
       // when
-      const result = extractNumericValueFromSingleMetric('api_request_duration', prometheusMetrics);
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_duration');
 
       // then
       expect(result).to.equals('0');
     });
 
-    it('should count request duration metrics', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
+    it('should count request duration metric', () => {
 
       // when
-      serverStub.emit('response', new ResponseStub({ statusCode: 400 }, { responded: 100, received: 50 }, {}));
+      serverStub.emit('response', new ResponseStub({}, defaultInfo, defaultRoute));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
-      const result = extractNumericValueFromSingleMetric('api_request_duration_count', prometheusMetrics);
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
+      const result = _extractNumericValueFromSingleMetric(prometheusMetrics, 'api_request_duration_count');
       expect(result).to.equals('1');
     });
 
     it('should register request duration per endpoint', () => {
-      // given
-      const serverStub = new EventEmitter();
-      Metrics.register(serverStub, null, () => {});
-
       // when
-      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 11 }, { path: '/api/other/{id}' }));
-      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 2 }, { path: '/api/{id}' }));
-      serverStub.emit('response', new ResponseStub({}, { received: 1, responded: 4 }, { path: '/api/{id}' }));
+      const tenSecondsToAnswer = { received: 1, responded: 11 };
+      const oneSecondToAnswer = { received: 1, responded: 2 };
+      const threeSecondToAnswer = { received: 1, responded: 4 };
+
+      serverStub.emit('response', new ResponseStub({}, tenSecondsToAnswer, { path: '/api/other/{id}' }));
+      serverStub.emit('response', new ResponseStub({}, oneSecondToAnswer, { path: '/api/toto/{id}' }));
+      serverStub.emit('response', new ResponseStub({}, threeSecondToAnswer, { path: '/api/toto/{id}' }));
 
       // then
-      const prometheusMetrics = Metrics.metrics.metrics();
+      const prometheusMetrics = Metrics.prometheusClient.metrics();
 
-      const routeAPIaverage50percent = extractQuantileForMetric('api_request_duration', '0.5', '/api/{id}', prometheusMetrics);
-      expect(routeAPIaverage50percent).to.equal('2');
+      const expectedCountForEndpointToto = _extractCountPerEndpoint(prometheusMetrics, '/api/toto/{id}');
+      expect(expectedCountForEndpointToto).to.equal('2');
 
-      const routeAPIaverage90percent = extractQuantileForMetric('api_request_duration', '0.9', '/api/{id}', prometheusMetrics);
-      expect(routeAPIaverage90percent).to.equal('3');
-
-      const otherRouteAverage50percent = extractQuantileForMetric('api_request_duration', '0.5', '/api/other/{id}', prometheusMetrics);
-      expect(otherRouteAverage50percent).to.equal('10');
+      const expectedCountForEndpointOther = _extractCountPerEndpoint(prometheusMetrics, '/api/other/{id}');
+      expect(expectedCountForEndpointOther).to.equal('1');
     });
   });
 });

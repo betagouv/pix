@@ -30,7 +30,6 @@ const Metrics = {
 
     server.on('response', (request) => {
 
-      // FIXME: Utiliser les tests de perf pour tester les endpoints
       const responseDuration = request.info.responded - request.info.received;
       metrics.request.api_request_duration.observe(responseDuration);
       metrics.request.api_request_duration.observe({ 'path': request.route.path }, responseDuration);
@@ -55,7 +54,7 @@ const Metrics = {
     return next();
   },
 
-  metrics: client.register,
+  prometheusClient: client.register,
 };
 
 Metrics.register.attributes = {
