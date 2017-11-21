@@ -757,6 +757,81 @@ define('pix-live/tests/acceptance/c1-recapitulatif-test', ['mocha', 'chai', 'pix
     });
   });
 });
+define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
+  'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
+
+  (0, _mocha.describe)('Acceptance | Certification | Start Course', function () {
+
+    var application = void 0;
+
+    (0, _mocha.beforeEach)(function () {
+      application = (0, _application.startApp)();
+      (0, _default.default)(server);
+    });
+
+    (0, _mocha.afterEach)(function () {
+      (0, _application.destroyApp)(application);
+    });
+
+    (0, _mocha.describe)('start certification course', function () {
+
+      (0, _mocha.it)('should start a certification course (display course id for the moment)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // given
+                (0, _testing.authenticateAsSimpleUser)();
+
+                // when
+                _context.next = 3;
+                return visit('/test-de-certification');
+
+              case 3:
+
+                // then
+                (0, _chai.expect)(currentURL()).to.equal('/test-de-certification');
+                (0, _chai.expect)(find('.certification-course__course-id').length).to.equal(1);
+
+              case 5:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      })));
+    });
+  });
+});
 define('pix-live/tests/acceptance/compte-authentication-and-profile-test', ['mocha', 'chai', 'pix-live/tests/helpers/application', 'pix-live/tests/helpers/testing', 'pix-live/mirage/scenarios/default'], function (_mocha, _chai, _application, _testing, _default) {
   'use strict';
 
@@ -3363,6 +3438,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/certification-course.js', function () {
+      // test passed
+    });
+
     it('models/challenge.js', function () {
       // test passed
     });
@@ -3440,6 +3519,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/board.js', function () {
+      // test passed
+    });
+
+    it('routes/certification-course.js', function () {
       // test passed
     });
 
@@ -9766,6 +9849,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('acceptance/certification-course-test.js', function () {
+      // test passed
+    });
+
     it('acceptance/compte-authentication-and-profile-test.js', function () {
       // test passed
     });
@@ -10210,6 +10297,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/certification-course-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/challenge-test.js', function () {
       // test passed
     });
@@ -10267,6 +10358,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/board-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/certification-course-test.js', function () {
       // test passed
     });
 
@@ -13338,6 +13433,23 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
+define('pix-live/tests/unit/models/certification-course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | certification course', function () {
+    (0, _emberMocha.setupModelTest)('certification-course', {
+      // Specify the other units that are required for this test.
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      var model = this.subject();
+      // var store = this.store();
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -14181,6 +14293,103 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
       return result.then(function (_) {
         _sinon.default.assert.calledOnce(route.transitionTo);
         _sinon.default.assert.calledWith(route.transitionTo, 'compte');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  var Service = Ember.Service;
+
+
+  (0, _mocha.describe)('Unit | Route | certification test', function () {
+    (0, _emberMocha.setupTest)('route:certification-course', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var route = void 0;
+    var findRecordStub = void 0;
+    var createRecordStub = void 0;
+    var storeStub = void 0;
+    var certificationCourse = void 0;
+
+    (0, _mocha.it)('exists', function () {
+      route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#model', function () {
+
+      beforeEach(function () {
+        findRecordStub = _sinon.default.stub().resolves();
+
+        certificationCourse = { id: 1, save: _sinon.default.stub() };
+        createRecordStub = _sinon.default.stub().returns(certificationCourse);
+
+        storeStub = Service.extend({
+          findRecord: findRecordStub,
+          createRecord: createRecordStub
+        });
+
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+
+        route = this.subject();
+      });
+
+      (0, _mocha.it)('should verify if the user is logged', function () {
+        // when
+        var promise = route.model();
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.called(findRecordStub);
+        });
+      });
+
+      context('when user is logged', function () {
+
+        (0, _mocha.it)('should generate certification test', function () {
+          // when
+          var promise = route.model();
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.called(createRecordStub);
+            _sinon.default.assert.calledWith(createRecordStub, 'certification-course');
+          });
+        });
+        (0, _mocha.it)('should save certification test', function () {
+          // when
+          var promise = route.model();
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.called(certificationCourse.save);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      beforeEach(function () {
+        this.register('service:store', storeStub);
+        this.inject.service('store', { as: 'store' });
+        route = this.subject();
+      });
+
+      (0, _mocha.it)('should redirect to index', function () {
+        // given
+        route.transitionTo = _sinon.default.stub();
+
+        // when
+        route.send('error');
+
+        // then
+        _sinon.default.assert.called(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
     });
   });
