@@ -153,8 +153,8 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 
 }
 
-function getNextChallengeForCertificationCourse() {
-  // TODO
+function getNextChallengeForCertificationCourse(assessment) {
+  return challengeRepository.findChallengesByCertificationCourse(assessment.get('courseId'));
 }
 
 

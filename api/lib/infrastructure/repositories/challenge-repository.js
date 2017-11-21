@@ -74,6 +74,11 @@ module.exports = {
         });
       });
     });
+  },
+
+  findChallengesByCertificationCourse() {
+    // TODO
+    return false;
   }
 
 };

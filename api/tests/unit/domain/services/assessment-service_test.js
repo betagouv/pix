@@ -359,7 +359,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
     context('if assessment type is \'CERTIFICATION\'', () => {
       it('should return true', () => {
         // given
-        const assessment = new Assessment({ type: 'CERTIFICATION' }) ;
+        const assessment = new Assessment({ type: 'CERTIFICATION' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
@@ -372,13 +372,44 @@ describe('Unit | Domain | Services | assessment-service', function() {
     context('if assessment type is different of \'CERTIFICATION\'', () => {
       it('should return false', () => {
         // given
-        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' }) ;
+        const assessment = new Assessment({ type: 'BRANDONE EST FORMIDABLE' });
 
         // when
         const result = service.isCertificationAssessment(assessment);
 
         // then
         expect(result).to.be.false;
+      });
+    });
+  });
+
+  describe('#getNextChallengeForCertificationCourse', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create()
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should get all the challenges for this CertificationCourse', () => {
+      // given
+      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
+      sandbox.stub(challengeRepository, 'findChallengesByCertificationCourse').resolves(true);
+
+      // when
+      const promise = service.getNextChallengeForCertificationCourse(assessment);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(challengeRepository.findChallengesByCertificationCourse);
+        sinon.assert.calledWith(
+          challengeRepository.findChallengesByCertificationCourse,
+          'certifCourseId'
+        );
       });
     });
   });
