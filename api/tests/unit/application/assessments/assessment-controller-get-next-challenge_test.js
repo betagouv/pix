@@ -48,7 +48,6 @@ describe('Unit | Controller | assessment-controller', () => {
 
       sandbox.stub(assessmentService, 'getScoredAssessment').resolves(scoredAsssessment);
       sandbox.stub(assessmentWithScore, 'save');
-      sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
       sandbox.stub(skillService, 'saveAssessmentSkills');
     });
@@ -60,7 +59,12 @@ describe('Unit | Controller | assessment-controller', () => {
     });
 
     describe('when the assessment is a preview', () => {
-      it('should', () => {
+
+      beforeEach(() => {
+        sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
+      });
+
+      it('should reply null', () => {
         // Given
         const replyStub = sinon.stub();
         assessmentWithoutScore.set('courseId', 'null2356871');
@@ -79,6 +83,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       beforeEach(() => {
         assessmentService.getAssessmentNextChallengeId.resolves(null);
+        sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
       });
 
       it('should call getScoredAssessment', () => {
@@ -189,6 +194,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
       beforeEach(() => {
         assessmentService.getAssessmentNextChallengeId.resolves({});
+        sandbox.stub(assessmentRepository, 'get').resolves(assessmentWithoutScore);
       });
 
       it('should not evaluate assessment score', () => {
@@ -202,6 +208,33 @@ describe('Unit | Controller | assessment-controller', () => {
         });
       });
 
+    });
+
+    describe('when the assessment is a certification assessment', function() {
+
+      let certificationAssessment = new Assessment({
+        id: 'assessmentId',
+        type: 'CERTIFICATION'
+      });
+
+      beforeEach(() => {
+        sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessment);
+      });
+
+      it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
+        // given
+        const replyStub = () => {};
+        sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
+        sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse').resolves();
+
+        // when
+        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(assessmentService.getNextChallengeForCertificationCourse);
+        });
+      });
     });
 
   });

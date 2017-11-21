@@ -77,8 +77,13 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
+
         if (assessmentService.isPreviewAssessment(assessment)) {
           return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
+        }
+
+        if (assessmentService.isCertificationAssessment(assessment)) {
+          return Promise.reject(assessmentService.getNextChallengeForCertificationCourse());
         }
 
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
