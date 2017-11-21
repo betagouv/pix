@@ -21,6 +21,7 @@ export default Component.extend({
   actions: {
 
     skipChallenge() {
+      this.set('_validateButtonStatus', 'pending');
       this.get('challengeSkipped')();
     },
 

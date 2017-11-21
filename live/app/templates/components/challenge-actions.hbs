@@ -1,13 +1,13 @@
 {{#if isValidateButtonEnable}}
   <a class="challenge-actions__action challenge-actions__action-validate" {{action "validateAnswer"}} href="#">
-  <span class="challenge-actions__action-validate-text">Je valide</span>
-</a>
+    <span class="challenge-actions__action-validate-text">Je valide</span>
+  </a>
+  <a class="challenge-actions__action challenge-actions__action-skip" {{action "skipChallenge"}} href="#">
+    <span class="challenge-actions__action-skip-text">Je passe</span>
+  </a>
+
 {{else if isValidateButtonPending}}
-  <div class="challenge-actions__loader challenge-actions__loader--validate">
-    <div class="challenge-actions__loader-spinner"></div>
+  <div class="challenge-actions__loader">
+    <div class="challenge-actions__loader-bar"></div>
   </div>
 {{/if}}
-
-<a class="challenge-actions__action challenge-actions__action-skip" {{action "skipChallenge"}} href="#">
-  <span class="challenge-actions__action-skip-text">Je passe</span>
-</a>
