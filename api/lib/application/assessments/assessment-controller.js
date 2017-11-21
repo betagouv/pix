@@ -189,6 +189,10 @@ module.exports = {
         }
 
       })
-      .catch((err) => reply(Boom.badImplementation(err)));
+      .catch((err) => {
+        logger.error(err);
+
+        reply(Boom.badImplementation(err));
+      });
   }
 };
