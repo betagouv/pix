@@ -127,7 +127,7 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => challenge.hardestSkill.difficulty == 2 && challenge.timer === undefined
+      challenge => challenge.hardestSkill.difficulty === 2 && challenge.timer === undefined
     );
     filteredFirstChallenges.sort(() => 0.5 - Math.random());
     return filteredFirstChallenges[0];
