@@ -72,8 +72,7 @@ describe('Integration | Component | challenge actions', function() {
     it('should be replaced by a loader during treatment', function() {
       // given
       this.set('externalAction', function() {
-        return new RSVP.Promise(() => {
-        });
+        return new RSVP.Promise(() => {});
       });
       this.render(hbs`{{challenge-actions challengeSkipped=(action externalAction)}}`);
 
