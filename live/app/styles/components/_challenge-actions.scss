@@ -50,7 +50,7 @@
 .challenge-actions__action-validate-text {
   width: 76px;
   line-height: 46px;
-  font-family: $font-lato;
+  font-family: $font-lato, sans-serif;
   font-size: 16px;
   font-weight: $font-heavy;
   text-transform: uppercase;
@@ -84,10 +84,10 @@
 .challenge-actions__loader-bar {
   background: url('/images/loader-challenge.gif');
   justify-content: center;
-  background-size: 256px 32px;
-  height: 32px;
-  width: 256px;
-  margin: 7px;
+  background-size: 36px 36px;
+  height: 36px;
+  width: 36px;
+  margin: 5px;
 }
 
 @keyframes spin {
