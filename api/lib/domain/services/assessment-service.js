@@ -140,9 +140,8 @@ function isPreviewAssessment(assessment) {
 }
 
 function isCertificationAssessment(assessment) {
-   return assessment.get('type') === 'CERTIFICATION';
+  return assessment.get('type') === 'CERTIFICATION';
 }
-
 
 function createCertificationAssessmentForUser(certificationCourse, userId) {
   const assessmentCertification = {
@@ -155,9 +154,23 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
-  const certificationChallengesIdsOfCertificationCourse = certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
-  const givenAnswersForThisAssessment = answerRepository.findByAssessment(assessment.get('id'));
-  return certificationChallengesIdsOfCertificationCourse;
+  const certificationChallengesIdsOfCertificationCoursePromise = certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
+  const givenAnswersForThisAssessmentPromise = answerRepository.findByAssessment(assessment.get('id'));
+
+  return Promise.all([certificationChallengesIdsOfCertificationCoursePromise, givenAnswersForThisAssessmentPromise])
+    .then(([certificationChallengesIdsOfCertificationCourse, givenAnswersForThisAssessment]) => {
+      const challengeIdsAlreadyAnswered = givenAnswersForThisAssessment.map(answer => {
+        return answer.get('challengeId')
+      });
+
+      const availableChallenges = certificationChallengesIdsOfCertificationCourse.map((certificationChallenge) => {
+        if (challengeIdsAlreadyAnswered.includes(certificationChallenge.challengeId)) {
+          return certificationChallenge;
+        }
+      });
+
+      return availableChallenges[0];
+    })
 }
 
 
