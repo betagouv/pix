@@ -617,7 +617,7 @@ button.routable-modal--close:active {
 .challenge-actions__action-validate-text {
   width: 76px;
   line-height: 46px;
-  font-family: "Lato", Arial, sans-serif;
+  font-family: "Lato", Arial, sans-serif, sans-serif;
   font-size: 16px;
   font-weight: 900;
   text-transform: uppercase;
@@ -646,10 +646,10 @@ button.routable-modal--close:active {
 .challenge-actions__loader-bar {
   background: url("/images/loader-challenge.gif");
   justify-content: center;
-  background-size: 256px 32px;
-  height: 32px;
-  width: 256px;
-  margin: 7px; }
+  background-size: 36px 36px;
+  height: 36px;
+  width: 36px;
+  margin: 5px; }
 
 @keyframes spin {
   0% {
@@ -839,6 +839,43 @@ button.routable-modal--close:active {
   @media (min-width: 768px) {
     .challenge-stay__text {
       font-size: 16px; } }
+
+.certification-banner {
+  display: flex;
+  background: linear-gradient(180deg, #0EBEFF 0%, #3d68ff 100%);
+  color: #ffffff;
+  box-shadow: 0 -2px 4px 0 rgba(0, 0, 0, 0.2);
+  justify-content: center; }
+
+.certification-banner__container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 100px;
+  max-width: 990px;
+  width: 100%;
+  padding: 18px 20px; }
+  @media (min-width: 980px) {
+    .certification-banner__container {
+      padding: 0px;
+      flex-direction: row; } }
+
+.certification-banner__user-fullname {
+  color: #ffffff;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 37px;
+  text-transform: capitalize; }
+
+.certification-banner__user-id {
+  color: #ffffff;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 50px;
+  font-weight: 600;
+  line-height: 60px; }
 
 .comparison-window {
   padding: 0 15px;
@@ -3723,6 +3760,92 @@ p.share-profile__organization-name {
   max-width: 990px;
   border: 1px solid #D8D8D8;
   margin-top: 23px; }
+
+.certification-results__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 990px;
+  width: 100%;
+  padding: 41px 5px;
+  margin: 0 auto; }
+  @media (min-width: 768px) {
+    .certification-results__content {
+      padding: 41px 0; } }
+
+.result-content__panel {
+  max-width: 990px;
+  width: 100%;
+  border-radius: 5px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 35px 0;
+  margin-bottom: 31px; }
+
+.result-content__panel-title {
+  color: #39393A;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 35px;
+  text-align: center;
+  margin-top: 11px; }
+  @media (min-width: 768px) {
+    .result-content__panel-title {
+      font-size: 30px; } }
+
+.result-content__panel-description {
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 21px;
+  padding: 0 3px; }
+  @media (min-width: 768px) {
+    .result-content__panel-description {
+      font-size: 22px;
+      line-height: 28px; } }
+
+.result-content__warning-container {
+  text-align: center; }
+
+.result-content__warning-text {
+  font-family: "Lato", Arial, sans-serif;
+  text-align: center;
+  font-size: 14px;
+  color: #3e4149;
+  line-height: normal; }
+  @media (min-width: 768px) {
+    .result-content__warning-text {
+      line-height: 28px;
+      font-size: 16px; } }
+
+.warning-logout-button {
+  border: none;
+  display: block;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-family: "Lato", Arial, sans-serif;
+  font-weight: 700;
+  text-align: center;
+  color: #ffffff;
+  padding: 12px 25px;
+  background: #7d808a;
+  border-radius: 5px;
+  margin: 12px auto;
+  max-width: 170px;
+  text-decoration: none; }
+  .warning-logout-button:hover {
+    color: #ffffff;
+    text-decoration: none; }
+  @media (min-width: 768px) {
+    .warning-logout-button {
+      margin-top: 8px; } }
 
 /* pages */
 /* Sections:
