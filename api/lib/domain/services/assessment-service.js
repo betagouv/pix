@@ -155,7 +155,9 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
-  return certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
+  const certificationChallengesIdsOfCertificationCourse = certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
+  const givenAnswersForThisAssessment = answerRepository.findByAssessment(assessment.get('id'))
+  return certificationChallengesIdsOfCertificationCourse;
 }
 
 

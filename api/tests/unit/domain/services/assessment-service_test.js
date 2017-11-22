@@ -399,6 +399,25 @@ describe('Unit | Domain | Services | assessment-service', function() {
         );
       });
     });
+
+    it('should get all the answers of the passed assessment', function() {
+      // given
+      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
+      sandbox.stub(certificationChallengeRepository, 'findChallengesByCertificationCourseId').resolves(true);
+      sandbox.stub(answerRepository, 'findByAssessment').resolves(true);
+
+      // when
+      const promise = service.getNextChallengeForCertificationCourse(assessment);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(answerRepository.findByAssessment);
+        sinon.assert.calledWith(
+          answerRepository.findByAssessment,
+          'assessmentId'
+        );
+      });
+    });
   });
 });
 
