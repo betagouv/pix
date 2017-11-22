@@ -13,5 +13,14 @@ module.exports = {
       .then((certificationChallenge) => {
         return certificationChallenge.toJSON();
       });
+  },
+
+  findChallengesByCertificationCourseId(courseId) {
+    return CertificationChallenge
+      .where({courseId})
+      .fetchAll()
+      .then((collection) => {
+        return collection.map((certificationChallenge) => certificationChallenge.toDomain())
+      });
   }
 };
