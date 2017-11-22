@@ -5,7 +5,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 
 describe('Unit | Repository | AnswerRepository', function() {
 
-  describe('findByChallengeAndAssessment', function() {
+  describe('#findByChallengeAndAssessment', function() {
 
     // nominal case
     const inserted_answer_1 = {
@@ -31,7 +31,7 @@ describe('Unit | Repository | AnswerRepository', function() {
       assessmentId: 1
     };
 
-    before((done) =>{
+    before((done) => {
       knex('answers').delete().then(() => {
         knex('answers').insert([inserted_answer_1, inserted_answer_2, inserted_answer_3]).then(() => {
           done();
@@ -39,7 +39,7 @@ describe('Unit | Repository | AnswerRepository', function() {
       });
     });
 
-    after(() =>{
+    after(() => {
       knex('answers').delete();
     });
 
@@ -54,7 +54,7 @@ describe('Unit | Repository | AnswerRepository', function() {
     });
   });
 
-  describe('findByChallenge', function() {
+  describe('#findByChallenge', function() {
 
     const inserted_answer_1 = {
       value: '1',
@@ -141,6 +141,51 @@ describe('Unit | Repository | AnswerRepository', function() {
         sinon.assert.calledOnce(Answer.prototype.where);
         sinon.assert.calledWith(Answer.prototype.where, { assessmentId, result: 'ok' });
         sinon.assert.calledOnce(fetchAllStub);
+      });
+    });
+  });
+
+  describe('#findByAssessment', () => {
+
+    const answer1 = {
+      value: 'Un pancake Tabernacle',
+      result: 'ko',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 1
+    };
+
+    const answer2 = {
+      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
+      result: 'ko',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 2
+    };
+
+    const answer3 = {
+      value: 'la réponse D',
+      result: 'timedout',
+      challengeId: 'challenge_D',
+      assessmentId: 2
+    };
+
+    before(() => {
+      return knex('answers').insert([answer1, answer2, answer3])
+    });
+
+    after(() => {
+      return knex('answers').delete()
+    });
+
+    it('should resolves answers with assessment id provided', () => {
+      // given
+      const assessmentId = 2;
+
+      // when
+      const promise = AnswerRepository.findByAssessment(assessmentId);
+
+      // then
+      return promise.then((result) => {
+        expect(result.length).to.be.equal(2)
       });
     });
   });
