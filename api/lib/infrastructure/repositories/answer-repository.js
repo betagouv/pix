@@ -2,6 +2,10 @@ const Answer = require('../../domain/models/data/answer');
 
 module.exports = {
 
+  getById(answerId) {
+    return Answer.where('id', answerId).fetch();
+  },
+
   findByChallengeAndAssessment(challengeId, assessmentId) {
     return Answer
       .where({ challengeId, assessmentId })

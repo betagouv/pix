@@ -1,11 +1,40 @@
-const { describe, it, before, after, expect, knex, beforeEach, afterEach, sinon } = require('../../../test-helper');
+const { describe, it, expect, knex, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
 const AnswerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const Answer = require('../../../../lib/domain/models/data/answer');
 
-describe('Unit | Repository | AnswerRepository', function() {
+describe('Unit | Repository | AnswerRepository', () => {
 
-  describe('findByChallengeAndAssessment', function() {
+  describe('#getById', () => {
+    let answerId;
+
+    beforeEach(() => {
+      return knex('answers')
+        .insert({
+          value: '1,2',
+          result: 'ko',
+          challengeId: 'challenge_1234',
+          assessmentId: 1234
+        })
+        .then((createdAnswer) => {
+          answerId = createdAnswer[0];
+        });
+    });
+
+    afterEach(() => knex('answers').delete());
+
+    it('should retrieve an answer from its id', () => {
+      // when
+      const promise = AnswerRepository.getById(answerId);
+
+      // then
+      return promise.then(foundAnswer => {
+        expect(foundAnswer.get('id')).to.deep.equal(answerId);
+      });
+    });
+  });
+
+  describe('#findByChallengeAndAssessment', () => {
 
     // nominal case
     const wrongAnswer = {
@@ -48,7 +77,7 @@ describe('Unit | Repository | AnswerRepository', function() {
     });
   });
 
-  describe('findByChallenge', () => {
+  describe('#findByChallenge', () => {
 
     const wrongAnswerForAssessment1234 = {
       value: '1',
