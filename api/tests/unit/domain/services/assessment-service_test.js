@@ -126,25 +126,23 @@ describe('Unit | Domain | Services | assessment-service', function() {
       _buildChallenge('challenge_web_2', ['@web2'])
     ];
 
+    const sandbox = sinon.sandbox.create();
+
     beforeEach(() => {
-      sinon.stub(assessmentRepository, 'get').resolves(assessment);
-      sinon.stub(courseRepository, 'get').resolves({
+
+      sandbox.stub(assessmentRepository, 'get').resolves(assessment);
+      sandbox.stub(courseRepository, 'get').resolves({
         challenges: ['challenge_web_2', 'challenge_web_1'],
         competences: ['competence_id']
       });
-      sinon.stub(challengeRepository, 'findByCompetence').resolves(challenges);
-      sinon.stub(skillRepository, 'findByCompetence').resolves(new Set());
-      sinon.stub(assessmentAdapter, 'getAdaptedAssessment');
-      sinon.stub(answerRepository, 'findByAssessment').resolves([correctAnswerWeb2, partialAnswerWeb1]);
+      sandbox.stub(challengeRepository, 'findByCompetence').resolves(challenges);
+      sandbox.stub(skillRepository, 'findByCompetence').resolves(new Set());
+      sandbox.stub(assessmentAdapter, 'getAdaptedAssessment');
+      sandbox.stub(answerRepository, 'findByAssessment').resolves([correctAnswerWeb2, partialAnswerWeb1]);
     });
 
     afterEach(() => {
-      assessmentRepository.get.restore();
-      courseRepository.get.restore();
-      challengeRepository.findByCompetence.restore();
-      skillRepository.findByCompetence.restore();
-      assessmentAdapter.getAdaptedAssessment.restore();
-      answerRepository.findByAssessment.restore();
+      sandbox.restore();
     });
 
     it('should retrieve assessment from repository', () => {

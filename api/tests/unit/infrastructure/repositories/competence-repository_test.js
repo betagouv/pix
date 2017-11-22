@@ -6,18 +6,17 @@ const competenceRepository = require('../../../../lib/infrastructure/repositorie
 
 describe('Unit | Repository | competence-repository', function() {
 
+  const sandbox = sinon.sandbox.create();
+
   beforeEach(() => {
-    sinon.stub(cache, 'get');
-    sinon.stub(cache, 'set');
-    sinon.stub(airtable, 'getRecord');
-    sinon.stub(airtable, 'getRecords');
+    sandbox.stub(cache, 'get');
+    sandbox.stub(cache, 'set');
+    sandbox.stub(airtable, 'getRecord');
+    sandbox.stub(airtable, 'getRecords');
   });
 
   afterEach(() => {
-    cache.get.restore();
-    cache.set.restore();
-    airtable.getRecord.restore();
-    airtable.getRecords.restore();
+    sandbox.restore();
   });
 
   describe('#list', () => {
