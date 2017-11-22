@@ -4,6 +4,7 @@ const service = require('../../../../lib/domain/services/assessment-service');
 const assessmentAdapter = require('../../../../lib/infrastructure/adapters/assessment-adapter');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const answerRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
@@ -384,16 +385,16 @@ describe('Unit | Domain | Services | assessment-service', function() {
     it('should get all the challenges for this CertificationCourse', () => {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      sandbox.stub(challengeRepository, 'findChallengesByCertificationCourse').resolves(true);
+      sandbox.stub(certificationChallengeRepository, 'findChallengesByCertificationCourseId').resolves(true);
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(challengeRepository.findChallengesByCertificationCourse);
+        sinon.assert.calledOnce(certificationChallengeRepository.findChallengesByCertificationCourseId);
         sinon.assert.calledWith(
-          challengeRepository.findChallengesByCertificationCourse,
+          certificationChallengeRepository.findChallengesByCertificationCourseId,
           'certifCourseId'
         );
       });

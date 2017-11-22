@@ -1,6 +1,7 @@
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const assessmentRepository = require('../../infrastructure/repositories/assessment-repository');
+const certificationChallengeRepository = require('../../infrastructure/repositories/certification-challenge-repository');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
 const skillRepository = require('../../infrastructure/repositories/skill-repository');
 const assessmentAdapter = require('../../infrastructure/adapters/assessment-adapter');
@@ -154,7 +155,7 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
-  return challengeRepository.findChallengesByCertificationCourse(assessment.get('courseId'));
+  return certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
 }
 
 
