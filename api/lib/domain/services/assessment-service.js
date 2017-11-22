@@ -119,21 +119,7 @@ function getScoredAssessment(assessmentId) {
 
       return { assessmentPix, skills };
     });
-
-  const courseId = assessment.get('courseId');
-
-  if (!courseId) {
-    resolve(null);
-  }
-
-  if (_.startsWith(courseId, 'null')) {
-    resolve(null);
-  }
-
-  courseRepository.get(courseId)
-    .then(course => resolve(_selectNextChallengeId(course, currentChallengeId, assessment)))
-    .catch(reject);
-};
+}
 
 function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
