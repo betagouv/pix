@@ -2,7 +2,7 @@ const Answer = require('../../domain/models/data/answer');
 
 module.exports = {
 
-  getById(answerId) {
+  get(answerId) {
     return Answer.where('id', answerId).fetch();
   },
 

@@ -40,6 +40,12 @@ class AlreadyRegisteredEmailError extends Error {
   }
 }
 
+class NotCompletedAssessmentError extends Error {
+  constructor() {
+    super('Cette évaluation n\'est pas terminée.');
+  }
+}
+
 class UserNotFoundError extends Error {
   constructor() {
     super();
@@ -122,5 +128,6 @@ module.exports = {
   PasswordResetDemandNotFoundError,
   InvalidTemporaryKeyError,
   NotElligibleToQmailError,
-  UserNotAuthorizedToCertifyError
+  UserNotAuthorizedToCertifyError,
+  NotCompletedAssessmentError
 };

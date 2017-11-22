@@ -5,7 +5,7 @@ const Answer = require('../../../../lib/domain/models/data/answer');
 
 describe('Unit | Repository | AnswerRepository', () => {
 
-  describe('#getById', () => {
+  describe('#get', () => {
     let answerId;
 
     beforeEach(() => {
@@ -14,18 +14,20 @@ describe('Unit | Repository | AnswerRepository', () => {
           value: '1,2',
           result: 'ko',
           challengeId: 'challenge_1234',
-          assessmentId: 1234
+          assessmentId: 353
         })
         .then((createdAnswer) => {
           answerId = createdAnswer[0];
         });
     });
 
-    afterEach(() => knex('answers').delete());
+    afterEach(() => {
+      return knex('answers').delete();
+    });
 
     it('should retrieve an answer from its id', () => {
       // when
-      const promise = AnswerRepository.getById(answerId);
+      const promise = AnswerRepository.get(answerId);
 
       // then
       return promise.then(foundAnswer => {
