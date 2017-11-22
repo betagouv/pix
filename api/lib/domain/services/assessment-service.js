@@ -131,14 +131,22 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
     courseId: certificationCourse.id,
     userId: userId
   };
-  return assessmentRepository.save(assessmentCertification);
 
+  return assessmentRepository.save(assessmentCertification);
+}
+
+function isAssessmentCompleted(assessment) {
+  if (_.isNil(assessment.get('estimatedLevel')) || _.isNil(assessment.get('pixScore'))) {
+    return false;
+  }
+
+  return true;
 }
 
 module.exports = {
-
   getAssessmentNextChallengeId,
   getScoredAssessment,
   isPreviewAssessment,
-  createCertificationAssessmentForUser
+  createCertificationAssessmentForUser,
+  isAssessmentCompleted
 };

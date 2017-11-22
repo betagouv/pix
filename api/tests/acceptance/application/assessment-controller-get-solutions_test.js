@@ -103,6 +103,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
             },
           }
           );
+
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_second_challenge')
           .query(true)

@@ -308,12 +308,15 @@ describe('Unit | Domain | Services | assessment-service', function() {
   });
 
   describe('#createCertificationAssessmentForUser', () => {
+
     beforeEach(() => {
       sinon.stub(assessmentRepository, 'save').resolves();
     });
+
     afterEach(() => {
       assessmentRepository.save.restore();
     });
+
     it('should save an assessment with CERTIFICATION type', () => {
       // given
       const certificationCourse = { id: 'certificationId' };
@@ -323,14 +326,50 @@ describe('Unit | Domain | Services | assessment-service', function() {
         type: 'CERTIFICATION',
         userId: userId
       };
-      // when
 
+      // when
       const promise = service.createCertificationAssessmentForUser(certificationCourse, userId);
+
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(assessmentRepository.save);
         sinon.assert.calledWith(assessmentRepository.save, expectedAssessment);
       });
+    });
+  });
+
+  describe('#isAssessmentCompleted', () => {
+    it('should return true when the assessment has a pixScore and an estimatedLevel', () => {
+      // given
+      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0, pixScore: 0 });
+
+      // when
+      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
+
+      // then
+      expect(isCompleted).to.equal(true);
+    });
+
+    it('should return false when the assessment miss a pixScore', () => {
+      // given
+      const notCompletedAssessment = new Assessment({ id: '2752', estimatedLevel: 0 });
+
+      // when
+      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
+
+      // then
+      expect(isCompleted).to.equal(false);
+    });
+
+    it('should return false when the assessment miss an estimatedLevel', () => {
+      // given
+      const notCompletedAssessment = new Assessment({ id: '2752', pixScore: 0 });
+
+      // when
+      const isCompleted = service.isAssessmentCompleted(notCompletedAssessment);
+
+      // then
+      expect(isCompleted).to.equal(false);
     });
   });
 
