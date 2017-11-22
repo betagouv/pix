@@ -330,5 +330,4 @@ describe('Unit | Repository | challenge-repository', () => {
       });
     });
   });
-
 });
