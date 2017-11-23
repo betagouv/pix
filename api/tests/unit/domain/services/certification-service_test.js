@@ -1,4 +1,4 @@
-const { describe, it, sinon, beforeEach, afterEach, expect } = require('../../../test-helper');
+const { describe, it, expect } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const CertificationChallenge = require('../../../../lib/domain/models/data/certification-challenge');
@@ -25,7 +25,7 @@ function _buildCompetence(courseId, pixScore) {
   return competence;
 }
 
-describe.only('Unit | Service | Certification Service', function() {
+describe('Unit | Service | Certification Service', function() {
 
   describe('#getScore', () => {
     const listChallenges = [
@@ -55,7 +55,6 @@ describe.only('Unit | Service | Certification Service', function() {
       _buildCompetence('comp_3', pixComp3),
       _buildCompetence('comp_4', pixComp4),
     ];
-
 
     it('should return 0 when reproductibility is < 50%', () => {
       // given
