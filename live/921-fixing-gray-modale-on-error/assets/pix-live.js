@@ -1191,7 +1191,7 @@ define('pix-live/components/feedback-panel', ['exports', 'pix-live/utils/email-v
 
 
     _scrollToPanel: function _scrollToPanel() {
-      Ember.$('body').animate({
+      Ember.$('html,body').animate({
         scrollTop: Ember.$('.feedback-panel__view').offset().top - 15
       }, _environment.default.APP.SCROLL_DURATION);
     },
@@ -1463,7 +1463,7 @@ define('pix-live/components/logged-user-profile-banner', ['exports', 'pix-live/c
 
     actions: {
       scrollToProfile: function scrollToProfile() {
-        Ember.$('body').animate({
+        Ember.$('html, body').animate({
           scrollTop: Ember.$('.profile-panel__header').offset().top - 15
         }, _environment.default.APP.SCROLL_DURATION);
       }
@@ -8869,6 +8869,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+fbfa5dfa"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+3dc31bfe"});
 }
 //# sourceMappingURL=pix-live.map
