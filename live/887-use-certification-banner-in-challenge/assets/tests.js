@@ -13929,14 +13929,14 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
     (0, _mocha.describe)('#afterModel', function () {
       (0, _mocha.it)('should call queryRecord to find answer', function () {
         // given
-        model.assessment.get.withArgs('type').returns('TEST');
+        model.assessment.get.withArgs('isCertification').returns(false);
         model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
 
         // when
         var promise = route.afterModel(model);
 
         // then
-        promise.then(function () {
+        return promise.then(function () {
           _sinon.default.assert.calledOnce(queryRecordStub);
           _sinon.default.assert.calledWith(queryRecordStub, 'answer', { assessment: model.assessment.id, challenge: model.challenge.id });
         });
@@ -13944,14 +13944,14 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
 
       (0, _mocha.it)('should call findRecord for user if assessment is certification', function () {
         // given
-        model.assessment.get.withArgs('type').returns('CERTIFICATION');
+        model.assessment.get.withArgs('isCertification').returns(true);
         model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
 
         // when
         var promise = route.afterModel(model);
 
         // then
-        promise.then(function () {
+        return promise.then(function () {
           _sinon.default.assert.calledOnce(findRecordStub);
           _sinon.default.assert.calledWith(findRecordStub, 'user', 12);
         });
@@ -13959,27 +13959,26 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
 
       (0, _mocha.it)('should not call findRecord for user if assessement is not a certification', function () {
         // given
-        model.assessment.get.withArgs('type').returns('TEST');
+        model.assessment.get.withArgs('isCertification').returns(false);
         model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
 
         // when
         var promise = route.afterModel(model);
 
         // then
-        promise.then(function () {
+        return promise.then(function () {
           _sinon.default.assert.notCalled(findRecordStub);
         });
       });
 
       (0, _mocha.it)('should return a complete model', function () {
         // given
-        model.assessment.get.withArgs('type').returns('CERTIFICATION');
+        model.assessment.get.withArgs('isCertification').returns(true);
         model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
         var expectedModel = {
           assessment: { id: 'assessment_id' },
           challenge: { id: 'challenge_id' },
           progress: 'course',
-          isCertification: true,
           user: { userId: 'user_id' }
         };
 
@@ -13987,8 +13986,8 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
         var promise = route.afterModel(model);
 
         // then
-        promise.then(function (createdModel) {
-          (0, _chai.expect)(createdModel.toString()).to.deep.equal(expectedModel.toString());
+        return promise.then(function (createdModel) {
+          (0, _chai.expect)(createdModel.toString()).to.equal(expectedModel.toString());
         });
       });
     });
