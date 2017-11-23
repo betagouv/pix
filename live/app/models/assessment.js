@@ -15,4 +15,6 @@ export default Model.extend({
   pixScore: attr('number'),
   type: attr('string'),
 
+  isCertification: Ember.computed.equal('type', 'CERTIFICATION'),
+
 });

@@ -71,14 +71,14 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
   describe('#afterModel', function() {
     it('should call queryRecord to find answer', function() {
       // given
-      model.assessment.get.withArgs('type').returns('TEST');
+      model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
       const promise = route.afterModel(model);
 
       // then
-      promise.then(() => {
+      return promise.then(() => {
         sinon.assert.calledOnce(queryRecordStub);
         sinon.assert.calledWith(queryRecordStub, 'answer', { assessment : model.assessment.id, challenge: model.challenge.id });
       });
@@ -86,14 +86,14 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
     it('should call findRecord for user if assessment is certification', function() {
       // given
-      model.assessment.get.withArgs('type').returns('CERTIFICATION');
+      model.assessment.get.withArgs('isCertification').returns(true);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
       const promise = route.afterModel(model);
 
       // then
-      promise.then(() => {
+      return promise.then(() => {
         sinon.assert.calledOnce(findRecordStub);
         sinon.assert.calledWith(findRecordStub, 'user', 12);
       });
@@ -101,27 +101,26 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
 
     it('should not call findRecord for user if assessement is not a certification', function() {
       // given
-      model.assessment.get.withArgs('type').returns('TEST');
+      model.assessment.get.withArgs('isCertification').returns(false);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
 
       // when
       const promise = route.afterModel(model);
 
       // then
-      promise.then(() => {
+      return promise.then(() => {
         sinon.assert.notCalled(findRecordStub);
       });
     });
 
     it('should return a complete model', function() {
       // given
-      model.assessment.get.withArgs('type').returns('CERTIFICATION');
+      model.assessment.get.withArgs('isCertification').returns(true);
       model.assessment.get.withArgs('course').returns({ getProgress: sinon.stub().returns('course') });
       const expectedModel = {
         assessment: { id: 'assessment_id' },
         challenge: { id: 'challenge_id' },
         progress: 'course',
-        isCertification: true,
         user: { userId: 'user_id' }
       };
 
@@ -129,8 +128,8 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       const promise = route.afterModel(model);
 
       // then
-      promise.then((createdModel) => {
-        expect(createdModel.toString()).to.deep.equal(expectedModel.toString());
+      return promise.then((createdModel) => {
+        expect(createdModel.toString()).to.equal(expectedModel.toString());
       });
     });
   });

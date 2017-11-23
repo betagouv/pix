@@ -1,7 +1,7 @@
 <div class="assessment-challenge">
 
   <div class="assessment-challenge__course-banner">
-    {{#if model.isCertification}}
+    {{#if model.assessment.isCertification}}
       {{certification-banner user=model.user}}
     {{else}}
       {{course-banner course=model.assessment.course withHomeLink=true}}
