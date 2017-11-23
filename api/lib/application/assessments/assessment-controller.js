@@ -83,7 +83,9 @@ module.exports = {
         }
 
         if (assessmentService.isCertificationAssessment(assessment)) {
-          return Promise.reject(assessmentService.getNextChallengeForCertificationCourse());
+          return assessmentService
+            .getNextChallengeForCertificationCourse(assessment)
+            .then((challenge) => challenge.challengeId);
         }
 
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);

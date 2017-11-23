@@ -5,8 +5,10 @@ const assessmentController = require('../../../../lib/application/assessments/as
 const assessmentService = require('../../../../lib/domain/services/assessment-service');
 const skillService = require('../../../../lib/domain/services/skills-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 const Assessment = require('../../../../lib/domain/models/data/assessment');
+const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 const Skill = require('../../../../lib/cat/skill');
 
 describe('Unit | Controller | assessment-controller', () => {
@@ -223,7 +225,8 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
         // given
-        const replyStub = () => {};
+        const replyStub = () => {
+        };
         sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
         sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse').resolves();
 
@@ -233,6 +236,28 @@ describe('Unit | Controller | assessment-controller', () => {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(assessmentService.getNextChallengeForCertificationCourse);
+          sinon.assert.calledWith(
+            assessmentService.getNextChallengeForCertificationCourse,
+            certificationAssessment
+          );
+        });
+      });
+
+      it('should provide the correct challengeId to the next layer', function() {
+        // given
+        const replyStub = () => {
+        };
+        const challenge = new CertificationChallenge({ challengeId: 'idea' });
+        sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
+        sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse').resolves(challenge);
+        sandbox.stub(challengeRepository, 'get').resolves(false);
+
+        // when
+        const promise = assessmentController.getNextChallenge({ params: { id: 12 } }, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledWith(challengeRepository.get, challenge.challengeId);
         });
       });
     });
