@@ -16,12 +16,6 @@ class InvalidTokenError extends Error {
   }
 }
 
-class NotElligibleToScoringError extends Error {
-  constructor(message) {
-    super(message);
-  }
-}
-
 class NotElligibleToQmailError extends Error {
   constructor(message) {
     super(message);
@@ -118,7 +112,6 @@ class UserNotAuthorizedToCertifyError extends Error {
 
 module.exports = {
   NotFoundError,
-  NotElligibleToScoringError,
   PasswordNotMatching,
   InvalidTokenError,
   AlreadyRegisteredEmailError,

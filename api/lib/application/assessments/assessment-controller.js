@@ -14,7 +14,7 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotElligibleToScoringError, NotCompletedAssessmentError } = require('../../domain/errors');
+const { NotFoundError, NotCompletedAssessmentError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
   if(!assessment)
@@ -82,18 +82,9 @@ module.exports = {
           return reply(Boom.notFound(err));
         }
 
-        if (err instanceof NotElligibleToScoringError) {
-          return assessmentRepository
-            .get(assessmentId)
-            .then((assessment) => {
-              reply(assessmentSerializer.serialize(assessment));
-            });
-        }
-
         logger.error(err);
 
         return reply(Boom.badImplementation(err));
-
       });
   },
 
@@ -102,9 +93,6 @@ module.exports = {
     return assessmentRepository
       .get(request.params.id)
       .then((assessment) => {
-        if (assessmentService.isPreviewAssessment(assessment)) {
-          return Promise.reject(new NotElligibleToScoringError(`Assessment with ID ${request.params.id} is a preview Challenge`));
-        }
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
       .then((nextChallengeId) => {
@@ -136,10 +124,6 @@ module.exports = {
         return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
       })
       .catch((err) => {
-        if (err instanceof NotElligibleToScoringError) {
-          return reply('null');
-        }
-
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
