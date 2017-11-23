@@ -3898,6 +3898,7 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
 
     context('On component rendering', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      var assessmentId = 'assessment_id';
 
       (0, _mocha.it)('should render component container', function () {
         // when
@@ -3925,18 +3926,18 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
       });
 
-      (0, _mocha.it)('should render component with a div:certification-banner__user-id', function () {
+      (0, _mocha.it)('should render component with a div:certification-banner__assessment-id', function () {
         // when
-        this.set('user', user);
+        this.set('assessmentId', assessmentId);
         this.render(Ember.HTMLBars.template({
-          "id": "SHNdCrAu",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "Ta11LpQa",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id').text().trim()).to.equal('#' + assessmentId);
       });
     });
   });
@@ -3955,15 +3956,18 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
     context('When component is rendered', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      var assessmentId = 'assessment_id';
+
       (0, _mocha.beforeEach)(function () {
         this.set('user', user);
+        this.set('assessmentId', assessmentId);
       });
 
       (0, _mocha.it)('should also render a certification banner', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "i6oCsELc",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "GeReNT9D",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3971,7 +3975,7 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
         (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id').text().trim()).to.equal('#' + assessmentId);
       });
 
       (0, _mocha.it)('should have a button to logout', function () {
@@ -3982,8 +3986,8 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "i6oCsELc",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[20,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "GeReNT9D",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -14499,6 +14503,9 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
     (0, _emberMocha.setupTest)('route:certifications.results', {
       needs: ['service:current-routed-modal', 'service:session']
     });
+    var params = {
+      assessment_id: 'assessment_id'
+    };
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -14536,7 +14543,7 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
           // Given
           findRecordStub.rejects();
           // When
-          var promise = route.model();
+          var promise = route.model(params);
 
           // Then
           return promise.then(function () {
@@ -14569,12 +14576,12 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
           findRecordStub.resolves(expectedUser);
 
           // When
-          var promise = route.model();
+          var promise = route.model(params);
 
           // Then
-          return promise.then(function (user) {
+          return promise.then(function (model) {
             _sinon.default.assert.calledWith(findRecordStub, 'user', 1435, { reload: true });
-            (0, _chai.expect)(user).to.equal(expectedUser);
+            (0, _chai.expect)(model.user).to.equal(expectedUser);
           });
         });
       });
