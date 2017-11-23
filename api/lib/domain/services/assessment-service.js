@@ -154,23 +154,9 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
-  const certificationChallengesIdsOfCertificationCoursePromise = certificationChallengeRepository.findChallengesByCertificationCourseId(assessment.get('courseId'));
-  const givenAnswersForThisAssessmentPromise = answerRepository.findByAssessment(assessment.get('id'));
-
-  return Promise.all([certificationChallengesIdsOfCertificationCoursePromise, givenAnswersForThisAssessmentPromise])
-    .then(([certificationChallengesIdsOfCertificationCourse, givenAnswersForThisAssessment]) => {
-      const challengeIdsAlreadyAnswered = givenAnswersForThisAssessment.map(answer => {
-        return answer.get('challengeId')
-      });
-
-      const availableChallenges = certificationChallengesIdsOfCertificationCourse.map((certificationChallenge) => {
-        if (challengeIdsAlreadyAnswered.includes(certificationChallenge.challengeId)) {
-          return certificationChallenge;
-        }
-      });
-
-      return availableChallenges[0];
-    })
+  return certificationChallengeRepository.findNonAnsweredChallengeByCourseId(
+    assessment.get('id'), assessment.get('courseId')
+  )
 }
 
 

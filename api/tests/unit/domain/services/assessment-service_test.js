@@ -42,7 +42,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-describe.only('Unit | Domain | Services | assessment-service', function() {
+describe('Unit | Domain | Services | assessment-service', function() {
 
   describe('#getAssessmentNextChallengeId', function() {
 
@@ -383,61 +383,11 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
       sandbox.restore();
     });
 
-    it('should get all the challenges for this CertificationCourse', () => {
-      // given
-      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      sandbox.stub(certificationChallengeRepository, 'findChallengesByCertificationCourseId').resolves([]);
-      sandbox.stub(answerRepository, 'findByAssessment').resolves([]);
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(certificationChallengeRepository.findChallengesByCertificationCourseId);
-        sinon.assert.calledWith(
-          certificationChallengeRepository.findChallengesByCertificationCourseId,
-          'certifCourseId'
-        );
-      });
-    });
-
-    it('should get all the answers of the passed assessment', function() {
-      // given
-      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      sandbox.stub(certificationChallengeRepository, 'findChallengesByCertificationCourseId').resolves([]);
-      sandbox.stub(answerRepository, 'findByAssessment').resolves([]);
-
-      // when
-      const promise = service.getNextChallengeForCertificationCourse(assessment);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(answerRepository.findByAssessment);
-        sinon.assert.calledWith(
-          answerRepository.findByAssessment,
-          'assessmentId'
-        );
-      });
-    });
-
     it('should return a challenge which was not answered (challenge with no associated answer)', function() {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-
-      const challenge1 = new CertificationChallenge({ id: '1', challengeId : 'recA' });
-      const challenge2 = new CertificationChallenge({ id: '2', challengeId : 'recB' });
-      const challenge3 = new CertificationChallenge({ id: '3', challengeId : 'recC' });
-      const challenge4 = new CertificationChallenge({ id: '4', challengeId : 'recD' });
-
-      const answer1 = new Answer({ id: '1', challengeId : 'recA' });
-      const answer2 = new Answer({ id: '2', challengeId : 'recB' });
-
-      const challengesOfTheCourse = [challenge1, challenge2, challenge3, challenge4];
-      const answersForThisAssessment = [answer1, answer2];
-
-      sandbox.stub(certificationChallengeRepository, 'findChallengesByCertificationCourseId').resolves(challengesOfTheCourse);
-      sandbox.stub(answerRepository, 'findByAssessment').resolves(answersForThisAssessment);
+      const challenge = new CertificationChallenge({ id: '1', challengeId : 'recA' });
+      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId').resolves(challenge);
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);
@@ -445,8 +395,6 @@ describe.only('Unit | Domain | Services | assessment-service', function() {
       // then
       return promise.then((nextChallenge) => {
         expect(nextChallenge).to.be.instanceOf(CertificationChallenge);
-        expect(nextChallenge.id).to.not.equal('recA');
-        expect(nextChallenge.id).to.not.equal('recB');
       });
 
     });

@@ -1,4 +1,5 @@
 const CertificationChallenge = require('../../domain/models/data/certification-challenge');
+const Bookshelf = require('../bookshelf');
 
 module.exports = {
   save(challenge, certificationCourse) {
@@ -10,17 +11,27 @@ module.exports = {
     });
 
     return certificationChallenge.save()
-      .then((certificationChallenge) => {
-        return certificationChallenge.toJSON();
-      });
+      .then((certificationChallenge) => certificationChallenge.toJSON());
   },
 
   findChallengesByCertificationCourseId(courseId) {
     return CertificationChallenge
-      .where({courseId})
+      .where({ courseId })
       .fetchAll()
       .then((collection) => {
         return collection.map((certificationChallenge) => certificationChallenge.toDomain())
       });
+  },
+
+  findNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+    const answeredChallengeIds = Bookshelf.knex('answers')
+      .select('challengeId')
+      .where({ assessmentId });
+
+    return CertificationChallenge
+      .where({ courseId })
+      .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
+      .fetch({ require: true })
+      .then((certificationChallenge) => certificationChallenge.toDomain());
   }
 };
