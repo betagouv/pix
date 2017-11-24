@@ -80,6 +80,6 @@ module.exports = {
 
   getByCertificationCourseId(certificationCourseId) {
     return Assessment
-      .query({ where: { courseId: certificationCourseId }});
+      .query({ where: { courseId: certificationCourseId } });
   }
 };
