@@ -3,6 +3,10 @@ class Challenge {
     this.skills = [];
   }
 
+  addSkill(skill) {
+    this.skills.push(skill);
+  }
+
   hasSkill(searchedSkill) {
     return this.skills.filter((skill) => skill.name === searchedSkill.name).length > 0;
   }

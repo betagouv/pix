@@ -143,13 +143,13 @@ describe('Unit | Service | User Service', () => {
       return competence;
     }
 
-    function _createChallenge(id, competence, skills, testedSkill, status) {
+    function _createChallenge(id, competence, skills, testedSkill, status = 'validé') {
       const challenge = new Challenge();
       challenge.id = id;
       challenge.skills = skills;
       challenge.competence = competence;
       challenge.testedSkill = testedSkill;
-      challenge.status = status || 'validé';
+      challenge.status = status;
       return challenge;
     }
 

@@ -30,66 +30,48 @@ describe('Unit | Domain | Models | Challenge', () => {
     });
   });
 
+  describe('#addSkill', () => {
+
+    it('should add a skill', () => {
+      // given
+      const skill = new Skill('@web3');
+      const challenge = new Challenge();
+
+      // when
+      challenge.addSkill(skill);
+
+      // then
+      expect(challenge.skills).to.have.lengthOf(1);
+      expect(challenge.skills[0]).to.equal(skill);
+    });
+
+  });
+
   describe('#isPublished', () => {
 
-    it('should return true when the challenge is "validé"', () => {
-      // given
-      const challenge = new Challenge();
-      challenge.status = 'validé';
+    let challenge;
 
-      // when
-      const result = challenge.isPublished();
-
-      // then
-      expect(result).to.equal(true);
+    beforeEach(() => {
+      challenge = new Challenge();
     });
 
-    it('should return true when the challenge is "validé sans test"', () => {
-      // given
-      const challenge = new Challenge();
-      challenge.status = 'validé sans test';
+    [
+      { status: 'validé', expectedResult: true },
+      { status: 'validé sans test', expectedResult: true },
+      { status: 'proposé', expectedResult: false },
+      { status: 'pré-validé', expectedResult: true },
+      { status: 'archive', expectedResult: false }
+    ].forEach((testCase) => {
+      it(`should return ${testCase.expectedResult} when the status is "${testCase.status}"`, () => {
+        // given
+        challenge.status = testCase.status;
 
-      // when
-      const result = challenge.isPublished();
+        // when
+        const result = challenge.isPublished();
 
-      // then
-      expect(result).to.equal(true);
-    });
-
-    it('should return false when the challenge is "proposé"', () => {
-      // given
-      const challenge = new Challenge();
-      challenge.status = 'proposé';
-
-      // when
-      const result = challenge.isPublished();
-
-      // then
-      expect(result).to.equal(false);
-    });
-
-    it('should return true when the challenge is "pré-validé"', () => {
-      // given
-      const challenge = new Challenge();
-      challenge.status = 'pré-validé';
-
-      // when
-      const result = challenge.isPublished();
-
-      // then
-      expect(result).to.equal(true);
-    });
-
-    it('should return false when the challenge is "archive"', () => {
-      // given
-      const challenge = new Challenge();
-      challenge.status = 'archive';
-
-      // when
-      const result = challenge.isPublished();
-
-      // then
-      expect(result).to.equal(false);
+        // then
+        expect(result).to.equal(testCase.expectedResult);
+      });
     });
   });
 
