@@ -522,7 +522,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     it('should return a challenge which was not answered (challenge with no associated answer)', function() {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      const challenge = new CertificationChallenge({ id: '1', challengeId : 'recA' });
+      const challenge = new CertificationChallenge({ id: '1', challengeId: 'recA' });
       certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
 
       // when
@@ -546,5 +546,37 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // then
       expect(promise).to.be.rejected;
     });
+
+  });
+
+  describe('#getByCertificationCourseId', () => {
+    beforeEach(() => {
+      sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves();
+    });
+
+    afterEach(() => {
+      assessmentRepository.getByCertificationCourseId.restore();
+    });
+    it('should call AssessmentRepository.getAssessmentByCertificationId', () => {
+      // given
+      const certificationCourseId = 12;
+
+      // when
+      const promise = service.getByCertificationCourseId(certificationCourseId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(assessmentRepository.getByCertificationCourseId);
+        sinon.assert.calledWith(assessmentRepository.getByCertificationCourseId, certificationCourseId);
+      });
+    });
   });
 });
+
+function _generateValidatedSkills() {
+  const url2 = new Skill('@url2');
+  const web3 = new Skill('@web3');
+  const skill = new Set();
+  skill.add(url2);
+  skill.add(web3);
+};

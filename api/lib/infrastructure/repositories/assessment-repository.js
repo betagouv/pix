@@ -77,4 +77,9 @@ module.exports = {
         return savedAssessment.toJSON();
       });
   },
+
+  getByCertificationCourseId(certificationCourseId) {
+    return Assessment
+      .query({ where: { courseId: certificationCourseId }});
+  }
 };

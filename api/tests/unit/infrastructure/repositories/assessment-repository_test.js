@@ -365,5 +365,32 @@ describe('Unit | Repository | assessmentRepository', () => {
       });
     });
   });
+
+  describe('#getByCertificationCourseId', () => {
+    beforeEach(() => {
+      sinon.stub(Assessment, 'query').resolves({});
+    });
+
+    after(() => {
+      Assessment.query.restore();
+    });
+
+    it('should correctly query Assessment', () => {
+      // given
+      const fakeCertificationCourseId = 10;
+      const expectedParams = {
+        where: { courseId: fakeCertificationCourseId },
+      };
+
+      // when
+      const promise = assessmentRepository.getByCertificationCourseId(fakeCertificationCourseId);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(Assessment.query);
+        sinon.assert.calledWith(Assessment.query, expectedParams);
+      });
+    });
+  });
 });
 
