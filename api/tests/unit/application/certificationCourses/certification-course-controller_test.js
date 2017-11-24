@@ -33,7 +33,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       sandbox = sinon.sandbox.create();
       sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(UserService, 'getCertificationProfile').resolves(userProfile);
+      sandbox.stub(UserService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves({});
       sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
 
@@ -59,7 +59,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(UserService.getCertificationProfile);
+        sinon.assert.calledOnce(UserService.getProfileToCertify);
       });
     });
 

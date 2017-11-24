@@ -17,7 +17,7 @@ module.exports = {
       })
     //getAnswersByAssessment
     //getCertificationChallenges
-    //Call user-service.getCertificationProfile with pix added for each competence
+    //Call user-service.getProfileToCertify with pix added for each competence
     //Call certificationService
 
   }

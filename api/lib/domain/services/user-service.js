@@ -100,8 +100,7 @@ module.exports = {
       });
   },
 
-  getCertificationProfile(userId) {
-
+  getProfileToCertify(userId) {
     return assessmentRepository
       .findLastCompletedAssessmentsForEachCoursesByUser(userId)
       .then(_filterAssessmentWithEstimatedLevelGreaterThanZero)

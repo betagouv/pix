@@ -13,7 +13,7 @@ module.exports = {
       .then((savedCertificationCourse) => {
         return certificationCourse = savedCertificationCourse;
       })
-      .then(() => userService.getCertificationProfile(userId))
+      .then(() => userService.getProfileToCertify(userId))
       .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
       .then(() => reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
