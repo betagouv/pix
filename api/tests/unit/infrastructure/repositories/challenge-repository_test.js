@@ -19,7 +19,7 @@ describe('Unit | Repository | challenge-repository', function() {
 
   beforeEach(function() {
     cache.flushAll();
-    getRecord = sinon.stub(airtable, 'getRecord');
+    getRecord = sinon.stub(airtable, 'get');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 

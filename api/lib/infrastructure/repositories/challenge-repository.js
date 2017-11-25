@@ -6,7 +6,7 @@ const AIRTABLE_TABLE_NAME = 'Epreuves';
 
 function _fetchChallenge(id, cacheKey, resolve, reject) {
   airtable
-    .getRecord(AIRTABLE_TABLE_NAME, id, serializer)
+    .get(AIRTABLE_TABLE_NAME, id, serializer)
     .then(challenge => {
       cache.set(cacheKey, challenge);
       return resolve(challenge);
