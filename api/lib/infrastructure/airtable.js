@@ -6,6 +6,16 @@ const _base = new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfi
 module.exports = {
 
   /**
+   * Get an Airtable Table object.
+   *
+   * @param {string} tableName - The name of the table in Airtable.
+   * @returns {Table} The instance of table object
+   */
+  table(tableName) {
+    return _base.table(tableName);
+  },
+
+  /**
    * Fetches from Airtable and deserializes a given record.
    *
    * @param {string} tableName - The name of the table in Airtable.
