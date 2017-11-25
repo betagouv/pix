@@ -1,19 +1,11 @@
 const Airtable = require('airtable');
 const airtableConfig = require('../settings').airtable;
+const cache = require('./cache');
+const hash = require('object-hash');
 
 const _base = new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base);
 
 module.exports = {
-
-  /**
-   * Get an Airtable Table object.
-   *
-   * @param {string} tableName - The name of the table in Airtable.
-   * @returns {Table} The instance of table object
-   */
-  table(tableName) {
-    return _base.table(tableName);
-  },
 
   /**
    * Fetches from Airtable and deserializes a given record.
@@ -53,6 +45,37 @@ module.exports = {
             return resolve(models);
           });
     });
+  },
+
+  getRecord(tableName, recordId) {
+    const cacheKey = `${tableName}_${recordId}`;
+    const cachedValue = cache.get(cacheKey);
+    if (cachedValue) {
+      return Promise.resolve(cache.get(cacheKey));
+    }
+    return _base
+      .table(tableName)
+      .find(recordId)
+      .then(record => {
+        cache.set(cacheKey, record);
+        return record;
+      });
+  },
+
+  findRecords(tableName, query) {
+    const cacheKey = `${tableName}_${hash(query)}`;
+    const cachedValue = cache.get(cacheKey);
+    if (cachedValue) {
+      return Promise.resolve(cache.get(cacheKey));
+    }
+    return _base
+      .table(tableName)
+      .select(query)
+      .all()
+      .then(records => {
+        cache.set(cacheKey, records);
+        return records;
+      });
   }
 
 };
