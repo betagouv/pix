@@ -8,7 +8,7 @@
  *            Portions Copyright 2008-2011 Apple Inc. All rights reserved.
  * @license   Licensed under MIT license
  *            See https://raw.github.com/emberjs/ember.js/master/LICENSE
- * @version   2.16.2
+ * @version   2.16.0
  */
 
 var enifed, requireModule, Ember;
@@ -192,10 +192,12 @@ enifed('ember-debug/deprecate', ['exports', 'ember-debug/error', 'ember-console'
 
   exports.missingOptionsUntilDeprecation = exports.missingOptionsIdDeprecation = exports.missingOptionsDeprecation = exports.registerHandler = undefined;
 
+
   /**
-   @module @ember/debug
-   @public
+  @module ember
+  @submodule ember-debug
   */
+
   /**
     Allows for runtime registration of handler functions that override the default deprecation behavior.
     Deprecations are invoked by calls to [Ember.deprecate](https://emberjs.com/api/classes/Ember.html#method_deprecate).
@@ -228,7 +230,7 @@ enifed('ember-debug/deprecate', ['exports', 'ember-debug/error', 'ember-console'
     @public
     @static
     @method registerDeprecationHandler
-    @for @ember/debug
+    @for Ember.Debug
     @param handler {Function} A function to handle deprecation calls.
     @since 2.1.0
   */
@@ -320,17 +322,13 @@ enifed('ember-debug/deprecate', ['exports', 'ember-debug/error', 'ember-console'
     exports.missingOptionsDeprecation = missingOptionsDeprecation = 'When calling `Ember.deprecate` you ' + 'must provide an `options` hash as the third parameter.  ' + '`options` should include `id` and `until` properties.';
     exports.missingOptionsIdDeprecation = missingOptionsIdDeprecation = 'When calling `Ember.deprecate` you must provide `id` in options.';
     exports.missingOptionsUntilDeprecation = missingOptionsUntilDeprecation = 'When calling `Ember.deprecate` you must provide `until` in options.';
-    /**
-     @module @ember/application
-     @public
-     */
+
     /**
       Display a deprecation warning with the provided message and a stack trace
       (Chrome and Firefox only).
        * In a production build, this method is defined as an empty function (NOP).
       Uses of this method in Ember itself are stripped from the ember.prod.js build.
        @method deprecate
-      @for @ember/application/deprecations
       @param {String} message A description of the deprecation.
       @param {Boolean} test A boolean. If falsy, the deprecation will be displayed.
       @param {Object} options
@@ -342,7 +340,7 @@ enifed('ember-debug/deprecate', ['exports', 'ember-debug/error', 'ember-console'
         warning will be removed.
       @param {String} [options.url] An optional url to the transition guide on the
         emberjs.com website.
-      @static
+      @for Ember
       @public
       @since 1.0.0
     */
@@ -384,9 +382,6 @@ enifed('ember-debug/deprecate', ['exports', 'ember-debug/error', 'ember-console'
 enifed("ember-debug/error", ["exports", "ember-babel"], function (exports, _emberBabel) {
   "use strict";
 
-  /**
-   @module @ember/error
-  */
   function ExtendBuiltin(klass) {
     function ExtendableBuiltin() {
       klass.apply(this, arguments);
@@ -400,7 +395,8 @@ enifed("ember-debug/error", ["exports", "ember-babel"], function (exports, _embe
   /**
     A subclass of the JavaScript Error object for use in Ember.
   
-    @class EmberError
+    @class Error
+    @namespace Ember
     @extends Error
     @constructor
     @public
@@ -443,10 +439,6 @@ enifed('ember-debug/features', ['exports', 'ember-environment', 'ember/features'
   exports.default = isEnabled;
   var FEATURES = _features.FEATURES;
 
-
-  /**
-   @module ember
-  */
 
   /**
     The hash of enabled Canary features. Add to this, any canary features
@@ -636,7 +628,13 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
   }
 
   /**
-  @module @ember/debug
+  @module ember
+  @submodule ember-debug
+  */
+
+  /**
+  @class Ember
+  @public
   */
 
   if (true) {
@@ -645,15 +643,12 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
        * In a production build, this method is defined as an empty function (NOP).
       Uses of this method in Ember itself are stripped from the ember.prod.js build.
        ```javascript
-      import { assert } from '@ember/debug';
-       // Test for truthiness
-      assert('Must pass a valid object', obj);
+      // Test for truthiness
+      Ember.assert('Must pass a valid object', obj);
        // Fail unconditionally
-      assert('This code path should never be run');
+      Ember.assert('This code path should never be run');
       ```
        @method assert
-      @static
-      @for @ember/debug
       @param {String} desc A description of the assertion. This will become
         the text of the Error thrown if the assertion fails.
       @param {Boolean} test Must be truthy for the assertion to pass. If
@@ -672,12 +667,9 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
        * In a production build, this method is defined as an empty function (NOP).
       Uses of this method in Ember itself are stripped from the ember.prod.js build.
        ```javascript
-      import { debug } from '@ember/debug';
-       debug('I\'m a debug notice!');
+      Ember.debug('I\'m a debug notice!');
       ```
        @method debug
-      @for @ember/debug
-      @static
       @param {String} message A debug message to display.
       @public
     */
@@ -697,11 +689,6 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
     });
 
     /**
-     @module @ember/application
-     @public
-    */
-
-    /**
       Alias an old, deprecated method with its new counterpart.
        Display a deprecation warning with the provided message and a stack trace
       (Chrome and Firefox only) when the assigned method is called.
@@ -710,8 +697,6 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
       Ember.oldMethod = Ember.deprecateFunc('Please use the new, updated method', Ember.newMethod);
       ```
        @method deprecateFunc
-      @static
-      @for @ember/application/deprecations
       @param {String} message A description of the deprecation.
       @param {Object} [options] The options object for Ember.deprecate.
       @param {Function} func The new function called to replace its deprecated counterpart.
@@ -744,18 +729,12 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
     });
 
     /**
-     @module @ember/debug
-     @public
-    */
-    /**
       Run a function meant for debugging.
        * In a production build, this method is defined as an empty function (NOP).
       Uses of this method in Ember itself are stripped from the ember.prod.js build.
        ```javascript
-      import Component from '@ember/component';
-      import { runInDebug } from '@ember/debug';
-       runInDebug(() => {
-        Component.reopen({
+      Ember.runInDebug(() => {
+        Ember.Component.reopen({
           didInsertElement() {
             console.log("I'm happy");
           }
@@ -763,8 +742,6 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
       });
       ```
        @method runInDebug
-      @for @ember/debug
-      @static
       @param {Function} func The function to be executed.
       @since 1.5.0
       @public
@@ -790,7 +767,7 @@ enifed('ember-debug/index', ['exports', 'ember-debug/warn', 'ember-debug/depreca
 
   if (true && !(0, _testing.isTesting)()) {
     /**
-       Will call `warn()` if ENABLE_OPTIONAL_FEATURES or
+       Will call `Ember.warn()` if ENABLE_OPTIONAL_FEATURES or
        any specific FEATURES flag is truthy.
         This method is called automatically in debug canary builds.
         @private
@@ -885,19 +862,19 @@ enifed('ember-debug/warn', ['exports', 'ember-console', 'ember-debug/deprecate',
       missingOptionsIdDeprecation = void 0;
 
   /**
-  @module @ember/debug
+  @module ember
+  @submodule ember-debug
   */
 
   if (true) {
     /**
       Allows for runtime registration of handler functions that override the default warning behavior.
-      Warnings are invoked by calls made to [warn](https://emberjs.com/api/classes/Ember.html#method_warn).
+      Warnings are invoked by calls made to [Ember.warn](https://emberjs.com/api/classes/Ember.html#method_warn).
       The following example demonstrates its usage by registering a handler that does nothing overriding Ember's
       default warning behavior.
        ```javascript
-      import { registerWarnHandler } from '@ember/debug';
-       // next is not called, so no warnings get the default behavior
-      registerWarnHandler(() => {});
+      // next is not called, so no warnings get the default behavior
+      Ember.Debug.registerWarnHandler(() => {});
       ```
        The handler function takes the following arguments:
        <ul>
@@ -911,7 +888,7 @@ enifed('ember-debug/warn', ['exports', 'ember-console', 'ember-debug/deprecate',
        @public
       @static
       @method registerWarnHandler
-      @for @ember/debug
+      @for Ember.Debug
       @param handler {Function} A function to handle warnings.
       @since 2.1.0
     */
@@ -926,16 +903,14 @@ enifed('ember-debug/warn', ['exports', 'ember-console', 'ember-debug/deprecate',
       }
     });
 
-    exports.missingOptionsDeprecation = missingOptionsDeprecation = 'When calling `warn` you ' + 'must provide an `options` hash as the third parameter.  ' + '`options` should include an `id` property.';
-    exports.missingOptionsIdDeprecation = missingOptionsIdDeprecation = 'When calling `warn` you must provide `id` in options.';
+    exports.missingOptionsDeprecation = missingOptionsDeprecation = 'When calling `Ember.warn` you ' + 'must provide an `options` hash as the third parameter.  ' + '`options` should include an `id` property.';
+    exports.missingOptionsIdDeprecation = missingOptionsIdDeprecation = 'When calling `Ember.warn` you must provide `id` in options.';
 
     /**
       Display a warning with the provided message.
        * In a production build, this method is defined as an empty function (NOP).
       Uses of this method in Ember itself are stripped from the ember.prod.js build.
        @method warn
-      @for @ember/debug
-      @static
       @param {String} message A warning to display.
       @param {Boolean} test An optional boolean. If falsy, the warning
         will be displayed.
@@ -943,6 +918,7 @@ enifed('ember-debug/warn', ['exports', 'ember-console', 'ember-debug/deprecate',
         `id` for this warning.  The `id` can be used by Ember debugging tools
         to change the behavior (raise, log, or silence) for that specific warning.
         The `id` should be namespaced by dots, e.g. "ember-debug.feature-flag-with-features-stripped"
+      @for Ember
       @public
       @since 1.0.0
     */
@@ -984,7 +960,8 @@ enifed('ember-testing/adapters/adapter', ['exports', 'ember-runtime'], function 
   }
 
   /**
-   @module @ember/test
+   @module ember
+   @submodule ember-testing
   */
 
   /**
@@ -992,6 +969,7 @@ enifed('ember-testing/adapters/adapter', ['exports', 'ember-runtime'], function 
     by an adapter for various test frameworks.
   
     @class Adapter
+    @namespace Ember.Test
     @public
   */
   exports.default = _emberRuntime.Object.extend({
@@ -1337,6 +1315,10 @@ enifed("ember-testing/helpers/and_then", ["exports"], function (exports) {
   "use strict";
 
   exports.default = andThen;
+  /**
+  @module ember
+  @submodule ember-testing
+  */
   function andThen(app, callback) {
     return app.testHelpers.wait(callback(app));
   }
@@ -1379,6 +1361,7 @@ enifed('ember-testing/helpers/click', ['exports', 'ember-testing/events'], funct
     return app.testHelpers.wait();
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/current_path', ['exports', 'ember-metal'], function (exports, _emberMetal) {
@@ -1410,6 +1393,7 @@ enifed('ember-testing/helpers/current_path', ['exports', 'ember-metal'], functio
     return (0, _emberMetal.get)(routingService, 'currentPath');
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/current_route_name', ['exports', 'ember-metal'], function (exports, _emberMetal) {
@@ -1439,6 +1423,7 @@ enifed('ember-testing/helpers/current_route_name', ['exports', 'ember-metal'], f
     return (0, _emberMetal.get)(routingService, 'currentRouteName');
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/current_url', ['exports', 'ember-metal'], function (exports, _emberMetal) {
@@ -1470,6 +1455,7 @@ enifed('ember-testing/helpers/current_url', ['exports', 'ember-metal'], function
     return (0, _emberMetal.get)(router, 'location').getURL();
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/fill_in', ['exports', 'ember-testing/events'], function (exports, _events) {
@@ -1516,6 +1502,7 @@ enifed('ember-testing/helpers/fill_in', ['exports', 'ember-testing/events'], fun
     return app.testHelpers.wait();
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/find', ['exports', 'ember-metal'], function (exports, _emberMetal) {
@@ -1554,6 +1541,7 @@ enifed('ember-testing/helpers/find', ['exports', 'ember-metal'], function (expor
     return $el;
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/find_with_assert', ['exports'], function (exports) {
@@ -1562,6 +1550,7 @@ enifed('ember-testing/helpers/find_with_assert', ['exports'], function (exports)
   exports.default = findWithAssert;
   /**
   @module ember
+  @submodule ember-testing
   */
   /**
     Like `find`, but throws an error if the element selector returns no results.
@@ -1601,6 +1590,7 @@ enifed("ember-testing/helpers/key_event", ["exports"], function (exports) {
   exports.default = keyEvent;
   /**
   @module ember
+  @submodule ember-testing
   */
   /**
     Simulates a key event, e.g. `keypress`, `keydown`, `keyup` with the desired keyCode
@@ -1652,6 +1642,7 @@ enifed('ember-testing/helpers/pause_test', ['exports', 'ember-runtime', 'ember-c
   */
   /**
   @module ember
+  @submodule ember-testing
   */
   function resumeTest() {
     (true && !(resume) && (0, _emberDebug.assert)('Testing has not been paused. There is nothing to resume.', resume));
@@ -1771,6 +1762,7 @@ enifed('ember-testing/helpers/trigger_event', ['exports', 'ember-testing/events'
     return app.testHelpers.wait();
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/visit', ['exports', 'ember-metal'], function (exports, _emberMetal) {
@@ -1820,6 +1812,7 @@ enifed('ember-testing/helpers/visit', ['exports', 'ember-metal'], function (expo
     return app.testHelpers.wait();
   } /**
     @module ember
+    @submodule ember-testing
     */
 });
 enifed('ember-testing/helpers/wait', ['exports', 'ember-testing/test/waiters', 'ember-runtime', 'ember-metal', 'ember-testing/test/pending_requests'], function (exports, _waiters, _emberRuntime, _emberMetal, _pending_requests) {
@@ -1858,6 +1851,7 @@ enifed('ember-testing/helpers/wait', ['exports', 'ember-testing/test/waiters', '
   */
   /**
   @module ember
+  @submodule ember-testing
   */
   function wait(app, value) {
     return new _emberRuntime.RSVP.Promise(function (resolve) {
@@ -1987,6 +1981,7 @@ enifed('ember-testing/support', ['ember-debug', 'ember-views', 'ember-environmen
 
   /**
     @module ember
+    @submodule ember-testing
   */
 
   var $ = _emberViews.jQuery;
@@ -2091,6 +2086,7 @@ enifed('ember-testing/test', ['exports', 'ember-testing/test/helpers', 'ember-te
   */
   /**
     @module ember
+    @submodule ember-testing
   */
   Object.defineProperty(Test, 'adapter', {
     get: _adapter.getAdapter,
@@ -2147,9 +2143,6 @@ enifed('ember-testing/test/helpers', ['exports', 'ember-testing/test/promise'], 
   exports.registerAsyncHelper = registerAsyncHelper;
   exports.unregisterHelper = unregisterHelper;
   var helpers = exports.helpers = {};
-  /**
-   @module @ember/test
-  */
 
   /**
     `registerHelper` is used to register a test helper that will be injected
@@ -2176,8 +2169,7 @@ enifed('ember-testing/test/helpers', ['exports', 'ember-testing/test/promise'], 
     ```
   
     @public
-    @for @ember/test
-    @static
+    @for Ember.Test
     @method registerHelper
     @param {String} name The name of the helper method to add.
     @param {Function} helperMethod
@@ -2225,7 +2217,7 @@ enifed('ember-testing/test/helpers', ['exports', 'ember-testing/test/promise'], 
     ```
   
     @public
-    @for @ember/test
+    @for Ember.Test
     @method registerAsyncHelper
     @param {String} name The name of the helper method to add.
     @param {Function} helperMethod
@@ -2249,8 +2241,6 @@ enifed('ember-testing/test/helpers', ['exports', 'ember-testing/test/promise'], 
   
     @public
     @method unregisterHelper
-    @static
-    @for @ember/test
     @param {String} name The helper to remove.
   */
   function unregisterHelper(name) {
@@ -2458,9 +2448,6 @@ enifed('ember-testing/test/waiters', ['exports', 'ember-debug'], function (expor
   exports.checkWaiters = checkWaiters;
 
 
-  /**
-   @module @ember/test
-  */
   var contexts = [];
   var callbacks = [];
 
@@ -2489,8 +2476,7 @@ enifed('ember-testing/test/waiters', ['exports', 'ember-debug'], function (expor
      ```
   
      @public
-     @for @ember/test
-     @static
+     @for Ember.Test
      @method registerWaiter
      @param {Object} context (optional)
      @param {Function} callback
@@ -2513,8 +2499,7 @@ enifed('ember-testing/test/waiters', ['exports', 'ember-debug'], function (expor
      registered with `registerWaiter`.
   
      @public
-     @for @ember/test
-     @static
+     @for Ember.Test
      @method unregisterWaiter
      @param {Object} context (optional)
      @param {Function} callback
@@ -2545,7 +2530,7 @@ enifed('ember-testing/test/waiters', ['exports', 'ember-debug'], function (expor
     infrastructure.
   
     @public
-    @for @ember/test
+    @for Ember.Test
     @static
     @method checkWaiters
   */
@@ -22411,37 +22396,6 @@ self.expect = self.chai.expect;
       }
     }
   )
-
-  chai.Assertion.addMethod('descendant', function(subitem) {
-    var obj = flag(this, 'object'), actual = subitem
-
-    if (typeof subitem === 'string') {
-      actual = obj.querySelector(subitem)
-      this.assert(
-        !!actual
-        , 'expected ' + elToString(obj) + ' to have descendant #{exp}'
-        , 'expected ' + elToString(obj) + ' to not have descendant #{exp}'
-        , subitem)
-    } else {
-      this.assert(
-        obj.contains(subitem)
-        , 'expected ' + elToString(obj) + ' to contain ' + elToString(subitem)
-        , 'expected ' + elToString(obj) + ' to not contain ' + elToString(subitem))
-    }
-
-    flag(this, 'object', actual)
-  })
-
-  chai.Assertion.addMethod('descendants', function(selector) {
-    var obj = flag(this, 'object'),
-        actual = obj.querySelectorAll(selector)
-    this.assert(
-      !!actual.length
-      , 'expected ' + elToString(obj) + ' to have descendants #{exp}'
-      , 'expected ' + elToString(obj) + ' to not have descendants #{exp}'
-      , selector)
-    flag(this, 'object', actual)
-  })
 
   chai.Assertion.addProperty('displayed', function() {
     var el = flag(this, 'object'),
