@@ -58,6 +58,10 @@ module.exports = {
         qb.where({ userId })
           .whereNotNull('estimatedLevel')
           .whereNotNull('pixScore')
+          .andWhere(function() {
+            this.where({ type: null })
+              .orWhereNot({ type: 'CERTIFICATION' });
+          })
           .orderBy('createdAt', 'desc');
       })
       .fetch()
@@ -80,6 +84,7 @@ module.exports = {
 
   getByCertificationCourseId(certificationCourseId) {
     return Assessment
-      .query({ where: { courseId: certificationCourseId } });
+      .query({ where: { courseId: certificationCourseId } })
+      .fetch();
   }
 };

@@ -142,8 +142,11 @@ describe('Unit | Repository | assessmentRepository', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       orderByStub = sandbox.stub();
-      whereNotNullStub2 = sandbox.stub().returns({
+      andWhere = sandbox.stub().returns({
         orderBy: orderByStub
+      });
+      whereNotNullStub2 = sandbox.stub().returns({
+        andWhere: andWhere
       });
       whereNotNullStub = sandbox.stub().returns({
         whereNotNull: whereNotNullStub2
@@ -367,8 +370,12 @@ describe('Unit | Repository | assessmentRepository', () => {
   });
 
   describe('#getByCertificationCourseId', () => {
+    let fetchStub;
     beforeEach(() => {
-      sinon.stub(Assessment, 'query').resolves({});
+      fetchStub = sinon.stub().resolves();
+      sinon.stub(Assessment, 'query').returns({
+        fetch: fetchStub
+      });
     });
 
     after(() => {
