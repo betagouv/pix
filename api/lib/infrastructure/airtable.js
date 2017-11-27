@@ -15,7 +15,7 @@ module.exports = {
    * @param {AirtableSerializer} serializer - The Airtable serializer used to deserialize the fetched data into an AirtableModel object.
    * @returns {AirtableModel} The fetched and deserialized model object
    */
-  get(tableName, id, serializer) {
+  getRecord(tableName, id, serializer) {
     return _base(tableName)
       .find(id)
       .then(serializer.deserialize);
@@ -47,7 +47,7 @@ module.exports = {
     });
   },
 
-  getRecord(tableName, recordId) {
+  get(tableName, recordId) {
     const cacheKey = `${tableName}_${recordId}`;
     const cachedValue = cache.get(cacheKey);
     if (cachedValue) {
