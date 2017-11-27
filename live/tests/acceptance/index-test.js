@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import { destroyApp, startApp } from '../helpers/application';
 
 describe('Acceptance | index page', function() {
 
@@ -8,6 +8,8 @@ describe('Acceptance | index page', function() {
 
   beforeEach(function() {
     application = startApp();
+    //eslint-disable-next-line no-undef
+    setBreakpoint('mobile');
   });
 
   afterEach(function() {

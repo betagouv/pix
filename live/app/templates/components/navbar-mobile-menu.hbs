@@ -1,0 +1,19 @@
+{{#side-menu}}
+  <ul class="navbar-header-links__list">
+    <li class="navbar-header-links__item">
+      Menu
+    </li>
+    {{#each menu as |item|}}
+      <li class="navbar-header-links__item">
+        {{#link-to item.link class="navbar-header-links__link"
+                   classNameBindings="item.class"}} {{item.name}}{{/link-to}}
+      </li>
+    {{/each}}
+  </ul>
+{{/side-menu}}
+
+{{content-backdrop}}
+
+{{#side-menu-toggle}}
+  <img src="{{rootURL}}/images/icons/icon-black-burger.svg" alt="burger menu" class="">
+{{/side-menu-toggle}}

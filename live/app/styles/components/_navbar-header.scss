@@ -78,10 +78,9 @@
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 .navbar-header-links {
-  display: none;
+  display: block;
 
   @include device-is('desktop') {
-    display: block;
     padding: 20px 0;
   }
 }
@@ -94,23 +93,42 @@
   padding: 0;
   margin: 0;
   list-style-type: none;
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
   flex-wrap: wrap;
+
+  @include device-is('desktop') {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+  }
 }
 
 .navbar-header-links__item {
-  margin-left: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 40px;
+  display: block;
+  border-bottom: 1px solid $alto-grey;
+  padding: 20px 0 20px 48px;
+
+  @include device-is('desktop') {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    margin-left: 20px;
+    border: none;
+    padding: 0;
+  }
+}
+
+.navbar-header-links__item:first-child {
+  font-family: $font-lato;
+  font-size: 24px;
+  line-height: 29px;
+  background: $gainsboro;
+  text-transform: uppercase;
 }
 
 .navbar-header-links__link {
   text-transform: uppercase;
-  font-size: 13px;
+  font-size: 16px;
   font-family: $font-lato;
   width: 100%;
   color: inherit;
@@ -120,6 +138,10 @@
   &:active {
     color: $marigold;
     text-decoration: none;
+  }
+
+  @include device-is('desktop') {
+    font-size: 13px;
   }
 }
 
