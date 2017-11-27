@@ -11,7 +11,7 @@ describe('Unit | Repository | solution-repository', function() {
 
   beforeEach(function() {
     cache.flushAll();
-    getRecord = sinon.stub(airtable, 'get');
+    getRecord = sinon.stub(airtable, 'getRecord');
     getRecords = sinon.stub(airtable, 'getRecords');
   });
 

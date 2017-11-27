@@ -2,45 +2,37 @@ const Airtable = require('airtable');
 const hash = require('object-hash');
 const { expect, sinon } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
-let airtable;
+const airtable = require('../../../lib/infrastructure/airtable');
 
 describe('Integration | Class | airtable', function() {
 
-  let findStub = sinon.stub();
-  let allStub = sinon.stub();
-
-  before(() => {
-    Airtable.prototype.init = () => {
-    };
-    Airtable.prototype.base = () => {
-      return {
-        table() {
-          return {
-            find: findStub,
-
-            select() {
-              return {
-                all: allStub
-              };
-            },
-          };
-        }
-      };
-    };
-
-    // initialized here because we stub Airtable client
-    airtable = require('../../../lib/infrastructure/airtable');
-  });
+  const findStub = sinon.stub();
+  const allStub = sinon.stub();
 
   beforeEach(() => {
     cache.flushAll();
+    sinon.stub(Airtable.prototype, 'init').returns();
+    sinon.stub(Airtable.prototype, 'base').returns({
+      table() {
+        return {
+          find: findStub,
+          select() {
+            return {
+              all: allStub
+            };
+          },
+        };
+      }
+    });
   });
 
   afterEach(() => {
     cache.flushAll();
+    Airtable.prototype.init.restore();
+    Airtable.prototype.base.restore();
   });
 
-  describe('#getRecord', () => {
+  describe('#newGetRecord', () => {
 
     const tableName = 'Tests';
     const recordId = 'recNPB7dTNt5krlMA';
@@ -54,7 +46,7 @@ describe('Integration | Class | airtable', function() {
         cache.set(cacheKey, airtableRecord);
 
         // when
-        const promise = airtable.getRecord(tableName, recordId);
+        const promise = airtable.newGetRecord(tableName, recordId);
 
         // then
         return promise.then(record => {
@@ -71,7 +63,7 @@ describe('Integration | Class | airtable', function() {
         findStub.resolves(airtableRecord);
 
         // when
-        const promise = airtable.getRecord(tableName, recordId);
+        const promise = airtable.newGetRecord(tableName, recordId);
 
         // then
         return promise.then(record => {

@@ -3,9 +3,11 @@ const airtableConfig = require('../settings').airtable;
 const cache = require('./cache');
 const hash = require('object-hash');
 
-const _base = new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base);
-
 module.exports = {
+
+  _base() {
+    return new Airtable({ apiKey: airtableConfig.apiKey }).base(airtableConfig.base);
+  },
 
   /**
    * Fetches from Airtable and deserializes a given record.
@@ -16,7 +18,8 @@ module.exports = {
    * @returns {AirtableModel} The fetched and deserialized model object
    */
   getRecord(tableName, id, serializer) {
-    return _base(tableName)
+    return this._base()
+      .table(tableName)
       .find(id)
       .then(serializer.deserialize);
   },
@@ -32,7 +35,7 @@ module.exports = {
   getRecords(tableName, query, serializer) {
     return new Promise((resolve, reject) => {
       const models = [];
-      _base(tableName).select(query)
+      this._base().table(tableName).select(query)
         .eachPage(
           (records, fetchNextPage) => {
             records.forEach(record => {
@@ -47,13 +50,13 @@ module.exports = {
     });
   },
 
-  get(tableName, recordId) {
+  newGetRecord(tableName, recordId) {
     const cacheKey = `${tableName}_${recordId}`;
     const cachedValue = cache.get(cacheKey);
     if (cachedValue) {
       return Promise.resolve(cache.get(cacheKey));
     }
-    return _base
+    return this._base()
       .table(tableName)
       .find(recordId)
       .then(record => {
@@ -68,7 +71,7 @@ module.exports = {
     if (cachedValue) {
       return Promise.resolve(cache.get(cacheKey));
     }
-    return _base
+    return this._base()
       .table(tableName)
       .select(query)
       .all()
