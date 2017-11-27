@@ -21,7 +21,6 @@ describe('Unit | Controller | assessment-controller', () => {
           id: 256,
           attributes: {
             'estimated-level': 4,
-
             'pix-score': 4
           },
           relationships: {
@@ -32,7 +31,7 @@ describe('Unit | Controller | assessment-controller', () => {
             },
             course: {
               data: {
-                id: 42657
+                id: 'recCourseId'
               }
             }
           }
@@ -40,7 +39,7 @@ describe('Unit | Controller | assessment-controller', () => {
       }
     };
 
-    const persistedAssessment = { id: 42 };
+    const persistedAssessment = new Assessment({ id: 42, courseId: 'recCourseId' });
     const serializedAssessment = {
       id: 42,
       attributes: {
@@ -57,7 +56,7 @@ describe('Unit | Controller | assessment-controller', () => {
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
-      assessment = new Assessment({});
+      assessment = new Assessment({ id: 42, courseId: 'recCourseId' });
 
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
@@ -65,17 +64,11 @@ describe('Unit | Controller | assessment-controller', () => {
       sandbox.stub(assessment, 'save').resolves(persistedAssessment);
       sandbox.stub(tokenService, 'extractUserId');
       sandbox.stub(assessmentSerializer, 'serialize').returns(serializedAssessment);
-      sandbox.stub(assessmentSerializer, 'deserialize')
-        .returns(assessment);
+      sandbox.stub(assessmentSerializer, 'deserialize').returns(assessment);
     });
 
     afterEach(() => {
       sandbox.restore();
-
-    });
-
-    it('should exists', () => {
-      expect(controller.save).to.exist.and.to.be.a('function');
     });
 
     it('should de-serialize the payload', () => {
@@ -95,6 +88,7 @@ describe('Unit | Controller | assessment-controller', () => {
       sinon.assert.calledWith(tokenService.extractUserId, 'my-token');
     });
 
+
     it('should persist the assessment', () => {
       // When
       controller.save(request, replyStub);
@@ -102,6 +96,7 @@ describe('Unit | Controller | assessment-controller', () => {
       // Then
       sinon.assert.calledOnce(assessment.save);
     });
+
 
     describe('when the assessment is successfully saved', () => {
       it('should serialize the assessment after its creation', () => {
@@ -112,6 +107,21 @@ describe('Unit | Controller | assessment-controller', () => {
         return promise.then(() => {
           sinon.assert.calledWith(assessmentSerializer.serialize, persistedAssessment);
         });
+      });
+
+      context('when the course associated is a certification course', () => {
+
+        it('should save the assessment with the type "CERTIFICATION"', function() {
+          // given
+          const certificationAssessment = new Assessment({ id: 42, courseId: 1, type : 'CERTIFICATION' });
+
+          // when
+          controller.save(request, replyStub);
+
+          // then
+          sinon.assert.calledWith(assessmentSerializer.serialize, certificationAssessment);
+        });
+
       });
 
       it('should reply the serialized assessment with code 201', () => {

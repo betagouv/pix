@@ -30,6 +30,9 @@ module.exports = {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
 
+      if (!assessment.get('courseId').includes('rec')) {
+        assessment.set('type', 'CERTIFICATION')
+      }
       assessment.set('userId', userId);
     }
 

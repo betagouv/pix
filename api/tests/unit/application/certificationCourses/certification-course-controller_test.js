@@ -55,17 +55,6 @@ describe('Unit | Controller | certification-course-controller', function() {
       });
     });
 
-    it('should call repository to create assessment for certification-course with correct assessment', function() {
-      // when
-      const promise = CertificationCourseController.save(request, replyStub);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentService.createCertificationAssessmentForUser);
-        sinon.assert.calledWith(assessmentService.createCertificationAssessmentForUser, certificationCourse, 'userId');
-      });
-    });
-
     it('should call user Service to get User Certification Profile', function() {
       // when
       const promise = CertificationCourseController.save(request, replyStub);

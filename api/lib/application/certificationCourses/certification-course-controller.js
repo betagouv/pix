@@ -12,8 +12,7 @@ module.exports = {
     const userId = request.pre.userId;
     return CertificationCourseRepository.save()
       .then((savedCertificationCourse) => {
-        certificationCourse = savedCertificationCourse;
-        return assessmentService.createCertificationAssessmentForUser(certificationCourse, userId);
+        return certificationCourse = savedCertificationCourse;
       })
       .then(() => userService.getCertificationProfile(userId))
       .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
