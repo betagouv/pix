@@ -1,7 +1,9 @@
 {{#side-menu}}
   <ul class="navbar-header-links__list">
     <li class="navbar-header-links__item">
-      Menu
+      <span>Menu</span>
+      <span class="burger-close-button" {{action 'closeMenu'}}>
+        <img src="{{rootURL}}/images/icons/icon-croix.svg" alt="close menu"></span>
     </li>
     {{#each menu as |item|}}
       <li class="navbar-header-links__item">
@@ -15,5 +17,5 @@
 {{content-backdrop}}
 
 {{#side-menu-toggle}}
-  <img src="{{rootURL}}/images/icons/icon-black-burger.svg" alt="burger menu" class="">
+  <img src="{{rootURL}}/images/icons/icon-black-burger.svg" alt="burger menu">
 {{/side-menu-toggle}}
