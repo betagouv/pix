@@ -190,9 +190,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledWith(replyStub, score);
-
       });
     });
-
   });
 });

@@ -137,6 +137,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     let whereNotNullStub;
     let whereNotNullStub2;
     let orderByStub;
+    let andWhere;
     const userId = 2;
 
     beforeEach(() => {

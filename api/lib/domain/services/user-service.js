@@ -63,7 +63,6 @@ function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
     const assessment = assessments.find((assessment) => {
       return currentCourse.id === assessment.get('courseId');
     });
-    competence.courseId = currentCourse.id;
     competence.pixScore = assessment ? assessment.get('pixScore') : 0;
   });
 

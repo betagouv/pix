@@ -286,7 +286,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -295,7 +294,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
@@ -360,7 +358,6 @@ describe('Unit | Service | User Service', () => {
               expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
-                  courseId: 'courseId1',
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [],
@@ -369,7 +366,6 @@ describe('Unit | Service | User Service', () => {
                 },
                 {
                   id: 'competenceRecordIdTwo',
-                  courseId: 'courseId2',
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [skillRemplir2],
@@ -397,7 +393,6 @@ describe('Unit | Service | User Service', () => {
               expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
-                  courseId: 'courseId1',
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4],
@@ -406,7 +401,6 @@ describe('Unit | Service | User Service', () => {
                 },
                 {
                   id: 'competenceRecordIdTwo',
-                  courseId: 'courseId2',
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [],
@@ -433,7 +427,6 @@ describe('Unit | Service | User Service', () => {
               expect(skillProfile).to.deep.equal([
                 {
                   id: 'competenceRecordIdOne',
-                  courseId: 'courseId1',
                   index: '1.1',
                   name: '1.1 Construire un flipper',
                   skills: [skillCitation4, skillRecherche4, skillMoteur3],
@@ -442,7 +435,6 @@ describe('Unit | Service | User Service', () => {
                 },
                 {
                   id: 'competenceRecordIdTwo',
-                  courseId: 'courseId2',
                   index: '1.2',
                   name: '1.2 Adopter un dauphin',
                   skills: [],
@@ -474,7 +466,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [skillRecherche4],
@@ -483,7 +474,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillUrl3, skillRemplir2],
@@ -511,7 +501,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -520,7 +509,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
@@ -550,7 +538,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -559,7 +546,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir4, skillUrl3, skillRemplir2],
@@ -586,7 +572,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -595,7 +580,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [skillRemplir2],
@@ -621,7 +605,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -630,7 +613,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [],
@@ -656,7 +638,6 @@ describe('Unit | Service | User Service', () => {
           expect(skillProfile).to.deep.equal([
             {
               id: 'competenceRecordIdOne',
-              courseId: 'courseId1',
               index: '1.1',
               name: '1.1 Construire un flipper',
               skills: [],
@@ -665,7 +646,6 @@ describe('Unit | Service | User Service', () => {
             },
             {
               id: 'competenceRecordIdTwo',
-              courseId: 'courseId2',
               index: '1.2',
               name: '1.2 Adopter un dauphin',
               skills: [],
