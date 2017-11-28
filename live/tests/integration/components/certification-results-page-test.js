@@ -12,22 +12,22 @@ describe('Integration | Component | certification results template', function() 
 
   context('When component is rendered', function() {
     const user = { id: 5, firstName: 'shi', lastName: 'fu' };
-    const assessmentId = 'assessment_id';
+    const courseId = 'course_id';
 
     beforeEach(function() {
       this.set('user', user);
-      this.set('assessmentId', assessmentId);
+      this.set('courseId', courseId);
     });
 
     it('should also render a certification banner', function() {
       // when
-      this.render(hbs`{{certification-results-page user=user assessmentId=assessmentId}}`);
+      this.render(hbs`{{certification-results-page user=user courseId=courseId}}`);
 
       // then
       expect(this.$('.certification-banner')).to.have.lengthOf(1);
       expect(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
       expect(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(`${user.firstName} ${user.lastName}`);
-      expect(this.$('.certification-banner__container .certification-banner__assessment-id').text().trim()).to.equal(`#${assessmentId}`);
+      expect(this.$('.certification-banner__container .certification-banner__course-id').text().trim()).to.equal(`#${courseId}`);
     });
 
     it('should have a button to logout', function() {
@@ -37,7 +37,7 @@ describe('Integration | Component | certification results template', function() 
       });
 
       // when
-      this.render(hbs`{{certification-results-page user=user assessmentId=assessmentId}}`);
+      this.render(hbs`{{certification-results-page user=user courseId=courseId}}`);
 
       // then
       expect(this.$('.warning-logout-button')).to.have.lengthOf(1);

@@ -10,7 +10,7 @@ export default BaseRoute.extend(AuthenticatedRouteMixin, {
   model(params) {
     return RSVP.hash({
       user: this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true }),
-      assessmentId: params.assessment_id
+      courseId: params.course_id
     })
       .catch(_ => {
         this.transitionTo('logout');

@@ -2,7 +2,7 @@
 
   <div class="assessment-challenge__course-banner">
     {{#if model.assessment.isCertification}}
-      {{certification-banner user=model.user assessmentId=model.assessment.id}}
+      {{certification-banner user=model.user courseId=model.assessment.course.id}}
     {{else}}
       {{course-banner course=model.assessment.course withHomeLink=true}}
     {{/if}}
