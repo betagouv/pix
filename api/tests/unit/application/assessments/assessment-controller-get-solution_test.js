@@ -118,22 +118,24 @@ describe('Unit | Controller | assessment-controller', () => {
         assessmentRepository.get.resolves(new Assessment({ id: 13465, estimatedLevel: 1, pixScore: 12 }));
       });
 
-      it('should return an 404 error when the answer is not found', () => {
-        // given
-        answerRepository.get.resolves();
+      context('when the answer is not found', () => {
+        it('should return an 404 error', () => {
+          // given
+          answerRepository.get.resolves();
 
-        // when
-        const promise = assessmentController.getAssessmentSolution({ params: { id: 13465, answerId: 2467 } }, replyStub);
+          // when
+          const promise = assessmentController.getAssessmentSolution({ params: { id: 13465, answerId: 2467 } }, replyStub);
 
-        // then
-        return promise.then(() => {
-          sinon.assert.calledWith(answerRepository.get, 2467);
-          sinon.assert.calledOnce(Boom.notFound);
-          sinon.assert.calledWith(replyStub, boomResponseForNotFound);
+          // then
+          return promise.then(() => {
+            sinon.assert.calledWith(answerRepository.get, 2467);
+            sinon.assert.calledOnce(Boom.notFound);
+            sinon.assert.calledWith(replyStub, boomResponseForNotFound);
+          });
         });
       });
 
-      it('should the serialized solution', () => {
+      it('should reply the serialized solution', () => {
         // given
         const challengeId = '5738623';
         const solution = new Solution({});

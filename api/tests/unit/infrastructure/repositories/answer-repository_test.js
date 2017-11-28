@@ -108,7 +108,7 @@ describe('Unit | Repository | AnswerRepository', () => {
 
     afterEach(() => knex('answers').delete());
 
-    it('should find all answers by challenge', () => {
+    it('should find all answers by challenge id', () => {
       // when
       const promise = AnswerRepository.findByChallenge('challenge_1234');
 

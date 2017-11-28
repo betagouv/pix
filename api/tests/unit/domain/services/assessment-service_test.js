@@ -39,7 +39,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-describe('Unit | Domain | Services | assessment-service', function() {
+describe('Unit | Domain | Services | assessment-service', () => {
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');
@@ -49,7 +49,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
     competenceRepository.get.restore();
   });
 
-  describe('#getAssessmentNextChallengeId', function() {
+  describe('#getAssessmentNextChallengeId', () => {
 
     it('Should return the first challenge if no currentChallengeId is given', () => {
       // given
@@ -59,7 +59,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), null);
 
       // then
-      return promise.then(function(result) {
+      return promise.then((result) => {
         expect(result).to.equal('the_first_challenge');
         courseRepository.get.restore();
       });
@@ -73,7 +73,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('22'), '1st_challenge');
 
       // then
-      return promise.then(function(result) {
+      return promise.then((result) => {
         expect(result).to.equal('2nd_challenge');
         courseRepository.get.restore();
       });
@@ -85,7 +85,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       const promise = service.getAssessmentNextChallengeId();
 
       // then
-      return promise.then(function(result) {
+      return promise.then((result) => {
         expect(result).to.equal(null);
       });
     });
@@ -98,7 +98,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse(), '1st_challenge');
 
       // then
-      return promise.then(function(result) {
+      return promise.then((result) => {
         expect(result).to.equal(null);
         courseRepository.get.restore();
       });
@@ -113,7 +113,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       const promise = service.getAssessmentNextChallengeId(_buildAssessmentForCourse('null22'), '1st_challenge');
 
       // then
-      return promise.then(function(result) {
+      return promise.then((result) => {
         expect(result).to.equal(null);
         courseRepository.get.restore();
       });
@@ -189,6 +189,21 @@ describe('Unit | Domain | Services | assessment-service', function() {
       });
     });
 
+    it('should rejects when acessing to the assessment is failing', () => {
+      // given
+      assessmentRepository.get.rejects(new Error('Access DB is failing'));
+
+      // when
+      const promise = service.getScoredAssessment(ASSESSMENT_ID);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.fail('Should not succeed');
+      }, (error) => {
+        expect(error.message).to.equal('Access DB is failing');
+      });
+    });
+
     it('should return an assessment with an id and a courseId', () => {
       // when
       const promise = service.getScoredAssessment(ASSESSMENT_ID);
@@ -248,7 +263,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
       context('when the assessement is linked to a course', () => {
         beforeEach(() => {
           const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
-          assessmentRepository.get.returns(Promise.resolve(assessmentFromPreview));
+          assessmentRepository.get.resolves(assessmentFromPreview);
         });
 
         it('should load course details', () => {
@@ -300,7 +315,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
           });
         });
 
-        context('when the course is an adaptative one', () => {
+        context('when the course is an adaptive one', () => {
 
           beforeEach(() => {
             courseRepository.get.resolves({
@@ -345,7 +360,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
         id: '1',
         courseId: PREVIEW_COURSE_ID
       });
-      assessmentRepository.get.returns(Promise.resolve(assessmentFromPreview));
+      assessmentRepository.get.resolves(assessmentFromPreview);
 
       // when
       const promise = service.getScoredAssessment(ASSESSMENT_ID);
