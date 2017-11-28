@@ -5961,8 +5961,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     value: true
   });
   var Model = _emberData.default.Model,
-      attr = _emberData.default.attr,
-      hasMany = _emberData.default.hasMany;
+      attr = _emberData.default.attr;
   exports.default = Model.extend({
 
     name: attr('string'),
@@ -5970,22 +5969,8 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     duration: attr('number'),
     imageUrl: attr('string'),
     isAdaptive: attr('boolean'),
-    nbChallenges: attr('number'),
-    challenges: hasMany('challenge', { inverse: null }),
+    nbChallenges: attr('number')
 
-    getProgress: function getProgress(challenge) {
-      var challengeIndex = this.get('challenges').indexOf(challenge);
-
-      var currentStep = 1 + challengeIndex;
-      var maxStep = this.get('challenges.length');
-      var stepPercentage = currentStep / maxStep * 100;
-
-      return {
-        currentStep: currentStep,
-        maxStep: maxStep,
-        stepPercentage: stepPercentage
-      };
-    }
   });
 });
 define('pix-live/models/feedback', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6242,11 +6227,10 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
         answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
         course: model.assessment.get('course')
       }).then(function (_ref) {
-        var answers = _ref.answers,
-            course = _ref.course;
+        var answers = _ref.answers;
 
         model.answers = answers;
-        model.progress = course.getProgress(model.challenge);
+        //model.progress = course.getProgress(model.challenge);
         return model;
       });
     },
@@ -8820,6 +8804,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.0+cfccb4c2"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.0+02da7525"});
 }
 //# sourceMappingURL=pix-live.map
