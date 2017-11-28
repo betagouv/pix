@@ -3898,7 +3898,7 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
 
     context('On component rendering', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
-      var assessmentId = 'assessment_id';
+      var courseId = 'course_id';
 
       (0, _mocha.it)('should render component container', function () {
         // when
@@ -3926,18 +3926,18 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
       });
 
-      (0, _mocha.it)('should render component with a div:certification-banner__assessment-id', function () {
+      (0, _mocha.it)('should render component with a div:certification-banner__course-id', function () {
         // when
-        this.set('assessmentId', assessmentId);
+        this.set('courseId', courseId);
         this.render(Ember.HTMLBars.template({
-          "id": "Ta11LpQa",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
+          "id": "frv1EuNN",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"courseId\"],[[20,[\"user\"]],[20,[\"courseId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id').text().trim()).to.equal('#' + assessmentId);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id').text().trim()).to.equal('#' + courseId);
       });
     });
   });
@@ -3956,18 +3956,18 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
     context('When component is rendered', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
-      var assessmentId = 'assessment_id';
+      var courseId = 'course_id';
 
       (0, _mocha.beforeEach)(function () {
         this.set('user', user);
-        this.set('assessmentId', assessmentId);
+        this.set('courseId', courseId);
       });
 
       (0, _mocha.it)('should also render a certification banner', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "GeReNT9D",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
+          "id": "460H7voB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"courseId\"],[[20,[\"user\"]],[20,[\"courseId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3975,7 +3975,7 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
         (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__assessment-id').text().trim()).to.equal('#' + assessmentId);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id').text().trim()).to.equal('#' + courseId);
       });
 
       (0, _mocha.it)('should have a button to logout', function () {
@@ -3986,8 +3986,8 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "GeReNT9D",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"assessmentId\"],[[20,[\"user\"]],[20,[\"assessmentId\"]]]]],false]],\"hasEval\":false}",
+          "id": "460H7voB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"courseId\"],[[20,[\"user\"]],[20,[\"courseId\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
