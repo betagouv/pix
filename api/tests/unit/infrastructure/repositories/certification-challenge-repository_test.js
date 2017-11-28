@@ -1,6 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach, before, after, knex } = require('../../../test-helper');
-const Bookshelf = require('bookshelf');
-
+const { describe, it, expect, sinon, beforeEach, afterEach, knex } = require('../../../test-helper');
 
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const CertificationChallengeBookshelf = require('../../../../lib/domain/models/data/certification-challenge');
@@ -111,7 +109,6 @@ describe('Unit | Repository | certification-challenge-repository', () => {
 
       // then
       return promise.then((result) => {
-        console.log((result));
         expect(result.length).to.equal(0);
       });
     });
@@ -201,8 +198,8 @@ describe('Unit | Repository | certification-challenge-repository', () => {
 
       it('should reject the promise if no challenge is found', function() {
         // given
-        let assessmentId = -1;
-        let courseId = -1;
+        const assessmentId = -1;
+        const courseId = -1;
 
         // when
         const promise = certificationChallengeRepository.findNonAnsweredChallengeByCourseId(

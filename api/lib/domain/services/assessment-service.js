@@ -156,9 +156,8 @@ function createCertificationAssessmentForUser(certificationCourse, userId) {
 function getNextChallengeForCertificationCourse(assessment) {
   return certificationChallengeRepository.findNonAnsweredChallengeByCourseId(
     assessment.get('id'), assessment.get('courseId')
-  )
+  );
 }
-
 
 module.exports = {
   getAssessmentNextChallengeId,

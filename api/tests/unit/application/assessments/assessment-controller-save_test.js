@@ -1,4 +1,4 @@
-const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
+const { describe, it, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const Boom = require('boom');
 
 const controller = require('../../../../lib/application/assessments/assessment-controller');
@@ -6,8 +6,6 @@ const controller = require('../../../../lib/application/assessments/assessment-c
 const assessmentSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-serializer');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const tokenService = require('../../../../lib/domain/services/token-service');
-
-const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 describe('Unit | Controller | assessment-controller', () => {
 
@@ -17,7 +15,6 @@ describe('Unit | Controller | assessment-controller', () => {
 
     let codeStub;
     let replyStub;
-
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -29,7 +26,6 @@ describe('Unit | Controller | assessment-controller', () => {
     afterEach(() => {
       sandbox.restore();
     });
-
 
     context('the assessment saved is a certification test', () => {
 
@@ -73,7 +69,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
         // then
         sinon.assert.calledOnce(assessmentRepository.save);
-        sinon.assert.calledWith(assessmentRepository.save, expected)
+        sinon.assert.calledWith(assessmentRepository.save, expected);
       });
     });
 
@@ -139,7 +135,6 @@ describe('Unit | Controller | assessment-controller', () => {
         sinon.assert.calledWith(tokenService.extractUserId, 'my-token');
       });
 
-
       it('should persist the deserializedAssessment', () => {
         // When
         controller.save(request, replyStub);
@@ -148,7 +143,6 @@ describe('Unit | Controller | assessment-controller', () => {
         sinon.assert.calledOnce(assessmentRepository.save);
         sinon.assert.calledWith(assessmentRepository.save, assessment);
       });
-
 
       describe('when the deserializedAssessment is successfully saved', () => {
         it('should serialize the deserializedAssessment after its creation', () => {

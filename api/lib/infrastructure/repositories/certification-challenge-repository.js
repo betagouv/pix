@@ -19,7 +19,7 @@ module.exports = {
       .where({ courseId })
       .fetchAll()
       .then((collection) => {
-        return collection.map((certificationChallenge) => certificationChallenge.toDomain())
+        return collection.map((certificationChallenge) => certificationChallenge.toDomain());
       });
   },
 

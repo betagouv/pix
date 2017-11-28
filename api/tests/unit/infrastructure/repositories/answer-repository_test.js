@@ -169,11 +169,11 @@ describe('Unit | Repository | AnswerRepository', function() {
     };
 
     before(() => {
-      return knex('answers').insert([answer1, answer2, answer3])
+      return knex('answers').insert([answer1, answer2, answer3]);
     });
 
     after(() => {
-      return knex('answers').delete()
+      return knex('answers').delete();
     });
 
     it('should resolves answers with assessment id provided', () => {
@@ -185,7 +185,7 @@ describe('Unit | Repository | AnswerRepository', function() {
 
       // then
       return promise.then((result) => {
-        expect(result.length).to.be.equal(2)
+        expect(result.length).to.be.equal(2);
       });
     });
   });

@@ -376,7 +376,7 @@ describe('Unit | Domain | Services | assessment-service', function() {
     let sandbox;
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create()
+      sandbox = sinon.sandbox.create();
     });
 
     afterEach(() => {

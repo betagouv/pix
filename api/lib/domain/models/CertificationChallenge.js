@@ -1,6 +1,6 @@
 class CertificationChallenge {
   constructor(attributes) {
-    Object.assign(this, attributes)
+    Object.assign(this, attributes);
   }
 }
 

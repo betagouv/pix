@@ -214,7 +214,7 @@ describe('Unit | Controller | assessment-controller', () => {
 
     describe('when the assessment is a certification assessment', function() {
 
-      let certificationAssessment = new Assessment({
+      const certificationAssessment = new Assessment({
         id: 'assessmentId',
         type: 'CERTIFICATION'
       });
