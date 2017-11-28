@@ -38,10 +38,10 @@ class AssessmentSerializer extends JSONAPISerializer {
   }
 
   deserialize(json) {
-    return new Assessment({
+    return {
       id: json.data.id,
       courseId: json.data.relationships.course.data.id
-    });
+    };
   }
 
 }

@@ -46,13 +46,13 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   describe('#deserialize()', function() {
 
-    it('should convert JSON API data into an Assessment model object', function() {
+    it('should convert JSON API data into an Assessment js object', function() {
       // when
       const assessment = serializer.deserialize(jsonAssessment);
 
       // then
-      expect(assessment.get('id')).to.equal(jsonAssessment.data.id);
-      expect(assessment.get('courseId')).to.equal(jsonAssessment.data.relationships.course.data.id);
+      expect(assessment.id).to.equal(jsonAssessment.data.id);
+      expect(assessment.courseId).to.equal(jsonAssessment.data.relationships.course.data.id);
     });
 
   });

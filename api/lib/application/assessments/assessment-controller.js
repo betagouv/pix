@@ -30,13 +30,13 @@ module.exports = {
       const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
       const userId = tokenService.extractUserId(token);
 
-      if (!assessment.get('courseId').includes('rec')) {
-        assessment.set('type', 'CERTIFICATION')
+      if (!assessment.courseId.includes('rec')) {
+        assessment.type = 'CERTIFICATION';
       }
-      assessment.set('userId', userId);
+      assessment.userId = userId;
     }
 
-    return assessment.save()
+    return assessmentRepository.save(assessment)
       .then(assessment => {
         reply(assessmentSerializer.serialize(assessment)).code(201);
       })

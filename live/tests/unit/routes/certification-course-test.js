@@ -3,6 +3,7 @@ import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import Service from '@ember/service';
+import Ember from 'ember';
 
 describe('Unit | Route | certification test', function() {
   setupTest('route:certification-course', {
@@ -78,13 +79,25 @@ describe('Unit | Route | certification test', function() {
 
   });
 
-  describe('#error', function() {
+  describe.skip('#redirect', function() {
 
-    beforeEach(function() {
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-      route = this.subject();
+    it('should redirect to create.assessment route', function() {
+      // given
+      route.replaceWith = sinon.stub();
+      const certificationCourse = Ember.Object.create({});
+
+      // when
+      const promise = route.redirect(certificationCourse);
+
+      // then
+      promise.then(() => {
+        sinon.assert.called(route.replaceWith);
+        sinon.assert.calledWith(route.replaceWith, 'courses.create-assessment', certificationCourse);
+      });
     });
+  });
+
+  describe('#error', function() {
 
     it('should redirect to index', function() {
       // given
