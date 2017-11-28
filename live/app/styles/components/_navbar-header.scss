@@ -106,6 +106,7 @@
   display: block;
   border-bottom: 1px solid $alto-grey;
   padding: 20px 0 20px 48px;
+  color: $tundora-grey;
 
   @include device-is('desktop') {
     display: flex;
@@ -115,6 +116,7 @@
     margin-left: 20px;
     border: none;
     padding: 0;
+    color: $white;
   }
 }
 
@@ -124,6 +126,10 @@
   line-height: 29px;
   background: $gainsboro;
   text-transform: uppercase;
+
+  @include device-is('desktop') {
+    background: transparent;
+  }
 }
 
 .navbar-header-links__link {
