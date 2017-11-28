@@ -25,9 +25,9 @@ export default BaseRoute.extend({
     return RSVP.hash({
       answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
       course: model.assessment.get('course')
-    }).then(({ answers, course }) => {
+    }).then(({ answers }) => {
       model.answers = answers;
-      model.progress = course.getProgress(model.challenge);
+      //model.progress = course.getProgress(model.challenge);
       return model;
     });
   },
