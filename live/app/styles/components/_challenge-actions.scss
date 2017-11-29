@@ -11,14 +11,16 @@
 }
 
 .challenge-actions__action-skip {
-  color: $charcoal-grey;
   margin-right: 15px;
   width: 150px;
   height: 46px;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+  border-radius: 23px;
+
   &:hover {
-    border-radius: 23px;
     background-color: $silver-grey;
-    color: $charcoal-grey;
     text-decoration: none;
   }
 }
@@ -26,15 +28,15 @@
 .challenge-actions__action-skip-text {
   text-align: center;
   line-height: 46px;
-  width: 150px;
-  height: 46px;
   font-family: $font-lato;
   font-size: 16px;
   font-weight: $font-semi-bold;
   color: $slate-grey;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  text-underline-style: none;
+  &:hover, &:active, &:visited {
+    text-decoration: none;
+  }
 }
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
@@ -90,7 +92,7 @@
   letter-spacing: 1.5px;
   color: white;
   text-decoration: none;
-  &:hover {
+  &:hover, &:active, &:visited {
     color: $white;
     text-decoration: none;
   }
