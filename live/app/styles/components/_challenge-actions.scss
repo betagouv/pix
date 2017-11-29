@@ -86,9 +86,8 @@
   font-weight: $font-heavy;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  &:hover {
-    text-decoration: none;
-  }
+  color: white;
+  text-decoration: none;
 }
 
 .picture-checkbox-proposal--qcm {
