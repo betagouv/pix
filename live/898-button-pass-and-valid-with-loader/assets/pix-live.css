@@ -591,7 +591,7 @@ button.routable-modal--close:active {
 .challenge-actions__action-skip {
   margin-right: 15px;
   width: 150px;
-  height: 40px;
+  height: 46px;
   transition: background .25s ease-in-out;
   -moz-transition: background .25s ease-in-out;
   -webkit-transition: background .25s ease-in-out;
@@ -604,7 +604,7 @@ button.routable-modal--close:active {
 
 .challenge-actions__action-skip-text {
   text-align: center;
-  line-height: 40px;
+  line-height: 46px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -615,7 +615,7 @@ button.routable-modal--close:active {
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
   width: 150px;
-  height: 40px;
+  height: 46px;
   border-radius: 23px;
   background-color: #e6e6e6; }
 
@@ -630,7 +630,7 @@ button.routable-modal--close:active {
 .challenge-actions__action-validate {
   order: 1;
   width: 150px;
-  height: 40px;
+  height: 46px;
   border-radius: 23px;
   background-color: #0BA86D;
   color: #ffffff;
@@ -646,7 +646,7 @@ button.routable-modal--close:active {
 
 .challenge-actions__action-validate-text {
   width: 76px;
-  line-height: 40px;
+  line-height: 46px;
   font-family: "Lato", Arial, sans-serif, sans-serif;
   font-size: 16px;
   font-weight: 600;
@@ -658,7 +658,7 @@ button.routable-modal--close:active {
 .challenge-actions__action-validate__loader {
   order: 1;
   width: 150px;
-  height: 40px;
+  height: 46px;
   border-radius: 23px;
   background: #93CFB5; }
 
