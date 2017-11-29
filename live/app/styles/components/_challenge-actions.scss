@@ -13,25 +13,46 @@
 .challenge-actions__action-skip {
   color: $charcoal-grey;
   margin-right: 15px;
-}
-
-.challenge-actions__action-skip:hover {
-  color: $charcoal-grey;
+  width: 130px;
+  height: 46px;
+  &:hover {
+    border-radius: 23px;
+    background-color: $silver-grey;
+    color: $charcoal-grey;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+    text-decoration: none;
+  }
 }
 
 .challenge-actions__action-skip-text {
-  width: 55px;
-  height: 19px;
+  text-align: center;
+  line-height: 46px;
+  width: 130px;
+  height: 46px;
   font-family: $font-lato;
-  font-size: 16pt;
+  font-size: 16px;
   font-weight: $font-semi-bold;
   color: $charcoal-grey;
-  margin-right: 40px;
+  text-transform: uppercase;
   letter-spacing: 0.5px;
-  &:hover {
-    text-decoration: underline;
-    color: $pix-blue;
-  }
+  text-underline-style: none;
+}
+.challenge-actions__action-skip__loader {
+  margin-right: 15px;
+  width: 130px;
+  height: 46px;
+  border-radius: 23px;
+  background-color: $mercury-grey;
+}
+
+
+.challenge-actions__action-skip__loader-bar {
+  background: url('/images/loader-grey.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 30px;
+  width: 64px;
+  margin-top: -5px;
 }
 
 .challenge-actions__action-validate {
@@ -41,11 +62,21 @@
   border-radius: 23px;
   background-color: $jade;
   color: $white;
+  &:hover {
+    color: $white;
+    background: $dark-cyan;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+    text-decoration: none;
+  }
+}
+.challenge-actions__action-validate__loader {
+  order: 1;
+  width: 130px;
+  height: 46px;
+  border-radius: 23px;
+  background: rgba($jade,0.5);
 }
 
-.challenge-actions__action-validate:hover {
-  color: $white;
-}
 
 .challenge-actions__action-validate-text {
   width: 76px;
@@ -55,6 +86,9 @@
   font-weight: $font-heavy;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  &:hover {
+    text-decoration: none;
+  }
 }
 
 .picture-checkbox-proposal--qcm {
@@ -63,32 +97,15 @@
   top: 3px;
 }
 
-.challenge-actions__loader--validate {
-  order: 1;
-  width: 130px;
-  display: flex;
-  justify-content: center;
-  padding: 3px;
+.challenge-actions__action-validate__loader-bar {
+  background: url('/images/loader-white.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
 }
 
-.challenge-actions__loader-spinner {
-  border: 5px solid $gainsboro;
-  border-top: 5px solid $jade;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 2s linear infinite;
-}
-
-
-.challenge-actions__loader-bar {
-  background: url('/images/loader-challenge.gif');
-  justify-content: center;
-  background-size: 36px 36px;
-  height: 36px;
-  width: 36px;
-  margin: 5px;
-}
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

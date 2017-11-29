@@ -25,7 +25,7 @@ describe('Integration | Component | challenge actions', function() {
       this.render(hbs`{{challenge-actions}}`);
       // then
       expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-      expect(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+      expect(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(0);
     });
 
     it('should be replaced by a loader during treatment', function() {
@@ -41,7 +41,7 @@ describe('Integration | Component | challenge actions', function() {
 
       // then
       expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
-      expect(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(1);
+      expect(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(1);
     });
 
     it('should be enable again when the treatment failed', function() {
@@ -56,7 +56,7 @@ describe('Integration | Component | challenge actions', function() {
 
       // then
       expect(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-      expect(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(0);
+      expect(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(0);
     });
   });
 
@@ -81,7 +81,7 @@ describe('Integration | Component | challenge actions', function() {
 
       // then
       expect(this.$(SKIP_BUTTON)).to.have.lengthOf(0);
-      expect(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(1);
+      expect(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(1);
     });
 
   });
