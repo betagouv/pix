@@ -8,9 +8,6 @@ describe('Acceptance | index page', function() {
 
   beforeEach(function() {
     application = startApp();
-    /*eslint-disable no-undef */
-    setBreakpoint('mobile');
-    /*eslint-enable no-undef */
   });
 
   afterEach(function() {
@@ -20,6 +17,9 @@ describe('Acceptance | index page', function() {
   describe('Navbar header section', function() {
     it('should have a link to sign-up page when user is not authenticated', function() {
       // when
+      /*eslint-disable no-undef */
+      setBreakpoint('mobile');
+      /*eslint-enable no-undef */
       visit('/');
 
       // then
