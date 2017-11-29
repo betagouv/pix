@@ -13,13 +13,12 @@
 .challenge-actions__action-skip {
   color: $charcoal-grey;
   margin-right: 15px;
-  width: 130px;
+  width: 150px;
   height: 46px;
   &:hover {
     border-radius: 23px;
     background-color: $silver-grey;
     color: $charcoal-grey;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
     text-decoration: none;
   }
 }
@@ -27,19 +26,19 @@
 .challenge-actions__action-skip-text {
   text-align: center;
   line-height: 46px;
-  width: 130px;
+  width: 150px;
   height: 46px;
   font-family: $font-lato;
   font-size: 16px;
   font-weight: $font-semi-bold;
-  color: $charcoal-grey;
+  color: $slate-grey;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   text-underline-style: none;
 }
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
   background-color: $mercury-grey;
@@ -57,24 +56,23 @@
 
 .challenge-actions__action-validate {
   order: 1;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
   background-color: $jade;
   color: $white;
   &:hover {
     color: $white;
-    background: $dark-cyan;
-    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.25);
+    background: $eucalyptus;
     text-decoration: none;
   }
 }
 .challenge-actions__action-validate__loader {
   order: 1;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
-  background: rgba($jade,0.5);
+  background: $vista-blue;
 }
 
 
@@ -83,7 +81,7 @@
   line-height: 46px;
   font-family: $font-lato, sans-serif;
   font-size: 16px;
-  font-weight: $font-heavy;
+  font-weight: $font-semi-bold;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: white;
