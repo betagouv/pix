@@ -61,6 +61,10 @@
   border-radius: 23px;
   background-color: $jade;
   color: $white;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+
   &:hover {
     color: $white;
     background: $eucalyptus;
