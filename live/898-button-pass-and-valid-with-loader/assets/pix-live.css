@@ -650,9 +650,9 @@ button.routable-modal--close:active {
   font-size: 16px;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1.5px; }
-  .challenge-actions__action-validate-text:hover {
-    text-decoration: none; }
+  letter-spacing: 1.5px;
+  color: white;
+  text-decoration: none; }
 
 .picture-checkbox-proposal--qcm {
   position: absolute;
