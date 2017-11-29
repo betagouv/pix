@@ -23,6 +23,10 @@
     background-color: $silver-grey;
     text-decoration: none;
   }
+  &:focus {
+    text-decoration: none;
+  }
+
 }
 
 .challenge-actions__action-skip-text {
@@ -34,9 +38,6 @@
   color: $slate-grey;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  &:hover, &:active, &:visited {
-    text-decoration: none;
-  }
 }
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
@@ -66,12 +67,18 @@
   transition: background .25s ease-in-out;
   -moz-transition: background .25s ease-in-out;
   -webkit-transition: background .25s ease-in-out;
-
-  &:hover {
-    color: $white;
+  text-decoration: none;
+  &:hover{
     background: $eucalyptus;
     text-decoration: none;
+
   }
+  &:active,
+  &:visited,
+  &:focus {
+    text-decoration: none;
+  }
+
 }
 .challenge-actions__action-validate__loader {
   order: 1;
@@ -92,10 +99,6 @@
   letter-spacing: 1.5px;
   color: white;
   text-decoration: none;
-  &:hover, &:active, &:visited {
-    color: $white;
-    text-decoration: none;
-  }
 }
 
 
