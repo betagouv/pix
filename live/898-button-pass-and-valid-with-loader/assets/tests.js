@@ -4029,7 +4029,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should be replaced by a loader during treatment', function () {
@@ -4048,7 +4048,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
@@ -4067,7 +4067,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(0);
       });
     });
 
@@ -4100,7 +4100,7 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
 
         // then
         (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-bar')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(1);
       });
     });
   });

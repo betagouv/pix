@@ -213,19 +213,24 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
     answerValidated: null, // action
 
     _validateButtonStatus: 'enable', // enable, pending, offline
+    _skipButtonStatus: 'enable',
     isValidateButtonEnable: computed.equal('_validateButtonStatus', 'enable'),
     isValidateButtonPending: computed.equal('_validateButtonStatus', pendingValue),
     isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
 
+    isSkipButtonEnable: computed.equal('_skipButtonStatus', 'enable'),
+    isSkipButtonPending: computed.equal('_skipButtonStatus', pendingValue),
+
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
       this.set('_validateButtonStatus', 'enable');
+      this.set('_skipButtonStatus', 'enable');
     },
 
 
     actions: {
       skipChallenge: function skipChallenge() {
-        this.set('_validateButtonStatus', pendingValue);
+        this.set('_skipButtonStatus', pendingValue);
         this.get('challengeSkipped')();
       },
       validateAnswer: function validateAnswer() {
@@ -7480,7 +7485,7 @@ define("pix-live/templates/components/challenge-actions", ["exports"], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "/bEEseB+", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n  \"],[8],[0,\"\\n  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[20,[\"isValidateButtonPending\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "V2DrOsqb", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[20,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-validate__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[4,\"if\",[[20,[\"isSkipButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-skip__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
 });
 define("pix-live/templates/components/challenge-item-generic", ["exports"], function (exports) {
   "use strict";
@@ -8873,6 +8878,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+43d4f17e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+bfde0436"});
 }
 //# sourceMappingURL=pix-live.map
