@@ -114,10 +114,28 @@
     justify-content: center;
     height: 40px;
     margin-left: 20px;
+    padding: 20px 0 20px 48px;
     border: none;
     padding: 0;
     color: $white;
+    text-transform: uppercase;
   }
+}
+
+.navbar-header--white .navbar-header-links__item {
+  color: $slate-grey;
+}
+
+.navbar-header--white .navbar-mobile-menu .side-menu-toggle {
+  background: url("/images/icons/icon-black-burger.svg") no-repeat center;
+}
+
+.navbar-mobile-menu .side-menu-toggle {
+  background: url("/images/icons/icon-white-burger.svg") no-repeat center;
+}
+
+.side-menu .navbar-header-links__item {
+  color: $tundora-grey;
 }
 
 .navbar-header-links__item:first-child {
@@ -127,8 +145,18 @@
   background: $gainsboro;
   text-transform: uppercase;
 
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  padding-right: 23px;
+
   @include device-is('desktop') {
     background: transparent;
+    padding: 0;
+    font-size: 13px;
+    justify-content: normal;
   }
 }
 
@@ -139,6 +167,7 @@
   width: 100%;
   color: inherit;
 
+  &.active,
   &:hover,
   &:focus,
   &:active {
@@ -148,21 +177,70 @@
 
   @include device-is('desktop') {
     font-size: 13px;
+    padding-left: 0px;
   }
 }
 
 .navbar-header-links__link--inscription {
   border-radius: 20px;
-  border: 2px solid $white;
-  width: 140px;
-  padding: 10px;
+  border: 2px solid $pix-blue;
+  padding: 12px 30px;
+  font-size: 13px;
   text-align: center;
+  color: $white;
+  background: $pix-blue;
+
+  &:hover,
+  &:focus,
+  &:active {
+    text-decoration: none;
+    background-color: $white;
+  }
+
+  @include device-is('desktop') {
+    border: 2px solid $white;
+    width: 140px;
+    padding: 10px;
+    background-color: transparent;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $pix-blue;
+      text-decoration: none;
+      background-color: $white;
+    }
+  }
+}
+
+.navbar-header--white .navbar-header-links__link--inscription {
+  border: 2px solid $pix-blue;
+  color: $white;
 
   &:hover,
   &:focus,
   &:active {
     color: $pix-blue;
-    text-decoration: none;
     background-color: $white;
+  }
+
+  @include device-is('desktop') {
+    color: $pix-blue;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $white;
+      background-color: $pix-blue;
+    }
+  }
+}
+
+.navbar-item-inscription-wrapper {
+  margin-top: 90%;
+  border: none;
+
+  @include device-is('desktop') {
+    margin-top: 0;
   }
 }

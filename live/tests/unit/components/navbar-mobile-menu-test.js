@@ -16,17 +16,19 @@ describe('Unit | Component | Navbar mobile menu Component', function() {
       this.inject.service('session', { as: 'session' });
     });
 
-    it('should turn burger-men off (state becomes closed)', function() {
-      // given
-      const component = this.subject();
+    context('when close button is clicked', function() {
+      it('should be handled', function() {
+        // given
+        const component = this.subject();
 
-      // when
-      Ember.run(() => {
-        component.send('closeMenu');
+        // when
+        Ember.run(() => {
+          component.send('closeMenu');
+        });
+
+        // then
+        expect(component.get('sideMenu.isClosed')).to.equal(true);
       });
-
-      // then
-      expect(component.get('sideMenu.isClosed')).to.equal(true);
     });
   });
 });

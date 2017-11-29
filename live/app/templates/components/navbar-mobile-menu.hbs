@@ -6,9 +6,9 @@
         <img src="{{rootURL}}/images/icons/icon-croix.svg" alt="close menu"></span>
     </li>
     {{#each menu as |item|}}
-      <li class="navbar-header-links__item">
+      <li class="navbar-header-links__item navbar-item-{{item.link}}-wrapper">
         {{#link-to item.link class="navbar-header-links__link"
-                   classNameBindings="item.class"}} {{item.name}}{{/link-to}}
+                   classNameBindings="item.class" action="closeMenu" preventDefault=false}} {{item.name}}{{/link-to}}
       </li>
     {{/each}}
   </ul>
@@ -17,5 +17,5 @@
 {{content-backdrop}}
 
 {{#side-menu-toggle}}
-  <img src="{{rootURL}}/images/icons/icon-black-burger.svg" alt="burger menu">
+  &nbsp;
 {{/side-menu-toggle}}
