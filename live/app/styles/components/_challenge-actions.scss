@@ -18,7 +18,6 @@
   -moz-transition: background .25s ease-in-out;
   -webkit-transition: background .25s ease-in-out;
   border-radius: 23px;
-
   &:hover {
     background-color: $silver-grey;
     text-decoration: none;
@@ -26,7 +25,6 @@
   &:focus {
     text-decoration: none;
   }
-
 }
 
 .challenge-actions__action-skip-text {
@@ -101,7 +99,6 @@
   text-decoration: none;
 }
 
-
 .picture-checkbox-proposal--qcm {
   position: absolute;
   left: -11px;
@@ -117,9 +114,7 @@
   margin-top: -5px;
 }
 
-
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
