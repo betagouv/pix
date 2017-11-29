@@ -110,8 +110,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should save the assessment with score', () => {
         // When
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {
-        });
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {});
 
         // Then
         return promise.then(() => {

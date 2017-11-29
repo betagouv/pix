@@ -565,13 +565,16 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     });
 
-    it('should return __ when there is no challenges to give anymore', function() {
+    it('should reject when there is no challenges to give anymore', function() {
       // given
+      const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
+      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId').rejects();
 
       // when
+      const promise = service.getNextChallengeForCertificationCourse(assessment);
 
       // then
-
+      expect(promise).to.be.rejected;
     });
   });
 });

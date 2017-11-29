@@ -137,7 +137,6 @@ function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.get('courseId'), 'null');
 }
 
-// FIXME I love you
 function isCertificationAssessment(assessment) {
   return assessment.get('type') === 'CERTIFICATION';
 }
