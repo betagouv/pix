@@ -27,14 +27,19 @@ export default Component.extend({
   actions: {
 
     skipChallenge() {
-      this.set('_skipButtonStatus', pendingValue);
-      this.get('challengeSkipped')();
+      if(this.isValidateButtonEnable) {
+        this.set('_skipButtonStatus', pendingValue);
+        this.get('challengeSkipped')()
+          .catch(() => this.set('_skipButtonStatus', 'enable'));
+      }
     },
 
     validateAnswer() {
-      this.set('_validateButtonStatus', pendingValue);
-      this.get('answerValidated')()
-        .catch(() => this.set('_validateButtonStatus', 'enable'));
+      if(this.isSkipButtonEnable) {
+        this.set('_validateButtonStatus', pendingValue);
+        this.get('answerValidated')()
+          .catch(() => this.set('_validateButtonStatus', 'enable'));
+      }
     }
   }
 
