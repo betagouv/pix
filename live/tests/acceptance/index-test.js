@@ -8,7 +8,9 @@ describe('Acceptance | index page', function() {
 
   beforeEach(function() {
     application = startApp();
-    setBreakpoint('mobile'); // eslint-disable-line no-undef, no-undefined
+    /*eslint-disable no-undef */
+    setBreakpoint('mobile');
+    /*eslint-enable no-undef */
   });
 
   afterEach(function() {

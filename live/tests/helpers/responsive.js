@@ -1,5 +1,6 @@
 import Ember from 'ember';
 import MediaService from 'ember-responsive/media';
+import { registerAsyncHelper } from '@ember/test';
 
 const {
   getOwner
@@ -36,7 +37,8 @@ MediaService.reopen({
     }
   },
 
-  match() {}, // do not set up listeners in test
+  match() {
+  }, // do not set up listeners in test
 
   init() {
     this._super(...arguments);
@@ -45,7 +47,7 @@ MediaService.reopen({
   }
 });
 
-export default Ember.Test.registerAsyncHelper('setBreakpoint', function(app, breakpoint) {
+export default registerAsyncHelper('setBreakpoint', function(app, breakpoint) {
   // this should use getOwner once that's supported
   const mediaService = app.__deprecatedInstance__.lookup('service:media');
   mediaService._forceSetBreakpoint(breakpoint);
