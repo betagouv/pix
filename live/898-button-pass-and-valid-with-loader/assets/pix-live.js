@@ -205,6 +205,7 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
 
 
   var pendingValue = 'pending';
+  var enableValue = 'enable';
   exports.default = Component.extend({
 
     classNames: ['challenge-actions'],
@@ -212,37 +213,40 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
     challengeSkipped: null, // action
     answerValidated: null, // action
 
-    _validateButtonStatus: 'enable', // enable, pending, offline
-    _skipButtonStatus: 'enable',
-    isValidateButtonEnable: computed.equal('_validateButtonStatus', 'enable'),
+    _validateButtonStatus: enableValue, // enable, pending, offline
+    _skipButtonStatus: enableValue,
+    isValidateButtonEnable: computed.equal('_validateButtonStatus', enableValue),
     isValidateButtonPending: computed.equal('_validateButtonStatus', pendingValue),
     isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
 
-    isSkipButtonEnable: computed.equal('_skipButtonStatus', 'enable'),
+    isSkipButtonEnable: computed.equal('_skipButtonStatus', enableValue),
     isSkipButtonPending: computed.equal('_skipButtonStatus', pendingValue),
 
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
-      this.set('_validateButtonStatus', 'enable');
-      this.set('_skipButtonStatus', 'enable');
+      this.set('_validateButtonStatus', enableValue);
+      this.set('_skipButtonStatus', enableValue);
     },
 
 
     actions: {
       skipChallenge: function skipChallenge() {
-        this.set('_skipButtonStatus', pendingValue);
-        this.get('challengeSkipped')();
+        if (this.get('_validateButtonStatus') === enableValue) {
+          this.set('_skipButtonStatus', pendingValue);
+          this.get('challengeSkipped')();
+        }
       },
       validateAnswer: function validateAnswer() {
         var _this = this;
 
-        this.set('_validateButtonStatus', pendingValue);
-        this.get('answerValidated')().catch(function () {
-          return _this.set('_validateButtonStatus', 'enable');
-        });
+        if (this.get('_skipButtonStatus') === enableValue) {
+          this.set('_validateButtonStatus', pendingValue);
+          this.get('answerValidated')().catch(function () {
+            return _this.set('_validateButtonStatus', enableValue);
+          });
+        }
       }
     }
-
   });
 });
 define('pix-live/components/challenge-item-generic', ['exports', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _callOnlyOnce, _lodashCustom, _environment) {
@@ -8878,6 +8882,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+bcb5a0b3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+69a1ae41"});
 }
 //# sourceMappingURL=pix-live.map

@@ -584,33 +584,32 @@ button.routable-modal--close:active {
   text-align: center; }
 
 .challenge-actions__action-skip {
-  color: #3e4149;
   margin-right: 15px;
-  width: 130px;
-  height: 46px; }
+  width: 150px;
+  height: 46px;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+  border-radius: 23px; }
   .challenge-actions__action-skip:hover {
-    border-radius: 23px;
     background-color: #CCCCCC;
-    color: #3e4149;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    text-decoration: none; }
+  .challenge-actions__action-skip:focus {
     text-decoration: none; }
 
 .challenge-actions__action-skip-text {
   text-align: center;
   line-height: 46px;
-  width: 130px;
-  height: 46px;
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   font-weight: 600;
-  color: #3e4149;
+  color: #6a6d76;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-underline-style: none; }
+  letter-spacing: 0.5px; }
 
 .challenge-actions__action-skip__loader {
   margin-right: 15px;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
   background-color: #e6e6e6; }
@@ -625,30 +624,34 @@ button.routable-modal--close:active {
 
 .challenge-actions__action-validate {
   order: 1;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
   background-color: #0BA86D;
-  color: #ffffff; }
+  color: #ffffff;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out;
+  text-decoration: none; }
   .challenge-actions__action-validate:hover {
-    color: #ffffff;
-    background: #08784E;
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.25);
+    background: #228C5E;
+    text-decoration: none; }
+  .challenge-actions__action-validate:active, .challenge-actions__action-validate:visited, .challenge-actions__action-validate:focus {
     text-decoration: none; }
 
 .challenge-actions__action-validate__loader {
   order: 1;
-  width: 130px;
+  width: 150px;
   height: 46px;
   border-radius: 23px;
-  background: rgba(11, 168, 109, 0.5); }
+  background: #93CFB5; }
 
 .challenge-actions__action-validate-text {
   width: 76px;
   line-height: 46px;
   font-family: "Lato", Arial, sans-serif, sans-serif;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: white;
