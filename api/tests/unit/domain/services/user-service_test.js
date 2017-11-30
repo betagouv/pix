@@ -161,13 +161,13 @@ describe('Unit | Service | User Service', () => {
     const skillRemplir4 = new Skill('@remplir4');
     const skillUrl3 = new Skill('@url3');
     const skillWeb1 = new Skill('@web1');
+    const skillWithoutChallenge = new Skill('@oldSKill8');
 
     const competenceFlipper = _createCompetence('competenceRecordIdOne', '1.1', '1.1 Construire un flipper');
     const competenceDauphin = _createCompetence('competenceRecordIdTwo', '1.2', '1.2 Adopter un dauphin');
 
     const challengeForSkillCitation4 = _createChallenge('challengeRecordIdOne', competenceFlipper.id, [skillCitation4], '@citation4');
     const challengeForSkillCitation4AndMoteur3 = _createChallenge('challengeRecordIdTwo', competenceFlipper.id, [skillCitation4, skillMoteur3], '@citation4');
-    const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
     const challengeForSkillCollaborer4 = _createChallenge('challengeRecordIdThree', 'competenceRecordIdThatDoesNotExistAnymore', [skillCollaborer4], '@collaborer4');
     const challengeForSkillRecherche4 = _createChallenge('challengeRecordIdFour', competenceFlipper.id, [skillRecherche4], '@recherche4');
     const challengeForSkillRemplir2 = _createChallenge('challengeRecordIdFive', competenceDauphin.id, [skillRemplir2], '@remplir2');
@@ -175,6 +175,8 @@ describe('Unit | Service | User Service', () => {
     const challengeForSkillUrl3 = _createChallenge('challengeRecordIdSeven', competenceDauphin.id, [skillUrl3], '@url3');
     const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
     const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
+    const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
+    const oldChallengeWithAlreadyValidateSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -195,7 +197,8 @@ describe('Unit | Service | User Service', () => {
         challengeForSkillRemplir4,
         challengeForSkillUrl3,
         challengeForSkillWeb1,
-        challengeRecordWithoutSkills
+        challengeRecordWithoutSkills,
+        oldChallengeWithAlreadyValidateSkill
       ]);
       sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
       sandbox.stub(competenceRepository, 'list').resolves([
@@ -292,6 +295,44 @@ describe('Unit | Service | User Service', () => {
       });
 
       context('when selecting challenges to validate the skills per competence', () => {
+
+        context('when no challenge validate the skill', () => {
+
+          it('should not return the skill', function() {
+            // Given
+            const answerOfOldChallenge = new Answer({
+              challengeId: oldChallengeWithAlreadyValidateSkill.id,
+              result: 'ok'
+            });
+            const answerCollectionWithOneAnswer = AnswerCollection.forge([answerOfOldChallenge]);
+
+            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+
+            // When
+            const promise = userService.getCertificationProfile(userId);
+
+            // Then
+            return promise.then((skillProfile) => {
+              expect(skillProfile).to.deep.equal([{
+                  id: 'competenceRecordIdOne',
+                  index: '1.1',
+                  name: '1.1 Construire un flipper',
+                  skills: [],
+                  challenges: []
+                },
+                {
+                  id: 'competenceRecordIdTwo',
+                  index: '1.2',
+                  name: '1.2 Adopter un dauphin',
+                  skills: [],
+                  challenges: []
+                }]);
+            });
+          });
+
+        });
+
         context('when only one challenge validate the skill', () => {
           it('should select the same challenge', () => {
             // Given

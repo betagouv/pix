@@ -43,6 +43,11 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
   return [challenges, competences, answers];
 }
 
+function _verifySkillHasChallenges(skill, challenges) {
+  const challengesBySkill = _findChallengeBySkill(challenges, skill);
+  return challengesBySkill.length > 0;
+}
+
 function _sortThreeMostDifficultSkillsInDesc(skills) {
   return _(skills)
     .sortBy('difficulty')
@@ -110,7 +115,9 @@ module.exports = {
 
           if (challenge && competence) {
             challenge.skills.forEach((skill) => {
-              competence.addSkill(skill);
+              if (_verifySkillHasChallenges(skill, challenges)) {
+                competence.addSkill(skill);
+              }
             });
           }
         });
