@@ -2,8 +2,7 @@ import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import { destroyApp, startApp } from '../helpers/application';
 
-describe('Acceptance | index page', function() {
-
+describe('Acceptance | index', function() {
   let application;
 
   beforeEach(function() {
@@ -17,9 +16,9 @@ describe('Acceptance | index page', function() {
   describe('Navbar header section', function() {
     it('should have a link to sign-up page when user is not authenticated', function() {
       // when
-      /*eslint-disable no-undef */
+      /* eslint-disable */
       setBreakpoint('mobile');
-      /*eslint-enable no-undef */
+      /* eslint-enable */
       visit('/');
 
       // then
@@ -40,4 +39,5 @@ describe('Acceptance | index page', function() {
       });
     });
   });
+
 });
