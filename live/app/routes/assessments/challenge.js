@@ -21,15 +21,12 @@ export default BaseRoute.extend({
   },
 
   afterModel(model) {
-    const store = this.get('store');
-    return RSVP.hash({
-      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-      course: model.assessment.get('course')
-    }).then(({ answers }) => {
-      model.answers = answers;
-      //model.progress = course.getProgress(model.challenge);
-      return model;
-    });
+    return this.get('store')
+      .queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
+      .then(answers => {
+        model.answers = answers;
+        return model;
+      });
   },
 
   serialize(model) {
