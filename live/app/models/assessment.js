@@ -13,4 +13,16 @@ export default Model.extend({
   estimatedLevel: attr('number'),
   pixScore: attr('number'),
 
+  progress: computed('answers', 'course', function() {
+    const maxStep = this.get('course.nbChallenges');
+    const answersCount = this.get('answers.length');
+    const currentStep = (answersCount + 1) > maxStep ? maxStep : (answersCount + 1);
+
+    return {
+      currentStep: currentStep,
+      maxStep: maxStep,
+      stepPercentage: currentStep / maxStep * 100,
+    };
+  }),
+
 });
