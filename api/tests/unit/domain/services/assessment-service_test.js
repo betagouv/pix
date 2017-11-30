@@ -549,34 +549,4 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
   });
 
-  describe('#getByCertificationCourseId', () => {
-    beforeEach(() => {
-      sinon.stub(assessmentRepository, 'getByCertificationCourseId').resolves();
-    });
-
-    afterEach(() => {
-      assessmentRepository.getByCertificationCourseId.restore();
-    });
-    it('should call AssessmentRepository.getAssessmentByCertificationId', () => {
-      // given
-      const certificationCourseId = 12;
-
-      // when
-      const promise = service.getByCertificationCourseId(certificationCourseId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.getByCertificationCourseId);
-        sinon.assert.calledWith(assessmentRepository.getByCertificationCourseId, certificationCourseId);
-      });
-    });
-  });
 });
-
-function _generateValidatedSkills() {
-  const url2 = new Skill('@url2');
-  const web3 = new Skill('@web3');
-  const skill = new Set();
-  skill.add(url2);
-  skill.add(web3);
-};

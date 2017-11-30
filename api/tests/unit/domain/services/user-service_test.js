@@ -181,7 +181,7 @@ describe('Unit | Service | User Service', () => {
 
     const assessment1 = new Assessment({ id: 13, estimatedLevel: 1, pixScore: 12, courseId: 'courseId1' });
     const assessment2 = new Assessment({ id: 1637, estimatedLevel: 2, pixScore: 23, courseId: 'courseId2' });
-    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, pixScore: 2 courseId: 'courseId3' });
+    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, pixScore: 2, courseId: 'courseId3' });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -319,7 +319,7 @@ describe('Unit | Service | User Service', () => {
             answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
-            const promise = userService.getCertificationProfile(userId);
+            const promise = userService.getProfileToCertify(userId);
 
             // Then
             return promise.then((skillProfile) => {
@@ -327,12 +327,14 @@ describe('Unit | Service | User Service', () => {
                 id: 'competenceRecordIdOne',
                 index: '1.1',
                 name: '1.1 Construire un flipper',
+                pixScore: 12,
                 skills: [],
                 challenges: []
               }, {
                 id: 'competenceRecordIdTwo',
                 index: '1.2',
                 name: '1.2 Adopter un dauphin',
+                pixScore: 23,
                 skills: [],
                 challenges: []
               }]);

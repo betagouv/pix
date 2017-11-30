@@ -155,16 +155,11 @@ function getNextChallengeForCertificationCourse(assessment) {
   );
 }
 
-function getByCertificationCourseId(certificationCourseId) {
-  return assessmentRepository.getByCertificationCourseId(certificationCourseId);
-}
-
 module.exports = {
   getAssessmentNextChallengeId,
   getScoredAssessment,
   isAssessmentCompleted,
   isPreviewAssessment,
   isCertificationAssessment,
-  getNextChallengeForCertificationCourse,
-  getByCertificationCourseId
+  getNextChallengeForCertificationCourse
 };
