@@ -315,19 +315,18 @@ describe('Unit | Service | User Service', () => {
             // Then
             return promise.then((skillProfile) => {
               expect(skillProfile).to.deep.equal([{
-                  id: 'competenceRecordIdOne',
-                  index: '1.1',
-                  name: '1.1 Construire un flipper',
-                  skills: [],
-                  challenges: []
-                },
-                {
-                  id: 'competenceRecordIdTwo',
-                  index: '1.2',
-                  name: '1.2 Adopter un dauphin',
-                  skills: [],
-                  challenges: []
-                }]);
+                id: 'competenceRecordIdOne',
+                index: '1.1',
+                name: '1.1 Construire un flipper',
+                skills: [],
+                challenges: []
+              }, {
+                id: 'competenceRecordIdTwo',
+                index: '1.2',
+                name: '1.2 Adopter un dauphin',
+                skills: [],
+                challenges: []
+              }]);
             });
           });
 
