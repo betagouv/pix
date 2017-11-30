@@ -1,6 +1,6 @@
 const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const Course = require('../../../../lib/domain/models/referential/course');
+const Course = require('../../../../lib/domain/models/course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
 const cache = require('../../../../lib/infrastructure/cache');

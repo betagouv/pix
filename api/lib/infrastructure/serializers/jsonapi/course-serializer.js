@@ -11,25 +11,10 @@ class CourseSerializer extends JSONAPISerializer {
     data.attributes['description'] = model.description;
     data.attributes['duration'] = model.duration;
     data.attributes['is-adaptive'] = model.isAdaptive;
+    data.attributes['nb-challenges'] = model.challenges.length;
 
     if (model.imageUrl) {
       data.attributes['image-url'] = model.imageUrl;
-    }
-  }
-
-  serializeRelationships(model, data) {
-    if (model.challenges) {
-      data.relationships = {
-        challenges: {
-          data: []
-        }
-      };
-      for (const  challengeId of model.challenges) {
-        data.relationships.challenges.data.push({
-          'type': 'challenges',
-          'id': challengeId
-        });
-      }
     }
   }
 
