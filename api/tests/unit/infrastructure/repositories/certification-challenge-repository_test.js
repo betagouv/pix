@@ -2,7 +2,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach, knex } = require('..
 
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const CertificationChallengeBookshelf = require('../../../../lib/domain/models/data/certification-challenge');
-const CertificationChallenge =  require('../../../../lib/domain/models/CertificationChallenge');
+const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
 describe('Unit | Repository | certification-challenge-repository', () => {
 
@@ -13,6 +13,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
   };
   const certificationCourseObject = { id: 'certification_course_id' };
   const certificationChallenge = {
+    id: 'id',
     challengeId: 'challenge_id',
     competenceId: 'competenceId',
     associatedSkill: '@skill2',
@@ -113,21 +114,31 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       });
     });
 
-    it('should throw an error if something went wrong', function() {
-      //Given
-      const error = new Error('Unable to fetch');
-      const whereStub = sinon.stub(CertificationChallengeBookshelf, 'where').returns({
-        fetchAll: () => {
-          return Promise.reject(error);
-        }
+    context('when something went wrong', () => {
+
+      beforeEach(() => {
+        const error = new Error('Unable to fetch');
+        sinon.stub(CertificationChallengeBookshelf, 'where').returns({
+          fetchAll: () => {
+            return Promise.reject(error);
+          }
+        });
+
       });
 
-      // When
-      const promise = certificationChallengeRepository.findChallengesByCertificationCourseId();
+      afterEach(() => {
+        CertificationChallengeBookshelf.where.restore();
+      });
 
-      // Then
-      whereStub.restore();
-      return expect(promise).to.be.rejected;
+      it('should throw an error', function() {
+        //Given
+
+        // When
+        const promise = certificationChallengeRepository.findChallengesByCertificationCourseId();
+
+        // Then
+        return expect(promise).to.be.rejected;
+      });
     });
 
   });

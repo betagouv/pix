@@ -99,8 +99,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call getScoredAssessment', () => {
         // When
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {
-        });
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
         // Then
         return promise.then(() => {
@@ -110,7 +109,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should save the assessment with score', () => {
         // When
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, () => {});
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
 
         // Then
         return promise.then(() => {
@@ -227,8 +226,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should call getNextChallengeForCertificationCourse in assessmentService', function() {
         // given
-        const replyStub = () => {
-        };
         sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
         sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse').resolves();
 
@@ -247,8 +244,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       it('should provide the correct challengeId to the next layer', function() {
         // given
-        const replyStub = () => {
-        };
         const challenge = new CertificationChallenge({ challengeId: 'idea' });
         sandbox.stub(assessmentService, 'isCertificationAssessment').returns(true);
         sandbox.stub(assessmentService, 'getNextChallengeForCertificationCourse').resolves(challenge);

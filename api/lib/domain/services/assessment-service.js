@@ -141,16 +141,6 @@ function isCertificationAssessment(assessment) {
   return assessment.get('type') === 'CERTIFICATION';
 }
 
-function createCertificationAssessmentForUser(certificationCourse, userId) {
-  const assessmentCertification = {
-    type: 'CERTIFICATION',
-    courseId: certificationCourse.id,
-    userId: userId
-  };
-
-  return assessmentRepository.save(assessmentCertification);
-}
-
 function isAssessmentCompleted(assessment) {
   if (_.isNil(assessment.get('estimatedLevel')) || _.isNil(assessment.get('pixScore'))) {
     return false;
@@ -171,6 +161,5 @@ module.exports = {
   isAssessmentCompleted,
   isPreviewAssessment,
   isCertificationAssessment,
-  createCertificationAssessmentForUser,
   getNextChallengeForCertificationCourse
 };

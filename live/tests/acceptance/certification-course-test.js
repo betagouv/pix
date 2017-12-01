@@ -41,8 +41,10 @@ describe('Acceptance | Certification | Start Course', function() {
       });
 
       it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-        // when
+        // given
         await click('.challenge-actions__action-skip-text');
+
+        // when
         await click('.challenge-actions__action-skip-text');
 
         // then

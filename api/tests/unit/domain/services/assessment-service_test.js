@@ -442,37 +442,6 @@ describe('Unit | Domain | Services | assessment-service', () => {
     });
   });
 
-  describe('#createCertificationAssessmentForUser', () => {
-
-    beforeEach(() => {
-      sinon.stub(assessmentRepository, 'save').resolves();
-    });
-
-    afterEach(() => {
-      assessmentRepository.save.restore();
-    });
-
-    it('should save an assessment with CERTIFICATION type', () => {
-      // given
-      const certificationCourse = { id: 'certificationId' };
-      const userId = 'userId';
-      const expectedAssessment = {
-        courseId: certificationCourse.id,
-        type: 'CERTIFICATION',
-        userId: userId
-      };
-
-      // when
-      const promise = service.createCertificationAssessmentForUser(certificationCourse, userId);
-
-      // then
-      return promise.then(() => {
-        sinon.assert.calledOnce(assessmentRepository.save);
-        sinon.assert.calledWith(assessmentRepository.save, expectedAssessment);
-      });
-    });
-  });
-
   describe('#isAssessmentCompleted', () => {
     it('should return true when the assessment has a pixScore and an estimatedLevel', () => {
       // given
@@ -543,6 +512,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
+      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId');
     });
 
     afterEach(() => {
@@ -553,7 +523,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
       const challenge = new CertificationChallenge({ id: '1', challengeId : 'recA' });
-      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId').resolves(challenge);
+      certificationChallengeRepository.findNonAnsweredChallengeByCourseId.resolves(challenge);
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);
@@ -568,7 +538,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     it('should reject when there is no challenges to give anymore', function() {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId').rejects();
+      certificationChallengeRepository.findNonAnsweredChallengeByCourseId.rejects();
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);

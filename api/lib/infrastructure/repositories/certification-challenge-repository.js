@@ -1,9 +1,20 @@
-const CertificationChallenge = require('../../domain/models/data/certification-challenge');
+const CertificationChallengeBookshelf = require('../../domain/models/data/certification-challenge');
+const CertificationChallenge = require('../../domain/models/CertificationChallenge');
 const Bookshelf = require('../bookshelf');
+
+function _toDomain(model) {
+  return new CertificationChallenge({
+    id: model.get('id'),
+    challengeId: model.get('challengeId'),
+    competenceId: model.get('competenceId'),
+    associatedSkill: model.get('associatedSkill'),
+    courseId: model.get('courseId')
+  });
+}
 
 module.exports = {
   save(challenge, certificationCourse) {
-    const certificationChallenge = new CertificationChallenge({
+    const certificationChallenge = new CertificationChallengeBookshelf({
       challengeId: challenge.id,
       competenceId: challenge.competence,
       associatedSkill: challenge.testedSkill,
@@ -11,15 +22,17 @@ module.exports = {
     });
 
     return certificationChallenge.save()
-      .then((certificationChallenge) => certificationChallenge.toJSON());
+      .then((certificationChallenge) => {
+        return _toDomain(certificationChallenge)
+      });
   },
 
   findChallengesByCertificationCourseId(courseId) {
-    return CertificationChallenge
+    return CertificationChallengeBookshelf
       .where({ courseId })
       .fetchAll()
       .then((collection) => {
-        return collection.map((certificationChallenge) => certificationChallenge.toDomain());
+        return collection.map((certificationChallenge) => _toDomain(certificationChallenge));
       });
   },
 
@@ -28,10 +41,10 @@ module.exports = {
       .select('challengeId')
       .where({ assessmentId });
 
-    return CertificationChallenge
+    return CertificationChallengeBookshelf
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
       .fetch({ require: true })
-      .then((certificationChallenge) => certificationChallenge.toDomain());
+      .then((certificationChallenge) => _toDomain(certificationChallenge));
   }
-};
+}

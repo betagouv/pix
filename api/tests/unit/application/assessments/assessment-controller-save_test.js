@@ -27,7 +27,7 @@ describe('Unit | Controller | assessment-controller', () => {
       sandbox.restore();
     });
 
-    context('the assessment saved is a certification test', () => {
+    context('when the assessment saved is a certification test', () => {
 
       const request = {
         headers: {
@@ -73,7 +73,7 @@ describe('Unit | Controller | assessment-controller', () => {
       });
     });
 
-    context('the assessment saved is not a certification test', () => {
+    context('when the assessment saved is not a certification test', () => {
 
       const request = {
         headers: {
@@ -144,60 +144,85 @@ describe('Unit | Controller | assessment-controller', () => {
         sinon.assert.calledWith(assessmentRepository.save, assessment);
       });
 
-      describe('when the deserializedAssessment is successfully saved', () => {
-        it('should serialize the deserializedAssessment after its creation', () => {
-          // When
-          const promise = controller.save(request, replyStub);
+      it('should serialize the deserializedAssessment after its creation', () => {
+        // When
+        const promise = controller.save(request, replyStub);
 
-          // Then
-          return promise.then(() => {
-            sinon.assert.calledWith(assessmentSerializer.serialize, deserializedAssessment);
-          });
-        });
-
-        it('should reply the serialized deserializedAssessment with code 201', () => {
-          // When
-          const promise = controller.save(request, replyStub);
-
-          // Then
-          return promise.then(() => {
-            sinon.assert.calledWith(replyStub, serializedAssessment);
-            sinon.assert.calledWith(codeStub, 201);
-          });
-        });
-
-      });
-
-      describe('when the deserializedAssessment can not be saved', () => {
-
-        let badImplementationStub;
-
-        beforeEach(() => {
-          badImplementationStub = sinon.stub(Boom, 'badImplementation');
-        });
-
-        afterEach(() => {
-          badImplementationStub.restore();
-        });
-
-        it('should return a badImplementationError', () => {
-          // Given
-          const badImplementationMessage = { message: 'Boom: Bad Implementation' };
-          badImplementationStub.returns(badImplementationMessage);
-          const rejectedError = new Error();
-          assessmentRepository.save.rejects(rejectedError);
-
-          // When
-          const promise = controller.save(request, replyStub);
-
-          // Then
-          return promise.then(() => {
-            sinon.assert.calledWith(badImplementationStub, rejectedError);
-            sinon.assert.calledWith(replyStub, badImplementationMessage);
-          });
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(assessmentSerializer.serialize, deserializedAssessment);
         });
       });
 
+      it('should reply the serialized deserializedAssessment with code 201', () => {
+        // When
+        const promise = controller.save(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(replyStub, serializedAssessment);
+          sinon.assert.calledWith(codeStub, 201);
+        });
+      });
+
+
+    });
+
+    describe('when the deserializedAssessment can not be saved', () => {
+
+      let badImplementationStub;
+
+      beforeEach(() => {
+        badImplementationStub = sinon.stub(Boom, 'badImplementation');
+        sandbox.stub(assessmentRepository, 'save');
+      });
+
+      afterEach(() => {
+        badImplementationStub.restore();
+      });
+
+      it('should return a badImplementationError', () => {
+        // Given
+        const request = {
+          headers: {
+            authorization: 'Bearer my-token'
+          },
+          payload: {
+            data: {
+              id: 256,
+              attributes: {
+                'estimated-level': 4,
+                'pix-score': 4
+              },
+              relationships: {
+                user: {
+                  data: {
+                    id: 42657
+                  }
+                },
+                course: {
+                  data: {
+                    id: 'recCourseId'
+                  }
+                }
+              }
+            }
+          }
+        };
+        const badImplementationMessage = { message: 'Boom: Bad Implementation' };
+        badImplementationStub.returns(badImplementationMessage);
+        const rejectedError = new Error();
+        assessmentRepository.save.rejects(rejectedError);
+
+        // When
+        const promise = controller.save(request, replyStub);
+
+        // Then
+        return promise.then(() => {
+          sinon.assert.calledWith(badImplementationStub, rejectedError);
+          sinon.assert.calledWith(replyStub, badImplementationMessage);
+        });
+      });
     });
 
   });

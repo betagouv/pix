@@ -201,6 +201,8 @@ describe('Unit | Repository | AnswerRepository', () => {
       // then
       return promise.then((result) => {
         expect(result.length).to.be.equal(2);
+        expect(result[0].get('assessmentId')).to.be.equal(2);
+        expect(result[1].get('assessmentId')).to.be.equal(2);
       });
     });
   });
