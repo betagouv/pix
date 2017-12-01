@@ -4361,7 +4361,7 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
     name: 'sentry-setup'
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me', 'pix-live/mirage/routes/get-organizations', 'pix-live/mirage/routes/get-snapshots', 'ember-cli-mirage'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postAuthentications, _getUserMe, _getOrganizations, _getSnapshots, _emberCliMirage) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-user-me', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-organizations', 'pix-live/mirage/routes/get-snapshots', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/post-certification-course', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'ember-cli-mirage'], function (exports, _getAnswer, _getAnswerByChallengeAndAssessment, _getAssessment, _getAssessmentSolutions, _getUserMe, _getChallenge, _getChallenges, _getCourse, _getCourses, _getCoursesOfTheWeek, _getNextChallenge, _getOrganizations, _getSnapshots, _patchAnswer, _postAnswers, _postAssessments, _postAuthentications, _postCertificationCourse, _postFeedbacks, _postRefreshSolution, _emberCliMirage) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4405,7 +4405,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     //Courses
     this.get('/courses/:id', _getCourse.default);
-    this.post('/certification-courses');
+    this.post('/certification-courses', _postCertificationCourse.default);
 
     this.post('/authentications', _postAuthentications.default);
     this.get('/users/me', _getUserMe.default);
@@ -4979,6 +4979,24 @@ define('pix-live/mirage/factories/area', ['exports', 'ember-cli-mirage'], functi
     value: true
   });
   exports.default = _emberCliMirage.Factory.extend({});
+});
+define('pix-live/mirage/factories/challenge', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    type: function type() {
+      return 'QROC';
+    },
+    instruction: function instruction() {
+      return 'Dans le village de Montrésor (37, France), sur quelle rue débouche la rue des Perrières ?';
+    },
+    proposals: function proposals() {
+      return 'Rue de : ${Rue#}';
+    }
+  });
 });
 define('pix-live/mirage/factories/competence', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
@@ -5620,24 +5638,27 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     var allAssessments = [_refAssessment.default];
 
+    // TODO: clean legacy
     var assessments = _lodashCustom.default.map(allAssessments, function (oneAssessment) {
       return { id: oneAssessment.data.relationships.course.data.id, obj: oneAssessment };
     });
 
-    var assessment = _lodashCustom.default.find(assessments, { id: courseId });
+    var newAssessment = {
+      'user-id': 'user_id',
+      'user-name': 'Jane Doe',
+      'user-email': 'jane@acme.com',
+      courseId: courseId
+    };
 
+    var assessment = _lodashCustom.default.find(assessments, { id: courseId });
     if (assessment) {
       return assessment.obj;
     } else if (_lodashCustom.default.startsWith(courseId, 'null')) {
       return _refAssessment.default;
+    } else if (!_lodashCustom.default.startsWith(courseId, 'rec')) {
+      newAssessment.type = 'CERTIFICATION';
+      return schema.assessments.create(newAssessment);
     } else {
-
-      var newAssessment = {
-        'user-id': 'user_id',
-        'user-name': 'Jane Doe',
-        'user-email': 'jane@acme.com',
-        courseId: courseId
-      };
       return schema.assessments.create(newAssessment);
     }
   };
@@ -5693,6 +5714,23 @@ define('pix-live/mirage/routes/post-authentications', ['exports'], function (exp
     }
   };
 });
+define('pix-live/mirage/routes/post-certification-course', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (schema) {
+
+    var certificationCourse = schema.courses.find('42');
+    // XXX certification-courses is a subclass of courses, and need
+    // to be manually set in mirage
+    certificationCourse.modelName = 'certification-courses';
+
+    return certificationCourse;
+  };
+});
 define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/data/feedbacks/ref-feedback'], function (exports, _refFeedback) {
   'use strict';
 
@@ -5725,7 +5763,7 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
   exports.default = function (server) {
 
-    var courses = server.createList('course', 2, { name: 'course name' });
+    var courses = server.createList('course', 2, { name: 'course name', id: 'recxx' });
     server.createList('courseGroup', 3, { courses: courses });
 
     server.loadFixtures('areas');
@@ -5781,11 +5819,17 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
     prescriber.organization = company;
     company.user = prescriber;
-
     server.create('assessment', {});
 
     var snapshots = server.createList('snapshot', 3, { organization: company });
     company.snapshots = snapshots;
+
+    // certification course
+    var challenges = server.createList('challenge', 2);
+    server.create('course', {
+      id: '42',
+      challenges: challenges
+    });
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -5893,17 +5937,18 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     userEmail: attr('string'),
     firstChallenge: computed.alias('course.challenges.firstObject'),
     estimatedLevel: attr('number'),
-    pixScore: attr('number')
+    pixScore: attr('number'),
+    type: attr('string')
 
   });
 });
-define('pix-live/models/certification-course', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/certification-course', ['exports', 'pix-live/models/course'], function (exports, _course) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _emberData.default.Model.extend({});
+  exports.default = _course.default.extend({});
 });
 define('pix-live/models/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -6251,17 +6296,22 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
     },
     afterModel: function afterModel(model) {
       var store = this.get('store');
-      return RSVP.hash({
-        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-        course: model.assessment.get('course')
-      }).then(function (_ref) {
-        var answers = _ref.answers,
-            course = _ref.course;
 
-        model.answers = answers;
-        model.progress = course.getProgress(model.challenge);
-        return model;
-      });
+      // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
+      // Correction possible: Séparer la phase de récupération du course et la phase de création d'un assessment
+      if (model.assessment.get('type') !== 'CERTIFICATION') {
+        return RSVP.hash({
+          answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
+          course: model.assessment.get('course')
+        }).then(function (_ref) {
+          var answers = _ref.answers,
+              course = _ref.course;
+
+          model.answers = answers;
+          model.progress = course.getProgress(model.challenge);
+          return model;
+        });
+      }
     },
     serialize: function serialize(model) {
       return {
@@ -6282,8 +6332,7 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
       return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') }).then(function (nextChallenge) {
         return _this2.transitionTo('assessments.challenge', { assessment: assessment, challenge: nextChallenge });
       }).catch(function () {
-        var endTemplate = assessment.get('type') === 'CERTIFICATION' ? 'certifications.results' : 'assessments.results';
-        _this2.transitionTo(endTemplate, assessment.get('id'));
+        assessment.get('type') === 'CERTIFICATION' ? _this2.transitionTo('certifications.results') : _this2.transitionTo('assessments.results', assessment.get('id'));
       });
     },
 
@@ -6449,6 +6498,9 @@ define('pix-live/routes/certification-course', ['exports'], function (exports) {
       return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true }).then(function () {
         return _this.get('store').createRecord('certification-course', {}).save();
       });
+    },
+    redirect: function redirect(certificationCourse) {
+      return this.replaceWith('courses.create-assessment', certificationCourse);
     },
 
 
@@ -7328,7 +7380,7 @@ define("pix-live/templates/assessments/challenge", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "GdfxcAIM", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n    \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n        \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"progress\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "Hzge9EQ7", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n    \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[25,\"eq\",[[19,0,[\"model\",\"assessment\",\"type\"]],\"CERTIFICATION\"],null]],null,{\"statements\":[[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n          \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"progress\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
 });
 define("pix-live/templates/assessments/comparison", ["exports"], function (exports) {
   "use strict";
@@ -8143,6 +8195,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/factories/challenge.js', function () {
+      // test passed
+    });
+
     it('mirage/factories/competence.js', function () {
       // test passed
     });
@@ -8264,6 +8320,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/routes/post-authentications.js', function () {
+      // test passed
+    });
+
+    it('mirage/routes/post-certification-course.js', function () {
       // test passed
     });
 
@@ -8833,6 +8893,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.2+b073924b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.2+799f91f0"});
 }
 //# sourceMappingURL=pix-live.map
