@@ -512,7 +512,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationChallengeRepository, 'findNonAnsweredChallengeByCourseId');
+      sandbox.stub(certificationChallengeRepository, 'getNonAnsweredChallengeByCourseId');
     });
 
     afterEach(() => {
@@ -523,7 +523,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
       const challenge = new CertificationChallenge({ id: '1', challengeId : 'recA' });
-      certificationChallengeRepository.findNonAnsweredChallengeByCourseId.resolves(challenge);
+      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.resolves(challenge);
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);
@@ -538,7 +538,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     it('should reject when there is no challenges to give anymore', function() {
       // given
       const assessment = new Assessment({ id: 'assessmentId', courseId: 'certifCourseId' });
-      certificationChallengeRepository.findNonAnsweredChallengeByCourseId.rejects();
+      certificationChallengeRepository.getNonAnsweredChallengeByCourseId.rejects();
 
       // when
       const promise = service.getNextChallengeForCertificationCourse(assessment);

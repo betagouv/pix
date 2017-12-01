@@ -150,7 +150,7 @@ function isAssessmentCompleted(assessment) {
 }
 
 function getNextChallengeForCertificationCourse(assessment) {
-  return certificationChallengeRepository.findNonAnsweredChallengeByCourseId(
+  return certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
     assessment.get('id'), assessment.get('courseId')
   );
 }

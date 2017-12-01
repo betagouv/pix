@@ -3,6 +3,7 @@ const { describe, it, expect, sinon, beforeEach, afterEach, knex } = require('..
 const certificationChallengeRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const CertificationChallengeBookshelf = require('../../../../lib/domain/models/data/certification-challenge');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Repository | certification-challenge-repository', () => {
 
@@ -143,7 +144,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
 
   });
 
-  describe('#findNonAnsweredChallengeByCourseId', () => {
+  describe('#getNonAnsweredChallengeByCourseId', () => {
 
     const courseId = 'courseId';
     const assessmentId = 'assessmentId';
@@ -213,12 +214,13 @@ describe('Unit | Repository | certification-challenge-repository', () => {
         const courseId = -1;
 
         // when
-        const promise = certificationChallengeRepository.findNonAnsweredChallengeByCourseId(
+        const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
           assessmentId, courseId
         );
 
         // then
-        return expect(promise).to.be.rejectedWith('EmptyResponse');
+        //return expect(promise).to.be.rejectedWith('EmptyResponse');
+        return expect(promise).to.be.rejectedWith(NotFoundError);
       });
 
     });
@@ -229,7 +231,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
         // given
 
         // when
-        const promise = certificationChallengeRepository.findNonAnsweredChallengeByCourseId(
+        const promise = certificationChallengeRepository.getNonAnsweredChallengeByCourseId(
           assessmentId, courseId
         );
 

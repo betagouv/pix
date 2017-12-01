@@ -172,6 +172,33 @@ describe('Unit | Controller | assessment-controller', () => {
 
       let badImplementationStub;
 
+      const request = {
+        headers: {
+          authorization: 'Bearer my-token'
+        },
+        payload: {
+          data: {
+            id: 256,
+            attributes: {
+              'estimated-level': 4,
+              'pix-score': 4
+            },
+            relationships: {
+              user: {
+                data: {
+                  id: 42657
+                }
+              },
+              course: {
+                data: {
+                  id: 'recCourseId'
+                }
+              }
+            }
+          }
+        }
+      };
+
       beforeEach(() => {
         badImplementationStub = sinon.stub(Boom, 'badImplementation');
         sandbox.stub(assessmentRepository, 'save');
@@ -183,32 +210,6 @@ describe('Unit | Controller | assessment-controller', () => {
 
       it('should return a badImplementationError', () => {
         // Given
-        const request = {
-          headers: {
-            authorization: 'Bearer my-token'
-          },
-          payload: {
-            data: {
-              id: 256,
-              attributes: {
-                'estimated-level': 4,
-                'pix-score': 4
-              },
-              relationships: {
-                user: {
-                  data: {
-                    id: 42657
-                  }
-                },
-                course: {
-                  data: {
-                    id: 'recCourseId'
-                  }
-                }
-              }
-            }
-          }
-        };
         const badImplementationMessage = { message: 'Boom: Bad Implementation' };
         badImplementationStub.returns(badImplementationMessage);
         const rejectedError = new Error();

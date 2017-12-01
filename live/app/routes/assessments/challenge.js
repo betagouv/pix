@@ -23,6 +23,8 @@ export default BaseRoute.extend({
   afterModel(model) {
     const store = this.get('store');
 
+    // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
+    // Correction possible: Séparer la phase de récupération du course et la phase de création d'un assessment
     if (model.assessment.get('type') !== 'CERTIFICATION') {
       return RSVP.hash({
         answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),

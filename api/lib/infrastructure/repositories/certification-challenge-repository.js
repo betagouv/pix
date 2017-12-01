@@ -1,5 +1,6 @@
 const CertificationChallengeBookshelf = require('../../domain/models/data/certification-challenge');
 const CertificationChallenge = require('../../domain/models/CertificationChallenge');
+const { NotFoundError } = require('../../domain/errors');
 const Bookshelf = require('../bookshelf');
 
 function _toDomain(model) {
@@ -36,7 +37,7 @@ module.exports = {
       });
   },
 
-  findNonAnsweredChallengeByCourseId(assessmentId, courseId) {
+  getNonAnsweredChallengeByCourseId(assessmentId, courseId) {
     const answeredChallengeIds = Bookshelf.knex('answers')
       .select('challengeId')
       .where({ assessmentId });
@@ -44,7 +45,13 @@ module.exports = {
     return CertificationChallengeBookshelf
       .where({ courseId })
       .query((knex) => knex.whereNotIn('challengeId', answeredChallengeIds))
-      .fetch({ require: true })
-      .then((certificationChallenge) => _toDomain(certificationChallenge));
+      .fetch()
+      .then((certificationChallenge) => {
+        if(certificationChallenge === null) {
+          throw new NotFoundError();
+        }
+
+        return _toDomain(certificationChallenge);
+      });
   }
 }
