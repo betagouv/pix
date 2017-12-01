@@ -4008,10 +4008,10 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
+      (0, _mocha.it)('should be replaced by a loader during treatment', function () {
         // given
         this.set('externalAction', function () {
           return new RSVP.Promise(function () {});
@@ -4023,11 +4023,11 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
 
         // when
-        this.$('.challenge-actions__action-validate').click();
+        this.$(VALIDATE_BUTTON).click();
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
@@ -4042,11 +4042,11 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
 
         // when
-        this.$('.challenge-actions__action-validate').click();
+        this.$(VALIDATE_BUTTON).click();
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(0);
       });
     });
 
@@ -4061,6 +4061,25 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
         // then
         (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should be replaced by a loader during treatment', function () {
+        // given
+        this.set('externalAction', function () {
+          return new RSVP.Promise(function () {});
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "sBFhRqpB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"challengeSkipped\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$(SKIP_BUTTON).click();
+
+        // then
+        (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(1);
       });
     });
   });

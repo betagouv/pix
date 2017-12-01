@@ -202,6 +202,10 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
   });
   var Component = Ember.Component;
   var computed = Ember.computed;
+
+
+  var pendingValue = 'pending';
+  var enableValue = 'enable';
   exports.default = Component.extend({
 
     classNames: ['challenge-actions'],
@@ -209,31 +213,40 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
     challengeSkipped: null, // action
     answerValidated: null, // action
 
-    _validateButtonStatus: 'enable', // enable, pending, offline
-    isValidateButtonEnable: computed.equal('_validateButtonStatus', 'enable'),
-    isValidateButtonPending: computed.equal('_validateButtonStatus', 'pending'),
+    _validateButtonStatus: enableValue, // enable, pending, offline
+    _skipButtonStatus: enableValue,
+    isValidateButtonEnable: computed.equal('_validateButtonStatus', enableValue),
+    isValidateButtonPending: computed.equal('_validateButtonStatus', pendingValue),
     isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
+
+    isSkipButtonEnable: computed.equal('_skipButtonStatus', enableValue),
+    isSkipButtonPending: computed.equal('_skipButtonStatus', pendingValue),
 
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
-      this.set('_validateButtonStatus', 'enable');
+      this.set('_validateButtonStatus', enableValue);
+      this.set('_skipButtonStatus', enableValue);
     },
 
 
     actions: {
       skipChallenge: function skipChallenge() {
-        this.get('challengeSkipped')();
+        if (this.get('_validateButtonStatus') === enableValue) {
+          this.set('_skipButtonStatus', pendingValue);
+          this.get('challengeSkipped')();
+        }
       },
       validateAnswer: function validateAnswer() {
         var _this = this;
 
-        this.set('_validateButtonStatus', 'pending');
-        this.get('answerValidated')().catch(function () {
-          return _this.set('_validateButtonStatus', 'enable');
-        });
+        if (this.get('_skipButtonStatus') === enableValue) {
+          this.set('_validateButtonStatus', pendingValue);
+          this.get('answerValidated')().catch(function () {
+            return _this.set('_validateButtonStatus', enableValue);
+          });
+        }
       }
     }
-
   });
 });
 define('pix-live/components/challenge-item-generic', ['exports', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _callOnlyOnce, _lodashCustom, _environment) {
@@ -7427,7 +7440,7 @@ define("pix-live/templates/components/challenge-actions", ["exports"], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "lPiK97hI", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n  \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonPending\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader challenge-actions__loader--validate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader-spinner\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"\\n\"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n  \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "98kSaSuq", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-validate__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[4,\"if\",[[19,0,[\"isSkipButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-skip__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
 });
 define("pix-live/templates/components/challenge-item-generic", ["exports"], function (exports) {
   "use strict";
@@ -8820,6 +8833,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.2+c3d1b1f3"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.2+0323420e"});
 }
 //# sourceMappingURL=pix-live.map
