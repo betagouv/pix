@@ -24,7 +24,7 @@ module.exports = {
 
     return certificationChallenge.save()
       .then((certificationChallenge) => {
-        return _toDomain(certificationChallenge)
+        return _toDomain(certificationChallenge);
       });
   },
 
@@ -54,4 +54,4 @@ module.exports = {
         return _toDomain(certificationChallenge);
       });
   }
-}
+};

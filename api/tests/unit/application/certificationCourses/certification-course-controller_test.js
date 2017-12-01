@@ -75,9 +75,6 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
 
     it('should reply the certification course serialized', function() {
-      // given
-      const savedAssessment = { id: 'assessmentId', courseId: 'CertificationCourseId', type: 'CERTIFICATION' };
-
       // when
       const promise = CertificationCourseController.save(request, replyStub);
 

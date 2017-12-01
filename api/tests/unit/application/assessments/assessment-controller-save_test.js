@@ -165,7 +165,6 @@ describe('Unit | Controller | assessment-controller', () => {
         });
       });
 
-
     });
 
     describe('when the deserializedAssessment can not be saved', () => {
