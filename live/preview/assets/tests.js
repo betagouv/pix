@@ -796,6 +796,8 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
       (0, _default.default)(server);
+
+      (0, _testing.authenticateAsSimpleUser)();
     });
 
     (0, _mocha.afterEach)(function () {
@@ -804,31 +806,75 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
 
     (0, _mocha.describe)('start certification course', function () {
 
-      (0, _mocha.it)('should start a certification course (display course id for the moment)', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                // given
-                (0, _testing.authenticateAsSimpleUser)();
+      context('When starting a certification course', function () {
 
-                // when
-                _context.next = 3;
-                return visit('/test-de-certification');
+        (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return visit('/test-de-certification');
 
-              case 3:
-
-                // then
-                (0, _chai.expect)(currentURL()).to.equal('/test-de-certification');
-                (0, _chai.expect)(find('.certification-course__course-id').length).to.equal(1);
-
-              case 5:
-              case 'end':
-                return _context.stop();
+                case 2:
+                case 'end':
+                  return _context.stop();
+              }
             }
-          }
-        }, _callee, this);
-      })));
+          }, _callee, this);
+        })));
+
+        (0, _mocha.it)('should be redirected on the first challenge of an assessment', function () {
+          // then
+          (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/1/);
+        });
+
+        (0, _mocha.it)('should navigate to next challenge when we click pass', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  _context2.next = 2;
+                  return click('.challenge-actions__action-skip-text');
+
+                case 2:
+
+                  // then
+                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+
+                case 3:
+                case 'end':
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, this);
+        })));
+
+        (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+          return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.next = 2;
+                  return click('.challenge-actions__action-skip-text');
+
+                case 2:
+                  _context3.next = 4;
+                  return click('.challenge-actions__action-skip-text');
+
+                case 4:
+
+                  // then
+                  (0, _chai.expect)(currentURL()).to.equals('/certifications/results');
+
+                case 5:
+                case 'end':
+                  return _context3.stop();
+              }
+            }
+          }, _callee3, this);
+        })));
+      });
     });
   });
 });
@@ -4008,10 +4054,10 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(0);
       });
 
-      (0, _mocha.it)('should be replaced by a (spinning) loader during treatment', function () {
+      (0, _mocha.it)('should be replaced by a loader during treatment', function () {
         // given
         this.set('externalAction', function () {
           return new RSVP.Promise(function () {});
@@ -4023,11 +4069,11 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
 
         // when
-        this.$('.challenge-actions__action-validate').click();
+        this.$(VALIDATE_BUTTON).click();
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(0);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.challenge-actions__action-validate__loader-bar')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should be enable again when the treatment failed', function () {
@@ -4042,11 +4088,11 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
 
         // when
-        this.$('.challenge-actions__action-validate').click();
+        this.$(VALIDATE_BUTTON).click();
 
         // then
         (0, _chai.expect)(this.$(VALIDATE_BUTTON)).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.challenge-actions__loader-spinner')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(0);
       });
     });
 
@@ -4061,6 +4107,25 @@ define('pix-live/tests/integration/components/challenge-actions-test', ['chai', 
         }));
         // then
         (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(1);
+      });
+
+      (0, _mocha.it)('should be replaced by a loader during treatment', function () {
+        // given
+        this.set('externalAction', function () {
+          return new RSVP.Promise(function () {});
+        });
+        this.render(Ember.HTMLBars.template({
+          "id": "sBFhRqpB",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"challenge-actions\",null,[[\"challengeSkipped\"],[[25,\"action\",[[19,0,[]],[19,0,[\"externalAction\"]]],null]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$(SKIP_BUTTON).click();
+
+        // then
+        (0, _chai.expect)(this.$(SKIP_BUTTON)).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.challenge-actions__action-skip__loader-bar')).to.have.lengthOf(1);
       });
     });
   });
@@ -13976,7 +14041,7 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
             // then
             return promise.then(function () {
               _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-              _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results', assessment.get('id'));
+              _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results');
             });
           });
         });
@@ -14352,12 +14417,6 @@ define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha',
     });
 
     (0, _mocha.describe)('#error', function () {
-
-      beforeEach(function () {
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-        route = this.subject();
-      });
 
       (0, _mocha.it)('should redirect to index', function () {
         // given
