@@ -25,6 +25,7 @@ export default BaseRoute.extend({
 
   afterModel(model) {
     const store = this.get('store');
+
     // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
     if (!model.assessment.get('isCertification')) {
       return RSVP.hash({
@@ -36,7 +37,6 @@ export default BaseRoute.extend({
         return model;
       });
     } else {
-      model.courseId = model.assessment.get('courseId');
       return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
         .then(user => {
           model.user = user;
@@ -66,7 +66,7 @@ export default BaseRoute.extend({
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
         assessment.get('type') === 'CERTIFICATION' ?
-          this.transitionTo('certifications.results', assessment.get('courseId'))
+          this.transitionTo('certifications.results', assessment.get('certificationNumber'))
           : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },

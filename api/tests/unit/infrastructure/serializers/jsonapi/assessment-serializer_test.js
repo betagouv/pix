@@ -20,7 +20,7 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
         'pix-score': undefined,
         'success-rate': 24,
         'type' : 'charade',
-        'course-id' : 'course_id'
+        'certification-number' : null
       },
       relationships: {
         course: {

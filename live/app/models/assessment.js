@@ -14,7 +14,7 @@ export default Model.extend({
   estimatedLevel: attr('number'),
   pixScore: attr('number'),
   type: attr('string'),
-  courseId: attr('string'),
+  certificationNumber: attr('string'),
   isCertification: Ember.computed.equal('type', 'CERTIFICATION'),
 
 });

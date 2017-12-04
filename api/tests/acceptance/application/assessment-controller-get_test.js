@@ -179,7 +179,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
             'pix-score': 0,
             'success-rate': null,
             'type' : null,
-            'course-id' : 'anyFromAirTable'
+            'certification-number' : null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
@@ -317,7 +317,7 @@ describe('Acceptance | API | assessment-controller-get', function() {
             'pix-score': 8,
             'success-rate': 50,
             'type' : null,
-            'course-id' : 'anyFromAirTable'
+            'certification-number' : null
           },
           'relationships': {
             'course': { 'data': { 'type': 'courses', 'id': 'anyFromAirTable' } },
