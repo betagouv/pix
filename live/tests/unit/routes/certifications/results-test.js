@@ -10,7 +10,7 @@ describe('Unit | Route | Certifications | Results', function() {
     needs: ['service:current-routed-modal', 'service:session']
   });
   const params = {
-    assessment_id: 'assessment_id',
+    certification_number: 'certification_number',
   };
 
   it('exists', function() {

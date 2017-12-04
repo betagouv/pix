@@ -29,12 +29,13 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       id: 'challenge_id'
     }
   };
+  const userId = 'user_id';
   beforeEach(function() {
     // define stubs
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
     findRecordStub = sinon.stub();
-    findRecordStub.withArgs('user', 12).resolves({ userId: 'user_id' });
+    findRecordStub.withArgs('user', userId).resolves({ userId });
     StoreStub = EmberService.extend({
       createRecord: createRecordStub,
       queryRecord: queryRecordStub,
@@ -45,7 +46,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
     this.register('service:store', StoreStub);
     this.inject.service('store', { as: 'store' });
     this.register('service:session', EmberService.extend({
-      data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
+      data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
     }));
     // instance route object
     route = this.subject();
@@ -95,7 +96,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'user', 12);
+        sinon.assert.calledWith(findRecordStub, 'user', userId);
       });
     });
 
@@ -121,7 +122,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         assessment: { id: 'assessment_id' },
         challenge: { id: 'challenge_id' },
         progress: 'course',
-        user: { userId: 'user_id' },
+        user: { userId: userId },
         courseId: 'course_id'
       };
 
