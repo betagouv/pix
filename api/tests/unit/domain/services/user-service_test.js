@@ -176,15 +176,17 @@ describe('Unit | Service | User Service', () => {
     const challengeForSkillWeb1 = _createChallenge('challengeRecordIdEight', competenceDauphin.id, [skillWeb1], '@web1');
     const challengeRecordWithoutSkills = _createChallenge('challengeRecordIdNine', competenceFlipper.id, [], null);
     const archivedChallengeForSkillCitation4 = _createChallenge('challengeRecordIdTen', competenceFlipper.id, [skillCitation4], '@citation4', 'archive');
-    const oldChallengeWithAlreadyValidateSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
+    const oldChallengeWithAlreadyValidatedSkill = _createChallenge('challengeRecordIdEleven', competenceFlipper.id, [skillWithoutChallenge], '@oldSkill8', 'proposé');
+
+    const assessment1 = new Assessment({ id: 13, estimatedLevel: 1, courseId: 'courseId1' });
+    const assessment2 = new Assessment({ id: 1637, estimatedLevel: 2, courseId: 'courseId2' });
+    const assessment3 = new Assessment({ id: 145, estimatedLevel: 0, courseId: 'courseId3' });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(assessmentRepository, 'findLastCompletedAssessmentsForEachCoursesByUser').resolves([
-        new Assessment({ id: 13, estimatedLevel: 1, courseId: 'courseId1' }),
-        new Assessment({ id: 1637, estimatedLevel: 2, courseId: 'courseId2' }),
-        new Assessment({ id: 145, estimatedLevel: 0, courseId: 'courseId3' })
+        assessment1, assessment2, assessment3
       ]);
 
       sandbox.stub(challengeRepository, 'list').resolves([
@@ -198,7 +200,7 @@ describe('Unit | Service | User Service', () => {
         challengeForSkillUrl3,
         challengeForSkillWeb1,
         challengeRecordWithoutSkills,
-        oldChallengeWithAlreadyValidateSkill
+        oldChallengeWithAlreadyValidatedSkill
       ]);
       sandbox.stub(answerRepository, 'findCorrectAnswersByAssessment').resolves(answerCollectionWithEmptyData);
       sandbox.stub(competenceRepository, 'list').resolves([
@@ -248,7 +250,7 @@ describe('Unit | Service | User Service', () => {
 
       // Then
       return promise.then(() => {
-        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessment, 145);
+        sinon.assert.neverCalledWith(answerRepository.findCorrectAnswersByAssessment, assessment3.id);
       });
     });
 
@@ -268,8 +270,8 @@ describe('Unit | Service | User Service', () => {
         const answerInstance = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionWithOneAnswer = AnswerCollection.forge([answerInstance]);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithOneAnswer);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -301,13 +303,13 @@ describe('Unit | Service | User Service', () => {
           it('should not return the skill', function() {
             // Given
             const answerOfOldChallenge = new Answer({
-              challengeId: oldChallengeWithAlreadyValidateSkill.id,
+              challengeId: oldChallengeWithAlreadyValidatedSkill.id,
               result: 'ok'
             });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answerOfOldChallenge]);
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithOneAnswer);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
             const promise = userService.getCertificationProfile(userId);
@@ -338,8 +340,8 @@ describe('Unit | Service | User Service', () => {
             const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithOneAnswer);
 
             // When
             const promise = userService.getCertificationProfile(userId);
@@ -371,8 +373,8 @@ describe('Unit | Service | User Service', () => {
             const answer = new Answer({ challengeId: challengeForSkillCitation4.id, result: 'ok' });
             const answerCollectionWithOneAnswer = AnswerCollection.forge([answer]);
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithOneAnswer);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithOneAnswer);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
             const promise = userService.getCertificationProfile(userId);
@@ -403,8 +405,8 @@ describe('Unit | Service | User Service', () => {
             const answer2 = new Answer({ challengeId: challengeForSkillCitation4AndMoteur3.id, result: 'ok' });
             const answerCollectionWithTwoAnswers = AnswerCollection.forge([answer, answer2]);
 
-            answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithTwoAnswers);
-            answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionWithEmptyData);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithTwoAnswers);
+            answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionWithEmptyData);
 
             // When
             const promise = userService.getCertificationProfile(userId);
@@ -440,8 +442,8 @@ describe('Unit | Service | User Service', () => {
         const answerB2 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionB = AnswerCollection.forge([answerB1, answerB2]);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionA);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionB);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionA);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionB);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -473,8 +475,8 @@ describe('Unit | Service | User Service', () => {
         const answer3 = new Answer({ challengeId: challengeForSkillUrl3.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3]);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -508,8 +510,8 @@ describe('Unit | Service | User Service', () => {
         const answer4 = new Answer({ challengeId: challengeForSkillWeb1.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer1, answer2, answer3, answer4]);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -540,8 +542,8 @@ describe('Unit | Service | User Service', () => {
         const answer = new Answer({ challengeId: challengeForSkillRemplir2.id, result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge([answer, answer]);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -571,8 +573,8 @@ describe('Unit | Service | User Service', () => {
         const answer = new Answer({ challengeId: 'challengeRecordIdThatDoesNotExist', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
         const promise = userService.getCertificationProfile(userId);
@@ -602,8 +604,8 @@ describe('Unit | Service | User Service', () => {
         const answer = new Answer({ challengeId: 'challengeRecordIdThree', result: 'ok' });
         const answerCollectionArray = AnswerCollection.forge(answer);
 
-        answerRepository.findCorrectAnswersByAssessment.withArgs(13).resolves(answerCollectionWithEmptyData);
-        answerRepository.findCorrectAnswersByAssessment.withArgs(1637).resolves(answerCollectionArray);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment1.id).resolves(answerCollectionWithEmptyData);
+        answerRepository.findCorrectAnswersByAssessment.withArgs(assessment2.id).resolves(answerCollectionArray);
 
         // When
         const promise = userService.getCertificationProfile(userId);

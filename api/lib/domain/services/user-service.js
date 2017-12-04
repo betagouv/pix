@@ -116,7 +116,7 @@ module.exports = {
           if (challenge && competence) {
             challenge.skills
               .filter(skill => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
-              .forEach(skill => competence.addSkill(skill));
+              .forEach(publishedSkill => competence.addSkill(publishedSkill));
           }
         });
 
