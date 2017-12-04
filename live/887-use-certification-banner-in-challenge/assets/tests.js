@@ -3923,7 +3923,7 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
 
     context('On component rendering', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
-      var courseId = 'course_id';
+      var certificationNumber = 'certification-number';
 
       (0, _mocha.it)('should render component container', function () {
         // when
@@ -3951,18 +3951,18 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
       });
 
-      (0, _mocha.it)('should render component with a div:certification-banner__course-id', function () {
+      (0, _mocha.it)('should render component with a div:certification-banner__certification-number', function () {
         // when
-        this.set('courseId', courseId);
+        this.set('certificationNumber', certificationNumber);
         this.render(Ember.HTMLBars.template({
-          "id": "oXbrQIqM",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"courseId\"],[[19,0,[\"user\"]],[19,0,[\"courseId\"]]]]],false]],\"hasEval\":false}",
+          "id": "lcJkvMDG",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id').text().trim()).to.equal('#' + courseId);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal('#' + certificationNumber);
       });
     });
   });
@@ -3981,18 +3981,18 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
     context('When component is rendered', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
-      var courseId = 'course_id';
+      var certificationNumber = 'certification-number';
 
       (0, _mocha.beforeEach)(function () {
         this.set('user', user);
-        this.set('courseId', courseId);
+        this.set('certificationNumber', certificationNumber);
       });
 
       (0, _mocha.it)('should also render a certification banner', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "vkhVlX73",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"courseId\"],[[19,0,[\"user\"]],[19,0,[\"courseId\"]]]]],false]],\"hasEval\":false}",
+          "id": "haXtHoP+",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -4000,7 +4000,7 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
         (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__course-id').text().trim()).to.equal('#' + courseId);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal('#' + certificationNumber);
       });
 
       (0, _mocha.it)('should have a button to logout', function () {
@@ -4011,8 +4011,8 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "vkhVlX73",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"courseId\"],[[19,0,[\"user\"]],[19,0,[\"courseId\"]]]]],false]],\"hasEval\":false}",
+          "id": "haXtHoP+",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -13935,12 +13935,13 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
         id: 'challenge_id'
       }
     };
+    var userId = 'user_id';
     beforeEach(function () {
       // define stubs
       createRecordStub = _sinon.default.stub();
       queryRecordStub = _sinon.default.stub();
       findRecordStub = _sinon.default.stub();
-      findRecordStub.withArgs('user', 12).resolves({ userId: 'user_id' });
+      findRecordStub.withArgs('user', userId).resolves({ userId: userId });
       StoreStub = EmberService.extend({
         createRecord: createRecordStub,
         queryRecord: queryRecordStub,
@@ -13951,7 +13952,7 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
       this.register('service:store', StoreStub);
       this.inject.service('store', { as: 'store' });
       this.register('service:session', EmberService.extend({
-        data: { authenticated: { userId: 12, token: 'VALID-TOKEN' } }
+        data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
       }));
       // instance route object
       route = this.subject();
@@ -14001,7 +14002,7 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
         // then
         return promise.then(function () {
           _sinon.default.assert.calledOnce(findRecordStub);
-          _sinon.default.assert.calledWith(findRecordStub, 'user', 12);
+          _sinon.default.assert.calledWith(findRecordStub, 'user', userId);
         });
       });
 
@@ -14027,7 +14028,7 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
           assessment: { id: 'assessment_id' },
           challenge: { id: 'challenge_id' },
           progress: 'course',
-          user: { userId: 'user_id' },
+          user: { userId: userId },
           courseId: 'course_id'
         };
 
@@ -14543,7 +14544,7 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
       needs: ['service:current-routed-modal', 'service:session']
     });
     var params = {
-      assessment_id: 'assessment_id'
+      certification_number: 'certification_number'
     };
 
     (0, _mocha.it)('exists', function () {
