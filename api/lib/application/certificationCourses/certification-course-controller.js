@@ -13,7 +13,7 @@ const CertificationCourse = require('../../../lib/domain/models/CertificationCou
 module.exports = {
   save(request, reply) {
     const userId = request.pre.userId;
-    let certificationCourse = new CertificationCourse({userId});
+    let certificationCourse = new CertificationCourse({ userId });
 
     return CertificationCourseRepository.save(certificationCourse)
       .then((savedCertificationCourse) => {
