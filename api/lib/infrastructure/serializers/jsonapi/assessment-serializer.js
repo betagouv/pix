@@ -11,6 +11,7 @@ class AssessmentSerializer extends JSONAPISerializer {
     data.attributes['estimated-level'] = model.estimatedLevel;
     data.attributes['pix-score'] = model.pixScore;
     data.attributes['type'] = model.type;
+    data.attributes['course-id'] = model.courseId;
   }
 
   serializeRelationships(model, data) {

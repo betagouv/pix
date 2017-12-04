@@ -4,7 +4,7 @@ import { startApp, destroyApp } from '../helpers/application';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import defaultScenario from '../../mirage/scenarios/default';
 
-describe('Acceptance | Certification | Start Course', function() {
+describe.only('Acceptance | Certification | Start Course', function() {
 
   let application;
 
@@ -48,7 +48,7 @@ describe('Acceptance | Certification | Start Course', function() {
         await click('.challenge-actions__action-skip-text');
 
         // then
-        expect(currentURL()).to.equals('/certifications/results');
+        expect(currentURL()).to.match(/certifications\/\d+\/results/);
       });
     });
   });

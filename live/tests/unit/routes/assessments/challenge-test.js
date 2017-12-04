@@ -34,7 +34,7 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
     createRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
     findRecordStub = sinon.stub();
-    findRecordStub.withArgs('user', 12).returns({ userId: 'user_id' });
+    findRecordStub.withArgs('user', 12).resolves({ userId: 'user_id' });
     StoreStub = EmberService.extend({
       createRecord: createRecordStub,
       queryRecord: queryRecordStub,
@@ -121,7 +121,8 @@ describe('Unit | Route | Assessments.ChallengeRoute', function() {
         assessment: { id: 'assessment_id' },
         challenge: { id: 'challenge_id' },
         progress: 'course',
-        user: { userId: 'user_id' }
+        user: { userId: 'user_id' },
+        courseId: 'course_id'
       };
 
       // when

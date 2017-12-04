@@ -1,5 +1,6 @@
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
+import Ember from 'ember';
 
 export default BaseRoute.extend({
 
@@ -24,28 +25,23 @@ export default BaseRoute.extend({
 
   afterModel(model) {
     const store = this.get('store');
-
     // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
-    // Correction possible: Séparer la phase de récupération du course et la phase de création d'un assessment
-    if (model.assessment.get('type') !== 'CERTIFICATION') {
+    if (!model.assessment.get('isCertification')) {
       return RSVP.hash({
         answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-        course: model.assessment.get('course'),
-        type: model.assessment.get('type')
-      }).then(({ answers, course, type }) => {
-
+        course: model.assessment.get('course')
+      }).then(({ answers, course }) => {
         model.answers = answers;
         model.progress = course.getProgress(model.challenge);
-        model.isCertification = (type === 'CERTIFICATION');
-        if(model.isCertification) {
-          return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'));
-        } else {
-          return null;
-        }
-      }).then(user => {
-        model.user = user;
         return model;
       });
+    } else {
+      model.courseId = model.assessment.get('courseId');
+      return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'))
+        .then(user => {
+          model.user = user;
+          return model;
+        });
     }
   },
 
@@ -70,7 +66,7 @@ export default BaseRoute.extend({
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
         assessment.get('type') === 'CERTIFICATION' ?
-          this.transitionTo('certifications.results')
+          this.transitionTo('certifications.results', assessment.get('courseId'))
           : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },
