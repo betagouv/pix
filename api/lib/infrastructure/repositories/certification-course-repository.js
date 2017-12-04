@@ -1,12 +1,20 @@
-const CertificationCourse = require('../../domain/models/data/certification-course');
+const CertificationCourseBookshelf = require('../../domain/models/data/certification-course');
+const CertificationCourse = require('../../domain/models/CertificationCourse');
+
+function _toDomain(model) {
+  return new CertificationCourse({
+    id: model.get('id'),
+    userId: model.get('userId')
+  });
+}
 
 module.exports = {
 
-  save() {
-    const certificationCourse = new CertificationCourse();
+  save(certificationCourseDomainModel) {
+    const certificationCourse = new CertificationCourseBookshelf(certificationCourseDomainModel);
     return certificationCourse.save()
       .then((savedCertificationCourse) => {
-        return savedCertificationCourse.toJSON();
+        return _toDomain(savedCertificationCourse);
       });
   }
 };
