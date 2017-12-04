@@ -6569,6 +6569,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
           // then
           (0, _chai.expect)(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.navbar-desktop-menu')).to.have.lengthOf(0);
         });
       });
 
@@ -6586,18 +6587,9 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
           // then
           (0, _chai.expect)(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.navbar-mobile-menu')).to.have.lengthOf(0);
         });
       });
-
-      /*
-        it('should display a link to "project" page', function() {
-         expect(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-       });
-        it('should display a link to "referential" page', function() {
-         expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-         expect(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
-       });
-        */
     });
 
     (0, _mocha.describe)('When user is logged', function () {
@@ -12250,7 +12242,7 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
     var sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
     var sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
 
-    context('When user is logged', function () {
+    (0, _mocha.describe)('When user is logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', sessionStubResolve);
         this.inject.service('session', { as: 'session' });
@@ -12266,8 +12258,8 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
         });
       });
 
-      (0, _mocha.describe)('#menu', function () {
-        (0, _mocha.it)('should only contains value for a logged user', function () {
+      context('#menu', function () {
+        (0, _mocha.it)('should only contains permanent menu items', function () {
           // given
           var expectedLoggedUserMenu = [{ name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true }, { name: 'Compétences', link: 'competences', class: 'navbar-header-links__link--competences', permanent: true }];
 
@@ -12280,13 +12272,13 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
       });
     });
 
-    context('When user is not logged', function () {
+    (0, _mocha.describe)('When user is not logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', sessionStubReject);
         this.inject.service('session', { as: 'session' });
       });
 
-      (0, _mocha.describe)('#isUserLogged false case', function () {
+      context('#isUserLogged', function () {
         (0, _mocha.it)('should return false, when user is unauthenticated', function () {
           // when
           var component = this.subject();
@@ -12296,7 +12288,7 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
         });
       });
 
-      (0, _mocha.describe)('#menu', function () {
+      context('#menu', function () {
         (0, _mocha.it)('should set with default values (including connexion link)', function () {
           // given
           var expectedUnloggedUserMenu = [{ name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true }, {
