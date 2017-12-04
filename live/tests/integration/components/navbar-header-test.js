@@ -60,6 +60,7 @@ describe('Integration | Component | navbar-header', function() {
 
         // then
         expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+        expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(0);
       });
     });
 
@@ -73,21 +74,9 @@ describe('Integration | Component | navbar-header', function() {
 
         // then
         expect(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+        expect(this.$('.navbar-mobile-menu')).to.have.lengthOf(0);
       });
     });
-
-    /*
-
-     it('should display a link to "project" page', function() {
-       expect(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-     });
-
-     it('should display a link to "referential" page', function() {
-       expect(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-       expect(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
-     });
-
-     */
 
   });
 

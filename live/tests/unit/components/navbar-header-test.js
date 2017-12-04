@@ -8,7 +8,7 @@ describe('Unit | Component | Navbar Header Component', function() {
   const sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
   const sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
 
-  context('When user is logged', function() {
+  describe('When user is logged', function() {
     beforeEach(function() {
       this.register('service:session', sessionStubResolve);
       this.inject.service('session', { as: 'session' });
@@ -24,8 +24,8 @@ describe('Unit | Component | Navbar Header Component', function() {
       });
     });
 
-    describe('#menu', function() {
-      it('should only contains value for a logged user', function() {
+    context('#menu', function() {
+      it('should only contains permanent menu items', function() {
         // given
         const expectedLoggedUserMenu = [
           { name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true },
@@ -41,13 +41,13 @@ describe('Unit | Component | Navbar Header Component', function() {
     });
   });
 
-  context('When user is not logged', function() {
+  describe('When user is not logged', function() {
     beforeEach(function() {
       this.register('service:session', sessionStubReject);
       this.inject.service('session', { as: 'session' });
     });
 
-    describe('#isUserLogged false case', function() {
+    context('#isUserLogged', function() {
       it('should return false, when user is unauthenticated', function() {
         // when
         const component = this.subject();
@@ -57,7 +57,7 @@ describe('Unit | Component | Navbar Header Component', function() {
       });
     });
 
-    describe('#menu', function() {
+    context('#menu', function() {
       it('should set with default values (including connexion link)', function() {
         // given
         const expectedUnloggedUserMenu = [
