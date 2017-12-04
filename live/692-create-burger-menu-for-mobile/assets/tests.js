@@ -6592,7 +6592,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       });
     });
 
-    (0, _mocha.describe)('When user is logged', function () {
+    context('When user is logged', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', Ember.Service.extend({
@@ -12272,7 +12272,7 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
       });
     });
 
-    (0, _mocha.describe)('When user is not logged', function () {
+    context('When user is not logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', sessionStubReject);
         this.inject.service('session', { as: 'session' });
