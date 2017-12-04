@@ -41,7 +41,7 @@ describe('Unit | Component | Navbar Header Component', function() {
     });
   });
 
-  describe('When user is not logged', function() {
+  context('When user is not logged', function() {
     beforeEach(function() {
       this.register('service:session', sessionStubReject);
       this.inject.service('session', { as: 'session' });

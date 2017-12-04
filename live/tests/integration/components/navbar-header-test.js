@@ -80,7 +80,7 @@ describe('Integration | Component | navbar-header', function() {
 
   });
 
-  describe('When user is logged', function() {
+  context('When user is logged', function() {
 
     beforeEach(function() {
       this.register('service:session', Ember.Service.extend({
