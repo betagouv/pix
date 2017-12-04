@@ -43,7 +43,13 @@ function _castCompetencesToUserCompetences([challenges, competences, answers]) {
   return [challenges, competences, answers];
 }
 
-function _verifySkillHasChallenges(skill, challenges) {
+function _findChallengeBySkill(challenges, skill) {
+  return _(challenges).filter((challenge) => {
+    return challenge.hasSkill(skill) && challenge.isPublished();
+  }).value();
+}
+
+function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
   const challengesBySkill = _findChallengeBySkill(challenges, skill);
   return challengesBySkill.length > 0;
 }
@@ -69,12 +75,6 @@ function _getRelatedChallengeById(challenges, answer) {
 
 function _getChallengeById(challenges, challengeId) {
   return _(challenges).find((challenge) => challenge.id === challengeId);
-}
-
-function _findChallengeBySkill(challenges, skill) {
-  return _(challenges).filter((challenge) => {
-    return challenge.hasSkill(skill) && challenge.isPublished();
-  }).value();
 }
 
 function _filterAssessmentWithEstimatedLevelGreaterThanZero(assessments) {
@@ -114,11 +114,9 @@ module.exports = {
           const competence = _getCompetenceByChallengeCompetenceId(userCompetences, challenge);
 
           if (challenge && competence) {
-            challenge.skills.forEach((skill) => {
-              if (_verifySkillHasChallenges(skill, challenges)) {
-                competence.addSkill(skill);
-              }
-            });
+            challenge.skills
+              .filter(skill => _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges))
+              .forEach(skill => competence.addSkill(skill));
           }
         });
 
