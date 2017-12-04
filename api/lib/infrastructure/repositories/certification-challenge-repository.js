@@ -57,7 +57,7 @@ module.exports = {
 
   findByCertificationCourseId(certificationCourseId) {
     return CertificationChallengeBookshelf
-      .where({ courseId: certificationCourseId } )
+      .where({ courseId: certificationCourseId })
       .fetchAll()
       .then(challenges => challenges.models);
   }

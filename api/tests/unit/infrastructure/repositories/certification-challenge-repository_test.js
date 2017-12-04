@@ -166,7 +166,7 @@ describe('Unit | Repository | certification-challenge-repository', () => {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationChallengeBookshelf.prototype.where);
-        sinon.assert.calledWith(CertificationChallengeBookshelf.prototype.where, { courseId: certificationCourseId});
+        sinon.assert.calledWith(CertificationChallengeBookshelf.prototype.where, { courseId: certificationCourseId });
         sinon.assert.calledOnce(fetchAllStub);
       });
     });
