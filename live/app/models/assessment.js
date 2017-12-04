@@ -12,6 +12,7 @@ export default Model.extend({
   firstChallenge: computed.alias('course.challenges.firstObject'),
   estimatedLevel: attr('number'),
   pixScore: attr('number'),
+  type: attr('string'),
 
   progress: computed('answers', 'course', function() {
     const maxStep = this.get('course.nbChallenges');

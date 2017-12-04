@@ -49,8 +49,9 @@ export default BaseRoute.extend({
       .queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') })
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
-        const endTemplate = assessment.get('type') === 'CERTIFICATION' ? 'certifications.results' : 'assessments.results';
-        this.transitionTo(endTemplate, assessment.get('id'));
+        assessment.get('type') === 'CERTIFICATION' ?
+          this.transitionTo('certifications.results')
+          : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },
 
