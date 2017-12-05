@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 class Course {
   constructor(challenges, competenceSkills) {
     this.challenges = challenges;
@@ -10,7 +12,14 @@ class Course {
       challenge.skills.forEach(skill => {
         const tubeName = skill.tubeName;
         if(tubes[tubeName]) {
-          tubes[tubeName].push(skill);
+
+        const countOfskillsInTubeWithSameDifficulty = _(tubes[tubeName])
+          .filter((skillInTube) => skillInTube.difficulty === skill.difficulty)
+          .size();
+
+          if(countOfskillsInTubeWithSameDifficulty === 0)
+            tubes[tubeName].push(skill);
+
         } else {
           tubes[tubeName] = [skill];
         }
