@@ -64,7 +64,7 @@ module.exports = {
       .findBy(params)
       .then((organizations) => {
 
-        reply(organizationSerializer.serializeArray(organizations.models));
+        reply(organizationSerializer.serialize(organizations.models));
       })
       .catch(err => {
         logger.error(err);

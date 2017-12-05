@@ -1,53 +1,22 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 const Organization = require('../../../domain/models/data/organization');
 
-class OrganizationSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('organization');
-  }
-
-  serialize(modelObject) {
-    const response = super.serialize(modelObject);
-
-    response.included = [];
-    response.included.push(this.serializeIncluded(modelObject.user));
-
-    return response;
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes['name'] = model.name;
-    data.attributes['type'] = model.type;
-    data.attributes['email'] = model.email;
-    data.attributes['code'] = model.code;
-  }
-
-  serializeRelationships(model, data) {
-    data.relationships = {
+  serialize(snapshots) {
+    return new Serializer('organizations', {
+      attributes: ['name', 'type', 'email', 'code', 'user'],
       user: {
-        data: { type: 'users', id: model.userId }
+        ref: 'id',
+        attributes: ['firstName', 'lastName', 'email']
+      },
+      transform: (snapshot) => {
+        const organization = Object.assign({}, snapshot.toJSON());
+        organization.user = snapshot.user.toJSON();
+        return organization;
       }
-    };
-  }
-
-  serializeIncluded(model) {
-    let response = {};
-
-    if(model.attributes) {
-      response = {
-        type: 'users',
-        id: model.id,
-        attributes: {
-          email: model.attributes.email,
-          'first-name': model.attributes.firstName,
-          'last-name': model.attributes.lastName,
-        }
-      };
-    }
-
-    return response;
-  }
+    }).serialize(snapshots);
+  },
 
   deserialize(json) {
     return new Organization({
@@ -57,17 +26,4 @@ class OrganizationSerializer extends JSONAPISerializer {
     });
   }
 
-  serializeArray(modelObjects) {
-    const response = {};
-    response.data = [];
-
-    for (const modelObject of modelObjects) {
-      response.data.push(this.serializeModelObject(modelObject));
-    }
-
-    return response;
-  }
-
-}
-
-module.exports = new OrganizationSerializer();
+};

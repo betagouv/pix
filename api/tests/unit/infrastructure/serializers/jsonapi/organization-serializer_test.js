@@ -32,8 +32,8 @@ describe('Unit | Serializer | organization-serializer', () => {
       // Then
       expect(jsonOrganization).to.deep.equal({
         data: {
-          type: 'organization',
-          id: 12,
+          type: 'organizations',
+          id: '12',
           attributes: {
             name: 'LexCorp',
             email: 'lex@lexcorp.com',
@@ -47,7 +47,7 @@ describe('Unit | Serializer | organization-serializer', () => {
           }
         },
         included: [{
-          id: 42157,
+          id: '42157',
           type: 'users',
           attributes: {
             'first-name': 'Alexander',
@@ -57,6 +57,104 @@ describe('Unit | Serializer | organization-serializer', () => {
         }]
       });
     });
+
+    it('should serialize an array of organization', () => {
+      // given
+      const organizationOne = new Organization({
+        id: 1,
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        type: 'PRO',
+        code: 'ABCD12',
+        userId: 3
+      });
+      const userFromOrganizationOne = new User({
+        'firstName': 'Ezzio',
+        'lastName': 'Auditore',
+        'email': 'ezzio@firenze.it'
+      });
+      userFromOrganizationOne.set('id', 3);
+      organizationOne.user = userFromOrganizationOne;
+
+      const organizationTwo = new Organization({
+        id: 2,
+        name: faker.name.firstName(),
+        email: faker.internet.email(),
+        type: 'PRO',
+        code: 'EFGH54',
+        userId: 4
+      });
+      const userFromOrganizationTwo = new User({
+        'firstName': 'Bayek',
+        'lastName': 'Siwa',
+        'email': 'bayek@siwa.eg'
+      });
+      userFromOrganizationTwo.set('id', 4);
+      organizationTwo.user = userFromOrganizationTwo;
+
+      const expectedJsonApi = {
+        data: [{
+          type: 'organizations',
+          id: '1',
+          attributes: {
+            name: organizationOne.get('name'),
+            type: organizationOne.get('type'),
+            email: organizationOne.get('email'),
+            code: organizationOne.get('code'),
+          },
+          relationships: {
+            user: {
+              data: {
+                id: '3',
+                type: 'users'
+              }
+            }
+          }
+        }, {
+          type: 'organizations',
+          id: '2',
+          attributes: {
+            name: organizationTwo.get('name'),
+            type: organizationTwo.get('type'),
+            email: organizationTwo.get('email'),
+            code: organizationTwo.get('code'),
+          },
+          relationships: {
+            user: {
+              data: {
+                id: '4',
+                type: 'users'
+              }
+            }
+          }
+
+        }],
+        included: [{
+          attributes: {
+            'email': 'ezzio@firenze.it',
+            'first-name': 'Ezzio',
+            'last-name': 'Auditore'
+          },
+          id: '3',
+          type: 'users'
+        }, {
+          attributes: {
+            'email': 'bayek@siwa.eg',
+            'first-name': 'Bayek',
+            'last-name': 'Siwa'
+          },
+          id: '4',
+          type: 'users'
+        }]
+      };
+
+      // when
+      const serializedArray = serializer.serialize([organizationOne, organizationTwo]);
+
+      // then
+      expect(serializedArray).to.deep.equal(expectedJsonApi);
+    });
+
   });
 
   describe('#deserialize', () => {
@@ -85,76 +183,6 @@ describe('Unit | Serializer | organization-serializer', () => {
 
       // then
       expect(deserializedObject.toJSON()).to.deep.equal(expectedModelObject.toJSON());
-    });
-
-  });
-
-  describe('#serializeArray', () => {
-
-    it('should serialize an array of organization', () => {
-      // given
-      const organizationOne = new Organization({
-        id: 1,
-        name: faker.name.firstName(),
-        email: faker.internet.email(),
-        type: 'PRO',
-        code: 'ABCD12',
-        userId: 3
-      });
-
-      const organizationTwo = new Organization({
-        id: 2,
-        name: faker.name.firstName(),
-        email: faker.internet.email(),
-        type: 'PRO',
-        code: 'EFGH54',
-        userId: 4
-      });
-
-      const expectedJsonApi = {
-        data: [{
-          type: 'organization',
-          id: 1,
-          attributes: {
-            name: organizationOne.get('name'),
-            type: organizationOne.get('type'),
-            email: organizationOne.get('email'),
-            code: organizationOne.get('code'),
-          },
-          relationships: {
-            user: {
-              data: {
-                id: 3,
-                type: 'users'
-              }
-            }
-          }
-        }, {
-          type: 'organization',
-          id: 2,
-          attributes: {
-            name: organizationTwo.get('name'),
-            type: organizationTwo.get('type'),
-            email: organizationTwo.get('email'),
-            code: organizationTwo.get('code'),
-          },
-          relationships: {
-            user: {
-              data: {
-                id: 4,
-                type: 'users'
-              }
-            }
-          }
-
-        }]
-      };
-
-      // when
-      const serializedArray = serializer.serializeArray([organizationOne, organizationTwo]);
-
-      // then
-      expect(serializedArray).to.deep.equal(expectedJsonApi);
     });
 
   });

@@ -303,7 +303,7 @@ describe('Unit | Controller | organizationController', () => {
 
       sandbox.stub(logger, 'error');
       sandbox.stub(organisationRepository, 'findBy').resolves(arrayOfOrganizations);
-      sandbox.stub(organizationSerializer, 'serializeArray').returns(arrayOfSerializedOrganization);
+      sandbox.stub(organizationSerializer, 'serialize').returns(arrayOfSerializedOrganization);
     });
 
     afterEach(() => {
@@ -383,7 +383,7 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(organizationSerializer.serializeArray, arrayOfOrganizations.models);
+          sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations.models);
           sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
         });
       });
