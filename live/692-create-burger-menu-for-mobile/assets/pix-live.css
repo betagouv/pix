@@ -3822,7 +3822,10 @@ p.share-profile__organization-name {
 .navbar-mobile-menu .side-menu-toggle {
   background: url("/images/icons/icon-white-burger.svg") no-repeat center; }
 
-.navbar-mobile-menu a:last-of-type {
+.navbar-header--white .navbar-mobile-menu .navbar-menu-signup-link {
+  color: #ffffff; }
+
+.navbar-mobile-menu .navbar-menu-signup-link {
   margin-top: 90px;
   margin-left: 48px;
   border-radius: 20px;
@@ -3833,7 +3836,7 @@ p.share-profile__organization-name {
   color: #ffffff;
   background: #3d68ff;
   max-width: 140px; }
-  .navbar-mobile-menu a:last-of-type:hover, .navbar-mobile-menu a:last-of-type:focus, .navbar-mobile-menu a:last-of-type:active {
+  .navbar-mobile-menu .navbar-menu-signup-link:hover, .navbar-mobile-menu .navbar-menu-signup-link:focus, .navbar-mobile-menu .navbar-menu-signup-link:active {
     text-decoration: none;
     background-color: #ffffff;
     color: #3d68ff; }
