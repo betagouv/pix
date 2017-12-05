@@ -23,7 +23,7 @@ describe('Acceptance | index', function() {
 
       // then
       return andThen(function() {
-        const signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+        const signUpLink = findWithAssert('.navbar-menu-signup-link');
         expect(signUpLink.attr('href').trim()).to.equal('/inscription');
       });
     });
@@ -34,7 +34,7 @@ describe('Acceptance | index', function() {
 
       // then
       return andThen(function() {
-        const logInLink = findWithAssert('.navbar-header-links__link--connection');
+        const logInLink = findWithAssert('.navbar-menu-signin-link');
         expect(logInLink.attr('href').trim()).to.equal('/connexion');
       });
     });

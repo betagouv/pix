@@ -68,8 +68,8 @@ describe('Unit | Component | Navbar Header Component', function() {
             class: 'navbar-header-links__link--competences',
             permanent: true
           },
-          { name: 'Se connecter', link: 'login', class: 'navbar-header-links__link--connection' },
-          { name: 'S’inscrire', link: 'inscription', class: 'navbar-header-links__link--inscription' }
+          { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' },
+          { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }
         ];
 
         // when

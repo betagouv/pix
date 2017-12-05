@@ -39,7 +39,7 @@ describe('Integration | Component | navbar-header', function() {
       this.render(hbs`{{navbar-header}}`);
 
       // then
-      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+      expect(this.$('.navbar-menu-signup-link')).to.have.lengthOf(1);
     });
 
     it('should display link to connection page', function() {
@@ -47,7 +47,7 @@ describe('Integration | Component | navbar-header', function() {
       this.render(hbs`{{navbar-header}}`);
 
       // then
-      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+      expect(this.$('.navbar-menu-signin-link')).to.have.lengthOf(1);
     });
 
     context('when screen has a smartphone or tablet size', function() {
@@ -103,12 +103,12 @@ describe('Integration | Component | navbar-header', function() {
 
     it('should not display link to inscription page', function() {
       // then
-      expect(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+      expect(this.$('.navbar-menu-signup-link')).to.have.lengthOf(0);
     });
 
     it('should not display link to connection page', function() {
       // then
-      expect(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
+      expect(this.$('.navbar-menu-signin-link')).to.have.lengthOf(0);
     });
 
     it('should be rendered', function() {
