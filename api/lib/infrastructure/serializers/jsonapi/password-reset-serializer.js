@@ -1,13 +1,11 @@
 const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
-  serialize(passwordResetDemands) {
+
+  serialize(snapshots) {
     return new Serializer('password-reset-demand', {
-      attributes: ['email', 'temporaryKey'],
-      transform(passwordResetDemand) {
-        passwordResetDemand.id = passwordResetDemand.id.toString();
-        return passwordResetDemand;
-      }
-    }).serialize(passwordResetDemands);
+      attributes: ['email', 'temporaryKey']
+    }).serialize(snapshots);
   }
+
 };
