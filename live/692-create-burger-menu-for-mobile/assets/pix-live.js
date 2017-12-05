@@ -1605,7 +1605,7 @@ define('pix-live/components/navbar-header', ['exports'], function (exports) {
       link: 'competences',
       class: 'navbar-header-links__link--competences',
       permanent: true
-    }, { name: 'Se connecter', link: 'login', class: 'navbar-header-links__link--connection' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-header-links__link--inscription' }],
+    }, { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }],
 
     isUserLogged: alias('session.isAuthenticated'),
     menu: computed('isUserLogged', function () {
@@ -1678,6 +1678,18 @@ define('pix-live/components/password-reset-form', ['exports'], function (exports
           _this.set('_displayErrorMessage', true);
         });
       }
+    }
+  });
+});
+define('pix-live/components/pix-content-backdrop', ['exports', 'ember-side-menu/components/content-backdrop'], function (exports, _contentBackdrop) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _contentBackdrop.default.extend({
+    touchStart: function touchStart() {
+      this.get('sideMenu').close();
     }
   });
 });
@@ -7799,7 +7811,7 @@ define("pix-live/templates/components/navbar-desktop-menu", ["exports"], functio
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "xsVRUkbW", "block": "{\"symbols\":[\"item\"],\"statements\":[[6,\"div\"],[9,\"class\",\"navbar-header-links\"],[7],[0,\"\\n  \"],[6,\"ul\"],[9,\"class\",\"navbar-header-links__list\"],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n        \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\"],[[25,\"concat\",[\"navbar-header-links__link\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null]]],{\"statements\":[[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-desktop-menu.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "DqEIqlvu", "block": "{\"symbols\":[\"item\"],\"statements\":[[6,\"div\"],[9,\"class\",\"navbar-desktop-menu-links\"],[7],[0,\"\\n  \"],[6,\"ul\"],[9,\"class\",\"navbar-desktop-menu-links__list\"],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"li\"],[9,\"class\",\"navbar-desktop-menu-links__item\"],[7],[0,\"\\n        \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\"],[[25,\"concat\",[\"navbar-desktop-menu-links__link\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null]]],{\"statements\":[[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-desktop-menu.hbs" } });
 });
 define("pix-live/templates/components/navbar-header", ["exports"], function (exports) {
   "use strict";
@@ -7815,7 +7827,7 @@ define("pix-live/templates/components/navbar-mobile-menu", ["exports"], function
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "CKTjNzw1", "block": "{\"symbols\":[\"item\"],\"statements\":[[4,\"side-menu\",null,null,{\"statements\":[[0,\"  \"],[6,\"ul\"],[9,\"class\",\"navbar-header-links__list\"],[7],[0,\"\\n    \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"Menu\"],[8],[0,\"\\n      \"],[6,\"span\"],[9,\"class\",\"burger-close-button\"],[3,\"action\",[[19,0,[]],\"closeMenu\"]],[7],[0,\"\\n        \"],[6,\"img\"],[10,\"src\",[26,[[18,\"rootURL\"],\"/images/icons/icon-croix.svg\"]]],[9,\"alt\",\"close menu\"],[7],[8],[8],[0,\"\\n    \"],[8],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"li\"],[10,\"class\",[26,[\"navbar-header-links__item navbar-item-\",[19,1,[\"link\"]],\"-wrapper\"]]],[7],[0,\"\\n        \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\",\"action\",\"preventDefault\"],[[25,\"concat\",[\"navbar-header-links__link\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null],\"closeMenu\",false]],{\"statements\":[[0,\" \"],[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[1,[25,\"content-backdrop\",[[19,0,[\"action\"]],\"closeMenu\"],null],false],[0,\"\\n\\n\"],[4,\"side-menu-toggle\",null,null,{\"statements\":[[0,\"   \\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-mobile-menu.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "NKFj1DWc", "block": "{\"symbols\":[\"item\"],\"statements\":[[4,\"side-menu\",null,null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header__title\"],[7],[0,\"Menu\"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header__close-button\"],[3,\"action\",[[19,0,[]],\"closeMenu\"]],[7],[0,\"\\n      \"],[6,\"img\"],[10,\"src\",[26,[[18,\"rootURL\"],\"/images/icons/icon-croix.svg\"]]],[9,\"alt\",\"close menu\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"    \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\",\"action\",\"preventDefault\"],[[25,\"concat\",[\"mobile-menu__item\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null],\"closeMenu\",false]],{\"statements\":[[0,\" \"],[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n\"],[1,[18,\"pix-content-backdrop\"],false],[0,\"\\n\\n\"],[4,\"side-menu-toggle\",null,null,{\"statements\":[[0,\"   \\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-mobile-menu.hbs" } });
 });
 define("pix-live/templates/components/partners-enrollment-panel", ["exports"], function (exports) {
   "use strict";
@@ -9008,6 +9020,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+1f204ac9"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.28.0+029f270e"});
 }
 //# sourceMappingURL=pix-live.map

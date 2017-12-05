@@ -1915,7 +1915,7 @@ define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests
 
         // then
         return andThen(function () {
-          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+          var signUpLink = findWithAssert('.navbar-menu-signup-link');
           (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
         });
       });
@@ -1926,7 +1926,7 @@ define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests
 
         // then
         return andThen(function () {
-          var logInLink = findWithAssert('.navbar-header-links__link--connection');
+          var logInLink = findWithAssert('.navbar-menu-signin-link');
           (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
         });
       });
@@ -3297,6 +3297,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/password-reset-form.js', function () {
+      // test passed
+    });
+
+    it('components/pix-content-backdrop.js', function () {
       // test passed
     });
 
@@ -6540,7 +6544,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.navbar-menu-signup-link')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display link to connection page', function () {
@@ -6552,7 +6556,7 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
         }));
 
         // then
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.navbar-menu-signin-link')).to.have.lengthOf(1);
       });
 
       context('when screen has a smartphone or tablet size', function () {
@@ -6619,12 +6623,12 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
 
       (0, _mocha.it)('should not display link to inscription page', function () {
         // then
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.navbar-menu-signup-link')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should not display link to connection page', function () {
         // then
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
+        (0, _chai.expect)(this.$('.navbar-menu-signin-link')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should be rendered', function () {
@@ -6889,6 +6893,54 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
 
       // then
       (0, _chai.expect)(this.$('.password-reset-form__form-success-message')).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-content-backdrop-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | pix content backdrop', function () {
+    (0, _emberMocha.setupComponentTest)('pix-content-backdrop', {
+      integration: true
+    });
+
+    (0, _mocha.beforeEach)(function () {
+      this.register('service:side-menu', Ember.Service.extend({
+        close: function close() {}
+      }));
+      this.inject.service('side-menu', { as: 'sideMenu' });
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "LSowFm0k",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"pix-content-backdrop\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('@touchStart', function () {
+      (0, _mocha.it)('should close the side-menu', function () {
+        // given
+        this.set('sideMenu.progress', 10);
+        this.render(Ember.HTMLBars.template({
+          "id": "BLm3nrrA",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"content-backdrop\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.content-backdrop').click();
+        });
+
+        // then
+        (0, _chai.expect)(this.$('.content-backdrop').attr('style').indexOf('visibility: hidden') > -1);
+      });
     });
   });
 });
@@ -10341,6 +10393,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/pix-content-backdrop-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/pix-logo-test.js', function () {
       // test passed
     });
@@ -12296,7 +12352,7 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
             link: 'competences',
             class: 'navbar-header-links__link--competences',
             permanent: true
-          }, { name: 'Se connecter', link: 'login', class: 'navbar-header-links__link--connection' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-header-links__link--inscription' }];
+          }, { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }];
 
           // when
           var component = this.subject();
