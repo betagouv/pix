@@ -18,7 +18,7 @@ module.exports = {
 
   list(request, reply) {
     _fetchCourses(request.query)
-      .then(courses => reply(courseSerializer.serializeArray(courses)))
+      .then(courses => reply(courseSerializer.serialize(courses)))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
