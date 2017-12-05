@@ -15,9 +15,10 @@ describe('Unit | Serializer | JSONAPI | answer-serializer', function() {
     challengeId: 'challenge_id'
   });
 
+
   const jsonAnswer = {
     data: {
-      type: 'answer',
+      type: 'answers',
       id: 'answer_id',
       attributes: {
         value: 'answer_value',

@@ -1,44 +1,33 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 const Answer = require('../../../domain/models/data/answer');
 
-class AnswerSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('answer');
-  }
-
-  serializeAttributes(model, data) {
-    data.attributes.value = model.value;
-    data.attributes.timeout = model.timeout;
-    data.attributes['elapsed-time'] = model.elapsedTime;
-    data.attributes.result = model.result;
-    //data.attributes.resultDetails = model.resultDetails;
-    data.attributes['result-details'] = model.resultDetails;
-  }
-
-  serializeRelationships(model, data) {
-    data.relationships = {};
-
-    data.relationships.assessment = {
-      data: {
-        type: 'assessments',
-        id: model.assessmentId
+  serialize(snapshots) {
+    return new Serializer('answer', {
+      attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge'],
+      assessment: {
+        ref: 'id',
+        includes: false
+      },
+      challenge: {
+        ref: 'id',
+        includes: false
+      },
+      transform: (snapshot) => {
+        const answer = Object.assign({}, snapshot.toJSON());
+        answer.assessment = { id: snapshot.get('assessmentId') };
+        answer.challenge = { id: snapshot.get('challengeId') };
+        return answer;
       }
-    };
-
-    data.relationships.challenge = {
-      data: {
-        type: 'challenges',
-        id: model.challengeId
-      }
-    };
-  }
+    }).serialize(snapshots);
+  },
 
   deserialize(json) {
     const answer = new Answer({
       value: json.data.attributes.value,
       result: json.data.attributes.result,
-      resultDetails : json.data.attributes['result-details'],
+      resultDetails: json.data.attributes['result-details'],
       timeout: json.data.attributes.timeout,
       elapsedTime: json.data.attributes['elapsed-time'],
       assessmentId: json.data.relationships.assessment.data.id,
@@ -52,6 +41,4 @@ class AnswerSerializer extends JSONAPISerializer {
     return answer;
   }
 
-}
-
-module.exports = new AnswerSerializer();
+};
