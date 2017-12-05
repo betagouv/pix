@@ -11,10 +11,8 @@ function _toDomain(model) {
 module.exports = {
 
   save(certificationCourseDomainModel) {
-    const certificationCourse = new CertificationCourseBookshelf(certificationCourseDomainModel);
-    return certificationCourse.save()
-      .then((savedCertificationCourse) => {
-        return _toDomain(savedCertificationCourse);
-      });
+    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseDomainModel);
+    return certificationCourseBookshelf.save()
+      .then(_toDomain);
   }
 };
