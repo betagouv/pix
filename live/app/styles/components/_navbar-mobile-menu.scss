@@ -47,7 +47,11 @@
   background: url("/images/icons/icon-white-burger.svg") no-repeat center;
 }
 
-.navbar-mobile-menu a:last-of-type {
+.navbar-header--white .navbar-mobile-menu .navbar-menu-signup-link {
+  color: $white;
+}
+
+.navbar-mobile-menu .navbar-menu-signup-link {
   margin-top: 90px;
   margin-left: 48px;
   border-radius: 20px;
