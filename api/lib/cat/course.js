@@ -9,6 +9,7 @@ class Course {
   get tubes() {
     const tubes = {};
     this.challenges.forEach(challenge => {
+      // FIXME: TO REFACTOR.
       challenge.skills.forEach(skill => {
         const tubeName = skill.tubeName;
         if(tubes[tubeName]) {
