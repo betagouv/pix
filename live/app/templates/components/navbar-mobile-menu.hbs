@@ -1,20 +1,17 @@
 {{#side-menu}}
-  <ul class="navbar-header-links__list">
-    <li class="navbar-header-links__item">
-      <span>Menu</span>
-      <span class="burger-close-button" {{action 'closeMenu'}}>
-        <img src="{{rootURL}}/images/icons/icon-croix.svg" alt="close menu"></span>
-    </li>
-    {{#each menu as |item|}}
-      <li class="navbar-header-links__item navbar-item-{{item.link}}-wrapper">
-        {{#link-to item.link class="navbar-header-links__link"
-                   classNameBindings="item.class" action="closeMenu" preventDefault=false}} {{item.name}}{{/link-to}}
-      </li>
-    {{/each}}
-  </ul>
+  <div class="mobile-menu-header">
+    <div class="mobile-menu-header__title">Menu</div>
+    <div class="mobile-menu-header__close-button" {{action 'closeMenu'}}>
+      <img src="{{rootURL}}/images/icons/icon-croix.svg" alt="close menu">
+    </div>
+  </div>
+  {{#each menu as |item|}}
+    {{#link-to item.link class="mobile-menu__item"
+               classNameBindings="item.class" action="closeMenu" preventDefault=false}} {{item.name}}{{/link-to}}
+  {{/each}}
 {{/side-menu}}
 
-{{content-backdrop action 'closeMenu'}}
+{{pix-content-backdrop}}
 
 {{#side-menu-toggle}}
   &nbsp;
