@@ -1940,8 +1940,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
 define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
 
-  (0, _mocha.describe)('Acceptance | index page', function () {
-
+  (0, _mocha.describe)('Acceptance | index', function () {
     var application = void 0;
 
     (0, _mocha.beforeEach)(function () {
@@ -1955,11 +1954,14 @@ define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests
     (0, _mocha.describe)('Navbar header section', function () {
       (0, _mocha.it)('should have a link to sign-up page when user is not authenticated', function () {
         // when
+        /* eslint-disable */
+        setBreakpoint('mobile');
+        /* eslint-enable */
         visit('/');
 
         // then
         return andThen(function () {
-          var signUpLink = findWithAssert('.navbar-header-links__link--inscription');
+          var signUpLink = findWithAssert('.navbar-menu-signup-link');
           (0, _chai.expect)(signUpLink.attr('href').trim()).to.equal('/inscription');
         });
       });
@@ -1970,7 +1972,7 @@ define('pix-live/tests/acceptance/index-test', ['mocha', 'chai', 'pix-live/tests
 
         // then
         return andThen(function () {
-          var logInLink = findWithAssert('.navbar-header-links__link--connection');
+          var logInLink = findWithAssert('.navbar-menu-signin-link');
           (0, _chai.expect)(logInLink.attr('href').trim()).to.equal('/connexion');
         });
       });
@@ -3200,6 +3202,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('breakpoints.js', function () {
+      // test passed
+    });
+
     it('components/app-footer.js', function () {
       // test passed
     });
@@ -3320,7 +3326,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/navbar-desktop-menu.js', function () {
+      // test passed
+    });
+
     it('components/navbar-header.js', function () {
+      // test passed
+    });
+
+    it('components/navbar-mobile-menu.js', function () {
       // test passed
     });
 
@@ -3329,6 +3343,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('components/password-reset-form.js', function () {
+      // test passed
+    });
+
+    it('components/pix-content-backdrop.js', function () {
       // test passed
     });
 
@@ -3465,6 +3483,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('helpers/strip-instruction.js', function () {
+      // test passed
+    });
+
+    it('initializers/responsive.js', function () {
       // test passed
     });
 
@@ -3733,7 +3755,7 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
   });
 });
-define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-live/config/environment'], function (exports, _app, _environment) {
+define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-live/config/environment', 'pix-live/tests/helpers/responsive'], function (exports, _app, _environment) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -3741,11 +3763,13 @@ define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-li
   });
   exports.startApp = startApp;
   exports.destroyApp = destroyApp;
+  var run = Ember.run;
+  var merge = Ember.merge;
   function startApp(attrs) {
-    var attributes = Ember.merge({}, _environment.default.APP);
-    attributes = Ember.merge(attributes, attrs); // use defaults, but you can override;
+    var attributes = merge({}, _environment.default.APP);
+    attributes = merge(attributes, attrs); // use defaults, but you can override;
 
-    return Ember.run(function () {
+    return run(function () {
       var application = _app.default.create(attributes);
       application.setupForTesting();
       application.injectTestHelpers();
@@ -3754,7 +3778,7 @@ define('pix-live/tests/helpers/application', ['exports', 'pix-live/app', 'pix-li
   }
 
   function destroyApp(application) {
-    Ember.run(application, 'destroy');
+    run(application, 'destroy');
     if (window.server) {
       window.server.shutdown();
     }
@@ -3861,6 +3885,66 @@ define('pix-live/tests/helpers/resolver', ['exports', 'pix-live/resolver', 'pix-
   };
 
   exports.default = resolver;
+});
+define('pix-live/tests/helpers/responsive', ['exports', 'ember-responsive/media'], function (exports, _media) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.setBreakpointForIntegrationTest = setBreakpointForIntegrationTest;
+  var registerAsyncHelper = Ember.Test.registerAsyncHelper;
+  var getOwner = Ember.getOwner;
+  var classify = Ember.String.classify;
+
+
+  _media.default.reopen({
+    // Change this if you want a different default breakpoint in tests.
+    _defaultBreakpoint: 'desktop',
+
+    _breakpointArr: Ember.computed('breakpoints', function () {
+      return Object.keys(this.get('breakpoints')) || Ember.A([]);
+    }),
+
+    _forceSetBreakpoint: function _forceSetBreakpoint(breakpoint) {
+      var found = false;
+
+      var props = {};
+      this.get('_breakpointArr').forEach(function (bp) {
+        var val = bp === breakpoint;
+        if (val) {
+          found = true;
+        }
+
+        props['is' + classify(bp)] = val;
+      });
+
+      if (found) {
+        this.setProperties(props);
+      } else {
+        throw new Error('You tried to set the breakpoint to ' + breakpoint + ', which is not in your app/breakpoint.js file.');
+      }
+    },
+    match: function match() {},
+    init: function init() {
+      this._super.apply(this, arguments);
+
+      this._forceSetBreakpoint(this.get('_defaultBreakpoint'));
+    }
+  });
+
+  exports.default = registerAsyncHelper('setBreakpoint', function (app, breakpoint) {
+    // this should use getOwner once that's supported
+    var mediaService = app.__deprecatedInstance__.lookup('service:media');
+    mediaService._forceSetBreakpoint(breakpoint);
+  });
+  function setBreakpointForIntegrationTest(container, breakpoint) {
+    var mediaService = getOwner(container).lookup('service:media');
+    mediaService._forceSetBreakpoint(breakpoint);
+    container.set('media', mediaService);
+
+    return mediaService;
+  }
 });
 define('pix-live/tests/helpers/seeds', ['exports'], function (exports) {
   'use strict';
@@ -6459,7 +6543,28 @@ define('pix-live/tests/integration/components/modal-mobile-test', ['chai', 'moch
     });
   });
 });
-define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/integration/components/navbar-desktop-nav-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | navbar desktop menu', function () {
+    (0, _emberMocha.setupComponentTest)('navbar-desktop-menu', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "iuKDPTNa",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-desktop-menu\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'mocha', 'ember-mocha', 'pix-live/tests/helpers/responsive'], function (_chai, _mocha, _emberMocha, _responsive) {
   'use strict';
 
   (0, _mocha.describe)('Integration | Component | navbar-header', function () {
@@ -6468,45 +6573,99 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       integration: true
     });
 
-    (0, _mocha.describe)('Rendering when user is not logged', function () {
+    context('when user is not logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', Ember.Service.extend({ isAuthenticated: false }));
         this.inject.service('session', { as: 'session' });
+      });
 
+      (0, _mocha.it)('should be rendered', function () {
+        // when
         this.render(Ember.HTMLBars.template({
           "id": "AV5n+32Z",
           "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
           "meta": {}
         }));
-      });
 
-      (0, _mocha.it)('renders', function () {
+        // then
         (0, _chai.expect)(this.$()).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display the Pix logo', function () {
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "AV5n+32Z",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
         (0, _chai.expect)(this.$('.navbar-header-logo')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.pix-logo')).to.have.lengthOf(1);
       });
 
-      (0, _mocha.it)('should display a link to "project" page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--project')).to.have.lengthOf(1);
-      });
-
-      (0, _mocha.it)('should display a link to "referential" page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--competences')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.navbar-header-links--user-logged')).to.have.lengthOf(0);
-      });
-
       (0, _mocha.it)('should display link to inscription page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(1);
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "AV5n+32Z",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.navbar-menu-signup-link')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('should display link to connection page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(1);
+        // when
+        this.render(Ember.HTMLBars.template({
+          "id": "AV5n+32Z",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-header\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // then
+        (0, _chai.expect)(this.$('.navbar-menu-signin-link')).to.have.lengthOf(1);
+      });
+
+      context('when screen has a smartphone or tablet size', function () {
+        (0, _mocha.it)('should display a mobile menu', function () {
+          // given
+          (0, _responsive.setBreakpointForIntegrationTest)(this, 'mobile');
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "BZFsY7d4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"media\"],[[19,0,[\"media\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.navbar-desktop-menu')).to.have.lengthOf(0);
+        });
+      });
+
+      context('when screen has a desktop size', function () {
+        (0, _mocha.it)('should display a desktop menu', function () {
+          // given
+          (0, _responsive.setBreakpointForIntegrationTest)(this, 'desktop');
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "BZFsY7d4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"media\"],[[19,0,[\"media\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+          (0, _chai.expect)(this.$('.navbar-mobile-menu')).to.have.lengthOf(0);
+        });
       });
     });
-    (0, _mocha.describe)('Rendering for logged user', function () {
+
+    context('When user is logged', function () {
 
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', Ember.Service.extend({
@@ -6532,12 +6691,154 @@ define('pix-live/tests/integration/components/navbar-header-test', ['chai', 'moc
       });
 
       (0, _mocha.it)('should not display link to inscription page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--inscription')).to.have.lengthOf(0);
+        // then
+        (0, _chai.expect)(this.$('.navbar-menu-signup-link')).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('should not display link to connection page', function () {
-        (0, _chai.expect)(this.$('.navbar-header-links__link--connection')).to.have.lengthOf(0);
+        // then
+        (0, _chai.expect)(this.$('.navbar-menu-signin-link')).to.have.lengthOf(0);
       });
+
+      (0, _mocha.it)('should be rendered', function () {
+        (0, _chai.expect)(this.$()).to.have.lengthOf(1);
+      });
+
+      context('when screen has a smartphone or tablet size', function () {
+        (0, _mocha.it)('should display a mobile menu', function () {
+          // given
+          (0, _responsive.setBreakpointForIntegrationTest)(this, 'mobile');
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "BZFsY7d4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"media\"],[[19,0,[\"media\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.navbar-mobile-menu')).to.have.lengthOf(1);
+        });
+      });
+
+      context('when screen has a desktop size', function () {
+        (0, _mocha.it)('should display a desktop menu', function () {
+          // given
+          (0, _responsive.setBreakpointForIntegrationTest)(this, 'desktop');
+
+          // when
+          this.render(Ember.HTMLBars.template({
+            "id": "BZFsY7d4",
+            "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"media\"],[[19,0,[\"media\"]]]]],false]],\"hasEval\":false}",
+            "meta": {}
+          }));
+
+          // then
+          (0, _chai.expect)(this.$('.navbar-desktop-menu')).to.have.lengthOf(1);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/navbar-mobile-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  var computed = Ember.computed;
+  var LinkComponent = Ember.LinkComponent;
+  var Service = Ember.Service;
+
+
+  (0, _mocha.describe)('Integration | Component | navbar mobile menu', function () {
+    (0, _emberMocha.setupComponentTest)('navbar-mobile-menu', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "3ynOjF+/",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-mobile-menu\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    context('when close button is clicked', function () {
+
+      (0, _mocha.it)('should close the side-menu', function () {
+        // given
+        this.render(Ember.HTMLBars.template({
+          "id": "3ynOjF+/",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-mobile-menu\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.burger-close-button').click();
+
+        // then
+        (0, _chai.expect)(this.$('.side-menu').attr('style').indexOf('box-shadow: none')).to.be.at.least(0);
+      });
+    });
+
+    context('when any menu item is clicked', function () {
+
+      (0, _mocha.beforeEach)(function () {
+        LinkComponent.reopen({
+          href: computed.alias('qualifiedRouteName')
+        });
+        this.register('service:-routing', Service.extend({
+          hasRoute: function hasRoute() {
+            return '/compte';
+          },
+
+          transitionTo: function transitionTo() {
+            return true;
+          }
+        }));
+        this.inject.service('-routing', { as: '-routing' });
+      });
+
+      (0, _mocha.it)('should close the side-menu', function () {
+        // given
+        var menu = [{ name: 'Projet', link: 'project', class: '', permanent: true }, { name: 'Compétences', link: 'competences', class: '', permanent: true }];
+        this.set('menu', menu);
+
+        this.render(Ember.HTMLBars.template({
+          "id": "PVje3z1K",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-mobile-menu\",null,[[\"menu\"],[[19,0,[\"menu\"]]]]],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        this.$('.navbar-header-links__item').eq(1).click();
+
+        // then
+        (0, _chai.expect)(this.$('.side-menu').attr('style').indexOf('box-shadow: none')).to.be.at.least(0);
+      });
+    });
+  });
+});
+define('pix-live/tests/integration/components/navbar-mobile-nav-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | navbar mobile nav menu', function () {
+    (0, _emberMocha.setupComponentTest)('navbar-mobile-menu', {
+      integration: true
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "3ynOjF+/",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"navbar-mobile-menu\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
     });
   });
 });
@@ -6661,6 +6962,54 @@ define('pix-live/tests/integration/components/password-reset-form-test', ['chai'
 
       // then
       (0, _chai.expect)(this.$('.password-reset-form__form-success-message')).to.have.length(1);
+    });
+  });
+});
+define('pix-live/tests/integration/components/pix-content-backdrop-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Integration | Component | pix content backdrop', function () {
+    (0, _emberMocha.setupComponentTest)('pix-content-backdrop', {
+      integration: true
+    });
+
+    (0, _mocha.beforeEach)(function () {
+      this.register('service:side-menu', Ember.Service.extend({
+        close: function close() {}
+      }));
+      this.inject.service('side-menu', { as: 'sideMenu' });
+    });
+
+    (0, _mocha.it)('should be rendered', function () {
+      // when
+      this.render(Ember.HTMLBars.template({
+        "id": "LSowFm0k",
+        "block": "{\"symbols\":[],\"statements\":[[1,[18,\"pix-content-backdrop\"],false]],\"hasEval\":false}",
+        "meta": {}
+      }));
+
+      // then
+      (0, _chai.expect)(this.$()).to.have.length(1);
+    });
+
+    (0, _mocha.describe)('@touchStart', function () {
+      (0, _mocha.it)('should close the side-menu', function () {
+        // given
+        this.set('sideMenu.progress', 10);
+        this.render(Ember.HTMLBars.template({
+          "id": "BLm3nrrA",
+          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"content-backdrop\"],false]],\"hasEval\":false}",
+          "meta": {}
+        }));
+
+        // when
+        Ember.run(function () {
+          return document.querySelector('.content-backdrop').click();
+        });
+
+        // then
+        (0, _chai.expect)(this.$('.content-backdrop').attr('style').indexOf('visibility: hidden') > -1);
+      });
     });
   });
 });
@@ -9989,6 +10338,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('helpers/responsive.js', function () {
+      // test passed
+    });
+
     it('helpers/seeds.js', function () {
       // test passed
     });
@@ -10085,7 +10438,19 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('integration/components/navbar-desktop-nav-menu-test.js', function () {
+      // test passed
+    });
+
     it('integration/components/navbar-header-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/navbar-mobile-menu-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/navbar-mobile-nav-menu-test.js', function () {
       // test passed
     });
 
@@ -10094,6 +10459,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('integration/components/password-reset-form-test.js', function () {
+      // test passed
+    });
+
+    it('integration/components/pix-content-backdrop-test.js', function () {
       // test passed
     });
 
@@ -10258,6 +10627,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/components/navbar-header-test.js', function () {
+      // test passed
+    });
+
+    it('unit/components/navbar-mobile-menu-test.js', function () {
       // test passed
     });
 
@@ -11994,35 +12367,101 @@ define('pix-live/tests/unit/components/navbar-header-test', ['chai', 'mocha', 'e
     var sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
     var sessionStubReject = Ember.Service.extend({ isAuthenticated: false });
 
-    (0, _mocha.describe)('#isUserLogged true case', function () {
-
+    (0, _mocha.describe)('When user is logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', sessionStubResolve);
         this.inject.service('session', { as: 'session' });
       });
 
-      (0, _mocha.it)('should return true, when user is authenticated', function () {
-        // when
-        var component = this.subject();
+      (0, _mocha.describe)('#isUserLogged', function () {
+        (0, _mocha.it)('should return true', function () {
+          // when
+          var component = this.subject();
 
-        // then
-        (0, _chai.expect)(component.get('isUserLogged')).to.equal(true);
+          // then
+          (0, _chai.expect)(component.get('isUserLogged')).to.equal(true);
+        });
+      });
+
+      context('#menu', function () {
+        (0, _mocha.it)('should only contains permanent menu items', function () {
+          // given
+          var expectedLoggedUserMenu = [{ name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true }, { name: 'Compétences', link: 'competences', class: 'navbar-header-links__link--competences', permanent: true }];
+
+          // when
+          var component = this.subject();
+
+          // then
+          (0, _chai.expect)(component.get('menu')).to.deep.equal(expectedLoggedUserMenu);
+        });
       });
     });
 
-    (0, _mocha.describe)('#isUserLogged false case', function () {
-
+    context('When user is not logged', function () {
       (0, _mocha.beforeEach)(function () {
         this.register('service:session', sessionStubReject);
         this.inject.service('session', { as: 'session' });
       });
 
-      (0, _mocha.it)('should return false, when user is unauthenticated', function () {
-        // when
-        var component = this.subject();
+      context('#isUserLogged', function () {
+        (0, _mocha.it)('should return false, when user is unauthenticated', function () {
+          // when
+          var component = this.subject();
 
-        // then
-        (0, _chai.expect)(component.get('isUserLogged')).to.equal(false);
+          // then
+          (0, _chai.expect)(component.get('isUserLogged')).to.equal(false);
+        });
+      });
+
+      context('#menu', function () {
+        (0, _mocha.it)('should set with default values (including connexion link)', function () {
+          // given
+          var expectedUnloggedUserMenu = [{ name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true }, {
+            name: 'Compétences',
+            link: 'competences',
+            class: 'navbar-header-links__link--competences',
+            permanent: true
+          }, { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }];
+
+          // when
+          var component = this.subject();
+
+          // then
+          (0, _chai.expect)(component.get('menu')).to.deep.equal(expectedUnloggedUserMenu);
+        });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/components/navbar-mobile-menu-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | Navbar mobile menu Component', function () {
+    (0, _emberMocha.setupTest)('component:navbar-mobile-menu', {
+      needs: ['service:side-menu'],
+      unit: true
+    });
+    var sessionStubResolve = Ember.Service.extend({ isAuthenticated: true });
+
+    (0, _mocha.describe)('#closeMenu', function () {
+      (0, _mocha.beforeEach)(function () {
+        this.register('service:session', sessionStubResolve);
+        this.inject.service('session', { as: 'session' });
+      });
+
+      context('when close button is clicked', function () {
+        (0, _mocha.it)('should be handled', function () {
+          // given
+          var component = this.subject();
+
+          // when
+          Ember.run(function () {
+            component.send('closeMenu');
+          });
+
+          // then
+          (0, _chai.expect)(component.get('sideMenu.isClosed')).to.equal(true);
+        });
       });
     });
   });
