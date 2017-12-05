@@ -1,6 +1,8 @@
 const Boom = require('boom');
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
+const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 
 const logger = require('../../infrastructure/logger');
 
@@ -14,11 +16,33 @@ function _fetchCourses(query) {
   return courseRepository.getProgressionCourses();
 }
 
+function _extractCoursesChallenges(courses) {
+  const challengeIds = courses.reduce((listOfId, course) => {
+    if (course.challenges) {
+      return listOfId.concat(course.challenges);
+    }
+    return listOfId;
+  }, []);
+  const challenges = challengeIds.map(challengeId => challengeRepository.get(challengeId));
+  return Promise.all(challenges);
+}
+
+function _buildResponse(courses, challenges) {
+  const response = courseSerializer.serializeArray(courses);
+  response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
+  return response;
+}
+
 module.exports = {
 
   list(request, reply) {
+    let courses;
     _fetchCourses(request.query)
-      .then(courses => reply(courseSerializer.serialize(courses)))
+      .then(fetchedCourses => {
+        courses = fetchedCourses;
+        return _extractCoursesChallenges(courses);
+      })
+      .then(challenges => reply(_buildResponse(courses, challenges)))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
