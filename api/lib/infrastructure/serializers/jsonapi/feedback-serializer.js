@@ -1,11 +1,10 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
-const JSONAPIDeserializer = require('jsonapi-serializer').Deserializer;
+const { Serializer, Deserializer } = require('jsonapi-serializer');
 const Feedback = require('../../../domain/models/data/feedback');
 
 module.exports = {
 
   serialize(feedback) {
-    return new JSONAPISerializer('feedbacks', {
+    return new Serializer('feedbacks', {
       attributes: ['createdAt', 'content', 'assessment', 'challenge'],
       assessment: { ref: 'id' },
       challenge: { ref: 'id' },
@@ -19,7 +18,7 @@ module.exports = {
   },
 
   deserialize(json) {
-    return new JSONAPIDeserializer()
+    return new Deserializer()
       .deserialize(json, function(err, feedback) {
         feedback.assessmentId = json.data.relationships.assessment.data.id;
         feedback.challengeId = json.data.relationships.challenge.data.id;
