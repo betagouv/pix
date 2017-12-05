@@ -1,18 +1,11 @@
-const minimumReproductibilityToBeCertified = 0.5;
-const minimumReproductibilityToBeTrusted = 0.8;
+const minimumReproductibilityToBeCertified = 50;
+const minimumReproductibilityToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
 const _ = require('lodash');
-
-function _getReproductibilityFromAnswers(listAnswers) {
-  if(listAnswers.length < 1) {
-    return 0;
-  }
-  const numberOfCorrectAnswers = _.filter(listAnswers, (answer) => (answer.get('result') === 'ok')).length;
-  return numberOfCorrectAnswers/listAnswers.length;
-}
+const answerServices = require('./answer-service');
 
 function _computeSumPixFromCompetences(listCompetences) {
-  return _.reduce(listCompetences, (sum, competence) => sum + competence.pixScore, 0);
+  return  _.sumBy(listCompetences, c => c.pixScore);
 }
 
 function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
@@ -29,11 +22,10 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   return _(answersWithCompetences)
     .filter(answer => answer.get('competenceId') === competence.id)
     .filter(answer => answer.get('result') === 'ok')
-    .value()
-    .length;
+    .size();
 }
 
-function _computedMalusPerCompetence(numberOfCorrectAnswers, competence, reproductibility) {
+function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibility) {
   if (numberOfCorrectAnswers < 2) {
     return competence.pixScore;
   }
@@ -46,13 +38,13 @@ function _computedMalusPerCompetence(numberOfCorrectAnswers, competence, reprodu
 function _getMalusPix(answersWithCompetences, listCompetences, reproductibility) {
   return listCompetences.reduce((malus, competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
-    return malus + _computedMalusPerCompetence(numberOfCorrectAnswers, competence, reproductibility);
+    return malus + _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibility);
   }, 0);
 }
 
 module.exports = {
   getScore(listAnswers, listChallenges, listCompetences) {
-    const reproductibility = _getReproductibilityFromAnswers(listAnswers);
+    const reproductibility = answerServices.getAnswersSuccessRate(listAnswers);
     if (reproductibility < minimumReproductibilityToBeCertified) {
       return 0;
     }

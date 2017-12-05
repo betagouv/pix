@@ -5,17 +5,11 @@ const CertificationChallenge = require('../../../../lib/domain/models/data/certi
 const Competence = require('../../../../lib/domain/models/referential/competence');
 
 function _buildAnswer(challengeId, result) {
-  const answer = new Answer({ id: 'answer_id' });
-  answer.set('challengeId', challengeId);
-  answer.set('result', result);
-  return answer;
+  return new Answer({ id: 'answer_id', challengeId, result });
 }
 
 function _buildCertificationChallenge(challengeId, competenceId) {
-  const certificationChallenge = new CertificationChallenge();
-  certificationChallenge.set('challengeId', challengeId);
-  certificationChallenge.set('competenceId', competenceId);
-  return certificationChallenge;
+  return new CertificationChallenge({ challengeId, competenceId });
 }
 
 function _buildCompetence(courseId, pixScore) {
@@ -25,23 +19,92 @@ function _buildCompetence(courseId, pixScore) {
   return competence;
 }
 
+const listChallenges = [
+  _buildCertificationChallenge('challenge_1','comp_1'),
+  _buildCertificationChallenge('challenge_2','comp_1'),
+  _buildCertificationChallenge('challenge_3','comp_1'),
+  _buildCertificationChallenge('challenge_4','comp_2'),
+  _buildCertificationChallenge('challenge_5','comp_2'),
+  _buildCertificationChallenge('challenge_6','comp_2'),
+  _buildCertificationChallenge('challenge_7','comp_3'),
+  _buildCertificationChallenge('challenge_8','comp_3'),
+  _buildCertificationChallenge('challenge_9','comp_3'),
+  _buildCertificationChallenge('challenge_10','comp_4'),
+  _buildCertificationChallenge('challenge_11','comp_4'),
+  _buildCertificationChallenge('challenge_12','comp_4'),
+];
+
+function _listAnswersAllCorrectAnswers() {
+  return [
+    _buildAnswer('challenge_1','ok'),
+    _buildAnswer('challenge_2','ok'),
+    _buildAnswer('challenge_3','ok'),
+    _buildAnswer('challenge_4','ok'),
+    _buildAnswer('challenge_5','ok'),
+    _buildAnswer('challenge_6','ok'),
+    _buildAnswer('challenge_7','ok'),
+    _buildAnswer('challenge_8','ok'),
+    _buildAnswer('challenge_9','ok'),
+    _buildAnswer('challenge_10','ok'),
+    _buildAnswer('challenge_11','ok'),
+    _buildAnswer('challenge_12','ok'),
+  ];
+}
+
+function _listAnswersAllFalseAnswers() {
+  return [
+    _buildAnswer('challenge_1','ko'),
+    _buildAnswer('challenge_2','ko'),
+    _buildAnswer('challenge_3','ko'),
+    _buildAnswer('challenge_4','ko'),
+    _buildAnswer('challenge_5','ko'),
+    _buildAnswer('challenge_6','ko'),
+    _buildAnswer('challenge_7','ko'),
+    _buildAnswer('challenge_8','ko'),
+    _buildAnswer('challenge_9','ko'),
+    _buildAnswer('challenge_10','ko'),
+    _buildAnswer('challenge_11','ko'),
+    _buildAnswer('challenge_12','ko'),
+  ];
+}
+
+function _listAnswersLastCompetenceFailed() {
+  return [
+    _buildAnswer('challenge_1','ok'),
+    _buildAnswer('challenge_2','ok'),
+    _buildAnswer('challenge_3','ok'),
+    _buildAnswer('challenge_4','ok'),
+    _buildAnswer('challenge_5','ok'),
+    _buildAnswer('challenge_6','ok'),
+    _buildAnswer('challenge_7','ok'),
+    _buildAnswer('challenge_8','ok'),
+    _buildAnswer('challenge_9','ok'),
+
+    _buildAnswer('challenge_10','ko'),
+    _buildAnswer('challenge_11','ko'),
+    _buildAnswer('challenge_12','ko'),
+  ];
+}
+
+function _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80(){
+  return [
+    _buildAnswer('challenge_1','ok'),
+    _buildAnswer('challenge_2','ko'),
+    _buildAnswer('challenge_3','ok'),
+    _buildAnswer('challenge_4','ok'),
+    _buildAnswer('challenge_5','ok'),
+    _buildAnswer('challenge_6','ok'),
+    _buildAnswer('challenge_7','ok'),
+    _buildAnswer('challenge_8','ko'),
+    _buildAnswer('challenge_9','ko'),
+    _buildAnswer('challenge_10','ok'),
+    _buildAnswer('challenge_11','ko'),
+    _buildAnswer('challenge_12','ok'),
+  ];
+}
 describe('Unit | Service | Certification Service', function() {
 
   describe('#getScore', () => {
-    const listChallenges = [
-      _buildCertificationChallenge('challenge_1','comp_1'),
-      _buildCertificationChallenge('challenge_2','comp_1'),
-      _buildCertificationChallenge('challenge_3','comp_1'),
-      _buildCertificationChallenge('challenge_4','comp_2'),
-      _buildCertificationChallenge('challenge_5','comp_2'),
-      _buildCertificationChallenge('challenge_6','comp_2'),
-      _buildCertificationChallenge('challenge_7','comp_3'),
-      _buildCertificationChallenge('challenge_8','comp_3'),
-      _buildCertificationChallenge('challenge_9','comp_3'),
-      _buildCertificationChallenge('challenge_10','comp_4'),
-      _buildCertificationChallenge('challenge_11','comp_4'),
-      _buildCertificationChallenge('challenge_12','comp_4'),
-    ];
 
     const pixComp1 = 10;
     const pixComp2 = 30;
@@ -58,20 +121,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should return 0 when reproductibility is < 50%', () => {
       // given
-      const listAnswers = [
-        _buildAnswer('challenge_1','ko'),
-        _buildAnswer('challenge_2','ko'),
-        _buildAnswer('challenge_3','ok'),
-        _buildAnswer('challenge_4','ko'),
-        _buildAnswer('challenge_5','ko'),
-        _buildAnswer('challenge_6','ko'),
-        _buildAnswer('challenge_7','ko'),
-        _buildAnswer('challenge_8','ok'),
-        _buildAnswer('challenge_9','ko'),
-        _buildAnswer('challenge_10','ko'),
-        _buildAnswer('challenge_11','ok'),
-        _buildAnswer('challenge_12','ok'),
-      ];
+      const listAnswers = _listAnswersAllFalseAnswers();
 
       // when
       const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
@@ -83,20 +133,7 @@ describe('Unit | Service | Certification Service', function() {
     context('when reproductibility is between 80% and 100%', () => {
       it('should return all pix when reproductibility is at 100%', () => {
         // given
-        const listAnswers = [
-          _buildAnswer('challenge_1','ok'),
-          _buildAnswer('challenge_2','ok'),
-          _buildAnswer('challenge_3','ok'),
-          _buildAnswer('challenge_4','ok'),
-          _buildAnswer('challenge_5','ok'),
-          _buildAnswer('challenge_6','ok'),
-          _buildAnswer('challenge_7','ok'),
-          _buildAnswer('challenge_8','ok'),
-          _buildAnswer('challenge_9','ok'),
-          _buildAnswer('challenge_10','ok'),
-          _buildAnswer('challenge_11','ok'),
-          _buildAnswer('challenge_12','ok'),
-        ];
+        const listAnswers = _listAnswersAllCorrectAnswers();
 
         // when
         const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
@@ -107,26 +144,13 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return (all pix - one competence pix) when one competence is totally false', () => {
         // given
-        const listAnswers = [
-          _buildAnswer('challenge_1','ok'),
-          _buildAnswer('challenge_2','ok'),
-          _buildAnswer('challenge_3','ok'),
-          _buildAnswer('challenge_4','ok'),
-          _buildAnswer('challenge_5','ok'),
-          _buildAnswer('challenge_6','ok'),
-          _buildAnswer('challenge_7','ok'),
-          _buildAnswer('challenge_8','ko'),
-          _buildAnswer('challenge_9','ko'),
-          _buildAnswer('challenge_10','ok'),
-          _buildAnswer('challenge_11','ok'),
-          _buildAnswer('challenge_12','ok'),
-        ];
+        const listAnswers = _listAnswersLastCompetenceFailed();
 
         // when
         const score = certificationService.getScore(listAnswers, listChallenges, listAssessments);
 
         // then
-        expect(score).to.be.equal(totalPix - pixComp3);
+        expect(score).to.be.equal(totalPix - pixComp4);
       });
 
     });
@@ -134,20 +158,7 @@ describe('Unit | Service | Certification Service', function() {
     context('when reproductibility is between 50% and 80%', () => {
       it('should return all pix minus 8 for one competence with 1 error and minus all pix for others false competences', () => {
         // given
-        const listAnswers = [
-          _buildAnswer('challenge_1','ok'),
-          _buildAnswer('challenge_2','ko'),
-          _buildAnswer('challenge_3','ok'),
-          _buildAnswer('challenge_4','ok'),
-          _buildAnswer('challenge_5','ok'),
-          _buildAnswer('challenge_6','ok'),
-          _buildAnswer('challenge_7','ok'),
-          _buildAnswer('challenge_8','ko'),
-          _buildAnswer('challenge_9','ko'),
-          _buildAnswer('challenge_10','ok'),
-          _buildAnswer('challenge_11','ko'),
-          _buildAnswer('challenge_12','ok'),
-        ];
+        const listAnswers = _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80();
         const malusForFalseAnswer = 8;
         const expectedScore = totalPix - pixComp3 - 2*malusForFalseAnswer;
 

@@ -374,29 +374,27 @@ describe('Unit | Repository | assessmentRepository', () => {
     let fetchStub;
     beforeEach(() => {
       fetchStub = sinon.stub().resolves();
-      sinon.stub(Assessment, 'query').returns({
+      sinon.stub(Assessment, 'where').returns({
         fetch: fetchStub
       });
     });
 
     after(() => {
-      Assessment.query.restore();
+      Assessment.where.restore();
     });
 
     it('should correctly query Assessment', () => {
       // given
       const fakeCertificationCourseId = 10;
-      const expectedParams = {
-        where: { courseId: fakeCertificationCourseId },
-      };
+      const expectedParams = { courseId: fakeCertificationCourseId };
 
       // when
       const promise = assessmentRepository.getByCertificationCourseId(fakeCertificationCourseId);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(Assessment.query);
-        sinon.assert.calledWith(Assessment.query, expectedParams);
+        sinon.assert.calledOnce(Assessment.where);
+        sinon.assert.calledWith(Assessment.where, expectedParams);
       });
     });
   });

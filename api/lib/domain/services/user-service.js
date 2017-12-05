@@ -57,13 +57,14 @@ function _skillHasAtLeastOneChallengeInTheReferentiel(skill, challenges) {
 
 function _addCourseIdAndPixToCompetence(competences, courses, assessments) {
   competences.forEach((competence) => {
-    const currentCourse =  courses.find((course) => {
-      return course.competences[0] === competence.id;
-    });
-    const assessment = assessments.find((assessment) => {
-      return currentCourse.id === assessment.get('courseId');
-    });
-    competence.pixScore = assessment ? assessment.get('pixScore') : 0;
+    const currentCourse =  courses.find(course => course.competences[0] === competence.id);
+    const assessment = assessments.find(assessment => currentCourse.id === assessment.get('courseId'));
+
+    if (assessment) {
+      competence.pixScore = assessment.get('pixScore');
+    } else {
+      competence.pixScore = 0;
+    }
   });
 
   return competences;
