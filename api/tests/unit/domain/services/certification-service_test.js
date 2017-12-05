@@ -86,7 +86,7 @@ function _listAnswersLastCompetenceFailed() {
   ];
 }
 
-function _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80(){
+function _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80() {
   return [
     _buildAnswer('challenge_1','ok'),
     _buildAnswer('challenge_2','ko'),
