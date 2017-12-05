@@ -95,7 +95,7 @@ async function getScoredAssessment(assessmentId) {
   assessmentPix.set('pixScore', 0);
   assessmentPix.set('successRate', answerService.getAnswersSuccessRate(answers));
 
-  if (isPreviewAssessment(assessmentPix)) {
+  if (isPreviewAssessment(assessmentPix)  || isCertificationAssessment(assessmentPix)) {
     return Promise.resolve({ assessmentPix, skills });
   }
 

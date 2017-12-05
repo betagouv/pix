@@ -262,6 +262,36 @@ describe('Unit | Domain | Services | assessment-service', () => {
         });
       });
 
+      context('when the assessement is a certification', () => {
+        beforeEach(() => {
+          const assessmentFromCertif = new Assessment({ id: ASSESSMENT_ID, type: 'CERTIFICATION' });
+          assessmentRepository.get.resolves(assessmentFromCertif);
+        });
+        it('should return an assessment with an estimated level of 0 and a pix-score of 0', () => {
+          // when
+          const promise = service.getScoredAssessment(ASSESSMENT_ID);
+
+          // then
+          return promise
+            .then(({ assessmentPix, skills }) => {
+              expect(assessmentPix.get('estimatedLevel')).to.equal(0);
+              expect(assessmentPix.get('pixScore')).to.equal(0);
+              expect(skills).to.be.undefined;
+            });
+        });
+
+        it('should not try to get course details', () => {
+          // when
+          const promise = service.getScoredAssessment(ASSESSMENT_ID);
+
+          // then
+          return promise.then(() => {
+            expect(courseRepository.get).not.to.have.been.called;
+            expect(competenceRepository.get).not.to.have.been.called;
+          });
+        });
+      });
+
       context('when the assessement is linked to a course', () => {
         beforeEach(() => {
           const assessmentFromPreview = new Assessment({ id: ASSESSMENT_ID, courseId: COURSE_ID });
