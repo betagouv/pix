@@ -1,10 +1,10 @@
-const JSONAPISerializer = require('jsonapi-serializer').Serializer;
+const { Serializer } = require('jsonapi-serializer');
 
-class AuthenticationSerializer {
+module.exports = {
 
   serialize(authentication) {
 
-    return new JSONAPISerializer('authentication', {
+    return new Serializer('authentication', {
       attributes: ['token', 'user_id', 'password'],
       transform(record) {
         record.user_id = record.user_id.toString();
@@ -14,6 +14,5 @@ class AuthenticationSerializer {
       }
     }).serialize(authentication);
   }
-}
 
-module.exports = new AuthenticationSerializer();
+};
