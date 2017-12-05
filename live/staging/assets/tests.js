@@ -856,16 +856,16 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
               switch (_context3.prev = _context3.next) {
                 case 0:
                   _context3.next = 2;
-                  return click('.challenge-actions__action-skip-text');
+                  return click('.challenge-actions__action-skip');
 
                 case 2:
                   _context3.next = 4;
-                  return click('.challenge-actions__action-skip-text');
+                  return click('.challenge-actions__action-skip');
 
                 case 4:
 
                   // then
-                  (0, _chai.expect)(currentURL()).to.equals('/certifications/results');
+                  (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
 
                 case 5:
                 case 'end':
@@ -3923,6 +3923,7 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
 
     context('On component rendering', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      var certificationNumber = 'certification-number';
 
       (0, _mocha.it)('should render component container', function () {
         // when
@@ -3950,18 +3951,18 @@ define('pix-live/tests/integration/components/certification-banner-test', ['chai
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
       });
 
-      (0, _mocha.it)('should render component with a div:certification-banner__user-id', function () {
+      (0, _mocha.it)('should render component with a div:certification-banner__certification-number', function () {
         // when
-        this.set('user', user);
+        this.set('certificationNumber', certificationNumber);
         this.render(Ember.HTMLBars.template({
-          "id": "xPVYrMgT",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "lcJkvMDG",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
         // then
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id')).to.have.lengthOf(1);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number')).to.have.lengthOf(1);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal('#' + certificationNumber);
       });
     });
   });
@@ -3980,15 +3981,18 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
     context('When component is rendered', function () {
       var user = { id: 5, firstName: 'shi', lastName: 'fu' };
+      var certificationNumber = 'certification-number';
+
       (0, _mocha.beforeEach)(function () {
         this.set('user', user);
+        this.set('certificationNumber', certificationNumber);
       });
 
       (0, _mocha.it)('should also render a certification banner', function () {
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "CTlBqLRr",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "haXtHoP+",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -3996,7 +4000,7 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
         (0, _chai.expect)(this.$('.certification-banner')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname')).to.have.lengthOf(1);
         (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-fullname').text().trim()).to.equal(user.firstName + ' ' + user.lastName);
-        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__user-id').text().trim()).to.equal('#' + user.id);
+        (0, _chai.expect)(this.$('.certification-banner__container .certification-banner__certification-number').text().trim()).to.equal('#' + certificationNumber);
       });
 
       (0, _mocha.it)('should have a button to logout', function () {
@@ -4007,8 +4011,8 @@ define('pix-live/tests/integration/components/certification-results-page-test', 
 
         // when
         this.render(Ember.HTMLBars.template({
-          "id": "CTlBqLRr",
-          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false]],\"hasEval\":false}",
+          "id": "haXtHoP+",
+          "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false]],\"hasEval\":false}",
           "meta": {}
         }));
 
@@ -13909,27 +13913,47 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
 
   (0, _mocha.describe)('Unit | Route | Assessments.ChallengeRoute', function () {
     (0, _emberMocha.setupTest)('route:assessments.challenge', {
-      needs: ['service:current-routed-modal']
+      needs: ['service:current-routed-modal', 'service:session']
     });
 
     var route = void 0;
     var StoreStub = void 0;
     var createRecordStub = void 0;
     var queryRecordStub = void 0;
+    var findRecordStub = void 0;
+    var params = {
+      assessment_id: 'assessment_id',
+      challenge_id: 'challenge_id'
+    };
 
+    var model = {
+      assessment: {
+        id: 'assessment_id',
+        get: _sinon.default.stub()
+      },
+      challenge: {
+        id: 'challenge_id'
+      }
+    };
+    var userId = 'user_id';
     beforeEach(function () {
       // define stubs
       createRecordStub = _sinon.default.stub();
       queryRecordStub = _sinon.default.stub();
+      findRecordStub = _sinon.default.stub();
+      findRecordStub.withArgs('user', userId).resolves({ userId: userId });
       StoreStub = EmberService.extend({
         createRecord: createRecordStub,
-        queryRecord: queryRecordStub
+        queryRecord: queryRecordStub,
+        findRecord: findRecordStub
       });
 
       // manage dependency injection context
       this.register('service:store', StoreStub);
       this.inject.service('store', { as: 'store' });
-
+      this.register('service:session', EmberService.extend({
+        data: { authenticated: { userId: userId, token: 'VALID-TOKEN' } }
+      }));
       // instance route object
       route = this.subject();
       route.transitionTo = _sinon.default.stub();
@@ -13937,6 +13961,85 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
 
     (0, _mocha.it)('exists', function () {
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#model', function () {
+      (0, _mocha.it)('should correctly call the store to find assessment and challenge', function () {
+        // when
+        route.model(params);
+
+        // then
+        _sinon.default.assert.calledTwice(findRecordStub);
+        _sinon.default.assert.calledWith(findRecordStub, 'assessment', params.assessment_id);
+        _sinon.default.assert.calledWith(findRecordStub, 'challenge', params.challenge_id);
+      });
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+      (0, _mocha.it)('should call queryRecord to find answer', function () {
+        // given
+        model.assessment.get.withArgs('isCertification').returns(false);
+        model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
+
+        // when
+        var promise = route.afterModel(model);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'answer', { assessment: model.assessment.id, challenge: model.challenge.id });
+        });
+      });
+
+      (0, _mocha.it)('should call findRecord for user if assessment is certification', function () {
+        // given
+        model.assessment.get.withArgs('isCertification').returns(true);
+        model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
+
+        // when
+        var promise = route.afterModel(model);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(findRecordStub);
+          _sinon.default.assert.calledWith(findRecordStub, 'user', userId);
+        });
+      });
+
+      (0, _mocha.it)('should not call findRecord for user if assessement is not a certification', function () {
+        // given
+        model.assessment.get.withArgs('isCertification').returns(false);
+        model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
+
+        // when
+        var promise = route.afterModel(model);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.notCalled(findRecordStub);
+        });
+      });
+
+      (0, _mocha.it)('should return a complete model', function () {
+        // given
+        model.assessment.get.withArgs('isCertification').returns(true);
+        model.assessment.get.withArgs('course').returns({ getProgress: _sinon.default.stub().returns('course') });
+        var expectedModel = {
+          assessment: { id: 'assessment_id' },
+          challenge: { id: 'challenge_id' },
+          progress: 'course',
+          user: { userId: userId },
+          courseId: 'course_id'
+        };
+
+        // when
+        var promise = route.afterModel(model);
+
+        // then
+        return promise.then(function (createdModel) {
+          (0, _chai.expect)(createdModel.toString()).to.equal(expectedModel.toString());
+        });
+      });
     });
 
     (0, _mocha.describe)('#saveAnswerAndNavigate', function () {
@@ -14440,6 +14543,9 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
     (0, _emberMocha.setupTest)('route:certifications.results', {
       needs: ['service:current-routed-modal', 'service:session']
     });
+    var params = {
+      certification_number: 'certification_number'
+    };
 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
@@ -14477,7 +14583,7 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
           // Given
           findRecordStub.rejects();
           // When
-          var promise = route.model();
+          var promise = route.model(params);
 
           // Then
           return promise.then(function () {
@@ -14510,12 +14616,12 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
           findRecordStub.resolves(expectedUser);
 
           // When
-          var promise = route.model();
+          var promise = route.model(params);
 
           // Then
-          return promise.then(function (user) {
+          return promise.then(function (model) {
             _sinon.default.assert.calledWith(findRecordStub, 'user', 1435, { reload: true });
-            (0, _chai.expect)(user).to.equal(expectedUser);
+            (0, _chai.expect)(model.user).to.equal(expectedUser);
           });
         });
       });
