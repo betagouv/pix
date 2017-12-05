@@ -16,10 +16,13 @@ module.exports = {
 
     return challengeRepository.findByCompetence(competence)
       .then(challenges => {
-        const skills = new Set();
+        let skills = [];
         _(challenges)
           .without((challenge) => _.isNil(challenge.skills))
-          .forEach((challenge) => _.forEach(challenge.skills, (skill) => skills.add(skill)));
+          .forEach((challenge) => _.forEach(challenge.skills, (skill) => skills.push(skill)));
+
+        skills = new Set(_.uniqBy(skills, 'name')); // FIXME heavily inefficient
+
         cache.set(cacheKey, skills);
         return skills;
       });
