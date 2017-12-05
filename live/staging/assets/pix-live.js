@@ -6098,7 +6098,10 @@ define('pix-live/models/certification-course', ['exports', 'pix-live/models/cour
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _course.default.extend({});
+  exports.default = _course.default.extend({
+
+    type: 'CERTIFICATION'
+  });
 });
 define('pix-live/models/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -6168,6 +6171,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var computed = Ember.computed;
   var Model = _emberData.default.Model,
       attr = _emberData.default.attr,
       hasMany = _emberData.default.hasMany;
@@ -6180,6 +6184,9 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     isAdaptive: attr('boolean'),
     nbChallenges: attr('number'),
     challenges: hasMany('challenge', { inverse: null }),
+    type: computed('isAdaptive', function () {
+      return this.get('isAdaptive') ? 'PLACEMENT' : 'DEMO';
+    }),
 
     getProgress: function getProgress(challenge) {
       var challengeIndex = this.get('challenges').indexOf(challenge);
@@ -6707,8 +6714,8 @@ define('pix-live/routes/challenge-preview', ['exports', 'pix-live/utils/lodash-c
       var store = this.get('store');
       var that = this;
       // creates a fake course
-      var course = store.createRecord('course', { id: 'null' + _lodashCustom.default.guid(), challenges: [challenge] });
-      var assessment = store.createRecord('assessment', { course: course });
+      var course = store.createRecord('course', { id: 'null' + _lodashCustom.default.guid(), type: 'PREVIEW', challenges: [challenge] });
+      var assessment = store.createRecord('assessment', { course: course, type: course.get('type') });
       var solutionAdapter = store.adapterFor('solution');
 
       solutionAdapter.refreshRecord('solution', { challengeId: challenge.get('id') });
@@ -6918,7 +6925,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
 
       var assessment = void 0;
 
-      return store.createRecord('assessment', { course: course }).save().then(function (createdAssessment) {
+      return store.createRecord('assessment', { course: course, type: course.get('type') }).save().then(function (createdAssessment) {
         return assessment = createdAssessment;
       }).then(function () {
         return store.queryRecord('challenge', { assessmentId: assessment.get('id') });
@@ -9107,6 +9114,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.30.0+4d58997c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.30.0+1f098e8b"});
 }
 //# sourceMappingURL=pix-live.map
