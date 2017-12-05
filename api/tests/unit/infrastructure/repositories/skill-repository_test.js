@@ -97,7 +97,6 @@ describe('Unit | Repository | skill-repository', function() {
         });
       });
 
-
       it('should not return twice the same skill', () => {
         // given
         const challenges = [
@@ -119,8 +118,6 @@ describe('Unit | Repository | skill-repository', function() {
           expect([...skills]).to.deep.equal(expectedSkills);
         });
       });
-
-
     });
   });
 

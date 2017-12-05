@@ -14,12 +14,13 @@ class Course {
         const tubeName = skill.tubeName;
         if(tubes[tubeName]) {
 
-        const countOfskillsInTubeWithSameDifficulty = _(tubes[tubeName])
-          .filter((skillInTube) => skillInTube.difficulty === skill.difficulty)
-          .size();
+          const countOfskillsInTubeWithSameDifficulty = _(tubes[tubeName])
+            .filter((skillInTube) => skillInTube.difficulty === skill.difficulty)
+            .size();
 
-          if(countOfskillsInTubeWithSameDifficulty === 0)
+          if(countOfskillsInTubeWithSameDifficulty === 0) {
             tubes[tubeName].push(skill);
+          }
 
         } else {
           tubes[tubeName] = [skill];
