@@ -19,13 +19,16 @@ export default Model.extend({
   progress: computed('answers', 'course', function() {
     const maxStep = this.get('course.nbChallenges');
     const answersCount = this.get('answers.length');
-    const currentStep = (answersCount + 1) > maxStep ? maxStep : (answersCount + 1);
+    const currentStep = _getCurrentStep(answersCount, maxStep);
+    const stepPercentage = currentStep / maxStep * 100;
 
-    return {
-      currentStep: currentStep,
-      maxStep: maxStep,
-      stepPercentage: currentStep / maxStep * 100,
-    };
+    return { currentStep, maxStep, stepPercentage };
   }),
 
 });
+
+function _getCurrentStep(answersCount, maxStep) {
+  const step = answersCount + 1;
+
+  return (step > maxStep) ? maxStep : step;
+}

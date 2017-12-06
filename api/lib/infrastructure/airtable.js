@@ -35,7 +35,9 @@ module.exports = {
   getRecords(tableName, query, serializer) {
     return new Promise((resolve, reject) => {
       const models = [];
-      this._base().table(tableName).select(query)
+      this._base()
+        .table(tableName)
+        .select(query)
         .eachPage(
           (records, fetchNextPage) => {
             records.forEach(record => {
