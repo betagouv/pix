@@ -6,22 +6,15 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
   describe('#serialize()', function() {
-    const certificationCourse = new CertificationCourse({
-      id: 'certification_id',
-      userId : 2
-    });
     const assessment = new Assessment({
       'id': '2'
     });
-    const jsonCertificationCourse = {
-      data: {
-        type: 'certification-courses',
-        id: 'certification_id',
-        attributes : {
-          'user-id': '2'
-        }
-      }
-    };
+
+    const certificationCourse = new CertificationCourse({
+      id: 'certification_id',
+      userId : 2,
+      assessment: assessment
+    });
 
     const jsonCertificationCourseWithAssessment = {
       data: {
@@ -46,19 +39,8 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
       const json = serializer.serialize(certificationCourse);
 
       // then
-      expect(json).to.deep.equal(jsonCertificationCourse);
-
-    });
-
-    it('should convert a Certification Course model with Assessment object into JSON API data', function() {
-
-      // when
-      const json = serializer.serialize({ id: certificationCourse.id, assessment });
-
-      // then
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
 
     });
-
   });
 });
