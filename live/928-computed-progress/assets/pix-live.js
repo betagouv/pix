@@ -6063,16 +6063,20 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     progress: computed('answers', 'course', function () {
       var maxStep = this.get('course.nbChallenges');
       var answersCount = this.get('answers.length');
-      var currentStep = answersCount + 1 > maxStep ? maxStep : answersCount + 1;
+      var currentStep = _getCurrentStep(answersCount, maxStep);
+      var stepPercentage = currentStep / maxStep * 100;
 
-      return {
-        currentStep: currentStep,
-        maxStep: maxStep,
-        stepPercentage: currentStep / maxStep * 100
-      };
+      return { currentStep: currentStep, maxStep: maxStep, stepPercentage: stepPercentage };
     })
 
   });
+
+
+  function _getCurrentStep(answersCount, maxStep) {
+    var step = answersCount + 1;
+
+    return step > maxStep ? maxStep : step;
+  }
 });
 define('pix-live/models/certification-course', ['exports', 'pix-live/models/course'], function (exports, _course) {
   'use strict';
@@ -9063,6 +9067,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.30.0+9973f822"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.30.0+3d8ed136"});
 }
 //# sourceMappingURL=pix-live.map
