@@ -5364,7 +5364,7 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     name: 'Traiter des données',
     description: 'Recherche d\'information, gestion et traitement de données.',
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challenges: ['ref_qcm_challenge_id'],
+    nbChallenges: 1,
     'is-adaptive': false
   }, {
     id: 'ref_course_id',
@@ -5372,7 +5372,7 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
     duration: 10,
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challengeId: ['ref_qcm_challenge_id', 'ref_qcu_challenge_id', 'ref_qroc_challenge_id', 'ref_qrocm_challenge_id'],
+    nbChallenges: 4,
     'is-adaptive': false
   }, {
     id: 'ref_timed_challenge_course_id',
@@ -5380,14 +5380,14 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     description: 'Contient uniquement des épreuves timées',
     duration: 10,
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challenges: ['ref_timed_challenge_id', 'ref_timed_challenge_bis_id'],
+    nbChallenges: 2,
     'is-adaptive': false
   }, {
     id: 'recNPB7dTNt5krlMA',
     name: 'Mener une recherche et une veille d\'information',
     description: '',
     'image-url': 'http://fakeimg.pl/350x200/?text=Real%20Course',
-    challengeIds: ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'],
+    nbChallenges: 3,
     'is-adaptive': true
   }];
 });
@@ -5613,38 +5613,23 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
     // dynamic assessment
     var assessment = schema.assessments.find(assessmentId);
     if (assessment) {
-      return getNextChallengeForDynamicAssessment(assessment);
+      var challengeIds = ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'];
+      var challenges = schema.challenges.find(challengeIds).models;
+      return getNextChallengeForDynamicAssessment(assessment, challenges);
     }
 
     // testing assessment
     return getNextChallengeForTestingAssessment(assessmentId, currentChallengeId);
   };
 
-  function getNextChallengeForDynamicAssessment(assessment) {
-    var course = assessment.course;
-    var courseChallenges = course.challenges.models;
-
+  function getNextChallengeForDynamicAssessment(assessment, challenges) {
     var answers = assessment.answers.models;
 
-    // When the assessment has just begun
-    if (answers.length === 0) {
-      return courseChallenges[0];
-    }
-
-    var lastAnswer = answers[answers.length - 1];
-    var lastAnswerChallenge = lastAnswer.challenge;
-
-    // when the last answered challenge was the course's last one
-    var nextChallengeIndex = courseChallenges.findIndex(function (challenge) {
-      return lastAnswerChallenge.id === challenge.id;
-    }) + 1;
-    if (nextChallengeIndex >= courseChallenges.length) {
+    if (answers.length >= challenges.length) {
       return null;
     }
 
-    // when the last answered challenge was one of the course's normal one
-    var nextChallenge = courseChallenges.objectAt(nextChallengeIndex);
-    return nextChallenge;
+    return challenges[answers.length];
   }
 
   function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) {
@@ -5805,10 +5790,8 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
       return _refAssessment.default;
     } else if (!_lodashCustom.default.startsWith(courseId, 'rec')) {
       newAssessment.type = 'CERTIFICATION';
-      return schema.assessments.create(newAssessment);
-    } else {
-      return schema.assessments.create(newAssessment);
     }
+    return schema.assessments.create(newAssessment);
   };
 });
 define('pix-live/mirage/routes/post-authentications', ['exports'], function (exports) {
@@ -5862,21 +5845,15 @@ define('pix-live/mirage/routes/post-authentications', ['exports'], function (exp
     }
   };
 });
-define('pix-live/mirage/routes/post-certification-course', ['exports'], function (exports) {
-  'use strict';
+define("pix-live/mirage/routes/post-certification-course", ["exports"], function (exports) {
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
 
   exports.default = function (schema) {
-
-    var certificationCourse = schema.courses.find('42');
-    // XXX certification-courses is a subclass of courses, and need
-    // to be manually set in mirage
-    certificationCourse.modelName = 'certification-courses';
-
-    return certificationCourse;
+    return schema.courses.create();
   };
 });
 define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/data/feedbacks/ref-feedback'], function (exports, _refFeedback) {
@@ -5971,13 +5948,6 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
     var snapshots = server.createList('snapshot', 3, { organization: company });
     company.snapshots = snapshots;
-
-    // certification course
-    var challenges = server.createList('challenge', 2);
-    server.create('course', {
-      id: '42',
-      challenges: challenges
-    });
   };
 });
 define('pix-live/mirage/serializers/application', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
@@ -6072,11 +6042,11 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var computed = Ember.computed;
   var attr = _emberData.default.attr,
       Model = _emberData.default.Model,
       belongsTo = _emberData.default.belongsTo,
       hasMany = _emberData.default.hasMany;
-  var computed = Ember.computed;
   exports.default = Model.extend({
 
     course: belongsTo('course', { inverse: null }),
@@ -6088,9 +6058,25 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     pixScore: attr('number'),
     type: attr('string'),
     certificationNumber: attr('string'),
-    isCertification: Ember.computed.equal('type', 'CERTIFICATION')
+    isCertification: computed.equal('type', 'CERTIFICATION'),
+
+    progress: computed('answers', 'course', function () {
+      var maxStep = this.get('course.nbChallenges');
+      var answersCount = this.get('answers.length');
+      var currentStep = _getCurrentStep(answersCount, maxStep);
+      var stepPercentage = currentStep / maxStep * 100;
+
+      return { currentStep: currentStep, maxStep: maxStep, stepPercentage: stepPercentage };
+    })
 
   });
+
+
+  function _getCurrentStep(answersCount, maxStep) {
+    var step = answersCount + 1;
+
+    return step > maxStep ? maxStep : step;
+  }
 });
 define('pix-live/models/certification-course', ['exports', 'pix-live/models/course'], function (exports, _course) {
   'use strict';
@@ -6173,8 +6159,7 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
   });
   var computed = Ember.computed;
   var Model = _emberData.default.Model,
-      attr = _emberData.default.attr,
-      hasMany = _emberData.default.hasMany;
+      attr = _emberData.default.attr;
   exports.default = Model.extend({
 
     name: attr('string'),
@@ -6183,24 +6168,10 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     imageUrl: attr('string'),
     isAdaptive: attr('boolean'),
     nbChallenges: attr('number'),
-    challenges: hasMany('challenge', { inverse: null }),
     type: computed('isAdaptive', function () {
       return this.get('isAdaptive') ? 'PLACEMENT' : 'DEMO';
-    }),
+    })
 
-    getProgress: function getProgress(challenge) {
-      var challengeIndex = this.get('challenges').indexOf(challenge);
-
-      var currentStep = 1 + challengeIndex;
-      var maxStep = this.get('challenges.length');
-      var stepPercentage = currentStep / maxStep * 100;
-
-      return {
-        currentStep: currentStep,
-        maxStep: maxStep,
-        stepPercentage: stepPercentage
-      };
-    }
   });
 });
 define('pix-live/models/feedback', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6457,25 +6428,14 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
     afterModel: function afterModel(model) {
       var store = this.get('store');
 
-      // FIXME Quick-win pour contourner la récupération d'un course (qui n'existe pas pour une certif)
-      if (!model.assessment.get('isCertification')) {
-        return RSVP.hash({
-          answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-          course: model.assessment.get('course')
-        }).then(function (_ref) {
-          var answers = _ref.answers,
-              course = _ref.course;
-
-          model.answers = answers;
-          model.progress = course.getProgress(model.challenge);
-          return model;
-        });
-      } else {
-        return this.get('store').findRecord('user', this.get('session.data.authenticated.userId')).then(function (user) {
-          model.user = user;
-          return model;
-        });
-      }
+      return RSVP.hash({
+        user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
+        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
+      }).then(function (hash) {
+        model.user = hash.user;
+        model.answers = hash.answers;
+        return model;
+      });
     },
     serialize: function serialize(model) {
       return {
@@ -7569,7 +7529,7 @@ define("pix-live/templates/assessments/challenge", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "kQLgz/Z1", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"model\",\"user\"]],[19,0,[\"model\",\"assessment\",\"certificationNumber\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n          \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"progress\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "kTJwMTwb", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"model\",\"user\"]],[19,0,[\"model\",\"assessment\",\"certificationNumber\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n          \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"assessment\",\"progress\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
 });
 define("pix-live/templates/assessments/comparison", ["exports"], function (exports) {
   "use strict";
@@ -9114,6 +9074,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.31.0+7a070f5e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.31.0+09c45051"});
 }
 //# sourceMappingURL=pix-live.map
