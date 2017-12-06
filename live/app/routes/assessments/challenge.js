@@ -1,7 +1,10 @@
 import RSVP from 'rsvp';
 import BaseRoute from 'pix-live/routes/base-route';
+import Ember from 'ember';
 
 export default BaseRoute.extend({
+
+  session: Ember.inject.service(),
 
   model(params) {
     const store = this.get('store');
@@ -21,12 +24,16 @@ export default BaseRoute.extend({
   },
 
   afterModel(model) {
-    return this.get('store')
-      .queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
-      .then(answers => {
-        model.answers = answers;
-        return model;
-      });
+    const store = this.get('store');
+
+    return RSVP.hash({
+      user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
+      answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
+    }).then(hash => {
+      model.user = hash.user;
+      model.answers = hash.answers;
+      return model;
+    });
   },
 
   serialize(model) {
@@ -50,7 +57,7 @@ export default BaseRoute.extend({
       .then((nextChallenge) => this.transitionTo('assessments.challenge', { assessment, challenge: nextChallenge }))
       .catch(() => {
         assessment.get('type') === 'CERTIFICATION' ?
-          this.transitionTo('certifications.results')
+          this.transitionTo('certifications.results', assessment.get('certificationNumber'))
           : this.transitionTo('assessments.results', assessment.get('id'));
       });
   },

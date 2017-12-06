@@ -13,6 +13,8 @@ export default Model.extend({
   estimatedLevel: attr('number'),
   pixScore: attr('number'),
   type: attr('string'),
+  certificationNumber: attr('string'),
+  isCertification: computed.equal('type', 'CERTIFICATION'),
 
   progress: computed('answers', 'course', function() {
     const maxStep = this.get('course.nbChallenges');
