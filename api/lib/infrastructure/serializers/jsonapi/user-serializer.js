@@ -3,11 +3,11 @@ const User = require('../../../domain/models/data/user');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(users) {
     return new Serializer('user', {
       attributes: ['firstName', 'lastName'],
-      transform: (snapshot) => snapshot.toJSON()
-    }).serialize(snapshots);
+      transform: (model) => model.toJSON()
+    }).serialize(users);
   },
 
   deserialize(json) {

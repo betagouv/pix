@@ -3,7 +3,7 @@ const Answer = require('../../../domain/models/data/answer');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(answers) {
     return new Serializer('answer', {
       attributes: ['value', 'timeout', 'elapsedTime', 'result', 'resultDetails', 'assessment', 'challenge'],
       assessment: {
@@ -14,13 +14,13 @@ module.exports = {
         ref: 'id',
         includes: false
       },
-      transform: (snapshot) => {
-        const answer = Object.assign({}, snapshot.toJSON());
-        answer.assessment = { id: snapshot.get('assessmentId') };
-        answer.challenge = { id: snapshot.get('challengeId') };
+      transform: (model) => {
+        const answer = Object.assign({}, model.toJSON());
+        answer.assessment = { id: model.get('assessmentId') };
+        answer.challenge = { id: model.get('challengeId') };
         return answer;
       }
-    }).serialize(snapshots);
+    }).serialize(answers);
   },
 
   deserialize(json) {

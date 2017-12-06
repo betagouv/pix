@@ -28,7 +28,7 @@ function _extractCoursesChallenges(courses) {
 }
 
 function _buildResponse(courses, challenges) {
-  const response = courseSerializer.serializeArray(courses);
+  const response = courseSerializer.serialize(courses);
   response.included = challenges.map(challenge => challengeSerializer.serialize(challenge).data);
   return response;
 }

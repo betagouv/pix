@@ -3,15 +3,15 @@ const _ = require('lodash');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(challenges) {
     return new Serializer('challenge', {
       attributes: ['type', 'instruction', 'competence', 'proposals', 'hasntInternetAllowed', 'timer', 'illustrationUrl', 'attachments'],
-      transform: (snapshot) => {
-        const challenge = Object.assign({}, snapshot);
-        challenge.competence = _.get(snapshot, 'competence[0]', 'N/A');
+      transform: (record) => {
+        const challenge = Object.assign({}, record);
+        challenge.competence = _.get(record, 'competence[0]', 'N/A');
         return challenge;
       }
-    }).serialize(snapshots);
+    }).serialize(challenges);
   }
 
 };

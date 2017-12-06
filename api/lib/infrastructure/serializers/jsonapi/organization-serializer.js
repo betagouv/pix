@@ -3,19 +3,19 @@ const Organization = require('../../../domain/models/data/organization');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(organizations) {
     return new Serializer('organizations', {
       attributes: ['name', 'type', 'email', 'code', 'user'],
       user: {
         ref: 'id',
         attributes: ['firstName', 'lastName', 'email']
       },
-      transform: (snapshot) => {
-        const organization = Object.assign({}, snapshot.toJSON());
-        organization.user = snapshot.user.toJSON();
+      transform: (model) => {
+        const organization = Object.assign({}, model.toJSON());
+        organization.user = model.user.toJSON();
         return organization;
       }
-    }).serialize(snapshots);
+    }).serialize(organizations);
   },
 
   deserialize(json) {

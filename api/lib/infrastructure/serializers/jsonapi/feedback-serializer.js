@@ -3,18 +3,18 @@ const Feedback = require('../../../domain/models/data/feedback');
 
 module.exports = {
 
-  serialize(feedback) {
+  serialize(feedbacks) {
     return new Serializer('feedbacks', {
       attributes: ['createdAt', 'content', 'assessment', 'challenge'],
       assessment: { ref: 'id' },
       challenge: { ref: 'id' },
-      transform(feedback) {
-        feedback.id = feedback.id.toString();
-        feedback.assessment = { id: feedback.assessmentId };
-        feedback.challenge = { id: feedback.challengeId };
+      transform(json) {
+        const feedback = Object.assign({}, json);
+        feedback.assessment = { id: json.assessmentId };
+        feedback.challenge = { id: json.challengeId };
         return feedback;
       }
-    }).serialize(feedback);
+    }).serialize(feedbacks);
   },
 
   deserialize(json) {

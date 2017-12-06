@@ -3,11 +3,11 @@ const Follower = require('../../../domain/models/data/follower');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(followers) {
     return new Serializer('follower', {
       attributes: ['email'],
-      transform: (snapshot) => snapshot.toJSON()
-    }).serialize(snapshots);
+      transform: (model) => model.toJSON()
+    }).serialize(followers);
   },
 
   deserialize(jsonApi) {

@@ -2,10 +2,10 @@ const { Serializer } = require('jsonapi-serializer');
 
 module.exports = {
 
-  serialize(snapshots) {
+  serialize(solutions) {
     return new Serializer('solutions', {
       attributes: ['value']
-    }).serialize(snapshots);
+    }).serialize(solutions);
   }
 
 };
