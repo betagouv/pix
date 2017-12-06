@@ -13929,11 +13929,18 @@ define('pix-live/tests/unit/models/certification-course-test', ['chai', 'mocha',
       needs: []
     });
 
-    // Replace this with your real tests.
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      // var store = this.store();
-      (0, _chai.expect)(model).to.be.ok;
+    (0, _mocha.describe)('@type', function () {
+
+      (0, _mocha.it)('should be "CERTIFICATION"', function () {
+        // given
+        var certificationCourse = this.subject();
+
+        // when
+        var result = certificationCourse.get('type');
+
+        // then
+        (0, _chai.expect)(result).to.equal('CERTIFICATION');
+      });
     });
   });
 });
@@ -14146,11 +14153,6 @@ define('pix-live/tests/unit/models/course-test', ['chai', 'mocha', 'ember-mocha'
       needs: ['model:assessment', 'model:challenge']
     });
 
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-
     (0, _mocha.describe)('getProgress', function () {
 
       (0, _mocha.it)('currentStep start at 1', function () {
@@ -14193,6 +14195,31 @@ define('pix-live/tests/unit/models/course-test', ['chai', 'mocha', 'ember-mocha'
 
           (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
         });
+      });
+    });
+
+    (0, _mocha.describe)('@type', function () {
+
+      (0, _mocha.it)('should be "DEMO" when the course is not adaptative', function () {
+        // given
+        var course = this.subject({ isAdaptive: false });
+
+        // when
+        var result = course.get('type');
+
+        // then
+        (0, _chai.expect)(result).to.equal('DEMO');
+      });
+
+      (0, _mocha.it)('should be "PLACEMENT" when the course is adaptative', function () {
+        // given
+        var course = this.subject({ isAdaptive: true });
+
+        // when
+        var result = course.get('type');
+
+        // then
+        (0, _chai.expect)(result).to.equal('PLACEMENT');
       });
     });
   });
