@@ -1,14 +1,18 @@
 const JSONAPISerializer = require('jsonapi-serializer').Serializer;
 
 module.exports = {
-  serialize(course) {
+
+  serialize(snapshots) {
     return new JSONAPISerializer('course', {
       attributes: ['name', 'description', 'duration', 'isAdaptive', 'nbChallenges', 'imageUrl'],
-      transform(course) {
-        course.id = course.id.toString();
-        course.nbChallenges = course.challenges.length;
+      transform(snapshot) {
+        const course = Object.assign({}, snapshot);
+        if (snapshot.challenges) {
+          course.nbChallenges = snapshot.challenges.length;
+        }
         return course;
       }
-    }).serialize(course);
+    }).serialize(snapshots);
   }
+
 };
