@@ -53,7 +53,7 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
     it('should convert a Certification Course model with Assessment object into JSON API data', function() {
 
       // when
-      const json = serializer.serialize({ id: certificationCourse.id, assessment: assessment });
+      const json = serializer.serialize({ id: certificationCourse.id, assessment });
 
       // then
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);

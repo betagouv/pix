@@ -201,7 +201,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     const certificationId = 12;
     const assessment = new Assessment({ id: 'assessment_id' });
-    const reply = sinon.spy();
+    const reply = sinon.stub();
 
     let request;
     const certificationSerialized = { id: certificationId, assessment: { id: 'assessment_id' } };
