@@ -232,13 +232,28 @@ describe('Unit | Model | Assessment', function() {
       const web3forChallengeOne = new Skill('web3');
       const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
       const course = new Course([ch1]);
-      const answer = new Answer(ch1, 'ko');
-      const answer2 = new Answer(undefined, 'ko');
+      const answer = new Answer(ch1, Answer.KO);
+      const answer2 = new Answer(undefined, Answer.KO);
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
       expect([...assessment.failedSkills]).to.be.deep.equal([web3forChallengeOne]);
     });
+    it.only('should return [web3,web4] when challenge requiring web3,web4 was skipped', () => {
+      // given
+      const web3 = new Skill('web3');
+      const web4 = new Skill('web4');
+      const ch1 = new Challenge('a', 'validé', [web3, web4]);
+      const course = new Course([ch1]);
+
+      // when
+      const answer = new Answer(ch1, Answer.SKIPPED);
+      const assessment = new Assessment(course, [answer]);
+
+      // then
+      expect([...assessment.failedSkills]).to.be.deep.equal([web3,web4]);
+    });
+
   });
 
   describe('#filteredChallenges', function() {
@@ -769,4 +784,3 @@ describe('Unit | Model | Assessment', function() {
   });
 
 });
-

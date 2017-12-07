@@ -25,5 +25,6 @@ class Answer {
     }
   }
 }
-
+Answer.SKIPPED = '#ABAND#';
+Answer.KO = 'ko';
 module.exports = Answer;
