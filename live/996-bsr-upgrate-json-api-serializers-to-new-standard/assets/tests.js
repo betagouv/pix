@@ -875,6 +875,41 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
           }, _callee3, this);
         })));
       });
+
+      context('When stop and relaunch the certification course', function () {
+        (0, _mocha.it)('should be redirected on the second challenge of an assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return visit('/test-de-certification');
+
+                case 2:
+                  _context4.next = 4;
+                  return click('.challenge-actions__action-skip-text');
+
+                case 4:
+                  _context4.next = 6;
+                  return visit('/compte');
+
+                case 6:
+                  _context4.next = 8;
+                  return visit('/test-de-certification/certification-number');
+
+                case 8:
+
+                  // then
+                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+
+                case 9:
+                case 'end':
+                  return _context4.stop();
+              }
+            }
+          }, _callee4, this);
+        })));
+      });
     });
   });
 });
@@ -3505,6 +3540,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/certifications/results.js', function () {
+      // test passed
+    });
+
+    it('routes/certifications/resume.js', function () {
       // test passed
     });
 
@@ -10700,6 +10739,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/certifications/resume-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/challenges/preview-test.js', function () {
       // test passed
     });
@@ -15004,6 +15047,128 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
             (0, _chai.expect)(model.user).to.equal(expectedUser);
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | Certification | resume', function () {
+    (0, _emberMocha.setupTest)('route:certifications.resume', {
+      needs: ['service:current-routed-modal']
+    });
+
+    var route = void 0;
+    var StoreStub = void 0;
+    var findRecordStub = void 0;
+    var queryRecordStub = void 0;
+    var certificationCourseId = 'certification_course_id';
+    var assessmentId = 'assessment_id';
+
+    beforeEach(function () {
+      // define stubs
+      findRecordStub = _sinon.default.stub();
+      queryRecordStub = _sinon.default.stub();
+      StoreStub = Ember.Service.extend({
+        findRecord: findRecordStub,
+        queryRecord: queryRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
+      route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+    });
+
+    (0, _mocha.describe)('#model', function () {
+
+      (0, _mocha.it)('should fetch a certification', function () {
+        // given
+        var params = { certification_course_id: certificationCourseId };
+        route.get('store').findRecord.resolves();
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(findRecordStub);
+          _sinon.default.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+
+      var assessment = Ember.Object.create({ id: assessmentId });
+      var certification = Ember.Object.create({ id: certificationCourseId, assessment: assessment });
+
+      (0, _mocha.it)('should get the next challenge of the assessment', function () {
+        // given
+        queryRecordStub.resolves();
+
+        // when
+        var promise = route.afterModel(certification);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessmentId });
+        });
+      });
+
+      context('when the next challenge exists', function () {
+
+        (0, _mocha.it)('should redirect to the challenge view', function () {
+          // given
+          var nextChallenge = Ember.Object.create({ id: 456 });
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          var promise = route.afterModel(certification);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.challenge', assessmentId, 456);
+          });
+        });
+      });
+
+      context('when the next challenge does not exist (is null)', function () {
+
+        (0, _mocha.it)('should redirect to certification results page', function () {
+          // given
+          queryRecordStub.rejects();
+
+          // when
+          var promise = route.afterModel(certification);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results', certificationCourseId);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      (0, _mocha.it)('should redirect to index page', function () {
+        // given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.spy();
+
+        // when
+        route.send('error');
+
+        // then
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
     });
   });

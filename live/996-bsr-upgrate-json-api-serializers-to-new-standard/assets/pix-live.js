@@ -6078,14 +6078,15 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     return step > maxStep ? maxStep : step;
   }
 });
-define('pix-live/models/certification-course', ['exports', 'pix-live/models/course'], function (exports, _course) {
+define('pix-live/models/certification-course', ['exports', 'pix-live/models/course', 'ember-data'], function (exports, _course, _emberData) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var belongsTo = _emberData.default.belongsTo;
   exports.default = _course.default.extend({
-
+    assessment: belongsTo('assessment'),
     type: 'CERTIFICATION'
   });
 });
@@ -6378,6 +6379,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
     this.route('not-found', { path: '/*path' });
     this.route('certification-course', { path: '/test-de-certification' });
+    this.route('certifications.resume', { path: '/test-de-certification/:certification_course_id' });
   });
 
   exports.default = Router;
@@ -6656,6 +6658,36 @@ define('pix-live/routes/certifications/results', ['exports', 'ember-simple-auth/
       }).catch(function (_) {
         _this.transitionTo('logout');
       });
+    }
+  });
+});
+define('pix-live/routes/certifications/resume', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend({
+    model: function model(params) {
+      var certificationCourseId = params.certification_course_id;
+      return this.get('store').findRecord('certification-course', certificationCourseId);
+    },
+    afterModel: function afterModel(certification) {
+      var _this = this;
+
+      var assessment = certification.get('assessment');
+      return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id') }).then(function (nextChallenge) {
+        return _this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.get('id'));
+      }).catch(function () {
+        return _this.transitionTo('certifications.results', certification.get('id'));
+      });
+    },
+
+
+    actions: {
+      error: function error() {
+        this.transitionTo('index');
+      }
     }
   });
 });
@@ -7586,6 +7618,14 @@ define("pix-live/templates/certifications/results", ["exports"], function (expor
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "nwEdFGuZ", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"model\",\"user\"]],[19,0,[\"model\",\"certificationNumber\"]]]]],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/results.hbs" } });
+});
+define("pix-live/templates/certifications/resume", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "d0SWQ/je", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/resume.hbs" } });
 });
 define("pix-live/templates/challenge-preview", ["exports"], function (exports) {
   "use strict";
@@ -9074,6 +9114,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.31.0+5ffa0f8d"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.31.0+e2010789"});
 }
 //# sourceMappingURL=pix-live.map
