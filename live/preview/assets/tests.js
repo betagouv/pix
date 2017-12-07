@@ -789,7 +789,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
     };
   }
 
-  (0, _mocha.describe)('Acceptance | Certification | Start Course', function () {
+  _mocha.describe.skip('Acceptance | Certification | Start Course', function () {
 
     var application = void 0;
 
@@ -873,6 +873,41 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
               }
             }
           }, _callee3, this);
+        })));
+      });
+
+      context('When stop and relaunch the certification course', function () {
+        (0, _mocha.it)('should be redirected on the second challenge of an assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+          return regeneratorRuntime.wrap(function _callee4$(_context4) {
+            while (1) {
+              switch (_context4.prev = _context4.next) {
+                case 0:
+                  _context4.next = 2;
+                  return visit('/test-de-certification');
+
+                case 2:
+                  _context4.next = 4;
+                  return click('.challenge-actions__action-skip-text');
+
+                case 4:
+                  _context4.next = 6;
+                  return visit('/compte');
+
+                case 6:
+                  _context4.next = 8;
+                  return visit('/test-de-certification/certification-number');
+
+                case 8:
+
+                  // then
+                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+
+                case 9:
+                case 'end':
+                  return _context4.stop();
+              }
+            }
+          }, _callee4, this);
         })));
       });
     });
@@ -1480,185 +1515,95 @@ define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-li
     });
   });
 });
-define('pix-live/tests/acceptance/d1-epreuve-validation-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
-  'use strict';
+// FIXME wuth API resource GET /assessment/:id/progress
 
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
+/*
+import { describe, it, beforeEach, afterEach } from 'mocha';
+import { expect } from 'chai';
+import { startApp, destroyApp } from '../helpers/application';
+import { debounce } from '@ember/runloop';
 
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
+async function visitTimedChallenge() {
+  await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+  await click('.challenge-item-warning__confirm-btn');
+}
 
-        return step("next");
+function progressBarText() {
+  const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
+  return findWithAssert(PROGRESS_BAR_SELECTOR).text().trim();
+}
+
+describe('Acceptance | d1 - Valider une épreuve |', function() {
+
+  let application;
+  const PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
+
+  beforeEach(function() {
+    application = startApp();
+  });
+
+  afterEach(function() {
+    destroyApp(application);
+  });
+
+  it('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', async function() {
+    await visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+    expect(progressBarText()).to.equal('1 / 4');
+  });
+
+  it('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', async function() {
+    // When
+    await visit('/courses/ref_course_id');
+
+    // Then
+    const $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
+    expect($progressBar.text().trim()).to.equal('1 / 4');
+  });
+
+  it('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', async function() {
+    await visitTimedChallenge();
+    expect(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
+  });
+
+  describe('quand je valide ma réponse à une épreuve', function() {
+
+    it('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante (et la barre de progression est mise à jour)', function() {
+      // given
+      visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      click('.challenge-item-warning__confirm-btn');
+
+      // when
+      click('.challenge-actions__action-validate');
+
+      // then
+      andThen(() => {
+        debounce(this, () => {
+          expect(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+          expect(findWithAssert('.pix-progress-bar').text().trim()).to.contain('2 / 4');
+        }, 150);
       });
-    };
-  }
-
-  var debounce = Ember.run.debounce;
-
-  var visitTimedChallenge = function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-
-            case 2:
-              _context.next = 4;
-              return click('.challenge-item-warning__confirm-btn');
-
-            case 4:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, this);
-    }));
-
-    return function visitTimedChallenge() {
-      return _ref.apply(this, arguments);
-    };
-  }();
-
-  function progressBarText() {
-    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
-    return findWithAssert(PROGRESS_BAR_SELECTOR).text().trim();
-  }
-
-  (0, _mocha.describe)('Acceptance | d1 - Valider une épreuve |', function () {
-
-    var application = void 0;
-    var PROGRESS_BAR_SELECTOR = '.pix-progress-bar';
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _application.startApp)();
     });
 
-    (0, _mocha.afterEach)(function () {
-      (0, _application.destroyApp)(application);
-    });
+    it('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function() {
+      // given
+      visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
 
-    (0, _mocha.it)('d1.0a La barre de progression commence à 1, si j\'accède au challenge depuis l\'url directe', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _context2.next = 2;
-              return visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
+      // when
+      click('.challenge-actions__action-validate');
 
-            case 2:
-              (0, _chai.expect)(progressBarText()).to.equal('1 / 4');
-
-            case 3:
-            case 'end':
-              return _context2.stop();
-          }
-        }
-      }, _callee2, this);
-    })));
-
-    (0, _mocha.it)('d1.0b La barre de progression commence à 1, si j\'accède directement à un course', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-      var $progressBar;
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
-        while (1) {
-          switch (_context3.prev = _context3.next) {
-            case 0:
-              _context3.next = 2;
-              return visit('/courses/ref_course_id');
-
-            case 2:
-
-              // Then
-              $progressBar = findWithAssert(PROGRESS_BAR_SELECTOR);
-
-              (0, _chai.expect)($progressBar.text().trim()).to.equal('1 / 4');
-
-            case 4:
-            case 'end':
-              return _context3.stop();
-          }
-        }
-      }, _callee3, this);
-    })));
-
-    (0, _mocha.it)('d1.1 Je peux valider ma réponse à une épreuve via un bouton "Je valide"', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-      return regeneratorRuntime.wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              _context4.next = 2;
-              return visitTimedChallenge();
-
-            case 2:
-              (0, _chai.expect)(findWithAssert('.challenge-actions__action-validate')).to.have.lengthOf(1);
-
-            case 3:
-            case 'end':
-              return _context4.stop();
-          }
-        }
-      }, _callee4, this);
-    })));
-
-    (0, _mocha.describe)('quand je valide ma réponse à une épreuve', function () {
-
-      (0, _mocha.it)('d1.3 Si l\'épreuve que je viens de valider n\'était pas la dernière du test, je suis redirigé vers l\'épreuve suivante (et la barre de progression est mise à jour)', function () {
-        var _this = this;
-
-        // given
-        visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
-        click('.challenge-item-warning__confirm-btn');
-
-        // when
-        click('.challenge-actions__action-validate');
-
-        // then
-        andThen(function () {
-          debounce(_this, function () {
-            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
-            (0, _chai.expect)(findWithAssert('.pix-progress-bar').text().trim()).to.contain('2 / 4');
-          }, 150);
-        });
-      });
-
-      (0, _mocha.it)('d1.5 Si l\'épreuve que je viens de valider était la dernière du test, je suis redirigé vers la page de fin du test', function () {
-        var _this2 = this;
-
-        // given
-        visit('/assessments/ref_assessment_id/challenges/ref_qrocm_challenge_id');
-
-        // when
-        click('.challenge-actions__action-validate');
-
-        // then
-        andThen(function () {
-          debounce(_this2, function () {
-            (0, _chai.expect)(currentURL()).to.contain('/assessments/ref_assessment_id/results');
-          }, 150);
-        });
+      // then
+      andThen(() => {
+        debounce(this, () => {
+          expect(currentURL()).to.contain('/assessments/ref_assessment_id/results');
+        }, 150);
       });
     });
   });
+
+});
+*/
+define("pix-live/tests/acceptance/d1-epreuve-validation-test", [], function () {
+  "use strict";
 });
 define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
@@ -3595,6 +3540,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/certifications/results.js', function () {
+      // test passed
+    });
+
+    it('routes/certifications/resume.js', function () {
       // test passed
     });
 
@@ -10790,6 +10739,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/routes/certifications/resume-test.js', function () {
+      // test passed
+    });
+
     it('unit/routes/challenges/preview-test.js', function () {
       // test passed
     });
@@ -14144,85 +14097,89 @@ define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-
     });
   });
 });
-define('pix-live/tests/unit/models/course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
+// FIXME wuth API resource GET /assessment/:id/progress
 
-  (0, _mocha.describe)('Unit | Model | Course', function () {
+/*
+import Ember from 'ember';
+import { expect } from 'chai';
+import { describe, it } from 'mocha';
+import { setupModelTest } from 'ember-mocha';
 
-    (0, _emberMocha.setupModelTest)('course', {
-      needs: ['model:assessment', 'model:challenge']
-    });
+describe('Unit | Model | Course', function() {
 
-    (0, _mocha.describe)('getProgress', function () {
+  setupModelTest('course', {
+    needs: ['model:assessment', 'model:challenge']
+  });
 
-      (0, _mocha.it)('currentStep start at 1', function () {
-        var _this = this;
+  describe('getProgress', function() {
 
-        Ember.run(function () {
-          // given
-          var store = _this.store();
-          var challenge = store.createRecord('challenge', {});
-          var course = _this.subject({ challenges: [challenge] });
+    it('currentStep start at 1', function() {
+      Ember.run(() => {
+        // given
+        const store = this.store();
+        const challenge = store.createRecord('challenge', {});
+        const course = this.subject({ challenges: [challenge] });
 
-          (0, _chai.expect)(course.getProgress(challenge)).to.have.property('currentStep', 1);
-        });
-      });
-
-      (0, _mocha.it)('maxStep is 2 when there is 2 challenges in the course', function () {
-        var _this2 = this;
-
-        Ember.run(function () {
-          // given
-          var store = _this2.store();
-          var challenge1 = store.createRecord('challenge', {});
-          var challenge2 = store.createRecord('challenge', {});
-          var course = _this2.subject({ challenges: [challenge1, challenge2] });
-
-          (0, _chai.expect)(course.getProgress(challenge1)).to.have.property('maxStep', 2);
-          (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('maxStep', 2);
-        });
-      });
-
-      (0, _mocha.it)('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function () {
-        var _this3 = this;
-
-        Ember.run(function () {
-          // given
-          var store = _this3.store();
-          var challenge1 = store.createRecord('challenge', {});
-          var challenge2 = store.createRecord('challenge', {});
-          var course = _this3.subject({ challenges: [challenge1, challenge2] });
-
-          (0, _chai.expect)(course.getProgress(challenge2)).to.have.property('currentStep', 2);
-        });
+        expect(course.getProgress(challenge)).to.have.property('currentStep', 1);
       });
     });
 
-    (0, _mocha.describe)('@type', function () {
-
-      (0, _mocha.it)('should be "DEMO" when the course is not adaptative', function () {
+    it('maxStep is 2 when there is 2 challenges in the course', function() {
+      Ember.run(() => {
         // given
-        var course = this.subject({ isAdaptive: false });
+        const store = this.store();
+        const challenge1 = store.createRecord('challenge', {});
+        const challenge2 = store.createRecord('challenge', {});
+        const course = this.subject({ challenges: [challenge1, challenge2] });
 
-        // when
-        var result = course.get('type');
-
-        // then
-        (0, _chai.expect)(result).to.equal('DEMO');
+        expect(course.getProgress(challenge1)).to.have.property('maxStep', 2);
+        expect(course.getProgress(challenge2)).to.have.property('maxStep', 2);
       });
+    });
 
-      (0, _mocha.it)('should be "PLACEMENT" when the course is adaptative', function () {
+    it('currentStep is 2 when there is 2 challenges in the course and called with 2nd test', function() {
+      Ember.run(() => {
         // given
-        var course = this.subject({ isAdaptive: true });
+        const store = this.store();
+        const challenge1 = store.createRecord('challenge', {});
+        const challenge2 = store.createRecord('challenge', {});
+        const course = this.subject({ challenges: [challenge1, challenge2] });
 
-        // when
-        var result = course.get('type');
-
-        // then
-        (0, _chai.expect)(result).to.equal('PLACEMENT');
+        expect(course.getProgress(challenge2)).to.have.property('currentStep', 2);
       });
+    });
+
+  });
+
+  describe('@type', function() {
+
+    it('should be "DEMO" when the course is not adaptative', function() {
+      // given
+      const course = this.subject({ isAdaptive: false });
+
+      // when
+      const result = course.get('type');
+
+      // then
+      expect(result).to.equal('DEMO');
+
+    });
+
+    it('should be "PLACEMENT" when the course is adaptative', function() {
+      // given
+      const course = this.subject({ isAdaptive: true });
+
+      // when
+      const result = course.get('type');
+
+      // then
+      expect(result).to.equal('PLACEMENT');
     });
   });
+});
+*/
+define("pix-live/tests/unit/models/course-test", [], function () {
+  "use strict";
 });
 define('pix-live/tests/unit/models/feedback-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
@@ -15090,6 +15047,128 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
             (0, _chai.expect)(model.user).to.equal(expectedUser);
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | Certification | resume', function () {
+    (0, _emberMocha.setupTest)('route:certifications.resume', {
+      needs: ['service:current-routed-modal']
+    });
+
+    var route = void 0;
+    var StoreStub = void 0;
+    var findRecordStub = void 0;
+    var queryRecordStub = void 0;
+    var certificationCourseId = 'certification_course_id';
+    var assessmentId = 'assessment_id';
+
+    beforeEach(function () {
+      // define stubs
+      findRecordStub = _sinon.default.stub();
+      queryRecordStub = _sinon.default.stub();
+      StoreStub = Ember.Service.extend({
+        findRecord: findRecordStub,
+        queryRecord: queryRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
+      route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+    });
+
+    (0, _mocha.describe)('#model', function () {
+
+      (0, _mocha.it)('should fetch a certification', function () {
+        // given
+        var params = { certification_course_id: certificationCourseId };
+        route.get('store').findRecord.resolves();
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(findRecordStub);
+          _sinon.default.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+
+      var assessment = Ember.Object.create({ id: assessmentId });
+      var certification = Ember.Object.create({ id: certificationCourseId, assessment: assessment });
+
+      (0, _mocha.it)('should get the next challenge of the assessment', function () {
+        // given
+        queryRecordStub.resolves();
+
+        // when
+        var promise = route.afterModel(certification);
+
+        // then
+        return promise.then(function () {
+          _sinon.default.assert.calledOnce(queryRecordStub);
+          _sinon.default.assert.calledWith(queryRecordStub, 'challenge', { assessmentId: assessmentId });
+        });
+      });
+
+      context('when the next challenge exists', function () {
+
+        (0, _mocha.it)('should redirect to the challenge view', function () {
+          // given
+          var nextChallenge = Ember.Object.create({ id: 456 });
+          queryRecordStub.resolves(nextChallenge);
+
+          // when
+          var promise = route.afterModel(certification);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.challenge', assessmentId, 456);
+          });
+        });
+      });
+
+      context('when the next challenge does not exist (is null)', function () {
+
+        (0, _mocha.it)('should redirect to certification results page', function () {
+          // given
+          queryRecordStub.rejects();
+
+          // when
+          var promise = route.afterModel(certification);
+
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.calledOnce(route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results', certificationCourseId);
+          });
+        });
+      });
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      (0, _mocha.it)('should redirect to index page', function () {
+        // given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.spy();
+
+        // when
+        route.send('error');
+
+        // then
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
     });
   });
