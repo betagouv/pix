@@ -224,7 +224,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, [answer]);
 
       // then
-      expect([...assessment.failedSkills]).to.be.deep.equal([url5, url6, url8]);
+      expect([...assessment.failedSkills]).to.be.deep.equal([web1, url5, url6, url8]);
     });
 
     it('should not try to add skill from undefined challenge', function() {
@@ -239,7 +239,8 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect([...assessment.failedSkills]).to.be.deep.equal([web3forChallengeOne]);
     });
-    it.only('should return [web3,web4] when challenge requiring web3,web4 was skipped', () => {
+
+    it('should return [web3,web4] when challenge requiring web3,web4 was skipped', () => {
       // given
       const web3 = new Skill('web3');
       const web4 = new Skill('web4');
