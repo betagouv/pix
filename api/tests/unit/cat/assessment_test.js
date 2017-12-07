@@ -530,7 +530,8 @@ describe('Unit | Model | Assessment', function() {
       const web2 = new Skill('web2');
       const ch1 = new Challenge('rec1', 'validé', [web1]);
       const ch2 = new Challenge('rec2', 'validé', [web2]);
-      const course = new Course([ch1, ch2]);
+      const ch3 = new Challenge('rec3', 'validé', [web2]);
+      const course = new Course([ch1, ch2, ch3]);
       const answer = new Answer(ch2, 'ok');
       const assessment = new Assessment(course, [answer]);
 
