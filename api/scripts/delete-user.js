@@ -21,7 +21,11 @@ function main() {
   let client;
   try {
     client = initialize();
-    // code here....
+    // let queryBuilder = new ScriptQueryBuilder();
+    // Promise.resolve()
+    //   .then(() => client.query(queryBuilder.get_user_id_from_email(user_email)))
+    //   .then(({ rows }) => client.query(queryBuilder.find_assessment_ids_from_user_id(rows[0].id)))
+    //   .then(({ rows }) => client.query(queryBuilder.delete_skills_of_assessment_ids(rows[0])))
   }
   finally {
     terminate(client);
