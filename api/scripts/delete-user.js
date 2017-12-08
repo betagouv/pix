@@ -29,13 +29,29 @@ function main() {
   }
 }
 
-class ScriptUserDelete {
+class ScriptQueryBuilder {
   constructor(client) {
     this.client = client;
   }
 
   get_user_id_from_email(email) {
-    return this.client.query(`SELECT id FROM users WHERE email = '${email}'`);
+    return `SELECT id FROM users WHERE email = '${email}'`;
+  }
+
+  find_assessment_ids_from_user_id(user_id) {
+    return `SELECT id FROM assessments WHERE "userId" = '${user_id}'`;
+  }
+
+  delete_skills_of_assessment_ids(assessment_ids) {
+    return `DELETE FROM skills WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
+  }
+
+  delete_feedbacks_of_assessment_ids(assessment_ids) {
+    return `DELETE FROM feedbacks WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
+  }
+
+  delete_assessments_of_user_id(user_id) {
+    return `DELETE FROM assessments WHERE "userId" = '${user_id}'`;
   }
 }
 
@@ -43,41 +59,88 @@ class ScriptUserDelete {
 
 if (process.env.TEST != null) {
 
-  const { describe, it, afterEach, beforeEach } = require('mocha');
+  const { describe, it, beforeEach } = require('mocha');
   const { expect } = require('chai');
-  const sinon = require('sinon');
+  // const sinon = require('sinon');
 
-  describe('#get_user_id_from_email', () => {
-    const email = 'jean.paul@pix.fr';
-    const client = { query() {} };
+  describe('ScriptQueryBuilder', () => {
     let subject;
 
     beforeEach(() => {
-      sinon.stub(client, 'query');
-      subject = new ScriptUserDelete(client);
+      subject = new ScriptQueryBuilder();
     });
 
-    afterEach(() => {
-      client.query.restore();
+    describe('#get_user_id_from_email', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const email = 'jean.paul@pix.fr';
+        // act
+        const query = subject.get_user_id_from_email(email);
+        // assert
+        expect(query).to.equal(`SELECT id FROM users WHERE email = '${email}'`);
+      });
     });
 
-    it('should exists', () => {
-      // arrange
-      client.query.returns(12);
-      // act
-      const userId = subject.get_user_id_from_email(email);
-      // assert
-      expect(Number.isInteger(userId)).to.be.true;
+    describe('#find_assessment_ids_from_user_id', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const user_id = 123;
+        // act
+        const query = subject.find_assessment_ids_from_user_id(user_id);
+        // assert
+        expect(query).to.equal(`SELECT id FROM assessments WHERE "userId" = '${user_id}'`);
+      });
     });
 
-    it('should call client.query with correct arguments', () => {
-      // arrange
-      const expectedQuery = `SELECT id FROM users WHERE email = '${email}'`;
-      // act
-      subject.get_user_id_from_email(email);
-      // assert
-      sinon.assert.calledOnce(client.query);
-      sinon.assert.calledWith(client.query, expectedQuery);
+    describe('#delete_feedbacks_of_assessment_ids', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const assessment_ids = [123];
+        // act
+        const query = subject.delete_feedbacks_of_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123)');
+      });
+
+      it('should return the correct query with comma as separator when many assessment ids', () => {
+        // arrange
+        const assessment_ids = [123, 456];
+        // act
+        const query = subject.delete_feedbacks_of_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
+      });
+    });
+
+    describe('#delete_skills_of_assessment_ids', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const assessment_ids = [123];
+        // act
+        const query = subject.delete_skills_of_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123)');
+      });
+
+      it('should return the correct query with comma as separator when many assessment ids', () => {
+        // arrange
+        const assessment_ids = [123, 456];
+        // act
+        const query = subject.delete_skills_of_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
+      });
+    });
+
+    describe('#delete_assessment_ids_from_user_id', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const user_id = 123;
+        // act
+        const query = subject.delete_assessments_of_user_id(user_id);
+        // assert
+        expect(query).to.equal(`DELETE FROM assessments WHERE "userId" = '${user_id}'`);
+      });
     });
   });
 
