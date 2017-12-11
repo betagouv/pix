@@ -54,7 +54,6 @@ class Assessment {
         answer.challenge.skills.forEach(failedSkill => {
           failedSkills.add(failedSkill);
         });
-
         return failedSkills;
       }, new Set());
   }
