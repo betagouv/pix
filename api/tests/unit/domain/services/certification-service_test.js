@@ -12,12 +12,13 @@ function _buildCertificationChallenge(challengeId, competenceId) {
   return new CertificationChallenge({ challengeId, competenceId });
 }
 
-function _buildCompetence(name, courseId, pixScore, estimatedLevel) {
+function _buildCompetence(name, index, courseId, pixScore, estimatedLevel) {
   const competence = new Competence();
   competence.id = courseId;
   competence.pixScore = pixScore;
   competence.estimatedLevel = estimatedLevel;
   competence.name = name;
+  competence.index = index;
   return competence;
 }
 
@@ -112,10 +113,10 @@ const pixComp4 = 40;
 const totalPix = pixComp1 + pixComp2 + pixComp3 + pixComp4;
 
 const listAssessments = [
-  _buildCompetence('1.1', 'comp_1', pixComp1, 1),
-  _buildCompetence('2.2', 'comp_2', pixComp2, 2),
-  _buildCompetence('3.3', 'comp_3', pixComp3, 3),
-  _buildCompetence('4.4', 'comp_4', pixComp4, 4),
+  _buildCompetence('Mener une recherche', '1.1', 'comp_1', pixComp1, 1),
+  _buildCompetence('Partager','2.2', 'comp_2', pixComp2, 2),
+  _buildCompetence('Adapter','3.3', 'comp_3', pixComp3, 3),
+  _buildCompetence('Résoudre','4.4', 'comp_4', pixComp4, 4),
 ];
 
 describe('Unit | Service | Certification Service', function() {
@@ -137,29 +138,25 @@ describe('Unit | Service | Certification Service', function() {
         // given
         const listAnswers = _listAnswersAllFalseAnswers();
         const expectedCertifiedCompetences = [{
+          index: '1.1',
           id: 'comp_1',
-          pixScore: 10,
-          estimatedLevel: 1,
-          name: '1.1',
-          certifiedLevel: -1
+          name: 'Mener une recherche',
+          level: -1
         }, {
+          index: '2.2',
           id: 'comp_2',
-          pixScore: 20,
-          estimatedLevel: 2,
-          name: '2.2',
-          certifiedLevel: -1
+          name: 'Partager',
+          level: -1
         }, {
+          index: '3.3',
           id: 'comp_3',
-          pixScore: 30,
-          estimatedLevel: 3,
-          name: '3.3',
-          certifiedLevel: -1
+          name: 'Adapter',
+          level: -1
         }, {
+          index: '4.4',
           id: 'comp_4',
-          pixScore: 40,
-          estimatedLevel: 4,
-          name: '4.4',
-          certifiedLevel: -1 } ];
+          name: 'Résoudre',
+          level: -1 } ];
 
         // when
         const result = certificationService.getResult(listAnswers, listChallenges, listAssessments);
@@ -185,29 +182,25 @@ describe('Unit | Service | Certification Service', function() {
         // given
         const listAnswers = _listAnswersAllCorrectAnswers();
         const expectedCertifiedCompetences = [{
+          index: '1.1',
           id: 'comp_1',
-          pixScore: 10,
-          estimatedLevel: 1,
-          name: '1.1',
-          certifiedLevel: 1
+          name: 'Mener une recherche',
+          level: 1
         }, {
+          index: '2.2',
           id: 'comp_2',
-          pixScore: 20,
-          estimatedLevel: 2,
-          name: '2.2',
-          certifiedLevel: 2
+          name: 'Partager',
+          level: 2
         }, {
+          index: '3.3',
           id: 'comp_3',
-          pixScore: 30,
-          estimatedLevel: 3,
-          name: '3.3',
-          certifiedLevel: 3
+          name: 'Adapter',
+          level: 3
         }, {
+          index: '4.4',
           id: 'comp_4',
-          pixScore: 40,
-          estimatedLevel: 4,
-          name: '4.4',
-          certifiedLevel: 4 } ];
+          name: 'Résoudre',
+          level: 4 } ];
 
         // when
         const result = certificationService.getResult(listAnswers, listChallenges, listAssessments);
@@ -229,29 +222,25 @@ describe('Unit | Service | Certification Service', function() {
         // given
         const listAnswers = _listAnswersLastCompetenceFailed();
         const expectedCertifiedCompetences = [{
+          index: '1.1',
           id: 'comp_1',
-          pixScore: 10,
-          estimatedLevel: 1,
-          name: '1.1',
-          certifiedLevel: 1
+          name: 'Mener une recherche',
+          level: 1
         }, {
+          index: '2.2',
           id: 'comp_2',
-          pixScore: 20,
-          estimatedLevel: 2,
-          name: '2.2',
-          certifiedLevel: 2
+          name: 'Partager',
+          level: 2
         }, {
+          index: '3.3',
           id: 'comp_3',
-          pixScore: 30,
-          estimatedLevel: 3,
-          name: '3.3',
-          certifiedLevel: 3
+          name: 'Adapter',
+          level: 3
         }, {
+          index: '4.4',
           id: 'comp_4',
-          pixScore: 40,
-          estimatedLevel: 4,
-          name: '4.4',
-          certifiedLevel: -1 } ];
+          name: 'Résoudre',
+          level: -1 } ];
 
         // when
         const result = certificationService.getResult(listAnswers, listChallenges, listAssessments);
@@ -278,29 +267,25 @@ describe('Unit | Service | Certification Service', function() {
         // given
         const listAnswers = _listAnswersThirdCompetenceFailedAndReproductibilityLessThan80();
         const expectedCertifiedCompetences = [{
+          index: '1.1',
           id: 'comp_1',
-          pixScore: 10,
-          estimatedLevel: 1,
-          name: '1.1',
-          certifiedLevel: 0
+          name: 'Mener une recherche',
+          level: 0
         }, {
+          index: '2.2',
           id: 'comp_2',
-          pixScore: 20,
-          estimatedLevel: 2,
-          name: '2.2',
-          certifiedLevel: 2
+          name: 'Partager',
+          level: 2
         }, {
+          index: '3.3',
           id: 'comp_3',
-          pixScore: 30,
-          estimatedLevel: 3,
-          name: '3.3',
-          certifiedLevel: -1
+          name: 'Adapter',
+          level: -1
         }, {
+          index: '4.4',
           id: 'comp_4',
-          pixScore: 40,
-          estimatedLevel: 4,
-          name: '4.4',
-          certifiedLevel: 3 } ];
+          name: 'Résoudre',
+          level: 3 } ];
 
         // when
         const result = certificationService.getResult(listAnswers, listChallenges, listAssessments);

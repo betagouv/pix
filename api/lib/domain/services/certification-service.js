@@ -51,29 +51,37 @@ function _getMalusPix(answersWithCompetences, listCompetences, reproductibility)
   }, 0);
 }
 
-function _getLevelByCompetence(answersWithCompetences, listCompetences, reproductibility) {
-  listCompetences.map((competence) => {
+function _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibility) {
+  return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
-    competence.certifiedLevel = _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility);
+    return {
+      name: competence.name,
+      index:competence.index,
+      id: competence.id,
+      level: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility) };
   });
-  return listCompetences;
 }
-
+function _getCompetenceWithFailedLevel(listCompetences) {
+  return listCompetences.map((competence) => {
+    return {
+      name: competence.name,
+      index:competence.index,
+      id: competence.id,
+      level: -1 };
+  });
+}
 module.exports = {
 
   getResult(listAnswers, listChallenges, listCompetences) {
     const reproductibility = answerServices.getAnswersSuccessRate(listAnswers);
     if (reproductibility < minimumReproductibilityToBeCertified) {
-      listCompetences.map(competence => {
-        competence.certifiedLevel = -1;
-      });
-      return { listCertifiedCompetences: listCompetences, totalScore: 0 };
+      return { listCertifiedCompetences: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0 };
     }
 
     const actualPix = _computeSumPixFromCompetences(listCompetences);
     const answersByCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
     const pixToRemove = _getMalusPix(answersByCompetences, listCompetences, reproductibility);
-    const listCertifiedCompetences = _getLevelByCompetence(answersByCompetences, listCompetences, reproductibility);
+    const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersByCompetences, listCompetences, reproductibility);
     const totalScore = actualPix - pixToRemove;
 
     return { listCertifiedCompetences,  totalScore };
