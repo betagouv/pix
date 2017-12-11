@@ -61,8 +61,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ko');
+      const answer1 = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
@@ -83,8 +83,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ko');
+      const answer1 = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
@@ -125,8 +125,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [web5]);
       const ch3 = new Challenge('c', 'validé', [url1]);
       const challenges = [ch1, ch2, ch3];
-      const answer1 = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ko');
+      const answer1 = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.KO);
       const answers = [answer1, answer2];
       const course = new Course(challenges);
       const assessment = new Assessment(course, answers);
@@ -160,7 +160,7 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web3]);
       const ch2 = new Challenge('b', 'validé', [web1, web3, url3, url4, url5, url6]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, 'ok');
+      const answer = new Answer(ch1, Answer.OK);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -175,8 +175,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web3forChallengeOne]);
       const ch2 = new Challenge('b', 'validé', [url3, web3forChallengeTwo]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ok');
+      const answer = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.OK);
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
@@ -220,7 +220,7 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web1, url5]);
       const ch2 = new Challenge('b', 'validé', [web2, web3, url3, url4, url6, url8]);
       const course = new Course([ch1, ch2]);
-      const answer = new Answer(ch1, 'ko');
+      const answer = new Answer(ch1, Answer.KO);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -275,8 +275,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [web1]);
       const ch2 = new Challenge('b', 'validé', [web2]);
       const ch3 = new Challenge('c', 'validé', [url3]);
-      const answerCh2 = new Answer(ch2, 'ok');
-      const answerCh3 = new Answer(ch3, 'ok');
+      const answerCh2 = new Answer(ch2, Answer.OK);
+      const answerCh3 = new Answer(ch3, Answer.OK);
       const challenges = [ch1, ch2, ch3];
       const course = new Course(challenges);
       const assessment = new Assessment(course, [answerCh2, answerCh3]);
@@ -289,7 +289,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const web1 = new Skill('web1');
       const ch1 = new Challenge('a', 'validé', [web1]);
-      const answerCh1 = new Answer(ch1, 'ok');
+      const answerCh1 = new Answer(ch1, Answer.OK);
       const course = new Course([ch1]);
       const assessment = new Assessment(course, [answerCh1]);
 
@@ -303,8 +303,8 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [], 30);
       const ch3 = new Challenge('c', 'validé', [], undefined);
       const ch4 = new Challenge('d', 'validé', [], 30);
-      const answerCh1 = new Answer(ch1, 'ok');
-      const answerCh2 = new Answer(ch2, 'ok');
+      const answerCh1 = new Answer(ch1, Answer.OK);
+      const answerCh2 = new Answer(ch2, Answer.OK);
       const challenges = [ch1, ch2, ch3, ch4];
       const course = new Course(challenges);
 
@@ -455,9 +455,9 @@ describe('Unit | Model | Assessment', function() {
       const ch6 = new Challenge('rec6', 'validé', [url6]);
       const ch7 = new Challenge('rec7', 'validé', [rechInfo7]);
       const course = new Course([ch1, ch2, ch3, ch4, ch5, ch6, ch7]);
-      const answer1 = new Answer(ch2, 'ok');
-      const answer2 = new Answer(ch4, 'ok');
-      const answer3 = new Answer(ch6, 'ko');
+      const answer1 = new Answer(ch2, Answer.OK);
+      const answer2 = new Answer(ch4, Answer.OK);
+      const answer3 = new Answer(ch6, Answer.KO);
       const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
       // then
@@ -533,7 +533,7 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('rec2', 'validé', [web2]);
       const ch3 = new Challenge('rec3', 'validé', [web2]);
       const course = new Course([ch1, ch2, ch3]);
-      const answer = new Answer(ch2, 'ok');
+      const answer = new Answer(ch2, Answer.OK);
       const assessment = new Assessment(course, [answer]);
 
       // then
@@ -548,7 +548,7 @@ describe('Unit | Model | Assessment', function() {
       const answers = [];
       for (let i = 0; i < 20; i++) {
         challenges.push(new Challenge('rec' + i, 'validé', [web1]));
-        answers.push(new Answer(challenges[i], 'ok'));
+        answers.push(new Answer(challenges[i], Answer.OK));
       }
       challenges.push(new Challenge('rec20', 'validé', [web2]));
       const course = new Course(challenges);
@@ -592,8 +592,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
-      const answer1 = new Answer(ch1, 'ko');
-      const answer2 = new Answer(ch2, 'ko');
+      const answer1 = new Answer(ch1, Answer.KO);
+      const answer2 = new Answer(ch2, Answer.KO);
       const assessment = new Assessment(course, [answer1, answer2]);
 
       // then
@@ -609,8 +609,8 @@ describe('Unit | Model | Assessment', function() {
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
-      const answer1 = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ko');
+      const answer1 = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.KO);
       const assessment = new Assessment(course, [answer1, answer2]);
 
       // then
@@ -627,9 +627,9 @@ describe('Unit | Model | Assessment', function() {
       const ch2 = new Challenge('b', 'validé', [skills['web2']]);
       const ch3 = new Challenge('c', 'validé', [skills['fou3']]);
       const course = new Course([ch1, ch2, ch3], competenceSkills);
-      const answer1 = new Answer(ch1, 'ok');
-      const answer2 = new Answer(ch2, 'ko');
-      const answer3 = new Answer(ch3, 'ok');
+      const answer1 = new Answer(ch1, Answer.OK);
+      const answer2 = new Answer(ch2, Answer.KO);
+      const answer3 = new Answer(ch3, Answer.OK);
       const assessment = new Assessment(course, [answer1, answer2, answer3]);
 
       // then
