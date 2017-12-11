@@ -22,7 +22,7 @@ describe('Unit | Service | session', () => {
       it('should return a code depending on the date', () => {
         // given
         clock = sinon.useFakeTimers(new Date('Mon, 04 Feb 1991 15:00:00 GMT'));
-        const expectedCode = '2ab562';
+        const expectedCode = '0b3782';
 
         // when
         const code = session.getCurrentCode();
@@ -34,7 +34,7 @@ describe('Unit | Service | session', () => {
       it('should return the same code for the same hour of the same date', () => {
         // given
         clock = sinon.useFakeTimers(new Date('Mon, 04 Feb 1991 15:46:00 GMT'));
-        const expectedCode = '2ab562';
+        const expectedCode = '0b3782';
 
         // when
         const code = session.getCurrentCode();
@@ -48,7 +48,7 @@ describe('Unit | Service | session', () => {
       it('should return a different code', () => {
         // given
         clock = sinon.useFakeTimers(new Date('Mon, 04 Feb 1991 16:01:00 GMT'));
-        const expectedCode = '420d40';
+        const expectedCode = '2ab562';
 
         // when
         const code = session.getCurrentCode();
