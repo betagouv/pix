@@ -1,7 +1,6 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const Organization = require('../../../../../lib/domain/models/data/organization');
-const User = require('../../../../../lib/domain/models/data/user');
 
 const faker = require('faker');
 
@@ -11,12 +10,6 @@ describe('Unit | Serializer | organization-serializer', () => {
     context('when user is defined', () => {
       it('should serialize organization with included user', () => {
         // Given
-        const jsonUser = {
-          'id': 42157,
-          'firstName': 'Alexander',
-          'lastName': 'Luthor',
-          'email': 'lex@lexcorp.com'
-        };
         const jsonOrganization = {
           id: 12,
           name: 'LexCorp',
@@ -24,7 +17,12 @@ describe('Unit | Serializer | organization-serializer', () => {
           email: 'lex@lexcorp.com',
           code: 'ABCD66',
           userId: '42157',
-          user: jsonUser
+          user: {
+            id: 42157,
+            firstName: 'Alexander',
+            lastName: 'Luthor',
+            email: 'lex@lexcorp.com'
+          }
         };
         const organization = new Organization(jsonOrganization);
 
@@ -69,15 +67,14 @@ describe('Unit | Serializer | organization-serializer', () => {
         email: faker.internet.email(),
         type: 'PRO',
         code: 'ABCD12',
-        userId: 3
+        userId: 3,
+        user: {
+          id: 3,
+          firstName: 'Ezzio',
+          lastName: 'Auditore',
+          email: 'ezzio@firenze.it'
+        }
       });
-      const userFromOrganizationOne = new User({
-        'firstName': 'Ezzio',
-        'lastName': 'Auditore',
-        'email': 'ezzio@firenze.it'
-      });
-      userFromOrganizationOne.set('id', 3);
-      organizationOne.relations.user = userFromOrganizationOne;
 
       const organizationTwo = new Organization({
         id: 2,
@@ -85,15 +82,14 @@ describe('Unit | Serializer | organization-serializer', () => {
         email: faker.internet.email(),
         type: 'PRO',
         code: 'EFGH54',
-        userId: 4
+        userId: 4,
+        user: {
+          id: 4,
+          firstName: 'Bayek',
+          lastName: 'Siwa',
+          email: 'bayek@siwa.eg'
+        }
       });
-      const userFromOrganizationTwo = new User({
-        'firstName': 'Bayek',
-        'lastName': 'Siwa',
-        'email': 'bayek@siwa.eg'
-      });
-      userFromOrganizationTwo.set('id', 4);
-      organizationTwo.relations.user = userFromOrganizationTwo;
 
       const expectedJsonApi = {
         data: [{
@@ -134,7 +130,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         }],
         included: [{
           attributes: {
-            'email': 'ezzio@firenze.it',
+            email: 'ezzio@firenze.it',
             'first-name': 'Ezzio',
             'last-name': 'Auditore'
           },
@@ -142,7 +138,7 @@ describe('Unit | Serializer | organization-serializer', () => {
           type: 'users'
         }, {
           attributes: {
-            'email': 'bayek@siwa.eg',
+            email: 'bayek@siwa.eg',
             'first-name': 'Bayek',
             'last-name': 'Siwa'
           },
