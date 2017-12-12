@@ -14,12 +14,13 @@ function initialize() {
         return result;
       });
   };
-  const user_email = process.argv[1];
+  const user_email = process.argv[2];
   return { client, user_email };
 }
 
 function terminate(client) {
   client.end();
+  console.log('END');
 }
 
 function main() {
@@ -59,10 +60,8 @@ function main() {
       client.logged_query('ROLLBACK')
         .then(() => console.log('Rollback finished'));
     })
-    .then(() => {
-      terminate(client);
-      console.log('END');
-    });
+    // finally
+    .then(() => terminate(client), () => terminate(client));
 }
 
 class ClientQueryAdapter {
