@@ -23,48 +23,45 @@ function terminate(client) {
 
 function main() {
   const { client, user_email } = initialize();
+  const queryBuilder = new ScriptQueryBuilder();
+  const clientQueryAdapter = new ClientQueryAdapter();
 
-  try {
-    const queryBuilder = new ScriptQueryBuilder();
-    const clientQueryAdapter = new ClientQueryAdapter();
+  let userId;
 
-    let userId;
-
-    Promise.resolve()
-      .then(() => client.logged_query('BEGIN'))
-      .then(() => queryBuilder.get_user_id_from_email(user_email))
-      .then((query) => client.logged_query(query))
-      .then((result) => userId = clientQueryAdapter.unpack_user_id(result))
-      .then((userId) => queryBuilder.find_assessment_ids_from_user_id(userId))
-      .then((query) => client.logged_query(query))
-      .then((result) => clientQueryAdapter.unpack_assessment_ids(result))
-      .then((assessmentIds) => [
-        queryBuilder.delete_feedbacks_from_assessment_ids(assessmentIds),
-        queryBuilder.delete_skills_from_assessment_ids(assessmentIds),
-      ])
-      .then((queries) => Promise.all(
-        queries.map((query) => client.logged_query(query))
-      ))
-      .then(() => queryBuilder.delete_assessments_from_user_id(userId))
-      .then((query) => client.logged_query(query))
-      .then(() => queryBuilder.delete_user_from_user_id(userId))
-      .then((query) => client.logged_query(query))
-      // .then(() => client.logged_query('COMMIT'))
-      .then(() => console.log('FINISHED'))
-      .catch((err) => {
-        console.log(`ERROR: ${err}\nRollback...`);
-        // client.logged_query('ROLLBACK')
-        //   .then(() => console.log('Rollback finished'));
-      })
-      .then(() => {
-        client.logged_query('ROLLBACK')
-          .then(() => console.log('Rollback finished'));
-      });
-  }
-  finally {
-    terminate(client);
-    console.log('END');
-  }
+  Promise.resolve()
+    .then(() => client.logged_query('BEGIN'))
+    .then(() => queryBuilder.get_user_id_from_email(user_email))
+    .then((query) => client.logged_query(query))
+    .then((result) => userId = clientQueryAdapter.unpack_user_id(result))
+    .then((userId) => queryBuilder.find_assessment_ids_from_user_id(userId))
+    .then((query) => client.logged_query(query))
+    .then((result) => clientQueryAdapter.unpack_assessment_ids(result))
+    .then((assessmentIds) => [
+      queryBuilder.delete_feedbacks_from_assessment_ids(assessmentIds),
+      queryBuilder.delete_skills_from_assessment_ids(assessmentIds),
+    ])
+    .then((queries) => Promise.all(
+      queries.map((query) => client.logged_query(query))
+    ))
+    .then(() => queryBuilder.delete_assessments_from_user_id(userId))
+    .then((query) => client.logged_query(query))
+    .then(() => queryBuilder.delete_user_from_user_id(userId))
+    .then((query) => client.logged_query(query))
+    // .then(() => client.logged_query('COMMIT'))
+    .then(() => console.log('FINISHED'))
+    .catch((err) => {
+      console.log(`ERROR: ${err}\nRollback...`);
+      // client.logged_query('ROLLBACK')
+      //   .then(() => console.log('Rollback finished'));
+    })
+    .then(() => {
+      client.logged_query('ROLLBACK')
+        .then(() => console.log('Rollback finished'));
+    })
+    .then(() => {
+      terminate(client);
+      console.log('END');
+    });
 }
 
 class ClientQueryAdapter {
