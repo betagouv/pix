@@ -298,7 +298,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
     it('should return Organization that matches filters', function() {
       // given
-      const fetchStub = sinon.stub().resolves();
+      const fetchStub = sinon.stub().resolves({ models: {} });
       sinon.stub(Organization.prototype, 'where').returns({ fetchAll: fetchStub });
 
       // when
@@ -354,7 +354,7 @@ describe('Unit | Repository | OrganizationRepository', function() {
 
         // then
         return promise.then(organizations => {
-          const organization = organizations.models[0];
+          const organization = organizations[0];
 
           expect(organization.get('email')).to.equal(insertedOrganization.email);
           expect(organization.related('user').get('email')).to.equal(associatedUser.email);
