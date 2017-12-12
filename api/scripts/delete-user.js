@@ -1,3 +1,4 @@
+#! /usr/bin/env node
 /* eslint no-console: ["off"] */
 const { Client } = require('pg');
 
