@@ -10,7 +10,8 @@ function initialize() {
     console.log(`query: ${query}`);
     return this.query(query)
       .then((result) => {
-        console.log(`query result: ${JSON.stringify(result)}`);
+        const { command, rowCount, rows } = result;
+        console.log(`result: command ${command} (rowCount ${rowCount}) = [${rows.join(',')}]`);
         return result;
       });
   };
@@ -50,19 +51,16 @@ function main() {
     .then((query) => client.logged_query(query))
     .then(() => queryBuilder.delete_user_from_user_id(userId))
     .then((query) => client.logged_query(query))
-    // .then(() => client.logged_query('COMMIT'))
+    .then(() => client.logged_query('COMMIT'))
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      // client.logged_query('ROLLBACK')
-      //   .then(() => console.log('Rollback finished'));
-    })
-    .then(() => {
       client.logged_query('ROLLBACK')
         .then(() => console.log('Rollback finished'));
     })
     // finally
-    .then(() => terminate(client), () => terminate(client));
+    .then(() => terminate(client))
+    .catch(() => terminate(client));
 }
 
 class ClientQueryAdapter {
