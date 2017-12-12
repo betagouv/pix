@@ -49,14 +49,14 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.restore();
     });
 
-    it('should call repository to create certification-course', function() {
+    it('should call repository to create certification-course with status "started"', function() {
       // when
       const promise = CertificationCourseController.save(request, replyStub);
 
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseRepository.save);
-        sinon.assert.calledWith(CertificationCourseRepository.save, { userId: 'userId' });
+        sinon.assert.calledWith(CertificationCourseRepository.save, { userId: 'userId', status: 'started' });
       });
     });
 
