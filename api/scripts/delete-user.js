@@ -28,29 +28,17 @@ function main() {
   const { client, user_email } = initialize();
   const queryBuilder = new ScriptQueryBuilder();
   const clientQueryAdapter = new ClientQueryAdapter();
-
-  let userId;
+  const userEraser = new UserEraser(client, queryBuilder, clientQueryAdapter);
 
   Promise.resolve()
     .then(() => client.logged_query('BEGIN'))
-    .then(() => queryBuilder.get_user_id_from_email(user_email))
-    .then((query) => client.logged_query(query))
-    .then((result) => userId = clientQueryAdapter.unpack_user_id(result))
-    .then((userId) => queryBuilder.find_assessment_ids_from_user_id(userId))
-    .then((query) => client.logged_query(query))
-    .then((result) => clientQueryAdapter.unpack_assessment_ids(result))
-    .then((assessmentIds) => [
-      queryBuilder.delete_feedbacks_from_assessment_ids(assessmentIds),
-      queryBuilder.delete_skills_from_assessment_ids(assessmentIds),
-      queryBuilder.delete_answers_from_assessment_ids(assessmentIds)
-    ])
-    .then((queries) => Promise.all(
-      queries.map((query) => client.logged_query(query))
-    ))
-    .then(() => queryBuilder.delete_assessments_from_user_id(userId))
-    .then((query) => client.logged_query(query))
-    .then(() => queryBuilder.delete_user_from_user_id(userId))
-    .then((query) => client.logged_query(query))
+
+    .then(() => userEraser.fetch_user_id_from_email(user_email))
+    .then(() => userEraser.find_assessment_ids_from_fetched_user_id())
+    .then(() => userEraser.delete_dependent_data_from_fetched_assessment_ids())
+    .then(() => userEraser.delete_assessments_from_fetched_user_id())
+    .then(() => userEraser.delete_user_from_fetched_user_id())
+
     .then(() => client.logged_query('COMMIT'))
     .then(() => console.log('FINISHED'))
     .catch((err) => {
@@ -61,6 +49,50 @@ function main() {
     // finally
     .then(() => terminate(client))
     .catch(() => terminate(client));
+}
+
+class UserEraser {
+  constructor(client, queryBuilder, clientQueryAdapter) {
+    Object.assign(this, { client, queryBuilder, clientQueryAdapter });
+  }
+
+  fetch_user_id_from_email(userEmail) {
+    return Promise.resolve()
+      .then(() => this.queryBuilder.get_user_id_from_email(userEmail))
+      .then((query) => this.client.logged_query(query))
+      .then((result) => this.userId = this.clientQueryAdapter.unpack_user_id(result));
+  }
+
+  find_assessment_ids_from_fetched_user_id() {
+    return Promise.resolve()
+      .then(() => this.queryBuilder.find_assessment_ids_from_user_id(this.userId))
+      .then((query) => this.client.logged_query(query))
+      .then((result) => this.assessmentIds = this.clientQueryAdapter.unpack_assessment_ids(result));
+  }
+
+  delete_dependent_data_from_fetched_assessment_ids() {
+    return Promise.resolve()
+      .then(() => [
+        this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessmentIds),
+        this.queryBuilder.delete_skills_from_assessment_ids(this.assessmentIds),
+        this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds)
+      ])
+      .then((queries) => Promise.all(
+        queries.map((query) => this.client.logged_query(query))
+      ));
+  }
+
+  delete_assessments_from_fetched_user_id() {
+    return Promise.resolve()
+      .then(() => this.queryBuilder.delete_assessments_from_user_id(this.userId))
+      .then((query) => this.client.logged_query(query));
+  }
+
+  delete_user_from_fetched_user_id() {
+    return Promise.resolve()
+      .then(() => this.queryBuilder.delete_user_from_user_id(this.userId))
+      .then((query) => this.client.logged_query(query));
+  }
 }
 
 class ClientQueryAdapter {
