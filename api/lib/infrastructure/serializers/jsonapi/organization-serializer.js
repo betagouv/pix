@@ -10,8 +10,7 @@ module.exports = {
         ref: 'id',
         attributes: ['firstName', 'lastName', 'email'],
         included: true,
-      },
-      transform: model => Object.assign({}, model.toJSON())
+      }
     }).serialize(organizations);
   },
 
