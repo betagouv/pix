@@ -1,7 +1,6 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const AccessSession = require('../../../../lib/application/preHandlers/access-session');
 const SessionService = require('../../../../lib/domain/services/session-service');
-const Boom = require('boom');
 
 describe('Unit | Pre-handler | Session Access', () => {
 
@@ -9,19 +8,21 @@ describe('Unit | Pre-handler | Session Access', () => {
 
     let replyStub;
     let takeoverStub;
+    let codeStub;
 
     beforeEach(() => {
       takeoverStub = sinon.stub();
+      codeStub = sinon.stub();
       replyStub = sinon.stub().returns({
-        takeover: takeoverStub
+        code: codeStub.returns({
+          takeover: takeoverStub
+        })
       });
 
-      sinon.stub(Boom, 'unauthorized').returns({ message: 'Not authenticated for session' });
       sinon.stub(SessionService, 'getCurrentCode').returns('e24d32');
     });
 
     afterEach(() => {
-      Boom.unauthorized.restore();
       SessionService.getCurrentCode.restore();
     });
 
@@ -39,7 +40,8 @@ describe('Unit | Pre-handler | Session Access', () => {
         AccessSession.sessionIsOpened(request, replyStub);
 
         // then
-        expect(replyStub).to.have.been.calledWith(Boom.unauthorized());
+        expect(replyStub).to.have.been.called;
+        expect(codeStub).to.have.been.called;
         expect(takeoverStub).to.have.been.called;
       });
     });
@@ -53,7 +55,7 @@ describe('Unit | Pre-handler | Session Access', () => {
         AccessSession.sessionIsOpened(request, replyStub);
 
         // then
-        expect(replyStub).to.have.been.calledWith(Boom.unauthorized());
+        expect(replyStub).to.have.been.called;
         expect(takeoverStub).to.have.been.called;
       });
     });
