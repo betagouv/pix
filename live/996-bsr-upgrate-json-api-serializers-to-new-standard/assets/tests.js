@@ -3399,6 +3399,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('controllers/certification-course.js', function () {
+      // test passed
+    });
+
     it('helpers/convert-to-html.js', function () {
       // test passed
     });
@@ -14910,7 +14914,7 @@ define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha',
 
       (0, _mocha.it)('should verify if the user is logged', function () {
         // when
-        var promise = route.model();
+        var promise = route.model({ code: '123456' });
 
         // then
         return promise.then(function () {
@@ -14922,17 +14926,18 @@ define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha',
 
         (0, _mocha.it)('should generate certification test', function () {
           // when
-          var promise = route.model();
+          var promise = route.model({ code: '123456' });
 
           // then
           return promise.then(function () {
             _sinon.default.assert.called(createRecordStub);
-            _sinon.default.assert.calledWith(createRecordStub, 'certification-course');
+            _sinon.default.assert.calledWithExactly(createRecordStub, 'certification-course', { sessionCode: '123456' });
           });
         });
+
         (0, _mocha.it)('should save certification test', function () {
           // when
-          var promise = route.model();
+          var promise = route.model({ code: '123456' });
 
           // then
           return promise.then(function () {
