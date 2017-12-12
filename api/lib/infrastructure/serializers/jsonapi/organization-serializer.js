@@ -8,13 +8,10 @@ module.exports = {
       attributes: ['name', 'type', 'email', 'code', 'user'],
       user: {
         ref: 'id',
-        attributes: ['firstName', 'lastName', 'email']
+        attributes: ['firstName', 'lastName', 'email'],
+        included: true,
       },
-      transform: (model) => {
-        const organization = Object.assign({}, model.toJSON());
-        organization.user = model.user.toJSON();
-        return organization;
-      }
+      transform: model => Object.assign({}, model.toJSON())
     }).serialize(organizations);
   },
 

@@ -294,7 +294,7 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = { models: [new Organisation(), new Organisation()] };
+    const arrayOfOrganizations = [new Organisation(), new Organisation()];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -383,7 +383,7 @@ describe('Unit | Controller | organizationController', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations.models);
+          sinon.assert.calledWith(organizationSerializer.serialize, arrayOfOrganizations);
           sinon.assert.calledWith(replyStub, arrayOfSerializedOrganization);
         });
       });

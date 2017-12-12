@@ -1,6 +1,8 @@
 const validator = require('validator');
 
 const Bookshelf = require('../../../infrastructure/bookshelf');
+Bookshelf.plugin('registry');
+
 const encrypt = require('../../services/encryption-service');
 const passwordValidator = require('../../../infrastructure/validators/password-validator');
 
@@ -9,7 +11,7 @@ const Organization = require('./organization');
 
 validator.isPassword = passwordValidator;
 
-module.exports = Bookshelf.Model.extend({
+module.exports = Bookshelf.model('User', {
   tableName: 'users',
 
   initialize() {

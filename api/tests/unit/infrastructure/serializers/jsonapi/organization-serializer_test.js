@@ -8,53 +8,56 @@ const faker = require('faker');
 describe('Unit | Serializer | organization-serializer', () => {
 
   describe('#serialize', () => {
-    it('should turn an object to JSON', () => {
-      // Given
-      const user = new User({
-        'firstName': 'Alexander',
-        'lastName': 'Luthor',
-        'email': 'lex@lexcorp.com'
-      });
-      user.set('id', 42157);
-      const organization = new Organization({
-        id: 12,
-        name: 'LexCorp',
-        type: 'PRO',
-        email: 'lex@lexcorp.com',
-        code: 'ABCD66',
-        userId: '42157'
-      });
-      organization.user = user;
+    context('when user is defined', () => {
+      it('should serialize organization with included user', () => {
+        // Given
+        const jsonUser = {
+          'id': 42157,
+          'firstName': 'Alexander',
+          'lastName': 'Luthor',
+          'email': 'lex@lexcorp.com'
+        };
+        const jsonOrganization = {
+          id: 12,
+          name: 'LexCorp',
+          type: 'PRO',
+          email: 'lex@lexcorp.com',
+          code: 'ABCD66',
+          userId: '42157',
+          user: jsonUser
+        };
+        const organization = new Organization(jsonOrganization);
 
-      // When
-      const jsonOrganization = serializer.serialize(organization);
+        // When
+        const serializedOrganization = serializer.serialize(organization);
 
-      // Then
-      expect(jsonOrganization).to.deep.equal({
-        data: {
-          type: 'organizations',
-          id: '12',
-          attributes: {
-            name: 'LexCorp',
-            email: 'lex@lexcorp.com',
-            type: 'PRO',
-            code: 'ABCD66'
-          },
-          relationships: {
-            user: {
-              data: { type: 'users', id: '42157' }
+        // Then
+        expect(serializedOrganization).to.deep.equal({
+          data: {
+            type: 'organizations',
+            id: '12',
+            attributes: {
+              name: 'LexCorp',
+              email: 'lex@lexcorp.com',
+              type: 'PRO',
+              code: 'ABCD66'
             },
-          }
-        },
-        included: [{
-          id: '42157',
-          type: 'users',
-          attributes: {
-            'first-name': 'Alexander',
-            'last-name': 'Luthor',
-            email: 'lex@lexcorp.com'
-          }
-        }]
+            relationships: {
+              user: {
+                data: { type: 'users', id: '42157' }
+              },
+            }
+          },
+          included: [{
+            id: '42157',
+            type: 'users',
+            attributes: {
+              'first-name': 'Alexander',
+              'last-name': 'Luthor',
+              email: 'lex@lexcorp.com'
+            }
+          }]
+        });
       });
     });
 
@@ -74,7 +77,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         'email': 'ezzio@firenze.it'
       });
       userFromOrganizationOne.set('id', 3);
-      organizationOne.user = userFromOrganizationOne;
+      organizationOne.relations.user = userFromOrganizationOne;
 
       const organizationTwo = new Organization({
         id: 2,
@@ -90,7 +93,7 @@ describe('Unit | Serializer | organization-serializer', () => {
         'email': 'bayek@siwa.eg'
       });
       userFromOrganizationTwo.set('id', 4);
-      organizationTwo.user = userFromOrganizationTwo;
+      organizationTwo.relations.user = userFromOrganizationTwo;
 
       const expectedJsonApi = {
         data: [{
