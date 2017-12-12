@@ -6,8 +6,8 @@ Bookshelf.plugin('registry');
 const encrypt = require('../../services/encryption-service');
 const passwordValidator = require('../../../infrastructure/validators/password-validator');
 
-const Assessment = require('./assessment');
-const Organization = require('./organization');
+require('./assessment');
+require('./organization');
 
 validator.isPassword = passwordValidator;
 
@@ -54,10 +54,10 @@ module.exports = Bookshelf.model('User', {
   },
 
   assessments() {
-    return this.hasMany(Assessment);
+    return this.hasMany('Assessment');
   },
 
   organizations() {
-    return this.hasMany(Organization);
+    return this.hasMany('Organization');
   }
 });

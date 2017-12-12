@@ -1,6 +1,6 @@
 const Bookshelf = require('../../../infrastructure/bookshelf');
-
 Bookshelf.plugin('registry');
+
 require('./user');
 
 module.exports = Bookshelf.model('Organization', {
