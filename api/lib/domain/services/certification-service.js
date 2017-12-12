@@ -1,5 +1,5 @@
-const minimumReproductibilityToBeCertified = 50;
-const minimumReproductibilityToBeTrusted = 80;
+const minimumReproductibilityRateToBeCertified = 50;
+const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
 const _ = require('lodash');
 const answerServices = require('./answer-service');
@@ -25,40 +25,40 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
     .size();
 }
 
-function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibility) {
+function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate) {
   if (numberOfCorrectAnswers < 2) {
     return competence.pixScore;
   }
-  if(reproductibility < minimumReproductibilityToBeTrusted && numberOfCorrectAnswers === 2) {
+  if(reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
     return numberOfPixForOneLevel;
   }
   return 0;
 }
 
-function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility) {
+function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) {
   if (numberOfCorrectAnswers < 2) {
     return -1;
   }
-  if(reproductibility < minimumReproductibilityToBeTrusted && numberOfCorrectAnswers === 2) {
+  if(reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel -1;
   }
   return competence.estimatedLevel;
 }
-function _getMalusPix(answersWithCompetences, listCompetences, reproductibility) {
+function _getMalusPix(answersWithCompetences, listCompetences, reproductibilityRate) {
   return listCompetences.reduce((malus, competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
-    return malus + _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibility);
+    return malus + _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate);
   }, 0);
 }
 
-function _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibility) {
+function _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibilityRate) {
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
     return {
       name: competence.name,
       index:competence.index,
       id: competence.id,
-      level: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility) };
+      level: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) };
   });
 }
 function _getCompetenceWithFailedLevel(listCompetences) {
@@ -73,15 +73,15 @@ function _getCompetenceWithFailedLevel(listCompetences) {
 module.exports = {
 
   getResult(listAnswers, listChallenges, listCompetences) {
-    const reproductibility = answerServices.getAnswersSuccessRate(listAnswers);
-    if (reproductibility < minimumReproductibilityToBeCertified) {
+    const reproductibilityRate = answerServices.getAnswersSuccessRate(listAnswers);
+    if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
       return { listCertifiedCompetences: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0 };
     }
 
     const actualPix = _computeSumPixFromCompetences(listCompetences);
     const answersByCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-    const pixToRemove = _getMalusPix(answersByCompetences, listCompetences, reproductibility);
-    const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersByCompetences, listCompetences, reproductibility);
+    const pixToRemove = _getMalusPix(answersByCompetences, listCompetences, reproductibilityRate);
+    const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersByCompetences, listCompetences, reproductibilityRate);
     const totalScore = actualPix - pixToRemove;
 
     return { listCertifiedCompetences,  totalScore };
