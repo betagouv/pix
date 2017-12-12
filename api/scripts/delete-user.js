@@ -11,7 +11,7 @@ function initialize() {
     return this.query(query)
       .then((result) => {
         const { command, rowCount, rows } = result;
-        console.log(`result: command ${command} (rowCount ${rowCount}) = [${rows.join(',')}]`);
+        console.log(`result: command ${command} (rowCount ${rowCount}) = ${JSON.stringify(rows)}`);
         return result;
       });
   };
@@ -55,7 +55,7 @@ function main() {
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      client.logged_query('ROLLBACK')
+      return client.logged_query('ROLLBACK')
         .then(() => console.log('Rollback finished'));
     })
     // finally
@@ -84,14 +84,23 @@ class ScriptQueryBuilder {
   }
 
   delete_skills_from_assessment_ids(assessment_ids) {
+    if(assessment_ids.length === 0) {
+      return 'SELECT 1';
+    }
     return `DELETE FROM skills WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_answers_from_assessment_ids(assessment_ids) {
+    if (assessment_ids.length === 0) {
+      return 'SELECT 1';
+    }
     return `DELETE FROM answers WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_feedbacks_from_assessment_ids(assessment_ids) {
+    if (assessment_ids.length === 0) {
+      return 'SELECT 1';
+    }
     return `DELETE FROM feedbacks WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
@@ -159,6 +168,15 @@ if (!process.env.TEST) {
         // assert
         expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
       });
+
+      it('should return neutral query when assessmentIds is an empty array', () => {
+        // arrange
+        const assessment_ids = [];
+        // act
+        const query = subject.delete_feedbacks_from_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('SELECT 1');
+      });
     });
 
     describe('#delete_skills_from_assessment_ids', () => {
@@ -179,6 +197,15 @@ if (!process.env.TEST) {
         // assert
         expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
       });
+
+      it('should return neutral query when assessmentIds is an empty array', () => {
+        // arrange
+        const assessment_ids = [];
+        // act
+        const query = subject.delete_skills_from_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('SELECT 1');
+      });
     });
 
     describe('#delete_answers_from_assessment_ids', () => {
@@ -198,6 +225,15 @@ if (!process.env.TEST) {
         const query = subject.delete_answers_from_assessment_ids(assessment_ids);
         // assert
         expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
+      });
+
+      it('should return neutral query when assessmentIds is an empty array', () => {
+        // arrange
+        const assessment_ids = [];
+        // act
+        const query = subject.delete_answers_from_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('SELECT 1');
       });
     });
 
