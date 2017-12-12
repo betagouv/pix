@@ -43,16 +43,12 @@ class Assessment {
       .filter(answer => answer.result !== 'ok')
       .reduce((failedSkills, answer) => {
         // FIXME refactor !
-
-        // XXX we reject all skills of the tube harder than the current failed skill
-        if(answer.challenge.skills.length > 0) {
-          answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+        // XXX we take the current failed skill and all the harder skills in
+        // its tube and mark them all as failed
+        answer.challenge.skills.forEach(skill => {
+          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
             failedSkills.add(failedSkill);
           });
-        }
-        // XXX we reject the failed skills of the question
-        answer.challenge.skills.forEach(failedSkill => {
-          failedSkills.add(failedSkill);
         });
         return failedSkills;
       }, new Set());

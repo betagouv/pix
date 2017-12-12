@@ -207,7 +207,7 @@ describe('Unit | Model | Assessment', function() {
       expect(assessment.failedSkills).to.exist;
     });
 
-    it('should return [url5, url6, url8] if the user fails a question that requires web1 and url5', function() {
+    it('should return [web1, web2, web3, url5, url6, url8] if the user fails a question that requires web1 and url5', function() {
       // given
       const web1 = new Skill('web1');
       const web2 = new Skill('web2');
@@ -224,7 +224,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, [answer]);
 
       // then
-      expect([...assessment.failedSkills]).to.be.deep.equal([web1, url5, url6, url8]);
+      expect([...assessment.failedSkills]).to.be.deep.equal([web1, web2, web3, url5, url6, url8]);
     });
 
     it('should not try to add skill from undefined challenge', function() {
