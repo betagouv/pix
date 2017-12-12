@@ -41,6 +41,7 @@ function main() {
     .then((assessmentIds) => [
       queryBuilder.delete_feedbacks_from_assessment_ids(assessmentIds),
       queryBuilder.delete_skills_from_assessment_ids(assessmentIds),
+      queryBuilder.delete_answers_from_assessment_ids(assessmentIds)
     ])
     .then((queries) => Promise.all(
       queries.map((query) => client.logged_query(query))
@@ -86,6 +87,10 @@ class ScriptQueryBuilder {
 
   delete_skills_from_assessment_ids(assessment_ids) {
     return `DELETE FROM skills WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
+  }
+
+  delete_answers_from_assessment_ids(assessment_ids) {
+    return `DELETE FROM answers WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_feedbacks_from_assessment_ids(assessment_ids) {
@@ -175,6 +180,26 @@ if (!process.env.TEST) {
         const query = subject.delete_skills_from_assessment_ids(assessment_ids);
         // assert
         expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
+      });
+    });
+
+    describe('#delete_answers_from_assessment_ids', () => {
+      it('should return the correct query', () => {
+        // arrange
+        const assessment_ids = [123];
+        // act
+        const query = subject.delete_answers_from_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123)');
+      });
+
+      it('should return the correct query with comma as separator when many assessment ids', () => {
+        // arrange
+        const assessment_ids = [123, 456];
+        // act
+        const query = subject.delete_answers_from_assessment_ids(assessment_ids);
+        // assert
+        expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
       });
     });
 
