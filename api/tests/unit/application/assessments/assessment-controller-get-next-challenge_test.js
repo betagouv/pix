@@ -61,6 +61,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
       sandbox.stub(assessmentService, 'getAssessmentNextChallengeId');
       sandbox.stub(assessmentRepository, 'get');
       sandbox.stub(Boom, 'notFound').returns({ message: 'NotFoundError' });
+      sandbox.stub(Boom, 'badImplementation').returns({});
     });
 
     afterEach(() => {
@@ -97,6 +98,29 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           expect(Boom.notFound).to.have.been.calledOnce;
         });
       });
+    });
+
+    describe('when retrieving the next challenge is failing', () => {
+
+      beforeEach(() => {
+        assessmentRepository.get.resolves(assessmentWithoutScore);
+      });
+
+      it('should call fetchAssessment', () => {
+        // given
+        const error = new Error();
+        assessmentService.getAssessmentNextChallengeId.rejects(error);
+
+        // When
+        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
+
+        // Then
+        return promise.then(() => {
+          expect(Boom.badImplementation).to.have.been.calledWith(error);
+          expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
+        });
+      });
+
     });
 
     describe('when the assessment is over', () => {
@@ -157,16 +181,10 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
       describe('when saving level and score is failing', () => {
 
-        let badImplementationSpy;
         let replyStub;
 
         beforeEach(() => {
-          badImplementationSpy = sinon.stub(Boom, 'badImplementation').returns({});
           replyStub = sinon.stub();
-        });
-
-        afterEach(() => {
-          badImplementationSpy.restore();
         });
 
         it('should return a badImplementation error when evaluating is an error', () => {
@@ -179,7 +197,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
           // Then
           return promise.then(() => {
-            expect(badImplementationSpy).to.have.been.calledWith(error);
+            expect(Boom.badImplementation).to.have.been.calledWith(error);
             expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
           });
         });
@@ -194,7 +212,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
           // Then
           return promise.then(() => {
-            expect(badImplementationSpy).to.have.been.calledWith(error);
+            expect(Boom.badImplementation).to.have.been.calledWith(error);
             expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
           });
 

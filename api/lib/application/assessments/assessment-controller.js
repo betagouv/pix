@@ -115,6 +115,8 @@ module.exports = {
                 .then(() => skillsService.saveAssessmentSkills(skills))
             })
             .then(() => { throw err });
+        } else {
+          throw err;
         }
       })
       .then((nextChallengeId) => {
