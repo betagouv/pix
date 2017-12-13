@@ -509,8 +509,6 @@ describe('Unit | Model | Assessment', function() {
       });
     });
 
-
-
     it('should return null if remaining challenges do not provide extra validated or failed skills', function() {
       // given
       const web1 = new Skill('web1');
