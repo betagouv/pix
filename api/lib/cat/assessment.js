@@ -29,11 +29,13 @@ class Assessment {
     return this.answers
       .filter(answer => answer.result === 'ok')
       .reduce((skills, answer) => {
-        answer.challenge.skills.forEach(skill => {
-          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            skills.add(validatedSkill);
+        if(answer.challenge.skills.length > 0) {
+          answer.challenge.skills.forEach(skill => {
+            skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+              skills.add(validatedSkill);
+            });
           });
-        });
+        }
         return skills;
       }, new Set());
   }
@@ -42,9 +44,11 @@ class Assessment {
     return this.answers
       .filter(answer => answer.result !== 'ok')
       .reduce((failedSkills, answer) => {
-        answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-          failedSkills.add(failedSkill);
-        });
+        if(answer.challenge.skills.length > 0) {
+          answer.challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+            failedSkills.add(failedSkill);
+          });
+        }
         return failedSkills;
       }, new Set());
   }
