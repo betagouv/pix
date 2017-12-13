@@ -1,7 +1,15 @@
 class Answer {
   constructor(challenge, result) {
-    this.challenge = challenge;
+    this.challenge = challenge || this.emptyChallenge;
     this.result = result;
+  }
+  get emptyChallenge() {
+    return {
+      id: null,
+      status: 'archive',
+      skills: [],
+      timer: null,
+    };
   }
 
   get binaryOutcome() {
