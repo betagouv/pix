@@ -14,7 +14,7 @@ const solutionRepository = require('../../infrastructure/repositories/solution-r
 
 const logger = require('../../infrastructure/logger');
 
-const { NotFoundError, NotCompletedAssessmentError } = require('../../domain/errors');
+const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
   if(!assessment)
@@ -102,36 +102,29 @@ module.exports = {
 
         return assessmentService.getAssessmentNextChallengeId(assessment, request.params.challengeId);
       })
-      .then((nextChallengeId) => {
+      .catch((err) => {
+        if (err instanceof AssessmentEndedError) {
+          return assessmentService
+            .fetchAssessment(request.params.id)
+            .then(({ assessmentPix, skills }) => {
 
-        if (nextChallengeId) {
-          return Promise.resolve(nextChallengeId);
+              // XXX: successRate should not be saved in DB.
+              assessmentPix.unset('successRate');
+
+              return assessmentPix.save()
+                .then(() => skillsService.saveAssessmentSkills(skills))
+            })
+            .then(() => { throw err });
         }
-
-        return assessmentService
-          .fetchAssessment(request.params.id)
-          .then(({ assessmentPix, skills }) => {
-
-            // XXX: successRate should not be saved in DB.
-            assessmentPix.unset('successRate');
-
-            return assessmentPix.save()
-              .then(() => skillsService.saveAssessmentSkills(skills))
-              .then(() => {
-                // XXX always null because if not, it should have passed above (l.88)
-                return nextChallengeId;
-              });
-          });
-
       })
       .then((nextChallengeId) => {
-        return (nextChallengeId) ? challengeRepository.get(nextChallengeId) : null;
+        return challengeRepository.get(nextChallengeId);
       })
       .then((challenge) => {
-        return (challenge) ? reply(challengeSerializer.serialize(challenge)) : reply().code(204);
+        return reply(challengeSerializer.serialize(challenge));
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
+        if(err instanceof AssessmentEndedError) {
           return reply(Boom.notFound());
         }
 
