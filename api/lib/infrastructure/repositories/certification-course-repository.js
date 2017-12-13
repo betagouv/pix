@@ -14,5 +14,11 @@ module.exports = {
     const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourseDomainModel);
     return certificationCourseBookshelf.save()
       .then(_toDomain);
+  },
+
+  updateStatus(status, certificationCourseId) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({id: certificationCourseId, status});
+    return certificationCourseBookshelf.save();
   }
+
 };
