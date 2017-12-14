@@ -71,6 +71,11 @@ class UserEraser {
   }
 
   delete_dependent_data_from_fetched_assessment_ids() {
+    if (this.assessmentIds.length === 0) {
+      console.log('No assessment found: skipping deletion of feedbacks, skills, and answers');
+      return Promise.resolve();
+    }
+
     return Promise.resolve()
       .then(() => [
         this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessmentIds),
@@ -107,6 +112,7 @@ class ClientQueryAdapter {
 }
 
 class ScriptQueryBuilder {
+
   get_user_id_from_email(email) {
     return `SELECT id FROM users WHERE email = '${email}'`;
   }
@@ -116,23 +122,17 @@ class ScriptQueryBuilder {
   }
 
   delete_skills_from_assessment_ids(assessment_ids) {
-    if(assessment_ids.length === 0) {
-      return 'SELECT 1';
-    }
+    this._precondition_array_must_not_be_empty(assessment_ids);
     return `DELETE FROM skills WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_answers_from_assessment_ids(assessment_ids) {
-    if (assessment_ids.length === 0) {
-      return 'SELECT 1';
-    }
+    this._precondition_array_must_not_be_empty(assessment_ids);
     return `DELETE FROM answers WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_feedbacks_from_assessment_ids(assessment_ids) {
-    if (assessment_ids.length === 0) {
-      return 'SELECT 1';
-    }
+    this._precondition_array_must_not_be_empty(assessment_ids)
     return `DELETE FROM feedbacks WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
@@ -142,6 +142,12 @@ class ScriptQueryBuilder {
 
   delete_user_from_user_id(user_id) {
     return `DELETE FROM users WHERE "id" = '${user_id}'`;
+  }
+
+  _precondition_array_must_not_be_empty(assessment_ids) {
+    if (assessment_ids.length === 0) {
+      throw new Error('asssessment_ids array must not be empty');
+    }
   }
 }
 
@@ -205,9 +211,7 @@ if (!process.env.TEST) {
         // arrange
         const assessment_ids = [];
         // act
-        const query = subject.delete_feedbacks_from_assessment_ids(assessment_ids);
-        // assert
-        expect(query).to.equal('SELECT 1');
+        expect(() => subject.delete_feedbacks_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
@@ -234,9 +238,8 @@ if (!process.env.TEST) {
         // arrange
         const assessment_ids = [];
         // act
-        const query = subject.delete_skills_from_assessment_ids(assessment_ids);
+        expect(() => subject.delete_skills_from_assessment_ids(assessment_ids)).to.throw(Error);
         // assert
-        expect(query).to.equal('SELECT 1');
       });
     });
 
@@ -263,9 +266,7 @@ if (!process.env.TEST) {
         // arrange
         const assessment_ids = [];
         // act
-        const query = subject.delete_answers_from_assessment_ids(assessment_ids);
-        // assert
-        expect(query).to.equal('SELECT 1');
+        expect(() => subject.delete_answers_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
@@ -319,7 +320,6 @@ if (!process.env.TEST) {
         // act
         expect(() => subject.unpack_user_id(queryResult)).to.throw(Error);
       });
-
     });
 
     describe('#unpack_assessment_ids', () => {
@@ -337,6 +337,18 @@ if (!process.env.TEST) {
         // assert
         expect(result).to.deep.equal([1, 2, 3]);
       });
+
+      it('should return empty array when result has no rows', () => {
+        // arrange
+        const queryResult = {
+          rows: []
+        };
+        // act
+        const result = subject.unpack_assessment_ids(queryResult);
+        // assert
+        expect(result).to.be.empty;
+      });
+
     });
   });
 }
