@@ -146,7 +146,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
             type: 'CERTIFICATION'
           });
           assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({assessmentPix: certificationAssessment});
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
 
           // when
           const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
@@ -168,7 +168,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
             type: 'CERTIFICATION'
           });
           assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({assessmentPix: certificationAssessment});
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
 
           // when
           const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
@@ -192,7 +192,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
             type: 'PLACEMENT'
           });
           assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({assessmentPix: certificationAssessment});
+          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
 
           // when
           const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);

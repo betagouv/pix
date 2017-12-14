@@ -6,7 +6,7 @@ describe('Integration | Repository | Certification Course', function() {
   const associatedAssessment = {
     id: 7,
     courseId: 20,
-    userId : 1
+    userId: 1
   };
 
   const certificationCourse = {
@@ -20,13 +20,13 @@ describe('Integration | Repository | Certification Course', function() {
     beforeEach(() => {
       return Promise.all([
         knex('certification-courses').insert(certificationCourse),
-      ])
+      ]);
     });
 
     afterEach(() => {
       return Promise.all([
         knex('certification-courses').delete(),
-      ])
+      ]);
     });
 
     it('should update status of the certificationCourse', () => {
@@ -36,7 +36,7 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       return promise.then(() => knex('certification-courses').first('id', 'status'))
         .then((certificationCourse) => {
-          expect(certificationCourse.status).to.equal('completed')
+          expect(certificationCourse.status).to.equal('completed');
         });
     });
   });
@@ -47,14 +47,14 @@ describe('Integration | Repository | Certification Course', function() {
       return Promise.all([
         knex('certification-courses').insert(certificationCourse),
         knex('assessments').insert(associatedAssessment),
-      ])
+      ]);
     });
 
     afterEach(() => {
       return Promise.all([
         knex('certification-courses').delete(),
         knex('assessments').delete(),
-      ])
+      ]);
     });
 
     it('should retrieve associated assessment with the certification course', function() {
@@ -63,10 +63,10 @@ describe('Integration | Repository | Certification Course', function() {
 
       // then
       return promise.then((certificationCourse) => {
-          expect(certificationCourse.id).to.equal(20);
-          expect(certificationCourse.status).to.equal('started');
-          expect(certificationCourse.assessment.id).to.equal(7);
-        });
+        expect(certificationCourse.id).to.equal(20);
+        expect(certificationCourse.status).to.equal('started');
+        expect(certificationCourse.assessment.id).to.equal(7);
+      });
     });
 
   });

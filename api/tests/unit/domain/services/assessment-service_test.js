@@ -100,7 +100,6 @@ describe('Unit | Domain | Services | assessment-service', () => {
       return expect(promise).to.be.rejectedWith(AssessmentEndedError);
     });
 
-
     it('Should reject with a AssessmentEndedError when the course is a preview', () => {
       // given
       const assessment = _buildAssessmentForCourse('null22');
