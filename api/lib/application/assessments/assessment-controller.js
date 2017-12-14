@@ -6,6 +6,7 @@ const assessmentService = require('../../domain/services/assessment-service');
 const skillsService = require('../../domain/services/skills-service');
 const tokenService = require('../../domain/services/token-service');
 const challengeRepository = require('../../infrastructure/repositories/challenge-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const challengeSerializer = require('../../infrastructure/serializers/jsonapi/challenge-serializer');
 const solutionSerializer = require('../../infrastructure/serializers/jsonapi/solution-serializer');
 
@@ -104,14 +105,23 @@ module.exports = {
       })
       .catch((err) => {
         if (err instanceof AssessmentEndedError) {
+
           return assessmentService
             .fetchAssessment(request.params.id)
             .then(({ assessmentPix, skills }) => {
 
+              let promise;
+              if (assessmentService.isCertificationAssessment(assessmentPix)) {
+                promise = certificationCourseRepository.updateStatus('completed', assessmentPix.get('courseId'))
+              } else {
+                promise = Promise.resolve()
+              }
+
               // XXX: successRate should not be saved in DB.
               assessmentPix.unset('successRate');
 
-              return assessmentPix.save()
+              return promise
+                .then(() => assessmentPix.save())
                 .then(() => skillsService.saveAssessmentSkills(skills))
             })
             .then(() => { throw err });
