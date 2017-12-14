@@ -96,6 +96,7 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
 
   });
+
   describe('#getResult', () => {
     const answersByAssessments = [{ challenge: 'challenge1', result: 'ok' }];
     const challengesByCertificationId = [{ challenge: 'challenge1', courseId: '2' }];
@@ -200,10 +201,16 @@ describe('Unit | Controller | certification-course-controller', function() {
     let sandbox;
 
     const certificationId = 12;
-    const assessment = new Assessment({ id: 'assessment_id' });
-    const reply = sinon.stub();
+    const assessment = { id: 'assessment_id', courseId: 1 };
+    const certificationCourse = {
+      id: 1,
+      userId: 7,
+      completed: 'started',
+      assessment
+    };
 
     let request;
+    let reply;
     const certificationSerialized = { id: certificationId, assessment: { id: 'assessment_id' } };
 
     beforeEach(() => {
@@ -211,7 +218,9 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       sandbox = sinon.sandbox.create();
 
+      reply = sandbox.stub();
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(assessment);
+      sandbox.stub(CertificationCourseRepository, 'get').resolves(certificationCourse);
       sandbox.stub(certificationCourseSerializer, 'serialize').returns(certificationSerialized);
     });
 
@@ -221,19 +230,24 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call assessmentRepository#getByCertificationCourseId with request param', () => {
       // when
-      CertificationCourseController.get(request, reply);
+      const promise = CertificationCourseController.get(request, reply);
 
       // then
-      sinon.assert.calledOnce(assessmentRepository.getByCertificationCourseId);
-      sinon.assert.calledWithExactly(assessmentRepository.getByCertificationCourseId, certificationId);
+      return promise.then(() => {
+        sinon.assert.calledOnce(CertificationCourseRepository.get);
+        sinon.assert.calledWithExactly(CertificationCourseRepository.get, certificationId);
+      });
     });
 
     it('should reply the certification course serialized', () => {
       // when
-      CertificationCourseController.get(request, reply);
+      const promise = CertificationCourseController.get(request, reply);
 
       // then
-      sinon.assert.calledWithExactly(reply, certificationSerialized);
+      return promise.then(() => {
+        sinon.assert.calledOnce(reply);
+        sinon.assert.calledWithExactly(reply, certificationSerialized);
+      });
     });
   });
 });

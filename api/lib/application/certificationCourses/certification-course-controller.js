@@ -62,9 +62,9 @@ module.exports = {
 
   get(request, reply) {
     const certificationCourseId = request.params.id;
-    return assessmentRepository.getByCertificationCourseId(certificationCourseId)
-      .then((assessment) => {
-        reply(certificationCourseSerializer.serialize({ id: certificationCourseId, assessment: assessment.toJSON(), userId: '' }));
+    return CertificationCourseRepository.get(certificationCourseId)
+      .then((certificationCourse) => {
+        reply(certificationCourseSerializer.serialize(certificationCourse));
       })
       .catch((err) => {
         logger.error(err);
