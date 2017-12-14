@@ -10,7 +10,7 @@ describe('Unit | Repository | Certification Course', function() {
     let certificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1 });
+      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status : 'completed' });
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });
