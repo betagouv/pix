@@ -1,10 +1,10 @@
 class Answer {
   constructor(challenge, result) {
-    this.challenge = challenge || this.emptyChallenge;
+    this.challenge = this._getChallenge(challenge);
     this.result = result;
   }
-  get emptyChallenge() {
-    return {
+  _getChallenge(challenge) {
+    return challenge || {
       id: null,
       status: 'archive',
       skills: [],

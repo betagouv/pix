@@ -30,7 +30,7 @@ describe('Unit | Model | Answer', function() {
       expect(maxDifficulty).to.equal(5);
     });
 
-    it('should return level 2 if the challenge is undefined', function() {
+    it('should return 2 if the challenge is undefined', function() {
       // given
       const answer = new Answer(undefined, 'ok');
 
