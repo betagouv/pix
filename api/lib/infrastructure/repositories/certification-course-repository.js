@@ -28,9 +28,7 @@ module.exports = {
     const getCertificationCoursePromise = CertificationCourseBookshelf
       .where({ id })
       .fetch()
-      .then((certificationCourse) => {
-        return _toDomain(certificationCourse);
-      });
+      .then(_toDomain);
 
     return getCertificationCoursePromise
       .then((foundCertificationCourse) => {

@@ -56,19 +56,16 @@ function _selectNextChallengeId(course, currentChallengeId, assessment) {
 
 function getAssessmentNextChallengeId(assessment, currentChallengeId) {
 
-  return Promise.resolve()
-    .then(() => {
-      const courseId = assessment.get('courseId');
+  if (isPreviewAssessment(assessment)) {
+    return Promise.reject(new AssessmentEndedError());
+  }
 
-      if (isPreviewAssessment(assessment)) {
-        throw new AssessmentEndedError();
-      }
+  const courseId = assessment.get('courseId');
 
-      return courseRepository.get(courseId);
-    })
+  return courseRepository.get(courseId)
     .then(course => _selectNextChallengeId(course, currentChallengeId, assessment))
     .then((nextChallenge) => {
-      if(nextChallenge) {
+      if (nextChallenge) {
         return nextChallenge;
       }
 
@@ -113,7 +110,7 @@ async function fetchAssessment(assessmentId) {
     })
     .then((skillsAndChallenges) => {
 
-      if(skillsAndChallenges) {
+      if (skillsAndChallenges) {
         const [skillNames, challengesPix] = skillsAndChallenges;
         const catAssessment = assessmentAdapter.getAdaptedAssessment(answers, challengesPix, skillNames);
 
@@ -132,7 +129,7 @@ async function fetchAssessment(assessmentId) {
 }
 
 function _isNonScoredAssessment(assessment) {
-  return isPreviewAssessment(assessment)  || isCertificationAssessment(assessment);
+  return isPreviewAssessment(assessment) || isCertificationAssessment(assessment);
 }
 
 function isPreviewAssessment(assessment) {

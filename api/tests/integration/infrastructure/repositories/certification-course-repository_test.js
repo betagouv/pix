@@ -18,15 +18,11 @@ describe('Integration | Repository | Certification Course', function() {
   describe('#updateStatus', () => {
 
     beforeEach(() => {
-      return Promise.all([
-        knex('certification-courses').insert(certificationCourse),
-      ]);
+      return knex('certification-courses').insert(certificationCourse);
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('certification-courses').delete(),
-      ]);
+      return knex('certification-courses').delete();
     });
 
     it('should update status of the certificationCourse', () => {

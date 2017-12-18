@@ -129,11 +129,9 @@ module.exports = {
           throw err;
         }
       })
-      .then((nextChallengeId) => {
-        return challengeRepository.get(nextChallengeId);
-      })
+      .then(challengeRepository.get)
       .then((challenge) => {
-        return reply(challengeSerializer.serialize(challenge));
+        reply(challengeSerializer.serialize(challenge));
       })
       .catch((err) => {
         if(err instanceof AssessmentEndedError) {

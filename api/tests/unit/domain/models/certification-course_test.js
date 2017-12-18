@@ -1,7 +1,7 @@
 const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
-const CertificationChallenge = require('../../../../lib/domain/models/data/certification-course');
+const CertificationCourse = require('../../../../lib/domain/models/data/certification-course');
 
-describe('Unit | Domain | Models | CertificationChallenge', () => {
+describe('Unit | Domain | Models | CertificationCourse', () => {
 
   describe('validation', () => {
 
@@ -16,7 +16,7 @@ describe('Unit | Domain | Models | CertificationChallenge', () => {
     describe('the status field', () => {
       it('is required', () => {
         // Given
-        const certification = new CertificationChallenge(rawData);
+        const certification = new CertificationCourse(rawData);
 
         // When
         const promise = certification.save();
@@ -35,7 +35,7 @@ describe('Unit | Domain | Models | CertificationChallenge', () => {
       it('should only accept specific values', () => {
         // Given
         rawData.status = 'not_a_correct_status';
-        const certification = new CertificationChallenge(rawData);
+        const certification = new CertificationCourse(rawData);
 
         // When
         const promise = certification.save();
@@ -55,7 +55,7 @@ describe('Unit | Domain | Models | CertificationChallenge', () => {
         it(`should be saved when organisation type is ${organizationType}`, () => {
           // Given
           rawData.status = organizationType;
-          const certification = new CertificationChallenge(rawData);
+          const certification = new CertificationCourse(rawData);
 
           // When
           const promise = certification.save();

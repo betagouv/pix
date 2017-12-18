@@ -6,19 +6,14 @@ describe('Unit | Pre-handler | Session Access', () => {
 
   describe('#sessionIsOpened', () => {
 
-    let replyStub;
-    let takeoverStub;
-    let codeStub;
+    let reply;
+    let takeover;
+    let code;
 
     beforeEach(() => {
-      takeoverStub = sinon.stub();
-      codeStub = sinon.stub();
-      replyStub = sinon.stub().returns({
-        code: codeStub.returns({
-          takeover: takeoverStub
-        })
-      });
-
+      takeover = sinon.stub();
+      code = sinon.stub().returns({ takeover });
+      reply = sinon.stub().returns({ code });
       sinon.stub(SessionService, 'getCurrentCode').returns('e24d32');
     });
 
@@ -37,12 +32,12 @@ describe('Unit | Pre-handler | Session Access', () => {
         const request = { payload: { data: { attributes: {} } } };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.called;
-        expect(codeStub).to.have.been.called;
-        expect(takeoverStub).to.have.been.called;
+        expect(reply).to.have.been.called;
+        expect(code).to.have.been.called;
+        expect(takeover).to.have.been.called;
       });
     });
 
@@ -52,11 +47,11 @@ describe('Unit | Pre-handler | Session Access', () => {
         const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'WrongCode' } } } };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.called;
-        expect(takeoverStub).to.have.been.called;
+        expect(reply).to.have.been.called;
+        expect(takeover).to.have.been.called;
       });
     });
 
@@ -75,11 +70,11 @@ describe('Unit | Pre-handler | Session Access', () => {
         };
 
         // when
-        AccessSession.sessionIsOpened(request, replyStub);
+        AccessSession.sessionIsOpened(request, reply);
 
         // then
-        expect(replyStub).to.have.been.calledWith(requestWithoutSessionCode);
-        expect(takeoverStub).not.to.have.been.called;
+        expect(reply).to.have.been.calledWith(requestWithoutSessionCode);
+        expect(takeover).not.to.have.been.called;
       });
     });
   });

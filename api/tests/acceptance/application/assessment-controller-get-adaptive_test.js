@@ -120,7 +120,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
       return knex('assessments').delete();
     });
 
-    it('should return HTTP status code 204 when there is not next challenge', () => {
+    it('should return HTTP status code 404 when there is not next challenge', () => {
       // given
       const options = { method: 'GET', url: '/api/assessments/' + insertedAssessmentId + '/next' };
 

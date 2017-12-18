@@ -116,7 +116,7 @@ describe('Unit | Domain | Errors', () => {
   });
 
   describe('#AssessmentEndedError', () => {
-    it('should export a AssessmentEndedError', () => {
+    it('should export an AssessmentEndedError', () => {
       expect(errors.AssessmentEndedError).to.exist;
     });
 
@@ -129,9 +129,9 @@ describe('Unit | Domain | Errors', () => {
       };
 
       // then
-      const userNotFoundError = new errors.AssessmentEndedError();
-      expect(userNotFoundError.getErrorMessage).to.be.a('function');
-      expect(userNotFoundError.getErrorMessage()).to.eql(expectedErrorMessage);
+      const AssessmentEndedError = new errors.AssessmentEndedError();
+      expect(AssessmentEndedError.getErrorMessage).to.be.a('function');
+      expect(AssessmentEndedError.getErrorMessage()).to.eql(expectedErrorMessage);
     });
   });
 
