@@ -29,13 +29,11 @@ class Assessment {
     return this.answers
       .filter(answer => answer.result === 'ok')
       .reduce((skills, answer) => {
-        if(answer.challenge.skills.length > 0) {
-          answer.challenge.skills.forEach(skill => {
-            skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-              skills.add(validatedSkill);
-            });
+        answer.challenge.skills.forEach(skill => {
+          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+            skills.add(validatedSkill);
           });
-        }
+        });
         return skills;
       }, new Set());
   }

@@ -1,9 +1,9 @@
 class Answer {
   constructor(challenge, result) {
-    this.challenge = this._getChallenge(challenge);
+    this.challenge = this._getValidChallenge(challenge);
     this.result = result;
   }
-  _getChallenge(challenge) {
+  _getValidChallenge(challenge) {
     return challenge || {
       id: null,
       status: 'archive',
