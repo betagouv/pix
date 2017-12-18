@@ -59,7 +59,13 @@ class Assessment {
   }
 
   _computeLikelihood(level, answers) {
-    return -Math.abs(answers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
+    const extraAnswers = answers.map(answer => {
+      return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty };
+    });
+    extraAnswers.push({ maxDifficulty: 0, binaryOutcome: 1 });  // At start, anyone can solve a question of difficulty 0
+    extraAnswers.push({ maxDifficulty: 7, binaryOutcome: 0 });  // At start, nobody can solve a question of difficulty 7
+    // These edge cases will prevent the algorithm from thinking the user has unlimited knowledge if their first answer is correct
+    return -Math.abs(extraAnswers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
   }
 
   _isAnActiveChallenge(challenge) {
@@ -86,22 +92,22 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  get estimatedLevel() {
+  get predictedLevel() {
     if (this.answers.length === 0) {
       return 2;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
-    let estimatedLevel = 0.5;
+    let predictedLevel = 0.5;
     while (level < 8) {
       const likelihood = this._computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
         maxLikelihood = likelihood;
-        estimatedLevel = level;
+        predictedLevel = level;
       }
       level += 0.5;
     }
-    return estimatedLevel;
+    return predictedLevel;
   }
 
   _extraValidatedSkillsIfSolved(challenge) {
@@ -118,7 +124,7 @@ class Assessment {
   }
 
   _computeReward(challenge) {
-    const proba = this._probaOfCorrectAnswer(this.estimatedLevel, challenge.hardestSkill.difficulty);
+    const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
     const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).size;
     const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).size;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
