@@ -159,19 +159,23 @@ class Assessment {
       return null;
     }
     const filteredChallenges = this.filteredChallenges;
-    let bestChallenge = filteredChallenges[0];
+    const bestChallenges = [];
     let maxReward = 0;
     filteredChallenges.forEach(challenge => {
       const reward = this._computeReward(challenge);
       if (reward > maxReward) {
         maxReward = reward;
-        bestChallenge = challenge;
+        bestChallenges.length = 0;
+        bestChallenges.push(challenge);
+      } else if (reward == maxReward) {
+        bestChallenges.push(challenge);
       }
     });
     if (maxReward === 0) { // We will not get extra information
       return null;
     } else {
-      return bestChallenge; // May be undefined, in which case the adaptive test should be ended
+      bestChallenges.sort(() => 0.5 - Math.random()); // Mix best challenges to select one at random
+      return bestChallenges[0]; // May be undefined, in which case the adaptive test should be ended
     }
   }
 
