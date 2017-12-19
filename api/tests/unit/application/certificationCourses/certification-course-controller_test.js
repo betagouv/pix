@@ -1,4 +1,4 @@
-const { describe, it, before, sinon } = require('../../../test-helper');
+const { describe, it, before, sinon, expect } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
@@ -234,8 +234,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(CertificationCourseRepository.get);
-        sinon.assert.calledWithExactly(CertificationCourseRepository.get, certificationId);
+        expect(CertificationCourseRepository.get).to.have.been.calledOnce;
+        expect(CertificationCourseRepository.get).to.have.been.calledWith(certificationId);
       });
     });
 
@@ -245,8 +245,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(reply);
-        sinon.assert.calledWithExactly(reply, certificationSerialized);
+        expect(reply).to.have.been.calledOnce;
+        expect(reply).to.have.been.calledWith(certificationSerialized);
       });
     });
   });

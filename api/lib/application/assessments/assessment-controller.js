@@ -18,12 +18,12 @@ const logger = require('../../infrastructure/logger');
 const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
 
 function _doesAssessmentExistsAndIsCompleted(assessment) {
-  if(!assessment)
+  if (!assessment)
     throw new NotFoundError();
 
   const isAssessmentNotCompleted = !assessmentService.isAssessmentCompleted(assessment);
 
-  if(isAssessmentNotCompleted)
+  if (isAssessmentNotCompleted)
     throw new NotCompletedAssessmentError();
 }
 
@@ -110,11 +110,9 @@ module.exports = {
             .fetchAssessment(request.params.id)
             .then(({ assessmentPix, skills }) => {
 
-              let promise;
+              let promise = Promise.resolve();
               if (assessmentService.isCertificationAssessment(assessmentPix)) {
                 promise = certificationCourseRepository.updateStatus('completed', assessmentPix.get('courseId'));
-              } else {
-                promise = Promise.resolve();
               }
 
               // XXX: successRate should not be saved in DB.
@@ -124,7 +122,9 @@ module.exports = {
                 .then(() => assessmentPix.save())
                 .then(() => skillsService.saveAssessmentSkills(skills));
             })
-            .then(() => { throw err; });
+            .then(() => {
+              throw err;
+            });
         } else {
           throw err;
         }
@@ -134,7 +134,7 @@ module.exports = {
         reply(challengeSerializer.serialize(challenge));
       })
       .catch((err) => {
-        if(err instanceof AssessmentEndedError) {
+        if (err instanceof AssessmentEndedError) {
           return reply(Boom.notFound());
         }
 
