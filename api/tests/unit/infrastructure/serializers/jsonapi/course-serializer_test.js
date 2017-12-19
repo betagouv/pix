@@ -36,7 +36,8 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
             'description': course.description,
             'duration': course.duration,
             'image-url': 'http://image.url',
-            'nb-challenges': 5
+            'nb-challenges': 5,
+            'type' : 'DEMO'
           }
         }
       });
@@ -65,7 +66,8 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
             'type': 'courses',
             'id': course.id,
             'attributes': {
-              'nb-challenges': 5
+              'nb-challenges': 5,
+              'type' : 'DEMO'
             }
           }
         });
@@ -84,12 +86,64 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
         expect(json).to.deep.equal({
           'data': {
             'type': 'courses',
-            'id': course.id
+            'id': course.id,
+            'attributes':{
+              'type' : 'DEMO'
+            }
           }
         });
       });
     });
 
+    describe('field "type"', () => {
+
+      it('should be equal "PLACEMENT", when record is adaptive', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.isAdaptive = true;
+        course.challenges = undefined;
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id,
+            'attributes':{
+              'is-adaptive': true,
+              'type' : 'PLACEMENT'
+            }
+          }
+        });
+      });
+
+      it('should be equal "DEMO", when record is adaptive', () => {
+        // given
+        const course = new Course();
+        course.id = 'course_id';
+        course.isAdaptive = false;
+        course.challenges = undefined;
+
+        // when
+        const json = serializer.serialize(course);
+
+        // then
+        expect(json).to.deep.equal({
+          'data': {
+            'type': 'courses',
+            'id': course.id,
+            'attributes':{
+              'is-adaptive': false,
+              'type' : 'DEMO'
+            }
+          }
+        });
+      });
+
+    });
   });
 
 });

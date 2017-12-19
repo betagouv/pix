@@ -11,8 +11,6 @@ export default Model.extend({
   imageUrl: attr('string'),
   isAdaptive: attr('boolean'),
   nbChallenges: attr('number'),
-  type: computed('isAdaptive', function() {
-    return this.get('isAdaptive') ? 'PLACEMENT' : 'DEMO';
-  })
+  type: attr('string')
 
 });
