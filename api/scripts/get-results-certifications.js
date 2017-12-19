@@ -61,18 +61,11 @@ function syncInstruction() {
   const os = require('os');
   const hostname = os.hostname();
 
-  const helpText = `Deconnectez vous puis téléchargez le fichier avec :\n\t rsync --progress --remove-source-file deploy@${hostname}:${DESTFILE} .`;
+  const helpText = `Deconnectez vous puis téléchargez le fichier avec :\n\t rsync --progress --remove-source-files deploy@${hostname}:${DESTFILE} .`;
   console.log(helpText);
 }
 
 function main() {
-  // - parse arguments
-  // - récupère JSON pour chaque Id en arg
-  // - transforme en un nouvel objet bien formaté
-  // - transforme en CSV
-  // - créer le fichier en local
-  // - donner la commande `rsync --remove-source-file /tmp/bidule.csv` que l'utilisateur doit taper pour récup le fichier
-
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
     ids.map(id => buildRequestObject(id))
@@ -80,12 +73,13 @@ function main() {
   );
 
   requests.then(certificationResults => certificationResults.map(toCSVRow))
-    .then((res) => json2csv({
+    .then(res => json2csv({
       data: res,
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then((csv) => writeToFile(DESTFILE, csv))
+    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; })
+    .then(csv => writeToFile(DESTFILE, csv))
     .then(() => syncInstruction());
 }
 
