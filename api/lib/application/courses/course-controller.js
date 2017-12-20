@@ -7,7 +7,6 @@ const CertificationCourseRepository = require('../../infrastructure/repositories
 const userService = require('../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 
-
 const logger = require('../../infrastructure/logger');
 
 function _fetchCourses(query) {
@@ -83,4 +82,3 @@ module.exports = {
   }
 
 };
-

@@ -1,10 +1,9 @@
-const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CourseController = require('../../../../lib/application/courses/course-controller');
 
 const connectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
 const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
-
 
 describe('Unit | Router | course-router', function() {
 
@@ -96,11 +95,11 @@ describe('Unit | Router | course-router', function() {
     });
 
     after(() => {
-      sandbox.restore()}
-    );
+      sandbox.restore();
+    });
 
     it('should exist', (done) => {
-      expectRouteToExist({ method: 'POST', url: '/api/courses' }, done)
+      expectRouteToExist({ method: 'POST', url: '/api/courses' }, done);
     });
 
     it('should call pre-handler', (done) => {

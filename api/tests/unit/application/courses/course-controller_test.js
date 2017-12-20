@@ -247,5 +247,4 @@ describe('Unit | Controller | course-controller', function() {
 
   });
 
-
 });

@@ -1,10 +1,7 @@
-const { describe, it, before, sinon, expect } = require('../../../test-helper');
-const Hapi = require('hapi');
+const { describe, it, sinon, expect } = require('../../../test-helper');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const UserService = require('../../../../lib/domain/services/user-service');
-const CertificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
@@ -14,23 +11,9 @@ const certificationCourseSerializer = require('../../../../lib/infrastructure/se
 
 describe('Unit | Controller | certification-course-controller', function() {
 
-  let server;
   let sandbox;
   let replyStub;
   let codeStub;
-  const request = {
-    pre: {
-      userId: 'userId'
-    }
-  };
-  const certificationCourse = { id: 'CertificationCourseId' };
-  const userProfile = [{ id: 'competence1', challenges: [] }];
-  before(function() {
-    server = this.server = new Hapi.Server();
-    server.connection({ port: null });
-    server.register({ register: require('../../../../lib/application/certificationCourses') });
-  });
-
 
   describe('#getResult', () => {
     const answersByAssessments = [{ challenge: 'challenge1', result: 'ok' }];

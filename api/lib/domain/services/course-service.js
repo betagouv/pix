@@ -1,6 +1,6 @@
 module.exports = {
 
-  getCourse(){
+  getCourse() {
     return null;
   }
 

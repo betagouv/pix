@@ -1,6 +1,4 @@
 const certificationCourseController = require('./certification-course-controller');
-const connectedUserVerification = require('../../application/preHandlers/connected-user-verification');
-const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
 

@@ -1,7 +1,7 @@
 const courseService = require('../../../../lib/domain/services/course-service');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const { describe, it, expect, sinon } = require('../../../test-helper');
+const { describe, it, sinon } = require('../../../test-helper');
 
 describe.skip('Unit | Service | Course Service', () => {
 
