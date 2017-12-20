@@ -19,7 +19,7 @@ exports.register = function(server, options, next) {
       config: { handler: ChallengeController.refresh, tags: ['api'] }
     },
     {
-
+    // TODO a supprimer
       method: 'PUT',
       path: '/api/challenges/{id}/validate',
       config: { handler: ChallengeController.revalidateAnswers, tags: ['api'] }

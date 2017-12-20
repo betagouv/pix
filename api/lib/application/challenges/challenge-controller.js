@@ -23,6 +23,7 @@ module.exports = {
       });
   },
 
+  // TODO à supprimer
   revalidateAnswers(request, reply) {
     const challengeId = request.params.id;
     return answerRepository

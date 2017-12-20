@@ -1,3 +1,4 @@
+// TODO: à supprimer
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _countResult(about, desiredResult) {
