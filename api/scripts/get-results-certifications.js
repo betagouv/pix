@@ -115,11 +115,11 @@ if (!process.env.TEST) {
       expect(result).to.have.property('url','/api/certification-courses/12/result');
     });
 
-    it('should add certificationId to API response', () => {
+    it('should add certificationId to API response when the object is transform after the request', () => {
       // given
-      const object = buildRequestObject(12);
+      const requestObject = buildRequestObject(12);
       // when
-      const result = object.transform({});
+      const result = requestObject.transform({});
       // then
       expect(result).to.have.property('certificationId', 12);
     });
@@ -170,6 +170,30 @@ if (!process.env.TEST) {
       // then
       expect(result['1.1']).to.equals(9001);
     });
+
+    it('should extract all competences', () => {
+      // given
+      const object = { listCertifiedCompetences: [
+        {
+          name: 'Mener une recherche',
+          index: '1.1',
+          id: 'rec',
+          level: 4
+        },
+        {
+          name: 'Sécuriser l\'environnement numérique',
+          index: '1.2',
+          id: 'rec',
+          level: 6
+        }
+      ] };
+      // when
+      const result = toCSVRow(object);
+      // then
+      expect(result['1.1']).to.equals(4);
+      expect(result['1.2']).to.equals(6);
+    });
+
   });
 
   describe('findCompetence', () => {
