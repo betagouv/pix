@@ -1,6 +1,10 @@
-const { describe, it, before, after, beforeEach, expect, sinon } = require('../../../test-helper');
+const { describe, it, before, after, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const CourseController = require('../../../../lib/application/courses/course-controller');
+
+const connectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
+const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
+
 
 describe('Unit | Router | course-router', function() {
 
@@ -79,4 +83,32 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
+  describe('POST /api/courses', function() {
+
+    let sandbox;
+
+    before(() => {
+      sandbox = sinon.sandbox.create();
+
+      sandbox.stub(connectedUserVerification, 'verifyByToken').callsFake((request, reply) => reply('decodedToken'));
+      sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
+      sandbox.stub(CourseController, 'save').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(() => {
+      sandbox.restore()}
+    );
+
+    it('should exist', (done) => {
+      expectRouteToExist({ method: 'POST', url: '/api/courses' }, done)
+    });
+
+    it('should call pre-handler', (done) => {
+      server.inject({ method: 'POST', url: '/api/courses' }, () => {
+        expect(connectedUserVerification.verifyByToken).to.have.been.called;
+        expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
+        done();
+      });
+    });
+  });
 });

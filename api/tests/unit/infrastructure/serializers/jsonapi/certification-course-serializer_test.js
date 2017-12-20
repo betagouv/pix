@@ -19,11 +19,12 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
     const jsonCertificationCourseWithAssessment = {
       data: {
-        type: 'certification-courses',
+        type: 'courses',
         id: 'certification_id',
         attributes : {
           'user-id': '2',
-          'status' : 'completed'
+          'status' : 'completed',
+          'type' : 'CERTIFICATION'
         },
         relationships: {
           assessment: {

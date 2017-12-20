@@ -4,4 +4,4 @@ module.exports = {
     return null;
   }
 
-},
+};

@@ -6,21 +6,6 @@ exports.register = function(server, options, next) {
 
   server.route([
     {
-      method: 'POST',
-      path: '/api/certification-courses',
-      config: {
-        pre: [{
-          method: connectedUserVerification.verifyByToken,
-          assign: 'userId'
-        },
-        {
-          method: accessSessionHandler.sessionIsOpened,
-          assign: 'sessionOpened'
-        }],
-        handler: certificationCourseController.save,
-        tags: ['api']
-      }
-    }, {
       method: 'GET',
       path: '/api/certification-courses/{id}/result',
       config: {
