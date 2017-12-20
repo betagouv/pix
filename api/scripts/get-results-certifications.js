@@ -85,141 +85,142 @@ function main() {
 
 /*=================== tests =============================*/
 
-if (!process.env.TEST) {
+if (process.env.NODE_ENV !== 'test') {
   main();
 } else {
   const { describe, it } = require('mocha');
   const { expect } = require('chai');
-
-  describe('parseArgs', () => {
-    it('should return an array', () => {
-      // given
-      const args = ['/usr/bin/node', '/path/to/script.js', '1', '2', '3'];
-      // when
-      const result = parseArgs(args);
-      // then
-      expect(result).to.be.an('array');
-      expect(result).to.deep.equals(['1', '2', '3']);
-    });
-  });
-
-  describe('buildRequestObject', () => {
-
-    it('should take an id and return a request object', () => {
-      // given
-      const courseId = 12;
-      // when
-      const result = buildRequestObject(courseId);
-      // then
-      expect(result).to.have.property('json', true);
-      expect(result).to.have.property('url','/api/certification-courses/12/result');
+  describe('Get Result Certifications Script', () => {
+    describe('parseArgs', () => {
+      it('should return an array', () => {
+        // given
+        const args = ['/usr/bin/node', '/path/to/script.js', '1', '2', '3'];
+        // when
+        const result = parseArgs(args);
+        // then
+        expect(result).to.be.an('array');
+        expect(result).to.deep.equals(['1', '2', '3']);
+      });
     });
 
-    it('should add certificationId to API response when the object is transform after the request', () => {
-      // given
-      const requestObject = buildRequestObject(12);
-      // when
-      const result = requestObject.transform({});
-      // then
-      expect(result).to.have.property('certificationId', 12);
-    });
-  });
+    describe('buildRequestObject', () => {
 
-  describe('toCSVRow', () => {
-    it('should normalize a JSON object', () => {
-      // given
-      const object = { listCertifiedCompetences: [] };
-      // when
-      const result = toCSVRow(object);
-      // then
-      expect(result).to.have.all.keys(HEADERS);
-    });
+      it('should take an id and return a request object', () => {
+        // given
+        const courseId = 12;
+        // when
+        const result = buildRequestObject(courseId);
+        // then
+        expect(result).to.have.property('json', true);
+        expect(result).to.have.property('url','/api/certification-courses/12/result');
+      });
 
-    it('should extract certificationId, date, and pix score', () => {
-      // given
-      const object = { certificationId: '1337', totalScore: 7331, createdAt: '2017-05-10', listCertifiedCompetences: [] };
-      // when
-      const result = toCSVRow(object);
-      // then
-      expect(result[HEADERS[0]]).to.equals('1337');
-      expect(result[HEADERS[1]]).to.equals('2017-05-10');
-      expect(result[HEADERS[2]]).to.equals(7331);
+      it('should add certificationId to API response when the object is transform after the request', () => {
+        // given
+        const requestObject = buildRequestObject(12);
+        // when
+        const result = requestObject.transform({});
+        // then
+        expect(result).to.have.property('certificationId', 12);
+      });
     });
 
-    it('should extract competences', () => {
-      // given
-      const object = { listCertifiedCompetences : [] };
-      // when
-      const result = toCSVRow(object);
-      // then
-      expect(result[HEADERS[3]]).to.equals('');
+    describe('toCSVRow', () => {
+      it('should normalize a JSON object', () => {
+        // given
+        const object = { listCertifiedCompetences: [] };
+        // when
+        const result = toCSVRow(object);
+        // then
+        expect(result).to.have.all.keys(HEADERS);
+      });
+
+      it('should extract certificationId, date, and pix score', () => {
+        // given
+        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2017-05-10', listCertifiedCompetences: [] };
+        // when
+        const result = toCSVRow(object);
+        // then
+        expect(result[HEADERS[0]]).to.equals('1337');
+        expect(result[HEADERS[1]]).to.equals('2017-05-10');
+        expect(result[HEADERS[2]]).to.equals(7331);
+      });
+
+      it('should extract competences', () => {
+        // given
+        const object = { listCertifiedCompetences : [] };
+        // when
+        const result = toCSVRow(object);
+        // then
+        expect(result[HEADERS[3]]).to.equals('');
+      });
+
+      it('should extract competences 1.1', () => {
+        // given
+        const object = { listCertifiedCompetences: [
+          {
+            name: 'Sécuriser l\'environnement numérique',
+            index: '1.1',
+            id: 'rec',
+            level: 9001
+          }
+        ] };
+        // when
+        const result = toCSVRow(object);
+        // then
+        expect(result['1.1']).to.equals(9001);
+      });
+
+      it('should extract all competences', () => {
+        // given
+        const object = { listCertifiedCompetences: [
+          {
+            name: 'Mener une recherche',
+            index: '1.1',
+            id: 'rec',
+            level: 4
+          },
+          {
+            name: 'Sécuriser l\'environnement numérique',
+            index: '1.2',
+            id: 'rec',
+            level: 6
+          }
+        ] };
+        // when
+        const result = toCSVRow(object);
+        // then
+        expect(result['1.1']).to.equals(4);
+        expect(result['1.2']).to.equals(6);
+      });
+
     });
 
-    it('should extract competences 1.1', () => {
-      // given
-      const object = { listCertifiedCompetences: [
-        {
+    describe('findCompetence', () => {
+      it('should return empty string when not found', () => {
+        // given
+        const profile = [];
+        const competenceName = '1.1';
+        // when
+        const result = findCompetence(profile, competenceName);
+        // then
+        expect(result).to.be.equals('');
+      });
+
+      it('should return competence level when found', () => {
+        // given
+        const profile = [{
           name: 'Sécuriser l\'environnement numérique',
           index: '1.1',
           id: 'rec',
-          level: 9001
-        }
-      ] };
-      // when
-      const result = toCSVRow(object);
-      // then
-      expect(result['1.1']).to.equals(9001);
-    });
-
-    it('should extract all competences', () => {
-      // given
-      const object = { listCertifiedCompetences: [
-        {
-          name: 'Mener une recherche',
-          index: '1.1',
-          id: 'rec',
-          level: 4
-        },
-        {
-          name: 'Sécuriser l\'environnement numérique',
-          index: '1.2',
-          id: 'rec',
-          level: 6
-        }
-      ] };
-      // when
-      const result = toCSVRow(object);
-      // then
-      expect(result['1.1']).to.equals(4);
-      expect(result['1.2']).to.equals(6);
-    });
-
-  });
-
-  describe('findCompetence', () => {
-    it('should return empty string when not found', () => {
-      // given
-      const profile = [];
-      const competenceName = '1.1';
-      // when
-      const result = findCompetence(profile, competenceName);
-      // then
-      expect(result).to.be.equals('');
-    });
-
-    it('should return competence level when found', () => {
-      // given
-      const profile = [{
-        name: 'Sécuriser l\'environnement numérique',
-        index: '1.1',
-        id: 'rec',
-        level: 9
-      }];
-      const competenceName = '1.1';
-      // when
-      const result = findCompetence(profile, competenceName);
-      // then
-      expect(result).to.be.equals(9);
+          level: 9
+        }];
+        const competenceName = '1.1';
+        // when
+        const result = findCompetence(profile, competenceName);
+        // then
+        expect(result).to.be.equals(9);
+      });
     });
   });
 }
