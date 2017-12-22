@@ -1,5 +1,6 @@
 const Answer = require('../../domain/models/data/answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
+const AnswerStatusJSONAdapter = require('../../infrastructure/adapters/for-json-response/AnswerStatus');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
@@ -8,33 +9,6 @@ const solutionServiceQroc = require('./solution-service-qroc');
 const solutionServiceQrocmInd = require('./solution-service-qrocm-ind');
 const solutionServiceQrocmDep = require('./solution-service-qrocm-dep');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
-
-// FIXME bouger cette fonction dans un adapter de l'infrastructure
-// proposition de path: lib/infrastructure/adapters/for-json-response/AnswerStatus.js
-//
-// TODO: remonter l'appel de l'adaptation dans le controlleur
-function _adaptAnswerStatusToJSONResponse(answerStatus) {
-  const OK = 'ok';
-  const KO = 'ko';
-  const SKIPPED = 'aband';
-  const PARTIALLY = 'partially';
-  const TIMEDOUT = 'timedout';
-  const UNIMPLEMENTED = 'unimplemented';
-
-  if (answerStatus.isOK()) {
-    return OK;
-  } else if (answerStatus.isKO()) {
-    return KO;
-  } else if (answerStatus.isSKIPPED()) {
-    return SKIPPED;
-  } else if (answerStatus.isPARTIALLY()) {
-    return PARTIALLY;
-  } else if (answerStatus.isTIMEDOUT()) {
-    return TIMEDOUT;
-  } else {
-    return UNIMPLEMENTED;
-  }
-}
 
 function _adaptAnswerMatcherToSolutionType(solution, answerValue) {
   switch (solution.type) {
@@ -84,11 +58,6 @@ module.exports = {
 
   validate(answer, solution) {
 
-    const response = {
-      result: null,
-      resultDetails: null,
-    };
-
     const answerValue = answer.get('value');
     const answerTimeout = answer.get('timeout');
 
@@ -110,7 +79,13 @@ module.exports = {
       answerStatus = this._timedOut(answerStatus, answerTimeout);
     }
 
-    response.result = _adaptAnswerStatusToJSONResponse(answerStatus);
+    const response = {
+      result: null,
+      resultDetails: null,
+    };
+
+    // TODO: remonter l'appel de l'adaptation dans le controlleur
+    response.result = AnswerStatusJSONAdapter.adapt(answerStatus);
     response.resultDetails = resultDetails;
     return response;
   }

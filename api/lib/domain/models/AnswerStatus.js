@@ -8,6 +8,8 @@ const UNIMPLEMENTED = 'unimplemented';
 
 class AnswerStatus {
   constructor(status) {
+    // TODO: throw a BadAnswerStatus error if the status is bad + adapt the tests
+
     Object.assign(this, { status });
   }
 
