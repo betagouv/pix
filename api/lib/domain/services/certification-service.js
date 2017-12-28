@@ -85,9 +85,9 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
   }
 
   const actualPix = _computeSumPixFromCompetences(listCompetences);
-  const answersByCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-  const pixToRemove = _getMalusPix(answersByCompetences, listCompetences, reproductibilityRate);
-  const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersByCompetences, listCompetences, reproductibilityRate);
+  const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
+  const pixToRemove = _getMalusPix(answersWithCompetences, listCompetences, reproductibilityRate);
+  const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibilityRate);
   const totalScore = actualPix - pixToRemove;
 
   return { listCertifiedCompetences, totalScore };
