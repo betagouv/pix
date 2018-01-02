@@ -1,7 +1,8 @@
 const { expect, describe, beforeEach, afterEach, it, knex } = require('../../../test-helper');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const {NotFoundError} = require('../../../../lib/domain/errors');
 
-describe('Integration | Repository | Certification Course', function() {
+describe.only('Integration | Repository | Certification Course', function() {
 
   const associatedAssessment = {
     id: 7,
@@ -62,6 +63,16 @@ describe('Integration | Repository | Certification Course', function() {
         expect(certificationCourse.id).to.equal(20);
         expect(certificationCourse.status).to.equal('started');
         expect(certificationCourse.assessment.id).to.equal(7);
+      });
+    });
+
+    it('should retrieve a NotFoundError Error', function() {
+      // when
+      const promise = CertificationCourseRepository.get(1);
+
+      // then
+      return promise.then((error) => {
+        expect(error).to.be.an.instanceOf(NotFoundError);
       });
     });
 
