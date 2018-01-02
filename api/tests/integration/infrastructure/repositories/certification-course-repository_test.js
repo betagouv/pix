@@ -2,7 +2,7 @@ const { expect, describe, beforeEach, afterEach, it, knex } = require('../../../
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const {NotFoundError} = require('../../../../lib/domain/errors');
 
-describe.only('Integration | Repository | Certification Course', function() {
+describe('Integration | Repository | Certification Course', function() {
 
   const associatedAssessment = {
     id: 7,
