@@ -125,6 +125,7 @@ module.exports = {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
 
         const result = _getResult(listAnswers, listCertificationChallenges, testedCompetences);
+        // FIXME: Missing tests
         result.createdAt = dateOfCertification;
         result.userId = userId;
         result.status = certificationCourseStatus;

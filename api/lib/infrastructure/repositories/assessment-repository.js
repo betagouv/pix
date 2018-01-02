@@ -1,7 +1,6 @@
-const AssessmentBookshelf = require('../../domain/models/data/assessment');
+const BookshelfAssessment = require('../../domain/models/data/assessment');
 const Assessment = require('../../domain/models/Assessment');
-
-const { groupBy, map, head } = require('lodash');
+const { groupBy, map, head, _ } = require('lodash');
 
 function _toDomain(bookshelfAssessment) {
   if (bookshelfAssessment !== null) {
@@ -16,15 +15,20 @@ function _selectLastAssessmentForEachCourse(assessments) {
   return map(assessmentsGroupedByCourse, head);
 }
 
+function _adaptModelToDb(assessment) {
+  return _.omit(assessment, ['answers', 'successRate']);
+}
+
 module.exports = {
   get(id) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where('id', id)
-      .fetch({ withRelated: ['answers'] });
+      .fetch({ withRelated: ['answers'] })
+      .then(_toDomain);
   },
 
   findCompletedAssessmentsByUserId(userId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .query(qb => {
         qb.where({ userId });
         qb.whereNot('courseId', 'LIKE', 'null%');
@@ -41,7 +45,7 @@ module.exports = {
 
   findLastAssessmentsForEachCoursesByUser(userId) {
 
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .collection()
       .query(qb => {
         qb.select()
@@ -62,7 +66,7 @@ module.exports = {
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .collection()
       .query(qb => {
         qb.where({ userId })
@@ -80,27 +84,26 @@ module.exports = {
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .query({ where: { id: assessmentId }, andWhere: { userId } })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(_toDomain);
   },
 
   save(assessment) {
-    const assessmentBookshelf = new AssessmentBookshelf(assessment);
-    return assessmentBookshelf.save()
-      .then((savedAssessment) => {
-        return savedAssessment.toJSON();
-      });
+    const assessmentBookshelf = new BookshelfAssessment(_adaptModelToDb(assessment));
+
+    return assessmentBookshelf.save().then(_toDomain);
   },
 
   getByCertificationCourseId(certificationCourseId) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where({ courseId: certificationCourseId })
       .fetch();
   },
 
   findByFilters(filters) {
-    return AssessmentBookshelf
+    return BookshelfAssessment
       .where(filters)
       .fetchAll()
       .then((assessments) => {

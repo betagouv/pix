@@ -1,7 +1,7 @@
 const { describe, it, expect, knex, beforeEach, afterEach } = require('../../../test-helper');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
-const Assessment = require('../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 describe('Acceptance | Infrastructure | Repositories | assessment-repository', () => {
 
@@ -52,13 +52,13 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
       // then
       return promise.then(assessment => {
-        expect(assessment.get('id')).to.equal(assessmentIdInDb);
-        expect(assessment.related('answers')).to.have.lengthOf(2);
+        expect(assessment).to.be.an.instanceOf(Assessment);
+        expect(assessment.id).to.equal(assessmentIdInDb);
+        expect(assessment.courseId).to.equal('course_A');
 
-        const answers = assessment.related('answers').models;
-
-        expect(answers[0].get('challengeId')).to.equal('challenge_1');
-        expect(answers[1].get('challengeId')).to.equal('challenge_2');
+        expect(assessment.answers).to.have.lengthOf(2);
+        expect(assessment.answers[0].challengeId).to.equal('challenge_1');
+        expect(assessment.answers[1].challengeId).to.equal('challenge_2');
       });
     });
   });
@@ -152,8 +152,9 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
         // then
         return promise.then((res) => {
-          expect(res.get('id')).to.equal(assessmentId);
-          expect(res.get('userId')).to.equal(fakeUserId);
+          expect(res).to.be.an.instanceOf(Assessment);
+          expect(res.id).to.equal(assessmentId);
+          expect(res.userId).to.equal(fakeUserId);
         });
       });
     });
@@ -185,8 +186,9 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
         // then
         return promise.then((res) => {
-          expect(res.get('id')).to.equal(assessmentId);
-          expect(res.get('userId')).to.equal(fakeUserId);
+          expect(res).to.be.an.instanceOf(Assessment);
+          expect(res.id).to.equal(assessmentId);
+          expect(res.userId).to.equal(fakeUserId);
         });
       });
     });
@@ -276,9 +278,38 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       return promise.then((assessements) => {
         expect(assessements.length).to.equal(2);
         const assessmentInJson = assessements.map(assessment => assessment.toJSON());
-        expect(assessmentInJson[0]).to.contains(expectedAssessments.get(0));
-        expect(assessmentInJson[1]).to.contains(expectedAssessments.get(1));
+        expect(assessmentInJson[0]).to.contains(expectedAssessments[0]);
+        expect(assessmentInJson[1]).to.contains(expectedAssessments[1]);
       });
+    });
+  });
+
+  describe('#save', () => {
+
+    const JOHN = 2;
+    const assessmentToBeSaved = new Assessment({
+      userId: JOHN,
+      courseId: 'courseId1',
+      estimatedLevel: 1,
+      pixScore: 10,
+      createdAt: '2017-11-08 11:47:38'
+    });
+
+    after(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should save new assessment if not already existing', () => {
+      // when
+      const promise = assessmentRepository.save(assessmentToBeSaved);
+
+      // then
+      return promise.then((assessmentReturned) =>
+        knex('assessments').where('id', assessmentReturned.id).first('id', 'userId', 'pixScore'))
+        .then((assessmentsInDb) => {
+          expect(assessmentsInDb.userId).to.equal(JOHN);
+          expect(assessmentsInDb.pixScore).to.equal(assessmentToBeSaved.pixScore);
+        });
     });
   });
 });
