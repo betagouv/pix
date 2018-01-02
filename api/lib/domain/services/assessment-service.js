@@ -178,9 +178,10 @@ function getNextChallengeForCertificationCourse(assessment) {
 
 module.exports = {
   getAssessmentNextChallengeId,
+  getNextChallengeForCertificationCourse,
   fetchAssessment,
   isAssessmentCompleted,
-  isCertificationAssessment,
-  getNextChallengeForCertificationCourse,
-  findByFilters
+  findByFilters,
+  isPreviewAssessment,
+  isCertificationAssessment
 };

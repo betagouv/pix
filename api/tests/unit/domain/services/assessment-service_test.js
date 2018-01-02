@@ -45,7 +45,7 @@ function _buildAnswer(challengeId, result, assessmentId = 1) {
   return answer;
 }
 
-describe('Unit | Domain | Services | assessment-service', () => {
+describe('Unit | Domain | Services | assessment', () => {
 
   beforeEach(() => {
     sinon.stub(competenceRepository, 'get');

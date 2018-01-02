@@ -5,6 +5,64 @@ const Assessment = require('../../../../lib/domain/models/data/assessment');
 
 describe('Acceptance | Infrastructure | Repositories | assessment-repository', () => {
 
+  describe('#get', () => {
+
+    let assessmentIdInDb;
+
+    beforeEach(() => {
+      return knex('assessments')
+        .insert({
+          userId: 1,
+          courseId: 'course_A',
+          pixScore: null,
+          estimatedLevel: null,
+          createdAt: '2016-10-27 08:44:25'
+        })
+        .then((assessmentId) => {
+          assessmentIdInDb = assessmentId[0];
+          return knex('answers').insert([
+            {
+              value: '1,4',
+              result: 'ko',
+              challengeId: 'challenge_1',
+              assessmentId: assessmentIdInDb
+            }, {
+              value: '2,8',
+              result: 'ko',
+              challengeId: 'challenge_2',
+              assessmentId: assessmentIdInDb
+            },
+            {
+              value: '5,2',
+              result: 'ko',
+              challengeId: 'challenge_3'
+            }
+          ]);
+        });
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete()
+        .then(() => knex('answers').delete());
+    });
+
+    it('should return the assessment with the answers ', () => {
+      // when
+      const promise = assessmentRepository.get(assessmentIdInDb);
+
+      // then
+      return promise.then(assessment => {
+        expect(assessment.get('id')).to.equal(assessmentIdInDb);
+        expect(assessment.related('answers')).to.have.lengthOf(2);
+
+        const answers = assessment.related('answers').models;
+
+        expect(answers[0].get('challengeId')).to.equal('challenge_1');
+        expect(answers[1].get('challengeId')).to.equal('challenge_2');
+      });
+    });
+  });
+
   describe('#findLastAssessmentsForEachCoursesByUser', () => {
     beforeEach(() => {
 
