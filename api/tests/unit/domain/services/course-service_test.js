@@ -7,7 +7,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
-describe('Unit | Service | Course Service', () => {
+describe.only('Unit | Service | Course Service', () => {
 
   describe('#getCourse', function() {
 
@@ -23,15 +23,17 @@ describe('Unit | Service | Course Service', () => {
       sandbox.restore();
     });
 
+
     context('when the id is a certification course id', () => {
 
       beforeEach(() => {
-        sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+        sandbox.stub(certificationCourseRepository, 'get');
       });
 
       it('should call the certification course repository  ', () => {
         // given
         const givenCourseId = 1;
+        certificationCourseRepository.get.resolves();
 
         // when
         const promise = courseService.getCourse(givenCourseId);
@@ -40,8 +42,43 @@ describe('Unit | Service | Course Service', () => {
         return promise.then((result) => {
           expect(certificationCourseRepository.get).to.have.been.called;
           expect(certificationCourseRepository.get).to.have.been.calledWith(givenCourseId);
-          expect(result).to.be.an.instanceof(Course);
         });
+      });
+
+      context('when the course exist', () => {
+
+        it('should return a Course POJO', function() {
+          // given
+          const givenCourseId = 1;
+          certificationCourseRepository.get.resolves(certificationCourse);
+
+          // when
+          const promise = courseService.getCourse(givenCourseId);
+
+          // then
+          return promise.then((result) => {
+            expect(result).to.be.an.instanceof(Course);
+          });
+        });
+
+      });
+
+      context('when the course id does not exist', () => {
+
+        it('should return a NotFoundError', function() {
+          // given
+          const givenCourseId = 'unexistantId';
+          certificationCourseRepository.get.rejects(NotFoundError);
+
+          // when
+          const promise = courseService.getCourse(givenCourseId);
+
+          // then
+          return promise.then((result) => {
+            expect(result).to.be.an.instanceof(NotFoundError);
+          });
+        });
+
       });
 
     });
@@ -49,46 +86,69 @@ describe('Unit | Service | Course Service', () => {
     context('when the id is not a certification course id', () => {
 
       beforeEach(() => {
-        sandbox.stub(courseRepository, 'get').resolves(airtableCourse);
+        sandbox.stub(courseRepository, 'get');
       });
 
       it('should call the course repository', () => {
         // given
         const givenCourseId = 'recAirtableId';
+        courseRepository.get.resolves(airtableCourse);
 
         // when
         const promise = courseService.getCourse(givenCourseId);
 
         // then
-        return promise.then((result) => {
+        return promise.then(() => {
           expect(courseRepository.get).to.have.been.called;
           expect(courseRepository.get).to.have.been.calledWith(givenCourseId);
-          expect(result).to.be.an.instanceof(Course);
-        });
-      });
-    });
-
-    context('when the course id does not exist', () => {
-
-      beforeEach(() => {
-        sandbox.stub(certificationCourseRepository, 'get').rejects(NotFoundError);
-      });
-
-      it('should return a NotFoundError when the course was not found', function() {
-        // given
-        const givenCourseId = 'unexistantId';
-
-        // when
-        const promise = courseService.getCourse(givenCourseId);
-
-        // then
-        return promise.then((result) => {
-          expect(result).to.be.an.instanceof(NotFoundError);
         });
       });
 
-    });
+      context('when the course exist', () => {
 
+        it('should return a Course POJO', function() {
+          // given
+          const givenCourseId = 'recAirtableId';
+          courseRepository.get.resolves(airtableCourse);
+
+          // when
+          const promise = courseService.getCourse(givenCourseId);
+
+          // then
+          return promise.then((result) => {
+            expect(result).to.be.an.instanceof(Course);
+          });
+        });
+
+      });
+
+      context('when the course was not found', () => {
+
+        const error = {
+          error: {
+            type: 'MODEL_ID_NOT_FOUND',
+            message: 'Could not find row by id unknown_id'
+          }
+        };
+
+        it('should return a NotFoundError ', function() {
+          // given
+          const givenCourseId = 'recAirtableId';
+          courseRepository.get.rejects(error);
+
+          // when
+          const promise = courseService.getCourse(givenCourseId);
+
+          // then
+          return promise.then((result) => {
+            expect(result).to.be.an.instanceof(NotFoundError);
+          });
+        });
+
+      });
+
+    });
+    
   });
 
 });
