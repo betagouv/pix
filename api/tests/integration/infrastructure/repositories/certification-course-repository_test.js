@@ -68,12 +68,10 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should retrieve a NotFoundError Error', function() {
       // when
-      const promise = CertificationCourseRepository.get(1);
+      const promise = CertificationCourseRepository.get(4);
 
       // then
-      return promise.then((error) => {
-        expect(error).to.be.an.instanceOf(NotFoundError);
-      });
+      return expect(promise).to.be.rejectedWith(NotFoundError);
     });
 
   });

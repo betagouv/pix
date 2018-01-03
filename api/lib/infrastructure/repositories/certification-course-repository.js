@@ -39,7 +39,7 @@ module.exports = {
         certificationCourse.assessment = assessment.toJSON();
         return certificationCourse;
       }).catch(() => {
-        return new NotFoundError();
+        return Promise.reject(new NotFoundError());
       });
   }
 
