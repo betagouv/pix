@@ -1811,14 +1811,14 @@ h1.course-banner__name {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 26px 20px 26px; }
+  padding: 0px 26px; }
   @media (min-width: 980px) {
     .navbar-header__container {
       justify-content: space-between;
-      padding: 0 100px 20px 100px; } }
+      padding: 0 100px; } }
   @media (min-width: 1261px) {
     .navbar-header__container {
-      padding: 0 0 20px 0; } }
+      padding: 0; } }
 
 @media (min-width: 980px) {
   .navbar-header-right {
@@ -3508,6 +3508,7 @@ p.share-profile__organization-name {
 
 .profile-banner__background {
   position: absolute;
+  top: 0px;
   background: url("/images/banners/welcome-profile-banner.png") center;
   background-size: cover;
   height: 100%;
