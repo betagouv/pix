@@ -7,6 +7,7 @@ function _toDomain(model) {
     id: model.get('id'),
     userId: model.get('userId'),
     status: model.get('status'),
+    type: 'CERTIFICATION',
     assessments: model.related('assessments').toJSON(),
     challenges: model.related('challenges').toJSON()
   });
