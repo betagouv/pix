@@ -14,7 +14,7 @@ module.exports = {
           return new Course(airtableCourse);
         }).catch((err) => {
           if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
-            return new NotFoundError();
+            return Promise.reject(new NotFoundError());
           }
         });
     } else {
@@ -22,7 +22,7 @@ module.exports = {
         .then((certificationCourse) => {
           return new Course(certificationCourse);
         }).catch(() => {
-          return new NotFoundError()
+          return Promise.reject(new NotFoundError());
         });
     }
 

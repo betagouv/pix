@@ -75,9 +75,7 @@ describe('Unit | Service | Course Service', () => {
           const promise = courseService.getCourse(givenCourseId);
 
           // then
-          return promise.then((result) => {
-            expect(result).to.be.an.instanceof(NotFoundError);
-          });
+          return expect(promise).to.be.rejectedWith(NotFoundError);
         });
 
       });
@@ -143,9 +141,7 @@ describe('Unit | Service | Course Service', () => {
           const promise = courseService.getCourse(givenCourseId);
 
           // then
-          return promise.then((result) => {
-            expect(result).to.be.an.instanceof(NotFoundError);
-          });
+          return expect(promise).to.be.rejectedWith(NotFoundError);
         });
 
       });
