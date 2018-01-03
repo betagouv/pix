@@ -96,7 +96,7 @@ describe('Unit | Serializer | course-serializer', function() {
           const course = serializer.deserialize(airtableRecord);
 
           // then
-          expect(course.type).to.equal("PLACEMENT");
+          expect(course.type).to.equal('PLACEMENT');
         });
 
       });
@@ -110,12 +110,11 @@ describe('Unit | Serializer | course-serializer', function() {
           const course = serializer.deserialize(airtableRecord);
 
           // then
-          expect(course.type).to.equal("DEMO");
+          expect(course.type).to.equal('DEMO');
         });
 
       });
     });
-
 
   });
 });

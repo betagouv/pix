@@ -12,8 +12,8 @@ describe('Unit | Service | Course Service', () => {
   describe('#getCourse', function() {
 
     let sandbox;
-    let airtableCourse = { id: 'recAirtableId' };
-    let certificationCourse = new Course({ id: 1 });
+    const airtableCourse = { id: 'recAirtableId' };
+    const certificationCourse = new Course({ id: 1 });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -22,7 +22,6 @@ describe('Unit | Service | Course Service', () => {
     afterEach(() => {
       sandbox.restore();
     });
-
 
     context('when the id is a certification course id', () => {
 
@@ -39,7 +38,7 @@ describe('Unit | Service | Course Service', () => {
         const promise = courseService.getCourse(givenCourseId);
 
         // then
-        return promise.then((result) => {
+        return promise.then(() => {
           expect(certificationCourseRepository.get).to.have.been.called;
           expect(certificationCourseRepository.get).to.have.been.calledWith(givenCourseId);
         });

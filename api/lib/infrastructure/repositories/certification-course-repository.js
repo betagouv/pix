@@ -27,7 +27,6 @@ module.exports = {
   },
 
   get(id) {
-    let certificationCourse;
     return CertificationCourseBookshelf
       .where({ id })
       .fetch({ require: true, withRelated: ['assessments', 'challenges'] })

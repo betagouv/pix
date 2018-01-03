@@ -158,8 +158,6 @@ describe('Acceptance | API | Courses', function() {
     it('should return the expected course', function(done) {
       // when
       return server.inject(options, (response) => {
-
-        console.log(response.result.data);
         // then
         const course = response.result.data;
         expect(course.id).to.equal('rec_course_id');

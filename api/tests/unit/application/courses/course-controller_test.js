@@ -117,7 +117,7 @@ describe('Unit | Controller | course-controller', function() {
       const promise = courseController.get(request, reply);
 
       // when
-      return promise.then(res => {
+      return promise.then(() => {
         // then
         expect(CourseService.getCourse).to.have.been.called;
         expect(CourseService.getCourse).to.have.been.calledWith('course_id');
