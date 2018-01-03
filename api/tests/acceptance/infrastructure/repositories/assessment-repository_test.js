@@ -118,7 +118,11 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       // then
       return promise.then(assessments => {
         expect(assessments).to.have.lengthOf(2);
-        expect(assessments.map(assessment => assessment.get('id'))).to.deep.equal([3, 5]);
+
+        expect(assessments[0]).to.be.an.instanceOf(Assessment);
+        expect(assessments[1]).to.be.an.instanceOf(Assessment);
+
+        expect(assessments.map(assessment => assessment.id)).to.deep.equal([3, 5]);
       });
     });
   });
@@ -254,32 +258,35 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
     it('should correctly query Assessment conditions', () => {
       // given
-      const expectedAssessments = new Assessment([
-        {
+      const expectedAssessments = [
+        new Assessment({
           id: 3,
           userId: JOHN,
           courseId: 'courseId1',
           estimatedLevel: 3,
           pixScore: 30,
-        },
-        {
+        }),
+        new Assessment({
           id: 4,
           userId: JOHN,
           courseId: 'courseId2',
           estimatedLevel: 3,
           pixScore: 37
-        }
-      ]);
+        })
+      ];
 
       // when
       const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(JOHN, '2019-10-27 08:44:25');
 
       // then
-      return promise.then((assessements) => {
-        expect(assessements.length).to.equal(2);
-        const assessmentInJson = assessements.map(assessment => assessment.toJSON());
-        expect(assessmentInJson[0]).to.contains(expectedAssessments[0]);
-        expect(assessmentInJson[1]).to.contains(expectedAssessments[1]);
+      return promise.then((assessments) => {
+        expect(assessments).to.have.a.lengthOf(2);
+
+        expect(assessments[0]).to.be.an.instanceOf(Assessment);
+        expect(assessments[1]).to.be.an.instanceOf(Assessment);
+
+        expect(assessments[0]).to.contains(expectedAssessments[0]);
+        expect(assessments[1]).to.contains(expectedAssessments[1]);
       });
     });
   });
@@ -295,7 +302,7 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
       createdAt: '2017-11-08 11:47:38'
     });
 
-    after(() => {
+    afterEach(() => {
       return knex('assessments').delete();
     });
 
@@ -310,6 +317,36 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
           expect(assessmentsInDb.userId).to.equal(JOHN);
           expect(assessmentsInDb.pixScore).to.equal(assessmentToBeSaved.pixScore);
         });
+    });
+  });
+
+  describe('#getByCertificationCourseId', () => {
+
+    const assessmentInDb = {
+      courseId: 'course_A',
+      pixScore: 363,
+      estimatedLevel: 6,
+      createdAt: '2016-10-27 08:44:25'
+    };
+
+    beforeEach(() => {
+      return knex('assessments').insert(assessmentInDb);
+    });
+
+    afterEach(() => {
+      return knex('assessments').delete();
+    });
+
+    it('should save new assessment if not already existing', () => {
+      // when
+      const promise = assessmentRepository.getByCertificationCourseId('course_A');
+
+      // then
+      return promise.then((assessmentReturned) => {
+        expect(assessmentReturned).to.be.an.instanceOf(Assessment);
+        expect(assessmentReturned.courseId).to.equal('course_A');
+        expect(assessmentReturned.pixScore).to.equal(assessmentInDb.pixScore);
+      });
     });
   });
 });

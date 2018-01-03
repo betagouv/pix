@@ -3,7 +3,7 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Profile = require('../../../../../lib/domain/models/data/profile');
 const User = require('../../../../../lib/domain/models/data/user');
 const Organization = require('../../../../../lib/domain/models/data/organization');
-const Assessment = require('../../../../../lib/domain/models/data/assessment');
+const Assessment = require('../../../../../lib/domain/models/assessment');
 
 describe('Unit | Serializer | JSONAPI | profile-serializer', () => {
 

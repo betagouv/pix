@@ -40,7 +40,8 @@ module.exports = {
         });
       })
       .fetchAll()
-      .then(assessments => assessments.models);
+      .then(assessments => assessments.models)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   findLastAssessmentsForEachCoursesByUser(userId) {
@@ -58,11 +59,8 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch()
-      .then((assessments) => {
-        // XXX This kind of filter can be done with SQL but request differs according the database (PG, SQLite)
-        // we don't succeed to write the request with Bookshelf/knex
-        return _selectLastAssessmentForEachCourse(assessments);
-      });
+      .then(_selectLastAssessmentForEachCourse)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   findLastCompletedAssessmentsForEachCoursesByUser(userId, limitDate) {
@@ -80,7 +78,8 @@ module.exports = {
           .orderBy('createdAt', 'desc');
       })
       .fetch()
-      .then(_selectLastAssessmentForEachCourse);
+      .then(_selectLastAssessmentForEachCourse)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   },
 
   getByUserIdAndAssessmentId(assessmentId, userId) {
@@ -99,16 +98,16 @@ module.exports = {
   getByCertificationCourseId(certificationCourseId) {
     return BookshelfAssessment
       .where({ courseId: certificationCourseId })
-      .fetch();
+      .fetch()
+      .then(_toDomain);
   },
 
   findByFilters(filters) {
     return BookshelfAssessment
       .where(filters)
       .fetchAll()
-      .then((assessments) => {
-        return assessments.map(_toDomain);
-      });
+      .then(assessments => assessments.models)
+      .then((assessments) => _.map(assessments, (assessment) => _toDomain(assessment)));
   }
 
 };

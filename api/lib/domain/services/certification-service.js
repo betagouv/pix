@@ -104,10 +104,10 @@ module.exports = {
 
     return assessmentRepository.getByCertificationCourseId(certificationCourseId)
       .then((assessment) => {
-        userId = assessment.get('userId');
-        dateOfCertification = assessment.get('createdAt');
+        userId = assessment.userId;
+        dateOfCertification = assessment.createdAt;
 
-        return answersRepository.findByAssessment(assessment.get('id'));
+        return answersRepository.findByAssessment(assessment.id);
       })
       .then((answersByAssessments) => {
         listAnswers = answersByAssessments;
