@@ -8,8 +8,10 @@ const cache = require('../../../../lib/infrastructure/cache');
 const courseController = require('../../../../lib/application/courses/course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const UserService = require('../../../../lib/domain/services/user-service');
+const CourseService = require('../../../../lib/domain/services/course-service');
 const CertificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | course-controller', function() {
 
@@ -91,43 +93,49 @@ describe('Unit | Controller | course-controller', function() {
 
   describe('#get', function() {
 
+    let sandbox;
+    let reply;
     const course = new Course({ 'id': 'course_id' });
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(CourseService, 'getCourse');
+      sandbox.stub(courseSerializer, 'serialize');
+      reply = sandbox.stub();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
 
     it('should fetch and return the given course, serialized as JSONAPI', () => {
       // given
-      sinon.stub(courseRepository, 'get').resolves(course);
-      sinon.stub(courseSerializer, 'serialize').callsFake(_ => course);
+      CourseService.getCourse.resolves(course);
+      courseSerializer.serialize.callsFake(_ => course);
+
+      const request = { params: { id: 'course_id' } };
+      const promise = courseController.get(request, reply);
 
       // when
-      return server.inject({ method: 'GET', url: '/api/courses/course_id' })
-        .then(res => {
-          // then
-          expect(res.result).to.deep.equal(course);
-
-          // after
-          courseRepository.get.restore();
-          courseSerializer.serialize.restore();
-        });
+      return promise.then(res => {
+        // then
+        expect(CourseService.getCourse).to.have.been.called;
+        expect(CourseService.getCourse).to.have.been.calledWith('course_id');
+        expect(courseSerializer.serialize).to.have.been.called;
+        expect(courseSerializer.serialize).to.have.been.calledWith(course);
+        expect(reply).to.have.been.called;
+      });
     });
 
     it('should reply with error status code 404 if course not found', () => {
       // given
-      const error = {
-        error: {
-          type: 'MODEL_ID_NOT_FOUND',
-          message: 'Could not find row by id unknown_id'
-        }
-      };
-      sinon.stub(courseRepository, 'get').rejects(error);
+      CourseService.getCourse.rejects(new NotFoundError());
 
       // when
       return server.inject({ method: 'GET', url: '/api/courses/unknown_id' })
         .then(res => {
           // then
           expect(res.statusCode).to.equal(404);
-
-          // after
-          courseRepository.get.restore();
         });
     });
   });

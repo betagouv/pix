@@ -7,12 +7,12 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { describe, it, expect, beforeEach, afterEach, sinon } = require('../../../test-helper');
 
-describe.only('Unit | Service | Course Service', () => {
+describe('Unit | Service | Course Service', () => {
 
   describe('#getCourse', function() {
 
     let sandbox;
-    let airtableCourse = { fields: { id: 'recAirtableId' } };
+    let airtableCourse = { id: 'recAirtableId' };
     let certificationCourse = new Course({ id: 1 });
 
     beforeEach(() => {
@@ -58,6 +58,7 @@ describe.only('Unit | Service | Course Service', () => {
           // then
           return promise.then((result) => {
             expect(result).to.be.an.instanceof(Course);
+            expect(result.id).to.equal(1);
           });
         });
 
@@ -117,6 +118,8 @@ describe.only('Unit | Service | Course Service', () => {
           // then
           return promise.then((result) => {
             expect(result).to.be.an.instanceof(Course);
+            expect(result.id).to.equal('recAirtableId');
+
           });
         });
 
@@ -148,7 +151,7 @@ describe.only('Unit | Service | Course Service', () => {
       });
 
     });
-    
+
   });
 
 });

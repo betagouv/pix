@@ -11,7 +11,7 @@ module.exports = {
     if (_.startsWith(courseId, 'rec')) {
       return courseRepository.get(courseId)
         .then((airtableCourse) => {
-          return new Course(airtableCourse.fields);
+          return new Course(airtableCourse);
         }).catch((err) => {
           if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
             return new NotFoundError();

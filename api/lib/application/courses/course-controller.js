@@ -5,7 +5,9 @@ const certificationCourseSerializer = require('../../infrastructure/serializers/
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const userService = require('../../../lib/domain/services/user-service');
+const courseService = require('../../../lib/domain/services/course-service');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const { NotFoundError } = require('../../../lib/domain/errors');
 
 const logger = require('../../infrastructure/logger');
 
@@ -33,11 +35,11 @@ module.exports = {
   get(request, reply) {
     const courseId = request.params.id;
 
-    courseRepository
-      .get(courseId)
+    return courseService
+      .getCourse(courseId)
       .then(course => reply(courseSerializer.serialize(course)))
       .catch(err => {
-        if ('MODEL_ID_NOT_FOUND' === err.error.type || 'NOT_FOUND' === err.error) {
+        if (err instanceof NotFoundError) {
           return reply(Boom.notFound(err));
         }
 
