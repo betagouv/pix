@@ -16,6 +16,24 @@ describe('Integration | Repository | Certification Course', function() {
     userId: 1
   };
 
+  const certificationChallenges = [
+    {
+      id: 1,
+      courseId: 20,
+      challengeId : 'recChallenge1'
+    },
+    {
+      id: 2,
+      courseId: 20,
+      challengeId : 'recChallenge2'
+    },
+    {
+      id: 3,
+      courseId: 19,
+      challengeId : 'recChallenge3'
+    }
+  ];
+
   describe('#updateStatus', () => {
 
     beforeEach(() => {
@@ -44,6 +62,7 @@ describe('Integration | Repository | Certification Course', function() {
       return Promise.all([
         knex('certification-courses').insert(certificationCourse),
         knex('assessments').insert(associatedAssessment),
+        knex('certification-challenges').insert(certificationChallenges),
       ]);
     });
 
@@ -51,6 +70,7 @@ describe('Integration | Repository | Certification Course', function() {
       return Promise.all([
         knex('certification-courses').delete(),
         knex('assessments').delete(),
+        knex('certification-challenges').delete()
       ]);
     });
 
@@ -62,7 +82,8 @@ describe('Integration | Repository | Certification Course', function() {
       return promise.then((certificationCourse) => {
         expect(certificationCourse.id).to.equal(20);
         expect(certificationCourse.status).to.equal('started');
-        expect(certificationCourse.assessment.id).to.equal(7);
+        expect(certificationCourse.assessments[0].id).to.equal(7);
+        expect(certificationCourse.challenges.length).to.equal(2);
       });
     });
 
