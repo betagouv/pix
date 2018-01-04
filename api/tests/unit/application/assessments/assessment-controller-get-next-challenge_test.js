@@ -141,7 +141,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         it('should update the certification course status', () => {
           // given
-          clock = sinon.useFakeTimers(new Date(Date.UTC(2011,10,25,16,23,12)));
+          clock = sinon.useFakeTimers(new Date('2011-11-25T17:23:12+01:00'));
           const certificationAssessment = new Assessment({
             id: 7531,
             courseId: '356',
