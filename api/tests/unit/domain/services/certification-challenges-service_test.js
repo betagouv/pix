@@ -80,7 +80,7 @@ describe('Unit | Service | Certification Challenge Service', function() {
         expect(certificationCourse).to.deep.equal({
           id :'certification-course-id',
           nbChallenges : 2
-        })
+        });
       });
     });
 
