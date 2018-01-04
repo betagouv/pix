@@ -83,7 +83,7 @@ describe('Integration | Repository | Certification Course', function() {
         expect(certificationCourse.id).to.equal(20);
         expect(certificationCourse.status).to.equal('started');
         expect(certificationCourse.type).to.equal('CERTIFICATION');
-        expect(certificationCourse.assessments[0].id).to.equal(7);
+        expect(certificationCourse.assessment.id).to.equal(7);
         expect(certificationCourse.challenges.length).to.equal(2);
       });
     });

@@ -46,7 +46,7 @@ describe('Unit | Route | Certification | resume', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(findRecordStub);
-        sinon.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+        sinon.assert.calledWith(findRecordStub, 'course', certificationCourseId);
       });
     });
   });

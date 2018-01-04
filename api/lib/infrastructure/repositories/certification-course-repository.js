@@ -8,7 +8,7 @@ function _toDomain(model) {
     userId: model.get('userId'),
     status: model.get('status'),
     type: 'CERTIFICATION',
-    assessments: model.related('assessments').toJSON(),
+    assessment: model.related('assessment').toJSON(),
     challenges: model.related('challenges').toJSON()
   });
 }
@@ -29,7 +29,7 @@ module.exports = {
   get(id) {
     return CertificationCourseBookshelf
       .where({ id })
-      .fetch({ require: true, withRelated: ['assessments', 'challenges'] })
+      .fetch({ require: true, withRelated: ['assessment', 'challenges'] })
       .then(_toDomain)
       .catch(() => {
         return Promise.reject(new NotFoundError());

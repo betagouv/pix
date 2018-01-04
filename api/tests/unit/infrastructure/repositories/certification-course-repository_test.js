@@ -18,7 +18,7 @@ describe('Unit | Repository | Certification Course', function() {
         status: 'completed',
         type: 'CERTIFICATION',
         challenges: [],
-        assessments: []
+        assessment: {}
       });
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);

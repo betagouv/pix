@@ -12,6 +12,7 @@ class Course {
     // relationships
     this.competence = model.competence;
     this.challenges = model.challenges || [];
+    this.assessment = model.assessment;
 
     // computed
     this.nbChallenges = this.challenges.length;

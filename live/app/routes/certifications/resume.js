@@ -4,7 +4,7 @@ export default BaseRoute.extend({
 
   model(params) {
     const certificationCourseId = params.certification_course_id;
-    return this.get('store').findRecord('certification-course', certificationCourseId);
+    return this.get('store').findRecord('course', certificationCourseId);
   },
 
   afterModel(certification) {
