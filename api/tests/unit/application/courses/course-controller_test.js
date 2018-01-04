@@ -184,6 +184,7 @@ describe('Unit | Controller | course-controller', function() {
     let codeStub;
 
     const certificationCourse = { id: 'CertificationCourseId' };
+    const certificationCourseWithChallengesNumber = { id: 'CertificationCourseId', nbChallenges: 3 };
     const userProfile = [{ id: 'competence1', challenges: [] }];
     const request = {
       pre: {
@@ -198,7 +199,7 @@ describe('Unit | Controller | course-controller', function() {
       sandbox = sinon.sandbox.create();
       sandbox.stub(CertificationCourseRepository, 'save').resolves(certificationCourse);
       sandbox.stub(UserService, 'getProfileToCertify').resolves(userProfile);
-      sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves({});
+      sandbox.stub(CertificationChallengesService, 'saveChallenges').resolves(certificationCourseWithChallengesNumber);
       sandbox.stub(CertificationCourseSerializer, 'serialize').resolves({});
 
     });
@@ -246,7 +247,7 @@ describe('Unit | Controller | course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(CertificationCourseSerializer.serialize);
-        sinon.assert.calledWith(CertificationCourseSerializer.serialize, { id: 'CertificationCourseId' });
+        sinon.assert.calledWith(CertificationCourseSerializer.serialize, certificationCourseWithChallengesNumber);
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);
         sinon.assert.calledWith(codeStub, 201);

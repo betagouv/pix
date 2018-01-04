@@ -76,7 +76,7 @@ module.exports = {
       })
       .then(() => userService.getProfileToCertify(userId))
       .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
-      .then(() => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
+      .then((certificationCourse) => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));
