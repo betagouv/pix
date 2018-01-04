@@ -115,7 +115,7 @@ module.exports = {
               if (assessmentService.isCertificationAssessment(assessmentPix)) {
                 promise = certificationCourseRepository.updateStatus('completed',
                   assessmentPix.get('courseId'),
-                  moment().format());
+                  moment().format('YYYY-MM-DD HH:mm:ss'));
               }
 
               // XXX: successRate should not be saved in DB.
