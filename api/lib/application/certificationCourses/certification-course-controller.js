@@ -12,22 +12,6 @@ const certificationCourseSerializer = require('../../infrastructure/serializers/
 const CertificationCourse = require('../../../lib/domain/models/CertificationCourse');
 
 module.exports = {
-  save(request, reply) {
-    const userId = request.pre.userId;
-    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
-
-    return CertificationCourseRepository.save(certificationCourse)
-      .then((savedCertificationCourse) => {
-        return certificationCourse = savedCertificationCourse;
-      })
-      .then(() => userService.getProfileToCertify(userId))
-      .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
-      .then(() => reply(CertificationCourseSerializer.serialize(certificationCourse)).code(201))
-      .catch((err) => {
-        logger.error(err);
-        reply(Boom.badImplementation(err));
-      });
-  },
 
   getResult(request, reply) {
     const certificationCourseId = request.params.id;

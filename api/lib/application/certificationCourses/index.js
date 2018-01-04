@@ -10,13 +10,6 @@ exports.register = function(server, options, next) {
         handler: certificationCourseController.getResult,
         tags: ['api']
       }
-    } , {
-      method: 'GET',
-      path: '/api/certification-courses/{id}',
-      config: {
-        handler: certificationCourseController.get,
-        tags: ['api']
-      }
     }
   ]);
 
