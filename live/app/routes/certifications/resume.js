@@ -7,12 +7,12 @@ export default BaseRoute.extend({
     return this.get('store').findRecord('course', certificationCourseId);
   },
 
-  afterModel(certification) {
-    const assessment = certification.get('assessment');
+  afterModel(course) {
+    const assessment = course.get('assessment');
     return this.get('store')
       .queryRecord('challenge', { assessmentId: assessment.get('id') })
       .then((nextChallenge) => this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.get('id')))
-      .catch(() => this.transitionTo('certifications.results', certification.get('id')));
+      .catch(() => this.transitionTo('certifications.results', course.get('id')));
   },
 
   actions: {
