@@ -65,6 +65,21 @@ describe('Unit | Router | assessment-router', function() {
     });
   });
 
+  describe('GET /api/assessments', function() {
+
+    before(function() {
+      sinon.stub(AssessmentController, 'getByFilters').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(function() {
+      AssessmentController.getByFilters.restore();
+    });
+
+    it('should exist', function(done) {
+      expectRouteToExist({ method: 'GET', url: '/api/assessments' }, done);
+    });
+  });
+
   describe('GET /api/assessments/assessment_id', function() {
 
     let sandbox;
