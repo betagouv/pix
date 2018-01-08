@@ -42,7 +42,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       courseId: 'courseId3',
       estimatedLevel: 3,
       pixScore: 37,
-      type : 'CERTIFICATION'
+      type: 'CERTIFICATION'
     }, {
       id: 6,
       userId: LAYLA,
@@ -395,6 +395,80 @@ describe('Unit | Repository | assessmentRepository', () => {
       return promise.then(() => {
         sinon.assert.calledOnce(Assessment.where);
         sinon.assert.calledWith(Assessment.where, expectedParams);
+      });
+    });
+  });
+
+  describe('#findAssessmentByFilters', function() {
+
+    const assessmentsInDb = [{
+      id: 1,
+      userId: 2,
+      courseId: 'courseId1',
+      estimatedLevel: 1,
+      pixScore: 10
+    }, {
+      id: 2,
+      userId: 3,
+      courseId: 'courseId1',
+      estimatedLevel: 2,
+      pixScore: 20
+    }, {
+      id: 3,
+      userId: 3,
+      courseId: 'courseId2',
+      estimatedLevel: 2,
+      pixScore: 20
+    }];
+
+    before(() => {
+      return knex('assessments').insert(assessmentsInDb);
+    });
+
+    after(() => {
+      return knex('assessments').delete();
+    });
+
+
+    it('should return courses which have the given courseId', function() {
+      // given
+      const filters = { courseId: 'courseId1' };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(2);
+        expect(assessments[0].courseId).to.equal('courseId1');
+        expect(assessments[1].courseId).to.equal('courseId1');
+      });
+    });
+
+    it('should return an empty array there is no Assessment found', function() {
+      // given
+      const filters = { courseId: 'InexistantCourseId' };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(0);
+      });
+
+    });
+
+    it('should return an empty array filter does not correspond to any property of the object', function() {
+      // given
+      const filters = { inexistantField: 'InexistantCourseId' };
+
+      // when
+      const promise = assessmentRepository.getByFilters(filters);
+
+      // then
+      promise.then((assessments) => {
+        expect(assessments).to.have.lengthOf(0);
       });
     });
   });
