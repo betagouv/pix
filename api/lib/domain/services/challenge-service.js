@@ -1,4 +1,4 @@
-// TODO: à supprimer
+// FIXME refactor
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 function _countResult(about, desiredResult) {
