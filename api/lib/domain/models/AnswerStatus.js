@@ -34,9 +34,6 @@ class AnswerStatus {
   static isOK(otherResult)      { return AnswerStatus.from(otherResult).isOK(); }
   static isKO(otherResult)      { return AnswerStatus.from(otherResult).isKO(); }
   static isSKIPPED(otherResult) { return AnswerStatus.from(otherResult).isSKIPPED(); }
-  static isTIMEDOUT()           { return AnswerStatus.from(TIMEDOUT); }
-  static isPARTIALLY()          { return AnswerStatus.from(PARTIALLY); }
-  static isUNIMPLEMENTED()      { return AnswerStatus.from(UNIMPLEMENTED); }
 
   static from(other) {
     if (other instanceof AnswerStatus) {
