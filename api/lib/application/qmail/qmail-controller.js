@@ -1,6 +1,7 @@
 const Boom = require('boom');
 
 const AnswerStatus = require('../../domain/models/AnswerStatus');
+const AnswerStatusDatabaseAdapter = require('../../interfaces/storage/database/AnswerStatusDatabaseAdapter');
 
 const AnswerRepository = require('../../infrastructure/repositories/answer-repository');
 const SolutionRepository = require('../../infrastructure/repositories/solution-repository');
@@ -14,13 +15,13 @@ function _checkThatChallengeIsQMAIL(challengeSolution) {
   }
 }
 
-function _updateAnswerResult(answer, mail, challengeSolution) {
+function _updateAnswerResult(bookshelfAnswer, mail, challengeSolution) {
   const isEmailValidated = qmailValidationService.validateEmail(mail, challengeSolution);
 
   const answerNewResult = isEmailValidated ? AnswerStatus.OK : AnswerStatus.KO;
-  answer.set('result', answerNewResult.status);
+  bookshelfAnswer.set('result', AnswerStatusDatabaseAdapter.adapt(answerNewResult));
 
-  return answer.save();
+  return bookshelfAnswer.save();
 }
 
 module.exports = {

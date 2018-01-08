@@ -1,6 +1,6 @@
 const Answer = require('../../domain/models/data/answer');
 const AnswerStatus = require('../../domain/models/AnswerStatus');
-const AnswerStatusJSONAdapter = require('../../infrastructure/adapters/for-json-response/AnswerStatus');
+const AnswerStatusJsonApiAdapter = require('../../interfaces/serializer/json-api/AnswerStatusJsonApiAdapter');
 const _ = require('../../infrastructure/utils/lodash-utils');
 
 const solutionServiceQcm = require('./solution-service-qcm');
@@ -85,7 +85,7 @@ module.exports = {
     };
 
     // TODO: remonter l'appel de l'adaptation dans le controlleur
-    response.result = AnswerStatusJSONAdapter.adapt(answerStatus);
+    response.result = AnswerStatusJsonApiAdapter.adapt(answerStatus);
     response.resultDetails = resultDetails;
     return response;
   }

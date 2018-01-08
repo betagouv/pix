@@ -1,5 +1,5 @@
 
-class AnswerStatus {
+class AnswerStatusDbAdapter {
   static adapt(answerStatus) {
     const UNIMPLEMENTED = 'unimplemented';
     const TIMEDOUT = 'timedout';
@@ -24,4 +24,4 @@ class AnswerStatus {
   }
 }
 
-module.exports = AnswerStatus;
+module.exports = AnswerStatusDbAdapter;
