@@ -134,6 +134,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     let queryStub;
     let fetchStub;
     let whereStub;
+    let whereStub2;
     let whereNotNullStub;
     let whereNotNullStub2;
     let orderByStub;
@@ -153,8 +154,12 @@ describe('Unit | Repository | assessmentRepository', () => {
         whereNotNull: whereNotNullStub2
       });
 
-      whereStub = sandbox.stub().returns({
+      whereStub2 = sandbox.stub().returns({
         whereNotNull: whereNotNullStub
+      });
+
+      whereStub = sandbox.stub().returns({
+        where: whereStub2
       });
 
       fetchStub = sandbox.stub().resolves({ models: {} });
@@ -172,7 +177,8 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     it('should correctly query Assessment conditions', () => {
       // when
-      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId);
+      const limitDate = '2018-02-02T19:20:21.0'
+      const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId,limitDate);
 
       // then
       return promise.then(() => {
@@ -180,6 +186,9 @@ describe('Unit | Repository | assessmentRepository', () => {
         sinon.assert.calledOnce(queryStub);
         sinon.assert.calledOnce(whereStub);
         sinon.assert.calledOnce(fetchStub);
+
+        sinon.assert.calledOnce(whereStub2);
+        sinon.assert.calledWith(whereStub2, 'createdAt', '<', limitDate);
 
         sinon.assert.calledOnce(whereNotNullStub);
         sinon.assert.calledWith(whereNotNullStub, 'estimatedLevel');
