@@ -141,6 +141,18 @@ define('pix-live/authenticators/simple', ['exports', 'ember-simple-auth/authenti
     }
   });
 });
+define('pix-live/breakpoints', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = {
+    mobile: '(max-width: 767px)',
+    tablet: '(min-width: 768px)',
+    desktop: '(min-width: 980px)'
+  };
+});
 define('pix-live/components/app-footer', ['exports'], function (exports) {
   'use strict';
 
@@ -202,6 +214,10 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
   });
   var Component = Ember.Component;
   var computed = Ember.computed;
+
+
+  var pendingValue = 'pending';
+  var enableValue = 'enable';
   exports.default = Component.extend({
 
     classNames: ['challenge-actions'],
@@ -209,31 +225,40 @@ define('pix-live/components/challenge-actions', ['exports'], function (exports) 
     challengeSkipped: null, // action
     answerValidated: null, // action
 
-    _validateButtonStatus: 'enable', // enable, pending, offline
-    isValidateButtonEnable: computed.equal('_validateButtonStatus', 'enable'),
-    isValidateButtonPending: computed.equal('_validateButtonStatus', 'pending'),
+    _validateButtonStatus: enableValue, // enable, pending, offline
+    _skipButtonStatus: enableValue,
+    isValidateButtonEnable: computed.equal('_validateButtonStatus', enableValue),
+    isValidateButtonPending: computed.equal('_validateButtonStatus', pendingValue),
     isValidateButtonOffline: computed.equal('_validateButtonStatus', 'offline'),
+
+    isSkipButtonEnable: computed.equal('_skipButtonStatus', enableValue),
+    isSkipButtonPending: computed.equal('_skipButtonStatus', pendingValue),
 
     didUpdateAttrs: function didUpdateAttrs() {
       this._super.apply(this, arguments);
-      this.set('_validateButtonStatus', 'enable');
+      this.set('_validateButtonStatus', enableValue);
+      this.set('_skipButtonStatus', enableValue);
     },
 
 
     actions: {
       skipChallenge: function skipChallenge() {
-        this.get('challengeSkipped')();
+        if (this.get('_validateButtonStatus') === enableValue) {
+          this.set('_skipButtonStatus', pendingValue);
+          this.get('challengeSkipped')();
+        }
       },
       validateAnswer: function validateAnswer() {
         var _this = this;
 
-        this.set('_validateButtonStatus', 'pending');
-        this.get('answerValidated')().catch(function () {
-          return _this.set('_validateButtonStatus', 'enable');
-        });
+        if (this.get('_skipButtonStatus') === enableValue) {
+          this.set('_validateButtonStatus', pendingValue);
+          this.get('answerValidated')().catch(function () {
+            return _this.set('_validateButtonStatus', enableValue);
+          });
+        }
       }
     }
-
   });
 });
 define('pix-live/components/challenge-item-generic', ['exports', 'pix-live/utils/call-only-once', 'pix-live/utils/lodash-custom', 'pix-live/config/environment'], function (exports, _callOnlyOnce, _lodashCustom, _environment) {
@@ -799,6 +824,19 @@ define('pix-live/components/competence-level-progress-bar', ['exports'], functio
     canUserReplayAssessment: Ember.computed('courseId', 'status', function () {
       return Boolean(this.get('status') === 'evaluated' && this.get('courseId'));
     })
+  });
+});
+define("pix-live/components/content-backdrop", ["exports", "ember-side-menu/components/content-backdrop"], function (exports, _contentBackdrop) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _contentBackdrop.default;
+    }
   });
 });
 define('pix-live/components/corner-ribbon', ['exports'], function (exports) {
@@ -1549,22 +1587,63 @@ define('pix-live/components/modal-mobile', ['exports'], function (exports) {
 
   });
 });
+define('pix-live/components/navbar-desktop-menu', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Component = Ember.Component;
+  exports.default = Component.extend({
+    classNames: ['navbar-desktop-menu']
+  });
+});
 define('pix-live/components/navbar-header', ['exports'], function (exports) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.Component.extend({
-    session: Ember.inject.service(),
-    store: Ember.inject.service(),
+  var computed = Ember.computed;
+  var Component = Ember.Component;
+  var alias = Ember.computed.alias;
+  var service = Ember.inject.service;
+  exports.default = Component.extend({
+    session: service(),
+    store: service(),
     classNames: ['navbar-header'],
     _canDisplayMenu: false,
+    _menuItems: [{ name: 'Projet', link: 'project', class: 'navbar-header-links__link--project', permanent: true }, {
+      name: 'Compétences',
+      link: 'competences',
+      class: 'navbar-header-links__link--competences',
+      permanent: true
+    }, { name: 'Se connecter', link: 'login', class: 'navbar-menu-signin-link' }, { name: 'S’inscrire', link: 'inscription', class: 'navbar-menu-signup-link' }],
 
-    isUserLogged: Ember.computed('session', function () {
-      return this.get('session.isAuthenticated');
+    isUserLogged: alias('session.isAuthenticated'),
+    menu: computed('isUserLogged', function () {
+      var menuItems = this.get('_menuItems');
+      return this.get('isUserLogged') ? menuItems.filterBy('permanent', true) : menuItems;
     })
+  });
+});
+define('pix-live/components/navbar-mobile-menu', ['exports'], function (exports) {
+  'use strict';
 
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Component = Ember.Component;
+  var service = Ember.inject.service;
+  exports.default = Component.extend({
+    sideMenu: service(),
+    classNames: ['navbar-mobile-menu'],
+
+    actions: {
+      closeMenu: function closeMenu() {
+        this.get('sideMenu').close();
+      }
+    }
   });
 });
 define('pix-live/components/partners-enrollment-panel', ['exports'], function (exports) {
@@ -1612,6 +1691,18 @@ define('pix-live/components/password-reset-form', ['exports'], function (exports
           _this.set('_displayErrorMessage', true);
         });
       }
+    }
+  });
+});
+define('pix-live/components/pix-content-backdrop', ['exports', 'ember-side-menu/components/content-backdrop'], function (exports, _contentBackdrop) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _contentBackdrop.default.extend({
+    touchStart: function touchStart() {
+      this.get('sideMenu').close();
     }
   });
 });
@@ -2314,6 +2405,45 @@ define('pix-live/components/share-profile', ['exports'], function (exports) {
     }
   });
 });
+define("pix-live/components/side-menu-link-to", ["exports", "ember-side-menu/components/side-menu-link-to"], function (exports, _sideMenuLinkTo) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _sideMenuLinkTo.default;
+    }
+  });
+});
+define("pix-live/components/side-menu-toggle", ["exports", "ember-side-menu/components/side-menu-toggle"], function (exports, _sideMenuToggle) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _sideMenuToggle.default;
+    }
+  });
+});
+define("pix-live/components/side-menu", ["exports", "ember-side-menu/components/side-menu"], function (exports, _sideMenu) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _sideMenu.default;
+    }
+  });
+});
 define('pix-live/components/signin-form', ['exports'], function (exports) {
   'use strict';
 
@@ -2749,6 +2879,18 @@ define('pix-live/components/warning-page', ['exports', 'pix-live/utils/lodash-cu
         this.sendAction('hasUserConfirmWarning');
       }
     }
+  });
+});
+define('pix-live/controllers/certification-course', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var Controller = Ember.Controller;
+  exports.default = Controller.extend({
+    queryParams: 'code',
+    code: null
   });
 });
 define('pix-live/helpers/abs', ['exports', 'ember-math-helpers/helpers/abs'], function (exports, _abs) {
@@ -4266,6 +4408,36 @@ define('pix-live/initializers/raven', ['exports', 'pix-live/config/environment']
     name: 'raven'
   };
 });
+define('pix-live/initializers/responsive', ['exports', 'ember-responsive/initializers/responsive'], function (exports, _responsive) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = {
+    name: 'responsive',
+    initialize: _responsive.initialize
+  };
+});
+define("pix-live/initializers/side-menu", ["exports", "ember-side-menu/initializers/side-menu"], function (exports, _sideMenu) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function () {
+      return _sideMenu.default;
+    }
+  });
+  Object.defineProperty(exports, "initialize", {
+    enumerable: true,
+    get: function () {
+      return _sideMenu.initialize;
+    }
+  });
+});
 define('pix-live/initializers/store', ['exports'], function (exports) {
   'use strict';
 
@@ -4348,7 +4520,7 @@ define('pix-live/instance-initializers/raven-setup', ['exports', 'raven', 'pix-l
     name: 'sentry-setup'
   };
 });
-define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/get-user-me', 'pix-live/mirage/routes/get-organizations', 'pix-live/mirage/routes/get-snapshots', 'ember-cli-mirage'], function (exports, _getChallenge, _getChallenges, _getNextChallenge, _getAssessmentSolutions, _getCourse, _getCourses, _getCoursesOfTheWeek, _getAnswer, _postAnswers, _patchAnswer, _getAssessment, _postAssessments, _getAnswerByChallengeAndAssessment, _postFeedbacks, _postRefreshSolution, _postAuthentications, _getUserMe, _getOrganizations, _getSnapshots, _emberCliMirage) {
+define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer', 'pix-live/mirage/routes/get-answer-by-challenge-and-assessment', 'pix-live/mirage/routes/get-assessment', 'pix-live/mirage/routes/get-assessment-solutions', 'pix-live/mirage/routes/get-user-me', 'pix-live/mirage/routes/get-challenge', 'pix-live/mirage/routes/get-challenges', 'pix-live/mirage/routes/get-course', 'pix-live/mirage/routes/get-courses', 'pix-live/mirage/routes/get-courses-of-the-week', 'pix-live/mirage/routes/get-next-challenge', 'pix-live/mirage/routes/get-organizations', 'pix-live/mirage/routes/get-snapshots', 'pix-live/mirage/routes/patch-answer', 'pix-live/mirage/routes/post-answers', 'pix-live/mirage/routes/post-assessments', 'pix-live/mirage/routes/post-authentications', 'pix-live/mirage/routes/post-certification-course', 'pix-live/mirage/routes/post-feedbacks', 'pix-live/mirage/routes/post-refresh-solution', 'ember-cli-mirage'], function (exports, _getAnswer, _getAnswerByChallengeAndAssessment, _getAssessment, _getAssessmentSolutions, _getUserMe, _getChallenge, _getChallenges, _getCourse, _getCourses, _getCoursesOfTheWeek, _getNextChallenge, _getOrganizations, _getSnapshots, _patchAnswer, _postAnswers, _postAssessments, _postAuthentications, _postCertificationCourse, _postFeedbacks, _postRefreshSolution, _emberCliMirage) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -4392,7 +4564,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-challen
 
     //Courses
     this.get('/courses/:id', _getCourse.default);
-    this.post('/certification-courses');
+    this.post('/certification-courses', _postCertificationCourse.default);
 
     this.post('/authentications', _postAuthentications.default);
     this.get('/users/me', _getUserMe.default);
@@ -4967,6 +5139,24 @@ define('pix-live/mirage/factories/area', ['exports', 'ember-cli-mirage'], functi
   });
   exports.default = _emberCliMirage.Factory.extend({});
 });
+define('pix-live/mirage/factories/challenge', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _emberCliMirage.Factory.extend({
+    type: function type() {
+      return 'QROC';
+    },
+    instruction: function instruction() {
+      return 'Dans le village de Montrésor (37, France), sur quelle rue débouche la rue des Perrières ?';
+    },
+    proposals: function proposals() {
+      return 'Rue de : ${Rue#}';
+    }
+  });
+});
 define('pix-live/mirage/factories/competence', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
 
@@ -5186,7 +5376,7 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     name: 'Traiter des données',
     description: 'Recherche d\'information, gestion et traitement de données.',
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challenges: ['ref_qcm_challenge_id'],
+    nbChallenges: 1,
     'is-adaptive': false
   }, {
     id: 'ref_course_id',
@@ -5194,7 +5384,7 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     description: 'Contient toutes sortes d\'epreuves avec différentes caractéristiques couvrant tous les cas d\'usage.',
     duration: 10,
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challengeId: ['ref_qcm_challenge_id', 'ref_qcu_challenge_id', 'ref_qroc_challenge_id', 'ref_qrocm_challenge_id'],
+    nbChallenges: 4,
     'is-adaptive': false
   }, {
     id: 'ref_timed_challenge_course_id',
@@ -5202,14 +5392,14 @@ define('pix-live/mirage/fixtures/courses', ['exports'], function (exports) {
     description: 'Contient uniquement des épreuves timées',
     duration: 10,
     'image-url': 'http://fakeimg.pl/350x200/?text=First%20Course',
-    challenges: ['ref_timed_challenge_id', 'ref_timed_challenge_bis_id'],
+    nbChallenges: 2,
     'is-adaptive': false
   }, {
     id: 'recNPB7dTNt5krlMA',
     name: 'Mener une recherche et une veille d\'information',
     description: '',
     'image-url': 'http://fakeimg.pl/350x200/?text=Real%20Course',
-    challengeIds: ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'],
+    nbChallenges: 3,
     'is-adaptive': true
   }];
 });
@@ -5435,38 +5625,23 @@ define('pix-live/mirage/routes/get-next-challenge', ['exports', 'pix-live/mirage
     // dynamic assessment
     var assessment = schema.assessments.find(assessmentId);
     if (assessment) {
-      return getNextChallengeForDynamicAssessment(assessment);
+      var challengeIds = ['receop4TZKvtjjG0V', 'recLt9uwa2dR3IYpi', 'recn7XhSDTWo0Zzep'];
+      var challenges = schema.challenges.find(challengeIds).models;
+      return getNextChallengeForDynamicAssessment(assessment, challenges);
     }
 
     // testing assessment
     return getNextChallengeForTestingAssessment(assessmentId, currentChallengeId);
   };
 
-  function getNextChallengeForDynamicAssessment(assessment) {
-    var course = assessment.course;
-    var courseChallenges = course.challenges.models;
-
+  function getNextChallengeForDynamicAssessment(assessment, challenges) {
     var answers = assessment.answers.models;
 
-    // When the assessment has just begun
-    if (answers.length === 0) {
-      return courseChallenges[0];
-    }
-
-    var lastAnswer = answers[answers.length - 1];
-    var lastAnswerChallenge = lastAnswer.challenge;
-
-    // when the last answered challenge was the course's last one
-    var nextChallengeIndex = courseChallenges.findIndex(function (challenge) {
-      return lastAnswerChallenge.id === challenge.id;
-    }) + 1;
-    if (nextChallengeIndex >= courseChallenges.length) {
+    if (answers.length >= challenges.length) {
       return null;
     }
 
-    // when the last answered challenge was one of the course's normal one
-    var nextChallenge = courseChallenges.objectAt(nextChallengeIndex);
-    return nextChallenge;
+    return challenges[answers.length];
   }
 
   function getNextChallengeForTestingAssessment(assessmentId, currentChallengeId) {
@@ -5607,26 +5782,28 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
 
     var allAssessments = [_refAssessment.default];
 
+    // TODO: clean legacy
     var assessments = _lodashCustom.default.map(allAssessments, function (oneAssessment) {
       return { id: oneAssessment.data.relationships.course.data.id, obj: oneAssessment };
     });
 
-    var assessment = _lodashCustom.default.find(assessments, { id: courseId });
+    var newAssessment = {
+      'user-id': 'user_id',
+      'user-name': 'Jane Doe',
+      'user-email': 'jane@acme.com',
+      'certification-number': 'certification-number',
+      courseId: courseId
+    };
 
+    var assessment = _lodashCustom.default.find(assessments, { id: courseId });
     if (assessment) {
       return assessment.obj;
     } else if (_lodashCustom.default.startsWith(courseId, 'null')) {
       return _refAssessment.default;
-    } else {
-
-      var newAssessment = {
-        'user-id': 'user_id',
-        'user-name': 'Jane Doe',
-        'user-email': 'jane@acme.com',
-        courseId: courseId
-      };
-      return schema.assessments.create(newAssessment);
+    } else if (!_lodashCustom.default.startsWith(courseId, 'rec')) {
+      newAssessment.type = 'CERTIFICATION';
     }
+    return schema.assessments.create(newAssessment);
   };
 });
 define('pix-live/mirage/routes/post-authentications', ['exports'], function (exports) {
@@ -5680,6 +5857,17 @@ define('pix-live/mirage/routes/post-authentications', ['exports'], function (exp
     }
   };
 });
+define("pix-live/mirage/routes/post-certification-course", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  exports.default = function (schema) {
+    return schema.courses.create();
+  };
+});
 define('pix-live/mirage/routes/post-feedbacks', ['exports', 'pix-live/mirage/data/feedbacks/ref-feedback'], function (exports, _refFeedback) {
   'use strict';
 
@@ -5712,7 +5900,7 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
   exports.default = function (server) {
 
-    var courses = server.createList('course', 2, { name: 'course name' });
+    var courses = server.createList('course', 2, { name: 'course name', id: 'recxx' });
     server.createList('courseGroup', 3, { courses: courses });
 
     server.loadFixtures('areas');
@@ -5768,7 +5956,6 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
     prescriber.organization = company;
     company.user = prescriber;
-
     server.create('assessment', {});
 
     var snapshots = server.createList('snapshot', 3, { organization: company });
@@ -5867,11 +6054,11 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var computed = Ember.computed;
   var attr = _emberData.default.attr,
       Model = _emberData.default.Model,
       belongsTo = _emberData.default.belongsTo,
       hasMany = _emberData.default.hasMany;
-  var computed = Ember.computed;
   exports.default = Model.extend({
 
     course: belongsTo('course', { inverse: null }),
@@ -5880,17 +6067,42 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     userEmail: attr('string'),
     firstChallenge: computed.alias('course.challenges.firstObject'),
     estimatedLevel: attr('number'),
-    pixScore: attr('number')
+    pixScore: attr('number'),
+    type: attr('string'),
+    certificationNumber: attr('string'),
+    isCertification: computed.equal('type', 'CERTIFICATION'),
+
+    progress: computed('answers', 'course', function () {
+      var maxStep = this.get('course.nbChallenges');
+      var answersCount = this.get('answers.length');
+      var currentStep = _getCurrentStep(answersCount, maxStep);
+      var stepPercentage = currentStep / maxStep * 100;
+
+      return { currentStep: currentStep, maxStep: maxStep, stepPercentage: stepPercentage };
+    })
 
   });
+
+
+  function _getCurrentStep(answersCount, maxStep) {
+    var step = answersCount + 1;
+
+    return step > maxStep ? maxStep : step;
+  }
 });
-define('pix-live/models/certification-course', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/certification-course', ['exports', 'pix-live/models/course', 'ember-data'], function (exports, _course, _emberData) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = _emberData.default.Model.extend({});
+  var belongsTo = _emberData.default.belongsTo,
+      attr = _emberData.default.attr;
+  exports.default = _course.default.extend({
+    assessment: belongsTo('assessment'),
+    type: 'CERTIFICATION',
+    sessionCode: attr()
+  });
 });
 define('pix-live/models/challenge', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
@@ -5960,9 +6172,9 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var computed = Ember.computed;
   var Model = _emberData.default.Model,
-      attr = _emberData.default.attr,
-      hasMany = _emberData.default.hasMany;
+      attr = _emberData.default.attr;
   exports.default = Model.extend({
 
     name: attr('string'),
@@ -5971,21 +6183,10 @@ define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _
     imageUrl: attr('string'),
     isAdaptive: attr('boolean'),
     nbChallenges: attr('number'),
-    challenges: hasMany('challenge', { inverse: null }),
+    type: computed('isAdaptive', function () {
+      return this.get('isAdaptive') ? 'PLACEMENT' : 'DEMO';
+    })
 
-    getProgress: function getProgress(challenge) {
-      var challengeIndex = this.get('challenges').indexOf(challenge);
-
-      var currentStep = 1 + challengeIndex;
-      var maxStep = this.get('challenges.length');
-      var stepPercentage = currentStep / maxStep * 100;
-
-      return {
-        currentStep: currentStep,
-        maxStep: maxStep,
-        stepPercentage: stepPercentage
-      };
-    }
   });
 });
 define('pix-live/models/feedback', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6181,7 +6382,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('assessments.resume', { path: '/assessments/:assessment_id' });
     this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
-    this.route('certifications.results', { path: '/certifications/results' });
+    this.route('certifications.results', { path: '/certifications/:certification_number/results' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
     this.route('course-groups', { path: '/defis-pix' });
@@ -6191,7 +6392,8 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
     this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
     this.route('not-found', { path: '/*path' });
-    this.route('certification-course', { path: '/test-de-certification' });
+    this.route('certification-course', { path: '/certifications' });
+    this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
   });
 
   exports.default = Router;
@@ -6218,6 +6420,9 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
   });
   var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend({
+
+    session: Ember.inject.service(),
+
     model: function model(params) {
       var _this = this;
 
@@ -6238,15 +6443,13 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
     },
     afterModel: function afterModel(model) {
       var store = this.get('store');
-      return RSVP.hash({
-        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id }),
-        course: model.assessment.get('course')
-      }).then(function (_ref) {
-        var answers = _ref.answers,
-            course = _ref.course;
 
-        model.answers = answers;
-        model.progress = course.getProgress(model.challenge);
+      return RSVP.hash({
+        user: model.assessment.get('isCertification') ? store.findRecord('user', this.get('session.data.authenticated.userId')) : null,
+        answers: store.queryRecord('answer', { assessment: model.assessment.id, challenge: model.challenge.id })
+      }).then(function (hash) {
+        model.user = hash.user;
+        model.answers = hash.answers;
         return model;
       });
     },
@@ -6269,8 +6472,7 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
       return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') }).then(function (nextChallenge) {
         return _this2.transitionTo('assessments.challenge', { assessment: assessment, challenge: nextChallenge });
       }).catch(function () {
-        var endTemplate = assessment.get('type') === 'CERTIFICATION' ? 'certifications.results' : 'assessments.results';
-        _this2.transitionTo(endTemplate, assessment.get('id'));
+        assessment.get('type') === 'CERTIFICATION' ? _this2.transitionTo('certifications.results', assessment.get('certificationNumber')) : _this2.transitionTo('assessments.results', assessment.get('id'));
       });
     },
 
@@ -6430,12 +6632,15 @@ define('pix-live/routes/certification-course', ['exports'], function (exports) {
 
     session: service('session'),
 
-    model: function model() {
+    model: function model(params) {
       var _this = this;
 
       return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true }).then(function () {
-        return _this.get('store').createRecord('certification-course', {}).save();
+        return _this.get('store').createRecord('certification-course', { sessionCode: params.code }).save();
       });
+    },
+    redirect: function redirect(certificationCourse) {
+      return this.replaceWith('courses.create-assessment', certificationCourse);
     },
 
 
@@ -6453,16 +6658,50 @@ define('pix-live/routes/certifications/results', ['exports', 'ember-simple-auth/
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
+  var RSVP = Ember.RSVP;
   exports.default = _baseRoute.default.extend(_authenticatedRouteMixin.default, {
     authenticationRoute: '/connexion',
     session: Ember.inject.service(),
 
-    model: function model() {
+    model: function model(params) {
       var _this = this;
 
-      return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true }).catch(function (_) {
+      return RSVP.hash({
+        user: this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true }),
+        certificationNumber: params.certification_number // FIXME certification number is a domain attribute and should not be queried as a technical id
+      }).catch(function (_) {
         _this.transitionTo('logout');
       });
+    }
+  });
+});
+define('pix-live/routes/certifications/resume', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _baseRoute.default.extend({
+    model: function model(params) {
+      var certificationCourseId = params.certification_course_id;
+      return this.get('store').findRecord('certification-course', certificationCourseId);
+    },
+    afterModel: function afterModel(certification) {
+      var _this = this;
+
+      var assessment = certification.get('assessment');
+      return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id') }).then(function (nextChallenge) {
+        return _this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.get('id'));
+      }).catch(function () {
+        return _this.transitionTo('certifications.results', certification.get('id'));
+      });
+    },
+
+
+    actions: {
+      error: function error() {
+        this.transitionTo('index');
+      }
     }
   });
 });
@@ -6481,8 +6720,8 @@ define('pix-live/routes/challenge-preview', ['exports', 'pix-live/utils/lodash-c
       var store = this.get('store');
       var that = this;
       // creates a fake course
-      var course = store.createRecord('course', { id: 'null' + _lodashCustom.default.guid(), challenges: [challenge] });
-      var assessment = store.createRecord('assessment', { course: course });
+      var course = store.createRecord('course', { id: 'null' + _lodashCustom.default.guid(), type: 'PREVIEW', challenges: [challenge] });
+      var assessment = store.createRecord('assessment', { course: course, type: course.get('type') });
       var solutionAdapter = store.adapterFor('solution');
 
       solutionAdapter.refreshRecord('solution', { challengeId: challenge.get('id') });
@@ -6692,7 +6931,7 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
 
       var assessment = void 0;
 
-      return store.createRecord('assessment', { course: course }).save().then(function (createdAssessment) {
+      return store.createRecord('assessment', { course: course, type: course.get('type') }).save().then(function (createdAssessment) {
         return assessment = createdAssessment;
       }).then(function () {
         return store.queryRecord('challenge', { assessmentId: assessment.get('id') });
@@ -7188,6 +7427,14 @@ define('pix-live/services/mail-generator', ['exports', 'moment'], function (expo
 
   });
 });
+define('pix-live/services/media', ['exports', 'ember-responsive/media'], function (exports, _media) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = _media.default;
+});
 define('pix-live/services/metrics', ['exports', 'ember-metrics/services/metrics'], function (exports, _metrics) {
   'use strict';
 
@@ -7278,6 +7525,19 @@ define('pix-live/services/session', ['exports', 'ember-simple-auth/services/sess
   });
   exports.default = _session.default;
 });
+define('pix-live/services/side-menu', ['exports', 'ember-side-menu/services/side-menu'], function (exports, _sideMenu) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  Object.defineProperty(exports, 'default', {
+    enumerable: true,
+    get: function () {
+      return _sideMenu.default;
+    }
+  });
+});
 define('pix-live/services/splash', ['exports'], function (exports) {
   'use strict';
 
@@ -7315,7 +7575,7 @@ define("pix-live/templates/assessments/challenge", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "GdfxcAIM", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n    \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n        \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"progress\"]]]]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "kTJwMTwb", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"assessment-challenge\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__course-banner\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"model\",\"user\"]],[19,0,[\"model\",\"assessment\",\"certificationNumber\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"      \"],[1,[25,\"course-banner\",null,[[\"course\",\"withHomeLink\"],[[19,0,[\"model\",\"assessment\",\"course\"]],true]]],false],[0,\"\\n\"]],\"parameters\":[]}],[0,\"  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__content\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"isCertification\"]]],null,{\"statements\":[[4,\"unless\",[[19,0,[\"model\",\"assessment\",\"course\",\"isAdaptive\"]]],null,{\"statements\":[[0,\"        \"],[6,\"div\"],[9,\"class\",\"assessment-challenge__progress-bar\"],[7],[0,\"\\n          \"],[1,[25,\"progress-bar\",null,[[\"progress\"],[[19,0,[\"model\",\"assessment\",\"progress\"]]]]],false],[0,\"\\n        \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n    \"],[1,[25,\"component\",[[25,\"get-challenge-component-class\",[[19,0,[\"model\",\"challenge\"]]],null]],[[\"challenge\",\"assessment\",\"answers\",\"answerValidated\"],[[19,0,[\"model\",\"challenge\"]],[19,0,[\"model\",\"assessment\"]],[19,0,[\"model\",\"answers\"]],[25,\"route-action\",[\"saveAnswerAndNavigate\"],null]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/challenge.hbs" } });
 });
 define("pix-live/templates/assessments/comparison", ["exports"], function (exports) {
   "use strict";
@@ -7371,7 +7631,15 @@ define("pix-live/templates/certifications/results", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "02dxZRai", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\"],[[19,0,[\"model\"]]]]],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/results.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "nwEdFGuZ", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"certification-results-page\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"model\",\"user\"]],[19,0,[\"model\",\"certificationNumber\"]]]]],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/results.hbs" } });
+});
+define("pix-live/templates/certifications/resume", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "d0SWQ/je", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/resume.hbs" } });
 });
 define("pix-live/templates/challenge-preview", ["exports"], function (exports) {
   "use strict";
@@ -7411,7 +7679,7 @@ define("pix-live/templates/components/certification-banner", ["exports"], functi
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "gObH4m88", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-banner__container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"certification-banner__user-fullname\"],[7],[0,\"\\n    \"],[1,[18,\"fullname\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-banner__user-id\"],[7],[0,\"\\n    #\"],[1,[20,[\"user\",\"id\"]],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-banner.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "/DJdZ/TL", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-banner__container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"certification-banner__user-fullname\"],[7],[0,\"\\n    \"],[1,[18,\"fullname\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-banner__certification-number\"],[7],[0,\"\\n    #\"],[1,[18,\"certificationNumber\"],false],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-banner.hbs" } });
 });
 define("pix-live/templates/components/certification-results-page", ["exports"], function (exports) {
   "use strict";
@@ -7419,7 +7687,7 @@ define("pix-live/templates/components/certification-results-page", ["exports"], 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "iD2fLBfS", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-results__certification-banner\"],[7],[0,\"\\n  \"],[1,[25,\"certification-banner\",null,[[\"user\"],[[19,0,[\"user\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-results__content result-content\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"result-content__panel\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-picture\"],[7],[0,\"\\n      \"],[6,\"img\"],[10,\"src\",[26,[[18,\"rootURL\"],\"/images/flag.svg\"]]],[9,\"alt\",\"drapeau\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-title\"],[7],[0,\"\\n      Vous avez terminé\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-description\"],[7],[0,\"\\n      Vos résultats vous seront communiqués dans les 10 jours suivant la fin de ce test par courrier électronique.\\n      Ils seront également transmis à votre établissement.\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"result-content__warning-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__warning-text\"],[7],[0,\"\\n      Si cet ordinateur n’est pas votre machine personnelle, pensez à vous déconnecter.\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__warning-logout\"],[7],[0,\"\\n      \"],[4,\"link-to\",[\"logout\"],[[\"class\"],[\"warning-logout-button\"]],{\"statements\":[[0,\"se deconnecter\"]],\"parameters\":[]},null],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-results-page.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "siZdyObS", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-results__certification-banner\"],[7],[0,\"\\n  \"],[1,[25,\"certification-banner\",null,[[\"user\",\"certificationNumber\"],[[19,0,[\"user\"]],[19,0,[\"certificationNumber\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-results__content result-content\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"result-content__panel\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-picture\"],[7],[0,\"\\n      \"],[6,\"img\"],[10,\"src\",[26,[[18,\"rootURL\"],\"/images/flag.svg\"]]],[9,\"alt\",\"drapeau\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-title\"],[7],[0,\"\\n      Vous avez terminé.\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__panel-description\"],[7],[0,\"\\n      Vos résultats vous seront communiqués dans les 10 jours suivant la fin de ce test par courrier électronique.\\n      Ils seront également transmis à votre établissement.\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"result-content__warning-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__warning-text\"],[7],[0,\"\\n      Si cet ordinateur n’est pas votre machine personnelle, pensez à vous déconnecter.\\n    \"],[8],[0,\"\\n\\n    \"],[6,\"div\"],[9,\"class\",\"result-content__warning-logout\"],[7],[0,\"\\n      \"],[4,\"link-to\",[\"logout\"],[[\"class\"],[\"warning-logout-button\"]],{\"statements\":[[0,\"Se déconnecter\"]],\"parameters\":[]},null],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-results-page.hbs" } });
 });
 define("pix-live/templates/components/challenge-actions", ["exports"], function (exports) {
   "use strict";
@@ -7427,7 +7695,7 @@ define("pix-live/templates/components/challenge-actions", ["exports"], function 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "lPiK97hI", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n  \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonPending\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader challenge-actions__loader--validate\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__loader-spinner\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},null]],\"parameters\":[]}],[0,\"\\n\"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n  \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "98kSaSuq", "block": "{\"symbols\":[],\"statements\":[[4,\"if\",[[19,0,[\"isValidateButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"validateAnswer\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-validate-text\"],[7],[0,\"Je valide\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-validate__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-validate__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[4,\"if\",[[19,0,[\"isSkipButtonEnable\"]]],null,{\"statements\":[[0,\"  \"],[6,\"a\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip\"],[9,\"href\",\"#\"],[3,\"action\",[[19,0,[]],\"skipChallenge\"]],[7],[0,\"\\n    \"],[6,\"span\"],[9,\"class\",\"challenge-actions__action-skip-text\"],[7],[0,\"Je passe\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action challenge-actions__action-skip__loader\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"challenge-actions__action-skip__loader-bar\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/challenge-actions.hbs" } });
 });
 define("pix-live/templates/components/challenge-item-generic", ["exports"], function (exports) {
   "use strict";
@@ -7637,13 +7905,29 @@ define("pix-live/templates/components/modal-mobile", ["exports"], function (expo
   });
   exports.default = Ember.HTMLBars.template({ "id": "w4iWiWiw", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"modal-mobile\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"modal fade js-modal-mobile\"],[9,\"tabindex\",\"-1\"],[9,\"role\",\"dialog\"],[9,\"id\",\"js-modal-mobile\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"modal-dialog\"],[9,\"role\",\"document\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"modal-content\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"modal-header\"],[7],[0,\"\\n          \"],[6,\"h4\"],[9,\"class\",\"modal-title\"],[7],[0,\"\\n            \"],[6,\"img\"],[9,\"class\",\"modal-title__warning-icon\"],[9,\"src\",\"/images/icon-mobile-support-warning.svg\"],[9,\"alt\",\"Message d'alerte concernant le support des terminaux mobiles\"],[7],[8],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"modal-body\"],[7],[0,\"\\n          \"],[6,\"p\"],[7],[0,\"Certaines épreuves PIX peuvent être difficiles à réussir sur mobile. Pour une meilleure expérience, nous vous conseillons de passer ce test sur un ordinateur.\"],[8],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"modal-footer\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"modal-button-container\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"type\",\"button\"],[9,\"class\",\"btn btn-primary modal-mobile__confirm-button\"],[9,\"data-confirm\",\"modal\"],[7],[0,\"Continuer\"],[8],[0,\"\\n          \"],[8],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"modal-button-container\"],[7],[0,\"\\n            \"],[6,\"a\"],[9,\"nohref\",\"\"],[9,\"data-dismiss\",\"modal\"],[9,\"class\",\"modal-mobile__dismiss-link\"],[7],[0,\"Revenir à l’accueil\"],[8],[0,\"\\n          \"],[8],[0,\"\\n        \"],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/modal-mobile.hbs" } });
 });
+define("pix-live/templates/components/navbar-desktop-menu", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "DqEIqlvu", "block": "{\"symbols\":[\"item\"],\"statements\":[[6,\"div\"],[9,\"class\",\"navbar-desktop-menu-links\"],[7],[0,\"\\n  \"],[6,\"ul\"],[9,\"class\",\"navbar-desktop-menu-links__list\"],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"li\"],[9,\"class\",\"navbar-desktop-menu-links__item\"],[7],[0,\"\\n        \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\"],[[25,\"concat\",[\"navbar-desktop-menu-links__link\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null]]],{\"statements\":[[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-desktop-menu.hbs" } });
+});
 define("pix-live/templates/components/navbar-header", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "srheRybV", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"navbar-header__container\"],[7],[0,\"\\n\\n  \"],[2,\" Logo (left) \"],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"navbar-header-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[2,\" Links (right) \"],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"navbar-header-right\"],[7],[0,\"\\n    \"],[6,\"div\"],[10,\"class\",[26,[\"navbar-header-links \",[25,\"if\",[[19,0,[\"isUserLogged\"]],\"navbar-header-links--user-logged\",\"\"],null]]]],[7],[0,\"\\n      \"],[6,\"ul\"],[9,\"class\",\"navbar-header-links__list\"],[7],[0,\"\\n        \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n          \"],[4,\"link-to\",[\"project\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--project\"]],{\"statements\":[[0,\"Projet\"]],\"parameters\":[]},null],[0,\"\\n        \"],[8],[0,\"\\n        \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n          \"],[4,\"link-to\",[\"competences\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--competences\"]],{\"statements\":[[0,\"Compétences\"]],\"parameters\":[]},null],[0,\"\\n        \"],[8],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"isUserLogged\"]]],null,{\"statements\":[[0,\"          \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n            \"],[4,\"link-to\",[\"login\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--connection\"]],{\"statements\":[[0,\"Se connecter\"]],\"parameters\":[]},null],[0,\"\\n          \"],[8],[0,\"\\n          \"],[6,\"li\"],[9,\"class\",\"navbar-header-links__item\"],[7],[0,\"\\n            \"],[4,\"link-to\",[\"inscription\"],[[\"class\"],[\"navbar-header-links__link navbar-header-links__link--inscription\"]],{\"statements\":[[0,\"S'inscrire\"]],\"parameters\":[]},null],[0,\"\\n          \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"isUserLogged\"]]],null,{\"statements\":[[0,\"      \"],[1,[18,\"user-logged-menu\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-header.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "zzp35ZUX", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"navbar-header__container\"],[7],[0,\"\\n\"],[4,\"unless\",[[19,0,[\"media\",\"isDesktop\"]]],null,{\"statements\":[[0,\"    \"],[1,[25,\"navbar-mobile-menu\",null,[[\"menu\"],[[19,0,[\"menu\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[2,\" Logo (left) \"],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"navbar-header-logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[2,\" Links (right) \"],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"navbar-header-right\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"media\",\"isDesktop\"]]],null,{\"statements\":[[0,\"      \"],[1,[25,\"navbar-desktop-menu\",null,[[\"menu\"],[[19,0,[\"menu\"]]]]],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\"],[4,\"if\",[[19,0,[\"isUserLogged\"]]],null,{\"statements\":[[0,\"      \"],[1,[18,\"user-logged-menu\"],false],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-header.hbs" } });
+});
+define("pix-live/templates/components/navbar-mobile-menu", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "NKFj1DWc", "block": "{\"symbols\":[\"item\"],\"statements\":[[4,\"side-menu\",null,null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header__title\"],[7],[0,\"Menu\"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"mobile-menu-header__close-button\"],[3,\"action\",[[19,0,[]],\"closeMenu\"]],[7],[0,\"\\n      \"],[6,\"img\"],[10,\"src\",[26,[[18,\"rootURL\"],\"/images/icons/icon-croix.svg\"]]],[9,\"alt\",\"close menu\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[4,\"each\",[[19,0,[\"menu\"]]],null,{\"statements\":[[0,\"    \"],[4,\"link-to\",[[19,1,[\"link\"]]],[[\"class\",\"action\",\"preventDefault\"],[[25,\"concat\",[\"mobile-menu__item\",\" \",[25,\"if\",[[19,1,[\"class\"]],[25,\"-normalize-class\",[\"item.class\",[19,1,[\"class\"]]],null]],null],\" \"],null],\"closeMenu\",false]],{\"statements\":[[0,\" \"],[1,[19,1,[\"name\"]],false]],\"parameters\":[]},null],[0,\"\\n\"]],\"parameters\":[1]},null]],\"parameters\":[]},null],[0,\"\\n\"],[1,[18,\"pix-content-backdrop\"],false],[0,\"\\n\\n\"],[4,\"side-menu-toggle\",null,null,{\"statements\":[[0,\"   \\n\"]],\"parameters\":[]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/navbar-mobile-menu.hbs" } });
 });
 define("pix-live/templates/components/partners-enrollment-panel", ["exports"], function (exports) {
   "use strict";
@@ -7829,6 +8113,22 @@ define("pix-live/templates/components/share-profile", ["exports"], function (exp
   });
   exports.default = Ember.HTMLBars.template({ "id": "ofWNDARl", "block": "{\"symbols\":[\"&default\"],\"statements\":[[6,\"button\"],[9,\"class\",\"share-profile__share-button\"],[3,\"action\",[[19,0,[]],\"openModal\"]],[7],[0,\"\\n  Partager \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[0,\"mon profile\"],[8],[0,\"\\n  \"],[6,\"img\"],[9,\"class\",\"share-profile__share-button-image\"],[9,\"src\",\"/images/icon-partager.svg\"],[9,\"alt\",\"\"],[7],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_showingModal\"]]],null,{\"statements\":[[4,\"pix-modale\",null,[[\"containerClass\",\"onClose\"],[\"share-profile__modal\",\"closeModal\"]],{\"statements\":[[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"pix-modal__container\"],[7],[0,\"\\n\\n      \"],[6,\"a\"],[9,\"href\",\"#\"],[9,\"class\",\"pix-modal__close-link\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\\n        \"],[6,\"img\"],[9,\"src\",\"/images/comparison-window/icon-close-modal.svg\"],[9,\"alt\",\"Fermer la fenêtre modale\"],[9,\"width\",\"24\"],[9,\"height\",\"24\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n\\n      \"],[6,\"h1\"],[7],[0,\"Partage de votre profil\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"stepOrganizationCodeEntry\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--organization-code-entry\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[0,\"Veuillez saisir le code correspondant à votre organisation (collège, lycée, université, école, entreprise).\"],[8],[0,\"\\n\\n            \"],[1,[25,\"input\",null,[[\"class\",\"id\",\"placeholder\",\"focus-in\",\"focus-out\",\"value\",\"enter\"],[\"pix-modal__input share-profile__organization-code-input\",\"code\",[19,0,[\"_placeholder\"]],\"focusInOrganizationCodeInput\",\"focusOutOrganizationCodeInput\",[19,0,[\"_code\"]],\"findOrganizationAndGoToSharingConfirmationView\"]]],false],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_organizationNotFound\"]]],null,{\"statements\":[[0,\"              \"],[6,\"p\"],[9,\"class\",\"share-profile__form-error\"],[7],[0,\"Ce code ne correspond à aucune organisation.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"          \"],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__continue-button\"],[3,\"action\",[[19,0,[]],\"findOrganizationAndGoToSharingConfirmationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[4,\"if\",[[19,0,[\"stepProfileSharingConfirmation\"]]],null,{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--sharing-confirmation\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--organization-name\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text1\"]],false],[8],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"share-profile__organization-name\"],[7],[1,[20,[\"_organization\",\"name\"]],false],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"isOrganizationHasTypeSup\"]]],null,{\"statements\":[[0,\"            \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--student-code\"],[7],[0,\"\\n              \"],[6,\"p\"],[7],[0,\"Veuillez saisir votre numéro d'étudiant :\"],[8],[0,\"\\n              \"],[1,[25,\"input\",null,[[\"class\",\"value\"],[\"pix-modal__input share-profile__student-code-input\",[19,0,[\"_studentCode\"]]]]],false],[0,\"\\n            \"],[8],[0,\"\\n\\n            \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--campaign-code\"],[7],[0,\"\\n              \"],[6,\"p\"],[7],[0,\"Précisez le code campagne s'il vous a été fourni :\"],[8],[0,\"\\n              \"],[1,[25,\"input\",null,[[\"class\",\"value\"],[\"pix-modal__input share-profile__campaign-code-input\",[19,0,[\"_campaignCode\"]]]]],false],[0,\"\\n            \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row share-profile__row--disclaimer\"],[7],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text2\"]],false],[8],[0,\"\\n            \"],[6,\"ul\"],[9,\"class\",\"pix-modal__list\"],[7],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› votre nom et prénom\"],[8],[0,\"\\n              \"],[6,\"li\"],[9,\"class\",\"pix-modal__list-item\"],[7],[0,\"› l'état actuel de votre profil\"],[8],[0,\"\\n            \"],[8],[0,\"\\n            \"],[6,\"p\"],[7],[1,[20,[\"organizationLabels\",\"text3\"]],false],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__share-modal-buttons\"],[7],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__confirm-button\"],[3,\"action\",[[19,0,[]],\"shareSnapshotAndGoToSuccessNotificationView\"]],[7],[0,\"Continuer\"],[8],[0,\"\\n            \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--secondary share-profile__cancel-button\"],[3,\"action\",[[19,0,[]],\"cancelSharingAndGoBackToOrganizationCodeEntryView\"]],[7],[0,\"Annuler\"],[8],[0,\"\\n          \"],[8],[0,\"\\n\\n        \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"\\n        \"],[6,\"section\"],[9,\"class\",\"pix-modal__body share-profile__section share-profile__section--success-notification\"],[7],[0,\"\\n          \"],[6,\"div\"],[9,\"class\",\"share-profile__row\"],[7],[0,\"\\n            \"],[6,\"p\"],[9,\"class\",\"share-profile__statement\"],[7],[0,\"Votre profil a été envoyé avec succès.\"],[8],[0,\"\\n          \"],[8],[0,\"\\n          \"],[6,\"button\"],[9,\"class\",\"pix-modal__button pix-modal__button--primary share-profile__close-button\"],[3,\"action\",[[19,0,[]],\"closeModal\"]],[7],[0,\"Fermer\"],[8],[0,\"\\n        \"],[8],[0,\"\\n\\n      \"]],\"parameters\":[]}]],\"parameters\":[]}],[0,\"\\n    \"],[8],[0,\"\\n\\n\"]],\"parameters\":[]},null]],\"parameters\":[]},null],[0,\"\\n\\n\"],[11,1],[0,\"\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/share-profile.hbs" } });
 });
+define("pix-live/templates/components/side-menu-toggle", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "3y7lf0Wi", "block": "{\"symbols\":[\"&default\"],\"statements\":[[4,\"if\",[[22,1]],null,{\"statements\":[[0,\"  \"],[11,1],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"  \"],[6,\"span\"],[9,\"class\",\"toggle-bars\"],[7],[0,\"\\n  \"],[8],[0,\"\\n\"]],\"parameters\":[]}]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/side-menu-toggle.hbs" } });
+});
+define("pix-live/templates/components/side-menu", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "Bsqp0/m/", "block": "{\"symbols\":[\"&default\"],\"statements\":[[11,1]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/side-menu.hbs" } });
+});
 define("pix-live/templates/components/signin-form", ["exports"], function (exports) {
   "use strict";
 
@@ -7843,7 +8143,7 @@ define("pix-live/templates/components/signup-form", ["exports"], function (expor
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "YKClQEby", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"form-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "lzN2T02h", "block": "{\"symbols\":[],\"statements\":[[6,\"form\"],[9,\"class\",\"signup-form-container\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__logo\"],[7],[0,\"\\n    \"],[1,[18,\"pix-logo\"],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__heading-container\"],[7],[0,\"\\n    \"],[6,\"h1\"],[9,\"class\",\"signup-form__heading\"],[7],[0,\"Inscription gratuite\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"_notificationMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"p\"],[9,\"class\",\"signup-form__notification-message\"],[9,\"aria-live\",\"polite\"],[7],[1,[18,\"_notificationMessage\"],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Prénom\",\"firstName\",[19,0,[\"user\",\"firstName\"]],\"validateInput\",[19,0,[\"validation\",\"firstName\",\"status\"]],[19,0,[\"validation\",\"firstName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"inputBindingValue\",\"validate\",\"validationStatus\",\"validationMessage\"],[\"Nom\",\"lastName\",[19,0,[\"user\",\"lastName\"]],\"validateInput\",[19,0,[\"validation\",\"lastName\",\"status\"]],[19,0,[\"validation\",\"lastName\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Adresse Email\",\"email\",[19,0,[\"validation\",\"email\",\"status\"]],\"validateInputEmail\",[19,0,[\"user\",\"email\"]],[19,0,[\"validation\",\"email\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__input-container\"],[7],[0,\"\\n    \"],[1,[25,\"form-textfield\",null,[[\"label\",\"textfieldName\",\"validationStatus\",\"validate\",\"inputBindingValue\",\"validationMessage\"],[\"Mot de passe\",\"password\",[19,0,[\"validation\",\"password\",\"status\"]],\"validateInputPassword\",[19,0,[\"user\",\"password\"]],[19,0,[\"validation\",\"password\",\"message\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__cgu-container\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"cgu\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"form-textfield__cgu-message--error\"],[7],[0,\"\\n        \"],[1,[20,[\"user\",\"errors\",\"cgu\",\"firstObject\",\"message\"]],false],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n    \"],[6,\"label\"],[9,\"for\",\"pix-cgu\"],[9,\"class\",\"signup-form__cgu-label\"],[7],[0,\"\\n      \"],[1,[25,\"input\",null,[[\"type\",\"id\",\"checked\"],[\"checkbox\",\"pix-cgu\",[19,0,[\"user\",\"cgu\"]]]]],false],[0,\"\\n      \"],[6,\"span\"],[7],[0,\"J'​accepte les \"],[4,\"link-to\",[\"terms-of-service\"],[[\"class\",\"target\"],[\"signup__cgu-link\",\"_blank\"]],{\"statements\":[[0,\"\\n        conditions d'​utilisation de Pix\"]],\"parameters\":[]},null],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__captcha-container\"],[7],[0,\"\\n\"],[4,\"if\",[[19,0,[\"user\",\"errors\",\"recaptchaToken\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"signup-field__recaptcha-message--error\"],[7],[1,[20,[\"user\",\"errors\",\"recaptchaToken\",\"firstObject\",\"message\"]],false],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"    \"],[1,[25,\"g-recaptcha\",null,[[\"recaptchaToken\",\"tokenHasBeenUsed\"],[[19,0,[\"user\",\"recaptchaToken\"]],[19,0,[\"_tokenHasBeenUsed\"]]]]],false],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"signup-form__submit-container\"],[7],[0,\"\\n    \"],[6,\"button\"],[9,\"class\",\"signup__submit-button\"],[3,\"action\",[[19,0,[]],\"signup\"]],[7],[0,\"Je m'inscris\"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/signup-form.hbs" } });
 });
 define("pix-live/templates/components/snapshot-list", ["exports"], function (exports) {
   "use strict";
@@ -7939,7 +8239,7 @@ define("pix-live/templates/courses/create-assessment-loading", ["exports"], func
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "3BonbZcO", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n    \"],[6,\"br\"],[7],[8],[0,\"Cela peut prendre jusqu'à 1 minute.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment-loading.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "gTAA1A6j", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment-loading.hbs" } });
 });
 define("pix-live/templates/courses/create-assessment", ["exports"], function (exports) {
   "use strict";
@@ -7947,7 +8247,7 @@ define("pix-live/templates/courses/create-assessment", ["exports"], function (ex
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "gnGT7qs8", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n    \"],[6,\"br\"],[7],[8],[0,\"Cela peut prendre jusqu'à 1 minute.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "aPJrvr/D", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"app-loader\"],[7],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__image\"],[7],[6,\"img\"],[9,\"src\",\"/images/interwind.gif\"],[7],[8],[8],[0,\"\\n  \"],[6,\"p\"],[9,\"class\",\"app-loader__text\"],[7],[0,\"\\n    Votre test est en cours de préparation.\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses/create-assessment.hbs" } });
 });
 define("pix-live/templates/enrollment", ["exports"], function (exports) {
   "use strict";
@@ -8130,6 +8430,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
+    it('mirage/factories/challenge.js', function () {
+      // test passed
+    });
+
     it('mirage/factories/competence.js', function () {
       // test passed
     });
@@ -8251,6 +8555,10 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/routes/post-authentications.js', function () {
+      // test passed
+    });
+
+    it('mirage/routes/post-certification-course.js', function () {
       // test passed
     });
 
@@ -8820,6 +9128,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.29.2"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+593b53a7"});
 }
 //# sourceMappingURL=pix-live.map
