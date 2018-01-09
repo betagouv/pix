@@ -6671,16 +6671,16 @@ define('pix-live/routes/certifications/resume', ['exports', 'pix-live/routes/bas
   exports.default = _baseRoute.default.extend({
     model: function model(params) {
       var certificationCourseId = params.certification_course_id;
-      return this.get('store').findRecord('certification-course', certificationCourseId);
+      return this.get('store').findRecord('course', certificationCourseId);
     },
-    afterModel: function afterModel(certification) {
+    afterModel: function afterModel(course) {
       var _this = this;
 
-      var assessment = certification.get('assessment');
+      var assessment = course.get('assessment');
       return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id') }).then(function (nextChallenge) {
         return _this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.get('id'));
       }).catch(function () {
-        return _this.transitionTo('certifications.results', certification.get('id'));
+        return _this.transitionTo('certifications.results', course.get('id'));
       });
     },
 
@@ -9119,6 +9119,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+e7e34f07"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+a8e2629e"});
 }
 //# sourceMappingURL=pix-live.map

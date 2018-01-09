@@ -15070,7 +15070,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
         // then
         return promise.then(function () {
           _sinon.default.assert.calledOnce(findRecordStub);
-          _sinon.default.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+          _sinon.default.assert.calledWith(findRecordStub, 'course', certificationCourseId);
         });
       });
     });
