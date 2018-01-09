@@ -1,15 +1,12 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
 const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
-const CertificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const userService = require('../../../lib/domain/services/user-service');
-const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const CertificationCourse = require('../../../lib/domain/models/CertificationCourse');
 
 module.exports = {
 

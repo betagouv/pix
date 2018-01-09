@@ -89,7 +89,7 @@ module.exports = {
       });
   },
 
-  findByFilters(request, reply){
+  findByFilters(request, reply) {
     const filters = request.query.filters;
 
     return assessmentRepository.findByFilters(filters)

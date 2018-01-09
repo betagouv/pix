@@ -46,7 +46,7 @@ describe('Unit | Serializer | JSONAPI | course-serializer', function() {
             assessment: {
               data: {
                 type: 'assessments',
-                id: "455"
+                id: '455'
               }
             }
           }

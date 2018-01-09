@@ -1,5 +1,4 @@
 const { describe, it, sinon, expect, beforeEach, afterEach } = require('../../../test-helper');
-const Boom = require('boom');
 
 const assessmentController = require('../../../../lib/application/assessments/assessment-controller');
 
@@ -13,16 +12,17 @@ describe('Unit | Controller | findByFilters', function() {
   let codeStub;
   let replyStub;
 
-  let assessments = [{ id: 1 }, { id: 2 }];
-  let assessmentsInJSONAPI = [
-    { id: 1,
+  const assessments = [{ id: 1 }, { id: 2 }];
+  const assessmentsInJSONAPI = [
+    {
+      id: 1,
       type: 'assessments',
       attributes: { pixScore: 12 }
-  }, {
-    id: 1,
-    type: 'assessments',
-    attributes: { pixScore: 12 }
-  }];
+    }, {
+      id: 1,
+      type: 'assessments',
+      attributes: { pixScore: 12 }
+    }];
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -41,7 +41,6 @@ describe('Unit | Controller | findByFilters', function() {
 
     const filters = { courseId: 'courseId' };
     const request = { query: { filters: filters } };
-
 
     it('should call assessment repository with query filters', function() {
       // when
@@ -81,7 +80,6 @@ describe('Unit | Controller | findByFilters', function() {
         expect(replyStub).to.have.been.calledWith(assessmentsInJSONAPI);
       });
     });
-
 
   });
 

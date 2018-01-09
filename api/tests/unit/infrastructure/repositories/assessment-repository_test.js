@@ -428,8 +428,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     after(() => {
       return knex('assessments').delete();
     });
-
-
+    
     it('should return courses which have the given courseId', function() {
       // given
       const filters = { courseId: 'courseId1' };
