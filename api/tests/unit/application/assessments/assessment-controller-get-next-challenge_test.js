@@ -141,7 +141,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
         it('should update the certification course status', () => {
           // given
-          clock = sinon.useFakeTimers(new Date('Mon, 04 Feb 2018'));
+          clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
           const certificationAssessment = new Assessment({
             id: 7531,
             courseId: '356',
@@ -156,7 +156,7 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
 
           // then
           return promise.then(() => {
-            expect(certificationCourseRepository.updateStatus).to.have.been.calledWith('completed', '356', '2018-02-04 00:00:00');
+            expect(certificationCourseRepository.updateStatus).to.have.been.calledWith('completed', '356', '2018-02-04T01:00:00.000+01:00');
           });
         });
 
