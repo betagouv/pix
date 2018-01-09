@@ -1,6 +1,6 @@
 const { describe, it, before, sinon, expect } = require('../../../test-helper');
 const Hapi = require('hapi');
-const moment = require('moment');
+
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const CertificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');

@@ -177,7 +177,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     it('should correctly query Assessment conditions', () => {
       // when
-      const limitDate = '2018-02-02T19:20:21.0'
+      const limitDate = '2018-02-02T19:20:21.0';
       const promise = assessmentRepository.findLastCompletedAssessmentsForEachCoursesByUser(userId,limitDate);
 
       // then
