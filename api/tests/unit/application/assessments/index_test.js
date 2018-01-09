@@ -68,11 +68,11 @@ describe('Unit | Router | assessment-router', function() {
   describe('GET /api/assessments', function() {
 
     before(function() {
-      sinon.stub(AssessmentController, 'getByFilters').callsFake((request, reply) => reply('ok'));
+      sinon.stub(AssessmentController, 'findByFilters').callsFake((request, reply) => reply('ok'));
     });
 
     after(function() {
-      AssessmentController.getByFilters.restore();
+      AssessmentController.findByFilters.restore();
     });
 
     it('should exist', function(done) {

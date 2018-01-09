@@ -89,6 +89,15 @@ module.exports = {
       });
   },
 
+  findByFilters(request, reply){
+    const filters = request.query.filters;
+
+    return assessmentRepository.findByFilters(filters)
+      .then((assessments) => {
+        reply(assessmentSerializer.serialize(assessments));
+      });
+  },
+
   getNextChallenge(request, reply) {
 
     return assessmentRepository

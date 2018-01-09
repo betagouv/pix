@@ -12,7 +12,7 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/assessments',
-      config: { handler: AssessmentController.getByFilters, tags: ['api'] }
+      config: { handler: AssessmentController.findByFilters, tags: ['api'] }
     },
     {
       method: 'GET',

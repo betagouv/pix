@@ -435,7 +435,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const filters = { courseId: 'courseId1' };
 
       // when
-      const promise = assessmentRepository.getByFilters(filters);
+      const promise = assessmentRepository.findByFilters(filters);
 
       // then
       promise.then((assessments) => {
@@ -450,7 +450,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const filters = { courseId: 'InexistantCourseId' };
 
       // when
-      const promise = assessmentRepository.getByFilters(filters);
+      const promise = assessmentRepository.findByFilters(filters);
 
       // then
       promise.then((assessments) => {
@@ -464,7 +464,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const filters = { inexistantField: 'InexistantCourseId' };
 
       // when
-      const promise = assessmentRepository.getByFilters(filters);
+      const promise = assessmentRepository.findByFilters(filters);
 
       // then
       promise.then((assessments) => {

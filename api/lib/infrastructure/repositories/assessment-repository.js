@@ -98,7 +98,7 @@ module.exports = {
       .fetch();
   },
 
-  getByFilters(filters) {
+  findByFilters(filters) {
     return AssessmentBookshelf
       .where(filters)
       .fetchAll()
