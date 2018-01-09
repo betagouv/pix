@@ -13,6 +13,7 @@ const solutionSerializer = require('../../infrastructure/serializers/jsonapi/sol
 const answerRepository = require('../../infrastructure/repositories/answer-repository');
 const solutionRepository = require('../../infrastructure/repositories/solution-repository');
 
+const queryParamsUtils = require('../../infrastructure/utils/query-params-utils');
 const logger = require('../../infrastructure/logger');
 
 const { NotFoundError, NotCompletedAssessmentError, AssessmentEndedError } = require('../../domain/errors');
@@ -90,7 +91,7 @@ module.exports = {
   },
 
   findByFilters(request, reply) {
-    const filters = request.query.filters;
+    const filters = queryParamsUtils.extractFilters(request);
 
     return assessmentRepository.findByFilters(filters)
       .then((assessments) => {

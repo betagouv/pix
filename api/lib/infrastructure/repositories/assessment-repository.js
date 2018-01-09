@@ -102,9 +102,8 @@ module.exports = {
     return AssessmentBookshelf
       .where(filters)
       .fetchAll()
-      .then(assessments => {
-        const assessmentsModels = assessments.map(_toDomain);
-        return assessmentsModels;
+      .then((assessments) => {
+        return assessments.map(_toDomain);
       });
   }
 

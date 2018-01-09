@@ -39,8 +39,7 @@ describe('Unit | Controller | findByFilters', function() {
 
   describe('GET assessments with filters', function() {
 
-    const filters = { courseId: 'courseId' };
-    const request = { query: { filters: filters } };
+    const request = { query: { 'filter[courseId]': 'courseId' } };
 
     it('should call assessment repository with query filters', function() {
       // when
@@ -49,7 +48,7 @@ describe('Unit | Controller | findByFilters', function() {
       // then
       return promise.then(() => {
         expect(assessmentRepository.findByFilters).to.have.been.called;
-        expect(assessmentRepository.findByFilters).to.have.been.calledWith(filters);
+        expect(assessmentRepository.findByFilters).to.have.been.calledWith({ courseId: 'courseId' });
       });
     });
 
