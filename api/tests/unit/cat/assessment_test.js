@@ -591,6 +591,7 @@ describe('Unit | Model | Assessment', function() {
       // then
       expect(assessment.nextChallenge.skills[0].difficulty).not.to.be.equal(6);
     });
+
     it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
       // given
       const web1 = new Skill('web1');
