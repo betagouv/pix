@@ -62,10 +62,15 @@ class Assessment {
     const extraAnswers = answers.map(answer => {
       return { binaryOutcome: answer.binaryOutcome, maxDifficulty: answer.maxDifficulty };
     });
-    extraAnswers.push({ maxDifficulty: 0, binaryOutcome: 1 });  // At start, anyone can solve a question of difficulty 0
-    extraAnswers.push({ maxDifficulty: 7, binaryOutcome: 0 });  // At start, nobody can solve a question of difficulty 7
-    // These edge cases will prevent the algorithm from thinking the user has unlimited knowledge if their first answer is correct
-    return -Math.abs(extraAnswers.map(answer => answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty)).reduce((a, b) => a + b));
+
+    const answerThatAnyoneCanSolve = { maxDifficulty: 0, binaryOutcome: 1 };
+    const answerThatNobodyCanSolve = { maxDifficulty: 7, binaryOutcome: 0 };
+    extraAnswers.push(answerThatAnyoneCanSolve, answerThatNobodyCanSolve);
+
+    const diffBetweenResultAndProbaToResolve = extraAnswers.map(answer =>
+      answer.binaryOutcome - this._probaOfCorrectAnswer(level, answer.maxDifficulty));
+
+    return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
   }
 
   _isAnActiveChallenge(challenge) {
