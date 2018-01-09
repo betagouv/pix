@@ -589,7 +589,29 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
 
       // then
-      expect(assessment.nextChallenge.skills).not.to.be.equal([web6]);
+      expect(assessment.nextChallenge.skills[0].difficulty).not.to.be.equal(6);
+    });
+    it('should return a challenge of difficulty 7 if challenge of difficulty 6 is correctly answered', function() {
+      // given
+      const web1 = new Skill('web1');
+      const web2 = new Skill('web2');
+      const web4 = new Skill('web4');
+      const web6 = new Skill('web6');
+      const web7 = new Skill('web7');
+      const ch1 = new Challenge('rec1', 'validé', [web1]);
+      const ch2 = new Challenge('rec2', 'validé', [web2]);
+      const ch4 = new Challenge('rec4', 'validé', [web4]);
+      const ch6 = new Challenge('rec6', 'validé', [web6]);
+      const ch7 = new Challenge('rec7', 'validé', [web7]);
+      const challenges = [ch1, ch2, ch4, ch6, ch7];
+      const course = new Course(challenges);
+      const answer2 = new Answer(ch2, Answer.OK);
+      const answer6 = new Answer(ch6, Answer.OK);
+      const answers = [answer2, answer6];
+      const assessment = new Assessment(course, answers);
+
+      // then
+      expect(assessment.nextChallenge.skills).to.be.deep.equal([web7]);
     });
   });
 
