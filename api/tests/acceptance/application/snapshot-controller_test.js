@@ -25,7 +25,11 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       index: '1.1',
       areaId: 'recAreaA',
       level: -1,
-      courseId: 'recBxPAuEPlTgt72q11'
+      courseId: 'recBxPAuEPlTgt72q11',
+      area: {
+        id: 'recAreaA',
+        name: 'area-name-1'
+      }
     },
     {
       id: 'recCompB',
@@ -33,7 +37,12 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       index: '1.2',
       areaId: 'recAreaB',
       level: -1,
-      courseId: 'recBxPAuEPlTgt72q99'
+      courseId: 'recBxPAuEPlTgt72q99',
+      area: {
+        id: 'recAreaB',
+        name: 'area-name-2'
+      }
+
     }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
@@ -116,7 +125,7 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       });
     });
 
-    describe('when creating with a wrong payload', () => {
+    context('when creating with a wrong payload', () => {
 
       it('should return 422 HTTP status code', () => {
         // Given

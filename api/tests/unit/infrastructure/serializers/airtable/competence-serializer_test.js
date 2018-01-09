@@ -1,11 +1,12 @@
 const { describe, it, expect } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/airtable/competence-serializer');
+const Area = require('../../../../../lib/domain/models/Area');
 
 describe('Unit | Serializer | competence-serializer', function() {
 
   describe('#Deserialize', () => {
 
-    describe('Success deserialization', () => {
+    context('Success deserialization', () => {
       const airtableCompetencesRecord = {
         id: 'recsvLDFHShyfDXXXXX',
         fields: {
@@ -16,7 +17,8 @@ describe('Unit | Serializer | competence-serializer', function() {
           'Epreuves': ['recsvLz0W2ShyfD00', 'recsvLz0W2ShyfD01'],
           'Tests': ['Test de positionnement 1.1'],
           'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
-          'Acquis': ['@url2', '@url5', '@utiliserserv6', '@rechinfo1', '@eval1', '@publi3', '@modèleEco1']
+          'Acquis': ['@url2', '@url5', '@utiliserserv6', '@rechinfo1', '@eval1', '@publi3', '@modèleEco1'],
+          'Domaine Name': [ '1. Information et données' ]
         }
       };
 
@@ -45,6 +47,18 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.Epreuves).to.not.exist;
         expect(competences.reference).to.equal(airtableCompetencesRecord.fields['Référence']);
         expect(competences.skills).to.deep.equal(airtableCompetencesRecord.fields['Acquis']);
+      });
+
+      it('should return a Competence model with an Area', () => {
+        // When
+        const competences = serializer.deserialize(airtableCompetencesRecord);
+
+        // Then
+        expect(competences.areaId).to.equal(airtableCompetencesRecord.fields['Domaine']);
+
+        expect(competences.area).to.be.an.instanceOf(Area);
+        expect(competences.area.id).to.equal('recvoGdo0z0z0pXWZ');
+        expect(competences.area.name).to.equal('1. Information et données');
       });
 
       it('should get a new competence Model even if there is no course associated', () => {
