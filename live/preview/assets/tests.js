@@ -348,10 +348,72 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
     // Then
     );
+
+    (0, _mocha.it)('b1.7 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var $alert;
+      return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              _context7.next = 2;
+              return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
+
+            case 2:
+              $(':radio').prop('checked', false);
+              _context7.next = 5;
+              return click('.challenge-actions__action-validate');
+
+            case 5:
+              _context7.next = 7;
+              return click($('.label-checkbox-proposal:eq(0)'));
+
+            case 7:
+
+              // then
+              $alert = $('.alert');
+
+              (0, _chai.expect)($alert).to.have.lengthOf(0);
+
+            case 9:
+            case 'end':
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
   'use strict';
+
+  function _asyncToGenerator(fn) {
+    return function () {
+      var gen = fn.apply(this, arguments);
+      return new Promise(function (resolve, reject) {
+        function step(key, arg) {
+          try {
+            var info = gen[key](arg);
+            var value = info.value;
+          } catch (error) {
+            reject(error);
+            return;
+          }
+
+          if (info.done) {
+            resolve(value);
+          } else {
+            return Promise.resolve(value).then(function (value) {
+              step("next", value);
+            }, function (err) {
+              step("throw", err);
+            });
+          }
+        }
+
+        return step("next");
+      });
+    };
+  }
 
   function visitTimedChallenge() {
     visit('/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id');
@@ -453,6 +515,34 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
         (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
       });
     });
+
+    (0, _mocha.it)('b2.11 L\'alerte n\'est pas affichée si l\'utilisateur valide sans avoir coché de réponse puis coche sur une réponse', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var $alert;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return click('.challenge-actions__action-validate');
+
+            case 2:
+              _context.next = 4;
+              return click($('.proposal-text:eq(1)'));
+
+            case 4:
+
+              // then
+              $alert = $('.alert');
+
+              (0, _chai.expect)($alert).to.have.lengthOf(0);
+
+            case 6:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this);
+    })));
   });
 });
 define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-live/tests/helpers/application'], function (_mocha, _chai, _application) {
