@@ -1,6 +1,5 @@
-const { expect, describe, it, sinon } = require('../../../test-helper');
+const { expect, describe, it } = require('../../../test-helper');
 const queryParamsUtils = require('../../../../lib/infrastructure/utils/query-params-utils');
-
 
 describe('Unit | Utils | Query Params Utils', function() {
 
@@ -19,8 +18,8 @@ describe('Unit | Utils | Query Params Utils', function() {
 
       // then
       expect(result).to.deep.equal({
-        courseId : "26"
-      })
+        courseId : '26'
+      });
     });
 
   });

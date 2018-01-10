@@ -431,7 +431,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     it('should return courses which have the given courseId', function() {
       // given
-      const filters = {courseId : 'courseId1'};
+      const filters = { courseId: 'courseId1' };
 
       // when
       const promise = assessmentRepository.findByFilters(filters);
@@ -446,7 +446,7 @@ describe('Unit | Repository | assessmentRepository', () => {
 
     it('should return an empty array there is no Assessment found', function() {
       // given
-      const filters = { courseId : 'InexistantCourseId'};
+      const filters = { courseId: 'InexistantCourseId' };
 
       // when
       const promise = assessmentRepository.findByFilters(filters);
@@ -460,4 +460,3 @@ describe('Unit | Repository | assessmentRepository', () => {
 
   });
 });
-

@@ -148,7 +148,7 @@ function findByFilters(filters) {
       return Promise.all(assessmentsWithAssociatedCourse).then(assessments => {
         return assessments;
       });
-    })
+    });
 }
 
 function _isNonScoredAssessment(assessment) {

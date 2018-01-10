@@ -518,7 +518,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
         const filters = { courseId: 'courseId' };
         const retrievedAssessments = [new Assessment({ id: 1, type: 'CERTIFICATION', courseId: 'courseId' })];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
-        certificationCourseRepository.get.resolves({id: 'courseId', status: 'started' });
+        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
         // when
         const promise = service.findByFilters(filters);
 
@@ -535,7 +535,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       it('should get the course associated to each assessment ', function() {
         // given
-        const filters = { userId : 1};
+        const filters = { userId: 1 };
         const retrievedAssessments = [
           new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
           new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
@@ -554,13 +554,13 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
       it('should return two assessment with corresponding course just for the certification assessment', function() {
         // given
-        const filters = { userId : 1};
+        const filters = { userId: 1 };
         const retrievedAssessments = [
           new Assessment({ id: 1, type: 'CERTIFICATION', courseId: '2' }),
           new Assessment({ id: 2, type: 'DEMO', courseId: 'recCourseId' })
         ];
         assessmentRepository.findByFilters.resolves(retrievedAssessments);
-        certificationCourseRepository.get.resolves({id: 'courseId', status: 'started' });
+        certificationCourseRepository.get.resolves({ id: 'courseId', status: 'started' });
 
         // when
         const promise = service.findByFilters(filters);
@@ -578,7 +578,6 @@ describe('Unit | Domain | Services | assessment-service', () => {
 
     });
   });
-
 
   describe('#isAssessmentCompleted', () => {
     it('should return true when the assessment has a pixScore and an estimatedLevel', () => {

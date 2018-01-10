@@ -6,8 +6,6 @@ describe('Unit | Serializer | JSONAPI | assessment-serializer', function() {
 
   let modelObject;
   let jsonAssessment;
-  let course;
-
 
   beforeEach(() => {
     const associatedCourse = {
