@@ -15024,7 +15024,7 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon', 'chai'], function (_mocha, _emberMocha, _sinon, _chai) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Certification | resume', function () {
@@ -15036,6 +15036,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
     var StoreStub = void 0;
     var findRecordStub = void 0;
     var queryRecordStub = void 0;
+    var queryStub = void 0;
     var certificationCourseId = 'certification_course_id';
     var assessmentId = 'assessment_id';
 
@@ -15043,9 +15044,11 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
       // define stubs
       findRecordStub = _sinon.default.stub();
       queryRecordStub = _sinon.default.stub();
+      queryStub = _sinon.default.stub();
       StoreStub = Ember.Service.extend({
         findRecord: findRecordStub,
-        queryRecord: queryRecordStub
+        queryRecord: queryRecordStub,
+        query: queryStub
       });
 
       // manage dependency injection context
@@ -15059,33 +15062,56 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
 
     (0, _mocha.describe)('#model', function () {
 
-      (0, _mocha.it)('should fetch a certification', function () {
+      (0, _mocha.it)('should get the assessment associated to the certification course', function () {
         // given
         var params = { certification_course_id: certificationCourseId };
-        route.get('store').findRecord.resolves();
+        var filters = {
+          filter: {
+            courseId: certificationCourseId
+          }
+        };
+        var retrievedAssessments = [];
+        retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+        route.get('store').query.resolves(retrievedAssessments);
 
         // when
         var promise = route.model(params);
 
         // then
         return promise.then(function () {
-          _sinon.default.assert.calledOnce(findRecordStub);
-          _sinon.default.assert.calledWith(findRecordStub, 'course', certificationCourseId);
+          _sinon.default.assert.calledOnce(queryStub);
+          _sinon.default.assert.calledWith(queryStub, 'assessment', filters);
+        });
+      });
+
+      (0, _mocha.it)('should return the first assessment associated to the certification course', function () {
+        // given
+        var params = { certification_course_id: certificationCourseId };
+        var retrievedAssessments = [];
+        retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+        route.get('store').query.resolves(retrievedAssessments);
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function (assessment) {
+          (0, _chai.expect)(assessment.id).to.equal(1);
         });
       });
     });
 
     (0, _mocha.describe)('#afterModel', function () {
 
-      var assessment = Ember.Object.create({ id: assessmentId });
-      var certification = Ember.Object.create({ id: certificationCourseId, assessment: assessment });
+      var course = Ember.Object.create({ id: 'certification_course_id' });
+      var assessment = Ember.Object.create({ id: assessmentId, course: course });
 
       (0, _mocha.it)('should get the next challenge of the assessment', function () {
         // given
         queryRecordStub.resolves();
 
         // when
-        var promise = route.afterModel(certification);
+        var promise = route.afterModel(assessment);
 
         // then
         return promise.then(function () {
@@ -15102,7 +15128,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
           queryRecordStub.resolves(nextChallenge);
 
           // when
-          var promise = route.afterModel(certification);
+          var promise = route.afterModel(assessment);
 
           // then
           return promise.then(function () {
@@ -15119,7 +15145,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
           queryRecordStub.rejects();
 
           // when
-          var promise = route.afterModel(certification);
+          var promise = route.afterModel(assessment);
 
           // then
           return promise.then(function () {

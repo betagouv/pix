@@ -6671,16 +6671,22 @@ define('pix-live/routes/certifications/resume', ['exports', 'pix-live/routes/bas
   exports.default = _baseRoute.default.extend({
     model: function model(params) {
       var certificationCourseId = params.certification_course_id;
-      return this.get('store').findRecord('course', certificationCourseId);
+
+      return this.get('store').query('assessment', {
+        filter: {
+          courseId: certificationCourseId
+        }
+      }).then(function (assessments) {
+        return assessments.get('firstObject');
+      });
     },
-    afterModel: function afterModel(course) {
+    afterModel: function afterModel(assessment) {
       var _this = this;
 
-      var assessment = course.get('assessment');
       return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id') }).then(function (nextChallenge) {
         return _this.transitionTo('assessments.challenge', assessment.get('id'), nextChallenge.get('id'));
       }).catch(function () {
-        return _this.transitionTo('certifications.results', course.get('id'));
+        return _this.transitionTo('certifications.results', assessment.get('course.id'));
       });
     },
 
@@ -9119,6 +9125,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+d3d17e9b"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+0b685de7"});
 }
 //# sourceMappingURL=pix-live.map
