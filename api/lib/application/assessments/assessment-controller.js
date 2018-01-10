@@ -93,9 +93,9 @@ module.exports = {
   findByFilters(request, reply) {
     const filters = queryParamsUtils.extractFilters(request);
 
-    return assessmentRepository.findByFilters(filters)
+    return assessmentService.findByFilters(filters)
       .then((assessments) => {
-        reply(assessmentSerializer.serialize(assessments));
+        reply(assessmentSerializer.serializeArray(assessments));
       });
   },
 
