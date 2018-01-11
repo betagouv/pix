@@ -58,6 +58,7 @@ module.exports = {
         qb.where({ userId })
           .whereNotNull('estimatedLevel')
           .whereNotNull('pixScore')
+          
           .andWhere(function() {
             this.where({ type: null })
               .orWhereNot({ type: 'CERTIFICATION' });
