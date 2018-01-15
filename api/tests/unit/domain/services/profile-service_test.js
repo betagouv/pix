@@ -10,7 +10,7 @@ const courseRepository = require('../../../../lib/infrastructure/repositories/co
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const organizationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
-const Assessment = require('../../../../lib/domain/models/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const User = require('../../../../lib/domain/models/data/user');
 
 describe('Unit | Service | Profil User Service', function() {

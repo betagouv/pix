@@ -1,4 +1,4 @@
-const Assessment = require('../../../../lib/domain/models/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 const { describe, it, expect } = require('../../../test-helper');
 
 describe('Unit | Domain | Models | Assessment', () => {
