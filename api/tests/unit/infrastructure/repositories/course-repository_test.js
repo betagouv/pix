@@ -230,7 +230,7 @@ describe('Unit | Repository | course-repository', function() {
         return promise.then((courses) => {
           courses.forEach(course => {
             expect(course).to.be.instanceOf(Course);
-          })
+          });
         });
       });
 
