@@ -349,6 +349,7 @@ define('pix-live/components/challenge-item-generic', ['exports', 'pix-live/utils
           return RSVP.reject(errorMessage);
         }
         var answerValue = this._getAnswerValue();
+        this.set('errorMessage', null);
         this.set('_isUserAwareThatChallengeIsTimed', false);
         return this.get('answerValidated')(this.get('challenge'), this.get('assessment'), answerValue, this._getTimeout(), this._getElapsedTime());
       },
@@ -1802,7 +1803,13 @@ define('pix-live/components/qcm-proposals', ['exports', 'pix-live/utils/labeled-
       var arrayOfBoolean = (0, _valueAsArrayOfBoolean.default)(this.get('answersValue'));
 
       return (0, _labeledCheckboxes.default)(arrayOfProposals, arrayOfBoolean);
-    })
+    }),
+
+    actions: {
+      checkboxCliked: function checkboxCliked() {
+        this.get('answerChanged')();
+      }
+    }
   });
 });
 define('pix-live/components/qcm-solution-panel', ['exports', 'pix-live/utils/labeled-checkboxes', 'pix-live/utils/value-as-array-of-boolean', 'pix-live/utils/proposals-as-array', 'pix-live/utils/lodash-custom'], function (exports, _labeledCheckboxes, _valueAsArrayOfBoolean, _proposalsAsArray, _lodashCustom) {
@@ -7997,7 +8004,7 @@ define("pix-live/templates/components/qcm-proposals", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "W6GzINqd", "block": "{\"symbols\":[\"labeledCheckbox\",\"index\"],\"statements\":[[4,\"each\",[[19,0,[\"labeledCheckboxes\"]]],null,{\"statements\":[[6,\"p\"],[9,\"class\",\"proposal-paragraph\"],[7],[0,\"\\n\\n\"],[0,\"  \"],[6,\"input\"],[9,\"type\",\"checkbox\"],[10,\"id\",[26,[\"checkbox_\",[25,\"inc\",[[19,2,[]]],null]]]],[10,\"checked\",[19,1,[\"1\"]],null],[10,\"name\",[26,[[25,\"inc\",[[19,2,[]]],null]]]],[7],[8],[0,\"\\n\\n\"],[0,\"  \"],[6,\"label\"],[10,\"for\",[26,[\"checkbox_\",[25,\"inc\",[[19,2,[]]],null]]]],[9,\"class\",\"label-checkbox-proposal\"],[7],[0,\"\\n\\n\"],[0,\"    \"],[6,\"span\"],[9,\"class\",\"proposal-text\"],[7],[1,[19,1,[\"0\"]],false],[8],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qcm-proposals.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "mtVGBcbB", "block": "{\"symbols\":[\"labeledCheckbox\",\"index\"],\"statements\":[[4,\"each\",[[19,0,[\"labeledCheckboxes\"]]],null,{\"statements\":[[6,\"p\"],[9,\"class\",\"proposal-paragraph\"],[7],[0,\"\\n\\n\"],[0,\"  \"],[6,\"input\"],[9,\"type\",\"checkbox\"],[10,\"id\",[26,[\"checkbox_\",[25,\"inc\",[[19,2,[]]],null]]]],[10,\"checked\",[19,1,[\"1\"]],null],[10,\"name\",[26,[[25,\"inc\",[[19,2,[]]],null]]]],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"checkboxCliked\"],null],null],[7],[8],[0,\"\\n\\n\"],[0,\"  \"],[6,\"label\"],[10,\"for\",[26,[\"checkbox_\",[25,\"inc\",[[19,2,[]]],null]]]],[9,\"class\",\"label-checkbox-proposal\"],[7],[0,\"\\n\\n\"],[0,\"    \"],[6,\"span\"],[9,\"class\",\"proposal-text\"],[7],[1,[19,1,[\"0\"]],false],[8],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qcm-proposals.hbs" } });
 });
 define("pix-live/templates/components/qcm-solution-panel", ["exports"], function (exports) {
   "use strict";
@@ -8013,7 +8020,7 @@ define("pix-live/templates/components/qcu-proposals", ["exports"], function (exp
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "Pd6AoFsX", "block": "{\"symbols\":[\"labeledRadio\",\"index\"],\"statements\":[[6,\"form\"],[10,\"onchange\",[26,[[25,\"action\",[[19,0,[]],\"radioClicked\"],null]]]],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"labeledRadios\"]]],null,{\"statements\":[[6,\"p\"],[9,\"class\",\"proposal-paragraph\"],[7],[0,\"\\n\\n\"],[0,\"  \"],[6,\"input\"],[9,\"type\",\"radio\"],[9,\"name\",\"radio\"],[10,\"value\",[26,[[25,\"inc\",[[19,2,[]]],null]]]],[10,\"id\",[26,[\"radio_\",[25,\"inc\",[[19,2,[]]],null]]]],[10,\"checked\",[19,1,[\"1\"]],null],[7],[8],[0,\"\\n\\n\"],[0,\"  \"],[6,\"label\"],[10,\"for\",[26,[\"radio_\",[25,\"inc\",[[19,2,[]]],null]]]],[9,\"class\",\"label-checkbox-proposal\"],[7],[0,\"\\n\\n\"],[0,\"    \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[0,\"La réponse à la question est : \"],[8],[6,\"span\"],[9,\"class\",\"proposal-text\"],[7],[1,[19,1,[\"0\"]],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qcu-proposals.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "suFv8i6p", "block": "{\"symbols\":[\"labeledRadio\",\"index\"],\"statements\":[[6,\"form\"],[10,\"onchange\",[26,[[25,\"action\",[[19,0,[]],\"radioClicked\"],null]]]],[7],[0,\"\\n\"],[4,\"each\",[[19,0,[\"labeledRadios\"]]],null,{\"statements\":[[6,\"p\"],[9,\"class\",\"proposal-paragraph\"],[7],[0,\"\\n\\n\"],[0,\"  \"],[6,\"input\"],[9,\"type\",\"radio\"],[9,\"name\",\"radio\"],[10,\"value\",[26,[[25,\"inc\",[[19,2,[]]],null]]]],[10,\"id\",[26,[\"radio_\",[25,\"inc\",[[19,2,[]]],null]]]],[10,\"checked\",[19,1,[\"1\"]],null],[10,\"onclick\",[25,\"action\",[[19,0,[]],\"radioClicked\",[19,2,[]]],null],null],[7],[8],[0,\"\\n\\n\"],[0,\"  \"],[6,\"label\"],[10,\"for\",[26,[\"radio_\",[25,\"inc\",[[19,2,[]]],null]]]],[9,\"class\",\"label-checkbox-proposal\"],[7],[0,\"\\n\\n\"],[0,\"    \"],[6,\"span\"],[9,\"class\",\"sr-only\"],[7],[0,\"La réponse à la question est : \"],[8],[6,\"span\"],[9,\"class\",\"proposal-text\"],[7],[1,[19,1,[\"0\"]],false],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"parameters\":[1,2]},null],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/qcu-proposals.hbs" } });
 });
 define("pix-live/templates/components/qcu-solution-panel", ["exports"], function (exports) {
   "use strict";
@@ -9150,6 +9157,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.34.0+d1c66338"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.35.0+31c7d6fa"});
 }
 //# sourceMappingURL=pix-live.map
