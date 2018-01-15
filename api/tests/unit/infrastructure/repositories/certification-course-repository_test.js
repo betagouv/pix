@@ -11,15 +11,17 @@ describe('Unit | Repository | Certification Course', function() {
     let savedCertificationCourse;
 
     beforeEach(() => {
-      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed' });
+      certificationCourse = new CertificationCourse({ id: 'certifId', userId: 1, status: 'completed', completedAt: null });
       savedCertificationCourse = new CertificationCourse({
         id: 'certifId',
         userId: 1,
         status: 'completed',
+        completedAt: null,
         type: 'CERTIFICATION',
         challenges: [],
         assessment: {}
       });
+
       const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
       sinon.stub(CertificationCourseBookshelf.prototype, 'save').resolves(certificationCourseBookshelf);
     });

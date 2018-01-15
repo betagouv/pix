@@ -9,7 +9,8 @@ function _toDomain(model) {
     status: model.get('status'),
     type: 'CERTIFICATION',
     assessment: model.related('assessment').toJSON(),
-    challenges: model.related('challenges').toJSON()
+    challenges: model.related('challenges').toJSON(),
+    completedAt: model.get('completedAt')
   });
 }
 
@@ -21,8 +22,8 @@ module.exports = {
       .then(_toDomain);
   },
 
-  updateStatus(status, certificationCourseId) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status });
+  updateStatus(status, certificationCourseId, completedAt = null) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status, completedAt });
     return certificationCourseBookshelf.save();
   },
 
