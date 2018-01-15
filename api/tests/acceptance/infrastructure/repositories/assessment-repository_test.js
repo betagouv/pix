@@ -9,56 +9,71 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
 
     let assessmentIdInDb;
 
-    beforeEach(() => {
-      return knex('assessments')
-        .insert({
-          userId: 1,
-          courseId: 'course_A',
-          pixScore: null,
-          estimatedLevel: null,
-          createdAt: '2016-10-27 08:44:25'
-        })
-        .then((assessmentId) => {
-          assessmentIdInDb = assessmentId[0];
-          return knex('answers').insert([
-            {
-              value: '1,4',
-              result: 'ko',
-              challengeId: 'challenge_1',
-              assessmentId: assessmentIdInDb
-            }, {
-              value: '2,8',
-              result: 'ko',
-              challengeId: 'challenge_2',
-              assessmentId: assessmentIdInDb
-            },
-            {
-              value: '5,2',
-              result: 'ko',
-              challengeId: 'challenge_3'
-            }
-          ]);
+    context('when the assessment exists', () => {
+
+      beforeEach(() => {
+        return knex('assessments')
+          .insert({
+            userId: 1,
+            courseId: 'course_A',
+            pixScore: null,
+            estimatedLevel: null,
+            createdAt: '2016-10-27 08:44:25'
+          })
+          .then((assessmentId) => {
+            assessmentIdInDb = assessmentId[0];
+            return knex('answers').insert([
+              {
+                value: '1,4',
+                result: 'ko',
+                challengeId: 'challenge_1',
+                assessmentId: assessmentIdInDb
+              }, {
+                value: '2,8',
+                result: 'ko',
+                challengeId: 'challenge_2',
+                assessmentId: assessmentIdInDb
+              },
+              {
+                value: '5,2',
+                result: 'ko',
+                challengeId: 'challenge_3'
+              }
+            ]);
+          });
+      });
+
+      afterEach(() => {
+        return knex('assessments').delete()
+          .then(() => knex('answers').delete());
+      });
+
+      it('should return the assessment with the answers ', () => {
+        // when
+        const promise = assessmentRepository.get(assessmentIdInDb);
+
+        // then
+        return promise.then(assessment => {
+          expect(assessment).to.be.an.instanceOf(Assessment);
+          expect(assessment.id).to.equal(assessmentIdInDb);
+          expect(assessment.courseId).to.equal('course_A');
+
+          expect(assessment.answers).to.have.lengthOf(2);
+          expect(assessment.answers[0].challengeId).to.equal('challenge_1');
+          expect(assessment.answers[1].challengeId).to.equal('challenge_2');
         });
+      });
     });
 
-    afterEach(() => {
-      return knex('assessments').delete()
-        .then(() => knex('answers').delete());
-    });
+    context('when the assessment does not exist', () => {
+      it('should return null', () => {
+        // when
+        const promise = assessmentRepository.get(245);
 
-    it('should return the assessment with the answers ', () => {
-      // when
-      const promise = assessmentRepository.get(assessmentIdInDb);
-
-      // then
-      return promise.then(assessment => {
-        expect(assessment).to.be.an.instanceOf(Assessment);
-        expect(assessment.id).to.equal(assessmentIdInDb);
-        expect(assessment.courseId).to.equal('course_A');
-
-        expect(assessment.answers).to.have.lengthOf(2);
-        expect(assessment.answers[0].challengeId).to.equal('challenge_1');
-        expect(assessment.answers[1].challengeId).to.equal('challenge_2');
+        // then
+        return promise.then(assessment => {
+          expect(assessment).to.equal(null);
+        });
       });
     });
   });

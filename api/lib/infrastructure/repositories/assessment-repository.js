@@ -2,17 +2,19 @@ const BookshelfAssessment = require('../../domain/models/data/assessment');
 const Assessment = require('../../domain/models/Assessment');
 const { groupBy, map, head, _ } = require('lodash');
 
-function _toDomain(bookshelfAssessment) {
-  if (bookshelfAssessment !== null) {
-    const modelObjectInJSON = bookshelfAssessment.toJSON();
-    return new Assessment(modelObjectInJSON);
-  }
-  return null;
-}
-
 function _selectLastAssessmentForEachCourse(assessments) {
   const assessmentsGroupedByCourse = groupBy(assessments.models, (assessment) => assessment.get('courseId'));
   return map(assessmentsGroupedByCourse, head);
+}
+
+function _toDomain(bookshelfAssessment) {
+
+  if(bookshelfAssessment !== null) {
+    const modelObjectInJSON = bookshelfAssessment.toJSON();
+    return new Assessment(modelObjectInJSON);
+  }
+
+  return null;
 }
 
 function _adaptModelToDb(assessment) {
