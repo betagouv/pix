@@ -59,7 +59,7 @@ describe('Acceptance | j1 - Comparer réponses et solutions pour un QCM |', func
     });
   });
 
-  describe('j1.3 Contenu de la modale : résultat & instruction', function() {
+  describe.only('j1.3 Contenu de la modale : résultat & instruction', function() {
 
     it('j1.3.1 Vérification de l\'index, ainsi que l\'image et le texte du résultat dans le header', async function() {
 
