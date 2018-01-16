@@ -1,6 +1,8 @@
+import Ember from 'ember';
 import DS from 'ember-data';
 
 const { Model, belongsTo, attr } = DS;
+const TOTAL_NUMBER_OF_COMPETENCES = 16;
 
 export default Model.extend({
   completionPercentage: attr('string'),
@@ -9,5 +11,8 @@ export default Model.extend({
   organization: belongsTo('organization'),
   user: belongsTo('user'),
   studentCode: attr('string'),
-  campaignCode: attr('string')
+  campaignCode: attr('string'),
+  testsFinished: Ember.computed('completionPercentage', function() {
+    return Math.round(this.get('completionPercentage')*TOTAL_NUMBER_OF_COMPETENCES/100);
+  })
 });
