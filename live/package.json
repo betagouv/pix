@@ -72,7 +72,7 @@
     "ember-moment": "^7.5.0",
     "ember-resolver": "^4.5.0",
     "ember-responsive": "^2.0.5",
-    "ember-routable-modal": "dbbk/ember-routable-modal#dd29622",
+    "ember-routable-modal": "MBrandone/ember-routable-modal#make-compliant-with-ember-2_17",
     "ember-route-action-helper": "^2.0.6",
     "ember-side-menu": "^0.0.15",
     "ember-simple-auth": "^1.4.2",
