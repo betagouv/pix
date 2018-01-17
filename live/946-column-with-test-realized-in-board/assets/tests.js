@@ -9825,9 +9825,8 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       var snapshot = Ember.Object.create({
         id: 1,
         score: 10,
-        completionPercentage: '19',
+        numberOfFinishedTests: '3',
         createdAt: '2017-09-25 12:14:33',
-        testsFinished: 3,
         user: user
       });
       this.set('snapshots', [snapshot]);
@@ -9846,7 +9845,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('testsFinished') + '/16');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('numberOfFinishedTests') + '/16');
       }.bind(this));
     });
   });
@@ -14358,21 +14357,18 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
       (0, _chai.expect)(model).to.be.ok;
     });
 
-    (0, _mocha.describe)('@testsFinished', function () {
-      (0, _mocha.it)('should return the number of finished test ', function () {
+    (0, _mocha.describe)('@numberOfFinishedTests', function () {
+      (0, _mocha.it)('should return the number of finished test without decimal ', function () {
         var _this = this;
 
         return run(function () {
           // given
           var model = _this.subject();
-          var TOTAL_COMPETENCES = 16;
           var numberOfEvaluatedCompetences = 5;
-          var completionPercentage = Math.round(numberOfEvaluatedCompetences / TOTAL_COMPETENCES * 100);
-          model.set('completionPercentage', completionPercentage);
-
+          var testsFinishedFromDB = 5.1;
+          model.set('testsFinished', testsFinishedFromDB);
           // when
-          var testsFinished = model.get('testsFinished');
-
+          var testsFinished = model.get('numberOfFinishedTests');
           // then
           (0, _chai.expect)(testsFinished).to.equal(numberOfEvaluatedCompetences);
         });
