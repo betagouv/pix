@@ -12,7 +12,7 @@ export default Model.extend({
   studentCode: attr('string'),
   campaignCode: attr('string'),
   numberOfFinishedTests: Ember.computed('testsFinished', function() {
-    return `${Math.round(this.get('testsFinished'))}`;
+    return Math.round(this.get('testsFinished'));
   })
 
 });
