@@ -14,4 +14,20 @@ describe('Unit | Model | snapshot', function() {
     // var store = this.store();
     expect(model).to.be.ok;
   });
+
+  describe('@numberOfFinishedTests', function() {
+    it('should return the number of finished test without decimal ', function() {
+      return run(() => {
+        // given
+        const model = this.subject();
+        const numberOfEvaluatedCompetences = 5;
+        const testsFinishedFromDB = 5.1;
+        model.set('testsFinished', testsFinishedFromDB);
+        // when
+        const testsFinished = model.get('numberOfFinishedTests');
+        // then
+        expect(testsFinished).to.equal(numberOfEvaluatedCompetences);
+      });
+    });
+  });
 });
