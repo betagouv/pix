@@ -15160,8 +15160,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
             courseId: certificationCourseId
           }
         };
-        var retrievedAssessments = [];
-        retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+        var retrievedAssessments = [Ember.Object.create({ id: 1 })];
         route.get('store').query.resolves(retrievedAssessments);
 
         // when
