@@ -495,7 +495,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
       });
     });
 
-    context('when the assessment is a certification', () => {
+    context('when the assessment is a certification assessment', () => {
 
       it('should get the course associated to each assessment ', function() {
         // given

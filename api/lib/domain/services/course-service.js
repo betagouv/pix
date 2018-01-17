@@ -7,7 +7,7 @@ const { NotFoundError } = require('../../../lib/domain/errors');
 module.exports = {
 
   getCourse(courseId) {
-
+    // TODO This repo switch should not be here because we make a technical discrimination on the course id
     if (_.startsWith(courseId, 'rec')) {
       return courseRepository.get(courseId)
         .then((airtableCourse) => {

@@ -102,7 +102,7 @@ describe('Unit | Router | course-router', function() {
       expectRouteToExist({ method: 'POST', url: '/api/courses' }, done);
     });
 
-    it('should call pre-handler', (done) => {
+    it('should verify if user is connected and the certification session code is right', (done) => {
       server.inject({ method: 'POST', url: '/api/courses' }, () => {
         expect(connectedUserVerification.verifyByToken).to.have.been.called;
         expect(accessSessionHandler.sessionIsOpened).to.have.been.called;

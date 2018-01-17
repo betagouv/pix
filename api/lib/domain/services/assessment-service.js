@@ -146,7 +146,7 @@ function findByFilters(filters) {
           return Promise.resolve(assessment);
         }
       });
-      return Promise.all(assessmentsWithAssociatedCourse)
+      return Promise.all(assessmentsWithAssociatedCourse);
     });
 }
 
