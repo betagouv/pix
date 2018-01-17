@@ -3,7 +3,7 @@ const { describe, it, expect, knex, beforeEach, afterEach } = require('../../../
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
-describe('Acceptance | Infrastructure | Repositories | assessment-repository', () => {
+describe('Integration | Infrastructure | Repositories | assessment-repository', () => {
 
   describe('#get', () => {
 
@@ -300,8 +300,8 @@ describe('Acceptance | Infrastructure | Repositories | assessment-repository', (
         expect(assessments[0]).to.be.an.instanceOf(Assessment);
         expect(assessments[1]).to.be.an.instanceOf(Assessment);
 
-        expect(assessments[0]).to.contains(expectedAssessments[0]);
-        expect(assessments[1]).to.contains(expectedAssessments[1]);
+        expect(assessments[0]).to.deep.contains(expectedAssessments[0]);
+        expect(assessments[1]).to.deep.contains(expectedAssessments[1]);
       });
     });
   });
