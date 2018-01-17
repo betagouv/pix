@@ -54,9 +54,8 @@ describe('Integration | Component | snapshot list', function() {
     const snapshot = EmberObject.create({
       id: 1,
       score: 10,
-      completionPercentage: '19',
+      testsFinished: '3',
       createdAt: '2017-09-25 12:14:33',
-      testsFinished: 3,
       user
     });
     this.set('snapshots', [snapshot]);
