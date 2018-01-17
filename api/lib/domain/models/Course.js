@@ -10,7 +10,7 @@ class Course {
     this.type = model.type;
 
     // relationships
-    this.competence = model.competence;
+    this.competences = model.competences;
     this.challenges = model.challenges || [];
     this.assessment = model.assessment;
 
