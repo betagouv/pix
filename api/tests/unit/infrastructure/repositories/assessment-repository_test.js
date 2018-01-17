@@ -399,7 +399,7 @@ describe('Unit | Repository | assessmentRepository', () => {
     });
   });
 
-  describe('#findAssessmentByFilters', function() {
+  describe('#findByFilters', function() {
 
     const assessmentsInDb = [{
       id: 1,
@@ -437,7 +437,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.findByFilters(filters);
 
       // then
-      promise.then((assessments) => {
+      return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(2);
         expect(assessments[0].courseId).to.equal('courseId1');
         expect(assessments[1].courseId).to.equal('courseId1');
@@ -452,7 +452,7 @@ describe('Unit | Repository | assessmentRepository', () => {
       const promise = assessmentRepository.findByFilters(filters);
 
       // then
-      promise.then((assessments) => {
+      return promise.then((assessments) => {
         expect(assessments).to.have.lengthOf(0);
       });
 

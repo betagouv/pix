@@ -467,7 +467,7 @@ describe('Unit | Domain | Services | assessment-service', () => {
     });
   });
 
-  describe('#findAssessmentByFilters', function() {
+  describe('#findByFilters', function() {
 
     let sandbox;
 

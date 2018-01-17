@@ -14,7 +14,7 @@ class Course {
     this.challenges = model.challenges || [];
     this.assessment = model.assessment;
 
-    // computed
+    // transformed
     this.nbChallenges = this.challenges.length;
   }
 }

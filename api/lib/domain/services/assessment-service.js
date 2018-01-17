@@ -135,6 +135,7 @@ function findByFilters(filters) {
   return assessmentRepository.findByFilters(filters)
     .then((assessments) => {
       const assessmentsWithAssociatedCourse = assessments.map((assessment) => {
+        // TODO REFACTO DE LA MAGIC STRING
         if (assessment.type === 'CERTIFICATION') {
           return certificationCourseRepository.get(assessment.courseId)
             .then((certificationCourse) => {
@@ -145,9 +146,7 @@ function findByFilters(filters) {
           return Promise.resolve(assessment);
         }
       });
-      return Promise.all(assessmentsWithAssociatedCourse).then(assessments => {
-        return assessments;
-      });
+      return Promise.all(assessmentsWithAssociatedCourse)
     });
 }
 
@@ -181,7 +180,6 @@ module.exports = {
   getAssessmentNextChallengeId,
   fetchAssessment,
   isAssessmentCompleted,
-  isPreviewAssessment,
   isCertificationAssessment,
   getNextChallengeForCertificationCourse,
   findByFilters

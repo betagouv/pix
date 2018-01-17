@@ -47,8 +47,7 @@ describe('Unit | Route | Certification | resume', function() {
           courseId: certificationCourseId
         }
       };
-      const retrievedAssessments = [];
-      retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+      const retrievedAssessments = [Ember.Object.create({ id: 1 })];
       route.get('store').query.resolves(retrievedAssessments);
 
       // when
