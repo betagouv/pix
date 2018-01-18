@@ -8853,14 +8853,14 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           }));
         });
 
-        (0, _mocha.it)('should not ask for student code (required)', function () {
+        (0, _mocha.it)('should not ask for student code', function () {
           // then
           (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
         });
 
-        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+        (0, _mocha.it)('should ask for campaign code', function () {
           // then
-          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.exist;
         });
       });
 
