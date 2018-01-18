@@ -1,4 +1,4 @@
-const TABLE_NAME = 'evaluated_competences';
+const TABLE_NAME = 'marks';
 
 exports.up = (knex) => {
   return knex.schema
