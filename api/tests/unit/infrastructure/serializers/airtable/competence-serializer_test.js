@@ -18,7 +18,8 @@ describe('Unit | Serializer | competence-serializer', function() {
           'Tests': ['Test de positionnement 1.1'],
           'Tests Record ID': ['recAY0W7x9urA11OLZJJ'],
           'Acquis': ['@url2', '@url5', '@utiliserserv6', '@rechinfo1', '@eval1', '@publi3', '@modèleEco1'],
-          'Domaine Name': [ '1. Information et données' ]
+          'Domaine Titre': [ 'Information et données' ],
+          'Domaine Code': [ '1' ]
         }
       };
 
@@ -58,7 +59,8 @@ describe('Unit | Serializer | competence-serializer', function() {
 
         expect(competences.area).to.be.an.instanceOf(Area);
         expect(competences.area.id).to.equal('recvoGdo0z0z0pXWZ');
-        expect(competences.area.name).to.equal('1. Information et données');
+        expect(competences.area.title).to.equal('Information et données');
+        expect(competences.area.code).to.equal('1');
       });
 
       it('should get a new competence Model even if there is no course associated', () => {
