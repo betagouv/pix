@@ -217,28 +217,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should save the assessment with score', () => {
-        // When
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-        // Then
-        return promise.then(() => {
-          expect(assessmentRepository.save).to.have.been.calledWith(scoredAsssessment.assessmentPix);
-        });
-      });
-
-      it('should save the skills', () => {
-        // When
-        skillService.saveAssessmentSkills.resolves({});
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-        // Then
-        return promise.then(() => {
-          expect(skillService.saveAssessmentSkills).to.have.been.calledOnce;
-          expect(skillService.saveAssessmentSkills).to.have.been.calledWith(assessmentSkills);
-        });
-      });
-
       it('should reply with no content', () => {
         // Given
         skillService.saveAssessmentSkills.resolves({});
@@ -276,23 +254,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
             expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
           });
         });
-
-        it('should return an error when database returns an error', () => {
-          // Given
-          const error = new Error('Unable to save assessment');
-          assessmentRepository.save.rejects(error);
-
-          // When
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-          // Then
-          return promise.then(() => {
-            expect(Boom.badImplementation).to.have.been.calledWith(error);
-            expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
-          });
-
-        });
-
       });
 
     });

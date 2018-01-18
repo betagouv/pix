@@ -128,9 +128,7 @@ module.exports = {
                   moment().toISOString());
               }
 
-              return promise
-                .then(() => assessmentRepository.save(assessmentPix))
-                .then(() => skillsService.saveAssessmentSkills(skills));
+              return promise;
             })
             .then(() => {
               throw err;
