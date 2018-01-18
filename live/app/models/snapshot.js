@@ -10,9 +10,5 @@ export default Model.extend({
   organization: belongsTo('organization'),
   user: belongsTo('user'),
   studentCode: attr('string'),
-  campaignCode: attr('string'),
-  numberOfFinishedTests: Ember.computed('testsFinished', function() {
-    return Math.round(this.get('testsFinished'));
-  })
-
+  campaignCode: attr('string')
 });
