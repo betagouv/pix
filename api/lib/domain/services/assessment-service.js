@@ -158,6 +158,10 @@ function isPreviewAssessment(assessment) {
   return _.startsWith(assessment.courseId, 'null');
 }
 
+function isDemoAssessment(assessment) {
+  return assessment.type === 'DEMO';
+}
+
 function isCertificationAssessment(assessment) {
   return assessment.type === 'CERTIFICATION';
 }
@@ -183,5 +187,6 @@ module.exports = {
   isAssessmentCompleted,
   findByFilters,
   isPreviewAssessment,
+  isDemoAssessment,
   isCertificationAssessment
 };

@@ -686,4 +686,29 @@ describe('Unit | Domain | Services | assessment', () => {
 
   });
 
+  describe('#isDemoAssessment', () => {
+    it('should return true when the assessment is a DEMO', () => {
+      // given
+      const assessment = new Assessment({ type: 'DEMO' });
+
+      // when
+      const isDemoAssessment = service.isDemoAssessment(assessment);
+
+      // then
+      expect(isDemoAssessment).to.be.true;
+    });
+
+    it('should return true when the assessment is not defined', () => {
+      // given
+      const assessment = new Assessment({ type: '' });
+
+      // when
+      const isDemoAssessment = service.isDemoAssessment(assessment);
+
+      // then
+      expect(isDemoAssessment).to.be.false;
+    });
+
+  });
+
 });
