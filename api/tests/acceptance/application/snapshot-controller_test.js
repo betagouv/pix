@@ -11,12 +11,14 @@ describe('Acceptance | Controller | snapshot-controller', function() {
   let userId;
   let organizationId;
   const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
+
   const fakeUser = new User({
     id: 'user_id',
     'firstName': faker.name.firstName(),
     'lastName': faker.name.lastName(),
     'email': faker.internet.email()
   });
+
   const fakeBuildedProfile = {
     user: fakeUser,
     competences: [{
