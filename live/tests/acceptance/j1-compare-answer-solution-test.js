@@ -6,6 +6,7 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
+import $ from 'jquery';
 
 // see http://stackoverflow.com/a/7349478/2595513
 function charCount(str) {

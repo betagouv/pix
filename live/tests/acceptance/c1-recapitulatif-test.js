@@ -5,7 +5,6 @@ import {
   afterEach
 } from 'mocha';
 import { expect } from 'chai';
-
 import { startApp, destroyApp } from '../helpers/application';
 
 describe('Acceptance | c1 - Consulter l\'écran de fin d\'un test ', function() {

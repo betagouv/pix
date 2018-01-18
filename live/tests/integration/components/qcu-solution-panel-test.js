@@ -4,6 +4,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 const RADIO_CORRECT_AND_CHECKED = '.picture-radio-proposal--qcu:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcu-proposal-label__oracle:eq(1)';

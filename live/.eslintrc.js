@@ -19,7 +19,8 @@ module.exports = {
     // FIXME reactivate the rules below
     'ember/no-on-calls-in-components': 0,
     'ember/closure-actions': 0,
-    'ember/routes-segments-snake-case': 0
+    'ember/routes-segments-snake-case': 0,
+    'ember/avoid-leaking-state-in-ember-objects': 0
   },
   globals: {
     jsyaml: true
@@ -58,7 +59,6 @@ module.exports = {
       rules: {
         'no-unused-expressions': 0,
         // FIXME reactivate the rules below
-        'ember/avoid-leaking-state-in-ember-objects': 0,
         'ember/no-on-calls-in-components': 0,
         'ember/closure-actions': 0
       }

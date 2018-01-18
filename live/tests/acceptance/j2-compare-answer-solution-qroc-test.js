@@ -6,6 +6,7 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
+import $ from 'jquery';
 
 describe('Acceptance | j2 - Comparer réponses et solutions pour un QROC | ', function() {
 

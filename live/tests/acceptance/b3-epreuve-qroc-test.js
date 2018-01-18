@@ -6,6 +6,7 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
+import $ from 'jquery';
 
 describe('Acceptance | b3 - Afficher un QROC | ', function() {
 

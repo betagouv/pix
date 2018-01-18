@@ -6,6 +6,7 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
+import $ from 'jquery';
 
 const TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const NOT_TIMED_CHALLENGE_URL = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';

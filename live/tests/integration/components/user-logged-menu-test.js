@@ -5,6 +5,7 @@ import { describe, it } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
+import $ from 'jquery';
 
 describe('Integration | Component | user logged menu', function() {
   setupComponentTest('user-logged-menu', {

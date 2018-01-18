@@ -7,6 +7,7 @@ import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import wait from 'ember-test-helpers/wait';
 import sinon from 'sinon';
+import $ from 'jquery';
 
 const FORM_CONTAINER = '.signup-form-container';
 const FORM_HEADING_CONTAINER = '.signup-form__heading-container';

@@ -4,6 +4,7 @@ import { describe, it, before } from 'mocha';
 import { setupComponentTest } from 'ember-mocha';
 import hbs from 'htmlbars-inline-precompile';
 import _ from 'pix-live/utils/lodash-custom';
+import $ from 'jquery';
 
 const CHECKBOX_CORRECT_AND_CHECKED = 'input[type=checkbox]:eq(1)';
 const LABEL_CORRECT_AND_CHECKED = '.qcm-proposal-label__oracle:eq(1)';
