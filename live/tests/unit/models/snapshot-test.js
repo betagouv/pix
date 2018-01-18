@@ -1,5 +1,4 @@
 import { expect } from 'chai';
-import { run } from '@ember/runloop';
 import { describe, it } from 'mocha';
 import { setupModelTest } from 'ember-mocha';
 
