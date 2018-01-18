@@ -1,6 +1,6 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
-const CertificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const userService = require('../../../lib/domain/services/user-service');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
@@ -16,6 +16,7 @@ module.exports = {
     let listAnswers;
     let dateOfCertification;
     let listCertificationChallenges;
+    let certificationCourseStatus;
 
     return assessmentRepository.getByCertificationCourseId(certificationCourseId)
       .then((assessment) => {
@@ -30,12 +31,18 @@ module.exports = {
       })
       .then((certificationChallenges) => {
         listCertificationChallenges = certificationChallenges;
+        return certificationCourseRepository.get(certificationCourseId);
+      })
+      .then((certificationCourse) => {
+        certificationCourseStatus = certificationCourse.status;
         return userService.getProfileToCertify(userId);
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
         const result = certificationService.getResult(listAnswers, listCertificationChallenges, testedCompetences);
         result.createdAt = dateOfCertification;
+        result.userId = userId;
+        result.status = certificationCourseStatus;
         return result;
       })
       .then(reply)
@@ -47,7 +54,7 @@ module.exports = {
 
   get(request, reply) {
     const certificationCourseId = request.params.id;
-    return CertificationCourseRepository.get(certificationCourseId)
+    return certificationCourseRepository.get(certificationCourseId)
       .then((certificationCourse) => {
         reply(certificationCourseSerializer.serialize(certificationCourse));
       })

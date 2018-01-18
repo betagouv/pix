@@ -18,6 +18,7 @@ describe('Unit | Controller | certification-course-controller', function() {
   describe('#getResult', () => {
     const answersByAssessments = [{ challenge: 'challenge1', result: 'ok' }];
     const challengesByCertificationId = [{ challenge: 'challenge1', courseId: '2' }];
+    const certificationCourse = { id: 'course1', status: 'completed' };
     const listOfCompetences = [{
       id: 'competence1',
       courseId: 'course1',
@@ -38,6 +39,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(assessment);
       sandbox.stub(answersRepository, 'findByAssessment').resolves(answersByAssessments);
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challengesByCertificationId);
+      sandbox.stub(CertificationCourseRepository, 'get').resolves(certificationCourse);
       sandbox.stub(UserService, 'getProfileToCertify').resolves(listOfCompetences);
       sandbox.stub(certificationService, 'getResult').resolves(score);
 
@@ -66,6 +68,17 @@ describe('Unit | Controller | certification-course-controller', function() {
       return promise.then(() => {
         sinon.assert.calledOnce(answersRepository.findByAssessment);
         sinon.assert.calledWith(answersRepository.findByAssessment, 'assessment_id');
+      });
+    });
+
+    it('should call Certification Course Repository to get certification course informations', function() {
+      // when
+      const promise = CertificationCourseController.getResult(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(CertificationCourseRepository.get);
+        sinon.assert.calledWith(CertificationCourseRepository.get, 'course_id');
       });
     });
 
