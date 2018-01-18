@@ -1,4 +1,6 @@
 const Boom = require('boom');
+const moment = require('moment');
+
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
@@ -74,7 +76,7 @@ module.exports = {
       .then((savedCertificationCourse) => {
         return certificationCourse = savedCertificationCourse;
       })
-      .then(() => userService.getProfileToCertify(userId))
+      .then(() => userService.getProfileToCertify(userId, moment().toISOString()))
       .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse))
       .then((certificationCourse) => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {

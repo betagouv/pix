@@ -32,7 +32,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       }
     };
     beforeEach(() => {
-      const assessment = new Assessment({ id: 'assessment_id', userId: 'user_id' });
+      const assessment = new Assessment({ id: 'assessment_id', userId: 'user_id', createdAt: '2018-01-01' });
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();

@@ -178,6 +178,7 @@ describe('Unit | Controller | course-controller', function() {
   });
 
   describe('#save', function() {
+    let clock;
 
     let sandbox;
     let replyStub;
@@ -193,6 +194,8 @@ describe('Unit | Controller | course-controller', function() {
     };
 
     beforeEach(() => {
+      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
 
@@ -205,6 +208,7 @@ describe('Unit | Controller | course-controller', function() {
     });
 
     afterEach(() => {
+      clock.restore();
       sandbox.restore();
     });
 
@@ -226,6 +230,7 @@ describe('Unit | Controller | course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(UserService.getProfileToCertify);
+        sinon.assert.calledWith(UserService.getProfileToCertify, 'userId', '2018-02-04T00:00:00.000Z');
       });
     });
 
