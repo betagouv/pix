@@ -14341,9 +14341,6 @@ define('pix-live/tests/unit/models/password-reset-demand-test', ['chai', 'mocha'
 define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
-  var run = Ember.run;
-
-
   (0, _mocha.describe)('Unit | Model | snapshot', function () {
     (0, _emberMocha.setupModelTest)('snapshot', {
       // Specify the other units that are required for this test.
@@ -14355,24 +14352,6 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
-    });
-
-    (0, _mocha.describe)('@numberOfFinishedTests', function () {
-      (0, _mocha.it)('should return the number of finished test without decimal ', function () {
-        var _this = this;
-
-        return run(function () {
-          // given
-          var model = _this.subject();
-          var numberOfEvaluatedCompetences = 5;
-          var testsFinishedFromDB = 5.1;
-          model.set('testsFinished', testsFinishedFromDB);
-          // when
-          var testsFinished = model.get('numberOfFinishedTests');
-          // then
-          (0, _chai.expect)(testsFinished).to.equal(numberOfEvaluatedCompetences);
-        });
-      });
     });
   });
 });
