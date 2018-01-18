@@ -1,4 +1,9 @@
-import { afterEach, beforeEach, describe, it } from 'mocha';
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  it
+} from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
 import { destroyApp, startApp } from '../helpers/application';

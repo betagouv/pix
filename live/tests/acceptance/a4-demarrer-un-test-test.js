@@ -1,5 +1,10 @@
-import Ember from 'ember';
-import { describe, it, beforeEach, afterEach } from 'mocha';
+import { later } from '@ember/runloop';
+import {
+  describe,
+  it,
+  beforeEach,
+  afterEach
+} from 'mocha';
 import { expect } from 'chai';
 import { startApp, destroyApp } from '../helpers/application';
 
@@ -56,7 +61,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     // blocked by modal
     andThen(() => {
       // XXX : ickiest hack : wait 500ms for bootstrap transition to complete
-      Ember.run.later(function() {
+      later(function() {
         expect(find(MODAL_SELECTOR)).to.have.lengthOf(1);
         expect(currentURL()).to.equals('/');
         find('a[data-dismiss]').click();
@@ -74,7 +79,7 @@ describe('Acceptance | a4 - Démarrer un test |', function() {
     triggerEvent('.index-page', 'simulateMobileScreen');
 
     andThen(() => {
-      Ember.run.later(function() {
+      later(function() {
         expect(currentURL()).to.equals('/');
         expect(find(MODAL_SELECTOR)).to.have.lengthOf(0);
       }, 500);
