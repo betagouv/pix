@@ -18,7 +18,7 @@ function _toDomain(bookshelfAssessment) {
 }
 
 function _adaptModelToDb(assessment) {
-  return _.omit(assessment, ['answers', 'successRate']);
+  return _.omit(assessment, ['answers', 'successRate', 'marks']);
 }
 
 module.exports = {
