@@ -5,7 +5,8 @@ import {
   afterEach
 } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 import $ from 'jquery';
 
 const CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI = '/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id';

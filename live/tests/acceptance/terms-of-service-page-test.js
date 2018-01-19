@@ -4,7 +4,8 @@ import {
   describe,
   it
 } from 'mocha';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | Page | Terms of service', function() {
 

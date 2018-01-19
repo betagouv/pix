@@ -6,7 +6,8 @@ import {
 } from 'mocha';
 import { expect } from 'chai';
 import { authenticateAsSimpleUser } from '../helpers/testing';
-import { destroyApp, startApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 import defaultScenario from '../../mirage/scenarios/default';
 
 describe('Acceptance | Compte | competence profile', function() {

@@ -6,7 +6,8 @@ import {
   afterEach
 } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 const URL_OF_FIRST_TEST = '/assessments/ref_assessment_id/challenges/ref_qcm_challenge_id';
 const MODAL_SELECTOR = '.modal.fade.js-modal-mobile.in';

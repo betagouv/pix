@@ -4,8 +4,9 @@ import {
   describe,
   it
 } from 'mocha';
-import { startApp, destroyApp } from '../helpers/application';
 import { expect } from 'chai';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | Page | Not Found Redirection', () => {
 

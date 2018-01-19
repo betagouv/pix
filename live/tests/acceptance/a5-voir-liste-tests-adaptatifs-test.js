@@ -5,7 +5,8 @@ import {
   afterEach
 } from 'mocha';
 import { expect } from 'chai';
-import { startApp, destroyApp } from '../helpers/application';
+import startApp from '../helpers/start-app';
+import destroyApp from '../helpers/destroy-app';
 
 describe('Acceptance | a5 - La page des tests adaptatifs', function() {
 
