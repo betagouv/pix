@@ -171,7 +171,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
             case 2:
 
               // then
-              $proposals = $('input[type=radio][name="radio"]');
+              $proposals = Ember.$('input[type=radio][name="radio"]');
 
               (0, _chai.expect)($proposals).to.have.lengthOf(4);
 
@@ -194,7 +194,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
             case 2:
 
               // then
-              (0, _chai.expect)($('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:checked')).to.have.lengthOf(1);
 
             case 3:
             case 'end':
@@ -215,10 +215,10 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
             case 2:
 
               // then
-              (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
-              (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
-              (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
-              (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
+              (0, _chai.expect)(Ember.$('.proposal-text:eq(0)').text().trim()).to.equal('1ere possibilite');
+              (0, _chai.expect)(Ember.$('.proposal-text:eq(1)').text().trim()).to.equal('2eme possibilite');
+              (0, _chai.expect)(Ember.$('.proposal-text:eq(2)').text().trim()).to.equal('3eme possibilite');
+              (0, _chai.expect)(Ember.$('.proposal-text:eq(3)').text().trim()).to.equal('4eme possibilite');
 
             case 6:
             case 'end':
@@ -239,7 +239,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
             case 2:
 
-              $(':radio').prop('checked', false);
+              Ember.$(':radio').prop('checked', false);
 
               // when
               _context4.next = 5;
@@ -248,7 +248,7 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
             case 5:
 
               // then
-              $alert = $('.alert');
+              $alert = Ember.$('.alert');
 
               (0, _chai.expect)($alert).to.have.lengthOf(1);
               (0, _chai.expect)($alert.text().trim()).to.equal('Pour valider, sélectionner une réponse. Sinon, passer.');
@@ -271,23 +271,23 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
             case 2:
 
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
               _context5.next = 8;
-              return click($('.label-checkbox-proposal:eq(0)'));
+              return click(Ember.$('.label-checkbox-proposal:eq(0)'));
 
             case 8:
               // Click on label trigger the event.
 
               // Then
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(true);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
             case 12:
             case 'end':
@@ -325,14 +325,14 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
 
             case 3:
 
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
-              (0, _chai.expect)($('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(0)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(1)').is(':checked')).to.equal(true);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(2)').is(':checked')).to.equal(false);
+              (0, _chai.expect)(Ember.$('input[type=radio][name="radio"]:eq(3)').is(':checked')).to.equal(false);
 
               // When
               _context6.next = 9;
-              return click($('.label-checkbox-proposal:eq(3)'));
+              return click(Ember.$('.label-checkbox-proposal:eq(3)'));
 
             case 9:
               _context6.next = 11;
@@ -359,18 +359,18 @@ define('pix-live/tests/acceptance/b1-epreuve-qcu-test', ['mocha', 'chai', 'pix-l
               return visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
 
             case 2:
-              $(':radio').prop('checked', false);
+              Ember.$(':radio').prop('checked', false);
               _context7.next = 5;
               return click('.challenge-actions__action-validate');
 
             case 5:
               _context7.next = 7;
-              return click($('.label-checkbox-proposal:eq(0)'));
+              return click(Ember.$('.label-checkbox-proposal:eq(0)'));
 
             case 7:
 
               // then
-              $alert = $('.alert');
+              $alert = Ember.$('.alert');
 
               (0, _chai.expect)($alert).to.have.lengthOf(0);
 
@@ -438,7 +438,7 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
       var expectedInstruction = 'Un QCM propose plusieurs choix, l\'utilisateur peut en choisir plusieurs';
 
       // When
-      var $challengeInstruction = $('.challenge-statement__instruction');
+      var $challengeInstruction = Ember.$('.challenge-statement__instruction');
 
       // Then
       (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(expectedInstruction);
@@ -460,59 +460,59 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
     });
 
     (0, _mocha.it)('b2.4 It should render a list of checkboxes', function () {
-      var $proposals = $('input[type="checkbox"]');
+      var $proposals = Ember.$('input[type="checkbox"]');
       (0, _chai.expect)($proposals).to.have.lengthOf(4);
     });
 
     (0, _mocha.it)('b2.5 It should mark checkboxes that have been checked', function () {
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+      (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(2);
     });
 
     (0, _mocha.it)('b2.6 It should render an ordered list of instruction', function () {
-      (0, _chai.expect)($('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
-      (0, _chai.expect)($('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
-      (0, _chai.expect)($('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
-      (0, _chai.expect)($('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
+      (0, _chai.expect)(Ember.$('.proposal-text:eq(0)').text().trim()).to.equal('possibilite 1, et/ou');
+      (0, _chai.expect)(Ember.$('.proposal-text:eq(1)').text().trim()).to.equal('possibilite 2, et/ou');
+      (0, _chai.expect)(Ember.$('.proposal-text:eq(2)').text().trim()).to.equal('possibilite 3, et/ou');
+      (0, _chai.expect)(Ember.$('.proposal-text:eq(3)').text().trim()).to.equal('possibilite 4');
     });
 
     (0, _mocha.it)('b2.7 Error alert box should be hidden by default', function () {
-      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.alert')).to.have.lengthOf(0);
     });
 
     (0, _mocha.it)('b2.8 Error alert box should be displayed if user validate without checking a checkbox', function () {
       // Given
-      var $validateLink = $('.challenge-actions__action-validate');
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+      var $validateLink = Ember.$('.challenge-actions__action-validate');
+      (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(2);
 
       //
-      $('input:checkbox').prop('checked', false);
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(0);
+      Ember.$('input:checkbox').prop('checked', false);
+      (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(0);
 
       // When
       click($validateLink);
 
       // Then
       andThen(function () {
-        (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
-        (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
+        (0, _chai.expect)(Ember.$('.alert')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.alert').text().trim()).to.equal('Pour valider, sélectionner au moins une réponse. Sinon, passer.');
       });
     });
 
     (0, _mocha.it)('b2.9 If an user check a checkbox, it is checked', function () {
-      $('input:checkbox').prop('checked', false);
-      $('.proposal-text:eq(1)').click();
+      Ember.$('input:checkbox').prop('checked', false);
+      Ember.$('.proposal-text:eq(1)').click();
       andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(1);
       });
     });
 
     (0, _mocha.it)('b2.10 If an user check another checkbox, it is checked, the previous checked checkboxes remains checked', function () {
-      $('input:checkbox').prop('checked', false);
-      $('input:checkbox:eq(1)').prop('checked', true);
-      (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(1);
-      $('.proposal-text:eq(2)').click();
+      Ember.$('input:checkbox').prop('checked', false);
+      Ember.$('input:checkbox:eq(1)').prop('checked', true);
+      (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(1);
+      Ember.$('.proposal-text:eq(2)').click();
       andThen(function () {
-        (0, _chai.expect)($('input:checkbox:checked')).to.have.lengthOf(2);
+        (0, _chai.expect)(Ember.$('input:checkbox:checked')).to.have.lengthOf(2);
       });
     });
 
@@ -527,12 +527,12 @@ define('pix-live/tests/acceptance/b2-epreuve-qcm-test', ['mocha', 'chai', 'pix-l
 
             case 2:
               _context.next = 4;
-              return click($('.proposal-text:eq(1)'));
+              return click(Ember.$('.proposal-text:eq(1)'));
 
             case 4:
 
               // then
-              $alert = $('.alert');
+              $alert = Ember.$('.alert');
 
               (0, _chai.expect)($alert).to.have.lengthOf(0);
 
@@ -562,23 +562,23 @@ define('pix-live/tests/acceptance/b3-epreuve-qroc-test', ['mocha', 'chai', 'pix-
     });
 
     (0, _mocha.it)('b3.1 It should render challenge instruction', function () {
-      var $challengeInstruction = $('.challenge-statement__instruction');
+      var $challengeInstruction = Ember.$('.challenge-statement__instruction');
       var instructiontext = 'Un QROC est une question ouverte avec un simple champ texte libre pour répondre';
       (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructiontext);
     });
 
     (0, _mocha.it)('b3.2 It should display only one input text as proposal to user', function () {
-      (0, _chai.expect)($('.challenge-response__proposal-input')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.challenge-response__proposal-input')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b3.3 Error alert box should be displayed if user validate without writing any answer', function () {
       fillIn('input[data-uid="qroc-proposal-uid"]', '');
-      (0, _chai.expect)($('.alert')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.alert')).to.have.lengthOf(0);
       click(findWithAssert('.challenge-actions__action-validate'));
       andThen(function () {
         // assertions for after async behavior
-        (0, _chai.expect)($('.alert')).to.have.lengthOf(1);
-        (0, _chai.expect)($('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
+        (0, _chai.expect)(Ember.$('.alert')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.alert').text().trim()).to.equal('Pour valider, saisir une réponse. Sinon, passer.');
       });
     });
   });
@@ -675,7 +675,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
 
     var application = void 0;
 
-    var $ATTACHMENT_LINK = $('.challenge-statement__action-link');
+    var $ATTACHMENT_LINK = Ember.$('.challenge-statement__action-link');
 
     (0, _mocha.beforeEach)(function () {
       application = (0, _application.startApp)();
@@ -697,7 +697,7 @@ define('pix-live/tests/acceptance/b6-epreuve-pj-test', ['mocha', 'chai', 'pix-li
       });
 
       (0, _mocha.it)('b6.2 Le lien de la pièce jointe pointe vers le bon lien', function () {
-        var $ATTACHMENT_LINK = $('.challenge-statement__action-link');
+        var $ATTACHMENT_LINK = Ember.$('.challenge-statement__action-link');
         (0, _chai.expect)($ATTACHMENT_LINK.text()).to.contain('Télécharger');
         (0, _chai.expect)($ATTACHMENT_LINK.attr('href')).to.equal('http://example_of_url');
       });
@@ -745,7 +745,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
 
     (0, _mocha.it)('b7.1 L\'instruction de l\'epreuve est affichée', function () {
-      var $challengeInstruction = $('.challenge-statement__instruction');
+      var $challengeInstruction = Ember.$('.challenge-statement__instruction');
       var instructiontext = 'Un QROCM est une question ouverte avec plusieurs champs texte libre pour repondre';
       (0, _chai.expect)($challengeInstruction.text().trim()).to.equal(instructiontext);
     });
@@ -763,11 +763,11 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
 
     (0, _mocha.it)('b7.3 Un bouton de type "Skip" doit s\'afficher', function () {
-      (0, _chai.expect)($('.challenge-actions__action-skip')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.challenge-actions__action-skip')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b7.4 Un bouton de type "Validate" doit s\'afficher', function () {
-      (0, _chai.expect)($('.challenge-actions__action-skip')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.challenge-actions__action-skip')).to.have.lengthOf(1);
     });
 
     (0, _mocha.it)('b7.5 Il existe un bouton "Revenir à la liste des tests"', function () {
@@ -786,7 +786,7 @@ define('pix-live/tests/acceptance/b7-epreuve-points-communs-test', ['mocha', 'ch
     });
 
     (0, _mocha.it)('b7.7 Il est possible de signaler l\'épreuve via le formulaire de Feedback', function () {
-      (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
+      (0, _chai.expect)(Ember.$('.feedback-panel')).to.have.lengthOf(1);
     });
   });
 });
@@ -1753,7 +1753,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
               return visit(CHALLENGE_WITHOUT_INTERNET_NOR_TOOLS_URI);
 
             case 2:
-              (0, _chai.expect)($('.challenge-stay__text').text()).to.contain('Vous devez répondre à cette question sans sortir de cette page !');
+              (0, _chai.expect)(Ember.$('.challenge-stay__text').text()).to.contain('Vous devez répondre à cette question sans sortir de cette page !');
 
             case 3:
             case 'end':
@@ -1765,7 +1765,7 @@ define('pix-live/tests/acceptance/g1-bandeau-no-internet-no-outils-test', ['moch
 
     (0, _mocha.it)('g1.2 le bandeau ne doit pas être affiché si l\'usage d\'Internet ou d\'outils est autorisé dans le cadre de l\'épreuve', function () {
       visit(CHALLENGE_ALLOWING_INTERNET_OR_TOOS_URI);
-      (0, _chai.expect)($('.challenge-stay__text')).to.have.lengthOf(0);
+      (0, _chai.expect)(Ember.$('.challenge-stay__text')).to.have.lengthOf(0);
     });
   });
 });
@@ -1800,11 +1800,11 @@ define('pix-live/tests/acceptance/h1-timeout-jauge-test', ['mocha', 'chai', 'pix
       (0, _mocha.it)('doit afficher la jauge si exigée par le backend mais ne pas l\'afficher dans le cas contraire ', function () {
         visitTimedChallenge();
         andThen(function () {
-          (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+          (0, _chai.expect)(Ember.$('.timeout-jauge')).to.have.lengthOf(1);
         });
         visit('/assessments/ref_assessment_id/challenges/ref_qcu_challenge_id');
         andThen(function () {
-          (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+          (0, _chai.expect)(Ember.$('.timeout-jauge')).to.have.lengthOf(0);
         });
       });
     });
@@ -1871,7 +1871,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
               case 2:
 
                 // Then
-                (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.challenge-statement')).to.have.lengthOf(0);
 
               case 3:
               case 'end':
@@ -1892,7 +1892,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
               case 2:
 
                 // Then
-                (0, _chai.expect)($('.challenge-statement')).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$('.challenge-statement')).to.have.lengthOf(1);
 
               case 3:
               case 'end':
@@ -1917,7 +1917,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
               case 4:
 
                 // Then
-                (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.timeout-jauge')).to.have.lengthOf(0);
 
               case 5:
               case 'end':
@@ -1938,7 +1938,7 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
               case 2:
 
                 // Then
-                (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.feedback-panel')).to.have.lengthOf(0);
 
               case 3:
               case 'end':
@@ -1957,19 +1957,19 @@ define('pix-live/tests/acceptance/h2-page-warning-timee-test', ['mocha', 'chai',
       });
 
       (0, _mocha.it)('h2.1- vérifier que le warning est caché ', function () {
-        (0, _chai.expect)($(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
+        (0, _chai.expect)(Ember.$(CHALLENGE_ITEM_WARNING_BUTTON)).to.have.lengthOf(0);
       });
 
       (0, _mocha.it)('h2.2- vérifier que le contenu de l\'épreuve est affiché', function () {
-        (0, _chai.expect)($('.challenge-statement').css('display')).to.contain('block');
+        (0, _chai.expect)(Ember.$('.challenge-statement').css('display')).to.contain('block');
       });
 
       (0, _mocha.it)('h2.3- vérifier que le timer est démarré ', function () {
-        (0, _chai.expect)($('.timeout-jauge')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.timeout-jauge')).to.have.lengthOf(1);
       });
 
       (0, _mocha.it)('h2.4 le formulaire de signalement est affiché', function () {
-        (0, _chai.expect)($('.feedback-panel')).to.have.lengthOf(1);
+        (0, _chai.expect)(Ember.$('.feedback-panel')).to.have.lengthOf(1);
       });
     });
   });
@@ -2110,10 +2110,10 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
                 return visit(RESULT_URL);
 
               case 2:
-                (0, _chai.expect)($('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
-                (0, _chai.expect)($('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
-                (0, _chai.expect)($('.result-item:eq(2) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
-                (0, _chai.expect)($('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
+                (0, _chai.expect)(Ember.$('.result-item:eq(0) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCM
+                (0, _chai.expect)(Ember.$('.result-item:eq(1) .js-correct-answer').text()).to.contain('RÉPONSE'); //QCU
+                (0, _chai.expect)(Ember.$('.result-item:eq(2) .js-correct-answer').text()).to.contain('RÉPONSE'); //QROC
+                (0, _chai.expect)(Ember.$('.result-item:eq(3) .js-correct-answer').text()).not.to.contain('RÉPONSE'); //QROCM
 
               case 6:
               case 'end':
@@ -2135,18 +2135,18 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
                 return visit(RESULT_URL);
 
               case 2:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
                 _context2.next = 5;
                 return click('.result-item__correction__button');
 
               case 5:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(1);
                 // XXX test env needs the modal to be closed manually
                 _context2.next = 8;
                 return click('.close-button-container');
 
               case 8:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
 
               case 9:
               case 'end':
@@ -2165,13 +2165,13 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
                 return visit(COMPARISON_MODAL_URL);
 
               case 2:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(1);
                 // XXX test env needs the modal to be closed manually
                 _context3.next = 5;
                 return click('.close-button-container');
 
               case 5:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
 
               case 6:
               case 'end':
@@ -2193,21 +2193,21 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
                 return visit(RESULT_URL);
 
               case 2:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-                (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
 
                 _context4.next = 6;
                 return visit(COMPARISON_MODAL_URL);
 
               case 6:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
+                (0, _chai.expect)(Ember.$(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('1');
 
                 // XXX test env needs the modal to be closed manually
                 _context4.next = 9;
                 return click('.close-button-container');
 
               case 9:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
 
               case 10:
               case 'end':
@@ -2226,22 +2226,22 @@ define('pix-live/tests/acceptance/j1-compare-answer-solution-test', ['mocha', 'c
                 return visit(RESULT_URL);
 
               case 2:
-                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
-                (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.exist;
+                (0, _chai.expect)(Ember.$(TEXT_OF_INSTRUCTION_SELECTOR)).to.exist;
+                (0, _chai.expect)(Ember.$(IMAGE_OF_INSTRUCTION_SELECTOR)).to.exist;
 
                 _context5.next = 6;
                 return visit(COMPARISON_MODAL_URL);
 
               case 6:
-                (0, _chai.expect)(charCount($(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
-                (0, _chai.expect)($(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+                (0, _chai.expect)(charCount(Ember.$(TEXT_OF_INSTRUCTION_SELECTOR).text())).to.be.above(5); // XXX : Above 5 means "must be a sentence"
+                (0, _chai.expect)(Ember.$(IMAGE_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
                 // XXX test env needs the modal to be closed manually
                 _context5.next = 10;
                 return click('.close-button-container');
 
               case 10:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
 
               case 11:
               case 'end':
@@ -2329,7 +2329,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                (0, _chai.expect)($('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
+                (0, _chai.expect)(Ember.$('.result-item .js-correct-answer').text()).to.contain('RÉPONSE');
 
               case 1:
               case 'end':
@@ -2344,9 +2344,9 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
-                (0, _chai.expect)($(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$(INDEX_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$(TEXT_OF_RESULT_SELECTOR)).to.have.lengthOf(0);
 
               case 3:
               case 'end':
@@ -2401,7 +2401,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -2416,7 +2416,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
-                (0, _chai.expect)($(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
+                (0, _chai.expect)(Ember.$(INDEX_OF_RESULT_SELECTOR).text().replace(/\n/g, '').trim()).to.equal('4');
 
               case 1:
               case 'end':
@@ -2431,7 +2431,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                (0, _chai.expect)($(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$(TEXT_OF_INSTRUCTION_SELECTOR)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -2446,7 +2446,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                (0, _chai.expect)($(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$(CORRECTION_BOX_QROC)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -2461,7 +2461,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                (0, _chai.expect)($(FEEDBACK_PANEL)).to.have.lengthOf(1);
+                (0, _chai.expect)(Ember.$(FEEDBACK_PANEL)).to.have.lengthOf(1);
 
               case 1:
               case 'end':
@@ -2480,7 +2480,7 @@ define('pix-live/tests/acceptance/j2-compare-answer-solution-qroc-test', ['mocha
                 return click('.close-button-container');
 
               case 2:
-                (0, _chai.expect)($('.comparison-window')).to.have.lengthOf(0);
+                (0, _chai.expect)(Ember.$('.comparison-window')).to.have.lengthOf(0);
 
               case 3:
               case 'end':
@@ -7232,7 +7232,7 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.lengthOf(1);
-        (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+        (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
       (0, _mocha.describe)('checkbox state', function () {
@@ -7272,12 +7272,12 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)(Ember.$(CHECKBOX_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
-          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(Ember.$(CHECKBOX_CORRECT_AND_CHECKED).attr('disabled')).to.equal('disabled');
+          (0, _chai.expect)(charCount(Ember.$(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, aucune réponse incorrecte n\'est cochée', function () {
@@ -7294,8 +7294,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, Au moins l\'une des réponse correcte n\'est pas cochée', function () {
@@ -7314,8 +7314,8 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCM, au moins l\'une des réponse incorrecte est cochée', function () {
@@ -7334,9 +7334,9 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
+          (0, _chai.expect)(Ember.$(CHECKBOX_CORRECT_AND_UNCHECKED).is(':checked')).to.equal(false);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
@@ -7353,9 +7353,9 @@ define('pix-live/tests/integration/components/qcm-solution-panel-test', ['chai',
           }));
 
           // Then
-          var size = $('.comparison-window .qcm-proposal-label__checkbox-picture').length;
+          var size = Ember.$('.comparison-window .qcm-proposal-label__checkbox-picture').length;
           _lodashCustom.default.times(size, function (index) {
-            (0, _chai.expect)($('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
+            (0, _chai.expect)(Ember.$('.comparison-window .qcm-proposal-label__checkbox-picture:eq(' + index + ')').is(':disabled')).to.equal(true);
           });
         });
       });
@@ -7459,7 +7459,7 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           "meta": {}
         }));
         (0, _chai.expect)(this.$()).to.have.lengthOf(1);
-        (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
+        (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(0);
       });
 
       (0, _mocha.describe)('Radio state', function () {
@@ -7491,12 +7491,12 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
-          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
+          (0, _chai.expect)(Ember.$(RADIO_CORRECT_AND_CHECKED)).to.have.lengthOf(1);
 
-          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
-          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(Ember.$(RADIO_CORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_CORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU, la réponse correcte n\'est pas cochée', function () {
@@ -7515,10 +7515,10 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
+          (0, _chai.expect)(Ember.$(RADIO_CORRECT_AND_CHECKED).hasClass('radio-off')).to.equal(true);
 
-          (0, _chai.expect)(charCount($(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_CORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_CORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU, la réponse incorrecte n\'est pas cochée', function () {
@@ -7535,9 +7535,9 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
+          (0, _chai.expect)(Ember.$(RADIO_INCORRECT_AND_UNCHECKED).hasClass('radio-off')).to.equal(true);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_INCORRECT_AND_UNCHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_INCORRECT_AND_UNCHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_OFF);
         });
 
         (0, _mocha.it)('QCU,la réponse incorrecte est cochée', function () {
@@ -7556,9 +7556,9 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           }));
 
           // Then
-          (0, _chai.expect)($(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
-          (0, _chai.expect)(charCount($(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
-          (0, _chai.expect)($(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
+          (0, _chai.expect)(Ember.$(RADIO_INCORRECT_AND_CHECKED).hasClass('radio-on')).to.equal(true);
+          (0, _chai.expect)(charCount(Ember.$(LABEL_INCORRECT_AND_CHECKED).text())).to.be.above(0);
+          (0, _chai.expect)(Ember.$(LABEL_INCORRECT_AND_CHECKED).css('text-decoration')).to.contain(CSS_LINETHROUGH_ON);
         });
 
         (0, _mocha.it)('Aucune case à cocher n\'est cliquable', function () {
@@ -7575,9 +7575,9 @@ define('pix-live/tests/integration/components/qcu-solution-panel-test', ['chai',
           }));
 
           // Then
-          var size = $('.comparison-window .qcu-panel__proposal-radio').length;
+          var size = Ember.$('.comparison-window .qcu-panel__proposal-radio').length;
           _lodashCustom.default.times(size, function (index) {
-            (0, _chai.expect)($('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
+            (0, _chai.expect)(Ember.$('.comparison-window .qcu-panel__proposal-radio:eq(' + index + ')').is(':disabled')).to.equal(true);
           });
         });
       });
@@ -9332,7 +9332,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           }));
 
           // when
-          $(SUBMIT_BUTTON).click();
+          Ember.$(SUBMIT_BUTTON).click();
 
           // then
           return (0, _wait.default)().then(function () {
@@ -9365,7 +9365,7 @@ define('pix-live/tests/integration/components/signup-form-test', ['chai', 'mocha
           }));
 
           // when
-          $(SUBMIT_BUTTON).click();
+          Ember.$(SUBMIT_BUTTON).click();
 
           // then
           return (0, _wait.default)().then(function () {
@@ -10087,7 +10087,7 @@ define('pix-live/tests/integration/components/user-logged-menu-test', ['chai', '
 
         // when
         this.$('.logged-user-name').click();
-        this.$('.logged-user-name').trigger($.Event('keydown', { keyCode: 27 }));
+        this.$('.logged-user-name').trigger(Ember.$.Event('keydown', { keyCode: 27 }));
 
         return (0, _wait.default)().then(function () {
           // then
