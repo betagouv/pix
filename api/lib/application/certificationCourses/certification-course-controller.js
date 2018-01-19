@@ -35,7 +35,7 @@ module.exports = {
       })
       .then((certificationCourse) => {
         certificationCourseStatus = certificationCourse.status;
-        return userService.getProfileToCertify(userId);
+        return userService.getProfileToCertify(userId, dateOfCertification);
       })
       .then((listCompetences) => {
         const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);

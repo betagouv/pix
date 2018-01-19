@@ -100,7 +100,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       // then
       return promise.then(() => {
         sinon.assert.calledOnce(UserService.getProfileToCertify);
-        sinon.assert.calledWith(UserService.getProfileToCertify, 'user_id');
+        sinon.assert.calledWith(UserService.getProfileToCertify, 'user_id', '2018-01-01');
       });
     });
 
