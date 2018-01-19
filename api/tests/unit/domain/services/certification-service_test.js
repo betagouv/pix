@@ -126,7 +126,7 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
 
-    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', createdAt: '2018-01-01' });
+    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
     const certificationCourse = { id: 'course1', status: 'completed' };
 
     const userProfile = [
@@ -419,4 +419,307 @@ describe('Unit | Service | Certification Service', function() {
       });
     });
   });
+
+  describe('#getCertificationResultByAssessmentId', () => {
+
+    let sandbox;
+    const certificationCourse = { id: 'course1', status: 'completed' };
+
+    const certificationAssessement = new Assessment({
+      id: 'assessment_id',
+      userId: 'user_id',
+      createdAt: '2018-01-01',
+      courseId: 'course_id'
+    });
+
+    const userProfile = [
+      _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
+      _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2),
+      _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3),
+      _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4)
+    ];
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessement);
+      sandbox.stub(answersRepository, 'findByAssessment').resolves(_buildWrongAnswersForAllChallenges());
+      sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
+      sandbox.stub(UserService, 'getProfileToCertify').resolves(userProfile);
+      sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
+      // when
+      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+      // then
+      return promise.then(() => {
+        expect(assessmentRepository.get).to.have.been.calledWith('assessment_id');
+      });
+    });
+
+    it('should call Answers Repository to get Answers of certification', function() {
+      // when
+      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(answersRepository.findByAssessment);
+        sinon.assert.calledWith(answersRepository.findByAssessment, certificationAssessement.id);
+      });
+    });
+
+    it('should call Certification Challenges Repository to find challenges by certification id', function() {
+      // when
+      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(certificationChallengesRepository.findByCertificationCourseId);
+        sinon.assert.calledWith(certificationChallengesRepository.findByCertificationCourseId, 'course_id');
+      });
+    });
+
+    it('should call User Service to get ProfileToCertify', function() {
+      // when
+      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(UserService.getProfileToCertify);
+        sinon.assert.calledWith(UserService.getProfileToCertify, certificationAssessement.userId, '2018-01-01');
+      });
+    });
+
+    context('when reproductibility rate is < 50%', () => {
+
+      it('should return totalScore = 0', () => {
+        // given
+        const answers = _buildWrongAnswersForAllChallenges();
+        answersRepository.findByAssessment.resolves(answers);
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(0);
+        });
+      });
+
+      it('should return list of competences with all certifiedLevel at -1', () => {
+        // given
+        const answers = _buildWrongAnswersForAllChallenges();
+        answersRepository.findByAssessment.resolves(answers);
+
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: -1,
+          score: 0
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: -1,
+          score: 0
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: -1,
+          score: 0
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: -1,
+          score: 0
+        }];
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+    });
+
+    context('when reproductibility rate is between 80% and 100%', () => {
+
+      beforeEach(() => {
+        const answers = _buildCorrectAnswersForAllChallenges();
+        answersRepository.findByAssessment.resolves(answers);
+      });
+
+      it('should return totalScore = all pix', () => {
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(totalPix);
+        });
+      });
+
+      it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
+        // given
+        const expectedCertifiedCompetences = [
+          {
+            index: '1.1',
+            id: 'competence_1',
+            name: 'Mener une recherche',
+            level: 1,
+            score: pixForCompetence1
+          }, {
+            index: '2.2',
+            id: 'competence_2',
+            name: 'Partager',
+            level: 2,
+            score: pixForCompetence2
+          }, {
+            index: '3.3',
+            id: 'competence_3',
+            name: 'Adapter',
+            level: 3,
+            score: pixForCompetence3
+          }, {
+            index: '4.4',
+            id: 'competence_4',
+            name: 'Résoudre',
+            level: 4,
+            score: pixForCompetence4
+          }
+        ];
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+
+      it('should return totalScore = (all pix - one competence pix) when one competence is totally false', () => {
+        // given
+        const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
+        answersRepository.findByAssessment.resolves(answers);
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
+        });
+      });
+
+      it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', () => {
+        // given
+        const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
+        answersRepository.findByAssessment.resolves(answers);
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 1,
+          score: pixForCompetence1
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2,
+          score: pixForCompetence2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: 3,
+          score: pixForCompetence3
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: -1,
+          score: 0
+        }];
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+    });
+
+    context('when reproductibility rate is between 50% and 80%', () => {
+      beforeEach(() => {
+        const answers = _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80();
+        answersRepository.findByAssessment.resolves(answers);
+      });
+
+      it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', () => {
+        // given
+        const malusForFalseAnswer = 8;
+        const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.totalScore).to.equal(expectedScore);
+        });
+      });
+
+      it('should return list of competences with certifiedLevel less or equal to estimatedLevel', () => {
+        // given
+        const malusForFalseAnswer = 8;
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 0,
+          score: pixForCompetence1 - malusForFalseAnswer
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2,
+          score: pixForCompetence2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: -1,
+          score: 0
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: 3,
+          score: pixForCompetence4 - malusForFalseAnswer
+        }];
+
+        // when
+        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
+          expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
+        });
+      });
+    });
+  });
+
 });
