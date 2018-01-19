@@ -1,4 +1,4 @@
-import { A } from '@ember/array';
+import { A as EmberArray } from '@ember/array';
 import { computed } from '@ember/object';
 import { classify } from '@ember/string';
 import { getOwner } from '@ember/application';
@@ -10,7 +10,7 @@ MediaService.reopen({
   _defaultBreakpoint: 'desktop',
 
   _breakpointArr: computed('breakpoints', function() {
-    return Object.keys(this.get('breakpoints')) || A([]);
+    return Object.keys(this.get('breakpoints')) || EmberArray();
   }),
 
   _forceSetBreakpoint(breakpoint) {
