@@ -3948,7 +3948,7 @@ define('pix-live/tests/helpers/responsive', ['exports', 'ember-responsive/media'
     _defaultBreakpoint: 'desktop',
 
     _breakpointArr: Ember.computed('breakpoints', function () {
-      return Object.keys(this.get('breakpoints')) || Ember.A([]);
+      return Object.keys(this.get('breakpoints')) || Ember.A();
     }),
 
     _forceSetBreakpoint: function _forceSetBreakpoint(breakpoint) {
