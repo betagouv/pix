@@ -1,8 +1,9 @@
+import EmberObject from '@ember/object';
+import Service from '@ember/service';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 import { expect } from 'chai';
-import Ember from 'ember';
 
 describe('Unit | Route | Certification | resume', function() {
   setupTest('route:certifications.resume', {
@@ -22,7 +23,7 @@ describe('Unit | Route | Certification | resume', function() {
     findRecordStub = sinon.stub();
     queryRecordStub = sinon.stub();
     queryStub = sinon.stub();
-    StoreStub = Ember.Service.extend({
+    StoreStub = Service.extend({
       findRecord: findRecordStub,
       queryRecord: queryRecordStub,
       query: queryStub
@@ -47,7 +48,7 @@ describe('Unit | Route | Certification | resume', function() {
           courseId: certificationCourseId
         }
       };
-      const retrievedAssessments = [Ember.Object.create({ id: 1 })];
+      const retrievedAssessments = [EmberObject.create({ id: 1 })];
       route.get('store').query.resolves(retrievedAssessments);
 
       // when
@@ -64,7 +65,7 @@ describe('Unit | Route | Certification | resume', function() {
       // given
       const params = { certification_course_id: certificationCourseId };
       const retrievedAssessments = [];
-      retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+      retrievedAssessments.pushObject(EmberObject.create({ id: 1 }));
       route.get('store').query.resolves(retrievedAssessments);
 
       // when
@@ -79,8 +80,8 @@ describe('Unit | Route | Certification | resume', function() {
 
   describe('#afterModel', function() {
 
-    const course = Ember.Object.create({ id: 'certification_course_id' });
-    const assessment = Ember.Object.create({ id: assessmentId, course });
+    const course = EmberObject.create({ id: 'certification_course_id' });
+    const assessment = EmberObject.create({ id: assessmentId, course });
 
     it('should get the next challenge of the assessment', function() {
       // given
@@ -100,7 +101,7 @@ describe('Unit | Route | Certification | resume', function() {
 
       it('should redirect to the challenge view', function() {
         // given
-        const nextChallenge = Ember.Object.create({ id: 456 });
+        const nextChallenge = EmberObject.create({ id: 456 });
         queryRecordStub.resolves(nextChallenge);
 
         // when
