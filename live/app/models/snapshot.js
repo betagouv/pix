@@ -1,3 +1,4 @@
+import { computed } from '@ember/object';
 import DS from 'ember-data';
 
 const { Model, belongsTo, attr } = DS;
@@ -9,5 +10,8 @@ export default Model.extend({
   organization: belongsTo('organization'),
   user: belongsTo('user'),
   studentCode: attr('string'),
-  campaignCode: attr('string')
+  campaignCode: attr('string'),
+  numberOfTestsFinished: computed('testsFinished', function() {
+    return this.get('testsFinished') || 0;
+  })
 });
