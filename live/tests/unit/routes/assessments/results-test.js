@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-//import Ember from 'ember';
 import EmberObject from '@ember/object';
 
 describe('Unit | Route | Assessments.ResultsRoute', function() {
