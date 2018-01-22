@@ -14681,7 +14681,7 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
     });
   });
 });
-define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Assessments.ResultsRoute', function () {
@@ -14693,6 +14693,37 @@ define('pix-live/tests/unit/routes/assessments/results-test', ['chai', 'mocha', 
     (0, _mocha.it)('exists', function () {
       var route = this.subject();
       (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+
+      (0, _mocha.it)('should redirect to homepage if assessment is a certification', function () {
+        // given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.spy();
+
+        var certification = Ember.Object.create({ id: 123, isCertification: true });
+
+        // when
+        route.afterModel(certification);
+
+        // then
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+
+      (0, _mocha.it)('should not redirect to homepage if assessment is not a certification', function () {
+        // given
+        var route = this.subject();
+        route.transitionTo = _sinon.default.spy();
+
+        var certification = Ember.Object.create({ id: 123, isCertification: false });
+
+        // when
+        route.afterModel(certification);
+
+        // then
+        _sinon.default.assert.notCalled(route.transitionTo);
+      });
     });
   });
 });
