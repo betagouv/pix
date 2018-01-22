@@ -6526,6 +6526,12 @@ define('pix-live/routes/assessments/results', ['exports', 'pix-live/routes/base-
     value: true
   });
   exports.default = _baseRoute.default.extend({
+    afterModel: function afterModel(model) {
+      if (model.get('isCertification')) {
+        this.transitionTo('index');
+      }
+    },
+
 
     actions: {
       openComparison: function openComparison(assessment_id, answer_id, index) {
@@ -9134,6 +9140,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.35.0+be85dd2f"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.35.0+2a3b346f"});
 }
 //# sourceMappingURL=pix-live.map
