@@ -9825,7 +9825,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       var snapshot = Ember.Object.create({
         id: 1,
         score: 10,
-        testsFinished: '3',
+        numberOfTestsFinished: '3',
         createdAt: '2017-09-25 12:14:33',
         user: user
       });
@@ -9845,7 +9845,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('testsFinished') + '/16');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('numberOfTestsFinished') + '/16');
       }.bind(this));
     });
   });
