@@ -163,6 +163,16 @@ describe('Unit | Domain | Services | assessment-rating', () => {
         });
       });
 
+      it('should not try to evaluate as a certification', () => {
+        // when
+        const promise = service.evaluateFromAssessmentId(assessmentId);
+
+        // then
+        return promise.then(() => {
+          expect(certificationService.calculateCertificationResultByAssessmentId).not.to.have.been.calledWith(assessmentId);
+        });
+      });
+
       context('when the saving the mark is failing', () => {
         it('should return the error', () => {
           // given

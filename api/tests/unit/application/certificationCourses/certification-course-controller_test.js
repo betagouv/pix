@@ -29,7 +29,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationService, 'getCertificationResultByCertificationCourseId').resolves(certificationScore);
+      sandbox.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
       sandbox.stub(logger, 'error');
       sandbox.stub(Boom, 'badImplementation').returns(boomResponseForbBadImplementation);
     });
@@ -44,8 +44,8 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       // then
       return promise.then(() => {
-        sinon.assert.calledOnce(certificationService.getCertificationResultByCertificationCourseId);
-        sinon.assert.calledWith(certificationService.getCertificationResultByCertificationCourseId, certificationCourseId);
+        sinon.assert.calledOnce(certificationService.calculateCertificationResultByCertificationCourseId);
+        sinon.assert.calledWith(certificationService.calculateCertificationResultByCertificationCourseId, certificationCourseId);
       });
     });
 
@@ -64,7 +64,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       it('should log the error', () => {
         // given
         const error = new Error('Unexpected error');
-        certificationService.getCertificationResultByCertificationCourseId.rejects(error);
+        certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
         const promise = CertificationCourseController.getResult(request, replyStub);
@@ -78,7 +78,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       it('should return a bad implementation error', () => {
         // given
         const error = new Error('Unexpected error');
-        certificationService.getCertificationResultByCertificationCourseId.rejects(error);
+        certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
         const promise = CertificationCourseController.getResult(request, replyStub);

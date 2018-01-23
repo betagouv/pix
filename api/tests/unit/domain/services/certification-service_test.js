@@ -122,7 +122,7 @@ const totalPix = pixForCompetence1 + pixForCompetence2 + pixForCompetence3 + pix
 
 describe('Unit | Service | Certification Service', function() {
 
-  describe('#getCertificationResultByCertificationCourseId', () => {
+  describe('#calculateCertificationResultByCertificationCourseId', () => {
 
     let sandbox;
 
@@ -151,7 +151,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
       // when
-      const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+      const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
       // then
       return promise.then(() => {
@@ -162,7 +162,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Answers Repository to get Answers of certification', function() {
       // when
-      const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+      const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
       // then
       return promise.then(() => {
@@ -173,7 +173,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Certification Challenges Repository to find challenges by certification id', function() {
       // when
-      const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+      const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
       // then
       return promise.then(() => {
@@ -184,7 +184,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call User Service to get ProfileToCertify', function() {
       // when
-      const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+      const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
       // then
       return promise.then(() => {
@@ -201,7 +201,7 @@ describe('Unit | Service | Certification Service', function() {
         answersRepository.findByAssessment.resolves(answers);
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -241,7 +241,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -259,7 +259,7 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return totalScore = all pix', () => {
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -298,7 +298,7 @@ describe('Unit | Service | Certification Service', function() {
         ];
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -312,7 +312,7 @@ describe('Unit | Service | Certification Service', function() {
         answersRepository.findByAssessment.resolves(answers);
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -351,7 +351,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -372,7 +372,7 @@ describe('Unit | Service | Certification Service', function() {
         const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -410,7 +410,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByCertificationCourseId('course_id');
+        const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
 
         // then
         return promise.then((result) => {
@@ -420,7 +420,7 @@ describe('Unit | Service | Certification Service', function() {
     });
   });
 
-  describe('#getCertificationResultByAssessmentId', () => {
+  describe('#calculateCertificationResultByAssessmentId', () => {
 
     let sandbox;
     const certificationCourse = { id: 'course1', status: 'completed' };
@@ -454,7 +454,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Assessment Repository to get Assessment by CertificationCourseId', function() {
       // when
-      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+      const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
       // then
       return promise.then(() => {
@@ -464,7 +464,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Answers Repository to get Answers of certification', function() {
       // when
-      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+      const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
       // then
       return promise.then(() => {
@@ -475,7 +475,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call Certification Challenges Repository to find challenges by certification id', function() {
       // when
-      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+      const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
       // then
       return promise.then(() => {
@@ -486,7 +486,7 @@ describe('Unit | Service | Certification Service', function() {
 
     it('should call User Service to get ProfileToCertify', function() {
       // when
-      const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+      const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
       // then
       return promise.then(() => {
@@ -503,7 +503,7 @@ describe('Unit | Service | Certification Service', function() {
         answersRepository.findByAssessment.resolves(answers);
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -543,7 +543,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -561,7 +561,7 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return totalScore = all pix', () => {
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -600,7 +600,7 @@ describe('Unit | Service | Certification Service', function() {
         ];
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -614,7 +614,7 @@ describe('Unit | Service | Certification Service', function() {
         answersRepository.findByAssessment.resolves(answers);
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -653,7 +653,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -674,7 +674,7 @@ describe('Unit | Service | Certification Service', function() {
         const expectedScore = totalPix - pixForCompetence3 - 2 * malusForFalseAnswer;
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {
@@ -712,7 +712,7 @@ describe('Unit | Service | Certification Service', function() {
         }];
 
         // when
-        const promise = certificationService.getCertificationResultByAssessmentId('assessment_id');
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
         // then
         return promise.then((result) => {

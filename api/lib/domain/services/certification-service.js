@@ -125,13 +125,13 @@ function _getCertificationResult(assessment) {
 
 module.exports = {
 
-  getCertificationResultByCertificationCourseId(certificationCourseId) {
+  calculateCertificationResultByCertificationCourseId(certificationCourseId) {
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(_getCertificationResult);
   },
 
-  getCertificationResultByAssessmentId(assessmentId) {
+  calculateCertificationResultByAssessmentId(assessmentId) {
     return assessmentRepository
       .get(assessmentId)
       .then(_getCertificationResult);

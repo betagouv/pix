@@ -9,7 +9,7 @@ module.exports = {
   getResult(request, reply) {
     const certificationCourseId = request.params.id;
 
-    return certificationService.getCertificationResultByCertificationCourseId(certificationCourseId)
+    return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
       .then(reply)
       .catch((err) => {
         logger.error(err);
