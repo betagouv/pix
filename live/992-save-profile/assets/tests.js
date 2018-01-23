@@ -3541,6 +3541,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/assessment-rating.js', function () {
+      // test passed
+    });
+
     it('models/assessment.js', function () {
       // test passed
     });
@@ -10765,6 +10769,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/assessment-rating-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/certification-course-test.js', function () {
       // test passed
     });
@@ -13975,6 +13983,24 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
+define('pix-live/tests/unit/models/assessment-rating-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | assessment rating', function () {
+    (0, _emberMocha.setupModelTest)('assessment-rating', {
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      // given
+      var model = this.subject();
+
+      // then
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/certification-course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -14679,6 +14705,7 @@ define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', '
   'use strict';
 
   var EmberObject = Ember.Object;
+  var EmberService = Ember.Service;
 
 
   (0, _mocha.describe)('Unit | Route | assessments.rating', function () {
@@ -14692,8 +14719,24 @@ define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', '
     });
 
     var route = void 0;
+    var StoreStub = void 0;
+    var createRecordStub = void 0;
+    var assessmentRating = EmberObject.create({});
 
     beforeEach(function () {
+      // define stubs
+      assessmentRating.save = _sinon.default.stub().resolves();
+
+      createRecordStub = _sinon.default.stub().returns(assessmentRating);
+      StoreStub = EmberService.extend({
+        createRecord: createRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
       route = this.subject();
       route.transitionTo = _sinon.default.stub();
     });
@@ -14706,7 +14749,6 @@ define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', '
       context('when the assessment is a certification', function () {
         (0, _mocha.it)('should redirect to the certification end page', function () {
           // given
-
           var assessment = EmberObject.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
 
           // when
@@ -14728,6 +14770,18 @@ define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', '
           // then
           _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
         });
+      });
+
+      (0, _mocha.it)('should trigger an assessment rating by creating a model and saving it', function () {
+        // given
+        var assessment = EmberObject.create({ answers: [] });
+
+        // when
+        route.afterModel(assessment);
+
+        // then
+        _sinon.default.assert.calledWith(createRecordStub, 'assessment-rating', { assessment: assessment });
+        _sinon.default.assert.called(assessmentRating.save);
       });
     });
   });
