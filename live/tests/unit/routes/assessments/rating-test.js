@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import EmberObject from '@ember/object';
+import EmberService from '@ember/service';
 import sinon from 'sinon';
 
 describe('Unit | Route | assessments.rating', function() {
@@ -15,8 +16,24 @@ describe('Unit | Route | assessments.rating', function() {
   });
 
   let route;
+  let StoreStub;
+  let createRecordStub;
+  const assessmentRating = EmberObject.create({});
 
   beforeEach(function() {
+    // define stubs
+    assessmentRating.save = sinon.stub().resolves();
+
+    createRecordStub = sinon.stub().returns(assessmentRating);
+    StoreStub = EmberService.extend({
+      createRecord: createRecordStub,
+    });
+
+    // manage dependency injection context
+    this.register('service:store', StoreStub);
+    this.inject.service('store', { as: 'store' });
+
+    // instance route object
     route = this.subject();
     route.transitionTo = sinon.stub();
   });
@@ -29,7 +46,6 @@ describe('Unit | Route | assessments.rating', function() {
     context('when the assessment is a certification', function() {
       it('should redirect to the certification end page', function() {
         // given
-
         const assessment = EmberObject.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
 
         // when
@@ -51,6 +67,18 @@ describe('Unit | Route | assessments.rating', function() {
         // then
         sinon.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
       });
+    });
+
+    it('should trigger an assessment rating by creating a model and saving it', function() {
+      // given
+      const assessment = EmberObject.create({ answers: [] });
+
+      // when
+      route.afterModel(assessment);
+
+      // then
+      sinon.assert.calledWith(createRecordStub, 'assessment-rating', { assessment });
+      sinon.assert.called(assessmentRating.save);
     });
   });
 });
