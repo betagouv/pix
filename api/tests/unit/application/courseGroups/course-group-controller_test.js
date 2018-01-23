@@ -46,7 +46,7 @@ describe('Unit | Controller | course-group-controller', function() {
 
       // Then
       return promise.then((res) => {
-        expect(res.result).to.deep.equal(courseGroupSerializer.serializeArray(courseGroups));
+        expect(res.result).to.deep.equal(courseGroupSerializer.serialize(courseGroups));
       });
 
     });
@@ -97,7 +97,7 @@ describe('Unit | Controller | course-group-controller', function() {
           {
             'data': [
               {
-                'type': 'course-group',
+                'type': 'course-groups',
                 'id': 'serie1',
                 'attributes': {
                   'name': 'OTTO'
@@ -159,7 +159,7 @@ describe('Unit | Controller | course-group-controller', function() {
           {
             'data': [
               {
-                'type': 'course-group',
+                'type': 'course-groups',
                 'id': 'serie1',
                 'attributes': {
                   'name': 'OTTO'
