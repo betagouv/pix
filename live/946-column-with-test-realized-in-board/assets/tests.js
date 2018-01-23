@@ -14321,6 +14321,36 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
     });
+
+    (0, _mocha.describe)('@numberOfTestsFinished', function () {
+      (0, _mocha.it)('should return the number of finished test', function () {
+        var _this = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this.subject();
+          var testsFinished = 5;
+          model.set('testsFinished', testsFinished);
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(testsFinished);
+        });
+      });
+
+      (0, _mocha.it)('should return 0 if the model do not have the number of finished test', function () {
+        var _this2 = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this2.subject();
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(0);
+        });
+      });
+    });
   });
 });
 define('pix-live/tests/unit/models/user-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
