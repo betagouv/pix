@@ -166,6 +166,10 @@ function isCertificationAssessment(assessment) {
   return assessment.type === 'CERTIFICATION';
 }
 
+function isPlacementAssessment(assessment) {
+  return assessment.type === 'PLACEMENT';
+}
+
 function isAssessmentCompleted(assessment) {
   if (_.isNil(assessment.estimatedLevel) || _.isNil(assessment.pixScore)) {
     return false;
@@ -187,6 +191,7 @@ module.exports = {
   isAssessmentCompleted,
   findByFilters,
   isPreviewAssessment,
+  isPlacementAssessment,
   isDemoAssessment,
   isCertificationAssessment
 };
