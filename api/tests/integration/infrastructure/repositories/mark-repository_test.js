@@ -1,7 +1,5 @@
 const { expect, describe, afterEach, it, knex } = require('../../../test-helper');
 
-const _ = require('lodash');
-
 const Mark = require('../../../../lib/domain/models/Mark');
 const MarkRepository = require('../../../../lib/infrastructure/repositories/mark-repository');
 
@@ -49,8 +47,6 @@ describe('Integration | Repository | Assessment', function() {
         expect(mark).to.have.property('id').and.not.to.be.null;
       });
     });
-
   });
-
 });
 

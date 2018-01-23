@@ -136,54 +136,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         assessmentService.fetchAssessment.resolves(scoredAsssessment);
       });
 
-      context('when the assessment is a certification', () => {
-        let clock;
-        afterEach(() => clock.restore());
-
-        it('should update the certification course status', () => {
-          // given
-          clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-          const certificationAssessment = new Assessment({
-            id: 7531,
-            courseId: '356',
-            userId: 5,
-            type: 'CERTIFICATION'
-          });
-          assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
-          // when
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-          // then
-          return promise.then(() => {
-            expect(certificationCourseRepository.updateStatus).to.have.been.calledWith('completed', '356', '2018-02-04T00:00:00.000Z');
-          });
-        });
-
-        it('should return 500 when unable to persiste a new certification status', () => {
-          // given
-          const error = new Error();
-          certificationCourseRepository.updateStatus.rejects(error);
-          const certificationAssessment = new Assessment({
-            id: 7531,
-            courseId: '356',
-            userId: 5,
-            type: 'CERTIFICATION'
-          });
-          assessmentRepository.get.resolves(certificationAssessment);
-          assessmentService.fetchAssessment.resolves({ assessmentPix: certificationAssessment });
-
-          // when
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-          // then
-          return promise.then(() => {
-            expect(Boom.badImplementation).to.have.been.calledWith(error);
-            expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
-          });
-        });
-      });
-
       context('when the assessment is a not certification', () => {
 
         it('should not update the certification course status', () => {
@@ -207,16 +159,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
         });
       });
 
-      it('should call fetchAssessment', () => {
-        // When
-        const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-        // Then
-        return promise.then(() => {
-          expect(assessmentService.fetchAssessment).to.have.been.calledWith(7531);
-        });
-      });
-
       it('should reply with no content', () => {
         // Given
         skillService.saveAssessmentSkills.resolves({});
@@ -231,31 +173,6 @@ describe('Unit | Controller | assessment-controller-get-next-challenge', () => {
           expect(Boom.notFound).to.have.been.calledOnce;
         });
       });
-
-      describe('when saving level and score is failing', () => {
-
-        let replyStub;
-
-        beforeEach(() => {
-          replyStub = sinon.stub();
-        });
-
-        it('should return a badImplementation error when evaluating is an error', () => {
-          // Given
-          const error = new Error('Unable to evaluate level');
-          assessmentService.fetchAssessment.rejects(error);
-
-          // When
-          const promise = assessmentController.getNextChallenge({ params: { id: 7531 } }, replyStub);
-
-          // Then
-          return promise.then(() => {
-            expect(Boom.badImplementation).to.have.been.calledWith(error);
-            expect(replyStub).to.have.been.calledWith(Boom.badImplementation(error));
-          });
-        });
-      });
-
     });
 
     describe('when the assessment is not over yet', () => {

@@ -6,7 +6,7 @@ const assessmentRatingController = require('../../../../lib/application/assessme
 const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
 const assessmentRatingService = require('../../../../lib/domain/services/assessment-rating-service');
 
-const { NotFoundError } = require('../../../../lib/domain/errors');
+const { AlreadyRatedAssessmentError, NotFoundError } = require('../../../../lib/domain/errors');
 
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -72,6 +72,23 @@ describe('Unit | Controller | assessment-ratings', () => {
       return promise.then(() => {
         expect(Boom.notFound).to.have.been.calledWith(notFoundAssessmentError);
         expect(replyStub).to.have.been.calledWith({ message: 'NotFoundError' });
+      });
+    });
+
+    context('when the assessment is already evaluated', () => {
+      it('should do nothing', () => {
+        // given
+        const alreadyRatedAssessmentError = new AlreadyRatedAssessmentError();
+        assessmentRatingService.evaluateFromAssessmentId.rejects(alreadyRatedAssessmentError);
+
+        // when
+        const promise = assessmentRatingController.evaluate(request, replyStub);
+
+        // then
+        return promise.then(() => {
+          expect(Boom.notFound).not.to.have.been.called;
+          expect(replyStub).to.have.been.called;
+        });
       });
     });
 
