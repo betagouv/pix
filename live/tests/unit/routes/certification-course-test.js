@@ -10,7 +10,6 @@ describe('Unit | Route | certification test', function() {
   });
 
   let route;
-  let findRecordStub;
   let createRecordStub;
   let storeStub;
   let certificationCourse;
@@ -23,13 +22,10 @@ describe('Unit | Route | certification test', function() {
   describe('#model', function() {
 
     beforeEach(function() {
-      findRecordStub = sinon.stub().resolves();
-
       certificationCourse = { id: 1, save: sinon.stub() };
       createRecordStub = sinon.stub().returns(certificationCourse);
 
       storeStub = Service.extend({
-        findRecord: findRecordStub,
         createRecord: createRecordStub
       });
 
@@ -40,40 +36,24 @@ describe('Unit | Route | certification test', function() {
 
     });
 
-    it('should verify if the user is logged', function() {
-      // when
-      const promise = route.model({ code: '123456' });
-
-      // then
-      return promise.then(function() {
-        sinon.assert.called(findRecordStub);
-      });
-
-    });
-
     context('when user is logged', function() {
 
       it('should generate certification test', function() {
         // when
-        const promise = route.model({ code: '123456' });
+        route.model({ code: '123456' });
 
         // then
-        return promise.then(function() {
-          sinon.assert.called(createRecordStub);
-          sinon.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
-        });
+        sinon.assert.called(createRecordStub);
+        sinon.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
 
       });
 
       it('should save certification test', function() {
         // when
-        const promise = route.model({ code: '123456' });
+        route.model({ code: '123456' });
 
         // then
-        return promise.then(function() {
-          sinon.assert.called(certificationCourse.save);
-        });
-
+        sinon.assert.called(certificationCourse.save);
       });
     });
 

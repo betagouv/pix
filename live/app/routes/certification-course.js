@@ -1,15 +1,12 @@
 import Route from '@ember/routing/route';
-import { inject as service } from '@ember/service';
+import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
-export default Route.extend({
+export default Route.extend(AuthenticatedRouteMixin, {
 
-  session: service('session'),
+  authenticationRoute: '/connexion',
 
   model(params) {
-    return this.get('store').findRecord('user', this.get('session.data.authenticated.userId'), { reload: true })
-      .then(() => {
-        return this.get('store').createRecord('course', { sessionCode: params.code }).save();
-      });
+    return this.get('store').createRecord('course', { sessionCode: params.code }).save();
   },
 
   redirect(certificationCourse) {
