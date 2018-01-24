@@ -10,7 +10,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const Assessment = require('../../../../lib/domain/models/assessment');
+const Assessment = require('../../../../lib/domain/models/Assessment');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result });
