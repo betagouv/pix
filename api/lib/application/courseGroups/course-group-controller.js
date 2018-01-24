@@ -18,7 +18,7 @@ module.exports = {
         const coursesMappedById = _mapCourseById(courses);
         const extendedlistOfCourseGroupWithCourse = _addCourseDetailsToCourseGroups(courseGroups, coursesMappedById);
 
-        reply(courseGroupSerializer.serializeArray(extendedlistOfCourseGroupWithCourse));
+        reply(courseGroupSerializer.serialize(extendedlistOfCourseGroupWithCourse));
       });
 
   }

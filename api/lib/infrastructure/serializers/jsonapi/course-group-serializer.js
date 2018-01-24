@@ -1,80 +1,28 @@
-const JSONAPISerializer = require('./jsonapi-serializer');
+const { Serializer } = require('jsonapi-serializer');
 
-class courseGroupSerializer extends JSONAPISerializer {
+module.exports = {
 
-  constructor() {
-    super('course-group');
-  }
-
-  serialize(modelObject) {
-    const response = super.serialize(modelObject);
-    response.included = [];
-    if (modelObject.courses) {
-      for (const course of modelObject.courses) {
-        response.included.push(this.serializeIncluded(course));
-      }
-    }
-
-    return response;
-  }
-
-  serializeArray(modelObjects) {
-    const response = {};
-    response.data = [];
-    response.included = [];
-    for (const modelObject of modelObjects) {
-      response.data.push(this.serializeModelObject(modelObject));
-
-      if (modelObject.courses) {
-        for (const course of modelObject.courses) {
-          response.included.push(this.serializeIncluded(course));
+  serialize(courseGroups) {
+    return new Serializer('course-group', {
+      attributes: ['name', 'courses'],
+      courses: {
+        ref: 'id',
+        attributes: ['description', 'imageUrl', 'name', 'nbChallenges'],
+        included: true,
+      },
+      transform(record) {
+        const courseGroup = Object.assign({}, record);
+        if (courseGroup.courses) {
+          courseGroup.courses.forEach((course) => {
+            course.nbChallenges = 0;
+            if (course.challenges) {
+              course.nbChallenges = course.challenges.length;
+            }
+          });
         }
+        return courseGroup;
       }
-    }
-    return response;
+    }).serialize(courseGroups);
   }
 
-  serializeAttributes(model, serializedModel) {
-    serializedModel.attributes['name'] = model.name;
-  }
-
-  serializeRelationships(model, serializedModel) {
-
-    if (model.courses) {
-      serializedModel.relationships = {
-        courses: {
-          data: []
-        }
-      };
-
-      for (const course of model.courses) {
-        serializedModel.relationships.courses.data.push({
-          'id': course.id,
-          'type': 'courses'
-        });
-      }
-    }
-  }
-
-  serializeIncluded(course) {
-
-    course.challenges = course.challenges || [];
-
-    return {
-      'type': 'courses',
-      'id': course.id,
-      attributes: {
-        'name': course.name,
-        'description': course.description,
-        'image-url': course.imageUrl,
-        'nb-challenges': course.challenges.length
-      }
-    };
-  }
-
-  deserialize() {
-  }
-
-}
-
-module.exports = new courseGroupSerializer();
+};
