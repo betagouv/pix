@@ -41,12 +41,13 @@ function main() {
   request(buildRequestObject())
     .then((pullRequests)=> {
       const pullRequestsInMilestone = filterPullRequest(pullRequests, milestone);
+
       const headOfChangeLog =  getHeadOfChangelog(pullRequestsInMilestone[0]);
-      // PR
+
       let changeLogForMilestone= '';
       pullRequestsInMilestone.forEach(pr => changeLogForMilestone += displayPullRequest(pr));
 
-      console.log(headOfChangeLog+changeLogForMilestone);
+      console.log(headOfChangeLog + changeLogForMilestone);
     });
 }
 
