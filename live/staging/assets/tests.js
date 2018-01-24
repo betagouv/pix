@@ -9820,7 +9820,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       var snapshot = Ember.Object.create({
         id: 1,
         score: 10,
-        completionPercentage: '25',
+        numberOfTestsFinished: '3',
         createdAt: '2017-09-25 12:14:33',
         user: user
       });
@@ -9840,7 +9840,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('numberOfTestsFinished') + '/16');
       }.bind(this));
     });
   });
@@ -14320,6 +14320,36 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('@numberOfTestsFinished', function () {
+      (0, _mocha.it)('should return the number of finished test', function () {
+        var _this = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this.subject();
+          var testsFinished = 5;
+          model.set('testsFinished', testsFinished);
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(testsFinished);
+        });
+      });
+
+      (0, _mocha.it)('should return 0 if the model do not have the number of finished test', function () {
+        var _this2 = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this2.subject();
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(0);
+        });
+      });
     });
   });
 });
