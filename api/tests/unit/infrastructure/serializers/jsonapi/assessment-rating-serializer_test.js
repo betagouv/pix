@@ -89,6 +89,5 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
       expect(assessmentRating.assessmentId).to.equal('22');
     });
 
-
   });
 });

@@ -736,5 +736,4 @@ describe('Unit | Domain | Services | assessment', () => {
 
   });
 
-
 });
