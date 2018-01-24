@@ -37,7 +37,6 @@ function getHeadOfChangelog(pullrequest) {
 
 function main() {
   const milestone = Number(process.argv[2]);
-  let changeLogForMilestone = '';
 
   request(buildRequestObject())
     .then((pullRequests)=> {
