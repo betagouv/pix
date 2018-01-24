@@ -2,7 +2,7 @@
 const request = require('request-promise-native');
 const moment = require('moment');
 
-function buildRequestObject(certificationId) {
+function buildRequestObject() {
   return {
     baseUrl: 'https://api.github.com/repos/betagouv/pix',
     url: '/pulls?state=closed&sort=updated&direction=desc',
@@ -11,10 +11,6 @@ function buildRequestObject(certificationId) {
     },
     json: true
   };
-}
-
-function makeRequest(config) {
-  return request(config);
 }
 
 function displayPullRequest(pr) {
@@ -34,28 +30,24 @@ function filterPullRequest(pullrequests, milestone) {
 }
 
 function getHeadOfChangelog(pullrequest) {
-  // VERSION
-  let headOfChangelog = '## '+pullrequest.milestone.title;
-
-  // DATE
-  headOfChangelog +=' ('+moment().format('DD/MM/YYYY')+') \n\n';
-
-  return headOfChangelog;
+  const version = pullrequest.milestone.title;
+  const date =' ('+moment().format('DD/MM/YYYY')+')';
+  return '## ' + version + date+' \n\n';
 }
 
 function main() {
   const milestone = Number(process.argv[2]);
   let changeLogForMilestone = '';
 
-  makeRequest(buildRequestObject())
+  request(buildRequestObject())
     .then((pullRequests)=> {
       const pullRequestsInMilestone = filterPullRequest(pullRequests, milestone);
-      // HEAD
-      changeLogForMilestone += getHeadOfChangelog(pullRequestsInMilestone[0]);
+      const headOfChangeLog =  getHeadOfChangelog(pullRequestsInMilestone[0]);
       // PR
+      let changeLogForMilestone= '';
       pullRequestsInMilestone.forEach(pr => changeLogForMilestone += displayPullRequest(pr));
 
-      console.log(listOfPRForChangeLog);
+      console.log(headOfChangeLog+changeLogForMilestone);
     });
 }
 
