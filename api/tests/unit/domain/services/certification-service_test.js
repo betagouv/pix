@@ -1,7 +1,10 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { describe, it, expect, sinon} = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const Answer = require('../../../../lib/domain/models/data/answer');
 const CertificationChallenge = require('../../../../lib/domain/models/data/certification-challenge');
+const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const userService = require('../../../../lib/domain/services/user-service');
+const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const Competence = require('../../../../lib/domain/models/referential/competence');
 
 function _buildAnswer(challengeId, result) {
@@ -121,6 +124,7 @@ const competences = [
 describe('Unit | Service | Certification Service', function() {
 
   describe('#getResult', () => {
+
     context('when reproductibility rate is < 50%', () => {
 
       it('should return totalScore = 0', () => {
@@ -133,6 +137,7 @@ describe('Unit | Service | Certification Service', function() {
         // then
         expect(result.totalScore).to.equal(0);
       });
+
       it('should return list of competences with all certifiedLevel at -1', () => {
         // given
         const answers = _buildWrongAnswersForAllChallenges();
@@ -165,7 +170,9 @@ describe('Unit | Service | Certification Service', function() {
       });
 
     });
+
     context('when reproductibility rate is between 80% and 100%', () => {
+
       it('should return totalScore = all pix', () => {
         // given
         const answers = _buildCorrectAnswersForAllChallenges();
@@ -207,6 +214,7 @@ describe('Unit | Service | Certification Service', function() {
         // then
         expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
       });
+
       it('should return totalScore = (all pix - one competence pix) when one competence is totally false', () => {
         // given
         const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
@@ -217,6 +225,7 @@ describe('Unit | Service | Certification Service', function() {
         // then
         expect(result.totalScore).to.equal(totalPix - pixForCompetence4);
       });
+
       it('should return list of competences with certifiedLevel = estimatedLevel except for failed competence', () => {
         // given
         const answers = _buildAnswersToHaveOnlyTheLastCompetenceFailed();
@@ -250,6 +259,7 @@ describe('Unit | Service | Certification Service', function() {
     });
 
     context('when reproductibility rate is between 50% and 80%', () => {
+
       it('should return totalScore = all pix minus 8 for one competence with 1 error and minus all pix for others false competences', () => {
         // given
         const answers = _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80();
@@ -262,6 +272,7 @@ describe('Unit | Service | Certification Service', function() {
         // then
         expect(result.totalScore).to.equal(expectedScore);
       });
+
       it('should return list of competences with certifiedLevel less or equal to estimatedLevel', () => {
         // given
         const answers = _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateLessThan80();
@@ -294,5 +305,62 @@ describe('Unit | Service | Certification Service', function() {
       });
 
     });
+  });
+
+  describe('#createNewCertification', () => {
+
+    let clock;
+    let sandbox;
+
+    const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
+    const certificationCourseWithChallengesNumber = { id: 'newlyCreatedCertificationCourse', nbChallenges: 3 };
+    const userProfile = [{ id: 'competence1', challenges: [] }];
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
+
+      sandbox = sinon.sandbox.create();
+      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+      sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
+      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithChallengesNumber);
+
+    });
+
+    afterEach(() => {
+      clock.restore();
+      sandbox.restore();
+    });
+
+    it('should create the certification course with status "started"', function() {
+      // given
+      const userId = 12345;
+
+      // when
+      const promise = certificationService.createNewCertification(userId);
+
+      // then
+      return promise.then((newCertification) => {
+        sinon.assert.calledOnce(certificationCourseRepository.save);
+        sinon.assert.calledWith(certificationCourseRepository.save, { userId: userId, status: 'started' });
+        expect(newCertification.id).to.equal('newlyCreatedCertificationCourse');
+      });
+    });
+
+    it('should create the challenges for the certification course, based on the user profile', function() {
+      // given
+      const userId = 12345;
+
+      // when
+      const promise = certificationService.createNewCertification(userId);
+
+      // then
+      return promise.then((newCertification) => {
+        sinon.assert.calledWith(userService.getProfileToCertify, userId, '2018-02-04T00:00:00.000Z');
+        sinon.assert.calledOnce(certificationChallengesService.saveChallenges);
+        sinon.assert.calledWith(certificationChallengesService.saveChallenges, userProfile, certificationCourse);
+        expect(newCertification.nbChallenges).to.equal(3);
+      });
+    });
+
   });
 });

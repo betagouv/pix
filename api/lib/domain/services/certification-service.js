@@ -2,8 +2,14 @@ const minimumReproductibilityRateToBeCertified = 50;
 const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
 const _ = require('lodash');
+const moment = require('moment');
 const answerServices = require('./answer-service');
 const AnswerStatus = require('../models/AnswerStatus');
+
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
+const CertificationCourse = require('../../domain/models/CertificationCourse');
+const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
+const userService = require('../../../lib/domain/services/user-service');
 
 function _computeSumPixFromCompetences(listCompetences) {
   return  _.sumBy(listCompetences, c => c.pixScore);
@@ -71,6 +77,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       level: -1 };
   });
 }
+
 module.exports = {
 
   getResult(listAnswers, listChallenges, listCompetences) {
@@ -87,4 +94,16 @@ module.exports = {
 
     return { listCertifiedCompetences,  totalScore };
   },
+
+  createNewCertification(userId) {
+    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
+
+    return certificationCourseRepository.save(certificationCourse)
+      .then((savedCertificationCourse) => {
+        return certificationCourse = savedCertificationCourse;
+      })
+      .then(() => userService.getProfileToCertify(userId, moment().toISOString()))
+      .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse));
+  }
+
 };
