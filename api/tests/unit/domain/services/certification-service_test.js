@@ -571,6 +571,28 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
         // given
+        const answers = _buildCorrectAnswersForAllChallenges();
+        const expectedCertifiedCompetences = [{
+          index: '1.1',
+          id: 'competence_1',
+          name: 'Mener une recherche',
+          level: 1
+        }, {
+          index: '2.2',
+          id: 'competence_2',
+          name: 'Partager',
+          level: 2
+        }, {
+          index: '3.3',
+          id: 'competence_3',
+          name: 'Adapter',
+          level: 3
+        }, {
+          index: '4.4',
+          id: 'competence_4',
+          name: 'Résoudre',
+          level: 4
+        }];
         const expectedCertifiedCompetences = [
           {
             index: '1.1',
