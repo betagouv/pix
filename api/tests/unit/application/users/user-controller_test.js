@@ -381,8 +381,7 @@ describe('Unit | Controller | user-controller', () => {
               detail: 'Vous devez cliquer ci-dessous.',
               source: { pointer: '/data/attributes/recaptcha-token' },
               meta: { field: 'recaptchaToken' }
-            },
-            {
+            }, {
               status: '400',
               title: 'Invalid Attribute',
               detail: 'Le champ CGU doit être renseigné.',
@@ -488,7 +487,7 @@ describe('Unit | Controller | user-controller', () => {
         });
       });
 
-      it('should update user password with a hashed password', async () => {
+      it('should update user password with a hashed password', async() => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
         const encryptedPassword = '$2a$05$jJnoQ/YCvAChJmYW9AoQXe/k17mx2l2MqJBgXVo/R/ju4HblB2iAe';
@@ -654,7 +653,7 @@ describe('Unit | Controller | user-controller', () => {
       let clock;
 
       beforeEach(() => {
-         clock = sinon.useFakeTimers();
+        clock = sinon.useFakeTimers();
       });
 
       afterEach(() => {

@@ -817,7 +817,6 @@ describe('Unit | Service | Certification Service', function() {
             level: -1
           }];
 
-
           // when
           const result = certificationService.getResult(answers, challenges, competences);
 
@@ -846,7 +845,6 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Compétence réussie moyennement',
             level: 2
           }];
-
 
           // when
           const result = certificationService.getResult(answers, challenges, competences);
