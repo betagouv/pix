@@ -24,11 +24,27 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
   });
 }
 
+function _getChallengeType(challengeId, listOfChallenges) {
+  return _.find(listOfChallenges, (challenge)=> challenge.id === challengeId).type;
+
+}
+
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
-  return _(answersWithCompetences)
-    .filter(answer => answer.get('competenceId') === competence.id)
-    .filter(answer => AnswerStatus.isOK(answer.get('result')))
-    .size();
+  const answerForCompetence = _.filter(answersWithCompetences, answer => {
+      return answer.get('competenceId') === competence.id
+    });
+
+  return answerForCompetence.reduce((correctAnswers, answer) => {
+    const type = _getChallengeType(answer.get('challengeId'), competence.challenges);
+      if (type === 'QROCM-dep' && answer.get('result') === 'ok') {
+        correctAnswers += 2;
+      } else if (type === 'QROCM-dep' && answer.get('result') === 'partially') {
+        correctAnswers++;
+      } else if (answer.get('result') === 'ok') {
+        correctAnswers++;
+      }
+      return correctAnswers;
+  }, 0);
 }
 
 function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate) {
