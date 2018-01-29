@@ -6,6 +6,7 @@ const certificationCourseRepository = require('../../../../lib/infrastructure/re
 const userService = require('../../../../lib/domain/services/user-service');
 const certificationChallengesService = require('../../../../lib/domain/services/certification-challenges-service');
 const Competence = require('../../../../lib/domain/models/referential/competence');
+const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result });
@@ -307,23 +308,17 @@ describe('Unit | Service | Certification Service', function() {
     });
   });
 
-  describe('#createNewCertification', () => {
+  describe('#startNewCertification', () => {
 
     let clock;
     let sandbox;
 
     const certificationCourse = { id: 'newlyCreatedCertificationCourse' };
-    const certificationCourseWithChallengesNumber = { id: 'newlyCreatedCertificationCourse', nbChallenges: 3 };
-    const userProfile = [{ id: 'competence1', challenges: [] }];
+    const certificationCourseWithNbOfChallenges = { id: 'certificationCourseWithChallenges', nbChallenges: 3 };
 
     beforeEach(() => {
       clock = sinon.useFakeTimers(new Date('2018-02-04T01:00:00.000+01:00'));
-
       sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
-      sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
-      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithChallengesNumber);
-
     });
 
     afterEach(() => {
@@ -331,33 +326,78 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.restore();
     });
 
-    it('should create the certification course with status "started"', function() {
+    const noCompetences = [];
+    const oneCompetenceWithLevel0 = [ { id: 'competence1', estimatedLevel: 0 } ];
+    const oneCompetenceWithLevel5 = [ { id: 'competence1', estimatedLevel: 5 } ];
+    const fiveCompetencesAndOneWithLevel0 = [
+      { id: 'competence1', estimatedLevel: 1 },
+      { id: 'competence2', estimatedLevel: 2 },
+      { id: 'competence3', estimatedLevel: 0 },
+      { id: 'competence4', estimatedLevel: 4 },
+      { id: 'competence5', estimatedLevel: 5 }
+    ];
+    const fiveCompetencesWithLevelHigherThan0 = [
+      { id: 'competence1', estimatedLevel: 1 },
+      { id: 'competence2', estimatedLevel: 0 },
+      { id: 'competence3', estimatedLevel: 3 },
+      { id: 'competence4', estimatedLevel: 4 },
+      { id: 'competence5', estimatedLevel: 5 },
+      { id: 'competence5', estimatedLevel: 6 }
+    ];
+
+    [ { label: 'User Has No Competence', competences: noCompetences },
+      { label: 'User Has Only 1 Competence at Level 0', competences: oneCompetenceWithLevel0 },
+      { label: 'User Has Only 1 Competence at Level 5', competences: oneCompetenceWithLevel5 },
+      { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 }
+    ].forEach(function(testCase) {
+      it(`should not create a new certification if ${testCase.label}`, function() {
+        // given
+        const userId = 12345;
+        sandbox.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
+
+        // when
+        const createNewCertificationPromise = certificationService.startNewCertification(userId);
+
+        // then
+        return createNewCertificationPromise.catch((error) => {
+          expect(error).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
+        });
+      });
+    });
+
+    it('should create the certification course with status "started", if at least 5 competences with level higher than 0', function() {
       // given
       const userId = 12345;
+      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+      sandbox.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
+      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
       // when
-      const promise = certificationService.createNewCertification(userId);
+      const promise = certificationService.startNewCertification(userId);
 
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledOnce(certificationCourseRepository.save);
         sinon.assert.calledWith(certificationCourseRepository.save, { userId: userId, status: 'started' });
-        expect(newCertification.id).to.equal('newlyCreatedCertificationCourse');
+        expect(newCertification.id).to.equal('certificationCourseWithChallenges');
       });
     });
 
     it('should create the challenges for the certification course, based on the user profile', function() {
       // given
       const userId = 12345;
+      sandbox.stub(certificationCourseRepository, 'save').resolves(certificationCourse);
+      sandbox.stub(userService, 'getProfileToCertify').resolves(fiveCompetencesWithLevelHigherThan0);
+      sandbox.stub(certificationChallengesService, 'saveChallenges').resolves(certificationCourseWithNbOfChallenges);
 
       // when
-      const promise = certificationService.createNewCertification(userId);
+      const promise = certificationService.startNewCertification(userId);
 
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledWith(userService.getProfileToCertify, userId, '2018-02-04T00:00:00.000Z');
         sinon.assert.calledOnce(certificationChallengesService.saveChallenges);
-        sinon.assert.calledWith(certificationChallengesService.saveChallenges, userProfile, certificationCourse);
+        sinon.assert.calledWith(certificationChallengesService.saveChallenges, fiveCompetencesWithLevelHigherThan0, certificationCourse);
         expect(newCertification.nbChallenges).to.equal(3);
       });
     });

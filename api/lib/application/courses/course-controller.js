@@ -67,8 +67,8 @@ module.exports = {
   save(request, reply) {
     const userId = request.pre.userId;
 
-    return certificationService.createNewCertification(userId)
-      .then((certificationCourse) => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
+    return certificationService.startNewCertification(userId)
+      .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));

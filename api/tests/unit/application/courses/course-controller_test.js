@@ -189,7 +189,7 @@ describe('Unit | Controller | course-controller', function() {
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationService, 'createNewCertification').resolves(newlyCreatedCertificationCourse);
+      sandbox.stub(certificationService, 'startNewCertification').resolves(newlyCreatedCertificationCourse);
       sandbox.stub(certificationCourseSerializer, 'serialize').resolves({});
     });
 

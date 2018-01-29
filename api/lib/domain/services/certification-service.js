@@ -10,6 +10,7 @@ const certificationCourseRepository = require('../../infrastructure/repositories
 const CertificationCourse = require('../../domain/models/CertificationCourse');
 const certificationChallengesService = require('../../../lib/domain/services/certification-challenges-service');
 const userService = require('../../../lib/domain/services/user-service');
+const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 function _computeSumPixFromCompetences(listCompetences) {
   return  _.sumBy(listCompetences, c => c.pixScore);
@@ -68,6 +69,7 @@ function _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetenc
       level: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) };
   });
 }
+
 function _getCompetenceWithFailedLevel(listCompetences) {
   return listCompetences.map((competence) => {
     return {
@@ -76,6 +78,12 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       id: competence.id,
       level: -1 };
   });
+}
+
+function _checkIfUserCanStartACertification(userCompetences) {
+  const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences.filter(competence => competence.estimatedLevel > 0).length;
+
+  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5) throw new UserNotAuthorizedToCertifyError();
 }
 
 module.exports = {
@@ -95,15 +103,17 @@ module.exports = {
     return { listCertifiedCompetences,  totalScore };
   },
 
-  createNewCertification(userId) {
-    let certificationCourse = new CertificationCourse({ userId, status: 'started' });
+  startNewCertification(userId) {
+    let userCompetencesToCertify;
+    const newCertificationCourse = new CertificationCourse({ userId, status: 'started' });
 
-    return certificationCourseRepository.save(certificationCourse)
-      .then((savedCertificationCourse) => {
-        return certificationCourse = savedCertificationCourse;
+    return userService.getProfileToCertify(userId, moment().toISOString())
+      .then((userCompetences) => {
+        _checkIfUserCanStartACertification(userCompetences);
+        return userCompetencesToCertify = userCompetences;
       })
-      .then(() => userService.getProfileToCertify(userId, moment().toISOString()))
-      .then((userProfile) => certificationChallengesService.saveChallenges(userProfile, certificationCourse));
+      .then(() => certificationCourseRepository.save(newCertificationCourse))
+      .then(savedCertificationCourse => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
   }
 
 };
