@@ -650,18 +650,29 @@ describe('Unit | Controller | user-controller', () => {
     });
 
     context('when the user exists', () => {
-      it('should load his achieved assessments', () => {
+
+      let clock;
+
+      beforeEach(() => {
+         clock = sinon.useFakeTimers();
+      });
+
+      afterEach(() => {
+        clock.restore();
+      });
+
+      it('should load his current achieved assessments', () => {
         // When
         const promise = userController.getProfileToCertify(request, replyStub);
 
         // Then
         return promise.then(() => {
           sinon.assert.calledOnce(userService.getProfileToCertify);
-          sinon.assert.calledWith(userService.getProfileToCertify, 1);
+          sinon.assert.calledWith(userService.getProfileToCertify, 1, '1970-01-01T00:00:00.000Z');
         });
       });
 
-      it('should the skillProfile', () => {
+      it('should reply the skillProfile', () => {
         // When
         const promise = userController.getProfileToCertify(request, replyStub);
 
