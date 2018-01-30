@@ -4,10 +4,10 @@ const Mark = require('../../../../lib/domain/models/Mark');
 describe('Unit | Domain | Models | Mark', () => {
 
   describe('constructor', () => {
-    it('should', () => {
+    it('should build a Mark from raw JSON', () => {
       // given
       const rawData = {
-        estimatedLevel: 2,
+        level: 2,
         score: 13,
         area_code: '1',
         competence_code: '1.1'
@@ -17,7 +17,7 @@ describe('Unit | Domain | Models | Mark', () => {
       const mark = new Mark(rawData);
 
       // then
-      expect(mark.estimatedLevel).to.equal(2);
+      expect(mark.level).to.equal(2);
       expect(mark.score).to.equal(13);
       expect(mark.area_code).to.equal('1');
       expect(mark.competence_code).to.equal('1.1');

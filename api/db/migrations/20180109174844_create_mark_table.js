@@ -4,7 +4,7 @@ exports.up = (knex) => {
   return knex.schema
     .createTable(TABLE_NAME, (t) => {
       t.increments().primary();
-      t.integer('estimatedLevel').unsigned();
+      t.integer('level').unsigned();
       t.integer('score').unsigned();
       t.text('area_code').notNull();
       t.text('competence_code').notNull();

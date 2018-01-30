@@ -3,7 +3,7 @@ const { expect, describe, afterEach, it, knex } = require('../../../test-helper'
 const Mark = require('../../../../lib/domain/models/Mark');
 const MarkRepository = require('../../../../lib/infrastructure/repositories/mark-repository');
 
-describe('Integration | Repository | Assessment', function() {
+describe('Integration | Repository | Mark', function() {
 
   describe('#save', () => {
 

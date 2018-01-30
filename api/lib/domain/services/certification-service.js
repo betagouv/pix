@@ -47,11 +47,11 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
   return competence.estimatedLevel;
 }
 
-function _getMalusPix(listCompetences) {
+function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('score').sum();
 }
 
-function _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibilityRate) {
+function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate) {
   return listCompetences.map((competence) => {
     const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
     // TODO: Convertir ça en Mark ?
@@ -86,10 +86,10 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-  const listCertifiedCompetences = _getCompetencesWithCertifiedLevel(answersWithCompetences, listCompetences, reproductibilityRate);
-  const totalScore = _getMalusPix(listCertifiedCompetences);
+  const listCertifiedCompetences = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
+  const scoreAfterRating = _getSumScoreFromCertifiedCompetences(listCertifiedCompetences);
 
-  return { listCertifiedCompetences, totalScore };
+  return { listCertifiedCompetences, totalScore: scoreAfterRating };
 }
 
 function _getCertificationResult(assessment) {

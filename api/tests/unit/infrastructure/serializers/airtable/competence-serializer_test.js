@@ -43,7 +43,6 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.id).to.equal(airtableCompetencesRecord.id);
         expect(competences.name).to.equal(airtableCompetencesRecord.fields['Titre']);
         expect(competences.index).to.equal(airtableCompetencesRecord.fields['Sous-domaine']);
-        expect(competences.areaId).to.equal(airtableCompetencesRecord.fields['Domaine']);
         expect(competences.courseId).to.equal(airtableCompetencesRecord.fields['Tests Record ID'][0]);
         expect(competences.Epreuves).to.not.exist;
         expect(competences.reference).to.equal(airtableCompetencesRecord.fields['Référence']);
@@ -55,8 +54,6 @@ describe('Unit | Serializer | competence-serializer', function() {
         const competences = serializer.deserialize(airtableCompetencesRecord);
 
         // Then
-        expect(competences.areaId).to.equal(airtableCompetencesRecord.fields['Domaine']);
-
         expect(competences.area).to.be.an.instanceOf(Area);
         expect(competences.area.id).to.equal('recvoGdo0z0z0pXWZ');
         expect(competences.area.title).to.equal('Information et données');
@@ -71,7 +68,6 @@ describe('Unit | Serializer | competence-serializer', function() {
         expect(competences.id).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.id);
         expect(competences.name).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Titre']);
         expect(competences.index).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Sous-domaine']);
-        expect(competences.areaId).to.deep.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Domaine']);
         expect(competences.courseId).to.equal('');
         expect(competences.Epreuves).to.not.exist;
         expect(competences.reference).to.equal(airtableCompetencesRecordWithNoCourseIdAssociated.fields['Référence']);

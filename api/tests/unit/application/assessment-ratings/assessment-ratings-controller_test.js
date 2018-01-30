@@ -2,7 +2,7 @@ const { describe, it, beforeEach, afterEach, sinon, expect } = require('../../..
 
 const Boom = require('boom');
 
-const assessmentRatingController = require('../../../../lib/application/assessments-rating/assessment-rating-controller');
+const assessmentRatingController = require('../../../../lib/application/assessment-ratings/assessment-rating-controller');
 const assessmentRatingSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
 const assessmentRatingService = require('../../../../lib/domain/services/assessment-rating-service');
 

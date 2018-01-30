@@ -1,7 +1,7 @@
 module.exports = [
   require('./application/answers'),
   require('./application/assessments'),
-  require('./application/assessments-rating'),
+  require('./application/assessment-ratings'),
   require('./application/authentication'),
   require('./application/cache'),
   require('./application/certificationCourses'),

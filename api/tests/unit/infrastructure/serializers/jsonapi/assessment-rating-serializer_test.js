@@ -2,7 +2,7 @@ const { describe, it, expect, beforeEach } = require('../../../../test-helper');
 const AssessmentRating = require('../../../../../lib/domain/models/AssessmentRating');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/assessment-rating-serializer');
 
-describe('Unit | Serializer | JSONAPI | user-serializer', () => {
+describe('Unit | Serializer | JSONAPI | assessment-rating-serializer', () => {
   let jsonAssessmentRating;
 
   beforeEach(() => {
@@ -26,7 +26,7 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   });
 
   describe('#serialize', () => {
-    it('should serialize excluding email and password', () => {
+    it('should serialize the assessment rating object to jsonapi object excluding email and password', () => {
       // Given
       const modelObject = new AssessmentRating({
         id: '234567',
@@ -53,14 +53,12 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
 
   describe('#deserialize', () => {
 
-    it('should convert JSON API data into an User model object', () => {
+    it('should convert JSON API data into an Assessment Rating model object', () => {
       // When
       const assessmentRating = serializer.deserialize(jsonAssessmentRating);
 
       // Then
       expect(assessmentRating).to.be.an.instanceOf(AssessmentRating);
-      expect(assessmentRating.estimatedLevel).to.equal(4);
-      expect(assessmentRating.pixScore).to.equal(24);
     });
 
     it('should contain an ID attribute', () => {

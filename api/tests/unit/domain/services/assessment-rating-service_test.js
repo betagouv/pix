@@ -39,7 +39,7 @@ function _buildCompetence(competence_code, area_code) {
   return competence;
 }
 
-describe('Unit | Domain | Services | assessment-rating', () => {
+describe('Unit | Domain | Services | assessment-ratings', () => {
 
   describe('#evaluateFromAssessmentId', () => {
 
