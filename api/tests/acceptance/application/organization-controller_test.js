@@ -111,7 +111,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
   });
 
-  describe.skip('GET /api/organizations/{id}/snapshots', () => {
+  describe('GET /api/organizations/{id}/snapshots', () => {
     const payload = {};
     let organizationId;
     let userId;
@@ -200,7 +200,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
   });
 
-  describe.skip('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
+  describe('GET /api/organizations/{id}/snapshots/export?userToken={userToken}', () => {
     const payload = {};
     let organizationId;
     let userToken;

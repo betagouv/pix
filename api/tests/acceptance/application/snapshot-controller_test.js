@@ -6,7 +6,7 @@ const profileService = require('../../../lib/domain/services/profile-service');
 const User = require('../../../lib/domain/models/data/user');
 const server = require('../../../server');
 
-describe.skip('Acceptance | Controller | snapshot-controller', function() {
+describe('Acceptance | Controller | snapshot-controller', function() {
 
   let userId;
   let organizationId;
