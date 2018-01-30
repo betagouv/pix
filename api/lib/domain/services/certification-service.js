@@ -33,16 +33,19 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
     return answer.get('competenceId') === competence.id;
   });
 
-  return answerForCompetence.reduce((correctAnswers, answer) => {
-    const type = _getChallengeType(answer.get('challengeId'), competence.challenges);
-    if (type === 'QROCM-dep' && AnswerStatus.isOK(answer.get('result'))) {
-      correctAnswers += 2;
-    } else if (type === 'QROCM-dep' && AnswerStatus.isPARTIALLY(answer.get('result'))) {
-      correctAnswers++;
-    } else if (AnswerStatus.isOK(answer.get('result'))) {
-      correctAnswers++;
+  return answerForCompetence.reduce((nbOfCorrectAnswers, answer) => {
+    const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
+    const answerResult = answer.get('result');
+
+    if (challengeType === 'QROCM-dep' && AnswerStatus.isOK(answerResult)) {
+      nbOfCorrectAnswers += 2;
+    } else if (challengeType === 'QROCM-dep' && AnswerStatus.isPARTIALLY(answerResult)) {
+      nbOfCorrectAnswers++;
+    } else if (AnswerStatus.isOK(answerResult)) {
+      nbOfCorrectAnswers++;
     }
-    return correctAnswers;
+
+    return nbOfCorrectAnswers;
   }, 0);
 }
 

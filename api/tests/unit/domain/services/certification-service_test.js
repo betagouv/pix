@@ -824,7 +824,7 @@ describe('Unit | Service | Certification Service', function() {
           expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
         });
 
-        it('should compute the result of QROCM-dep as only one OK because result is partially', function() {
+        it('should compute the result of QROCM-dep as only one OK because result is partially right', function() {
           // given
           const answers = [
             _buildAnswer('challenge_A_for_competence_5', 'ok'),
