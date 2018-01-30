@@ -2,10 +2,12 @@ const Boom = require('boom');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
+const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationService = require('../../../lib/domain/services/certification-service');
 const courseService = require('../../../lib/domain/services/course-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
 
 const logger = require('../../infrastructure/logger');
 
@@ -69,7 +71,10 @@ module.exports = {
 
     return certificationService.startNewCertification(userId)
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
-      .catch((err) => {
+      .catch(err => {
+        if (err instanceof UserNotAuthorizedToCertifyError) {
+          return reply(Boom.forbidden(err));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

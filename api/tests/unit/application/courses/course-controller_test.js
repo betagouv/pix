@@ -1,5 +1,6 @@
 const { describe, it, before, afterEach, beforeEach, expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
+const Boom = require('boom');
 const Course = require('../../../../lib/domain/models/Course');
 const courseRepository = require('../../../../lib/infrastructure/repositories/course-repository');
 const courseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/course-serializer');
@@ -10,6 +11,7 @@ const CourseService = require('../../../../lib/domain/services/course-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 describe('Unit | Controller | course-controller', function() {
 
@@ -189,8 +191,6 @@ describe('Unit | Controller | course-controller', function() {
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(certificationService, 'startNewCertification').resolves(newlyCreatedCertificationCourse);
-      sandbox.stub(certificationCourseSerializer, 'serialize').resolves({});
     });
 
     afterEach(() => {
@@ -198,6 +198,10 @@ describe('Unit | Controller | course-controller', function() {
     });
 
     it('should reply the certification course serialized', function() {
+      // given
+      sandbox.stub(certificationService, 'startNewCertification').resolves(newlyCreatedCertificationCourse);
+      sandbox.stub(certificationCourseSerializer, 'serialize').resolves({});
+
       // when
       const promise = courseController.save(request, replyStub);
 
@@ -208,6 +212,22 @@ describe('Unit | Controller | course-controller', function() {
         sinon.assert.calledOnce(replyStub);
         sinon.assert.calledOnce(codeStub);
         sinon.assert.calledWith(codeStub, 201);
+      });
+    });
+
+    it('should return 403 error if cannot start a new certification course', function() {
+      // given
+      const error = new UserNotAuthorizedToCertifyError();
+      sandbox.stub(certificationService, 'startNewCertification').rejects(error);
+      sandbox.stub(Boom, 'forbidden').returns({ message: 'forbidden' });
+
+      // when
+      const promise = courseController.save(request, replyStub);
+
+      // then
+      return promise.then(() => {
+        expect(Boom.forbidden).to.have.been.calledWith(error);
+        expect(replyStub).to.have.been.calledWith({ message: 'forbidden' });
       });
     });
 

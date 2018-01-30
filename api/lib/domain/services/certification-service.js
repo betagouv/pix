@@ -81,9 +81,12 @@ function _getCompetenceWithFailedLevel(listCompetences) {
 }
 
 function _checkIfUserCanStartACertification(userCompetences) {
-  const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences.filter(competence => competence.estimatedLevel > 0).length;
+  const nbCompetencesWithEstimatedLevelHigherThan0 = userCompetences
+    .filter(competence => competence.estimatedLevel > 0)
+    .length;
 
-  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5) throw new UserNotAuthorizedToCertifyError();
+  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5)
+    throw new UserNotAuthorizedToCertifyError();
 }
 
 module.exports = {
@@ -108,9 +111,9 @@ module.exports = {
     const newCertificationCourse = new CertificationCourse({ userId, status: 'started' });
 
     return userService.getProfileToCertify(userId, moment().toISOString())
-      .then((userCompetences) => {
-        _checkIfUserCanStartACertification(userCompetences);
-        return userCompetencesToCertify = userCompetences;
+      .then(userCompetences => {
+        userCompetencesToCertify = userCompetences;
+        return _checkIfUserCanStartACertification(userCompetences);
       })
       .then(() => certificationCourseRepository.save(newCertificationCourse))
       .then(savedCertificationCourse => certificationChallengesService.saveChallenges(userCompetencesToCertify, savedCertificationCourse));
