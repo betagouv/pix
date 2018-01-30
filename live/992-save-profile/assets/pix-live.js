@@ -4564,9 +4564,6 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer'
 
     //Nouveau Mirage
 
-    // CourseGroups
-    this.get('/course-groups');
-
     //Courses
     this.get('/courses/:id', _getCourse.default);
     this.post('/certification-courses', _postCertificationCourse.default);
@@ -5169,18 +5166,6 @@ define('pix-live/mirage/factories/competence', ['exports', 'ember-cli-mirage'], 
     value: true
   });
   exports.default = _emberCliMirage.Factory.extend({});
-});
-define('pix-live/mirage/factories/course-group', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _emberCliMirage.Factory.extend({
-    name: function name() {
-      return _emberCliMirage.faker.name.lastName();
-    }
-  });
 });
 define('pix-live/mirage/factories/course', ['exports', 'ember-cli-mirage'], function (exports, _emberCliMirage) {
   'use strict';
@@ -5908,9 +5893,6 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
 
   exports.default = function (server) {
 
-    var courses = server.createList('course', 2, { name: 'course name', id: 'recxx' });
-    server.createList('courseGroup', 3, { courses: courses });
-
     server.loadFixtures('areas');
     server.loadFixtures('competences');
     server.loadFixtures('courses');
@@ -5986,16 +5968,6 @@ define('pix-live/mirage/serializers/competence', ['exports', 'pix-live/mirage/se
   });
   exports.default = _application.default.extend({
     include: ['area']
-  });
-});
-define('pix-live/mirage/serializers/course-group', ['exports', 'pix-live/mirage/serializers/application'], function (exports, _application) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _application.default.extend({
-    include: ['courses']
   });
 });
 define('pix-live/mirage/serializers/user', ['exports', 'pix-live/mirage/serializers/application'], function (exports, _application) {
@@ -6168,20 +6140,6 @@ define('pix-live/models/competence', ['exports', 'ember-data'], function (export
     courseId: attr('string'),
     assessmentId: attr('string'),
     status: attr('string')
-  });
-});
-define('pix-live/models/course-group', ['exports', 'ember-data'], function (exports, _emberData) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  var Model = _emberData.default.Model,
-      attr = _emberData.default.attr,
-      hasMany = _emberData.default.hasMany;
-  exports.default = Model.extend({
-    name: attr('string'),
-    courses: hasMany('course', { inverse: null })
   });
 });
 define('pix-live/models/course', ['exports', 'ember-data'], function (exports, _emberData) {
@@ -6401,7 +6359,6 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('certifications.results', { path: '/certifications/:certification_number/results' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
-    this.route('course-groups', { path: '/defis-pix' });
     this.route('board');
     this.route('legal-notices', { path: '/mentions-legales' });
     this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
@@ -6911,26 +6868,6 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
         return this.get('store').createRecord('snapshot', { organization: organization, studentCode: studentCode, campaignCode: campaignCode }).save();
       }
     }
-  });
-});
-define('pix-live/routes/course-groups', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _baseRoute.default.extend({
-    model: function model() {
-      return this.get('store').findAll('courseGroup');
-    },
-
-
-    actions: {
-      startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course.get('id'));
-      }
-    }
-
   });
 });
 define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -8254,14 +8191,6 @@ define("pix-live/templates/compte", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "p9rbx8ik", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"compte-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n  \"],[1,[18,\"logged-user-profile-banner\"],false],[0,\"\\n\\n  \"],[1,[25,\"profile-panel\",null,[[\"competences\",\"totalPixScore\",\"searchForOrganization\",\"shareProfileSnapshot\"],[[20,[\"model\",\"competences\"]],[20,[\"model\",\"totalPixScore\"]],[25,\"route-action\",[\"searchForOrganization\"],null],[25,\"route-action\",[\"shareProfileSnapshot\"],null]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/compte.hbs" } });
 });
-define("pix-live/templates/course-groups", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "KJAPaTXm", "block": "{\"symbols\":[\"courseGroup\"],\"statements\":[[6,\"div\"],[9,\"class\",\"course-groups-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"course-groups-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"course-groups-page__header-title\"],[7],[0,\"Les défis \"],[6,\"span\"],[9,\"class\",\"course-groups-page__header-title__pix-span\"],[7],[0,\"pix\"],[8],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"course-groups-page__header-description\"],[7],[0,\"Chaque semaine, testez vos compétences numériques sur un nouveau\\n      sujet.\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"course-groups-page__course-groups\"],[7],[0,\"\\n\"],[4,\"each\",[[20,[\"model\"]]],null,{\"statements\":[[0,\"      \"],[6,\"div\"],[9,\"class\",\"course-groups-page__course-group-item\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"course-groups-page__course-group-name\"],[7],[1,[19,1,[\"name\"]],false],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"course-groups-page_course-group-line\"],[7],[8],[0,\"\\n\\n        \"],[6,\"div\"],[9,\"class\",\"course-groups-page__courses\"],[7],[1,[25,\"course-list\",null,[[\"courses\",\"startCourse\"],[[19,1,[\"courses\"]],\"startCourse\"]]],false],[8],[0,\"\\n      \"],[8],[0,\"\\n\"]],\"parameters\":[1]},null],[0,\"  \"],[8],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/course-groups.hbs" } });
-});
 define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   "use strict";
 
@@ -8483,10 +8412,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
       // test passed
     });
 
-    it('mirage/factories/course-group.js', function () {
-      // test passed
-    });
-
     it('mirage/factories/course.js', function () {
       // test passed
     });
@@ -8628,10 +8553,6 @@ define('pix-live/tests/mirage/mirage.lint-test', [], function () {
     });
 
     it('mirage/serializers/competence.js', function () {
-      // test passed
-    });
-
-    it('mirage/serializers/course-group.js', function () {
       // test passed
     });
 
@@ -9181,6 +9102,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.36.0+f00e9264"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.36.0+29adcc88"});
 }
 //# sourceMappingURL=pix-live.map
