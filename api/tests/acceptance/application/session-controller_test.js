@@ -1,13 +1,13 @@
-const {describe, it, after, expect, knex} = require('../../test-helper');
+const { describe, it, after, expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | session-controller', function () {
+describe('Acceptance | Controller | session-controller', function() {
 
-  after(function (done) {
+  after(function(done) {
     server.stop(done);
   });
 
-  describe('GET /sessions', function () {
+  describe('GET /sessions', function() {
 
     const options = {
       method: 'GET', url: '/api/sessions', payload: {}
@@ -15,7 +15,7 @@ describe('Acceptance | Controller | session-controller', function () {
 
     it('should return 200 HTTP status code', () => {
       // when
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
       return promise
@@ -26,7 +26,7 @@ describe('Acceptance | Controller | session-controller', function () {
 
     it('should return a session code', () => {
       // when
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
       return promise
@@ -49,7 +49,7 @@ describe('Acceptance | Controller | session-controller', function () {
             examiner: 'Sophie Rapetti',
             date: '08/12/2017',
             time: '14:30',
-            description:''
+            description: ''
           }
         }
       }
