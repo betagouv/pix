@@ -1454,154 +1454,6 @@ define('pix-live/tests/acceptance/compte-share-profile-test', ['mocha', 'chai', 
     })));
   });
 });
-define('pix-live/tests/acceptance/course-groups-test', ['mocha', 'chai', 'pix-live/tests/helpers/start-app', 'pix-live/tests/helpers/destroy-app'], function (_mocha, _chai, _startApp, _destroyApp) {
-  'use strict';
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
-  (0, _mocha.describe)('Acceptance | courseGroups', function () {
-
-    var application = void 0;
-
-    (0, _mocha.beforeEach)(function () {
-      application = (0, _startApp.default)();
-    });
-
-    (0, _mocha.afterEach)(function () {
-      (0, _destroyApp.default)(application);
-    });
-
-    (0, _mocha.describe)('Access to the page', function () {
-
-      (0, _mocha.it)('should display the historic of the weekly courses courseGroups by the url /defis-pix', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(currentURL()).to.equal('/defis-pix');
-
-              case 3:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      })));
-    });
-
-    (0, _mocha.describe)('Rendering', function () {
-
-      (0, _mocha.it)('should display a navbar and a footer', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(find('.navbar-header')).to.have.lengthOf(1);
-                (0, _chai.expect)(find('.app-footer')).to.have.lengthOf(1);
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      })));
-
-      (0, _mocha.it)('should display a header section', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                _context3.next = 2;
-                return visit('/defis-pix');
-
-              case 2:
-
-                // then
-                (0, _chai.expect)(find('.course-groups-page__header')).to.have.lengthOf(1);
-
-              case 3:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, this);
-      })));
-
-      (0, _mocha.it)('should display a list of (weekly courses) course-groups', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var courses;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
-          while (1) {
-            switch (_context4.prev = _context4.next) {
-              case 0:
-                // given
-                courses = server.createList('course', 2, { name: 'course name' });
-
-                server.createList('courseGroup', 3, { courses: courses });
-
-                // when
-                _context4.next = 4;
-                return visit('/defis-pix');
-
-              case 4:
-
-                // then
-                (0, _chai.expect)(find('.course-item__name')[0].innerText).to.equal('course name');
-
-                (0, _chai.expect)(find('.course-groups-page__course-groups')).to.have.lengthOf(1);
-                (0, _chai.expect)(find('.course-groups-page__course-group-item')).to.have.lengthOf(3);
-                (0, _chai.expect)(find('.course-list')).to.have.lengthOf(3);
-                (0, _chai.expect)(find('.course-item')).to.have.lengthOf(6);
-
-              case 9:
-              case 'end':
-                return _context4.stop();
-            }
-          }
-        }, _callee4, this);
-      })));
-    });
-  });
-});
 // FIXME wuth API resource GET /assessment/:id/progress
 
 /*
@@ -2035,7 +1887,7 @@ define('pix-live/tests/acceptance/inscription-page-test', ['mocha', 'chai', 'pix
 
       visit('/inscription');
 
-      return andThen(function () {
+      andThen(function () {
         var $termsOfServiceLink = findWithAssert('.signup__cgu-link');
         (0, _chai.expect)($termsOfServiceLink.attr('href').trim()).to.equal('/conditions-generales-d-utilisation');
       });
@@ -3547,19 +3399,11 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/certification-course.js', function () {
-      // test passed
-    });
-
     it('models/challenge.js', function () {
       // test passed
     });
 
     it('models/competence.js', function () {
-      // test passed
-    });
-
-    it('models/course-group.js', function () {
       // test passed
     });
 
@@ -3652,10 +3496,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/compte.js', function () {
-      // test passed
-    });
-
-    it('routes/course-groups.js', function () {
       // test passed
     });
 
@@ -3973,7 +3813,6 @@ define('pix-live/tests/helpers/responsive', ['exports', 'ember-responsive/media'
     match: function match() {},
     init: function init() {
       this._super.apply(this, arguments);
-
       this._forceSetBreakpoint(this.get('_defaultBreakpoint'));
     }
   });
@@ -9825,7 +9664,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
       var snapshot = Ember.Object.create({
         id: 1,
         score: 10,
-        completionPercentage: '25',
+        numberOfTestsFinished: '3',
         createdAt: '2017-09-25 12:14:33',
         user: user
       });
@@ -9845,7 +9684,7 @@ define('pix-live/tests/integration/components/snapshot-list-test', ['chai', 'moc
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(1)').text().trim()).to.equal(user.get('firstName'));
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(2)').text().trim()).to.equal('25/09/2017');
         (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(3)').text().trim()).to.equal(snapshot.get('score').toString());
-        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('completionPercentage') + '%');
+        (0, _chai.expect)(this.$('.snapshot-list__snapshot-item td:eq(4)').text().trim()).to.equal(snapshot.get('numberOfTestsFinished') + '/16');
       }.bind(this));
     });
   });
@@ -10305,10 +10144,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('acceptance/course-groups-test.js', function () {
-      // test passed
-    });
-
     it('acceptance/d1-epreuve-validation-test.js', function () {
       // test passed
     });
@@ -10765,19 +10600,11 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/certification-course-test.js', function () {
-      // test passed
-    });
-
     it('unit/models/challenge-test.js', function () {
       // test passed
     });
 
     it('unit/models/competence-test.js', function () {
-      // test passed
-    });
-
-    it('unit/models/course-group-test.js', function () {
       // test passed
     });
 
@@ -10894,10 +10721,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/reset-password-demand-test.js', function () {
-      // test passed
-    });
-
-    it('unit/routes/series-test.js', function () {
       // test passed
     });
 
@@ -13968,30 +13791,6 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
-define('pix-live/tests/unit/models/certification-course-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | certification course', function () {
-    (0, _emberMocha.setupModelTest)('certification-course', {
-      // Specify the other units that are required for this test.
-      needs: []
-    });
-
-    (0, _mocha.describe)('@type', function () {
-
-      (0, _mocha.it)('should be "CERTIFICATION"', function () {
-        // given
-        var certificationCourse = this.subject();
-
-        // when
-        var result = certificationCourse.get('type');
-
-        // then
-        (0, _chai.expect)(result).to.equal('CERTIFICATION');
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -14177,21 +13976,6 @@ define('pix-live/tests/unit/models/competence-test', ['chai', 'mocha', 'ember-mo
     });
   });
 });
-define('pix-live/tests/unit/models/course-group-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | Course-group', function () {
-
-    (0, _emberMocha.setupModelTest)('course-group', {
-      needs: ['model:course']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var model = this.subject();
-      (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
 // FIXME wuth API resource GET /assessment/:id/progress
 
 /*
@@ -14353,6 +14137,36 @@ define('pix-live/tests/unit/models/snapshot-test', ['chai', 'mocha', 'ember-moch
       var model = this.subject();
       // var store = this.store();
       (0, _chai.expect)(model).to.be.ok;
+    });
+
+    (0, _mocha.describe)('@numberOfTestsFinished', function () {
+      (0, _mocha.it)('should return the number of finished test', function () {
+        var _this = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this.subject();
+          var testsFinished = 5;
+          model.set('testsFinished', testsFinished);
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(testsFinished);
+        });
+      });
+
+      (0, _mocha.it)('should return 0 if the model do not have the number of finished test', function () {
+        var _this2 = this;
+
+        return Ember.run(function () {
+          // given
+          var model = _this2.subject();
+          // when
+          var numberOfFinishedTests = model.get('numberOfTestsFinished');
+          // then
+          (0, _chai.expect)(numberOfFinishedTests).to.equal(0);
+        });
+      });
     });
   });
 });
@@ -15043,7 +14857,7 @@ define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha',
           // then
           return promise.then(function () {
             _sinon.default.assert.called(createRecordStub);
-            _sinon.default.assert.calledWithExactly(createRecordStub, 'certification-course', { sessionCode: '123456' });
+            _sinon.default.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
           });
         });
 
@@ -15168,7 +14982,7 @@ define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha
     });
   });
 });
-define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember-mocha', 'sinon', 'chai'], function (_mocha, _emberMocha, _sinon, _chai) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Route | Certification | resume', function () {
@@ -15180,6 +14994,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
     var StoreStub = void 0;
     var findRecordStub = void 0;
     var queryRecordStub = void 0;
+    var queryStub = void 0;
     var certificationCourseId = 'certification_course_id';
     var assessmentId = 'assessment_id';
 
@@ -15187,9 +15002,11 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
       // define stubs
       findRecordStub = _sinon.default.stub();
       queryRecordStub = _sinon.default.stub();
+      queryStub = _sinon.default.stub();
       StoreStub = Ember.Service.extend({
         findRecord: findRecordStub,
-        queryRecord: queryRecordStub
+        queryRecord: queryRecordStub,
+        query: queryStub
       });
 
       // manage dependency injection context
@@ -15203,33 +15020,55 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
 
     (0, _mocha.describe)('#model', function () {
 
-      (0, _mocha.it)('should fetch a certification', function () {
+      (0, _mocha.it)('should get the assessment associated to the certification course', function () {
         // given
         var params = { certification_course_id: certificationCourseId };
-        route.get('store').findRecord.resolves();
+        var filters = {
+          filter: {
+            courseId: certificationCourseId
+          }
+        };
+        var retrievedAssessments = [Ember.Object.create({ id: 1 })];
+        route.get('store').query.resolves(retrievedAssessments);
 
         // when
         var promise = route.model(params);
 
         // then
         return promise.then(function () {
-          _sinon.default.assert.calledOnce(findRecordStub);
-          _sinon.default.assert.calledWith(findRecordStub, 'certification-course', certificationCourseId);
+          _sinon.default.assert.calledOnce(queryStub);
+          _sinon.default.assert.calledWith(queryStub, 'assessment', filters);
+        });
+      });
+
+      (0, _mocha.it)('should return the first assessment associated to the certification course', function () {
+        // given
+        var params = { certification_course_id: certificationCourseId };
+        var retrievedAssessments = [];
+        retrievedAssessments.pushObject(Ember.Object.create({ id: 1 }));
+        route.get('store').query.resolves(retrievedAssessments);
+
+        // when
+        var promise = route.model(params);
+
+        // then
+        return promise.then(function (assessment) {
+          (0, _chai.expect)(assessment.id).to.equal(1);
         });
       });
     });
 
     (0, _mocha.describe)('#afterModel', function () {
 
-      var assessment = Ember.Object.create({ id: assessmentId });
-      var certification = Ember.Object.create({ id: certificationCourseId, assessment: assessment });
+      var course = Ember.Object.create({ id: 'certification_course_id' });
+      var assessment = Ember.Object.create({ id: assessmentId, course: course });
 
       (0, _mocha.it)('should get the next challenge of the assessment', function () {
         // given
         queryRecordStub.resolves();
 
         // when
-        var promise = route.afterModel(certification);
+        var promise = route.afterModel(assessment);
 
         // then
         return promise.then(function () {
@@ -15246,7 +15085,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
           queryRecordStub.resolves(nextChallenge);
 
           // when
-          var promise = route.afterModel(certification);
+          var promise = route.afterModel(assessment);
 
           // then
           return promise.then(function () {
@@ -15263,7 +15102,7 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
           queryRecordStub.rejects();
 
           // when
-          var promise = route.afterModel(certification);
+          var promise = route.afterModel(assessment);
 
           // then
           return promise.then(function () {
@@ -16035,21 +15874,6 @@ define('pix-live/tests/unit/routes/reset-password-demand-test', ['chai', 'mocha'
           });
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/routes/series-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | courseGroups', function () {
-    (0, _emberMocha.setupTest)('route:courseGroups', {
-      // Specify the other units that are required for this test.
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
