@@ -1,8 +1,8 @@
 const CatSkill = require('../../cat/skill');
-const Challenge = require('../../cat/challenge');
-const Course = require('../../cat/course');
-const Answer = require('../../cat/answer');
-const Assessment = require('../../cat/assessment');
+const CatChallenge = require('../../cat/challenge');
+const CatCourse = require('../../cat/course');
+const CatAnswer = require('../../cat/answer');
+const CatAssessment = require('../../cat/assessment');
 
 // TODO: Déclencher une erreur quand pas de skill ?
 
@@ -14,7 +14,7 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
   challengesPix.forEach(challengePix => {
     if (challengePix.skills) {
       const challengeCatSkills = challengePix.skills.map(skill => new CatSkill(skill.name));
-      const challenge = new Challenge(challengePix.id, challengePix.status, challengeCatSkills, challengePix.timer);
+      const challenge = new CatChallenge(challengePix.id, challengePix.status, challengeCatSkills, challengePix.timer);
 
       challenges.push(challenge);
       challengesById[challengePix.id] = challenge;
@@ -24,13 +24,13 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
   skills.forEach(skill => catSkills[skill.name] = new CatSkill(skill.name));
   const competenceSkills = new Set(Object.values(catSkills));
 
-  const course = new Course(challenges, competenceSkills);
+  const course = new CatCourse(challenges, competenceSkills);
 
   const answers = answersPix.map(answer =>
-    new Answer(challengesById[answer.get('challengeId')], answer.get('result'))
+    new CatAnswer(challengesById[answer.get('challengeId')], answer.get('result'))
   );
 
-  return new Assessment(course, answers);
+  return new CatAssessment(course, answers);
 }
 
 module.exports = {
