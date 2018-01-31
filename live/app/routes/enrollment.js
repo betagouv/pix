@@ -30,7 +30,7 @@ const stepsForPioneersInstitutions = [
       }, {
         description: 'Les établissements peuvent identifier les besoins de leurs élèves, organiser un accompagnement ciblé et mesurer les progrès au long de l\'année.'
       }, {
-        date: 'De mai à Juin 2018',
+        date: 'De mai à juin 2018',
         description: 'Les collèges et lycées organisent des sessions de certification pour les élèves.'
       },
     ]
