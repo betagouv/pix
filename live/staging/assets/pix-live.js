@@ -6038,6 +6038,19 @@ define('pix-live/models/area', ['exports', 'ember-data'], function (exports, _em
     name: attr('string')
   });
 });
+define('pix-live/models/assessment-rating', ['exports', 'ember-data'], function (exports, _emberData) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var belongsTo = _emberData.default.belongsTo;
+  exports.default = _emberData.default.Model.extend({
+
+    assessment: belongsTo('assessment')
+
+  });
+});
 define('pix-live/models/assessment', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
@@ -6060,6 +6073,8 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     type: attr('string'),
     certificationNumber: attr('string'),
     isCertification: Ember.computed.equal('type', 'CERTIFICATION'),
+
+    rating: belongsTo('assessment-rating'),
 
     progress: Ember.computed('answers', 'course', function () {
       var maxStep = this.get('course.nbChallenges');
@@ -6340,6 +6355,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('assessments.resume', { path: '/assessments/:assessment_id' });
     this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+    this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
     this.route('certifications.results', { path: '/certifications/:certification_number/results' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
@@ -6428,7 +6444,7 @@ define('pix-live/routes/assessments/challenge', ['exports', 'pix-live/routes/bas
       return this.get('store').queryRecord('challenge', { assessmentId: assessment.get('id'), challengeId: challenge.get('id') }).then(function (nextChallenge) {
         return _this2.transitionTo('assessments.challenge', { assessment: assessment, challenge: nextChallenge });
       }).catch(function () {
-        assessment.get('type') === 'CERTIFICATION' ? _this2.transitionTo('certifications.results', assessment.get('certificationNumber')) : _this2.transitionTo('assessments.results', assessment.get('id'));
+        _this2.transitionTo('assessments.rating', assessment.get('id'));
       });
     },
 
@@ -6476,6 +6492,20 @@ define('pix-live/routes/assessments/comparison', ['exports', 'ember-routable-mod
           return store.findRecord('challenge', foundAnswer.get('challenge.id'));
         })
       });
+    }
+  });
+});
+define('pix-live/routes/assessments/rating', ['exports'], function (exports) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend({
+    afterModel: function afterModel(assessment) {
+      this.get('store').createRecord('assessment-rating', { assessment: assessment }).save();
+
+      assessment.get('type') === 'CERTIFICATION' ? this.transitionTo('certifications.results', assessment.get('certificationNumber')) : this.transitionTo('assessments.results', assessment.get('id'));
     }
   });
 });
@@ -7528,6 +7558,14 @@ define("pix-live/templates/assessments/comparison", ["exports"], function (expor
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "i4rGv3n+", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"comparison-window\",null,[[\"answer\",\"challenge\",\"solution\",\"index\"],[[20,[\"model\",\"answer\"]],[20,[\"model\",\"challenge\"]],[20,[\"model\",\"solution\"]],[20,[\"model\",\"index\"]]]]],false],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/comparison.hbs" } });
+});
+define("pix-live/templates/assessments/rating", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "vChJ6rlR", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/assessments/rating.hbs" } });
 });
 define("pix-live/templates/assessments/results", ["exports"], function (exports) {
   "use strict";
@@ -9064,6 +9102,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.37.0+5bcb516f"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.37.0+97d1f894"});
 }
 //# sourceMappingURL=pix-live.map
