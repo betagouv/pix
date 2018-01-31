@@ -6900,7 +6900,7 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
     destinataires: 'élèves',
     image: 'icon-college.svg',
     steps: [{
-      date: 'Jusqu\'à fin décembre 2017',
+      date: 'Jusqu\'à fin avril 2018',
       description: 'Les collèges et lycées qui souhaitent proposer la certification Pix à leurs élèves s\'inscrivent auprès de Pix.'
     }, {
       description: 'Les équipes pédagogiques découvrent les fonctionnalités de Pix (formations courtes en ligne).'
@@ -6911,8 +6911,8 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
     }, {
       description: 'Les établissements peuvent identifier les besoins de leurs élèves, organiser un accompagnement ciblé et mesurer les progrès au long de l\'année.'
     }, {
-      date: 'De mai à Juin 2018',
-      description: 'Les collèges et lycées organisent des sessions de certification (1h) pour les élèves.'
+      date: 'De mai à juin 2018',
+      description: 'Les collèges et lycées organisent des sessions de certification pour les élèves.'
     }]
   }, {
     id: 'superieur',
@@ -6930,7 +6930,7 @@ define('pix-live/routes/enrollment', ['exports', 'pix-live/routes/base-route'], 
       description: 'Les étudiants testent leurs compétences sur la plateforme et constituent leurs profils.'
     }, {
       date: 'De mi-décembre 2017 à février 2018 ',
-      description: 'Les établissements organisent en présentiel des sessions de certification (1h).'
+      description: 'Les établissements organisent en présentiel des sessions de certification.'
     }]
   }];
 
@@ -7607,7 +7607,7 @@ define("pix-live/templates/components/app-footer", ["exports"], function (export
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "75JbmlZ2", "block": "{\"symbols\":[],\"statements\":[[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--pix-logo\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--contact\"],[7],[0,\"\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"mailto:contact@pix.beta.gouv.fr\"],[7],[0,\"Contactez-nous\"],[8],[0,\"\\n  |\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"/mentions-legales\"],[7],[0,\"Mentions légales\"],[8],[0,\"\\n  |\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"https://github.com/sgmap/pix\"],[9,\"target\",\"_blank\"],[7],[0,\"Le code source est libre\"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--marianne-logo\"],[7],[0,\"\\n  \"],[6,\"ul\"],[9,\"class\",\"mariane-logo-container\"],[7],[0,\"\\n    \"],[6,\"li\"],[9,\"class\",\"mariane-logo__item\"],[7],[6,\"img\"],[9,\"src\",\"/images/logo-men.svg\"],[9,\"class\",\"app-footer__logo-marianne-img\"],[9,\"alt\",\"Logo du Ministère de l'éducation nationale\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"li\"],[9,\"class\",\"mariane-logo__item\"],[7],[6,\"img\"],[9,\"src\",\"/images/logo-mesri.svg\"],[9,\"class\",\"app-footer__logo-marianne-img\"],[9,\"alt\",\"Logo du Ministère de l'enseignement supérieur de la recherche et de l'innovation\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/app-footer.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "N+eBcxYW", "block": "{\"symbols\":[],\"statements\":[[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--pix-logo\"],[7],[0,\"\\n  \"],[1,[18,\"pix-logo\"],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--contact\"],[7],[0,\"\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"mailto:contact@pix.beta.gouv.fr\"],[7],[0,\"Contactez-nous\"],[8],[0,\"\\n  |\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"/mentions-legales\"],[7],[0,\"Mentions légales\"],[8],[0,\"\\n  |\\n  \"],[6,\"a\"],[9,\"class\",\"app-footer__link-text\"],[9,\"href\",\"https://github.com/sgmap/pix\"],[9,\"target\",\"_blank\"],[7],[0,\"Le code source est libre\"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[6,\"section\"],[9,\"class\",\"app-footer__section app-footer__section--marianne-logo\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"mariane-logo-container\"],[7],[0,\"\\n    \"],[6,\"img\"],[9,\"src\",\"/images/logo-marianne-footer.jpg\"],[9,\"class\",\"app-footer__logo-marianne-img mariane-logo__item\"],[9,\"alt\",\"Un projet du Ministère de l'Education Nationale et du Ministère de l'Enseignement Supérieur de la Recherche et de l'Innovation\"],[7],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/app-footer.hbs" } });
 });
 define("pix-live/templates/components/beta-logo", ["exports"], function (exports) {
   "use strict";
@@ -9064,6 +9064,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.37.0+ca1470be"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.37.0+5bcb516f"});
 }
 //# sourceMappingURL=pix-live.map
