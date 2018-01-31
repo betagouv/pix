@@ -61,16 +61,30 @@ describe('Unit | Route | certification test', function() {
 
   describe('#error', function() {
 
-    it('should redirect to index', function() {
+    it('should redirect to index if error is not 403', function() {
       // given
       route.transitionTo = sinon.stub();
+      const error = { errors: [{ status: '404' }] };
 
       // when
-      route.send('error');
+      route.send('error', error);
 
       // then
       sinon.assert.called(route.transitionTo);
       sinon.assert.calledWith(route.transitionTo, 'index');
+    });
+
+    it('should return true to redirect to certification error page if error is 403', function() {
+      // given
+      route.transitionTo = sinon.stub();
+      const error = { errors: [{ status: '403' }] };
+
+      // when
+      const result = route.send('error', error);
+
+      // then
+      expect(result).to.be.true;
+      sinon.assert.notCalled(route.transitionTo);
     });
 
   });

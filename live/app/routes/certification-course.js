@@ -14,8 +14,12 @@ export default Route.extend(AuthenticatedRouteMixin, {
   },
 
   actions: {
-    error() {
-      this.transitionTo('index');
+    error(error) {
+      if (error.errors[0].status === '403') {
+        return true;
+      } else {
+        this.transitionTo('index');
+      }
     }
   }
 
