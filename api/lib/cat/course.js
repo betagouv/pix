@@ -9,25 +9,17 @@ class Course {
   get tubes() {
     const tubes = {};
     this.challenges.forEach(challenge => {
-      // FIXME: TO REFACTOR.
       challenge.skills.forEach(skill => {
         const tubeName = skill.tubeName;
-        if(tubes[tubeName]) {
 
-          const countOfskillsInTubeWithSameDifficulty = _(tubes[tubeName])
-            .filter((skillInTube) => skillInTube.difficulty === skill.difficulty)
-            .size();
+        if(!tubes[tubeName]) tubes[tubeName] = [];
 
-          if(countOfskillsInTubeWithSameDifficulty === 0) {
-            tubes[tubeName].push(skill);
-          }
-
-        } else {
-          tubes[tubeName] = [skill];
-        }
+        if(!_.find(tubes[tubeName], skill)) tubes[tubeName].push(skill);
       });
     });
-    Object.keys(tubes).forEach(tubeName => tubes[tubeName].sort((s1, s2) => s1.difficulty - s2.difficulty));
+    Object.keys(tubes).forEach(tubeName =>  {
+      tubes[tubeName] = _.sortBy(tubes[tubeName], ['difficulty']);
+    });
     return tubes;
   }
 
