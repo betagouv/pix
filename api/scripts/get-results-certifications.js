@@ -2,6 +2,8 @@
 
 const request = require('request-promise-native');
 const json2csv = require('json2csv');
+const moment = require('moment-timezone');
+
 // request.debug = true;
 const DESTFILE = '/tmp/certificationResults.csv';
 const HEADERS = [
@@ -43,8 +45,8 @@ function toCSVRow(rowJSON) {
   const res = {};
   const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
   res[idColumn] = rowJSON.certificationId;
-  res[dateStartColumn] = rowJSON.createdAt;
-  res[dateEndColumn] = rowJSON.completedAt ? rowJSON.completedAt.replace('T', ' ').substring(0,19) : '';
+  res[dateStartColumn] = moment.utc(rowJSON.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  res[dateEndColumn] = rowJSON.completedAt ? moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss') : '';
   res[noteColumn] = rowJSON.totalScore;
   competencesColumns.forEach(column => {
     res[column] = findCompetence(rowJSON.listCertifiedCompetences, column);
@@ -56,14 +58,6 @@ function writeToFile(filename, fileContent) {
   const fs = require('fs');
   fs.writeFileSync(filename, fileContent);
   return fileContent;
-}
-
-function syncInstruction() {
-  const os = require('os');
-  const hostname = os.hostname();
-
-  const helpText = `Deconnectez vous puis téléchargez le fichier avec :\n\t rsync --progress --remove-source-files deploy@${hostname}:${DESTFILE} .`;
-  console.log(helpText);
 }
 
 function main() {
@@ -81,8 +75,7 @@ function main() {
       del: ';',
     }))
     .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; })
-    .then(csv => writeToFile(DESTFILE, csv))
-    .then(() => syncInstruction());
+    .then(csv => writeToFile(DESTFILE, csv));
 }
 
 /*=================== tests =============================*/
@@ -141,13 +134,13 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2017-05-10', completedAt: '2018-01-31T09:29:16.394Z', listCertifiedCompetences: [] };
+        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', listCertifiedCompetences: [] };
         // when
         const result = toCSVRow(object);
         // then
         expect(result[HEADERS[0]]).to.equals('1337');
-        expect(result[HEADERS[1]]).to.equals('2017-05-10');
-        expect(result[HEADERS[2]]).to.equals('2018-01-31 09:29:16');
+        expect(result[HEADERS[1]]).to.equals('31/01/2018 10:01:00');
+        expect(result[HEADERS[2]]).to.equals('31/01/2018 10:29:16');
         expect(result[HEADERS[3]]).to.equals(7331);
       });
 
