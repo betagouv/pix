@@ -13,7 +13,7 @@ describe('Integration | Repository | Mark', function() {
       // given
       const mark = new Mark({
         score: 13,
-        estimatedLevel: 1,
+        level: 1,
         area_code: '4',
         competence_code: '4.2'
       });
@@ -32,7 +32,7 @@ describe('Integration | Repository | Mark', function() {
       // given
       const mark = new Mark({
         score: 13,
-        estimatedLevel: 1,
+        level: 1,
         area_code: '4',
         competence_code: '4.2'
       });

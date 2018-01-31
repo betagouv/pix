@@ -125,6 +125,18 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
       });
     });
 
+    it('should reject with a NotFoundError when the assessment does not exist', () => {
+      // given
+      const assessmentIdThatDoesNotExist = 25672;
+      assessmentRepository.get.resolves(null);
+
+      // when
+      const promise = service.evaluateFromAssessmentId(assessmentIdThatDoesNotExist);
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
+    });
+
     context('when the assessment is already evaluated', () => {
 
       it('should reject an AlreadyRatedAssessmentError', () => {
@@ -203,7 +215,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
           const savedMark = markRepository.save.firstCall.args;
           expect(savedMark[0]).to.deep.equal(new Mark({
-            estimatedLevel: 2,
+            level: 2,
             score: 13,
             area_code: '1',
             competence_code: '1.1',
@@ -374,7 +386,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
           const firstSavedMark = markRepository.save.firstCall.args;
           expect(firstSavedMark[0]).to.deep.equal(new Mark({
-            estimatedLevel: 0,
+            level: 0,
             score: 7,
             area_code: '1',
             competence_code: '1.1',
@@ -383,7 +395,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
           const secondSavedMark = markRepository.save.secondCall.args;
           expect(secondSavedMark[0]).to.deep.equal(new Mark({
-            estimatedLevel: 2,
+            level: 2,
             score: 19,
             area_code: '2',
             competence_code: '2.1',
@@ -392,7 +404,7 @@ describe('Unit | Domain | Services | assessment-ratings', () => {
 
           const thirdSavedMark = markRepository.save.thirdCall.args;
           expect(thirdSavedMark[0]).to.deep.equal(new Mark({
-            estimatedLevel: -1,
+            level: -1,
             score: 0,
             area_code: '2',
             competence_code: '2.2',

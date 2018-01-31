@@ -13,7 +13,7 @@ const competenceRepository = require('../../infrastructure/repositories/competen
 const markRepository = require('../../infrastructure/repositories/mark-repository');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 
-const { AlreadyRatedAssessmentError } = require('../errors');
+const { AlreadyRatedAssessmentError, NotFoundError } = require('../errors');
 
 function _getMarksToSaveForCertificationAssessment(assessmentId) {
   return Promise
@@ -27,7 +27,7 @@ function _getMarksToSaveForCertificationAssessment(assessmentId) {
         }).area.code;
 
         return new Mark({
-          estimatedLevel: certifiedCompetence.level,
+          level: certifiedCompetence.level,
           score: certifiedCompetence.score,
           area_code,
           competence_code: certifiedCompetence.index,
@@ -46,7 +46,7 @@ function _getMarksToSaveForPlacementTest(assessmentWithScore) {
     .then(competence => {
       return [
         new Mark({
-          estimatedLevel: assessmentWithScore.estimatedLevel,
+          level: assessmentWithScore.estimatedLevel,
           score: assessmentWithScore.pixScore,
           area_code: competence.area.code,
           competence_code: competence.index,
@@ -63,6 +63,10 @@ function evaluateFromAssessmentId(assessmentId) {
 
   return assessmentRepository.get(assessmentId)
     .then((assessment) => {
+
+      if(!assessment) {
+        throw new NotFoundError();
+      }
 
       if(assessment.isCompleted()) {
         throw new AlreadyRatedAssessmentError();
