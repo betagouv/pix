@@ -25,12 +25,15 @@ class Course {
 
   computePixScoreOfSkills() {
     const pixScoreOfSkills = {};
-    const numberOfSkillsOfDifficulty = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 };
+    const maxDifficulty = 8;
+    const numberOfSkillsByDifficulty = [];
+
+    for (let levelDifficulty = 0; levelDifficulty < maxDifficulty; levelDifficulty++) {
+      numberOfSkillsByDifficulty[levelDifficulty] = _.filter(this.competenceSkills, skill => skill.difficulty === levelDifficulty).length;
+    }
+
     this.competenceSkills.forEach(skill => {
-      numberOfSkillsOfDifficulty[skill.difficulty]++;
-    });
-    this.competenceSkills.forEach(skill => {
-      pixScoreOfSkills[skill.name] = Math.min(4, 8 / numberOfSkillsOfDifficulty[skill.difficulty]);
+      pixScoreOfSkills[skill.name] = Math.min(4, maxDifficulty / numberOfSkillsByDifficulty[skill.difficulty]);
     });
     return pixScoreOfSkills;
   }
