@@ -2,7 +2,6 @@ const Boom = require('boom');
 
 const courseRepository = require('../../infrastructure/repositories/course-repository');
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationService = require('../../../lib/domain/services/certification-service');
 const courseService = require('../../../lib/domain/services/course-service');
