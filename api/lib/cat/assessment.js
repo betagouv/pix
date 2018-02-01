@@ -20,6 +20,8 @@ Set.prototype.difference = function(setB) {
 
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
+const MAX_NUMBER_OF_CHALLENGES = 20;
+const LEVEL_FOR_FIRST_CHALLENGE = 2;
 
 class Assessment {
   constructor(course, answers) {
@@ -51,13 +53,13 @@ class Assessment {
     return unactiveChallengeStatus.includes(challenge.status);
   }
 
-  _isAnAnsweredChallenge(challenge, answeredChallenges) {
+  _isAnNotAnsweredChallenge(challenge, answeredChallenges) {
     return !answeredChallenges.includes(challenge);
   }
 
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this._isAnActiveChallenge(challenge) && this._isAnAnsweredChallenge(challenge, answeredChallenges);
+    return this._isAnActiveChallenge(challenge) && this._isAnNotAnsweredChallenge(challenge, answeredChallenges);
   }
 
   _isPreviousChallengeTimed() {
@@ -121,7 +123,7 @@ class Assessment {
 
   get predictedLevel() {
     if (this.answers.length === 0) {
-      return 2;
+      return LEVEL_FOR_FIRST_CHALLENGE;
     }
     let maxLikelihood = -Infinity;
     let level = 0.5;
@@ -145,7 +147,7 @@ class Assessment {
 
   get _firstChallenge() {
     const filteredFirstChallenges = this.filteredChallenges.filter(
-      challenge => (challenge.hardestSkill.difficulty === 2) && (challenge.timer === undefined)
+      challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
     );
     filteredFirstChallenges.sort(() => 0.5 - Math.random());
     return filteredFirstChallenges[0];
@@ -155,7 +157,7 @@ class Assessment {
     if (this.answers.length === 0) {
       return this._firstChallenge;
     }
-    if (this.answers.length >= 20) {
+    if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
 
