@@ -10,7 +10,7 @@
 .competences-page__header {
   padding: 60px 20px;
   width: 100%;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  background-image: $pix-blue-gradient;
   display: flex;
   flex-direction: column;
   align-items: center;

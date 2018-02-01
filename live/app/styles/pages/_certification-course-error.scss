@@ -58,7 +58,7 @@
 .certification-error-page__header {
   width: 100%;
   height: 180px;
-  background-image: linear-gradient(to bottom, #446eff, #001f8d), linear-gradient(#3d68ff, #3d68ff);
+  background-image: $pix-blue-gradient;
   margin: 0 0 50px;
   position: absolute;
   top: 120px;
