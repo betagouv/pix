@@ -407,9 +407,9 @@ describe('Unit | Domain | Models | Profile', () => {
         expect(profile.competences).to.be.deep.equal(expectedCompetences);
         expect(profile.areas).to.be.equal(areas);
 
-      })
+      });
 
-    })
+    });
 
     describe('when calculating score', () => {
 
