@@ -1,10 +1,10 @@
 const validator = require('validator');
 
-const Bookshelf = require('../../../infrastructure/bookshelf');
+const Bookshelf = require('../bookshelf');
 Bookshelf.plugin('registry');
 
-const encrypt = require('../../services/encryption-service');
-const passwordValidator = require('../../../infrastructure/validators/password-validator');
+const encrypt = require('../../domain/services/encryption-service');
+const passwordValidator = require('../validators/password-validator');
 
 require('./assessment');
 require('./organization');

@@ -1,4 +1,4 @@
-const Bookshelf = require('../../../infrastructure/bookshelf');
+const Bookshelf = require('../bookshelf');
 
 Bookshelf.plugin('registry');
 
