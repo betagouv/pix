@@ -360,7 +360,7 @@ describe('Unit | Domain | Models | Profile', () => {
     });
 
     context('when user has one assessment without existing courseId', () => {
-      it('should', () => {
+      it('should return the profile without only assessment of placement in competences', () => {
         // Given
         courses[0].competences = ['competenceId1'];
         assessmentsCompleted = [new Assessment({
