@@ -14738,7 +14738,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
           // then
           return promise.then(function () {
             _sinon.default.assert.calledOnce(route.transitionTo);
-            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', 123);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.rating', 123);
           });
         });
       });
