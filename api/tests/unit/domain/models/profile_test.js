@@ -359,6 +359,58 @@ describe('Unit | Domain | Models | Profile', () => {
 
     });
 
+    context('when user has one assessment without existing courseId', () => {
+      it('should', () => {
+        // Given
+        courses[0].competences = ['competenceId1'];
+        assessmentsCompleted = [new Assessment({
+          id: 'assessmentId1',
+          pixScore: 10,
+          estimatedLevel: 1,
+          courseId: 'courseId8'
+        }), new Assessment({
+          id: 'assessmentId2',
+          pixScore: null,
+          estimatedLevel: null,
+          courseId: 'DemoCourse'
+        })];
+
+        const expectedCompetences = [
+          {
+            id: 'competenceId1',
+            name: '1.1 Mener une recherche d’information',
+            index: '1.1',
+            areaId: 'areaId1',
+            level: 1,
+            pixScore: 10,
+            assessmentId: 'assessmentId1',
+            status: 'evaluated',
+            courseId: 'courseId8'
+          },
+          {
+            id: 'competenceId2',
+            name: '1.2 Gérer des données',
+            index: '1.2',
+            areaId: 'areaId2',
+            level: -1,
+            status: 'notEvaluated',
+            courseId: 'courseId9'
+          }
+        ];
+
+        // When
+        const profile = new Profile(user, competences, areas, assessmentsCompleted, assessmentsCompleted, courses);
+
+        // Then
+        expect(profile).to.be.an.instanceof(Profile);
+        expect(profile.user).to.be.equal(user);
+        expect(profile.competences).to.be.deep.equal(expectedCompetences);
+        expect(profile.areas).to.be.equal(areas);
+
+      })
+
+    })
+
     describe('when calculating score', () => {
 
       beforeEach(() => {
