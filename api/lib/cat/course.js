@@ -33,7 +33,7 @@ class Course {
     }
 
     this.competenceSkills.forEach(skill => {
-      pixScoreOfSkills[skill.name] = Math.min(4, maxDifficulty / numberOfSkillsByDifficulty[skill.difficulty]);
+      pixScoreOfSkills[skill.name] = Math.min(4, 8 / numberOfSkillsByDifficulty[skill.difficulty]);
     });
     return pixScoreOfSkills;
   }
