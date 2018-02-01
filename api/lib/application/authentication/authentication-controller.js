@@ -5,7 +5,7 @@ const tokenService = require('../../domain/services/token-service');
 
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 
-const Authentication = require('../../infrastructure/data/authentication');
+const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
 
 module.exports = {
