@@ -1,5 +1,5 @@
 const { describe, it, expect, sinon, beforeEach, knex } = require('../../../test-helper');
-const Organization = require('../../../../lib/domain/models/data/organization');
+const Organization = require('../../../../lib/infrastructure/data/organization');
 const faker = require('faker');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');

@@ -1,5 +1,5 @@
 const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
-const CertificationCourse = require('../../../../lib/domain/models/data/certification-course');
+const CertificationCourse = require('../../../../lib/infrastructure/data/certification-course');
 
 describe('Unit | Domain | Models | CertificationCourse', () => {
 

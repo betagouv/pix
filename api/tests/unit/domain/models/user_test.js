@@ -1,5 +1,5 @@
 const { describe, it, expect, sinon, beforeEach } = require('../../../test-helper');
-const User = require('../../../../lib/domain/models/data/user');
+const User = require('../../../../lib/infrastructure/data/user');
 const faker = require('faker');
 
 describe('Unit | Domain | Models | User', () => {
