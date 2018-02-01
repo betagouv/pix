@@ -2,7 +2,7 @@ const Boom = require('boom');
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 const logger = require('../../../../lib/infrastructure/logger');
 
-
+const sessionSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const Session = require('../../../../lib/domain/models/Session');
 
@@ -25,6 +25,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.stub(sessionRepository, 'save').resolves();
       sandbox.stub(Boom, 'badImplementation');
       sandbox.stub(logger, 'error');
+      sandbox.stub(sessionSerializer, 'serialize');
 
       request = {
         payload: {
@@ -48,7 +49,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.restore();
     });
 
-    it('should use reply', () => {
+    it('should save the session', () => {
       // Given
       const expectedSession = new Session({
         certificationCenter: 'Université Nice-Sophia-Antipolis',
@@ -66,6 +67,33 @@ describe('Unit | Controller | organizationController', () => {
       // Then
       return promise.then(() => {
         expect(sessionRepository.save).to.have.been.calledWith(expectedSession);
+      });
+    });
+
+    it('return the saved session in JSON API', () => {
+      // Given
+      const jsonApiSession = {
+        data: {
+          type: 'sessions',
+          id: 12,
+          attributes: {}
+        }
+      };
+      const savedSession = new Session({
+        id: '12',
+        certificationCenter: 'Université Nice-Sophia-Antipolis'
+      });
+
+      sessionRepository.save.resolves(savedSession);
+      sessionSerializer.serialize.returns(jsonApiSession);
+
+      // When
+      const promise = sessionController.save(request, replyStub);
+
+      // Then
+      return promise.then(() => {
+        expect(replyStub).to.have.been.calledWith(jsonApiSession);
+        expect(sessionSerializer.serialize).to.have.been.calledWith(savedSession);
       });
     });
 
