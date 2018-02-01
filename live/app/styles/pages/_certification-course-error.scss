@@ -8,15 +8,20 @@
   min-height: calc(100VH - 140px - #{$footer-height});
 }
 
-.certification-error-page .rounded-panel {
+.certification-error-page__panel {
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
   flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-top: 50px;
+  z-index: 1;
+  align-self: center;
 
   @include device-is('desktop') {
-    margin-bottom: 50px;
-    align-self: center;
+    width: 940px;
+    padding: 50px 70px 40px;
   }
 }
 
@@ -41,25 +46,9 @@
   }
 }
 
-.certification-error-page__panel {
-  margin-bottom: 50px;
-  padding: 20px;
-  margin-top: 50px;
-  z-index: 1;
-
-  @include device-is('desktop') {
-    width: 940px;
-    align-self: center;
-    padding: 50px 70px 40px;
-  }
-}
-
 /* Specific styles */
-.certification-error-page__header {
-  width: 100%;
+.certification-error-page__ribbon {
   height: 180px;
-  background-image: $pix-blue-gradient;
-  margin: 0 0 50px;
   position: absolute;
   top: 120px;
   @include device-is('desktop') {
