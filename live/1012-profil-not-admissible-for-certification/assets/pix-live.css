@@ -5343,15 +5343,20 @@ hr.project-page__presentation-header-line {
   text-rendering: optimizeLegibility;
   min-height: calc(100VH - 140px - 150px); }
 
-.certification-error-page .rounded-panel {
+.certification-error-page__panel {
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
-  flex-direction: column; }
+  flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-top: 50px;
+  z-index: 1;
+  align-self: center; }
   @media (min-width: 980px) {
-    .certification-error-page .rounded-panel {
-      margin-bottom: 50px;
-      align-self: center; } }
+    .certification-error-page__panel {
+      width: 940px;
+      padding: 50px 70px 40px; } }
 
 .certification-error-page__button {
   background-color: #3d68ff;
@@ -5371,17 +5376,6 @@ hr.project-page__presentation-header-line {
   .certification-error-page__button:hover {
     color: #ffffff;
     text-decoration: none; }
-
-.certification-error-page__panel {
-  margin-bottom: 50px;
-  padding: 20px;
-  margin-top: 50px;
-  z-index: 1; }
-  @media (min-width: 980px) {
-    .certification-error-page__panel {
-      width: 940px;
-      align-self: center;
-      padding: 50px 70px 40px; } }
 
 /* Specific styles */
 .certification-error-page__ribbon {
