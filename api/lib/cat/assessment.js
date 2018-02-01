@@ -27,35 +27,6 @@ class Assessment {
     this.answers = answers;
   }
 
-  get validatedSkills() {
-    return this.answers
-      .filter(answer => AnswerStatus.isOK(answer.result))
-      .reduce((skills, answer) => {
-        answer.challenge.skills.forEach(skill => {
-          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            skills.add(validatedSkill);
-          });
-        });
-        return skills;
-      }, new Set());
-  }
-
-  get failedSkills() {
-    return this.answers
-      .filter(answer => AnswerStatus.isFailed(answer.result))
-      .reduce((failedSkills, answer) => {
-        // FIXME refactor !
-        // XXX we take the current failed skill and all the harder skills in
-        // its tube and mark them all as failed
-        answer.challenge.skills.forEach(skill => {
-          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-            failedSkills.add(failedSkill);
-          });
-        });
-        return failedSkills;
-      }, new Set());
-  }
-
   _probaOfCorrectAnswer(level, difficulty) {
     return 1 / (1 + Math.exp(-(level - difficulty)));
   }
@@ -99,24 +70,6 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  get predictedLevel() {
-    if (this.answers.length === 0) {
-      return 2;
-    }
-    let maxLikelihood = -Infinity;
-    let level = 0.5;
-    let predictedLevel = 0.5;
-    while (level < 8) {
-      const likelihood = this._computeLikelihood(level, this.answers);
-      if (likelihood > maxLikelihood) {
-        maxLikelihood = likelihood;
-        predictedLevel = level;
-      }
-      level += 0.5;
-    }
-    return predictedLevel;
-  }
-
   _extraValidatedSkillsIfSolved(challenge) {
     let extraValidatedSkills = new Set();
     challenge.skills.forEach(skill => {
@@ -135,6 +88,53 @@ class Assessment {
     const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).size;
     const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).size;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
+  }
+
+  get validatedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isOK(answer.result))
+      .reduce((skills, answer) => {
+        answer.challenge.skills.forEach(skill => {
+          skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
+            skills.add(validatedSkill);
+          });
+        });
+        return skills;
+      }, new Set());
+  }
+
+  get failedSkills() {
+    return this.answers
+      .filter(answer => AnswerStatus.isFailed(answer.result))
+      .reduce((failedSkills, answer) => {
+        // FIXME refactor !
+        // XXX we take the current failed skill and all the harder skills in
+        // its tube and mark them all as failed
+        answer.challenge.skills.forEach(skill => {
+          skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
+            failedSkills.add(failedSkill);
+          });
+        });
+        return failedSkills;
+      }, new Set());
+  }
+
+  get predictedLevel() {
+    if (this.answers.length === 0) {
+      return 2;
+    }
+    let maxLikelihood = -Infinity;
+    let level = 0.5;
+    let predictedLevel = 0.5;
+    while (level < 8) {
+      const likelihood = this._computeLikelihood(level, this.answers);
+      if (likelihood > maxLikelihood) {
+        maxLikelihood = likelihood;
+        predictedLevel = level;
+      }
+      level += 0.5;
+    }
+    return predictedLevel;
   }
 
   get filteredChallenges() {
