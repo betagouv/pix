@@ -3,7 +3,7 @@ const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
 const sessionService = require('../../domain/services/session-service');
 const sessionRepository = require('../../infrastructure/repositories/session-repository');
-const deserializeSession = require('../../infrastructure/serializers/jsonapi/session-serializer');
+const serializer = require('../../infrastructure/serializers/jsonapi/session-serializer');
 
 module.exports = {
   get(request, reply) {
@@ -11,7 +11,10 @@ module.exports = {
   },
 
   save(request, reply) {
-    return sessionRepository.save(deserializeSession.deserialize(request.payload))
+    const sessionModel = serializer.deserialize(request.payload);
+
+    return sessionRepository.save(sessionModel)
+      .then((session) => serializer.serialize(session))
       .then(reply)
       .catch((err) => {
         logger.error(err);
