@@ -1,12 +1,12 @@
 module.exports = [
   require('./application/answers'),
   require('./application/assessments'),
+  require('./application/assessment-ratings'),
   require('./application/authentication'),
   require('./application/cache'),
   require('./application/certificationCourses'),
   require('./application/challenges'),
   require('./application/courses'),
-  require('./application/courseGroups'),
   require('./application/simulateErrors'),
   require('./application/feedbacks'),
   require('./application/followers'),

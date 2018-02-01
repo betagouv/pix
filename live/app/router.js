@@ -46,10 +46,10 @@ Router.map(function() {
   this.route('assessments.resume', { path: '/assessments/:assessment_id' });
   this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
   this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
+  this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
   this.route('certifications.results', { path: '/certifications/:certification_number/results' });
   this.route('login', { path: '/connexion' });
   this.route('logout', { path: '/deconnexion' });
-  this.route('course-groups', { path: '/defis-pix' });
   this.route('board');
   this.route('legal-notices', { path: '/mentions-legales' });
   this.route('terms-of-service', { path: '/conditions-generales-d-utilisation' });
@@ -58,7 +58,6 @@ Router.map(function() {
   this.route('not-found', { path: '/*path' });
   this.route('certification-course', { path: '/certifications' });
   this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
-
 });
 
 export default Router;
