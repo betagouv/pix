@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const BookshelfSession = require('../data/session');
-const Session = require('../../domain/models/Session')
+const Session = require('../../domain/models/Session');
 
 function _toDomain(bookshelfSession) {
   const sessionReturned = bookshelfSession.toJSON();
