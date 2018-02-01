@@ -1,4 +1,6 @@
 const sessionService = require('../../domain/services/session-service');
+const sessionRepository = require('../../infrastructure/repositories/session-repository');
+const deserializeSession = require('../../infrastructure/serializers/jsonapi/session-serializer');
 
 module.exports = {
   get(request, reply) {
@@ -6,6 +8,7 @@ module.exports = {
   },
 
   save(request, reply) {
-    reply({});
+    return sessionRepository.save(deserializeSession.deserialize(request.payload))
+      .then(reply);
   }
 };

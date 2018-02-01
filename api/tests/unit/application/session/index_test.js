@@ -36,6 +36,14 @@ describe('Unit | Route | session-router', function() {
 
   describe('POST /api/session', function() {
 
+    before(function() {
+      sinon.stub(SessionController, 'save').callsFake((request, reply) => reply('ok'));
+    });
+
+    after(function() {
+      SessionController.save.restore();
+    });
+
     it('should exist', function(done) {
       expectRouteToExist({ method: 'POST', url: '/api/sessions' }, done);
     });
