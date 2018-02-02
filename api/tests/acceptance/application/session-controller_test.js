@@ -71,5 +71,84 @@ describe('Acceptance | Controller | session-controller', function() {
           expect(sessions).to.have.lengthOf(1);
         });
     });
+
+    it('should return a Bad Request when a parameter is missing', () => {
+      // given
+      const options = {
+        method: 'POST', url: '/api/sessions', payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              'certification-center': 'Université Nice-Sophia-Antipolis',
+              address: '',
+              room: '28D',
+              examiner: 'Sophie Rapetti',
+              date: '08/12/2017',
+              time: '14:30',
+              description: ''
+            }
+          }
+        }
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise
+        .then((response) => {
+          expect(response.statusCode).to.equal(400);
+        })
+        .then(() => knex('sessions').select())
+        .then((sessions) => {
+          expect(sessions).to.have.lengthOf(0);
+        });
+    });
+
+    it('should return payLoad with error description', () => {
+      // given
+      const options = {
+        method: 'POST', url: '/api/sessions', payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              'certification-center': 'Université Nice-Sophia-Antipolis',
+              address: '',
+              room: '28D',
+              examiner: 'Sophie Rapetti',
+              date: '08/12/2017',
+              time: '14:30',
+              description: ''
+            }
+          }
+        }
+      };
+
+      const expectedErrorRespond = {
+        'errors': [
+          {
+            'detail': 'Vous n\'avez pas renseignez d\'adresse.',
+            'meta': {
+              'field': 'address'
+            },
+            'source': {
+              'pointer': '/data/attributes/address',
+            },
+            'status': '400',
+            'title': 'Invalid Attribute'
+          }
+        ]
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise
+        .then((response) => {
+
+          expect(response.result).to.deep.equal(expectedErrorRespond);
+        });
+    });
   });
 });
