@@ -5,7 +5,7 @@ exports.up = (knex) => {
   function table(t) {
 
     t.increments().primary();
-    t.text('certification-center').notNullable();
+    t.text('certificationCenter').notNullable();
     t.text('address').notNullable();
     t.text('room').notNullable();
     t.text('examiner').notNullable();
