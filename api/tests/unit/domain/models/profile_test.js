@@ -403,9 +403,9 @@ describe('Unit | Domain | Models | Profile', () => {
 
         // Then
         expect(profile).to.be.an.instanceof(Profile);
-        expect(profile.user).to.be.equal(user);
-        expect(profile.competences).to.be.deep.equal(expectedCompetences);
-        expect(profile.areas).to.be.equal(areas);
+        expect(profile.user).to.equal(user);
+        expect(profile.competences).to.deep.equal(expectedCompetences);
+        expect(profile.areas).to.equal(areas);
 
       });
 
