@@ -12,10 +12,10 @@ describe('Integration | Repository | Session', function() {
     it('should persist the session in db', () => {
       // given
       const sessionToBeSaved = new Session({
-        certificationCenter: 'Université Nice-Sophia-Antipolis',
+        certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
-        examiner: 'Sophie Rapetti',
+        examiner: 'Antoine Toutvenant',
         date: '08/12/2017',
         time: '14:30',
         description: 'Premiere certification EVER !!!'
@@ -34,10 +34,10 @@ describe('Integration | Repository | Session', function() {
     it('should return the saved Session', () => {
       // given
       const session = new Session({
-        certificationCenter: 'Université Nice-Sophia-Antipolis',
+        certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
-        examiner: 'Sophie Rapetti',
+        examiner: 'Antoine Toutvenant',
         date: '08/12/2017',
         time: '14:30',
         description: 'Premiere certification EVER !!!'
@@ -51,7 +51,7 @@ describe('Integration | Repository | Session', function() {
         expect(savedSession).to.be.an.instanceOf(Session);
 
         expect(savedSession).to.have.property('id').and.not.null;
-        expect(savedSession.certificationCenter).to.equal('Université Nice-Sophia-Antipolis');
+        expect(savedSession.certificationCenter).to.equal('Université de dressage de loutres');
       });
     });
   });
