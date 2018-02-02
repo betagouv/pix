@@ -32,10 +32,10 @@ describe('Unit | Controller | organizationController', () => {
           data: {
             type: 'sessions',
             attributes: {
-              'certification-center': 'Université Nice-Sophia-Antipolis',
+              'certification-center': 'Université de dressage de loutres',
               address: 'Nice',
               room: '28D',
-              examiner: 'Sophie Rapetti',
+              examiner: 'Antoine Toutvenant',
               date: '08/12/2017',
               time: '14:30',
               description: ''
@@ -52,10 +52,10 @@ describe('Unit | Controller | organizationController', () => {
     it('should save the session', () => {
       // Given
       const expectedSession = new Session({
-        certificationCenter: 'Université Nice-Sophia-Antipolis',
+        certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
-        examiner: 'Sophie Rapetti',
+        examiner: 'Antoine Toutvenant',
         date: '08/12/2017',
         time: '14:30',
         description: ''
@@ -81,7 +81,7 @@ describe('Unit | Controller | organizationController', () => {
       };
       const savedSession = new Session({
         id: '12',
-        certificationCenter: 'Université Nice-Sophia-Antipolis'
+        certificationCenter: 'Université de dressage de loutres'
       });
 
       sessionRepository.save.resolves(savedSession);

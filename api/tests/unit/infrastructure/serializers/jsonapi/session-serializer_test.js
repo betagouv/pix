@@ -7,10 +7,10 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
 
   const modelSession = new Session({
     id: 12,
-    certificationCenter: 'Université Nice-Sophia-Antipolis',
+    certificationCenter: 'Université de dressage de loutres',
     address: 'Nice',
     room: '28D',
-    examiner: 'Sophie Rapetti',
+    examiner: 'Antoine Toutvenant',
     date: '08/12/2017',
     time: '14:30',
     description: ''
@@ -21,10 +21,10 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
       type: 'sessions',
       id: '12',
       attributes: {
-        'certification-center': 'Université Nice-Sophia-Antipolis',
+        'certification-center': 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
-        examiner: 'Sophie Rapetti',
+        examiner: 'Antoine Toutvenant',
         date: '08/12/2017',
         time: '14:30',
         description: ''
@@ -60,10 +60,10 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
 
       // then
       expect(session.id).to.equal('12');
-      expect(session.certificationCenter).to.equal('Université Nice-Sophia-Antipolis');
+      expect(session.certificationCenter).to.equal('Université de dressage de loutres');
       expect(session.address).to.equal('Nice');
       expect(session.room).to.equal('28D');
-      expect(session.examiner).to.equal('Sophie Rapetti');
+      expect(session.examiner).to.equal('Antoine Toutvenant');
       expect(session.date).to.equal('08/12/2017');
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');

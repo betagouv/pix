@@ -43,10 +43,10 @@ describe('Acceptance | Controller | session-controller', function() {
         data: {
           type: 'sessions',
           attributes: {
-            'certification-center': 'Université Nice-Sophia-Antipolis',
+            'certification-center': 'Université de dressage de loutres',
             address: 'Nice',
             room: '28D',
-            examiner: 'Sophie Rapetti',
+            examiner: 'Antoine Toutvenant',
             date: '08/12/2017',
             time: '14:30',
             description: ''
@@ -79,10 +79,10 @@ describe('Acceptance | Controller | session-controller', function() {
           data: {
             type: 'sessions',
             attributes: {
-              'certification-center': 'Université Nice-Sophia-Antipolis',
+              'certification-center': 'Université de dressage de loutres',
               address: '',
               room: '28D',
-              examiner: 'Sophie Rapetti',
+              examiner: 'Antoine Toutvenant',
               date: '08/12/2017',
               time: '14:30',
               description: ''
@@ -112,10 +112,10 @@ describe('Acceptance | Controller | session-controller', function() {
           data: {
             type: 'sessions',
             attributes: {
-              'certification-center': 'Université Nice-Sophia-Antipolis',
+              'certification-center': 'Université de dressage de loutres',
               address: '',
               room: '28D',
-              examiner: 'Sophie Rapetti',
+              examiner: 'Antoine Toutvenant',
               date: '08/12/2017',
               time: '14:30',
               description: ''
