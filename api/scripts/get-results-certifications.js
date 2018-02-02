@@ -41,12 +41,18 @@ function findCompetence(profile, competenceName) {
   return (result || { level: '' }).level;
 }
 
+
 function toCSVRow(rowJSON) {
   const res = {};
   const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
   res[idColumn] = rowJSON.certificationId;
   res[dateStartColumn] = moment.utc(rowJSON.createdAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
-  res[dateEndColumn] = rowJSON.completedAt ? moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss') : '';
+  if (rowJSON.completedAt) {
+    res[dateEndColumn] = moment(rowJSON.completedAt).tz('Europe/Paris').format('DD/MM/YYYY HH:mm:ss');
+  } else {
+    res[dateEndColumn] = '';
+  }
+
   res[noteColumn] = rowJSON.totalScore;
   competencesColumns.forEach(column => {
     res[column] = findCompetence(rowJSON.listCertifiedCompetences, column);
@@ -74,8 +80,7 @@ function main() {
       fieldNames: HEADERS,
       del: ';',
     }))
-    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; })
-    .then(csv => writeToFile(DESTFILE, csv));
+    .then(csv => { console.log(`\n\n${csv}\n\n`); return csv; });
 }
 
 /*=================== tests =============================*/
