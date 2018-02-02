@@ -1,7 +1,6 @@
 const validator = require('validator');
 
 const Bookshelf = require('../bookshelf');
-Bookshelf.plugin('registry');
 
 const encrypt = require('../../domain/services/encryption-service');
 const passwordValidator = require('../validators/password-validator');

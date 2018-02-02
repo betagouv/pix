@@ -1,5 +1,4 @@
 const Bookshelf = require('../bookshelf');
-Bookshelf.plugin('registry');
 
 require('./assessment');
 require('./certification-challenge');
