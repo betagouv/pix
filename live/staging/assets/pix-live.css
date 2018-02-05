@@ -489,7 +489,10 @@ button.routable-modal--close:active {
       margin: 0 auto;
       height: 150px;
       width: 100%;
-      max-width: 1400px;
+      max-width: 1200px;
+      padding: 0 100px; } }
+  @media (min-width: 1261px) {
+    .app-footer {
       padding: 0; } }
 
 .app-footer__section {
@@ -501,8 +504,11 @@ button.routable-modal--close:active {
 
 .app-footer__section--pix-logo {
   order: 0;
-  width: 260px;
+  width: 300px;
   text-align: center; }
+  @media (min-width: 980px) {
+    .app-footer__section--pix-logo {
+      text-align: left; } }
 
 .app-footer__section--contact {
   order: 1; }
