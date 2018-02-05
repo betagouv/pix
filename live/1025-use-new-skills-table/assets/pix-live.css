@@ -490,40 +490,39 @@ button.routable-modal--close:active {
       height: 150px;
       width: 100%;
       max-width: 1200px;
+      padding: 0 100px; } }
+  @media (min-width: 1261px) {
+    .app-footer {
       padding: 0; } }
 
 .app-footer__section {
   margin-bottom: 20px; }
   @media (min-width: 980px) {
     .app-footer__section {
-      margin-bottom: 0; } }
+      margin-bottom: 0;
+      justify-content: space-between; } }
 
 .app-footer__section--pix-logo {
   order: 0;
-  width: 260px;
+  width: 300px;
   text-align: center; }
   @media (min-width: 980px) {
     .app-footer__section--pix-logo {
-      margin: 0;
-      width: auto; } }
+      text-align: left; } }
 
 .app-footer__section--contact {
   order: 1; }
   @media (min-width: 980px) {
     .app-footer__section--contact {
-      margin: 0; } }
+      margin: 0;
+      align-self: flex-end;
+      margin-bottom: 15px;
+      white-space: nowrap; } }
 
 .app-footer__section--marianne-logo {
   order: 2;
-  margin-bottom: 0;
   text-align: center;
   max-width: 100%; }
-  @media (min-width: 980px) {
-    .app-footer__section--marianne-logo {
-      margin: 0; } }
-
-.mariane-logo-container {
-  margin: 0; }
 
 .mariane-logo__item {
   display: inline-block;
@@ -533,7 +532,7 @@ button.routable-modal--close:active {
     margin-right: 12px; }
 
 .app-footer__logo-marianne-img {
-  width: 80px; }
+  width: 300px; }
 
 .app-footer__link-text {
   color: #3e4149;
