@@ -16,7 +16,7 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
       challenges.push(challenge);
     }
   });
-  
+
   const catSkills = skills.map(skill => new CatSkill(skill.name));
   const course = new CatCourse(challenges, catSkills);
 

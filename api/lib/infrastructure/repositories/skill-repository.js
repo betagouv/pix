@@ -24,9 +24,6 @@ module.exports = {
           .uniqBy('name')
           .value();
 
-        // FIXME: Supprimer l'utilisation du Set
-        skills = new Set(skills);
-
         cache.set(cacheKey, skills);
 
         return skills;
