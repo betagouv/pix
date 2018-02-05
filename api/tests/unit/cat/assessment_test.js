@@ -182,7 +182,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, [answer, answer2]);
 
       // then
-      expect([...assessment.validatedSkills]).to.be.deep.equal([web3forChallengeOne, url3]);
+      expect(assessment.validatedSkills).to.be.deep.equal([web3forChallengeOne, url3]);
     });
 
     it('should not try to add skill from undefined challenge', function() {
