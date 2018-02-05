@@ -31,7 +31,6 @@ class Course {
     for (let levelDifficulty = 0; levelDifficulty < maxDifficulty; levelDifficulty++) {
       numberOfSkillsByDifficulty[levelDifficulty] = _.filter(this.competenceSkills, skill => skill.difficulty === levelDifficulty).length;
     }
-
     this.competenceSkills.forEach(skill => {
       pixScoreOfSkills[skill.name] = Math.min(4, 8 / numberOfSkillsByDifficulty[skill.difficulty]);
     });
