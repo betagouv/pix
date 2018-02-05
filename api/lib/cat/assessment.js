@@ -11,7 +11,7 @@ class Assessment {
     this.answers = answers;
   }
 
-  _randomly()  { return 0.5 - Math.random(); };
+  _randomly()  { return 0.5 - Math.random(); }
 
   _probaOfCorrectAnswer(level, difficulty) {
     return 1 / (1 + Math.exp(-(level - difficulty)));
