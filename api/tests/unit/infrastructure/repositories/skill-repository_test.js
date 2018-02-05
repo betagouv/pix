@@ -1,18 +1,20 @@
 const { describe, it, beforeEach, afterEach, expect, sinon } = require('../../../test-helper');
 const cache = require('../../../../lib/infrastructure/cache');
-const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
-const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const DomainSkill = require('../../../../lib/domain/models/Skill');
+const airtable = require('../../../../lib/infrastructure/airtable');
+
+const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
+const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
 function _buildChallenge(id, instruction, proposals, competence, status, skillNames) {
 
-  const skills = skillNames.map((skillName) => new DomainSkill(skillName));
+  const skills = skillNames.map((skillName) => new DomainSkill({ name: skillName }));
 
   return { id, instruction, proposals, competence, status, skills };
 }
 
-describe('Unit | Repository | skill-repository', function() {
+describe('Unit | Repository | skill-repository', function () {
 
   beforeEach(() => {
     sinon.stub(cache, 'get');
@@ -30,7 +32,7 @@ describe('Unit | Repository | skill-repository', function() {
    * #findByCompetence
    */
 
-  describe('#findByCompetence', function() {
+  describe('#findByCompetence', function () {
 
     const competence = {
       id: 'competence_id',
@@ -56,7 +58,7 @@ describe('Unit | Repository | skill-repository', function() {
 
     });
 
-    context('when skills have not been cached', function() {
+    context('when skills have not been cached', function () {
 
       const challenges = [
         _buildChallenge('challenge_id_1', 'Instruction #1', 'Proposals #1', 'competence_id', 'validé', ['web2', 'web3']),
@@ -77,10 +79,10 @@ describe('Unit | Repository | skill-repository', function() {
         // then
         return promise.then((skills) => {
           const expectedSkills = [
-            new DomainSkill('web2'),
-            new DomainSkill('web3'),
-            new DomainSkill('url1'),
-            new DomainSkill('web1'),
+            new DomainSkill({ name: 'web2' }),
+            new DomainSkill({ name: 'web3' }),
+            new DomainSkill({ name: 'url1' }),
+            new DomainSkill({ name: 'web1' })
           ];
 
           expect([...skills]).to.deep.equal(expectedSkills);
@@ -111,8 +113,8 @@ describe('Unit | Repository | skill-repository', function() {
         // then
         return promise.then((skills) => {
           const expectedSkills = [
-            new DomainSkill('web2'),
-            new DomainSkill('web3'),
+            new DomainSkill({ name: 'web2' }),
+            new DomainSkill({ name: 'web3' }),
           ];
 
           expect([...skills]).to.deep.equal(expectedSkills);
