@@ -17,7 +17,7 @@ module.exports = {
     return challengeRepository.findByCompetence(competence)
       .then(challenges => {
 
-        let skills = _(challenges)
+        const skills = _(challenges)
           .map((challenge) => challenge.skills)
           .without((challenge) => _.isNil(challenge.skills))
           .flatten()
