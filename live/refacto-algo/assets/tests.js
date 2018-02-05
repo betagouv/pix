@@ -3395,6 +3395,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('models/assessment-rating.js', function () {
+      // test passed
+    });
+
     it('models/assessment.js', function () {
       // test passed
     });
@@ -3456,6 +3460,10 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/assessments/comparison.js', function () {
+      // test passed
+    });
+
+    it('routes/assessments/rating.js', function () {
       // test passed
     });
 
@@ -10600,6 +10608,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/models/assessment-rating-test.js', function () {
+      // test passed
+    });
+
     it('unit/models/challenge-test.js', function () {
       // test passed
     });
@@ -10641,6 +10653,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
     });
 
     it('unit/routes/assessments/challenge-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/assessments/rating-test.js', function () {
       // test passed
     });
 
@@ -13791,6 +13807,24 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
+define('pix-live/tests/unit/models/assessment-rating-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Model | assessment rating', function () {
+    (0, _emberMocha.setupModelTest)('assessment-rating', {
+      needs: []
+    });
+
+    // Replace this with your real tests.
+    (0, _mocha.it)('exists', function () {
+      // given
+      var model = this.subject();
+
+      // then
+      (0, _chai.expect)(model).to.be.ok;
+    });
+  });
+});
 define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -14455,42 +14489,103 @@ define('pix-live/tests/unit/routes/assessments/challenge-test', ['chai', 'mocha'
         });
       });
 
-      context('when the next challenge does not exist (is null)', function () {
-        context('when the assessment is a certification', function () {
-          (0, _mocha.it)('should redirect to the certification end page', function () {
-            // given
-            var assessment = Ember.Object.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
-            createRecordStub.returns(answerToChallengeOne);
-            queryRecordStub.rejects();
+      context('when there is no next challenge to answer', function () {
+        (0, _mocha.it)('should redirect to the assessment rating page', function () {
+          // given
+          var assessment = Ember.Object.create({ answers: [answerToChallengeOne] });
+          createRecordStub.returns(answerToChallengeOne);
+          queryRecordStub.rejects();
 
-            // when
-            var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+          // when
+          var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
 
-            // then
-            return promise.then(function () {
-              _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-              _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results');
-            });
+          // then
+          return promise.then(function () {
+            _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.rating', assessment.get('id'));
           });
         });
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
 
-        context('when the assessment is not certification', function () {
-          (0, _mocha.it)('should redirect to the assessment results page', function () {
-            // given
-            var assessment = Ember.Object.create({ answers: [answerToChallengeOne] });
-            createRecordStub.returns(answerToChallengeOne);
-            queryRecordStub.rejects();
+  (0, _mocha.describe)('Unit | Route | assessments.rating', function () {
+    (0, _emberMocha.setupTest)('route:assessments.rating', {
+      needs: ['service:current-routed-modal']
+    });
 
-            // when
-            var promise = route.actions.saveAnswerAndNavigate.call(route, challengeOne, assessment, answerValue, answerTimeout, answerElapsedTime);
+    (0, _mocha.it)('exists', function () {
+      var route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
 
-            // then
-            return promise.then(function () {
-              _sinon.default.assert.callOrder(answerToChallengeOne.save, route.transitionTo);
-              _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
-            });
-          });
+    var route = void 0;
+    var StoreStub = void 0;
+    var createRecordStub = void 0;
+    var assessmentRating = Ember.Object.create({});
+
+    beforeEach(function () {
+      // define stubs
+      assessmentRating.save = _sinon.default.stub().resolves();
+
+      createRecordStub = _sinon.default.stub().returns(assessmentRating);
+      StoreStub = Ember.Service.extend({
+        createRecord: createRecordStub
+      });
+
+      // manage dependency injection context
+      this.register('service:store', StoreStub);
+      this.inject.service('store', { as: 'store' });
+
+      // instance route object
+      route = this.subject();
+      route.transitionTo = _sinon.default.stub();
+    });
+
+    (0, _mocha.describe)('#afterModel', function () {
+
+      var challengeOne = Ember.Object.create({ id: 'recChallengeOne' });
+      var answerToChallengeOne = Ember.Object.create({ challenge: challengeOne });
+
+      context('when the assessment is a certification', function () {
+        (0, _mocha.it)('should redirect to the certification end page', function () {
+          // given
+          var assessment = Ember.Object.create({ type: 'CERTIFICATION', answers: [answerToChallengeOne] });
+
+          // when
+          route.afterModel(assessment);
+
+          // then
+          _sinon.default.assert.calledWith(route.transitionTo, 'certifications.results');
         });
+      });
+
+      context('when the assessment is not certification', function () {
+        (0, _mocha.it)('should redirect to the assessment results page', function () {
+          // given
+          var assessment = Ember.Object.create({ answers: [answerToChallengeOne] });
+
+          // when
+          route.afterModel(assessment);
+
+          // then
+          _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', assessment.get('id'));
+        });
+      });
+
+      (0, _mocha.it)('should trigger an assessment rating by creating a model and saving it', function () {
+        // given
+        var assessment = Ember.Object.create({ answers: [] });
+
+        // when
+        route.afterModel(assessment);
+
+        // then
+        _sinon.default.assert.calledWith(createRecordStub, 'assessment-rating', { assessment: assessment });
+        _sinon.default.assert.called(assessmentRating.save);
       });
     });
   });
@@ -14643,7 +14738,7 @@ define('pix-live/tests/unit/routes/assessments/resume-test', ['chai', 'mocha', '
           // then
           return promise.then(function () {
             _sinon.default.assert.calledOnce(route.transitionTo);
-            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.results', 123);
+            _sinon.default.assert.calledWith(route.transitionTo, 'assessments.rating', 123);
           });
         });
       });
