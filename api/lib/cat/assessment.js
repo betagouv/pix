@@ -1,23 +1,5 @@
 const AnswerStatus = require('../domain/models/AnswerStatus');
 
-Set.prototype.union = function(setB) {
-  const union = new Set(this);
-  for (const elem of setB) {
-    union.add(elem);
-  }
-  return union;
-};
-
-Set.prototype.difference = function(setB) {
-  const difference = new Set(this);
-
-  for (const elem of setB) {
-    difference.delete(elem);
-  }
-
-  return difference;
-};
-
 const MAX_REACHABLE_LEVEL = 5;
 const NB_PIX_BY_LEVEL = 8;
 const MAX_NUMBER_OF_CHALLENGES = 20;
@@ -73,16 +55,23 @@ class Assessment {
   }
 
   _extraValidatedSkillsIfSolved(challenge) {
-    let extraValidatedSkills = new Set();
+    const extraValidatedSkills = [];
     challenge.skills.forEach(skill => {
-      extraValidatedSkills = extraValidatedSkills.union(skill.getEasierWithin(this.course.tubes));
+      skill.getEasierWithin(this.course.tubes).forEach(skill => {
+        if(!this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill))
+          extraValidatedSkills.push(skill);
+      });
     });
-    return extraValidatedSkills.difference(this.validatedSkills).difference(this.failedSkills);
+    return extraValidatedSkills;
   }
 
   _extraFailedSkillsIfUnsolved(challenge) {
-    const extraFailedSkills = new Set(challenge.hardestSkill.getHarderWithin(this.course.tubes));
-    return extraFailedSkills.difference(this.validatedSkills).difference(this.failedSkills);
+    const extraFailedSkills = [];
+    challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(skill => {
+      if(!this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill))
+        extraFailedSkills.push(skill);
+    });
+    return extraFailedSkills;
   }
 
   _computeReward(challenge) {
@@ -98,11 +87,11 @@ class Assessment {
       .reduce((skills, answer) => {
         answer.challenge.skills.forEach(skill => {
           skill.getEasierWithin(this.course.tubes).forEach(validatedSkill => {
-            skills.add(validatedSkill);
+            skills.push(validatedSkill);
           });
         });
         return skills;
-      }, new Set());
+      }, []);
   }
 
   get failedSkills() {
@@ -114,11 +103,11 @@ class Assessment {
         // its tube and mark them all as failed
         answer.challenge.skills.forEach(skill => {
           skill.getHarderWithin(this.course.tubes).forEach(failedSkill => {
-            failedSkills.add(failedSkill);
+            failedSkills.push(failedSkill);
           });
         });
         return failedSkills;
-      }, new Set());
+      }, []);
   }
 
   get predictedLevel() {
@@ -160,7 +149,7 @@ class Assessment {
     if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
-
+    // Du plus grand au plus petit
     const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
     const randomly = () => { return 0.5 - Math.random(); };
 
@@ -182,7 +171,7 @@ class Assessment {
 
   get pixScore() {
     const pixScoreOfSkills = this.course.computePixScoreOfSkills();
-    return [...this.validatedSkills]
+    return this.validatedSkills
       .map(skill => pixScoreOfSkills[skill.name] || 0)
       .reduce((a, b) => a + b, 0);
   }
