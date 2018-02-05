@@ -795,7 +795,7 @@ describe('Unit | Service | Certification Service', function() {
       // then
       return promise.then((newCertification) => {
         sinon.assert.calledOnce(certificationCourseRepository.save);
-        sinon.assert.calledWith(certificationCourseRepository.save, { userId: userId, status: 'started' });
+        expect(certificationCourseRepository.save).to.have.been.calledWith({ userId: userId, status: 'started' });
         expect(newCertification.id).to.equal('certificationCourseWithChallenges');
       });
     });
@@ -812,9 +812,9 @@ describe('Unit | Service | Certification Service', function() {
 
       // then
       return promise.then((newCertification) => {
-        sinon.assert.calledWith(userService.getProfileToCertify, userId, '2018-02-04T00:00:00.000Z');
+        expect(userService.getProfileToCertify).to.have.been.calledWith(userId, '2018-02-04T00:00:00.000Z');
         sinon.assert.calledOnce(certificationChallengesService.saveChallenges);
-        sinon.assert.calledWith(certificationChallengesService.saveChallenges, fiveCompetencesWithLevelHigherThan0, certificationCourse);
+        expect(certificationChallengesService.saveChallenges).to.have.been.calledWith(fiveCompetencesWithLevelHigherThan0, certificationCourse);
         expect(newCertification.nbChallenges).to.equal(3);
       });
     });
