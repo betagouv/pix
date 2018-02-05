@@ -11,6 +11,8 @@ class Assessment {
     this.answers = answers;
   }
 
+  _randomly()  { return 0.5 - Math.random(); };
+
   _probaOfCorrectAnswer(level, difficulty) {
     return 1 / (1 + Math.exp(-(level - difficulty)));
   }
@@ -76,8 +78,8 @@ class Assessment {
 
   _computeReward(challenge) {
     const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).size;
-    const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).size;
+    const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).length;
+    const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).length;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
   }
 
@@ -138,7 +140,7 @@ class Assessment {
     const filteredFirstChallenges = this.filteredChallenges.filter(
       challenge => (challenge.hardestSkill.difficulty === LEVEL_FOR_FIRST_CHALLENGE) && (challenge.timer === undefined)
     );
-    filteredFirstChallenges.sort(() => 0.5 - Math.random());
+    filteredFirstChallenges.sort(this._randomly);
     return filteredFirstChallenges[0];
   }
 
@@ -151,7 +153,6 @@ class Assessment {
     }
     // Du plus grand au plus petit
     const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
-    const randomly = () => { return 0.5 - Math.random(); };
 
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
       return { challenge: challenge, reward: this._computeReward(challenge) };
@@ -166,7 +167,7 @@ class Assessment {
     const bestChallenges = challengesAndRewards
       .filter(challengeAndReward => challengeAndReward.reward === maxReward)
       .map(challengeAndReward => challengeAndReward.challenge);
-    return bestChallenges.sort(randomly)[0];
+    return bestChallenges.sort(this._randomly)[0];
   }
 
   get pixScore() {
