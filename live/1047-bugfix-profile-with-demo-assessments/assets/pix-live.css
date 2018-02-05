@@ -496,15 +496,13 @@ button.routable-modal--close:active {
   margin-bottom: 20px; }
   @media (min-width: 980px) {
     .app-footer__section {
-      margin-bottom: 0; } }
+      margin-bottom: 0;
+      justify-content: space-between; } }
 
 .app-footer__section--pix-logo {
   order: 0;
   width: 260px;
   text-align: center; }
-  @media (min-width: 980px) {
-    .app-footer__section--pix-logo {
-      width: 40%; } }
 
 .app-footer__section--contact {
   order: 1; }
@@ -519,9 +517,6 @@ button.routable-modal--close:active {
   order: 2;
   text-align: center;
   max-width: 100%; }
-  @media (min-width: 980px) {
-    .app-footer__section--marianne-logo {
-      width: 40%; } }
 
 .mariane-logo__item {
   display: inline-block;
