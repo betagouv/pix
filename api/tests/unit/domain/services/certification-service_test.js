@@ -759,7 +759,7 @@ describe('Unit | Service | Certification Service', function() {
       { id: 'competence3', estimatedLevel: 3 },
       { id: 'competence4', estimatedLevel: 4 },
       { id: 'competence5', estimatedLevel: 5 },
-      { id: 'competence5', estimatedLevel: 6 }
+      { id: 'competence6', estimatedLevel: 6 }
     ];
 
     [ { label: 'User Has No Competence', competences: noCompetences },
@@ -771,6 +771,7 @@ describe('Unit | Service | Certification Service', function() {
         // given
         const userId = 12345;
         sandbox.stub(userService, 'getProfileToCertify').resolves(testCase.competences);
+        sandbox.stub(certificationCourseRepository, 'save');
 
         // when
         const createNewCertificationPromise = certificationService.startNewCertification(userId);
@@ -778,6 +779,7 @@ describe('Unit | Service | Certification Service', function() {
         // then
         return createNewCertificationPromise.catch((error) => {
           expect(error).to.be.an.instanceOf(UserNotAuthorizedToCertifyError);
+          sinon.assert.notCalled(certificationCourseRepository.save);
         });
       });
     });
