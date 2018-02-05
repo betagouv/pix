@@ -668,9 +668,8 @@ describe('Unit | Model | Assessment', function() {
     it('should be 0 if no skill has been validated', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const skills = [];
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
@@ -685,9 +684,8 @@ describe('Unit | Model | Assessment', function() {
     it('should be 8 if validated skills are web1 among 2 (4 pix), web2 (4 pix) but not web3 among 4 (2 pix)', () => {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
-      const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const skills = [];
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1'], skills['web2']]);
       const ch2 = new Challenge('b', 'validé', [skills['web3']]);
       const course = new Course([ch1, ch2], competenceSkills);
@@ -703,8 +701,7 @@ describe('Unit | Model | Assessment', function() {
       // given
       const skillNames = ['web1', 'chi1', 'web2', 'web3', 'chi3', 'fou3', 'mis3'];
       const skills = {};
-      skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-      const competenceSkills = new Set(Object.values(skills));
+      const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
       const ch1 = new Challenge('a', 'validé', [skills['web1']]);
       const ch2 = new Challenge('b', 'validé', [skills['web2']]);
       const ch3 = new Challenge('c', 'validé', [skills['fou3']]);
@@ -724,8 +721,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web3', 'ch1', 'ch2', 'ch3', 'truc2'];
         const skills = {};
-        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-        const competenceSkills = new Set(Object.values(skills));
+        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
         const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
         const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
         const ch1Challenge = new Challenge('a', 'validé', [skills['ch1']]);
@@ -751,8 +747,7 @@ describe('Unit | Model | Assessment', function() {
         // given
         const skillNames = ['web1', 'web2', 'web3', 'ch1', 'ch2', 'ch3'];
         const skills = {};
-        skillNames.forEach(skillName => skills[skillName] = new Skill(skillName));
-        const competenceSkills = new Set(Object.values(skills));
+        const competenceSkills = skillNames.map(skillName => skills[skillName] = new Skill(skillName));
         const web1Challenge = new Challenge('a', 'validé', [skills['web1']]);
         const web2Challenge = new Challenge('a', 'validé', [skills['web2']]);
         const web3Challege = new Challenge('c', 'validé', [skills['web3']]);
