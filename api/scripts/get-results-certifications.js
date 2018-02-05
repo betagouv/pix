@@ -60,12 +60,6 @@ function toCSVRow(rowJSON) {
   return res;
 }
 
-function writeToFile(filename, fileContent) {
-  const fs = require('fs');
-  fs.writeFileSync(filename, fileContent);
-  return fileContent;
-}
-
 function main() {
   const baseUrl = process.argv[2];
   const ids = parseArgs(process.argv);
