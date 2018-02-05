@@ -76,7 +76,7 @@ class Profile {
     return assessments.filter((assessment) => {
       const courseIdFromAssessment = assessment.courseId;
       const course = this._getCourseById(courses, courseIdFromAssessment);
-      return course ? course.competences.indexOf(competenceId) > -1 : false;
+      return course ? course.competences.includes(competenceId) : false;
     });
   }
 
