@@ -23,7 +23,8 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
 }
 
 function _getChallengeType(challengeId, listOfChallenges) {
-  return _.find(listOfChallenges, challenge => challenge.id === challengeId).type;
+  const challenge =_.find(listOfChallenges, challenge => challenge.id === challengeId);
+  return challenge ? challenge.type : '';
 }
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
