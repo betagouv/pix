@@ -1,4 +1,4 @@
-const { expect, sinon } = require('../../test-helper');
+const { expect, sinon, knex } = require('../../test-helper');
 const faker = require('faker');
 
 const server = require('../../../server');
@@ -26,7 +26,7 @@ describe('Acceptance | Controller | users-controller', function() {
     attributes = {
       'first-name': faker.name.firstName(),
       'last-name': faker.name.lastName(),
-      email: faker.internet.email(),
+      email: 'fake-email@address.com',
       password: 'A124B2C3#!',
       cgu: true
     };
@@ -42,6 +42,10 @@ describe('Acceptance | Controller | users-controller', function() {
         }
       }
     };
+  });
+
+  afterEach(() => {
+    return knex('users').delete();
   });
 
   after(function() {
@@ -82,12 +86,15 @@ describe('Acceptance | Controller | users-controller', function() {
   });
 
   it('should save the user in the database', function() {
-    return server.injectThen(options).then(_ => {
-      return new User({ email: attributes.email }).fetch();
-    }).then((user) => {
-      expect(attributes['first-name']).to.equal(user.get('firstName'));
-      expect(attributes['last-name']).to.equal(user.get('lastName'));
-    });
+    return server
+      .injectThen(options)
+      .then(_ => {
+        return new User({ email: attributes.email }).fetch();
+      })
+      .then((user) => {
+        expect(attributes['first-name']).to.equal(user.get('firstName'));
+        expect(attributes['last-name']).to.equal(user.get('lastName'));
+      });
   });
 
   it('should crypt user password', function() {

@@ -33,10 +33,10 @@ module.exports = {
     const recaptchaToken = request.payload.data.attributes['recaptcha-token'];
 
     return googleReCaptcha.verify(recaptchaToken)
-      .then(() => user.save())
-      .then((user) => {
-        mailService.sendAccountCreationEmail(user.get('email'));
-        reply(userSerializer.serialize(user)).code(201);
+      .then(() => UserRepository.save(user))
+      .then((savedBookshelfUser) => {
+        mailService.sendAccountCreationEmail(savedBookshelfUser.get('email'));
+        reply(userSerializer.serialize(savedBookshelfUser)).code(201);
       }).catch((err) => {
 
         if (err instanceof InvalidRecaptchaTokenError) {
