@@ -748,7 +748,7 @@ describe('Unit | Service | Certification Service', function() {
 
     context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
       beforeEach(() => {
-        const listChallengeComp5WithTwoChallengeWhoseOneWithQROCMDEPChallenge = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
+        const listChallengeComp5WithOneQROCMDEPChallengeAndAnother = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
           _buildChallenge('challenge_B_for_competence_5', 'competence_5', 'QROCM-dep')];
 
         const listChallengeComp6WithThreeChallenge = [_buildChallenge('challenge_A_for_competence_6', 'competence_6', 'QCM'),
@@ -756,7 +756,7 @@ describe('Unit | Service | Certification Service', function() {
           _buildChallenge('challenge_C_for_competence_6', 'competence_6', 'QCM')];
 
         const competences = [
-          _buildCompetence('Compétence à valider', '5.5', 'competence_5', 50, 5, listChallengeComp5WithTwoChallengeWhoseOneWithQROCMDEPChallenge),
+          _buildCompetence('Compétence à valider', '5.5', 'competence_5', 50, 5, listChallengeComp5WithOneQROCMDEPChallengeAndAnother),
           _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6WithThreeChallenge)
         ];
         const challenges = [
