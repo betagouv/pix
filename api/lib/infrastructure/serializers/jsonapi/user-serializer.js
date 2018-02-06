@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const User = require('../../data/user');
+const BookshelfUser = require('../../../infrastructure/data/user');
 
 module.exports = {
 
@@ -11,7 +11,7 @@ module.exports = {
   },
 
   deserialize(json) {
-    return new User({
+    return new BookshelfUser({
       id: json.data.id,
       firstName: json.data.attributes['first-name'],
       lastName: json.data.attributes['last-name'],
