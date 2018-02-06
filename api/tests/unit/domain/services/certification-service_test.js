@@ -259,8 +259,8 @@ describe('Unit | Service | Certification Service', function() {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          score: 0,
-          level: UNCERTIFIED_LEVEL
+          level: UNCERTIFIED_LEVEL,
+          score: 0
         }, {
           index: '4.4',
           id: 'competence_4',
@@ -725,8 +725,8 @@ describe('Unit | Service | Certification Service', function() {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          score: 0,
-          level: UNCERTIFIED_LEVEL
+          level: UNCERTIFIED_LEVEL,
+          score: 0
         }, {
           index: '4.4',
           id: 'competence_4',
