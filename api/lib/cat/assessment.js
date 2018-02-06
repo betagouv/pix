@@ -121,6 +121,7 @@ class Assessment {
     let maxLikelihood = -Infinity;
     let level = 0.5;
     let predictedLevel = 0.5;
+    // XXX : Question : why 8  when max level is 5 ?
     while (level < 8) {
       const likelihood = this._computeLikelihood(level, this.answers);
       if (likelihood > maxLikelihood) {
@@ -153,7 +154,7 @@ class Assessment {
     if (this.answers.length >= MAX_NUMBER_OF_CHALLENGES) {
       return null;
     }
-    // Du plus grand au plus petit
+
     const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
 
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
