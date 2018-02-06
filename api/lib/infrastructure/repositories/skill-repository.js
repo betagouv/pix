@@ -1,41 +1,32 @@
 const _ = require('lodash');
 const cache = require('../cache');
-const challengeRepository = require('./challenge-repository');
-const Skill = require('../../domain/models/data/skill');
+const BookshelfSkill = require('../../domain/models/data/skill');
+const Skill = require('../../domain/models/Skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
+const airtable = require('../airtable');
+
+function _toDomain(airtableSkill) {
+  return new Skill({
+    name: airtableSkill.get('Nom')
+  })
+}
 
 module.exports = {
 
   findByCompetence(competence) {
-    const cacheKey = `skill-repository_find_by_competence_${competence.id}`;
-    const cachedSkills = cache.get(cacheKey);
+    const query = {
+      filterByFormula: `{Compétence} = "${competence.reference}"`
+    };
 
-    if (cachedSkills) {
-      return Promise.resolve(cachedSkills);
-    }
-
-    return challengeRepository.findByCompetence(competence)
-      .then(challenges => {
-
-        let skills = _(challenges)
-          .map((challenge) => challenge.skills)
-          .without((challenge) => _.isNil(challenge.skills))
-          .flatten()
-          .uniqBy('name')
-          .value();
-
-        // FIXME: Supprimer l'utilisation du Set
-        skills = new Set(skills);
-
-        cache.set(cacheKey, skills);
-
-        return skills;
+    return airtable.findRecords('Acquis', query)
+      .then((skills) => {
+        return skills.map(_toDomain);
       });
   },
 
   save(arraySkills) {
     const SkillCollection = Bookshelf.Collection.extend({
-      model: Skill
+      model: BookshelfSkill
     });
     return SkillCollection.forge(arraySkills)
       .invokeThen('save');
