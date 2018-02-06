@@ -31,7 +31,7 @@ function _buildCompetence(name, index, courseId, pixScore, estimatedLevel, chall
   competence.estimatedLevel = estimatedLevel;
   competence.name = name;
   competence.index = index;
-  competence.challenges = challenges || [];
+  competence.challenges = challenges || [{}];
   return competence;
 }
 
@@ -163,12 +163,7 @@ describe('Unit | Service | Certification Service', function() {
     const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
     const certificationCourse = { id: 'course1', status: 'completed' };
 
-    const userProfile = [
-      _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
-      _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2),
-      _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3),
-      _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4)
-    ];
+    const userProfile = competences;
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -466,13 +461,7 @@ describe('Unit | Service | Certification Service', function() {
       courseId: 'course_id'
     });
 
-    const userProfile = [
-      _buildCompetence('Mener une recherche', '1.1', 'competence_1', pixForCompetence1, 1),
-      _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2),
-      _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3),
-      _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4)
-    ];
-
+    const userProfile = competences;
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(assessmentRepository, 'get').resolves(certificationAssessement);
@@ -605,28 +594,7 @@ describe('Unit | Service | Certification Service', function() {
 
       it('should return list of competences with all certifiedLevel equal to estimatedLevel', () => {
         // given
-        const answers = _buildCorrectAnswersForAllChallenges();
-        const expectedCertifiedCompetences = [{
-          index: '1.1',
-          id: 'competence_1',
-          name: 'Mener une recherche',
-          level: 1
-        }, {
-          index: '2.2',
-          id: 'competence_2',
-          name: 'Partager',
-          level: 2
-        }, {
-          index: '3.3',
-          id: 'competence_3',
-          name: 'Adapter',
-          level: 3
-        }, {
-          index: '4.4',
-          id: 'competence_4',
-          name: 'Résoudre',
-          level: 4
-        }];
+
         const expectedCertifiedCompetences = [
           {
             index: '1.1',
@@ -776,7 +744,10 @@ describe('Unit | Service | Certification Service', function() {
         });
       });
 
-      context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
+    });
+
+    context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
+      beforeEach(() => {
         const listChallengeComp5WithTwoChallengeWhoseOneWithQROCMDEPChallenge = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
           _buildChallenge('challenge_B_for_competence_5', 'competence_5', 'QROCM-dep')];
 
@@ -795,66 +766,78 @@ describe('Unit | Service | Certification Service', function() {
           _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6'),
           _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6'),
         ];
+        certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
+        UserService.getProfileToCertify.resolves(competences);
 
-        it('should compute the result as if QROCM-dep was two OK challenges', function() {
-          // given
-          const answers = [
-            _buildAnswer('challenge_A_for_competence_5', 'ok'),
-            _buildAnswer('challenge_B_for_competence_5', 'ok'),
-            _buildAnswer('challenge_A_for_competence_6', 'ko'),
-            _buildAnswer('challenge_B_for_competence_6', 'ok'),
-            _buildAnswer('challenge_C_for_competence_6', 'ko'),
-          ];
+      });
 
-          const expectedCertifiedCompetences = [{
-            index: '5.5',
-            id: 'competence_5',
-            name: 'Compétence à valider',
-            level: 5
-          }, {
-            index: '6.6',
-            id: 'competence_6',
-            name: 'Compétence réussie moyennement',
-            level: UNCERTIFIED_LEVEL
-          }];
+      it('should compute the result as if QROCM-dep was two OK challenges', function() {
+        // given
+        answersRepository.findByAssessment.resolves([
+          _buildAnswer('challenge_A_for_competence_5', 'ok'),
+          _buildAnswer('challenge_B_for_competence_5', 'ok'),
+          _buildAnswer('challenge_A_for_competence_6', 'ko'),
+          _buildAnswer('challenge_B_for_competence_6', 'ok'),
+          _buildAnswer('challenge_C_for_competence_6', 'ko'),
+        ]);
 
-          // when
-          const result = certificationService.getResult(answers, challenges, competences);
+        const expectedCertifiedCompetences = [{
+          index: '5.5',
+          id: 'competence_5',
+          name: 'Compétence à valider',
+          level: 5,
+          score: 50
+        }, {
+          index: '6.6',
+          id: 'competence_6',
+          name: 'Compétence réussie moyennement',
+          level: UNCERTIFIED_LEVEL,
+          score: 0
+        }];
 
-          // then
+        // when
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
+
+        // then
+        return promise.then((result) => {
           expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
         });
+      });
 
-        it('should compute the result of QROCM-dep as only one OK because result is partially right', function() {
-          // given
-          const answers = [
-            _buildAnswer('challenge_A_for_competence_5', 'ok'),
-            _buildAnswer('challenge_B_for_competence_5', 'partially'),
-            _buildAnswer('challenge_A_for_competence_6', 'ko'),
-            _buildAnswer('challenge_B_for_competence_6', 'ok'),
-            _buildAnswer('challenge_C_for_competence_6', 'ok'),
-          ];
+      it('should compute the result of QROCM-dep as only one OK because result is partially right', function() {
+        // given
+        answersRepository.findByAssessment.resolves([
+          _buildAnswer('challenge_A_for_competence_5', 'ok'),
+          _buildAnswer('challenge_B_for_competence_5', 'partially'),
+          _buildAnswer('challenge_A_for_competence_6', 'ko'),
+          _buildAnswer('challenge_B_for_competence_6', 'ok'),
+          _buildAnswer('challenge_C_for_competence_6', 'ok'),
+        ]);
 
-          const expectedCertifiedCompetences = [{
-            index: '5.5',
-            id: 'competence_5',
-            name: 'Compétence à valider',
-            level: 4
-          }, {
-            index: '6.6',
-            id: 'competence_6',
-            name: 'Compétence réussie moyennement',
-            level: 2
-          }];
+        const expectedCertifiedCompetences = [{
+          index: '5.5',
+          id: 'competence_5',
+          name: 'Compétence à valider',
+          level: 4,
+          score: 42
+        }, {
+          index: '6.6',
+          id: 'competence_6',
+          name: 'Compétence réussie moyennement',
+          level: 2,
+          score: 28
+        }];
 
-          // when
-          const result = certificationService.getResult(answers, challenges, competences);
+        // when
+        const promise = certificationService.calculateCertificationResultByAssessmentId('assessment_id');
 
-          // then
+        // then
+        return promise.then((result) => {
           expect(result.listCertifiedCompetences).to.deep.equal(expectedCertifiedCompetences);
         });
       });
     });
+
   });
 
 });

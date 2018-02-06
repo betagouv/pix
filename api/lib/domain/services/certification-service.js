@@ -7,9 +7,6 @@ const _ = require('lodash');
 const answerServices = require('./answer-service');
 const AnswerStatus = require('../models/AnswerStatus');
 
-function _computeSumPixFromCompetences(listCompetences) {
-  return _.sumBy(listCompetences, competence => competence.pixScore);
-}
 const userService = require('../../../lib/domain/services/user-service');
 const assessmentRepository = require('../../../lib/infrastructure/repositories/assessment-repository');
 const answersRepository = require('../../../lib/infrastructure/repositories/answer-repository');
@@ -33,7 +30,7 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
   const answerForCompetence = _.filter(answersWithCompetences, answer => answer.get('competenceId') === competence.id);
 
   let nbOfCorrectAnswers = 0;
-  return answerForCompetence.forEach(answer => {
+  answerForCompetence.forEach(answer => {
     const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
     const answerResult = answer.get('result');
 
@@ -68,12 +65,6 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
   }
   return competence.estimatedLevel;
 }
-
-function _getMalusPix(answersWithCompetences, listCompetences, reproductibilityRate) {
-  return listCompetences.reduce((malus, competence) => {
-    const numberOfCorrectAnswers = _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence);
-    return malus + _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate);
-  }, 0);
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
   return _(listCompetences).map('score').sum();
