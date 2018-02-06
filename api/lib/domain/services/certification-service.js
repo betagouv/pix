@@ -1,7 +1,8 @@
 const minimumReproductibilityRateToBeCertified = 50;
 const minimumReproductibilityRateToBeTrusted = 80;
 const numberOfPixForOneLevel = 8;
-const uncertifiedLevel = -1;
+const UNCERTIFIED_LEVEL = -1;
+const QROCM_DEP_CHALLENGE = 'QROCM-dep';
 const _ = require('lodash');
 const answerServices = require('./answer-service');
 const AnswerStatus = require('../models/AnswerStatus');
@@ -25,28 +26,27 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
 }
 
 function _getChallengeType(challengeId, listOfChallenges) {
-  return _.find(listOfChallenges, (challenge) => challenge.id === challengeId).type;
+  return _.find(listOfChallenges, challenge => challenge.id === challengeId).type;
 }
 
 function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence) {
-  const answerForCompetence = _.filter(answersWithCompetences, answer => {
-    return answer.get('competenceId') === competence.id;
-  });
+  const answerForCompetence = _.filter(answersWithCompetences, answer => answer.get('competenceId') === competence.id);
 
-  return answerForCompetence.reduce((nbOfCorrectAnswers, answer) => {
+  let nbOfCorrectAnswers = 0;
+  return answerForCompetence.forEach(answer => {
     const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
     const answerResult = answer.get('result');
 
-    if (challengeType === 'QROCM-dep' && AnswerStatus.isOK(answerResult)) {
+    if (challengeType === QROCM_DEP_CHALLENGE && AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers += 2;
-    } else if (challengeType === 'QROCM-dep' && AnswerStatus.isPARTIALLY(answerResult)) {
+    } else if (challengeType === QROCM_DEP_CHALLENGE && AnswerStatus.isPARTIALLY(answerResult)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
     }
+  });
 
-    return nbOfCorrectAnswers;
-  }, 0);
+  return nbOfCorrectAnswers;
 }
 
 function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, reproductibilityRate) {
@@ -61,7 +61,7 @@ function _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence, r
 
 function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate) {
   if (numberOfCorrectAnswers < 2) {
-    return uncertifiedLevel;
+    return UNCERTIFIED_LEVEL;
   }
   if (reproductibilityRate < minimumReproductibilityRateToBeTrusted && numberOfCorrectAnswers === 2) {
     return competence.estimatedLevel - 1;
@@ -101,7 +101,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      level: -1,
+      level: UNCERTIFIED_LEVEL,
       score: 0
     };
   });

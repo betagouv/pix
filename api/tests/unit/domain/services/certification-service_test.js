@@ -39,6 +39,7 @@ const pixForCompetence1 = 10;
 const pixForCompetence2 = 20;
 const pixForCompetence3 = 30;
 const pixForCompetence4 = 40;
+const UNCERTIFIED_LEVEL = -1;
 
 const challengesCompetence1 = [
   _buildChallenge('challenge_A_for_competence_1', 'competence_1', 'QCM'),
@@ -251,25 +252,25 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
-          score: 0
+          score: 0,
+          level: UNCERTIFIED_LEVEL
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }];
 
@@ -703,7 +704,7 @@ describe('Unit | Service | Certification Service', function() {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          level: -1,
+          level: UNCERTIFIED_LEVEL,
           score: 0
         }];
 
@@ -756,8 +757,8 @@ describe('Unit | Service | Certification Service', function() {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          level: -1,
-          score: 0
+          score: 0,
+          level: UNCERTIFIED_LEVEL
         }, {
           index: '4.4',
           id: 'competence_4',
@@ -776,16 +777,16 @@ describe('Unit | Service | Certification Service', function() {
       });
 
       context('when challenges contains one QROCM-dep challenge to validate two skills', () => {
-        const listChallengeComp5 = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
+        const listChallengeComp5WithTwoChallengeWhoseOneWithQROCMDEPChallenge = [_buildChallenge('challenge_A_for_competence_5', 'competence_5', 'QCM'),
           _buildChallenge('challenge_B_for_competence_5', 'competence_5', 'QROCM-dep')];
 
-        const listChallengeComp6 = [_buildChallenge('challenge_A_for_competence_6', 'competence_6', 'QCM'),
+        const listChallengeComp6WithThreeChallenge = [_buildChallenge('challenge_A_for_competence_6', 'competence_6', 'QCM'),
           _buildChallenge('challenge_B_for_competence_6', 'competence_6', 'QCM'),
           _buildChallenge('challenge_C_for_competence_6', 'competence_6', 'QCM')];
 
         const competences = [
-          _buildCompetence('Compétence à valider', '5.5', 'competence_5', 50, 5, listChallengeComp5),
-          _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6)
+          _buildCompetence('Compétence à valider', '5.5', 'competence_5', 50, 5, listChallengeComp5WithTwoChallengeWhoseOneWithQROCMDEPChallenge),
+          _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6WithThreeChallenge)
         ];
         const challenges = [
           _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5'),
@@ -814,7 +815,7 @@ describe('Unit | Service | Certification Service', function() {
             index: '6.6',
             id: 'competence_6',
             name: 'Compétence réussie moyennement',
-            level: -1
+            level: UNCERTIFIED_LEVEL
           }];
 
           // when
