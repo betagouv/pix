@@ -8,14 +8,7 @@ const AirtableRecord = require('airtable').Record;
 const skillRepository = require('../../../../lib/infrastructure/repositories/skill-repository');
 const challengeRepository = require('../../../../lib/infrastructure/repositories/challenge-repository');
 
-function _buildChallenge(id, instruction, proposals, competence, status, skillNames) {
-
-  const skills = skillNames.map((skillName) => new DomainSkill({ name: skillName }));
-
-  return { id, instruction, proposals, competence, status, skills };
-}
-
-describe('Unit | Repository | skill-repository', function () {
+describe('Unit | Repository | skill-repository', function() {
 
   beforeEach(() => {
     sinon.stub(cache, 'get');
@@ -29,7 +22,7 @@ describe('Unit | Repository | skill-repository', function () {
     challengeRepository.findByCompetence.restore();
   });
 
-  describe('#findByCompetence', function () {
+  describe('#findByCompetence', function() {
 
     const competence = {
       id: 'competence_id',
@@ -46,7 +39,7 @@ describe('Unit | Repository | skill-repository', function () {
       airtable.findRecords.restore();
     });
 
-    it('should resolve skills Domain Object', function () {
+    it('should resolve skills Domain Object', function() {
       // when
       const promise = skillRepository.findByCompetence(competence);
 
@@ -56,7 +49,7 @@ describe('Unit | Repository | skill-repository', function () {
       });
     });
 
-    it('should resolve all skills from Airtable for one competence', function () {
+    it('should resolve all skills from Airtable for one competence', function() {
       //given
 
       // when
@@ -65,8 +58,8 @@ describe('Unit | Repository | skill-repository', function () {
       // then
       return promise.then((skills) => {
         expect(skills).to.have.lengthOf(2);
-        expect(skills[0]).to.be.deep.equal({ name: '@acquix1' })
-        expect(skills[1]).to.be.deep.equal({ name: '@acquix2' })
+        expect(skills[0]).to.be.deep.equal({ name: '@acquix1' });
+        expect(skills[1]).to.be.deep.equal({ name: '@acquix2' });
       });
     });
   });

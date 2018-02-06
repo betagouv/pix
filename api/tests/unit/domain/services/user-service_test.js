@@ -309,7 +309,7 @@ describe('Unit | Service | User Service', () => {
 
         context('when no challenge validate the skill', () => {
 
-          it('should not return the skill', function () {
+          it('should not return the skill', function() {
             // Given
             const answerOfOldChallenge = new Answer({
               challengeId: oldChallengeWithAlreadyValidatedSkill.id,

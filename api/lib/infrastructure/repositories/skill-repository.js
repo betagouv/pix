@@ -1,5 +1,4 @@
-const _ = require('lodash');
-const cache = require('../cache');
+//const cache = require('../cache');
 const BookshelfSkill = require('../../domain/models/data/skill');
 const Skill = require('../../domain/models/Skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
@@ -8,7 +7,7 @@ const airtable = require('../airtable');
 function _toDomain(airtableSkill) {
   return new Skill({
     name: airtableSkill.get('Nom')
-  })
+  });
 }
 
 module.exports = {
