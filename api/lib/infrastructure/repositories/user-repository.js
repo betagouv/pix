@@ -1,30 +1,30 @@
-const User = require('../data/user');
+const BookshelfUser = require('../../infrastructure/data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 
 module.exports = {
 
   findByEmail(email) {
-    return User
+    return BookshelfUser
       .where({ email })
       .fetch({ require: true });
   },
 
   findUserById(userId) {
-    return User
+    return BookshelfUser
       .where({ id: userId })
       .fetch({ require: true });
   },
 
   save(userRawData) {
-    return new User(userRawData).save();
+    return new BookshelfUser(userRawData).save();
   },
 
   validateData(userRawData) {
-    return new User(userRawData).validationErrors();
+    return new BookshelfUser(userRawData).validationErrors();
   },
 
   isEmailAvailable(email) {
-    return User
+    return BookshelfUser
       .where({ email })
       .fetch()
       .then(user => {
@@ -37,7 +37,7 @@ module.exports = {
   },
 
   updatePassword(id, password) {
-    return User.where({ id }).save({ password, cgu: true }, {
+    return BookshelfUser.where({ id }).save({ password, cgu: true }, {
       patch: true,
       require: false
     });

@@ -2,6 +2,7 @@ const { knex, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const server = require('../../../../server');
+const _ = require('lodash');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const User = require('../../../../lib/infrastructure/data/user');
@@ -9,6 +10,8 @@ const User = require('../../../../lib/infrastructure/data/user');
 describe('Unit | Controller | authentication-controller', () => {
 
   const password = 'A124B2C3#!';
+  const userEmail = 'emailWithSomeCamelCase@example.net';
+  const userEmailSavedInDb = _.toLower(userEmail);
   let replyStub;
   let codeStub;
   let user;
@@ -17,7 +20,7 @@ describe('Unit | Controller | authentication-controller', () => {
     return new User({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
-      email: faker.internet.email(),
+      email: userEmailSavedInDb,
       password,
       cgu: true
     }).save().then((createdUser) => {

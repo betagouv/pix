@@ -11,7 +11,8 @@ const UserSerializer = require('../../infrastructure/serializers/jsonapi/user-se
 module.exports = {
   save(request, reply) {
 
-    let user = UserSerializer.deserialize((request.payload));
+    const user = UserSerializer.deserialize((request.payload));
+    let bookshelfUser;
 
     return UserRepository.findByEmail(user.email)
       .then(foundUser => {
@@ -20,13 +21,13 @@ module.exports = {
           return Promise.reject();
         }
 
-        user = foundUser;
+        bookshelfUser = foundUser;
         return encrypt.check(user.password, foundUser.get('password'));
       })
       .then(_ => {
-        const token = tokenService.createTokenFromUser(user);
+        const token = tokenService.createTokenFromUser(bookshelfUser);
 
-        const authentication = new Authentication(user.get('id'), token);
+        const authentication = new Authentication(bookshelfUser.get('id'), token);
         return reply(authenticationSerializer.serialize(authentication)).code(201);
       })
       .catch(() => {

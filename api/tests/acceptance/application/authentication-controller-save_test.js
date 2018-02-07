@@ -16,13 +16,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
   let user;
   const userEmail = 'emailWithSomeCamelCase@example.net';
+  const userEmailSavedInDb = _.toLower(userEmail);
 
   const userPassword = 'A124B2C3#!';
 
   before(() => {
-
-    const userEmailSavedInDb = _.toLower(userEmail);
-
     return new User({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
