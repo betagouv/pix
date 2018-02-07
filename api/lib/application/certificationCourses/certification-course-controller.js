@@ -6,11 +6,23 @@ const certificationCourseSerializer = require('../../infrastructure/serializers/
 
 module.exports = {
 
-  getResult(request, reply) {
+  computeResult(request, reply) {
     const certificationCourseId = request.params.id;
 
     return certificationService.calculateCertificationResultByCertificationCourseId(certificationCourseId)
       .then(reply)
+      .catch((err) => {
+        logger.error(err);
+        reply(Boom.badImplementation(err));
+      });
+  },
+
+  getResult(request, reply) {
+    const certificationCourseId = request.params.id;
+    return certificationService.getCertificationResult(certificationCourseId)
+      .then(certificationResult => {
+        reply(certificationCourseSerializer.serializeResult(certificationResult));
+      })
       .catch((err) => {
         logger.error(err);
         reply(Boom.badImplementation(err));

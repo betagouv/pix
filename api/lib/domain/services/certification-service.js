@@ -171,6 +171,24 @@ module.exports = {
       .then(_getCertificationResult);
   },
 
+  getCertificationResult(certificationCourseId) {
+    let assessment;
+    return assessmentRepository
+      .getByCertificationCourseId(certificationCourseId)
+      .then(foundAssessement => {
+        assessment = foundAssessement;
+        return certificationCourseRepository.get(certificationCourseId);
+      })
+      .then(certification => {
+        return {
+          pixScore: assessment.pixScore,
+          createdAt: certification.createdAt,
+          completedAt: certification.completedAt,
+          marksByCompetence: assessment.marks
+        };
+      });
+  },
+
   startNewCertification(userId) {
     let userCompetencesToCertify;
     const newCertificationCourse = new CertificationCourse({ userId, status: 'started' });
