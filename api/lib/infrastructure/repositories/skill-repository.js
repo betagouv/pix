@@ -1,4 +1,3 @@
-//const cache = require('../cache');
 const BookshelfSkill = require('../../domain/models/data/skill');
 const Skill = require('../../domain/models/Skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
