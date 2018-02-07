@@ -1,5 +1,3 @@
-const User = require('../../infrastructure/data/user');
-
 const encrypt = require('../../domain/services/encryption-service');
 const tokenService = require('../../domain/services/token-service');
 
@@ -7,15 +5,15 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
+const UserRepository = require('../../infrastructure/repositories/user-repository');
+const UserSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 module.exports = {
   save(request, reply) {
 
-    let user;
-    const { password, email } = _extractAttributes(request);
+    let user = UserSerializer.deserialize((request.payload));
 
-    return new User({ email })
-      .fetch()
+    return UserRepository.findByEmail(user.email)
       .then(foundUser => {
 
         if (foundUser === null) {
@@ -23,7 +21,7 @@ module.exports = {
         }
 
         user = foundUser;
-        return encrypt.check(password, foundUser.get('password'));
+        return encrypt.check(user.password, foundUser.get('password'));
       })
       .then(_ => {
         const token = tokenService.createTokenFromUser(user);
@@ -37,10 +35,6 @@ module.exports = {
       });
   }
 };
-
-function _extractAttributes(request) {
-  return request.payload.data.attributes;
-}
 
 function _buildError() {
   return {
