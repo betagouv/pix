@@ -13,7 +13,7 @@ module.exports = {
 
   findByCompetence(competence) {
     const query = {
-      filterByFormula: `{Compétence} = "${competence.reference}"`
+      filterByFormula: `FIND('${competence.index}', {Compétence})`
     };
 
     return airtable.findRecords('Acquis', query)

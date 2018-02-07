@@ -96,7 +96,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', function() {
     nock('https://api.airtable.com')
       .get('/v0/test-base/Acquis')
       .query({
-        filterByFormula: '{Compétence} = "1.1 Mener une recherche et une veille d’information"'
+        filterByFormula: 'FIND(\'1.1\', {Compétence})'
       })
       .reply(200, {
         'id': 'idAcquix'
