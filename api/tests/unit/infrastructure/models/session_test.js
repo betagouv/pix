@@ -52,10 +52,10 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           sinon.assert.fail();
         })
         .catch((err) => {
-          const certificationCenterError = err.data['address'];
-          expect(certificationCenterError).to.exist;
+          const addressError = err.data['address'];
+          expect(addressError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez d\'adresse.']);
+          expect(addressError).to.deep.equal(['Vous n\'avez pas renseignez d\'adresse.']);
         });
     });
 
@@ -73,10 +73,10 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           sinon.assert.fail();
         })
         .catch((err) => {
-          const certificationCenterError = err.data['examiner'];
-          expect(certificationCenterError).to.exist;
+          const examinerError = err.data['examiner'];
+          expect(examinerError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez d\'examinateur.']);
+          expect(examinerError).to.deep.equal(['Vous n\'avez pas renseignez d\'examinateur.']);
         });
     });
 
@@ -94,10 +94,10 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           sinon.assert.fail();
         })
         .catch((err) => {
-          const certificationCenterError = err.data['room'];
-          expect(certificationCenterError).to.exist;
+          const roomError = err.data['room'];
+          expect(roomError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez de salle.']);
+          expect(roomError).to.deep.equal(['Vous n\'avez pas renseignez de salle.']);
         });
     });
 
@@ -115,10 +115,10 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           sinon.assert.fail();
         })
         .catch((err) => {
-          const certificationCenterError = err.data['date'];
-          expect(certificationCenterError).to.exist;
+          const dateError = err.data['date'];
+          expect(dateError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez de date de session.']);
+          expect(dateError).to.deep.equal(['Vous n\'avez pas renseignez de date de session.']);
         });
     });
 
@@ -136,10 +136,10 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           sinon.assert.fail();
         })
         .catch((err) => {
-          const certificationCenterError = err.data['time'];
-          expect(certificationCenterError).to.exist;
+          const timeError = err.data['time'];
+          expect(timeError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez d\'heure de session.']);
+          expect(timeError).to.deep.equal(['Vous n\'avez pas renseignez d\'heure de session.']);
         });
     });
 

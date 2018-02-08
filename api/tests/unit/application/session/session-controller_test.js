@@ -8,7 +8,7 @@ const Session = require('../../../../lib/domain/models/Session');
 
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
-describe('Unit | Controller | organizationController', () => {
+describe('Unit | Controller | sessionController', () => {
 
   let sandbox;
   let codeStub;
