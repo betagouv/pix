@@ -61,7 +61,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
 
     it('should fail when the examiner is empty', () => {
       // Given
-      rawData.examiner= '';
+      rawData.examiner = '';
       const session = new BookshelfSession(rawData);
 
       // When
@@ -101,7 +101,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
         });
     });
 
-    it('should fail when the date is empty', () => {
+    it('should fail when the date is empty or not in format (jj/mm/yyyy)', () => {
       // Given
       rawData.date = '';
       const session = new BookshelfSession(rawData);
@@ -118,11 +118,11 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const dateError = err.data['date'];
           expect(dateError).to.exist;
 
-          expect(dateError).to.deep.equal(['Vous n\'avez pas renseignez de date de session.']);
+          expect(dateError).to.deep.equal(['Veuillez renseigner une date de session au format (jj/mm/yyyy).']);
         });
     });
 
-    it('should fail when the time is empty', () => {
+    it('should fail when the time is empty or not in format (hh:mm)', () => {
       // Given
       rawData.time = '';
       const session = new BookshelfSession(rawData);
@@ -139,10 +139,9 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const timeError = err.data['time'];
           expect(timeError).to.exist;
 
-          expect(timeError).to.deep.equal(['Vous n\'avez pas renseignez d\'heure de session.']);
+          expect(timeError).to.deep.equal(['Veuillez renseigner une heure de session au format (hh:mm).']);
         });
     });
 
   });
-
 });
