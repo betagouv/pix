@@ -31,7 +31,7 @@ module.exports = Bookshelf.model('Session', {
     }],
     time: [{
       method: 'matches',
-      error: '&',
+      error: 'Veuillez renseigner une heure de session au format (hh:mm).',
       args: /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/
     }]
   }
