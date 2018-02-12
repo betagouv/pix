@@ -20,9 +20,10 @@ function getAdaptedAssessment(answersPix, challengesPix, skills) {
   const catSkills = skills.map(skill => new CatSkill(skill.name));
   const course = new CatCourse(challenges, catSkills);
 
-  const answers = answersPix.map(answer =>
-    new CatAnswer(challenges.find((challenge) => challenge.id === answer.get('challengeId')), answer.get('result'))
-  );
+  const answers = answersPix.map(answer => {
+    const challengeOfTheAnswer = challenges.find((challenge) => challenge.id === answer.get('challengeId'));
+    return new CatAnswer(challengeOfTheAnswer, answer.get('result'));
+  });
 
   return new CatAssessment(course, answers);
 }

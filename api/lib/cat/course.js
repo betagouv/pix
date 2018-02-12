@@ -8,6 +8,7 @@ class Course {
 
   get tubes() {
     const tubes = {};
+
     this.challenges.forEach(challenge => {
       challenge.skills.forEach(skill => {
         const tubeName = skill.tubeName;
@@ -39,3 +40,4 @@ class Course {
 }
 
 module.exports = Course;
+

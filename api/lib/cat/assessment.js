@@ -56,7 +56,7 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  _extraValidatedSkillsIfSolved(challenge) {
+  _getValidatedSkills(challenge) {
     const extraValidatedSkills = [];
     challenge.skills.forEach(skill => {
       skill.getEasierWithin(this.course.tubes).forEach(skill => {
@@ -67,7 +67,7 @@ class Assessment {
     return extraValidatedSkills;
   }
 
-  _extraFailedSkillsIfUnsolved(challenge) {
+  _getFailedSkills(challenge) {
     const extraFailedSkills = [];
     challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(skill => {
       if(!this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill))
@@ -78,8 +78,8 @@ class Assessment {
 
   _computeReward(challenge) {
     const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = this._extraValidatedSkillsIfSolved(challenge).length;
-    const nbFailedSkillsIfUnsolved = this._extraFailedSkillsIfUnsolved(challenge).length;
+    const nbExtraSkillsIfSolved = this._getValidatedSkills(challenge).length;
+    const nbFailedSkillsIfUnsolved = this._getFailedSkills(challenge).length;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
   }
 
