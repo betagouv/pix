@@ -82,13 +82,13 @@ describe('Acceptance | API | Certification Course', function() {
         expect(result.attributes['pix-score']).to.equal(42);
         expect(result.attributes['created-at']).to.equal('2017-12-21 15:44:38');
         expect(result.attributes['completed-at']).to.equal('2017-12-21T15:48:38.468Z');
-        expect(result.attributes['marks-by-competence']).to.have.lengthOf(2);
+        expect(result.attributes['list-certified-competences']).to.have.lengthOf(2);
 
-        const firstCertifiedCompetence = result.attributes['marks-by-competence'][0];
+        const firstCertifiedCompetence = result.attributes['list-certified-competences'][0];
         expect(firstCertifiedCompetence.level).to.equal(2);
         expect(firstCertifiedCompetence['competence-code']).to.equal('4.3');
 
-        const secondCertifiedCompetence = result.attributes['marks-by-competence'][1];
+        const secondCertifiedCompetence = result.attributes['list-certified-competences'][1];
         expect(secondCertifiedCompetence.level).to.equal(4);
         expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
         done();

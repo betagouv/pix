@@ -19,7 +19,7 @@ module.exports = {
 
   serializeResult(certificationCourseResult) {
     return new Serializer('results', {
-      attributes: ['pixScore', 'createdAt', 'completedAt', 'marksByCompetence']
+      attributes: ['pixScore', 'createdAt', 'completedAt', 'listCertifiedCompetences']
     }).serialize(certificationCourseResult);
   }
 };

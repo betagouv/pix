@@ -971,7 +971,7 @@ describe('Unit | Service | Certification Service', function() {
         pixScore: 20,
         createdAt: '2017-12-23 15:23:12',
         completedAt: '2017-12-23T16:23:12.232Z',
-        marksByCompetence: [
+        listCertifiedCompetences: [
           {
             level:3,
             competence_code: '2.1'

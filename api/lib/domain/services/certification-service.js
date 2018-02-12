@@ -184,7 +184,7 @@ module.exports = {
           pixScore: assessment.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          marksByCompetence: assessment.marks
+          listCertifiedCompetences: assessment.marks
         };
       });
   },
