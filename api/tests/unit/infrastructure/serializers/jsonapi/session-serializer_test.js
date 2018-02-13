@@ -34,7 +34,7 @@ describe('UNIT | Seializer | JSONAPI | session-serializer', function() {
 
   describe('#serialize()', function() {
 
-    it('should convert an Session model object into JSON API data', function() {
+    it('should convert a Session model object into JSON API data', function() {
       // when
       const json = serializer.serialize(modelSession);
 
