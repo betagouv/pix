@@ -18,11 +18,13 @@ describe('Unit | Controller | PasswordController', () => {
 
     describe('When payload has a good format: ', () => {
 
+      const userEmail = 'shi@fu.me';
+
       const request = {
         payload: {
           data: {
             attributes: {
-              email: 'shi@fu.me'
+              email: userEmail
             }
           }
         }
@@ -33,7 +35,7 @@ describe('Unit | Controller | PasswordController', () => {
 
       beforeEach(() => {
         sandbox = sinon.sandbox.create();
-        replyStub = sandbox.stub();
+
         sandbox.stub(userService, 'isUserExistingByEmail');
         sandbox.stub(mailService, 'sendResetPasswordDemandEmail');
         sandbox.stub(resetPasswordService, 'generateTemporaryKey');
@@ -41,6 +43,12 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
         sandbox.stub(passwordResetSerializer, 'serialize');
+
+        replyStub = sandbox.stub();
+        replyStub.returns({
+          code: () => {
+          }
+        });
       });
 
       afterEach(() => {
@@ -52,10 +60,6 @@ describe('Unit | Controller | PasswordController', () => {
         it('should verify user existence (by email)', () => {
           // given
           userService.isUserExistingByEmail.resolves();
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
           const promise = passwordController.createResetDemand(request, replyStub);
@@ -63,7 +67,34 @@ describe('Unit | Controller | PasswordController', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledOnce(userService.isUserExistingByEmail);
-            sinon.assert.calledWith(userService.isUserExistingByEmail, request.payload.data.attributes.email);
+            sinon.assert.calledWith(userService.isUserExistingByEmail, userEmail);
+          });
+        });
+
+        it('should verify user existence without being case sensitive', () => {
+          // given
+          userService.isUserExistingByEmail.resolves();
+
+          const userEmailWithCamelCase = 'my_VERY_email@example.net';
+          const normalizedUserEmail = 'my_very_email@example.net';
+
+          const request = {
+            payload: {
+              data: {
+                attributes: {
+                  email: userEmailWithCamelCase
+                }
+              }
+            }
+          };
+
+          //when
+          const promise = passwordController.createResetDemand(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            sinon.assert.calledOnce(userService.isUserExistingByEmail);
+            sinon.assert.calledWith(userService.isUserExistingByEmail, normalizedUserEmail);
           });
         });
 
@@ -74,10 +105,6 @@ describe('Unit | Controller | PasswordController', () => {
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExistingByEmail.rejects(error);
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
           const promise = passwordController.createResetDemand(request, replyStub);
@@ -97,10 +124,6 @@ describe('Unit | Controller | PasswordController', () => {
         // given
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.invalidOldResetPasswordDemand.resolves();
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -117,10 +140,6 @@ describe('Unit | Controller | PasswordController', () => {
         const generatedToken = 'token';
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -138,10 +157,6 @@ describe('Unit | Controller | PasswordController', () => {
         userService.isUserExistingByEmail.resolves();
         resetPasswordService.generateTemporaryKey.returns(generatedToken);
         resetPasswordRepository.create.resolves();
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -167,10 +182,6 @@ describe('Unit | Controller | PasswordController', () => {
           }
         };
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
-        replyStub.returns({
-          code: () => {
-          }
-        });
 
         //when
         const promise = passwordController.createResetDemand(request, replyStub);
@@ -196,10 +207,6 @@ describe('Unit | Controller | PasswordController', () => {
         };
         mailService.sendResetPasswordDemandEmail.resolves(resolvedPasswordReset);
         resetPasswordRepository.create.resolves(resolvedPasswordReset);
-        replyStub.returns({
-          code: () => {
-          }
-        });
         passwordResetSerializer.serialize.resolves();
 
         // when
@@ -220,13 +227,8 @@ describe('Unit | Controller | PasswordController', () => {
           const serializedError = {};
           errorSerializer.serialize.returns(serializedError);
           userService.isUserExistingByEmail.rejects(error);
-          replyStub.returns({
-            code: () => {
-            }
-          });
 
           //when
-
           const promise = passwordController.createResetDemand(request, replyStub);
 
           // then

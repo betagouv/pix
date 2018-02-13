@@ -58,7 +58,7 @@ describe('Acceptance | Controller | session-controller', function() {
     before(() => knex('sessions').delete());
     afterEach(() => knex('sessions').delete());
 
-    it( 'should return an OK status after saving in database', () => {
+    it('should return an OK status after saving in database', () => {
       // when
       const promise = server.inject(options);
 
