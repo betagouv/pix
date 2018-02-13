@@ -76,8 +76,8 @@ class Assessment {
     return extraFailedSkills;
   }
 
-  _computeReward(challenge) {
-    const proba = this._probaOfCorrectAnswer(this.predictedLevel, challenge.hardestSkill.difficulty);
+  _computeReward(challenge, predictedLevel) {
+    const proba = this._probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
     const nbExtraSkillsIfSolved = this._getValidatedSkills(challenge).length;
     const nbFailedSkillsIfUnsolved = this._getFailedSkills(challenge).length;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
@@ -114,7 +114,7 @@ class Assessment {
       }, []);
   }
 
-  get predictedLevel() {
+  _getPredictedLevel() {
     if (this.answers.length === 0) {
       return LEVEL_FOR_FIRST_CHALLENGE;
     }
@@ -156,9 +156,9 @@ class Assessment {
     }
 
     const byDescendingRewards = (a, b) => { return b.reward - a.reward; };
-
+    const predictedLevel = this._getPredictedLevel();
     const challengesAndRewards = this.filteredChallenges.map(challenge => {
-      return { challenge: challenge, reward: this._computeReward(challenge) };
+      return { challenge: challenge, reward: this._computeReward(challenge, predictedLevel) };
     });
     const challengeWithMaxReward = challengesAndRewards.sort(byDescendingRewards)[0];
     const maxReward = challengeWithMaxReward.reward;

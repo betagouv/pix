@@ -99,15 +99,7 @@ describe('Unit | Model | Assessment', function() {
     });
   });
 
-  describe('#predictedLevel', function() {
-    it('should exist', function() {
-      // given
-      const course = new Course([]);
-      const assessment = new Assessment(course, []);
-
-      // then
-      expect(assessment.predictedLevel).to.exist;
-    });
+  describe('#_getPredictedLevel', function() {
 
     it('should return 2 if user did not provide any answers so far', function() {
       // given
@@ -115,7 +107,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment.predictedLevel).to.be.equal(2);
+      expect(assessment._getPredictedLevel()).to.be.equal(2);
     });
 
     it('should return 4.5 if user answered correctly a question of maxDifficulty 4 but failed at 5', function() {
@@ -134,7 +126,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, answers);
 
       // when
-      const predictedLevel = assessment.predictedLevel;
+      const predictedLevel = assessment._getPredictedLevel();
 
       // then
       expect(predictedLevel).to.equal(4.5);
@@ -358,7 +350,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1)).to.equal(2);
+      expect(assessment._computeReward(ch1,2)).to.equal(2);
     });
 
     it('should be 2.73 if challenge requires url3 within url2-3-4-5 and no answer has been given yet', function() {
@@ -375,7 +367,7 @@ describe('Unit | Model | Assessment', function() {
       const assessment = new Assessment(course, []);
 
       // then
-      expect(assessment._computeReward(ch1)).to.equal(2.7310585786300052);
+      expect(assessment._computeReward(ch1,2)).to.equal(2.7310585786300052);
     });
   });
 
