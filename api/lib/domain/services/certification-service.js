@@ -72,7 +72,7 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
-  return _(listCompetences).map('score').sum();
+  return _(listCompetences).map('scoreObtained').sum();
 }
 
 function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate) {
@@ -83,8 +83,9 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      level: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
-      score: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
+      levelPositioned: competence.estimatedLevel,
+      levelObtained: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
+      scoreObtained: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
         reproductibilityRate)
     };
   });
@@ -97,8 +98,9 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      level: uncertifiedLevel,
-      score: 0
+      levelPositioned: competence.estimatedLevel,
+      levelObtained: uncertifiedLevel,
+      scoreObtained: 0
     };
   });
 }
@@ -113,9 +115,9 @@ function _checkIfUserCanStartACertification(userCompetences) {
 }
 
 function _getResult(listAnswers, listChallenges, listCompetences) {
-  const reproductibilityRate = answerServices.getAnswersSuccessRate(listAnswers);
+  const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
-    return { competencesWithMark: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0 };
+    return { competencesWithMark: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0, percentageCorrectAnswers: reproductibilityRate };
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
@@ -123,6 +125,28 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
   return { competencesWithMark, totalScore: scoreAfterRating };
+}
+
+function _getChallengeInformation(listAnswers, testedCompetences) {
+  const informationsAboutAnswers = listAnswers.map(answer => {
+    let testedSkill = '';
+    let competenceTested = '';
+    testedCompetences.forEach(competence => {
+      const challenge = competence.challenges.find(challenge => challenge.id === answer.get('challengeId'));
+      if (challenge) {
+        testedSkill = challenge.testedSkill;
+        competenceTested = competence.index;
+      }
+    });
+    return {
+      result: answer.get('result'),
+      value: answer.get('value'),
+      challengeId: answer.get('challengeId'),
+      competence: competenceTested,
+      skill: testedSkill
+    };
+  });
+  return informationsAboutAnswers;
 }
 
 function _getCertificationResult(assessment) {
@@ -153,6 +177,7 @@ function _getCertificationResult(assessment) {
       result.userId = assessment.userId;
       result.status = certificationCourse.status;
       result.completedAt = certificationCourse.completedAt;
+      result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, testedCompetences);
       return result;
     });
 }
