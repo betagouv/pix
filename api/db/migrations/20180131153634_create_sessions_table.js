@@ -12,6 +12,7 @@ exports.up = (knex) => {
     t.date('date').notNullable();
     t.time('time').notNullable();
     t.text('description').defaultTo('');
+    t.dateTime('createdAt').notNullable().defaultTo(knex.fn.now());
   }
 
   return knex.schema
