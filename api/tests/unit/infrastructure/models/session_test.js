@@ -34,7 +34,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const certificationCenterError = err.data['certificationCenter'];
           expect(certificationCenterError).to.exist;
 
-          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseignez de centre de certification.']);
+          expect(certificationCenterError).to.deep.equal(['Vous n\'avez pas renseigné de centre de certification.']);
         });
     });
 
@@ -55,7 +55,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const addressError = err.data['address'];
           expect(addressError).to.exist;
 
-          expect(addressError).to.deep.equal(['Vous n\'avez pas renseignez d\'adresse.']);
+          expect(addressError).to.deep.equal(['Vous n\'avez pas renseigné d\'adresse.']);
         });
     });
 
@@ -76,7 +76,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const examinerError = err.data['examiner'];
           expect(examinerError).to.exist;
 
-          expect(examinerError).to.deep.equal(['Vous n\'avez pas renseignez d\'examinateur.']);
+          expect(examinerError).to.deep.equal(['Vous n\'avez pas renseigné d\'examinateur.']);
         });
     });
 
@@ -97,7 +97,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const roomError = err.data['room'];
           expect(roomError).to.exist;
 
-          expect(roomError).to.deep.equal(['Vous n\'avez pas renseignez de salle.']);
+          expect(roomError).to.deep.equal(['Vous n\'avez pas renseigné de salle.']);
         });
     });
 
@@ -118,7 +118,28 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const dateError = err.data['date'];
           expect(dateError).to.exist;
 
-          expect(dateError).to.deep.equal(['Veuillez renseigner une date de session au format (jj/mm/yyyy).']);
+          expect(dateError).to.deep.equal(['Veuillez renseigné une date de session au format (jj/mm/yyyy).']);
+        });
+    });
+
+    it('should fail when the date is invalid', () => {
+      // Given
+      rawData.date = '31/02/2018';
+      const session = new BookshelfSession(rawData);
+
+      // When
+      const promise = session.save();
+
+      // Then
+      return promise
+        .then(() => {
+          sinon.assert.fail();
+        })
+        .catch((err) => {
+          const dateError = err.data['date'];
+          expect(dateError).to.exist;
+
+          expect(dateError).to.deep.equal(['Veuillez renseigné une date de session au format (jj/mm/yyyy).']);
         });
     });
 
@@ -139,7 +160,7 @@ describe('Unit | Infrastructure | Models | BookshelfSession', () => {
           const timeError = err.data['time'];
           expect(timeError).to.exist;
 
-          expect(timeError).to.deep.equal(['Veuillez renseigner une heure de session au format (hh:mm).']);
+          expect(timeError).to.deep.equal(['Veuillez renseigné une heure de session au format (hh:mm).']);
         });
     });
 
