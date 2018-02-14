@@ -38,7 +38,7 @@ describe('Acceptance | Certification | Start Course', function() {
 
     });
 
-    context.skip('When user is logged in', function() {
+    context('When user is logged in', function() {
 
       beforeEach(async function() {
         authenticateAsSimpleUser();
@@ -47,7 +47,7 @@ describe('Acceptance | Certification | Start Course', function() {
 
       it('should be redirected on the first challenge of an assessment', function() {
         // then
-        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/1/);
+        expect(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
       });
 
       it('should navigate to next challenge when we click pass', async function() {
@@ -55,14 +55,16 @@ describe('Acceptance | Certification | Start Course', function() {
         await click('.challenge-actions__action-skip-text');
 
         // then
-        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+        expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
       });
 
       it('should navigate to redirect to certification result page at the end of the assessment', async function() {
         // given
         await click('.challenge-actions__action-skip');
+        await click('.challenge-actions__action-skip');
 
         // when
+        await click('.challenge-item-warning__confirm-btn');
         await click('.challenge-actions__action-skip');
 
         // then
@@ -71,19 +73,20 @@ describe('Acceptance | Certification | Start Course', function() {
 
     });
 
-    context.skip('When stop and relaunch the certification course', function() {
+    context('When stop and relaunch the certification course', function() {
 
       it('should be redirected on the second challenge of an assessment', async function() {
         // given
+        authenticateAsSimpleUser();
         await visit('/certifications?code=10ue1');
-        await click('.challenge-actions__action-skip-text');
+        await click('.challenge-actions__action-skip');
         await visit('/compte');
 
         // when
         await visit('/certifications/certification-number');
 
         // then
-        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+        expect(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
       });
 
     });
