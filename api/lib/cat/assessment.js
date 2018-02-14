@@ -51,7 +51,7 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  _skillNotKnownYet(skill){
+  _skillNotKnownYet(skill) {
     return !this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill);
   }
 
