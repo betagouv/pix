@@ -23,6 +23,7 @@ class Answer {
     if (difficulties.length > 0) {
       return Math.max(...difficulties);
     } else {
+      // XXX : to avoid problem when challenge has no skill/ when we cannot get challenge
       return BASE_DIFFICULTY;
     }
   }
