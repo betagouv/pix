@@ -1,6 +1,7 @@
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
+import getAssessments from './routes/get-assessments';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getAuthenticatedUser from './routes/get-user-me';
 import getChallenge from './routes/get-challenge';
@@ -22,7 +23,7 @@ import postRefreshSolution from './routes/post-refresh-solution';
 import { Response } from 'ember-cli-mirage';
 
 export default function() {
-  this.logging = false;
+  this.logging = true;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {
   });
@@ -40,6 +41,7 @@ export default function() {
   this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
+  this.get('/assessments', getAssessments);
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
@@ -56,7 +58,7 @@ export default function() {
 
   //Courses
   this.get('/courses/:id', getCourse);
-  this.post('/certification-courses', postCertificationCourse);
+  this.post('/courses', postCertificationCourse);
 
   this.post('/authentications', postAuthentications);
   this.get('/users/me', getAuthenticatedUser);
@@ -72,6 +74,7 @@ export default function() {
 
   this.post('/followers');
   this.post('/users');
+  this.post('/assessment-ratings');
 
   this.post('/password-reset-demands', (schema, request) => {
     const attrs = JSON.parse(request.requestBody);
