@@ -32,18 +32,13 @@ class Assessment {
     return -Math.abs(diffBetweenResultAndProbaToResolve.reduce((a, b) => a + b));
   }
 
-  _isAnActiveChallenge(challenge) {
-    const unactiveChallengeStatus = ['validé', 'validé sans test', 'pré-validé'];
-    return unactiveChallengeStatus.includes(challenge.status);
-  }
-
-  _isAnNotAnsweredChallenge(challenge, answeredChallenges) {
+  _isChallengeNotAnsweredYet(challenge, answeredChallenges) {
     return !answeredChallenges.includes(challenge);
   }
 
   _isAnAvailableChallenge(challenge) {
     const answeredChallenges = this.answers.map(answer => answer.challenge);
-    return this._isAnActiveChallenge(challenge) && this._isAnNotAnsweredChallenge(challenge, answeredChallenges);
+    return challenge.isActive && this._isChallengeNotAnsweredYet(challenge, answeredChallenges);
   }
 
   _isPreviousChallengeTimed() {
