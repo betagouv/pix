@@ -126,27 +126,29 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
 
   return { competencesWithMark, totalScore: scoreAfterRating };
 }
+function _getChallengesWithCompetenceInfo(testedCompetences) {
+  return testedCompetences.reduce((challengesWithCompetenceInfo, competence) => {
+    const challenges = competence.challenges.map(challenge => {
+      challenge.competence = competence.index;
+      return challenge;
+    });
+    challengesWithCompetenceInfo = challengesWithCompetenceInfo.concat(challenges);
+    return challengesWithCompetenceInfo;
+  }, []);
+}
 
 function _getChallengeInformation(listAnswers, testedCompetences) {
-  const informationsAboutAnswers = listAnswers.map(answer => {
-    let testedSkill = '';
-    let competenceTested = '';
-    testedCompetences.forEach(competence => {
-      const challenge = competence.challenges.find(challenge => challenge.id === answer.get('challengeId'));
-      if (challenge) {
-        testedSkill = challenge.testedSkill;
-        competenceTested = competence.index;
-      }
-    });
+  const challengesWithCompetence = _getChallengesWithCompetenceInfo(testedCompetences);
+  return listAnswers.map(answer => {
+    const challenge = challengesWithCompetence.find(challenge => challenge.id === answer.get('challengeId')) || {};
     return {
       result: answer.get('result'),
       value: answer.get('value'),
       challengeId: answer.get('challengeId'),
-      competence: competenceTested,
-      skill: testedSkill
+      competence: challenge.competence || '',
+      skill: challenge.testedSkill || ''
     };
   });
-  return informationsAboutAnswers;
 }
 
 function _getCertificationResult(assessment) {
