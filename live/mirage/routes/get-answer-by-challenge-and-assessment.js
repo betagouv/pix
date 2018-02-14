@@ -34,6 +34,18 @@ export default function(schema, request) {
   if (answer) {
     return answer.obj;
   }
+
+  // FIX
+  const validJSONAPI = {
+    data : {
+      type : 'answers',
+      id : 10000,
+      attributes : {
+        value : 'kikou'
+      }
+    }
+  };
+
   // TODO make it work for real
-  return schema.answers.first();
+  return schema.answers.first() || validJSONAPI;
 }
