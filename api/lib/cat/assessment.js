@@ -51,30 +51,35 @@ class Assessment {
     return availableChallenges.filter(challenge => challenge.timer === undefined);
   }
 
-  _getValidatedSkills(challenge) {
-    const extraValidatedSkills = [];
-    challenge.skills.forEach(skill => {
-      skill.getEasierWithin(this.course.tubes).forEach(skill => {
-        if(!this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill))
-          extraValidatedSkills.push(skill);
-      });
-    });
-    return extraValidatedSkills;
+  _skillNotKnownYet(skill){
+    return !this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill);
   }
 
-  _getFailedSkills(challenge) {
-    const extraFailedSkills = [];
-    challenge.hardestSkill.getHarderWithin(this.course.tubes).forEach(skill => {
-      if(!this.validatedSkills.includes(skill) && !this.failedSkills.includes(skill))
-        extraFailedSkills.push(skill);
-    });
-    return extraFailedSkills;
+  _getNewSkillsInfoIfChallengeSolved(challenge) {
+    return challenge.skills.reduce((extraValidatedSkills,skill) => {
+      skill.getEasierWithin(this.course.tubes).forEach(skill => {
+        if(this._skillNotKnownYet(skill)) {
+          extraValidatedSkills.push(skill);
+        }
+      });
+      return extraValidatedSkills;
+    }, []);
+  }
+
+  _getNewSkillsInfoIfChallengeUnsolved(challenge) {
+    return challenge.hardestSkill.getHarderWithin(this.course.tubes)
+      .reduce((extraFailedSkills, skill) => {
+        if(this._skillNotKnownYet(skill)) {
+          extraFailedSkills.push(skill);
+        }
+        return extraFailedSkills;
+      }, []);
   }
 
   _computeReward(challenge, predictedLevel) {
     const proba = this._probaOfCorrectAnswer(predictedLevel, challenge.hardestSkill.difficulty);
-    const nbExtraSkillsIfSolved = this._getValidatedSkills(challenge).length;
-    const nbFailedSkillsIfUnsolved = this._getFailedSkills(challenge).length;
+    const nbExtraSkillsIfSolved = this._getNewSkillsInfoIfChallengeSolved(challenge).length;
+    const nbFailedSkillsIfUnsolved = this._getNewSkillsInfoIfChallengeUnsolved(challenge).length;
     return proba * nbExtraSkillsIfSolved + (1 - proba) * nbFailedSkillsIfUnsolved;
   }
 
