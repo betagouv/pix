@@ -15,7 +15,7 @@ function _convertSnapshotsWithRelatedUsersToJson(snapshotsWithRelatedUsers) {
 
 function _convertSnapshotsFromJsonToCsv(snapshotsCsvConverter, organization, jsonSnapshots) {
   const jsonData = {
-    organizationType: organization.get('type'),
+    organizationType: organization.type,
     snapshots: jsonSnapshots
   };
   return snapshotsCsvConverter.convertJsonToCsv(jsonData);

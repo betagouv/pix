@@ -30,7 +30,8 @@ module.exports = {
   get(id) {
     return Organization
       .where({ id })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(organization => organization.toDomainEntity());
   },
 
   findBy(filters) {

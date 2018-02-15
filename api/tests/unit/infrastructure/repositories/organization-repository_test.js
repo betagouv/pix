@@ -177,11 +177,10 @@ describe('Unit | Repository | OrganizationRepository', function() {
           .then((foundOrganization) => {
             expect(foundOrganization).to.exist;
             expect(foundOrganization).to.be.an('object');
-            expect(foundOrganization.attributes.email).to.equal(insertedOrganization.email);
-            expect(foundOrganization.attributes.type).to.equal(insertedOrganization.type);
-            expect(foundOrganization.attributes.name).to.equal(insertedOrganization.name);
-            expect(foundOrganization.attributes.userId).to.equal(insertedOrganization.userId);
-            expect(foundOrganization.attributes.id).to.equal(insertedOrganization.id);
+            expect(foundOrganization.email).to.equal(insertedOrganization.email);
+            expect(foundOrganization.type).to.equal(insertedOrganization.type);
+            expect(foundOrganization.name).to.equal(insertedOrganization.name);
+            expect(foundOrganization.id).to.equal(insertedOrganization.id);
           });
       });
 

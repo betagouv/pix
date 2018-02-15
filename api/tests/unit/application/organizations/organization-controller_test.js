@@ -555,98 +555,34 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#exportedSharedSnapshots', () => {
 
-    let sandbox;
-
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
-      sandbox.stub(logger, 'error');
-      sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(snapshotSerializer, 'serialize');
-      sandbox.stub(validationErrorSerializer, 'serialize');
-      sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
-      sandbox.stub(snapshotsCsvConverter, 'convertJsonToCsv');
+      sinon.stub(organizationService, 'getOrganizationSharedProfilesAsCsv').resolves();
     });
 
     afterEach(() => {
-      sandbox.restore();
+      organizationService.getOrganizationSharedProfilesAsCsv.restore();
     });
 
     describe('Collaborations', function() {
 
-      it('should call snapshot repository', () => {
-        // given
-        snapshotRepository.getSnapshotsByOrganizationId.resolves();
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotRepository.getSnapshotsByOrganizationId);
-          sinon.assert.calledWith(snapshotRepository.getSnapshotsByOrganizationId, 7);
-        });
-      });
-
-      it('should call snapshot converter', () => {
-        // given
-        const snapshots = [{
-          toJSON: () => {
-            return {};
-          }
-        }];
-        snapshotRepository.getSnapshotsByOrganizationId.resolves({});
-        bookshelfUtils.mergeModelWithRelationship.resolves(snapshots);
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
-
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
-
-        // then
-        return promise.then(() => {
-          sinon.assert.calledOnce(snapshotsCsvConverter.convertJsonToCsv);
-          sinon.assert.calledWith(snapshotsCsvConverter.convertJsonToCsv, [{}]);
-        });
-      });
-
       it('should call a reply function', () => {
         // given
-        const snapshots = [];
-        const serializedSnapshots = { data: [] };
-        snapshotRepository.getSnapshotsByOrganizationId.resolves(snapshots);
-        snapshotSerializer.serialize.resolves(serializedSnapshots);
         const request = {
           params: {
             id: 7
           }
         };
-
-        const reply = sinon.stub().returns({
-          code: () => {
-          }
-        });
+        const header = sinon.stub();
+        header.returns({ header }); // <--- "inception"... I'm sure you appreciate it ;-)
+        const response = { header };
+        const reply = () => response;
 
         // when
         const promise = organizationController.exportedSharedSnapshots(request, reply);
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(reply);
+          expect(response.header).to.have.been.calledTwice;
         });
       });
 
