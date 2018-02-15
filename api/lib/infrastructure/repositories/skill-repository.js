@@ -15,7 +15,6 @@ module.exports = {
     const query = {
       filterByFormula: `FIND('${competence.index}', {Compétence})`
     };
-
     return airtable.findRecords('Acquis', query)
       .then((skills) => {
         return skills.map(_toDomain);
