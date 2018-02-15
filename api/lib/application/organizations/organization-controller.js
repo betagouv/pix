@@ -82,9 +82,14 @@ module.exports = {
   },
 
   exportedSharedSnapshots: (request, reply) => {
-    return _extractSnapshotsForOrganization(request.params.id)
+    let organization;
+    return organisationRepository.get(request.params.id)
+      .then(organizationFromDB => {
+        organization = organizationFromDB;
+        return _extractSnapshotsForOrganization(request.params.id);
+      })
       .then((jsonSnapshots) => {
-        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
+        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots, organization);
       })
       .then((snapshotsTextCsv) => reply(snapshotsTextCsv)
         .header('Content-Type', 'text/csv')

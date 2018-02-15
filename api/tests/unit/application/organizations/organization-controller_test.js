@@ -561,6 +561,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(logger, 'error');
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
+      sandbox.stub(organisationRepository, 'get').resolves({});
       sandbox.stub(snapshotSerializer, 'serialize');
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');
@@ -572,6 +573,27 @@ describe('Unit | Controller | organizationController', () => {
     });
 
     describe('Collaborations', function() {
+
+      it('should call organization repository to get organization informations', () => {
+        // given
+        const request = {
+          params: {
+            id: 7
+          }
+        };
+        const reply = sinon.stub().returns({
+          code: () => {
+          }
+        });
+        // when
+        const promise = organizationController.exportedSharedSnapshots(request, reply);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(organisationRepository.get);
+          sinon.assert.calledWith(organisationRepository.get, 7);
+        });
+      });
 
       it('should call snapshot repository', () => {
         // given
