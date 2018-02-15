@@ -90,6 +90,7 @@ jobs:
       - run: |
           npm run lint
           npm test
+          npm run db:seed
 
   deploy_server:
     <<: *server_properties
@@ -114,7 +115,6 @@ jobs:
               npm run deploy:staging
             else
               npm run deploy:integration
-              npm run db:seed
             fi
 
   # Client side
