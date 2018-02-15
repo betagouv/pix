@@ -1,29 +1,40 @@
 const moment = require('moment');
 const _ = require('lodash');
 
-const headersWithoutCompetences = ['"Nom"', '"Prenom"', '"Numero Etudiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Realises"'];
-
 module.exports = {
   convertJsonToCsv(jsonData) {
     let textCsv = '';
 
-    if(_emptyData(jsonData)) {
+    if (_emptyData(jsonData)) {
       return textCsv;
     }
 
-    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile));
-    textCsv += jsonData.map(_createProfileLine).join('');
+    textCsv += _createHeaderLine(jsonData);
+    textCsv += jsonData.snapshots.map(_createProfileLine).join('');
 
     return textCsv;
   }
 };
 
-function _createHeaderLine(jsonProfil) {
-  let textCsvLineHeaders = headersWithoutCompetences.join(';');
+function _getHeaderForIdentificationCode(organizationType) {
+  switch (organizationType) {
+    case 'SUP':
+      return 'Numero Etudiant';
+    case 'SCO':
+      return 'Numero INE';
+    case 'PRO':
+    default:
+      return 'ID-Pix';
+  }
+}
 
-  textCsvLineHeaders += ';';
+function _createHeaderLine(jsonData) {
+  const identificationCodeHeader = _getHeaderForIdentificationCode(jsonData.organizationType);
 
-  const listCompetences = _cleanArrayCompetences(jsonProfil.included);
+  let textCsvLineHeaders = `"Nom";"Prenom";"${identificationCodeHeader}";"Code Campagne";"Date";"Score Pix";"Tests Realises";`;
+
+  const jsonProfile = _fromStringOrJsonToJson(jsonData.snapshots[0].profile)
+  const listCompetences = _cleanArrayCompetences(jsonProfile.included);
 
   textCsvLineHeaders += listCompetences.map(_.property('name')).join(';');
 
@@ -69,21 +80,23 @@ function _cleanArrayCompetences(arrayCompetences) {
 function _verifyCorrectCompetence(competence) {
   return competence.type === 'competences' && competence.attributes.name;
 }
+
 function _emptyData(jsonData) {
-  return !jsonData[0];
+  return !jsonData.snapshots || jsonData.snapshots.length === 0;
 }
 
 function _cleanCompetenceName(name) {
   return name
-    .replace(/é/g,'e')
-    .replace(/é/g,'e')
-    .replace(/ê/g,'e');
+    .replace(/é/g, 'e')
+    .replace(/é/g, 'e')
+    .replace(/ê/g, 'e');
 }
 
 function _fromStringOrJsonToJson(data) {
-  if(typeof data === 'string') {
+  if (typeof data === 'string') {
     return JSON.parse(data);
   } else {
     return data;
   }
 }
+
