@@ -37,6 +37,8 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 $ git clone git@github.com:sgmap/pix.git && cd pix
 ```
 
+⚠️ Penser à renseigner sa clé SSH dans GitHub pour pouvoir récupérer / publier les sources depuis l'URL Git.
+
 **2/ Lancer le script de configuration de l'environnement**
 
 ```bash
