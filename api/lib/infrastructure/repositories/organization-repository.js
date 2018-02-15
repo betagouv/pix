@@ -12,7 +12,7 @@ module.exports = {
       .fetch()
       .then(organizations => {
 
-        if(organizations) {
+        if (organizations) {
           return Promise.reject();
         }
 
@@ -29,7 +29,7 @@ module.exports = {
 
   get(id) {
     return Organization
-      .where({ id: id })
+      .where({ id })
       .fetch({ require: true });
   },
 

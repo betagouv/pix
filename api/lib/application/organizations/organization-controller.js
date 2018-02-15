@@ -1,6 +1,6 @@
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
-const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+const organizationRepository = require('../../infrastructure/repositories/organization-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -41,7 +41,7 @@ module.exports = {
       .then(_generateUniqueOrganizationCode)
       .then((code) => {
         organization.set('code', code);
-        return organisationRepository.saveFromModel(organization);
+        return organizationRepository.saveFromModel(organization);
       })
       .then((organization) => {
         reply(organizationSerializer.serialize(organization));
@@ -60,7 +60,7 @@ module.exports = {
 
     const params = _extractFilters(request);
 
-    return organisationRepository
+    return organizationRepository
       .findBy(params)
       .then(organizations => reply(organizationSerializer.serialize(organizations)))
       .catch(err => {
@@ -82,13 +82,20 @@ module.exports = {
   },
 
   exportedSharedSnapshots: (request, reply) => {
-    return _extractSnapshotsForOrganization(request.params.id)
-      .then((jsonSnapshots) => {
-        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots);
-      })
-      .then((snapshotsTextCsv) => reply(snapshotsTextCsv)
-        .header('Content-Type', 'text/csv')
-        .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`)
+    const dependencies = {
+      organizationRepository,
+      snapshotRepository,
+      bookshelfUtils,
+      snapshotsCsvConverter,
+    };
+    const organizationId = request.params.id;
+
+    return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
+      .then((snapshotsTextCsv) => {
+          return reply(snapshotsTextCsv)
+            .header('Content-Type', 'text/csv')
+            .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
+        }
       )
       .catch((err) => {
         logger.error(err);
@@ -127,7 +134,7 @@ function _extractUserInformation(request, organization) {
 function _generateUniqueOrganizationCode() {
   const code = organizationService.generateOrganizationCode();
 
-  return organisationRepository.isCodeAvailable(code)
+  return organizationRepository.isCodeAvailable(code)
     .then((code) => {
       return code;
     })
