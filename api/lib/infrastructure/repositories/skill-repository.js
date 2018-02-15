@@ -1,4 +1,4 @@
-const BookshelfSkill = require('../../domain/models/data/skill');
+const BookshelfSkill = require('../../infrastructure/data/skill');
 const Skill = require('../../domain/models/Skill');
 const Bookshelf = require('../../infrastructure/bookshelf');
 const airtable = require('../airtable');
