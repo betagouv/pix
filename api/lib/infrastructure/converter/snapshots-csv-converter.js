@@ -1,24 +1,36 @@
 const moment = require('moment');
 const _ = require('lodash');
 
-const headersWithoutCompetences = ['"Nom"', '"Prenom"', '"Numero Etudiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Realises"'];
+const headersWithoutCompetences = ['"Nom"', '"Prenom"', '"Identifiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Realises"'];
 
 module.exports = {
-  convertJsonToCsv(jsonData) {
+  convertJsonToCsv(jsonData, organization) {
     let textCsv = '';
 
     if(_emptyData(jsonData)) {
       return textCsv;
     }
 
-    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile));
+    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile), organization.type);
     textCsv += jsonData.map(_createProfileLine).join('');
 
     return textCsv;
   }
 };
 
-function _createHeaderLine(jsonProfil) {
+function _createHeaderLine(jsonProfil, organizationType) {
+  switch(organizationType) {
+    case 'SCO':
+      headersWithoutCompetences[2] = '"Numero INE"';
+      break;
+    case 'SUP':
+      headersWithoutCompetences[2] = '"Numero Etudiant"';
+      break;
+    case 'PRO':
+      headersWithoutCompetences[2] = '"ID Pix"';
+      break;
+    default:break;
+  }
   let textCsvLineHeaders = headersWithoutCompetences.join(';');
 
   textCsvLineHeaders += ';';

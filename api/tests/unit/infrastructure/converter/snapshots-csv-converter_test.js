@@ -44,7 +44,23 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     }
   }];
 
-  const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
+  const orgaSUP = {
+    id: 'orgaSUP',
+    type: 'SUP'
+  };
+
+  const orgaSCO = {
+    id: 'orgaSCO',
+    type: 'SCO'
+  };
+
+  const orgaPRO = {
+    id: 'orgaPRO',
+    type: 'PRO'
+  };
+  const expectedTextHeadersCSVForPRO = '"Nom";"Prenom";"ID Pix";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
+  const expectedTextHeadersCSVForSUP = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
+  const expectedTextHeadersCSVForSCO = '"Nom";"Prenom";"Numero INE";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
   const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="1/2";2;\n';
 
@@ -52,7 +68,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should convert an JSON object to a String Object', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv({});
+      const result = snapshotsConverter.convertJsonToCsv({},orgaSUP);
 
       // then
       expect(result).to.be.a('string');
@@ -60,17 +76,31 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     });
 
-    it('should set first line with headers informations', () => {
+    it('should set first line with headers informations for SUP organization', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaSUP);
 
       // then
-      expect(result).to.contains(expectedTextHeadersCSV);
+      expect(result).to.contains(expectedTextHeadersCSVForSUP);
+    });
+    it('should set first line with headers informations for SCO organization', () => {
+      // when
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaSCO);
+
+      // then
+      expect(result).to.contains(expectedTextHeadersCSVForSCO);
+    });
+    it('should set first line with headers informations for PRO organization', () => {
+      // when
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaPRO);
+
+      // then
+      expect(result).to.contains(expectedTextHeadersCSVForPRO);
     });
 
     it('should set informations for users', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,orgaSUP);
 
       // then
       expect(result).to.contains(expectedTextCSVFirstUser);
@@ -79,10 +109,12 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should return string with headers and users informations in this exact order', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,orgaSUP);
 
       // then
-      expect(result).to.contains(expectedTextHeadersCSV + expectedTextCSVFirstUser + expectedTextCSVSecondUser);
+      expect(result).to.contains(expectedTextHeadersCSVForSUP + expectedTextCSVFirstUser + expectedTextCSVSecondUser);
     });
+
+
   });
 });
