@@ -6,7 +6,7 @@ module.exports = {
     const snapshotRaw = {
       organizationId: snapshot.organization.id,
       testsFinished: snapshot.testsFinished,
-      studentCode: snapshot.studentCode,
+      idPix: snapshot.idPix,
       campaignCode: snapshot.campaignCode,
       userId: user.id,
       score: serializedProfile.data.attributes['total-pix-score'],

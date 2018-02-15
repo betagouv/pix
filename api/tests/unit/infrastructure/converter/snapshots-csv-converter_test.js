@@ -22,7 +22,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     score: '22',
     profile: profile1WithEmptyCompentece,
     createdAt: '2017-10-13 09:00:59',
-    studentCode: 'UNIV123',
+    idPix: 'UNIV123',
     campaignCode: 'CAMPAIGN123',
     testsFinished: 2,
     user: {
@@ -35,7 +35,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     score: null,
     profile: profile2,
     createdAt: '2017-10-12 16:55:50',
-    studentCode: 'AAA',
+    idPix: 'AAA',
     campaignCode: 'EEE',
     testsFinished: 1,
     user: {

@@ -9,7 +9,7 @@ export default Model.extend({
   createdAt: attr('date'),
   organization: belongsTo('organization'),
   user: belongsTo('user'),
-  studentCode: attr('string'),
+  idPix: attr('string'),
   campaignCode: attr('string'),
   numberOfTestsFinished: computed('testsFinished', function() {
     return this.get('testsFinished') || 0;

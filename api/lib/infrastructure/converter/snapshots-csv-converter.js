@@ -49,7 +49,7 @@ function _createProfileLine(snapshot) {
 
   snapshotCsvLine += [`"${snapshot.user.lastName}"`,
     `"${snapshot.user.firstName}"`,
-    `"${snapshot.studentCode || ''}"`,
+    `"${snapshot.idPix || ''}"`,
     `"${snapshot.campaignCode || ''}"`,
     moment(snapshot.createdAt).format('DD/MM/YYYY'),
     snapshot.score || '']

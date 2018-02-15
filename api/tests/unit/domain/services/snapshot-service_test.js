@@ -8,7 +8,7 @@ describe('Unit | Service | Snapshot service', function() {
   const snapshot = {
     organizationId: 3,
     testsFinished: 10,
-    studentCode: 'student_code',
+    idPix: 'id_pix',
     campaignCode: 'campaign_code',
     organization: { id: 3 }
   };
@@ -108,7 +108,7 @@ describe('Unit | Service | Snapshot service', function() {
         userId: 2,
         organizationId: 3,
         testsFinished: 10,
-        studentCode: 'student_code',
+        idPix: 'id_pix',
         campaignCode: 'campaign_code',
         score: 128,
         profile: JSON.stringify(serializedProfile)

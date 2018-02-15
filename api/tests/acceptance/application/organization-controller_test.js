@@ -149,7 +149,7 @@ describe('Acceptance | Controller | organization-controller', function() {
               score: '15',
               'tests-finished': '1',
               'created-at': '2017-08-31 15:57:06',
-              'student-code': null,
+              'id-pix': null,
               'campaign-code': null
             },
             relationships: {
@@ -351,6 +351,7 @@ function _insertSnapshot(organizationId, userId) {
     testsFinished: 1,
     userId,
     score: 15,
+    idPix: 'id_pix',
     profile: JSON.stringify(serializedUserProfile),
     createdAt: '2017-08-31 15:57:06'
   };
