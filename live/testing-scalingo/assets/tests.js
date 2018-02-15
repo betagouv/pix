@@ -8704,7 +8704,7 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.exist;
         });
 
-        (0, _mocha.it)('should ask for campaign code (optionnal)', function () {
+        (0, _mocha.it)('should ask for campaign code (optional)', function () {
           // then
           (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.exist;
         });
@@ -8749,14 +8749,14 @@ define('pix-live/tests/integration/components/share-profile-test', ['chai', 'moc
           }));
         });
 
-        (0, _mocha.it)('should not ask for student code (required)', function () {
+        (0, _mocha.it)('should ask for ID-Pix (optional)', function () {
           // then
-          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.not.exist;
+          (0, _chai.expect)(document.querySelector('.share-profile__student-code-input')).to.exist;
         });
 
-        (0, _mocha.it)('should not ask for campaign code (optionnal)', function () {
+        (0, _mocha.it)('should ask for campaign code (optional)', function () {
           // then
-          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.not.exist;
+          (0, _chai.expect)(document.querySelector('.share-profile__campaign-code-input')).to.exist;
         });
       });
 
@@ -13366,28 +13366,39 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
       });
     });
 
-    (0, _mocha.describe)('#isOrganizationHasTypeSup', function () {
+    (0, _mocha.describe)('#isOrganizationHasTypeSupOrPro', function () {
 
       (0, _mocha.it)('should return "true" when organization type is "SUP"', function () {
         // given
         component.set('_organization', Ember.Object.create({ type: 'SUP' }));
 
         // when
-        var isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+        var isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
 
         // then
-        (0, _chai.expect)(isOrganizationHasTypeSup).to.be.true;
+        (0, _chai.expect)(isOrganizationHasTypeSupOrPro).to.be.true;
       });
 
-      (0, _mocha.it)('should return "false" when organization type is not "SUP"', function () {
+      (0, _mocha.it)('should return "true" when organization type is "PRO"', function () {
+        // given
+        component.set('_organization', Ember.Object.create({ type: 'PRO' }));
+
+        // when
+        var isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
+
+        // then
+        (0, _chai.expect)(isOrganizationHasTypeSupOrPro).to.be.true;
+      });
+
+      (0, _mocha.it)('should return "false" when organization type is "SCO"', function () {
         // given
         component.set('_organization', Ember.Object.create({ type: 'SCO' }));
 
         // when
-        var isOrganizationHasTypeSup = component.get('isOrganizationHasTypeSup');
+        var isOrganizationHasTypeSupOrPro = component.get('isOrganizationHasTypeSupOrPro');
 
         // then
-        (0, _chai.expect)(isOrganizationHasTypeSup).to.be.false;
+        (0, _chai.expect)(isOrganizationHasTypeSupOrPro).to.be.false;
       });
     });
 
