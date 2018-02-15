@@ -44,20 +44,6 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     }
   }];
 
-  const orgaSUP = {
-    id: 'orgaSUP',
-    type: 'SUP'
-  };
-
-  const orgaSCO = {
-    id: 'orgaSCO',
-    type: 'SCO'
-  };
-
-  const orgaPRO = {
-    id: 'orgaPRO',
-    type: 'PRO'
-  };
   const expectedTextHeadersCSVForPRO = '"Nom";"Prenom";"ID Pix";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
   const expectedTextHeadersCSVForSUP = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
   const expectedTextHeadersCSVForSCO = '"Nom";"Prenom";"Numero INE";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
@@ -68,7 +54,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should convert an JSON object to a String Object', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv({},orgaSUP);
+      const result = snapshotsConverter.convertJsonToCsv({},'SUP');
 
       // then
       expect(result).to.be.a('string');
@@ -78,21 +64,21 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should set first line with headers informations for SUP organization', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaSUP);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, 'SUP');
 
       // then
       expect(result).to.contains(expectedTextHeadersCSVForSUP);
     });
     it('should set first line with headers informations for SCO organization', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaSCO);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, 'SCO');
 
       // then
       expect(result).to.contains(expectedTextHeadersCSVForSCO);
     });
     it('should set first line with headers informations for PRO organization', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, orgaPRO);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots, 'PRO');
 
       // then
       expect(result).to.contains(expectedTextHeadersCSVForPRO);
@@ -100,7 +86,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should set informations for users', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,orgaSUP);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,'SUP');
 
       // then
       expect(result).to.contains(expectedTextCSVFirstUser);
@@ -109,7 +95,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     it('should return string with headers and users informations in this exact order', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,orgaSUP);
+      const result = snapshotsConverter.convertJsonToCsv(jsonSnapshots,'SUP');
 
       // then
       expect(result).to.contains(expectedTextHeadersCSVForSUP + expectedTextCSVFirstUser + expectedTextCSVSecondUser);

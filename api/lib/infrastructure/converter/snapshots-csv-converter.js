@@ -4,14 +4,14 @@ const _ = require('lodash');
 const headersWithoutCompetences = ['"Nom"', '"Prenom"', '"Identifiant"', '"Code Campagne"', '"Date"', '"Score Pix"', '"Tests Realises"'];
 
 module.exports = {
-  convertJsonToCsv(jsonData, organization) {
+  convertJsonToCsv(jsonData, organizationType) {
     let textCsv = '';
 
     if(_emptyData(jsonData)) {
       return textCsv;
     }
 
-    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile), organization.type);
+    textCsv += _createHeaderLine(_fromStringOrJsonToJson(jsonData[0].profile), organizationType);
     textCsv += jsonData.map(_createProfileLine).join('');
 
     return textCsv;

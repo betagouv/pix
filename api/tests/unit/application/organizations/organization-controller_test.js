@@ -561,7 +561,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox = sinon.sandbox.create();
       sandbox.stub(logger, 'error');
       sandbox.stub(snapshotRepository, 'getSnapshotsByOrganizationId');
-      sandbox.stub(organisationRepository, 'get').resolves({});
+      sandbox.stub(organisationRepository, 'get').resolves(new Organisation());
       sandbox.stub(snapshotSerializer, 'serialize');
       sandbox.stub(validationErrorSerializer, 'serialize');
       sandbox.stub(bookshelfUtils, 'mergeModelWithRelationship');

@@ -89,7 +89,7 @@ module.exports = {
         return _extractSnapshotsForOrganization(request.params.id);
       })
       .then((jsonSnapshots) => {
-        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots, organization);
+        return snapshotsCsvConverter.convertJsonToCsv(jsonSnapshots, organization.get('type'));
       })
       .then((snapshotsTextCsv) => reply(snapshotsTextCsv)
         .header('Content-Type', 'text/csv')
