@@ -53,8 +53,8 @@ export default function(server) {
 
   server.create('course', {
     id: 'certification-number',
-    'nb-challenges' : 3,
-    type : 'CERTIFICATION',
+    nbChallenges : 3,
+    type : 'CERTIFICATION'
   });
 
   prescriber.organization = company;

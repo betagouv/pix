@@ -25,8 +25,7 @@ import { Response } from 'ember-cli-mirage';
 export default function() {
   this.logging = true;
   this.passthrough('/write-coverage');
-  this.post('https://fonts.googleapis.com/**', () => {
-  });
+  this.post('https://fonts.googleapis.com/**', () => {});
 
   this.urlPrefix = 'http://localhost:3000';
   this.namespace = '/api';
