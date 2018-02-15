@@ -8,6 +8,7 @@ const tokenService = require('../../domain/services/token-service');
 const passwordResetSerializer = require('../../infrastructure/serializers/jsonapi/password-reset-serializer');
 const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const logger = require('../../infrastructure/logger');
 
 const resetPasswordDemandRepository = require('../../infrastructure/repositories/reset-password-demands-repository');
 const userRepository = require('../../infrastructure/repositories/user-repository');
@@ -41,6 +42,7 @@ module.exports = {
           return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
 
+        logger.error(err);
         return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   },

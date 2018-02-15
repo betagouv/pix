@@ -1,4 +1,5 @@
-const { sinon } = require('../../../test-helper');
+const { sinon, expect } = require('../../../test-helper');
+
 const User = require('../../../../lib/infrastructure/data/user');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
 const userService = require('../../../../lib/domain/services/user-service');
@@ -11,6 +12,8 @@ const passwordResetSerializer = require('../../../../lib/infrastructure/serializ
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+
+const logger = require('../../../../lib/infrastructure/logger');
 
 describe('Unit | Controller | PasswordController', () => {
 
@@ -43,6 +46,7 @@ describe('Unit | Controller | PasswordController', () => {
         sandbox.stub(resetPasswordRepository, 'create');
         sandbox.stub(errorSerializer, 'serialize');
         sandbox.stub(passwordResetSerializer, 'serialize');
+        sandbox.stub(logger, 'error');
 
         replyStub = sandbox.stub();
         replyStub.returns({
@@ -118,6 +122,19 @@ describe('Unit | Controller | PasswordController', () => {
           });
         });
 
+        it('should log the error when something turns wrong', () => {
+          // given
+          const error = new Error();
+          userService.isUserExistingByEmail.rejects(error);
+
+          //when
+          const promise = passwordController.createResetDemand(request, replyStub);
+
+          // then
+          return promise.then(() => {
+            expect(logger.error).to.have.been.calledWith(error);
+          });
+        });
       });
 
       it('should invalid old reset password demand', () => {
