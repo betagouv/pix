@@ -251,6 +251,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: 0
         }, {
           index: '2.2',
@@ -258,6 +259,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: 0
         }, {
           index: '3.3',
@@ -265,6 +267,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Adapter',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: 0
         }, {
           index: '4.4',
@@ -272,6 +275,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Résoudre',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: 0
         }];
 
@@ -311,6 +315,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Mener une recherche',
             levelObtained: 1,
             levelPositioned: 1,
+            scorePositioned: 10,
             scoreObtained: pixForCompetence1
           }, {
             index: '2.2',
@@ -318,6 +323,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Partager',
             levelObtained: 2,
             levelPositioned: 2,
+            scorePositioned: 20,
             scoreObtained: pixForCompetence2
           }, {
             index: '3.3',
@@ -325,6 +331,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Adapter',
             levelObtained: 3,
             levelPositioned: 3,
+            scorePositioned: 30,
             scoreObtained: pixForCompetence3
           }, {
             index: '4.4',
@@ -332,6 +339,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Résoudre',
             levelObtained: 4,
             levelPositioned: 4,
+            scorePositioned: 40,
             scoreObtained: pixForCompetence4
           }
         ];
@@ -369,6 +377,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: 1,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: pixForCompetence1
         }, {
           index: '2.2',
@@ -376,6 +385,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: 2,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: pixForCompetence2
         }, {
           index: '3.3',
@@ -383,6 +393,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Adapter',
           levelObtained: 3,
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: pixForCompetence3
         }, {
           index: '4.4',
@@ -391,6 +402,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: 0
         }];
 
@@ -433,6 +445,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: 0,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
@@ -440,6 +453,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: 2,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: pixForCompetence2
         }, {
           index: '3.3',
@@ -448,6 +462,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: 0
         }, {
           index: '4.4',
@@ -455,6 +470,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Résoudre',
           levelObtained: 3,
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: pixForCompetence4 - malusForFalseAnswer
         }];
 
@@ -476,6 +492,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: 0,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
@@ -483,12 +500,14 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: 2,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
           levelPositioned: 3,
+          scorePositioned: 30,
           levelObtained: UNCERTIFIED_LEVEL,
 
           scoreObtained: 0
@@ -498,6 +517,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Résoudre',
           levelObtained: 3,
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: pixForCompetence4 - malusForFalseAnswer
         }];
 
@@ -708,6 +728,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: 0
         }, {
           index: '2.2',
@@ -716,6 +737,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: 0
         }, {
           index: '3.3',
@@ -724,6 +746,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: 0
         }, {
           index: '4.4',
@@ -732,6 +755,7 @@ describe('Unit | Service | Certification Service', function() {
           levelObtained: UNCERTIFIED_LEVEL,
 
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: 0
         }];
 
@@ -772,6 +796,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Mener une recherche',
             levelObtained: 1,
             levelPositioned: 1,
+            scorePositioned: 10,
             scoreObtained: pixForCompetence1
           }, {
             index: '2.2',
@@ -779,6 +804,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Partager',
             levelObtained: 2,
             levelPositioned: 2,
+            scorePositioned: 20,
             scoreObtained: pixForCompetence2
           }, {
             index: '3.3',
@@ -786,6 +812,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Adapter',
             levelObtained: 3,
             levelPositioned: 3,
+            scorePositioned: 30,
             scoreObtained: pixForCompetence3
           }, {
             index: '4.4',
@@ -793,6 +820,7 @@ describe('Unit | Service | Certification Service', function() {
             name: 'Résoudre',
             levelObtained: 4,
             levelPositioned: 4,
+            scorePositioned: 40,
             scoreObtained: pixForCompetence4
           }
         ];
@@ -830,6 +858,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: 1,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: pixForCompetence1
         }, {
           index: '2.2',
@@ -837,6 +866,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: 2,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: pixForCompetence2
         }, {
           index: '3.3',
@@ -844,6 +874,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Adapter',
           levelObtained: 3,
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: pixForCompetence3
         }, {
           index: '4.4',
@@ -851,6 +882,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Résoudre',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: 0
         }];
 
@@ -894,6 +926,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Mener une recherche',
           levelObtained: 0,
           levelPositioned: 1,
+          scorePositioned: 10,
           scoreObtained: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
@@ -901,6 +934,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Partager',
           levelObtained: 2,
           levelPositioned: 2,
+          scorePositioned: 20,
           scoreObtained: pixForCompetence2
         }, {
           index: '3.3',
@@ -908,6 +942,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Adapter',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 3,
+          scorePositioned: 30,
           scoreObtained: 0
         }, {
           index: '4.4',
@@ -915,6 +950,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Résoudre',
           levelObtained: 3,
           levelPositioned: 4,
+          scorePositioned: 40,
           scoreObtained: pixForCompetence4 - malusForFalseAnswer
         }];
 
@@ -970,6 +1006,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Compétence à valider',
           levelObtained: 5,
           levelPositioned: 5,
+          scorePositioned: 50,
           scoreObtained: 50
         }, {
           index: '6.6',
@@ -977,6 +1014,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Compétence réussie moyennement',
           levelObtained: UNCERTIFIED_LEVEL,
           levelPositioned: 3,
+          scorePositioned: 36,
           scoreObtained: 0
         }];
 
@@ -1005,6 +1043,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Compétence à valider',
           levelObtained: 4,
           levelPositioned: 5,
+          scorePositioned: 50,
           scoreObtained: 42
         }, {
           index: '6.6',
@@ -1012,6 +1051,7 @@ describe('Unit | Service | Certification Service', function() {
           name: 'Compétence réussie moyennement',
           levelObtained: 2,
           levelPositioned: 3,
+          scorePositioned: 36,
           scoreObtained: 28
         }];
 

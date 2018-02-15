@@ -84,6 +84,7 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
       index: competence.index,
       id: competence.id,
       levelPositioned: competence.estimatedLevel,
+      scorePositioned: competence.pixScore,
       levelObtained: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
       scoreObtained: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
         reproductibilityRate)
@@ -99,6 +100,7 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       index: competence.index,
       id: competence.id,
       levelPositioned: competence.estimatedLevel,
+      scorePositioned: competence.pixScore,
       levelObtained: uncertifiedLevel,
       scoreObtained: 0
     };
