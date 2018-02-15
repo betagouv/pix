@@ -1,7 +1,6 @@
 import getAnswer from './routes/get-answer';
 import getAnswerByChallengeAndAssessment from './routes/get-answer-by-challenge-and-assessment';
 import getAssessment from './routes/get-assessment';
-import getAssessments from './routes/get-assessments';
 import getAssessmentSolutions from './routes/get-assessment-solutions';
 import getAuthenticatedUser from './routes/get-user-me';
 import getChallenge from './routes/get-challenge';
@@ -40,7 +39,7 @@ export default function() {
   this.post('/challenges/:challengeId/solution', postRefreshSolution);
 
   this.post('/assessments', postAssessments);
-  this.get('/assessments', getAssessments);
+  this.get('/assessments');
   this.get('/assessments/:id', getAssessment);
   this.get('/assessments/:assessmentId/next/:challengeId', getNextChallenge);
   this.get('/assessments/:assessmentId/next', getNextChallenge);
