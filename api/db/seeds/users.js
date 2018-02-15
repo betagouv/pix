@@ -8,29 +8,30 @@ exports.seed = (knex) => {
 
     return knex(TABLE_NAME).insert([
       {
-        firstName: 'Jon',
-        lastName: 'Snow',
-        email: 'jsnow@winterfell.got',
-        password: 'WinterIsComing'
-      }, {
-
-        firstName: 'Daenerys',
-        lastName: 'Targaryen',
-        email: 'dtargaryen@targaryen.got',
-        password: 'A1B2C3#!'
-      }, {
-
-        firstName: 'Tyron',
-        lastName: 'Lannister',
-        email: 'tlannister@lannister.got',
-        password: 'P@s$w0rD'
-      },
-      {
-
+        id: 1,
         firstName: 'Pix',
         lastName: 'Aile',
-        email: 'pix@contact.com',
-        password: '$2a$05$.EhuqNtCbjSKJlv7X2mO5.xO9hu1DuMvA1JGFLyExzFQ4ywN4oOBC'
+        email: 'user@pix.fr',
+        password: '$2a$05$8ThYbucpuk6ovRgN28vBtuj4R7MczGdX/lHsKGtE/6.FWnuQdWNUS'
+      }, {
+        id: 2,
+        firstName: 'Daenerys',
+        lastName: 'Targaryen',
+        email: 'pro@pix.fr',
+        password: '$2a$05$8ThYbucpuk6ovRgN28vBtuj4R7MczGdX/lHsKGtE/6.FWnuQdWNUS'
+      }, {
+        id: 3,
+        firstName: 'Tyron',
+        lastName: 'Lannister',
+        email: 'sup@pix.fr',
+        password: '$2a$05$8ThYbucpuk6ovRgN28vBtuj4R7MczGdX/lHsKGtE/6.FWnuQdWNUS'
+      },
+      {
+        id: 4,
+        firstName: 'John',
+        lastName: 'Snow',
+        email: 'sco@pix.fr',
+        password: '$2a$05$8ThYbucpuk6ovRgN28vBtuj4R7MczGdX/lHsKGtE/6.FWnuQdWNUS'
       }
     ]);
 
