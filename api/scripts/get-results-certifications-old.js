@@ -82,7 +82,7 @@ if (process.env.NODE_ENV !== 'test') {
 } else {
   const { describe, it } = require('mocha');
   const { expect } = require('chai');
-  describe('Get Result Certifications Script', () => {
+  describe('Get Result Certifications Script OLD', () => {
     describe('parseArgs', () => {
       it('should return an array', () => {
         // given
@@ -105,7 +105,7 @@ if (process.env.NODE_ENV !== 'test') {
         const result = buildRequestObject(baseUrl, courseId);
         // then
         expect(result).to.have.property('json', true);
-        expect(result).to.have.property('url','/api/certification-courses/12/result');
+        expect(result).to.have.property('url','/api/certification-courses/12/result/compute');
       });
 
       it('should add certificationId to API response when the object is transform after the request', () => {
