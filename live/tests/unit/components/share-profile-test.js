@@ -127,7 +127,7 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
-      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », outre les informations ci-dessus, l\'organisation recevra :');
       expect(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
     });
 
@@ -140,7 +140,7 @@ describe('Unit | Component | share-profile', function() {
 
       // then
       expect(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
-      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
+      expect(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », outre les informations ci-dessus, l\'établissement recevra :');
       expect(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
     });
 
