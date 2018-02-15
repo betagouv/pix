@@ -113,8 +113,8 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "dev" ]; then
               npm run deploy:staging
             else
-              npm run db:seed
               npm run deploy:integration
+              npm run db:seed
             fi
 
   # Client side
