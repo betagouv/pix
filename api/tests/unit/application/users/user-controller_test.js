@@ -8,17 +8,17 @@ const User = require('../../../../lib/domain/models/User');
 const userController = require('../../../../lib/application/users/user-controller');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const googleReCaptcha = require('../../../../lib/infrastructure/validators/grecaptcha-validator');
-const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 const logger = require('../../../../lib/infrastructure/logger');
 
 const mailService = require('../../../../lib/domain/services/mail-service');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const passwordResetService = require('../../../../lib/domain/services/reset-password-service');
 const encryptionService = require('../../../../lib/domain/services/encryption-service');
-const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const userService = require('../../../../lib/domain/services/user-service');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
+const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -47,7 +47,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
       sandbox.stub(userSerializer, 'deserialize').returns(new User({}));
       sandbox.stub(userSerializer, 'serialize');
-      sandbox.stub(UserRepository, 'save').resolves(savedBookshelfUser);
+      sandbox.stub(userRepository, 'save').resolves(savedBookshelfUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
     });
 
@@ -165,7 +165,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should reply with a serialized error', () => {
       // Given
-      UserRepository.save.rejects();
+      userRepository.save.rejects();
 
       const expectedSerializedError = { errors: [] };
       validationErrorSerializer.serialize.returns(expectedSerializedError);
@@ -211,7 +211,7 @@ describe('Unit | Controller | user-controller', () => {
           // Given
           validationErrorSerializer.serialize.returns({ errors: [] });
           const sqliteConstraint = { code: 'SQLITE_CONSTRAINT' };
-          UserRepository.save.rejects(sqliteConstraint);
+          userRepository.save.rejects(sqliteConstraint);
 
           // When
           const promise = userController.save(request, replyStub);
@@ -235,7 +235,7 @@ describe('Unit | Controller | user-controller', () => {
           validationErrorSerializer.serialize.returns({ errors: [] });
 
           const sqliteConstraint = { code: '23505' };
-          UserRepository.save.rejects(sqliteConstraint);
+          userRepository.save.rejects(sqliteConstraint);
 
           // When
           const promise = userController.save(request, replyStub);
@@ -389,8 +389,8 @@ describe('Unit | Controller | user-controller', () => {
         sandbox.stub(passwordResetService, 'hasUserAPasswordResetDemandInProgress');
         sandbox.stub(passwordResetService, 'invalidOldResetPasswordDemand');
         sandbox.stub(validationErrorSerializer, 'serialize');
-        sandbox.stub(UserRepository, 'updatePassword');
-        sandbox.stub(UserRepository, 'findUserById').resolves(user);
+        sandbox.stub(userRepository, 'updatePassword');
+        sandbox.stub(userRepository, 'findUserById').resolves(user);
         sandbox.stub(encryptionService, 'hashPassword');
         codeStub = sinon.stub();
         reply = sandbox.stub().returns({
@@ -412,8 +412,8 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(UserRepository.findUserById);
-          sinon.assert.calledWith(UserRepository.findUserById, request.params.id);
+          sinon.assert.calledOnce(userRepository.findUserById);
+          sinon.assert.calledWith(userRepository.findUserById, request.params.id);
         });
       });
 
@@ -442,17 +442,17 @@ describe('Unit | Controller | user-controller', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.calledOnce(UserRepository.updatePassword);
+          sinon.assert.calledOnce(userRepository.updatePassword);
           sinon.assert.calledOnce(encryptionService.hashPassword);
           sinon.assert.calledWith(encryptionService.hashPassword, request.payload.data.attributes.password);
-          sinon.assert.calledWith(UserRepository.updatePassword, request.params.id, encryptedPassword);
+          sinon.assert.calledWith(userRepository.updatePassword, request.params.id, encryptedPassword);
         });
       });
 
       it('should invalidate current password reset demand (mark as being used)', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        UserRepository.updatePassword.resolves();
+        userRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when
@@ -468,7 +468,7 @@ describe('Unit | Controller | user-controller', () => {
       it('should reply with no content', () => {
         // given
         passwordResetService.hasUserAPasswordResetDemandInProgress.resolves();
-        UserRepository.updatePassword.resolves();
+        userRepository.updatePassword.resolves();
         passwordResetService.invalidOldResetPasswordDemand.resolves();
 
         // when

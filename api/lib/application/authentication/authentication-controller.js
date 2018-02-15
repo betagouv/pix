@@ -5,16 +5,16 @@ const validationErrorSerializer = require('../../infrastructure/serializers/json
 
 const Authentication = require('../../domain/models/Authentication');
 const authenticationSerializer = require('../../infrastructure/serializers/jsonapi/authentication-serializer');
-const UserRepository = require('../../infrastructure/repositories/user-repository');
-const UserSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
+const userRepository = require('../../infrastructure/repositories/user-repository');
+const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 
 module.exports = {
   save(request, reply) {
 
-    const user = UserSerializer.deserialize((request.payload));
+    const user = userSerializer.deserialize((request.payload));
     let bookshelfUser;
 
-    return UserRepository.findByEmail(user.email)
+    return userRepository.findByEmail(user.email)
       .then(foundUser => {
 
         if (foundUser === null) {

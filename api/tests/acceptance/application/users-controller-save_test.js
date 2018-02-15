@@ -94,6 +94,7 @@ describe('Acceptance | Controller | users-controller', function() {
       .then((user) => {
         expect(attributes['first-name']).to.equal(user.get('firstName'));
         expect(attributes['last-name']).to.equal(user.get('lastName'));
+        expect(attributes['email']).to.equal(user.get('email'));
       });
   });
 
