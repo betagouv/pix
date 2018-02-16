@@ -1,9 +1,4 @@
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  it
-} from 'mocha';
+import { afterEach, beforeEach, describe, it } from 'mocha';
 import { expect } from 'chai';
 import startApp from '../helpers/start-app';
 import destroyApp from '../helpers/destroy-app';
@@ -58,17 +53,21 @@ describe('Acceptance | Certification | Start Course', function() {
         expect(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
       });
 
-      it('should navigate to redirect to certification result page at the end of the assessment', async function() {
-        // given
-        await click('.challenge-actions__action-skip');
-        await click('.challenge-actions__action-skip');
+      context('after skipping the all three challenges of the certification course', function() {
 
-        // when
-        await click('.challenge-item-warning__confirm-btn');
-        await click('.challenge-actions__action-skip');
+        it('should navigate to redirect to certification result page at the end of the assessment', async function() {
+          // given
+          await click('.challenge-actions__action-skip');
+          await click('.challenge-actions__action-skip');
 
-        // then
-        expect(currentURL()).to.equal('/certifications/certification-number/results');
+          // when
+          await click('.challenge-item-warning__confirm-btn');
+          await click('.challenge-actions__action-skip');
+
+          // then
+          expect(currentURL()).to.equal('/certifications/certification-number/results');
+        });
+
       });
 
     });

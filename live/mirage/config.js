@@ -22,7 +22,7 @@ import postRefreshSolution from './routes/post-refresh-solution';
 import { Response } from 'ember-cli-mirage';
 
 export default function() {
-  this.logging = true;
+  this.logging = false;
   this.passthrough('/write-coverage');
   this.post('https://fonts.googleapis.com/**', () => {});
 
