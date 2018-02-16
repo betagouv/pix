@@ -55,7 +55,7 @@ describe('Acceptance | API | Certification Course', function() {
 
     it('should return 200 HTTP status code', function() {
       // given
-      const promise = server.inject(options)
+      const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
@@ -66,7 +66,7 @@ describe('Acceptance | API | Certification Course', function() {
 
     it('should return application/json', function() {
       // given
-      const promise = server.inject(options)
+      const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
@@ -99,7 +99,7 @@ describe('Acceptance | API | Certification Course', function() {
 
     it('should return 404 HTTP status code if certification not found', function() {
       // when
-      const promise = server.inject({ method: 'GET', url: `/api/certification-courses/200/result` });
+      const promise = server.inject({ method: 'GET', url: '/api/certification-courses/200/result' });
 
       // then
       return promise.then((response) => {
