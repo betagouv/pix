@@ -27,8 +27,8 @@ function _getMarksToSaveForCertificationAssessment(assessmentId) {
         }).area.code;
 
         return new Mark({
-          level: certifiedCompetence.levelObtained,
-          score: certifiedCompetence.scoreObtained,
+          level: certifiedCompetence.obtainedLevel,
+          score: certifiedCompetence.obtainedScore,
           area_code,
           competence_code: certifiedCompetence.index,
           assessmentId: assessmentId

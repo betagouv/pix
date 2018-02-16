@@ -72,7 +72,7 @@ function _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibility
 }
 
 function _getSumScoreFromCertifiedCompetences(listCompetences) {
-  return _(listCompetences).map('scoreObtained').sum();
+  return _(listCompetences).map('obtainedScore').sum();
 }
 
 function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate) {
@@ -83,10 +83,10 @@ function _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listC
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      levelPositioned: competence.estimatedLevel,
-      scorePositioned: competence.pixScore,
-      levelObtained: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
-      scoreObtained: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
+      positionedLevel: competence.estimatedLevel,
+      positionedScore: competence.pixScore,
+      obtainedLevel: _getCertifiedLevel(numberOfCorrectAnswers, competence, reproductibilityRate),
+      obtainedScore: competence.pixScore - _computedPixToRemovePerCompetence(numberOfCorrectAnswers, competence,
         reproductibilityRate)
     };
   });
@@ -99,10 +99,10 @@ function _getCompetenceWithFailedLevel(listCompetences) {
       name: competence.name,
       index: competence.index,
       id: competence.id,
-      levelPositioned: competence.estimatedLevel,
-      scorePositioned: competence.pixScore,
-      levelObtained: uncertifiedLevel,
-      scoreObtained: 0
+      positionedLevel: competence.estimatedLevel,
+      positionedScore: competence.pixScore,
+      obtainedLevel: uncertifiedLevel,
+      obtainedScore: 0
     };
   });
 }

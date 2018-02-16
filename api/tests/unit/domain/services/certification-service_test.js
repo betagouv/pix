@@ -249,34 +249,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -313,34 +313,34 @@ describe('Unit | Service | Certification Service', function() {
             index: '1.1',
             id: 'competence_1',
             name: 'Mener une recherche',
-            levelObtained: 1,
-            levelPositioned: 1,
-            scorePositioned: 10,
-            scoreObtained: pixForCompetence1
+            obtainedLevel: 1,
+            positionedLevel: 1,
+            positionedScore: 10,
+            obtainedScore: pixForCompetence1
           }, {
             index: '2.2',
             id: 'competence_2',
             name: 'Partager',
-            levelObtained: 2,
-            levelPositioned: 2,
-            scorePositioned: 20,
-            scoreObtained: pixForCompetence2
+            obtainedLevel: 2,
+            positionedLevel: 2,
+            positionedScore: 20,
+            obtainedScore: pixForCompetence2
           }, {
             index: '3.3',
             id: 'competence_3',
             name: 'Adapter',
-            levelObtained: 3,
-            levelPositioned: 3,
-            scorePositioned: 30,
-            scoreObtained: pixForCompetence3
+            obtainedLevel: 3,
+            positionedLevel: 3,
+            positionedScore: 30,
+            obtainedScore: pixForCompetence3
           }, {
             index: '4.4',
             id: 'competence_4',
             name: 'Résoudre',
-            levelObtained: 4,
-            levelPositioned: 4,
-            scorePositioned: 40,
-            scoreObtained: pixForCompetence4
+            obtainedLevel: 4,
+            positionedLevel: 4,
+            positionedScore: 40,
+            obtainedScore: pixForCompetence4
           }
         ];
 
@@ -375,35 +375,35 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: 1,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: pixForCompetence1
+          obtainedLevel: 1,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: 2,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: 3,
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: pixForCompetence3
+          obtainedLevel: 3,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: pixForCompetence3
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: 0
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -443,35 +443,35 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: 0,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: pixForCompetence1 - malusForFalseAnswer
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: 2,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: 0
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: 3,
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: pixForCompetence4 - malusForFalseAnswer
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
         }];
 
         // when
@@ -490,35 +490,35 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: 0,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: pixForCompetence1 - malusForFalseAnswer
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: 2,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelPositioned: 3,
-          scorePositioned: 30,
-          levelObtained: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          scoreObtained: 0
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: 3,
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: pixForCompetence4 - malusForFalseAnswer
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
         }];
 
         const expectedChallenges = [
@@ -725,38 +725,38 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: 0
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: 0
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: 0
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: 0
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: 0
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: UNCERTIFIED_LEVEL,
+          obtainedLevel: UNCERTIFIED_LEVEL,
 
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: 0
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -794,34 +794,34 @@ describe('Unit | Service | Certification Service', function() {
             index: '1.1',
             id: 'competence_1',
             name: 'Mener une recherche',
-            levelObtained: 1,
-            levelPositioned: 1,
-            scorePositioned: 10,
-            scoreObtained: pixForCompetence1
+            obtainedLevel: 1,
+            positionedLevel: 1,
+            positionedScore: 10,
+            obtainedScore: pixForCompetence1
           }, {
             index: '2.2',
             id: 'competence_2',
             name: 'Partager',
-            levelObtained: 2,
-            levelPositioned: 2,
-            scorePositioned: 20,
-            scoreObtained: pixForCompetence2
+            obtainedLevel: 2,
+            positionedLevel: 2,
+            positionedScore: 20,
+            obtainedScore: pixForCompetence2
           }, {
             index: '3.3',
             id: 'competence_3',
             name: 'Adapter',
-            levelObtained: 3,
-            levelPositioned: 3,
-            scorePositioned: 30,
-            scoreObtained: pixForCompetence3
+            obtainedLevel: 3,
+            positionedLevel: 3,
+            positionedScore: 30,
+            obtainedScore: pixForCompetence3
           }, {
             index: '4.4',
             id: 'competence_4',
             name: 'Résoudre',
-            levelObtained: 4,
-            levelPositioned: 4,
-            scorePositioned: 40,
-            scoreObtained: pixForCompetence4
+            obtainedLevel: 4,
+            positionedLevel: 4,
+            positionedScore: 40,
+            obtainedScore: pixForCompetence4
           }
         ];
 
@@ -856,34 +856,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: 1,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: pixForCompetence1
+          obtainedLevel: 1,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: 2,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: 3,
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: pixForCompetence3
+          obtainedLevel: 3,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: pixForCompetence3
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: 0
         }];
 
         // when
@@ -924,34 +924,34 @@ describe('Unit | Service | Certification Service', function() {
           index: '1.1',
           id: 'competence_1',
           name: 'Mener une recherche',
-          levelObtained: 0,
-          levelPositioned: 1,
-          scorePositioned: 10,
-          scoreObtained: pixForCompetence1 - malusForFalseAnswer
+          obtainedLevel: 0,
+          positionedLevel: 1,
+          positionedScore: 10,
+          obtainedScore: pixForCompetence1 - malusForFalseAnswer
         }, {
           index: '2.2',
           id: 'competence_2',
           name: 'Partager',
-          levelObtained: 2,
-          levelPositioned: 2,
-          scorePositioned: 20,
-          scoreObtained: pixForCompetence2
+          obtainedLevel: 2,
+          positionedLevel: 2,
+          positionedScore: 20,
+          obtainedScore: pixForCompetence2
         }, {
           index: '3.3',
           id: 'competence_3',
           name: 'Adapter',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 3,
-          scorePositioned: 30,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 30,
+          obtainedScore: 0
         }, {
           index: '4.4',
           id: 'competence_4',
           name: 'Résoudre',
-          levelObtained: 3,
-          levelPositioned: 4,
-          scorePositioned: 40,
-          scoreObtained: pixForCompetence4 - malusForFalseAnswer
+          obtainedLevel: 3,
+          positionedLevel: 4,
+          positionedScore: 40,
+          obtainedScore: pixForCompetence4 - malusForFalseAnswer
         }];
 
         // when
@@ -1004,18 +1004,18 @@ describe('Unit | Service | Certification Service', function() {
           index: '5.5',
           id: 'competence_5',
           name: 'Compétence à valider',
-          levelObtained: 5,
-          levelPositioned: 5,
-          scorePositioned: 50,
-          scoreObtained: 50
+          obtainedLevel: 5,
+          positionedLevel: 5,
+          positionedScore: 50,
+          obtainedScore: 50
         }, {
           index: '6.6',
           id: 'competence_6',
           name: 'Compétence réussie moyennement',
-          levelObtained: UNCERTIFIED_LEVEL,
-          levelPositioned: 3,
-          scorePositioned: 36,
-          scoreObtained: 0
+          obtainedLevel: UNCERTIFIED_LEVEL,
+          positionedLevel: 3,
+          positionedScore: 36,
+          obtainedScore: 0
         }];
 
         // when
@@ -1041,18 +1041,18 @@ describe('Unit | Service | Certification Service', function() {
           index: '5.5',
           id: 'competence_5',
           name: 'Compétence à valider',
-          levelObtained: 4,
-          levelPositioned: 5,
-          scorePositioned: 50,
-          scoreObtained: 42
+          obtainedLevel: 4,
+          positionedLevel: 5,
+          positionedScore: 50,
+          obtainedScore: 42
         }, {
           index: '6.6',
           id: 'competence_6',
           name: 'Compétence réussie moyennement',
-          levelObtained: 2,
-          levelPositioned: 3,
-          scorePositioned: 36,
-          scoreObtained: 28
+          obtainedLevel: 2,
+          positionedLevel: 3,
+          positionedScore: 36,
+          obtainedScore: 28
         }];
 
         // when
