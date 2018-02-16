@@ -53,24 +53,26 @@ describe('Acceptance | API | Certification Course', function() {
       return Promise.all([knex('assessments').delete(), knex('marks').delete(), knex('certification-courses').delete()]);
     });
 
-    it('should return 200 HTTP status code', function(done) {
-      // when
-      server.inject(options, (response) => {
+    it('should return 200 HTTP status code', function() {
+      // given
+      const promise = server.inject(options)
 
+      // then
+      return promise.then((response) => {
         // then
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
-      // when
-      server.inject(options, (response) => {
+    it('should return application/json', function() {
+      // given
+      const promise = server.inject(options)
 
+      // then
+      return promise.then((response) => {
         // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
@@ -94,6 +96,15 @@ describe('Acceptance | API | Certification Course', function() {
         done();
       });
     });
-  });
 
+    it('should return 404 HTTP status code if certification not found', function() {
+      // when
+      const promise = server.inject({ method: 'GET', url: `/api/certification-courses/200/result` });
+
+      // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(404);
+      });
+    });
+  });
 });

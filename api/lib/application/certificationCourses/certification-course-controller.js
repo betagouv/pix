@@ -3,6 +3,7 @@ const logger = require('../../infrastructure/logger');
 const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
+const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -24,6 +25,9 @@ module.exports = {
         reply(certificationCourseSerializer.serializeResult(certificationResult));
       })
       .catch((err) => {
+        if(err instanceof NotFoundError) {
+          return reply(Boom.notFound(err));
+        }
         logger.error(err);
         reply(Boom.badImplementation(err));
       });

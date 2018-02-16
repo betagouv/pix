@@ -172,7 +172,7 @@ module.exports = {
   },
 
   getCertificationResult(certificationCourseId) {
-    let assessment;
+    let assessment = {};
     return assessmentRepository
       .getByCertificationCourseId(certificationCourseId)
       .then(foundAssessement => {
