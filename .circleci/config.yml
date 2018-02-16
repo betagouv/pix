@@ -114,7 +114,7 @@ jobs:
               npm run deploy:staging
             else
               npm run deploy:integration
-              npm run db:reset
+              npm run db:update
             fi
 
   # Client side
