@@ -72,7 +72,6 @@
     "db:seed": "./node_modules/.bin/knex --knexfile db/knexfile.js seed:run",
     "db:delete": "rm db/dev.sqlite3 ",
     "db:reset": "npm run db:delete && npm run db:migrate && npm run db:seed",
-    "db:update": "npm run db:migrate && npm run db:seed",
     "test": "npm run test:api && npm run test:script",
     "test:api": "NODE_ENV=test npm run db:migrate && NODE_ENV=test ./node_modules/.bin/mocha --recursive tests",
     "test:api:watch": "NODE_ENV=test ./node_modules/.bin/mocha --recursive tests --watch",
