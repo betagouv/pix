@@ -1,9 +1,76 @@
-<div class="tutorial-panel__box-container">
-  <div class="tutorial-panel__box-picto-container">
-    <img src="{{rootURL}}/images/comparison-window/icon-tuto.svg"
-         alt="tuto bientôt disponible"
-         class="tutorial-panel__box-picto"></div>
-  <div class="tutorial-panel__box-title">Bientôt ici des tutoriels pour vous aider à réussir ce type d'épreuves !!</div>
-</div>
-
-<div class="tutorial-panel__separator"></div>
+{{#if contents}}
+  <div style="display:flex;flex-direction:row;align-items:center;width:100%;justify-content:space-between;margin-top:20px;">
+    <div style="width:180px;border-top:solid 1px #000000;height:1px"></div>
+    <div style="font-size:25px">Pour réussir la prochaine fois</div>
+    <div style="width:180px;border-top:solid 1px #000000;height:1px"></div>
+  </div>
+  {{#if clue}}
+    <div style="display:flex;flex-direction:row;align-items:center;margin-top:30px;margin-bottom:30px;padding:10px 0;">
+      <div style="background-image:url({{rootURL}}/images/comparison-window/indice.png);height:71px;width:65px;margin-right:25px;"></div>
+      <div style="font-size:17px;">
+        {{clue}}
+      </div>
+    </div>
+  {{/if}}
+  {{#if tutorials}}
+    <div style="width:100%;">
+    {{#each tutorials as |tutorial key|}}
+      <div style="display:flex;flex-direction:row;justify-content:space-between;border-bottom:solid 1px #dadadb;width:100%;padding:10px 0;color:#858891">
+        <div>
+          <div style="margin-bottom:5px;">
+            <a href="{{tutorial.link}}" style="color:#3461fe;font-size:17px;" target = "_blank">
+              {{tutorial.title}}
+            </a>
+          </div>
+          <div style="display:flex;flex-direction:row;font-size:14px;">
+            <div style="background-image:url({{rootURL}}/images/comparison-window/type_{{tutorial.type}}.png);width:26px;height:21px;">
+            </div>
+            <div style="width:50px;border-right:solid 1px #858891;margin-left:10px">
+              {{tutorial.duration}}
+            </div>
+            <div style="margin-left:10px">
+            par {{tutorial.from}}
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+      <div style="margin-top:4px;color:#858891;">
+        Ces liens ont été proposés par les utilisateurs de Pix.
+      </div>
+    </div>
+  {{/if}}
+  {{#if more}}
+    <div style="display:flex;flex-direction:row;align-items:center;width:100%;justify-content:space-between;margin:40px 0 30px 0;">
+      <div style="width:180px;border-top:solid 1px #000000;height:1px"></div>
+      <div style="font-size:25px">Pour en apprendre davantage</div>
+      <div style="width:180px;border-top:solid 1px #000000;height:1px"></div>
+    </div>
+    <div style="width:100%;margin-bottom:30px;">
+    {{#each more as |value key|}}
+      <div style="display:flex;flex-direction:row;justify-content:space-between;border-bottom:solid 1px #dadadb;width:100%;padding:10px 0;color:#858891;">
+        <div>
+          <div style="margin-bottom:5px;">
+            <a href="{{value.link}}" style="color:#3461fe;font-size:17px;" target = "_blank">
+              {{value.title}}
+            </a>
+          </div>
+          <div style="display:flex;flex-direction:row;font-size:14px;">
+            <div style="background-image:url({{rootURL}}/images/comparison-window/type_{{value.type}}.png);width:26px;height:21px;">
+            </div>
+            <div style="width:50px;border-right:solid 1px #858891;margin-left:10px">
+              {{value.duration}}
+            </div>
+            <div style="margin-left:10px">
+            par {{value.from}}
+            </div>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+      <div style="margin-top:4px;color:#858891;">
+        Ces liens ont été proposés par les utilisateurs de Pix.
+      </div>
+    </div>
+  {{/if}}
+{{/if}}
