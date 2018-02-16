@@ -960,38 +960,41 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
           }, _callee3, this);
         })));
 
-        (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-          return regeneratorRuntime.wrap(function _callee4$(_context4) {
-            while (1) {
-              switch (_context4.prev = _context4.next) {
-                case 0:
-                  _context4.next = 2;
-                  return click('.challenge-actions__action-skip');
+        context('after skipping the all three challenges of the certification course', function () {
 
-                case 2:
-                  _context4.next = 4;
-                  return click('.challenge-actions__action-skip');
+          (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    _context4.next = 2;
+                    return click('.challenge-actions__action-skip');
 
-                case 4:
-                  _context4.next = 6;
-                  return click('.challenge-item-warning__confirm-btn');
+                  case 2:
+                    _context4.next = 4;
+                    return click('.challenge-actions__action-skip');
 
-                case 6:
-                  _context4.next = 8;
-                  return click('.challenge-actions__action-skip');
+                  case 4:
+                    _context4.next = 6;
+                    return click('.challenge-item-warning__confirm-btn');
 
-                case 8:
+                  case 6:
+                    _context4.next = 8;
+                    return click('.challenge-actions__action-skip');
 
-                  // then
-                  (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+                  case 8:
 
-                case 9:
-                case 'end':
-                  return _context4.stop();
+                    // then
+                    (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+
+                  case 9:
+                  case 'end':
+                    return _context4.stop();
+                }
               }
-            }
-          }, _callee4, this);
-        })));
+            }, _callee4, this);
+          })));
+        });
       });
 
       context('When stop and relaunch the certification course', function () {
