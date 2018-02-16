@@ -5,7 +5,7 @@ module.exports = {
 
   serialize(challenges) {
     return new Serializer('challenge', {
-      attributes: ['type', 'instruction', 'competence', 'proposals', 'hasntInternetAllowed', 'timer', 'illustrationUrl', 'attachments'],
+      attributes: ['type', 'instruction', 'competence', 'proposals', 'hasntInternetAllowed', 'timer', 'illustrationUrl', 'attachments', 'skills'],
       transform: (record) => {
         const challenge = Object.assign({}, record);
         challenge.competence = _.get(record, 'competence[0]', 'N/A');

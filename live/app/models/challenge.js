@@ -18,5 +18,7 @@ export default Model.extend({
   hasAttachment: notEmpty('attachments'),
   hasSingleAttachment: equal('attachments.length', 1),
   hasMultipleAttachments: gt('attachments.length', 1),
-  hasTimer: notEmpty('timer')
+  hasTimer: notEmpty('timer'),
+
+  skills: attr('array')
 });
