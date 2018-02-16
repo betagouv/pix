@@ -115,14 +115,14 @@ function _checkIfUserCanStartACertification(userCompetences) {
 function _getResult(listAnswers, listChallenges, listCompetences) {
   const reproductibilityRate = answerServices.getAnswersSuccessRate(listAnswers);
   if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
-    return { listCertifiedCompetences: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0 };
+    return { competencesWithMark: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0 };
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
-  const listCertifiedCompetences = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
-  const scoreAfterRating = _getSumScoreFromCertifiedCompetences(listCertifiedCompetences);
+  const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
+  const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  return { listCertifiedCompetences, totalScore: scoreAfterRating };
+  return { competencesWithMark, totalScore: scoreAfterRating };
 }
 
 function _getCertificationResult(assessment) {
@@ -184,7 +184,7 @@ module.exports = {
           pixScore: assessment.pixScore,
           createdAt: certification.createdAt,
           completedAt: certification.completedAt,
-          listCertifiedCompetences: assessment.marks
+          competencesWithMark: assessment.marks
         };
       });
   },

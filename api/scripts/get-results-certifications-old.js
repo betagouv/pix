@@ -53,7 +53,7 @@ function toCSVRow(rowJSON) {
 
   res[noteColumn] = rowJSON.totalScore;
   competencesColumns.forEach(column => {
-    res[column] = findCompetence(rowJSON.listCertifiedCompetences, column);
+    res[column] = findCompetence(rowJSON.competencesWithMark, column);
   });
   return res;
 }
@@ -122,7 +122,7 @@ if (process.env.NODE_ENV !== 'test') {
     describe('toCSVRow', () => {
       it('should normalize a JSON object', () => {
         // given
-        const object = { listCertifiedCompetences: [] };
+        const object = { competencesWithMark: [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -131,7 +131,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', listCertifiedCompetences: [] };
+        const object = { certificationId: '1337', totalScore: 7331, createdAt: '2018-01-31 09:01', completedAt: '2018-01-31T09:29:16.394Z', competencesWithMark: [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -143,7 +143,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences', () => {
         // given
-        const object = { listCertifiedCompetences : [] };
+        const object = { competencesWithMark : [] };
         // when
         const result = toCSVRow(object);
         // then
@@ -152,7 +152,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences 1.1', () => {
         // given
-        const object = { listCertifiedCompetences: [
+        const object = { competencesWithMark: [
           {
             name: 'Sécuriser l\'environnement numérique',
             index: '1.1',
@@ -168,7 +168,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract all competences', () => {
         // given
-        const object = { listCertifiedCompetences: [
+        const object = { competencesWithMark: [
           {
             name: 'Mener une recherche',
             index: '1.1',

@@ -40,7 +40,6 @@ function findCompetence(profile, competenceName) {
   return (result || { level: '' }).level;
 }
 
-
 function toCSVRow(rowJSON) {
   const certificationData = rowJSON.data.attributes;
   const res = {};
@@ -55,7 +54,7 @@ function toCSVRow(rowJSON) {
 
   res[noteColumn] = certificationData['pix-score'];
   competencesColumns.forEach(column => {
-    res[column] = findCompetence(certificationData['list-certified-competences'], column);
+    res[column] = findCompetence(certificationData['competences-with-mark'], column);
   });
   return res;
 }
@@ -126,7 +125,7 @@ if (process.env.NODE_ENV !== 'test') {
     describe('toCSVRow', () => {
       it('should normalize a JSON object', () => {
         // given
-        const object = { data: { attributes: { 'list-certified-competences': [] } } };
+        const object = { data: { attributes: { 'competences-with-mark': [] } } };
         // when
         const result = toCSVRow(object);
         // then
@@ -135,7 +134,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract certificationId, date, and pix score', () => {
         // given
-        const object = { data: { attributes: { certificationId: '1337', 'pix-score': 7331, 'created-at': '2018-01-31 09:01', 'completed-at': '2018-01-31T09:29:16.394Z', 'list-certified-competences': [] } } };
+        const object = { data: { attributes: { certificationId: '1337', 'pix-score': 7331, 'created-at': '2018-01-31 09:01', 'completed-at': '2018-01-31T09:29:16.394Z', 'competences-with-mark': [] } } };
         // when
         const result = toCSVRow(object);
         // then
@@ -147,7 +146,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences', () => {
         // given
-        const object = { data: { attributes: { 'list-certified-competences' : [] } } };
+        const object = { data: { attributes: { 'competences-with-mark' : [] } } };
 
         // when
         const result = toCSVRow(object);
@@ -158,7 +157,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract competences 1.1', () => {
         // given
-        const object = { data: { attributes: { 'list-certified-competences': [
+        const object = { data: { attributes: { 'competences-with-mark': [
           {
             'competence-code': '1.1',
             level: 9001
@@ -174,7 +173,7 @@ if (process.env.NODE_ENV !== 'test') {
 
       it('should extract all competences', () => {
         // given
-        const object = { data: { attributes: { 'list-certified-competences': [
+        const object = { data: { attributes: { 'competences-with-mark': [
           {
             'competence-code': '1.1',
             level: 4
