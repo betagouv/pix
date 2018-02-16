@@ -563,34 +563,30 @@ describe('Unit | Controller | organizationController', () => {
       organizationService.getOrganizationSharedProfilesAsCsv.restore();
     });
 
-    describe('Collaborations', function() {
+    it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', () => {
+      // given
+      const request = {
+        params: {
+          id: 7
+        }
+      };
+      const header = sinon.stub();
+      header.returns({ header }); // <--- "inception"... I'm sure you appreciate it ;-)
+      const response = { header };
+      const reply = () => response;
 
-      it('should call a reply function', () => {
-        // given
-        const request = {
-          params: {
-            id: 7
-          }
-        };
-        const header = sinon.stub();
-        header.returns({ header }); // <--- "inception"... I'm sure you appreciate it ;-)
-        const response = { header };
-        const reply = () => response;
+      // when
+      const promise = organizationController.exportedSharedSnapshots(request, reply);
 
-        // when
-        const promise = organizationController.exportedSharedSnapshots(request, reply);
-
-        // then
-        return promise.then(() => {
-          expect(response.header).to.have.been.calledTwice;
-        });
+      // then
+      return promise.then(() => {
+        expect(response.header).to.have.been.calledTwice;
       });
-
     });
 
     describe('Error cases', () => {
 
-      it('should return an serialized NotFoundError, when no snapshot was found', () => {
+      it('should return a JSONAPI serialized NotFoundError, when no snapshot was found', () => {
         // given
         const error = Snapshot.NotFoundError;
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
