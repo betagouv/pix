@@ -82,7 +82,7 @@ module.exports = {
       });
   },
 
-  exportedSharedSnapshots: (request, reply) => {
+  exportSharedSnapshotsAsCsv: (request, reply) => {
     const dependencies = {
       organizationRepository,
       competenceRepository,

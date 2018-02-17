@@ -553,7 +553,7 @@ describe('Unit | Controller | organizationController', () => {
 
   });
 
-  describe('#exportedSharedSnapshots', () => {
+  describe('#exportSharedSnapshotsAsCsv', () => {
 
     beforeEach(() => {
       sinon.stub(organizationService, 'getOrganizationSharedProfilesAsCsv').resolves();
@@ -578,7 +578,7 @@ describe('Unit | Controller | organizationController', () => {
       const reply = () => response;
 
       // when
-      const promise = organizationController.exportedSharedSnapshots(request, reply);
+      const promise = organizationController.exportSharedSnapshotsAsCsv(request, reply);
 
       // then
       return promise.then(() => {
@@ -605,7 +605,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
+        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -632,7 +632,7 @@ describe('Unit | Controller | organizationController', () => {
         });
 
         // when
-        const promise = organizationController.exportedSharedSnapshots(request, replyStub);
+        const promise = organizationController.exportSharedSnapshotsAsCsv(request, replyStub);
 
         // then
         return promise.then(() => {
