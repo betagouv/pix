@@ -1,12 +1,23 @@
-const { describe, it, expect } = require('../../../test-helper');
+const { expect } = require('../../../test-helper');
 const snapshotsConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
+const Organization = require('../../../../lib/domain/models/Organization');
+const Competence = require('../../../../lib/domain/models/Competence');
 
 describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
-  let jsonData;
+  let organization;
+  let competences;
+  let jsonSnapshots;
 
   beforeEach(() => {
-    const profile1WithEmptyCompetence = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurité"}},{"type":"competences","attributes":{"name":"Sécuriser l\'environnement numérique","index":"4.1","level": 3}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level": 4,"course-id":""}},{"type": "competences","attributes":{"name": "", "index": "", "level": -1, "course-id": "" }}]}';
+    organization = new Organization({ type: 'SUP' });
+
+    competences = [
+      new Competence({ id: 21, index: '2.1', name: 'Interagir' }),
+      new Competence({ id: 41, index: '4.1', name: 'Sécuriser l’environnement numérique' }),
+    ];
+
+    const profile1WithEmptyCompetence = '{"included":[{"type":"areas","attributes":{"name":"4. Protection et sécurite"}},{"type":"competences","attributes":{"name":"Securiser l’environnement numerique","index":"4.1","level": 3}},{"type":"competences","attributes":{"name":"Interagir","index":"2.1","level": 4,"course-id":""}}]}';
 
     const profile2 = {
       'included': [{
@@ -14,57 +25,54 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
         'attributes': { 'name': '4. Protection et sécurité' }
       }, {
         'type': 'competences',
-        'attributes': { 'name': 'Sécuriser l\'environnement numérique', 'index': '4.1', 'level': -1 }
+        'attributes': { 'name': 'Sécuriser l’environnement numérique', 'index': '4.1', 'level': -1 }
       }, {
         'type': 'competences',
         'attributes': { 'name': 'Interagir', 'index': '2.1', 'level': 2, 'course-id': '' }
       }]
     };
 
-    jsonData = {
-      organizationType: 'SUP',
-      snapshots: [{
-        id: 2,
-        score: '22',
-        profile: profile1WithEmptyCompetence,
-        createdAt: '2017-10-13 09:00:59',
-        studentCode: 'UNIV123',
-        campaignCode: 'CAMPAIGN123',
-        testsFinished: 2,
-        user: {
-          firstName: 'PrenomUser',
-          lastName: 'NomUser',
-        }
-      },
-        {
-          id: 1,
-          score: null,
-          profile: profile2,
-          createdAt: '2017-10-12 16:55:50',
-          studentCode: 'AAA',
-          campaignCode: 'EEE',
-          testsFinished: 1,
-          user: {
-            firstName: 'PrenomUser',
-            lastName: 'NomUser',
-          }
-        }]
-    };
+    jsonSnapshots = [{
+      id: 2,
+      score: '22',
+      profile: profile1WithEmptyCompetence,
+      createdAt: '2017-10-13 09:00:59',
+      studentCode: 'UNIV123',
+      campaignCode: 'CAMPAIGN123',
+      testsFinished: 2,
+      user: {
+        firstName: 'PrenomUser',
+        lastName: 'NomUser',
+      }
+    },
+    {
+      id: 1,
+      score: null,
+      profile: profile2,
+      createdAt: '2017-10-12 16:55:50',
+      studentCode: 'AAA',
+      campaignCode: 'EEE',
+      testsFinished: 1,
+      user: {
+        firstName: 'PrenomUser',
+        lastName: 'NomUser',
+      }
+    }];
   });
 
-  const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l\'environnement numerique"\n';
+  const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l’environnement numerique"\n';
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
   const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="1/2";2;\n';
 
   describe('#convertJsonToCsv()', () => {
 
-    it('should convert an JSON object to a String Object', () => {
+    it('should return a CSV String with at least the headers line', () => {
       // when
-      const result = snapshotsConverter.convertJsonToCsv({});
+      const result = snapshotsConverter.convertJsonToCsv(organization, competences, []);
 
       // then
       expect(result).to.be.a('string');
-      expect(result).to.equal('');
+      expect(result).to.equal(expectedTextHeadersCSV);
 
     });
 
@@ -72,7 +80,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should set first line with headers informations', () => {
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains(expectedTextHeadersCSV);
@@ -80,10 +88,10 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should display "Numero Etudiant" when organization has type "SUP"', () => {
         // given
-        jsonData.organizationType = 'SUP';
+        organization.type = 'SUP';
 
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains('"Numero Etudiant"');
@@ -91,10 +99,10 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should display "Numero INE" when organization has type "SCO"', () => {
         // given
-        jsonData.organizationType = 'SCO';
+        organization.type  = 'SCO';
 
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains('"Numero INE"');
@@ -102,10 +110,10 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should display "ID-Pix" when organization has type "PRO"', () => {
         // given
-        jsonData.organizationType = 'PRO';
+        organization.type  = 'PRO';
 
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains('"ID-Pix"');
@@ -117,7 +125,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should set information for users', () => {
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains(expectedTextCSVFirstUser);
@@ -126,7 +134,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
       it('should return string with headers and users informations in this exact order', () => {
         // when
-        const result = snapshotsConverter.convertJsonToCsv(jsonData);
+        const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
         expect(result).to.contains(expectedTextHeadersCSV + expectedTextCSVFirstUser + expectedTextCSVSecondUser);

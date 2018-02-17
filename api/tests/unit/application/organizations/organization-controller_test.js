@@ -1,7 +1,7 @@
 const { describe, it, expect, sinon, beforeEach, afterEach } = require('../../../test-helper');
 
 const User = require('../../../../lib/infrastructure/data/user');
-const Organisation = require('../../../../lib/infrastructure/data/organization');
+const Organization = require('../../../../lib/infrastructure/data/organization');
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
@@ -12,7 +12,7 @@ const snapshotSerializer = require('../../../../lib/infrastructure/serializers/j
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
 const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
-const snapshotsCsvConverter = require('../../../../lib/infrastructure/converter/snapshots-csv-converter');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
@@ -26,7 +26,7 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new Organisation({ email: 'existing-email@example.net', type: 'PRO' });
+    const organization = new Organization({ email: 'existing-email@example.net', type: 'PRO' });
     const user = new User({ email: 'existing-email@example.net', id: 12 });
 
     beforeEach(() => {
@@ -294,7 +294,7 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = [new Organisation(), new Organisation()];
+    const arrayOfOrganizations = [new Organization(), new Organization()];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -557,10 +557,12 @@ describe('Unit | Controller | organizationController', () => {
 
     beforeEach(() => {
       sinon.stub(organizationService, 'getOrganizationSharedProfilesAsCsv').resolves();
+      sinon.stub(validationErrorSerializer, 'serialize');
     });
 
     afterEach(() => {
       organizationService.getOrganizationSharedProfilesAsCsv.restore();
+      validationErrorSerializer.serialize.restore();
     });
 
     it('should call the use case service that exports shared profile of an organization as CSV (and reply an HTTP response)', () => {
@@ -586,10 +588,9 @@ describe('Unit | Controller | organizationController', () => {
 
     describe('Error cases', () => {
 
-      it('should return a JSONAPI serialized NotFoundError, when no snapshot was found', () => {
+      it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', () => {
         // given
-        const error = Snapshot.NotFoundError;
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        organizationService.getOrganizationSharedProfilesAsCsv.rejects(NotFoundError);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {
@@ -597,9 +598,10 @@ describe('Unit | Controller | organizationController', () => {
             id: 'unexisting id'
           }
         };
+        const codeStub = sinon.stub().callsFake(() => {
+        });
         const replyStub = sinon.stub().returns({
-          code: () => {
-          }
+          code: codeStub
         });
 
         // when
@@ -614,8 +616,8 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should log an error, when unknown error has occured', () => {
         // given
-        const error = new Error();
-        snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
+        const error = new NotFoundError();
+        organizationService.getOrganizationSharedProfilesAsCsv.rejects(error);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
         const request = {

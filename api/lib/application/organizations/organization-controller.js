@@ -1,6 +1,7 @@
 const userRepository = require('../../infrastructure/repositories/user-repository');
 
 const organizationRepository = require('../../infrastructure/repositories/organization-repository');
+const competenceRepository = require('../../infrastructure/repositories/competence-repository');
 const snapshotRepository = require('../../infrastructure/repositories/snapshot-repository');
 const organizationSerializer = require('../../infrastructure/serializers/jsonapi/organization-serializer');
 const snapshotSerializer = require('../../infrastructure/serializers/jsonapi/snapshot-serializer');
@@ -84,6 +85,7 @@ module.exports = {
   exportedSharedSnapshots: (request, reply) => {
     const dependencies = {
       organizationRepository,
+      competenceRepository,
       snapshotRepository,
       bookshelfUtils,
       snapshotsCsvConverter,
@@ -92,13 +94,13 @@ module.exports = {
 
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
-          return reply(snapshotsTextCsv)
-            .header('Content-Type', 'text/csv')
-            .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
-        }
+        return reply(snapshotsTextCsv)
+          .header('Content-Type', 'text/csv')
+          .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
+      }
       )
       .catch((err) => {
-        logger.error(err);
+        console.error(err);
         return reply(validationErrorSerializer.serialize(
           _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
         )).code(500);

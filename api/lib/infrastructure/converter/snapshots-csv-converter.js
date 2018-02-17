@@ -1,23 +1,8 @@
 const moment = require('moment');
-const _ = require('lodash');
+const { sortBy } = require('lodash');
 
-module.exports = {
-  convertJsonToCsv(jsonData) {
-    let textCsv = '';
-
-    if (_emptyData(jsonData)) {
-      return textCsv;
-    }
-
-    textCsv += _createHeaderLine(jsonData);
-    textCsv += jsonData.snapshots.map(_createProfileLine).join('');
-
-    return textCsv;
-  }
-};
-
-function _getHeaderForIdentificationCode(organizationType) {
-  switch (organizationType) {
+function _getHeaderForIdentificationCode(organization) {
+  switch (organization.type) {
     case 'SUP':
       return 'Numero Etudiant';
     case 'SCO':
@@ -28,68 +13,30 @@ function _getHeaderForIdentificationCode(organizationType) {
   }
 }
 
-function _createHeaderLine(jsonData) {
-  const identificationCodeHeader = _getHeaderForIdentificationCode(jsonData.organizationType);
-
-  let textCsvLineHeaders = `"Nom";"Prenom";"${identificationCodeHeader}";"Code Campagne";"Date";"Score Pix";"Tests Realises";`;
-
-  const jsonProfile = _fromStringOrJsonToJson(jsonData.snapshots[0].profile)
-  const listCompetences = _cleanArrayCompetences(jsonProfile.included);
-
-  textCsvLineHeaders += listCompetences.map(_.property('name')).join(';');
-
-  textCsvLineHeaders += '\n';
-  return textCsvLineHeaders;
-}
-
-function _createProfileLine(snapshot) {
-  let snapshotCsvLine = '';
-  const listCompetences = _cleanArrayCompetences(_fromStringOrJsonToJson(snapshot.profile).included);
-
-  snapshotCsvLine += [`"${snapshot.user.lastName}"`,
-    `"${snapshot.user.firstName}"`,
-    `"${snapshot.studentCode || ''}"`,
-    `"${snapshot.campaignCode || ''}"`,
-    moment(snapshot.createdAt).format('DD/MM/YYYY'),
-    snapshot.score || '']
-    .join(';');
-
-  snapshotCsvLine += ';';
-
-  // XXX We add '=' before string to force Excel to read it as string, not as date
-  snapshotCsvLine += `="${snapshot.testsFinished}/${listCompetences.length}";`;
-
-  snapshotCsvLine += _(listCompetences).map((comp) => comp.level < 0 ? '' : comp.level).join(';');
-
-  snapshotCsvLine += '\n';
-  return snapshotCsvLine;
-}
-
-function _cleanArrayCompetences(arrayCompetences) {
-  return _.sortBy(arrayCompetences, 'attributes.index')
-    .filter(competence => _verifyCorrectCompetence(competence))
-    .map(competence => {
-      return {
-        name: `"${_cleanCompetenceName(competence.attributes.name)}"`,
-        index: competence.attributes.index,
-        level: competence.attributes.level
-      };
-    });
-}
-
-function _verifyCorrectCompetence(competence) {
-  return competence.type === 'competences' && competence.attributes.name;
-}
-
-function _emptyData(jsonData) {
-  return !jsonData.snapshots || jsonData.snapshots.length === 0;
-}
-
 function _cleanCompetenceName(name) {
   return name
     .replace(/é/g, 'e')
     .replace(/é/g, 'e')
     .replace(/ê/g, 'e');
+}
+
+function _createHeadersLine(organization, competences) {
+  const identificationCodeHeader = _getHeaderForIdentificationCode(organization);
+  const headers = [
+    '"Nom"',
+    '"Prenom"',
+    `"${identificationCodeHeader}"`,
+    '"Code Campagne"',
+    '"Date"',
+    '"Score Pix"',
+    '"Tests Realises"'
+  ];
+
+  competences.forEach(competence => {
+    const competenceNameWithoutDiacritics = _cleanCompetenceName(competence.name);
+    headers.push(`"${competenceNameWithoutDiacritics}"`);
+  });
+  return headers.join(';') + '\n';
 }
 
 function _fromStringOrJsonToJson(data) {
@@ -99,4 +46,55 @@ function _fromStringOrJsonToJson(data) {
     return data;
   }
 }
+
+function _getSnapshotCompetenceLevelsSortedByCompetenceIndex(snapshot) {
+  const jsonapiProfile = _fromStringOrJsonToJson(snapshot.profile);
+  const competences = jsonapiProfile.included.filter((item) => item.type === 'competences');
+  const competenceLevels = competences.map(competence => {
+    return {
+      index: competence.attributes.index,
+      level: competence.attributes.level
+    };
+  });
+  return sortBy(competenceLevels, ['index']);
+}
+
+function _createProfileLine(snapshot) {
+  const snapshotCompetenceLevels = _getSnapshotCompetenceLevelsSortedByCompetenceIndex(snapshot);
+
+  let snapshotCsvLine = '';
+
+  snapshotCsvLine += [
+    `"${snapshot.user.lastName}"`,
+    `"${snapshot.user.firstName}"`,
+    `"${snapshot.studentCode || ''}"`,
+    `"${snapshot.campaignCode || ''}"`,
+    moment(snapshot.createdAt).format('DD/MM/YYYY'),
+    snapshot.score || ''
+  ].join(';');
+
+  snapshotCsvLine += ';';
+
+  // XXX We add '=' before string to force Excel to read it as string, not as date
+  snapshotCsvLine += `="${snapshot.testsFinished}/${snapshotCompetenceLevels.length}";`;
+
+  snapshotCsvLine += snapshotCompetenceLevels.map(competenceLevel =>  competenceLevel.level < 0 ? '' : competenceLevel.level).join(';');
+
+  return snapshotCsvLine + '\n';
+}
+
+function _createProfileLines(jsonSnapshots) {
+  return jsonSnapshots.map(_createProfileLine).join('');
+}
+
+module.exports = {
+
+  convertJsonToCsv(organization, competences, jsonSnapshots) {
+    let textCsv = '';
+    textCsv += _createHeadersLine(organization, competences);
+    textCsv += _createProfileLines(jsonSnapshots);
+    return textCsv;
+  }
+
+};
 

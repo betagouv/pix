@@ -1,47 +1,39 @@
-const _ = require('lodash');
-
-/*
- * PRIVATE
- */
+const { sampleSize, random } = require('lodash');
 
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
-  return _.sampleSize(letters, count).join('');
+  return sampleSize(letters, count).join('');
 }
-
-function _convertSnapshotsWithRelatedUsersToJson(snapshotsWithRelatedUsers) {
-  return snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON());
-}
-
-function _convertSnapshotsFromJsonToCsv(snapshotsCsvConverter, organization, jsonSnapshots) {
-  const jsonData = {
-    organizationType: organization.type,
-    snapshots: jsonSnapshots
-  };
-  return snapshotsCsvConverter.convertJsonToCsv(jsonData);
-}
-
-/*
- * PUBLIC
- */
 
 module.exports = {
 
   generateOrganizationCode() {
     let code = _randomLetters(4);
-    code += _.random(0, 9) + '' + _.random(0, 9);
+    code += random(0, 9) + '' + random(0, 9);
     return code;
   },
 
   getOrganizationSharedProfilesAsCsv(dependencies, organizationId) {
-    const { organizationRepository, snapshotRepository, bookshelfUtils, snapshotsCsvConverter } = dependencies;
-    let organization;
+    const { organizationRepository, competenceRepository, snapshotRepository, bookshelfUtils, snapshotsCsvConverter } = dependencies;
 
-    return organizationRepository.get(organizationId)
-      .then(fetchedOganization => { organization = fetchedOganization; })
-      .then(() => snapshotRepository.getSnapshotsByOrganizationId(organizationId))
-      .then((snapshots) => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
-      .then(_convertSnapshotsWithRelatedUsersToJson)
-      .then(jsonSnapshots => _convertSnapshotsFromJsonToCsv(snapshotsCsvConverter, organization, jsonSnapshots));
+    let organization;
+    let competences;
+    let snapshots;
+
+    const promises = [
+      organizationRepository.get(organizationId),
+      competenceRepository.find(),
+      snapshotRepository.getSnapshotsByOrganizationId(organizationId)
+    ];
+
+    return Promise.all(promises)
+      .then(([_organization, _competences, _snapshots]) => {
+        organization = _organization;
+        competences = _competences;
+        snapshots = _snapshots;
+      })
+      .then(() => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
+      .then(snapshotsWithRelatedUsers => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
+      .then(jsonSnapshots => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
   }
 };
