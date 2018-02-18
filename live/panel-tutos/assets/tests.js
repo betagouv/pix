@@ -4756,18 +4756,6 @@ define('pix-live/tests/integration/components/comparison-window-test', ['chai', 
           (0, _chai.expect)($icon.attr('src')).to.equal('/images/answer-validation/icon-' + data.status + '.svg');
         });
       });
-
-      (0, _mocha.it)('should render a tutorial panel before feedback panel', function () {
-        // when
-        this.render(Ember.HTMLBars.template({
-          "id": "fLyyRS5D",
-          "block": "{\"symbols\":[],\"statements\":[[1,[18,\"comparison-window\"],false]],\"hasEval\":false}",
-          "meta": {}
-        }));
-
-        // then
-        (0, _chai.expect)(this.$('.tutorial-panel')).to.have.lengthOf(1);
-      });
     });
   });
 });
@@ -9842,7 +9830,7 @@ define('pix-live/tests/integration/components/tutorial-panel-test', ['chai', 'mo
         (0, _chai.expect)(this.$()).to.have.length(1);
       });
 
-      [{ itemClassName: '.tutorial-panel' }, { itemClassName: '.tutorial-panel__box-container' }, { itemClassName: '.tutorial-panel__box-title' }, { itemClassName: '.tutorial-panel__box-picto-container' }, { itemClassName: '.tutorial-panel__box-picto' }, { itemClassName: '.tutorial-panel__separator' }].forEach(function (_ref2) {
+      [{ itemClassName: '.tutorial-panel' }].forEach(function (_ref2) {
         var itemClassName = _ref2.itemClassName;
 
         (0, _mocha.it)('should render a div with class ' + itemClassName, function () {
