@@ -15,6 +15,9 @@ function _toDomain(airtableCompetence) {
 
 module.exports = {
 
+  /**
+   * @deprecated use method #find below
+   */
   list() {
     const cacheKey = 'competence-repository_list';
     const cachedCompetences = cache.get(cacheKey);
