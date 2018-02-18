@@ -83,7 +83,7 @@ module.exports = {
 
   convertJsonToCsv(organization, competences, jsonSnapshots) {
     // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
-    let textCsv = "\uFEFF";
+    let textCsv = '\uFEFF';
     textCsv += _createHeadersLine(organization, competences);
     textCsv += _createProfileLines(jsonSnapshots);
     return textCsv;
