@@ -95,7 +95,7 @@ module.exports = {
     return organizationService.getOrganizationSharedProfilesAsCsv(dependencies, organizationId)
       .then((snapshotsTextCsv) => {
         return reply(snapshotsTextCsv)
-          .header('Content-Type', 'text/csv')
+          .header('Content-Type', 'text/csv;charset=utf-8')
           .header('Content-Disposition', `attachment; filename=${exportCsvFileName}`);
       }
       )

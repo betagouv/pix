@@ -4,37 +4,29 @@ const { sortBy } = require('lodash');
 function _getHeaderForIdentificationCode(organization) {
   switch (organization.type) {
     case 'SUP':
-      return 'Numero Etudiant';
+      return 'Numéro Étudiant';
     case 'SCO':
-      return 'Numero INE';
+      return 'Numéro INE';
     case 'PRO':
     default:
       return 'ID-Pix';
   }
 }
 
-function _cleanCompetenceName(name) {
-  return name
-    .replace(/é/g, 'e')
-    .replace(/é/g, 'e')
-    .replace(/ê/g, 'e');
-}
-
 function _createHeadersLine(organization, competences) {
   const identificationCodeHeader = _getHeaderForIdentificationCode(organization);
   const headers = [
     '"Nom"',
-    '"Prenom"',
+    '"Prénom"',
     `"${identificationCodeHeader}"`,
     '"Code Campagne"',
     '"Date"',
     '"Score Pix"',
-    '"Tests Realises"'
+    '"Tests Réalisés"'
   ];
 
   competences.forEach(competence => {
-    const competenceNameWithoutDiacritics = _cleanCompetenceName(competence.name);
-    headers.push(`"${competenceNameWithoutDiacritics}"`);
+    headers.push(`"${competence.name}"`);
   });
   return headers.join(';') + '\n';
 }
@@ -90,7 +82,8 @@ function _createProfileLines(jsonSnapshots) {
 module.exports = {
 
   convertJsonToCsv(organization, competences, jsonSnapshots) {
-    let textCsv = '';
+    // XXX: add the UTF-8 BOM at the start of the text; see https://stackoverflow.com/a/38192870
+    let textCsv = "\uFEFF";
     textCsv += _createHeadersLine(organization, competences);
     textCsv += _createProfileLines(jsonSnapshots);
     return textCsv;

@@ -259,8 +259,8 @@ describe('Acceptance | Controller | organization-controller', function() {
     it('should return 200 HTTP status code', () => {
       // given
       const url = `/api/organizations/${organizationId}/snapshots/export?userToken=${userToken}`;
-      const expectedCsvSnapshots = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";' +
-        '"Tests Realises";"Traiter des donnees";"Proteger les donnees personnelles et la vie privee"\n' +
+      const expectedCsvSnapshots = '\uFEFF"Nom";"Prénom";"Numéro Étudiant";"Code Campagne";"Date";"Score Pix";' +
+        '"Tests Réalisés";"Traiter des données";"Protéger les données personnelles et la vie privée"\n' +
         '"Doe";"john";"";"";31/08/2017;15;="1/2";;8\n';
 
       const request = {

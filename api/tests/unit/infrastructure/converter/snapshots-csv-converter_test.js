@@ -60,7 +60,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
     }];
   });
 
-  const expectedTextHeadersCSV = '"Nom";"Prenom";"Numero Etudiant";"Code Campagne";"Date";"Score Pix";"Tests Realises";"Interagir";"Securiser l’environnement numerique"\n';
+  const expectedTextHeadersCSV = '\uFEFF"Nom";"Prénom";"Numéro Étudiant";"Code Campagne";"Date";"Score Pix";"Tests Réalisés";"Interagir";"Sécuriser l’environnement numérique"\n';
   const expectedTextCSVFirstUser = '"NomUser";"PrenomUser";"UNIV123";"CAMPAIGN123";13/10/2017;22;="2/2";4;3\n';
   const expectedTextCSVSecondUser = '"NomUser";"PrenomUser";"AAA";"EEE";12/10/2017;;="1/2";2;\n';
 
@@ -86,7 +86,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
         expect(result).to.contains(expectedTextHeadersCSV);
       });
 
-      it('should display "Numero Etudiant" when organization has type "SUP"', () => {
+      it('should display "Numéro Étudiant" when organization has type "SUP"', () => {
         // given
         organization.type = 'SUP';
 
@@ -94,10 +94,10 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
         const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
-        expect(result).to.contains('"Numero Etudiant"');
+        expect(result).to.contains('"Numéro Étudiant"');
       });
 
-      it('should display "Numero INE" when organization has type "SCO"', () => {
+      it('should display "Numéro INE" when organization has type "SCO"', () => {
         // given
         organization.type  = 'SCO';
 
@@ -105,7 +105,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
         const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
         // then
-        expect(result).to.contains('"Numero INE"');
+        expect(result).to.contains('"Numéro INE"');
       });
 
       it('should display "ID-Pix" when organization has type "PRO"', () => {
