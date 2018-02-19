@@ -609,7 +609,7 @@ describe('Unit | Service | Certification Service', function() {
 
         ];
         const expectedResult = {
-          listCertifiedCompetences: expectedCertifiedCompetences,
+          competencesWithMark: expectedCertifiedCompetences,
           listChallengesAndAnswers: expectedChallenges,
           percentageCorrectAnswers: 67,
           status: 'completed',

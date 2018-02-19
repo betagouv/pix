@@ -126,7 +126,7 @@ function _getResult(listAnswers, listChallenges, listCompetences) {
   const competencesWithMark = _getCompetencesWithCertifiedLevelAndScore(answersWithCompetences, listCompetences, reproductibilityRate);
   const scoreAfterRating = _getSumScoreFromCertifiedCompetences(competencesWithMark);
 
-  return { competencesWithMark, totalScore: scoreAfterRating };
+  return { competencesWithMark, totalScore: scoreAfterRating, percentageCorrectAnswers: reproductibilityRate };
 }
 function _getChallengesWithCompetenceInfo(testedCompetences) {
   return testedCompetences.reduce((challengesWithCompetenceInfo, competence) => {
