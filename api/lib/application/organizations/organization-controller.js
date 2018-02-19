@@ -59,11 +59,9 @@ module.exports = {
   },
 
   search: (request, reply) => {
+    const filters = _extractFilters(request);
 
-    const params = _extractFilters(request);
-
-    return organizationRepository
-      .findBy(params)
+    return organizationService.search(filters)
       .then(organizations => reply(organizationSerializer.serialize(organizations)))
       .catch(err => {
         logger.error(err);
