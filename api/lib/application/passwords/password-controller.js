@@ -15,7 +15,7 @@ const userRepository = require('../../infrastructure/repositories/user-repositor
 
 const { UserNotFoundError, InternalError, PasswordResetDemandNotFoundError, InvalidTemporaryKeyError } = require('../../domain/errors');
 
-function _sendPasswordResetDemandUrlEmail(request, email, temporaryKey, passwordResetDemand) {
+function _sendPasswordResetDemandUrlEmail(email, temporaryKey, passwordResetDemand) {
 
   const passwordResetDemandUrl = `http://${settings.app.domain}`;
   return mailService
@@ -33,7 +33,7 @@ module.exports = {
       .then(resetPasswordService.generateTemporaryKey)
       .then((temporaryKey) => {
         return resetPasswordDemandRepository.create({ email: user.email, temporaryKey })
-          .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(request, user.email, temporaryKey, passwordResetDemand))
+          .then((passwordResetDemand) => _sendPasswordResetDemandUrlEmail(user.email, temporaryKey, passwordResetDemand))
           .then((passwordResetDemand) => passwordResetSerializer.serialize(passwordResetDemand.attributes))
           .then((serializedPayload) => reply(serializedPayload).code(201));
       })
