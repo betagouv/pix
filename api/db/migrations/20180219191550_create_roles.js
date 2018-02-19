@@ -11,7 +11,16 @@ exports.up = (knex, Promise) => {
       table.bigInteger('role_id').references('roles.id');
       table.bigInteger('user_id').references('users.id');
     }),
-  ]);
+  ]).then(() => {
+    const roles = [
+      { name: 'PIX_ADMIN' },
+      { name: 'PIX_PRODUCER' },
+      { name: 'PIX_DEV' },
+      { name: 'ORGANIZATION_OWNER' },
+      { name: 'ORGANIZATION_PRESCRIBER' }
+    ];
+    return knex.batchInsert('roles', roles);
+  });
 };
 
 exports.down = (knex, Promise) => {
