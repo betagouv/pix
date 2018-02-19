@@ -3544,10 +3544,6 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/courses.js', function () {
-      // test passed
-    });
-
     it('routes/courses/create-assessment.js', function () {
       // test passed
     });
@@ -10733,10 +10729,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/courses-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/enrollment-test.js', function () {
       // test passed
     });
@@ -15508,21 +15500,6 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           _sinon.default.assert.called(storeSaveStub);
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | courses', function () {
-
-    (0, _emberMocha.setupTest)('route:courses', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });

@@ -6375,7 +6375,6 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
 
   Router.map(function () {
     this.route('index', { path: '/' });
-    this.route('courses');
     this.route('placement-tests');
     this.route('project', { path: '/projet' });
     this.route('competences');
@@ -6901,26 +6900,6 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
         return this.get('store').createRecord('snapshot', { organization: organization, studentCode: studentCode, campaignCode: campaignCode }).save();
       }
     }
-  });
-});
-define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _baseRoute.default.extend({
-    model: function model() {
-      return this.get('store').findAll('course');
-    },
-
-
-    actions: {
-      startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course.id);
-      }
-    }
-
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -8240,14 +8219,6 @@ define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "yh1guUlG", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"id\",\"home-loading\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"loader-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"loader\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"loader-inner ball-zig-zag\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"ball-spinner\"],[7],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"ball-spinner\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses-loading.hbs" } });
 });
-define("pix-live/templates/courses", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "CwjMxSVT", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"courses-page\"],[7],[0,\"\\n  \"],[1,[25,\"course-list\",null,[[\"courses\",\"startCourse\"],[[20,[\"model\"]],\"startCourse\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses.hbs" } });
-});
 define("pix-live/templates/courses/create-assessment-loading", ["exports"], function (exports) {
   "use strict";
 
@@ -9143,6 +9114,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.38.0+093f8bdd"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.38.0+e0e4c228"});
 }
 //# sourceMappingURL=pix-live.map
