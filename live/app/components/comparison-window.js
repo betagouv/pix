@@ -119,7 +119,6 @@ export default Component.extend(EKMixin, FocusableComponent, {
       clue:'Avez-vous cliqué sur les petits triangles à côté des titres des colonnes du tableau ? C’est là qu’on peut choisir de n’afficher que les lignes qui nous intéressent.'
     },
     '@form_intero3':{
-      clue:'-',
       tutorials:[{ title:'Qu\'est ce qu\'un tableur ? ',link:'http://www.courstechinfo.be/Excel/Tableur.html',type:'page',duration:'1 mn',from:'courstechinfo' }]
     },
     '@tri4':{
