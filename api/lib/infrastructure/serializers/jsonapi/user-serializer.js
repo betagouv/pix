@@ -7,7 +7,10 @@ module.exports = {
   serialize(users) {
     return new Serializer('user', {
       attributes: ['firstName', 'lastName'],
-      transform: (model) => model.toJSON()
+      transform: (model) => {
+        // FIXME: Used to make it work in both cases
+        return (model instanceof User) ? model : model.toJSON();
+      }
     }).serialize(users);
   },
 

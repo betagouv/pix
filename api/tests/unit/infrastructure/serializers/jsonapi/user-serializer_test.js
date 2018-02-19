@@ -24,29 +24,59 @@ describe('Unit | Serializer | JSONAPI | user-serializer', () => {
   });
 
   describe('#serialize', () => {
-    it('should serialize excluding email and password', () => {
-      // Given
-      const modelObject = new BookshelfUser({
-        id: '234567',
-        firstName: 'Luke',
-        lastName: 'Skywalker',
-        email: 'lskywalker@deathstar.empire',
-        password: ''
-      });
-
-      // When
-      const json = serializer.serialize(modelObject);
-
-      // Then
-      expect(json).to.be.deep.equal({
-        data: {
-          attributes: {
-            'first-name': 'Luke',
-            'last-name': 'Skywalker',
-          },
+    context('when the given parameter is a BookshelfUser', () => {
+      it('should serialize excluding email and password', () => {
+        // Given
+        const modelObject = new BookshelfUser({
           id: '234567',
-          type: 'users'
-        }
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
+        });
+
+        // When
+        const json = serializer.serialize(modelObject);
+
+        // Then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+            },
+            id: '234567',
+            type: 'users'
+          }
+        });
+      });
+    });
+
+    context('when the given parameter is a User', () => {
+      it('should serialize excluding email and password', () => {
+        // Given
+        const modelObject = new User({
+          id: '234567',
+          firstName: 'Luke',
+          lastName: 'Skywalker',
+          email: 'lskywalker@deathstar.empire',
+          password: ''
+        });
+
+        // When
+        const json = serializer.serialize(modelObject);
+
+        // Then
+        expect(json).to.be.deep.equal({
+          data: {
+            attributes: {
+              'first-name': 'Luke',
+              'last-name': 'Skywalker',
+            },
+            id: '234567',
+            type: 'users'
+          }
+        });
       });
     });
   });

@@ -1,12 +1,19 @@
 const BookshelfUser = require('../../infrastructure/data/user');
+const User = require('../../domain/models/User');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
+
+function _toDomain(bookshelfUser) {
+  const modelObjectInJSON = bookshelfUser.toJSON();
+  return new User(modelObjectInJSON);
+}
 
 module.exports = {
 
   findByEmail(email) {
     return BookshelfUser
       .where({ email })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(_toDomain);
   },
 
   findUserById(userId) {

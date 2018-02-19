@@ -10,7 +10,7 @@ const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 describe('Unit | Repository | UserRepository', function() {
 
   let userId;
-  const email = faker.internet.email();
+  const email = faker.internet.email().toLowerCase();
   const userPassword = bcrypt.hashSync('A124B2C3#!', 1);
   const inserted_user = {
     firstName: faker.name.firstName(),
@@ -92,7 +92,7 @@ describe('Unit | Repository | UserRepository', function() {
       // Then
       return promise
         .then((user) => {
-          expect(user.get('email')).to.equal(email);
+          expect(user.email).to.equal(email);
         });
     });
   });

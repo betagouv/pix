@@ -58,10 +58,12 @@ module.exports = {
       .catch((err) => {
         if (err instanceof InvalidTemporaryKeyError) {
           return reply(errorSerializer.serialize(err.getErrorMessage())).code(401);
-        }
-        if (err instanceof PasswordResetDemandNotFoundError) {
+        } else if (err instanceof PasswordResetDemandNotFoundError) {
           return reply(errorSerializer.serialize(err.getErrorMessage())).code(404);
         }
+
+        logger.error(err);
+
         return reply(errorSerializer.serialize(new InternalError().getErrorMessage())).code(500);
       });
   }

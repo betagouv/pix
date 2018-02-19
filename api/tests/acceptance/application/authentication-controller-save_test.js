@@ -7,7 +7,7 @@ const jsonwebtoken = require('jsonwebtoken');
 const settings = require('./../../../../api/lib/settings');
 
 const server = require('../../../server');
-const User = require('../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | Controller | authentication-controller', () => {
 
@@ -21,7 +21,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
   const userPassword = 'A124B2C3#!';
 
   before(() => {
-    return new User({
+    return new BookshelfUser({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: userEmailSavedInDb,
