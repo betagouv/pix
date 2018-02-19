@@ -2,7 +2,7 @@
   "scripts": {
     "dokku": {
       "predeploy": "npm run db:migrate",
-      "postdeploy": "./scripts/seed_review_app.sh integration"
+      "postdeploy": "./scripts/seed_review_app.sh"
     }
   }
 }

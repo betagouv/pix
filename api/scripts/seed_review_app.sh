@@ -1,7 +1,6 @@
 #! /bin/bash
-echo $NODE_ENV
 if [ $NODE_ENV = "development" ]
 then
-  echo "RUN"
+  echo "Run DB:SEED"
   npm run db:seed
 fi
