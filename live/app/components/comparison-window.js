@@ -176,7 +176,8 @@ export default Component.extend(EKMixin, FocusableComponent, {
       contents: hasContents,
       clue: clue,
       tutorials: tutorials,
-      more: more
+      more: more,
+      skill:id
     };
   })
 });
