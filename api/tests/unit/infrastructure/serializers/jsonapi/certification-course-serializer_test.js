@@ -5,39 +5,41 @@ const CertificationCourse = require('../../../../../lib/domain/models/Certificat
 
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
-  describe('#serialize()', function() {
-    const assessment = new Assessment({
-      'id': '2'
-    });
+  const assessment = new Assessment({
+    'id': '2'
+  });
 
-    const certificationCourse = new CertificationCourse({
+  const certificationCourse = new CertificationCourse({
+    id: 'certification_id',
+    userId : 2,
+    status : 'completed',
+    assessment: assessment,
+    nbChallenges: 3
+  });
+
+  const jsonCertificationCourseWithAssessment = {
+    data: {
+      type: 'courses',
       id: 'certification_id',
-      userId : 2,
-      status : 'completed',
-      assessment: assessment,
-      nbChallenges: 3
-    });
-
-    const jsonCertificationCourseWithAssessment = {
-      data: {
-        type: 'courses',
-        id: 'certification_id',
-        attributes : {
-          'user-id': '2',
-          'status' : 'completed',
-          'type' : 'CERTIFICATION',
-          'nb-challenges': 3
-        },
-        relationships: {
-          assessment: {
-            data: {
-              id: '2',
-              type: 'assessments'
-            }
+      attributes : {
+        'user-id': '2',
+        'status' : 'completed',
+        'type' : 'CERTIFICATION',
+        'nb-challenges': 3
+      },
+      relationships: {
+        assessment: {
+          data: {
+            id: '2',
+            type: 'assessments'
           }
         }
       }
-    };
+    }
+  };
+
+  describe('#serialize()', function() {
+
     it('should convert a Certification Course model object into JSON API data', function() {
 
       // when
@@ -45,6 +47,20 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
       // then
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
+    });
+  });
+
+  describe('#deserialize', function() {
+
+    it('should convert a JSON API data into a Certification Course model object', function() {
+
+      //when
+      const certificationCourseModel = serializer.deserialize(jsonCertificationCourseWithAssessment);
+
+      //then
+      expect(certificationCourseModel.id).to.equal(jsonCertificationCourseWithAssessment.data.id);
+      expect(certificationCourseModel.get('status')).to.equal(jsonCertificationCourseWithAssessment.data.attributes.status);
+
     });
   });
 });
