@@ -6,6 +6,7 @@ const certificationCourses = require('./data/certification-courses');
 const marks = require('./data/marks');
 const organizations = require('./data/organizations');
 const users = require('./data/users');
+const snapshots = require('./data/snapshots');
 
 function addData(knex, table, data) {
   return Promise.all(data)
@@ -25,7 +26,8 @@ const dataByTables = [
   { table: 'certification-challenges', data: certificationChallenges },
   { table: 'marks', data: marks },
   { table: 'organizations', data: organizations },
-  { table: 'users', data: users }
+  { table: 'users', data: users },
+  { table: 'snapshots', data: snapshots }
 ];
 
 exports.seed = (knex) => {
