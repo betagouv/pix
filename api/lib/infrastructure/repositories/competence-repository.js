@@ -7,7 +7,7 @@ const AIRTABLE_TABLE_NAME = 'Competences';
 
 function _toDomain(airtableCompetence) {
   return new Competence({
-    id: airtableCompetence.get('id'),
+    id: airtableCompetence.getId(),
     name: airtableCompetence.get('Titre'),
     index: airtableCompetence.get('Sous-domaine')
   });
