@@ -915,7 +915,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
         });
       });
 
-      context.skip('When user is logged in', function () {
+      context('When user is logged in', function () {
 
         (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -936,7 +936,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
 
         (0, _mocha.it)('should be redirected on the first challenge of an assessment', function () {
           // then
-          (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/1/);
+          (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
         });
 
         (0, _mocha.it)('should navigate to next challenge when we click pass', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
@@ -950,7 +950,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
                 case 2:
 
                   // then
-                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+                  (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
 
                 case 3:
                 case 'end':
@@ -960,60 +960,73 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
           }, _callee3, this);
         })));
 
-        (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-          return regeneratorRuntime.wrap(function _callee4$(_context4) {
-            while (1) {
-              switch (_context4.prev = _context4.next) {
-                case 0:
-                  _context4.next = 2;
-                  return click('.challenge-actions__action-skip');
+        context('after skipping the all three challenges of the certification course', function () {
 
-                case 2:
-                  _context4.next = 4;
-                  return click('.challenge-actions__action-skip');
+          (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
+              while (1) {
+                switch (_context4.prev = _context4.next) {
+                  case 0:
+                    _context4.next = 2;
+                    return click('.challenge-actions__action-skip');
 
-                case 4:
+                  case 2:
+                    _context4.next = 4;
+                    return click('.challenge-actions__action-skip');
 
-                  // then
-                  (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+                  case 4:
+                    _context4.next = 6;
+                    return click('.challenge-item-warning__confirm-btn');
 
-                case 5:
-                case 'end':
-                  return _context4.stop();
+                  case 6:
+                    _context4.next = 8;
+                    return click('.challenge-actions__action-skip');
+
+                  case 8:
+
+                    // then
+                    (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+
+                  case 9:
+                  case 'end':
+                    return _context4.stop();
+                }
               }
-            }
-          }, _callee4, this);
-        })));
+            }, _callee4, this);
+          })));
+        });
       });
 
-      context.skip('When stop and relaunch the certification course', function () {
+      context('When stop and relaunch the certification course', function () {
 
         (0, _mocha.it)('should be redirected on the second challenge of an assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
           return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
               switch (_context5.prev = _context5.next) {
                 case 0:
-                  _context5.next = 2;
+                  // given
+                  (0, _testing.authenticateAsSimpleUser)();
+                  _context5.next = 3;
                   return visit('/certifications?code=10ue1');
 
-                case 2:
-                  _context5.next = 4;
-                  return click('.challenge-actions__action-skip-text');
+                case 3:
+                  _context5.next = 5;
+                  return click('.challenge-actions__action-skip');
 
-                case 4:
-                  _context5.next = 6;
+                case 5:
+                  _context5.next = 7;
                   return visit('/compte');
 
-                case 6:
-                  _context5.next = 8;
+                case 7:
+                  _context5.next = 9;
                   return visit('/certifications/certification-number');
 
-                case 8:
+                case 9:
 
                   // then
-                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/2/);
+                  (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
 
-                case 9:
+                case 10:
                 case 'end':
                   return _context5.stop();
               }
@@ -3528,10 +3541,6 @@ define('pix-live/tests/app.lint-test', [], function () {
     });
 
     it('routes/compte.js', function () {
-      // test passed
-    });
-
-    it('routes/courses.js', function () {
       // test passed
     });
 
@@ -10720,10 +10729,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/courses-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/enrollment-test.js', function () {
       // test passed
     });
@@ -13413,11 +13418,12 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'organisation :');
-        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », elle recevra les informations suivantes :');
-        (0, _chai.expect)(organizationLabel.text3).to.equal('Elle ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'organisation :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('votre ID-Pix et le code campagne');
+        (0, _chai.expect)(organizationLabel.text4).to.equal('L\'organisation ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
       });
 
-      (0, _mocha.it)('should return adapted ("établissement"-based) labels when organization type is SUP or SCO', function () {
+      (0, _mocha.it)('should return adapted ("établissement"-based) labels when organization type is SUP', function () {
         // given
         component.set('_organization', { type: 'SUP' });
 
@@ -13426,8 +13432,23 @@ define('pix-live/tests/unit/components/share-profile-test', ['chai', 'mocha', 'e
 
         // then
         (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
-        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », il recevra les informations suivantes :');
-        (0, _chai.expect)(organizationLabel.text3).to.equal('Il ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('votre numéro d\'étudiant et le code campagne');
+        (0, _chai.expect)(organizationLabel.text4).to.equal('L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
+      });
+
+      (0, _mocha.it)('should return adapted ("établissement"-based) labels when organization type is SCO', function () {
+        // given
+        component.set('_organization', { type: 'SCO' });
+
+        // when
+        var organizationLabel = component.get('organizationLabels');
+
+        // then
+        (0, _chai.expect)(organizationLabel.text1).to.equal('Vous vous apprêtez à transmettre une copie de votre profil Pix à l\'établissement :');
+        (0, _chai.expect)(organizationLabel.text2).to.equal('En cliquant sur le bouton « Envoyer », vous transmettrez à l\'établissement :');
+        (0, _chai.expect)(organizationLabel.text3).to.equal('le code campagne');
+        (0, _chai.expect)(organizationLabel.text4).to.equal('L\'établissement ne recevra les évolutions futures de votre profil que si vous le partagez à nouveau.');
       });
     });
   });
@@ -15479,21 +15500,6 @@ define('pix-live/tests/unit/routes/compte-test', ['chai', 'mocha', 'ember-mocha'
           _sinon.default.assert.called(storeSaveStub);
         });
       });
-    });
-  });
-});
-define('pix-live/tests/unit/routes/courses-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | courses', function () {
-
-    (0, _emberMocha.setupTest)('route:courses', {
-      needs: ['service:current-routed-modal']
-    });
-
-    (0, _mocha.it)('exists', function () {
-      var route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
     });
   });
 });
