@@ -4,6 +4,7 @@ const Competence = require('../../../../lib/domain/models/Competence');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
 const organizationService = require('../../../../lib/domain/services/organization-service');
+const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
 
 describe('Unit | Service | OrganizationService', () => {
 
@@ -115,4 +116,53 @@ describe('Unit | Service | OrganizationService', () => {
       });
     });
   });
+
+  describe('#search', () => {
+
+    it('should return an empty list of organizations if no code given in filters', () => {
+      // given
+      const filters = { param1: 'param1' };
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((foundOrganizations) => {
+        expect(foundOrganizations).to.be.an('array').that.is.empty;
+      });
+    });
+
+    it('should return an empty list of organizations if a code is given but is empty', () => {
+      // given
+      const filters = { code: ' ' };
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((foundOrganizations) => {
+        expect(foundOrganizations).to.be.an('array').that.is.empty;
+      });
+    });
+
+    it('should return the organizations for the given filters', () => {
+      // given
+      const sandbox = sinon.sandbox.create();
+      const filters = { code: 'OE34RND', type: 'SCO' };
+      const expectedFoundOrganizations = [{ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' }];
+
+      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(expectedFoundOrganizations);
+
+      // when
+      const promise = organizationService.search(filters);
+
+      // then
+      return promise.then((foundOrganizations) => {
+        expect(foundOrganizations).to.equal(expectedFoundOrganizations);
+        sandbox.restore();
+      });
+    });
+
+  });
+
 });

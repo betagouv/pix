@@ -1,8 +1,16 @@
 const { sampleSize, random } = require('lodash');
+const organisationRepository = require('../../infrastructure/repositories/organization-repository');
+
+const _ = require('lodash');
 
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
   return sampleSize(letters, count).join('');
+}
+
+function _noCodeGivenIn(filters) {
+  const code = filters.code;
+  return !code || !code.trim();
 }
 
 module.exports = {
@@ -35,5 +43,12 @@ module.exports = {
       .then(() => bookshelfUtils.mergeModelWithRelationship(snapshots, 'user'))
       .then(snapshotsWithRelatedUsers => snapshotsWithRelatedUsers.map((snapshot) => snapshot.toJSON()))
       .then(jsonSnapshots => snapshotsCsvConverter.convertJsonToCsv(organization, competences, jsonSnapshots));
+  },
+
+  search(filters = {}) {
+    if(_noCodeGivenIn(filters)) return Promise.resolve([]);
+
+    return organisationRepository.findBy(filters);
   }
+
 };
