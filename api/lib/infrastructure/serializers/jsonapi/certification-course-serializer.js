@@ -1,5 +1,8 @@
 const { Serializer } = require('jsonapi-serializer');
-const CertificationCourse = require('../../data/certification-course')
+const CertificationCourse = require('../../../domain/models/CertificationCourse')
+
+const { WrongDateFormatError } = require('../../../domain/errors');
+const moment = require('moment-timezone');
 
 module.exports = {
 
@@ -25,6 +28,10 @@ module.exports = {
   },
 
   deserialize(json) {
+    if (!moment(json.data.attributes.birthdate, 'DD/MM/YYYY').isValid()) {
+      throw new WrongDateFormatError();
+    }
+
     return new CertificationCourse({
       id: json.data.id,
       createdAt: json.data.attributes.createdAt,
@@ -34,7 +41,7 @@ module.exports = {
       completedAt: json.data.attributes.completedAt,
       firstName: json.data.attributes.firstName,
       lastName: json.data.attributes.lastName,
-      birthdate: json.data.attributes.birthdate,
+      birthdate: moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
       birthplace: json.data.attributes.birthplace,
       rejectionReason: json.data.attributes.rejectionReason
     });
