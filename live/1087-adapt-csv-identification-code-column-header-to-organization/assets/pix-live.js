@@ -4562,6 +4562,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer'
     this.post('/challenges/:challengeId/solution', _postRefreshSolution.default);
 
     this.post('/assessments', _postAssessments.default);
+    this.get('/assessments');
     this.get('/assessments/:id', _getAssessment.default);
     this.get('/assessments/:assessmentId/next/:challengeId', _getNextChallenge.default);
     this.get('/assessments/:assessmentId/next', _getNextChallenge.default);
@@ -4578,7 +4579,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer'
 
     //Courses
     this.get('/courses/:id', _getCourse.default);
-    this.post('/certification-courses', _postCertificationCourse.default);
+    this.post('/courses', _postCertificationCourse.default);
 
     this.post('/authentications', _postAuthentications.default);
     this.get('/users/me', _getUserMe.default);
@@ -4594,6 +4595,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer'
 
     this.post('/followers');
     this.post('/users');
+    this.post('/assessment-ratings');
 
     this.post('/password-reset-demands', function (schema, request) {
       var attrs = JSON.parse(request.requestBody);
@@ -5448,8 +5450,22 @@ define('pix-live/mirage/routes/get-answer-by-challenge-and-assessment', ['export
     if (answer) {
       return answer.obj;
     }
-    // TODO make it work for real
-    return schema.answers.first();
+
+    // XXX schema.answers.first() (or where(), or findBy()) should return JSONAPI
+    // For unknown reasons, it is not the case here (even if there is no answers found)
+    // We return this valid JSON API to be sure
+    var validJSONAPI = {
+      data: {
+        type: 'answers',
+        id: 'answerId',
+        attributes: {
+          value: ''
+        }
+      }
+    };
+
+    // TODO make it work for real (use schema.answers.where({assessmentId, challengeId})
+    return schema.answers.first() || validJSONAPI;
   };
 });
 define('pix-live/mirage/routes/get-answer', ['exports', 'pix-live/utils/lodash-custom', 'pix-live/mirage/data/answers/ref-qcm-answer', 'pix-live/mirage/data/answers/ref-qcu-answer', 'pix-live/mirage/data/answers/ref-qroc-answer', 'pix-live/mirage/data/answers/ref-qrocm-answer', 'pix-live/mirage/data/answers/ref-timed-answer', 'pix-live/mirage/data/answers/ref-timed-answer-bis'], function (exports, _lodashCustom, _refQcmAnswer, _refQcuAnswer, _refQrocAnswer, _refQrocmAnswer, _refTimedAnswer, _refTimedAnswerBis) {
@@ -5793,8 +5809,7 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
       'user-id': 'user_id',
       'user-name': 'Jane Doe',
       'user-email': 'jane@acme.com',
-      'certification-number': 'certification-number',
-      courseId: courseId
+      'certification-number': 'certification-number'
     };
 
     var assessment = _lodashCustom.default.find(assessments, { id: courseId });
@@ -5804,6 +5819,7 @@ define('pix-live/mirage/routes/post-assessments', ['exports', 'pix-live/utils/lo
       return _refAssessment.default;
     } else if (!_lodashCustom.default.startsWith(courseId, 'rec')) {
       newAssessment.type = 'CERTIFICATION';
+      newAssessment.courseId = 'certification-number';
     }
     return schema.assessments.create(newAssessment);
   };
@@ -5956,9 +5972,14 @@ define('pix-live/mirage/scenarios/default', ['exports'], function (exports) {
       code: 'SUP003'
     });
 
+    server.create('course', {
+      id: 'certification-number',
+      nbChallenges: 3,
+      type: 'CERTIFICATION'
+    });
+
     prescriber.organization = company;
     company.user = prescriber;
-    server.create('assessment', {});
 
     var snapshots = server.createList('snapshot', 3, { organization: company });
     company.snapshots = snapshots;
@@ -6354,7 +6375,6 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
 
   Router.map(function () {
     this.route('index', { path: '/' });
-    this.route('courses');
     this.route('placement-tests');
     this.route('project', { path: '/projet' });
     this.route('competences');
@@ -6880,26 +6900,6 @@ define('pix-live/routes/compte', ['exports', 'ember-simple-auth/mixins/authentic
         return this.get('store').createRecord('snapshot', { organization: organization, studentCode: studentCode, campaignCode: campaignCode }).save();
       }
     }
-  });
-});
-define('pix-live/routes/courses', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = _baseRoute.default.extend({
-    model: function model() {
-      return this.get('store').findAll('course');
-    },
-
-
-    actions: {
-      startCourse: function startCourse(course) {
-        this.transitionTo('courses.create-assessment', course.id);
-      }
-    }
-
   });
 });
 define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes/base-route'], function (exports, _baseRoute) {
@@ -8219,14 +8219,6 @@ define("pix-live/templates/courses-loading", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "yh1guUlG", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"id\",\"home-loading\"],[7],[0,\"\\n  \"],[6,\"div\"],[9,\"class\",\"loader-container\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"loader\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"loader-inner ball-zig-zag\"],[7],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"ball-spinner\"],[7],[8],[0,\"\\n        \"],[6,\"div\"],[9,\"class\",\"ball-spinner\"],[7],[8],[0,\"\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\"],[8]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses-loading.hbs" } });
 });
-define("pix-live/templates/courses", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "CwjMxSVT", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"courses-page\"],[7],[0,\"\\n  \"],[1,[25,\"course-list\",null,[[\"courses\",\"startCourse\"],[[20,[\"model\"]],\"startCourse\"]]],false],[0,\"\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/courses.hbs" } });
-});
 define("pix-live/templates/courses/create-assessment-loading", ["exports"], function (exports) {
   "use strict";
 
@@ -9122,6 +9114,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.38.0+97e3b934"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.39.0+ef884a41"});
 }
 //# sourceMappingURL=pix-live.map
