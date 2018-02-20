@@ -205,6 +205,44 @@ describe('Unit | Repository | userRepository', function() {
           expect(userSaved.cgu).to.equal(user.cgu);
         });
     });
+  });
 
+  describe('#updatePassword', () => {
+
+    let user;
+
+    beforeEach(() => {
+      const userToSave = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: 'my-email-to-save@example.net',
+        password: 'Pix1024#',
+        cgu: true,
+      });
+
+      return userRepository.save(userToSave)
+        .then((savedUser) => {
+          user = savedUser;
+        });
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
+
+    it('should save the user', () => {
+      // Given
+      const newPassword = '1235Pix!';
+
+      // When
+      const promise = userRepository.updatePassword(user.id, newPassword);
+
+      // Then
+      return promise
+        .then((updatedUser) => {
+          expect(updatedUser).to.be.an.instanceOf(User);
+          expect(updatedUser.password).to.equal(newPassword);
+        });
+    });
   });
 });

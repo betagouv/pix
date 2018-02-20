@@ -45,10 +45,12 @@ module.exports = {
       });
   },
 
-  updatePassword(id, password) {
-    return BookshelfUser.where({ id }).save({ password, cgu: true }, {
-      patch: true,
-      require: false
-    });
+  updatePassword(id, hashedPassword) {
+    return BookshelfUser.where({ id })
+      .save({ password: hashedPassword, cgu: true }, {
+        patch: true,
+        require: false
+      })
+      .then(_toDomain);
   }
 };
