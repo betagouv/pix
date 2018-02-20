@@ -119,6 +119,16 @@ describe('Unit | Service | OrganizationService', () => {
 
   describe('#search', () => {
 
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
     it('should return an empty list of organizations if no code given in filters', () => {
       // given
       const filters = { param1: 'param1' };
@@ -127,8 +137,8 @@ describe('Unit | Service | OrganizationService', () => {
       const promise = organizationService.search(filters);
 
       // then
-      return promise.then((foundOrganizations) => {
-        expect(foundOrganizations).to.be.an('array').that.is.empty;
+      return promise.then((organization) => {
+        expect(organization).to.be.an('array').that.is.empty;
       });
     });
 
@@ -140,26 +150,25 @@ describe('Unit | Service | OrganizationService', () => {
       const promise = organizationService.search(filters);
 
       // then
-      return promise.then((foundOrganizations) => {
-        expect(foundOrganizations).to.be.an('array').that.is.empty;
+      return promise.then((organization) => {
+        expect(organization).to.be.an('array').that.is.empty;
       });
     });
 
-    it('should return the organizations for the given filters', () => {
+    it('should return the organization found for the given filters, without the email', () => {
       // given
-      const sandbox = sinon.sandbox.create();
       const filters = { code: 'OE34RND', type: 'SCO' };
-      const expectedFoundOrganizations = [{ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' }];
+      const foundOrganization = [{ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND', email: 'tuileries@sco.com' }];
+      const expectedReturnedOrganization = [{ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' }];
 
-      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(expectedFoundOrganizations);
+      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(foundOrganization);
 
       // when
       const promise = organizationService.search(filters);
 
       // then
-      return promise.then((foundOrganizations) => {
-        expect(foundOrganizations).to.equal(expectedFoundOrganizations);
-        sandbox.restore();
+      return promise.then((organization) => {
+        expect(organization).to.deep.equal(expectedReturnedOrganization);
       });
     });
 

@@ -8,6 +8,11 @@ function _randomLetters(count) {
   return sampleSize(letters, count).join('');
 }
 
+function _organizationsWithoutEmail(organization) {
+  const { email, ...organizationWithoutEmail } = organization;
+  return organizationWithoutEmail;
+}
+
 function _noCodeGivenIn(filters) {
   const code = filters.code;
   return !code || !code.trim();
@@ -48,7 +53,9 @@ module.exports = {
   search(filters = {}) {
     if(_noCodeGivenIn(filters)) return Promise.resolve([]);
 
-    return organisationRepository.findBy(filters);
+    return organisationRepository
+      .findBy(filters)
+      .then((organizations) => organizations.map(_organizationsWithoutEmail));
   }
 
 };
