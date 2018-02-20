@@ -2,12 +2,13 @@ const { expect, knex } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
-const User = require('../../../../lib/infrastructure/data/user');
-const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
+const User = require('../../../../lib/domain/models/User');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
 const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 
-describe('Unit | Repository | UserRepository', function() {
+describe('Unit | Repository | userRepository', function() {
 
   let userId;
   const email = faker.internet.email().toLowerCase();
@@ -20,31 +21,31 @@ describe('Unit | Repository | UserRepository', function() {
     cgu: true
   };
 
-  before(() => {
-    return knex('users')
-      .delete()
-      .then(() => {
-        return knex('users').insert(inserted_user);
-      })
-      .then((result) => {
-        userId = result.shift();
-      });
-  });
-
-  after(() => {
-    return knex('users').delete();
-  });
-
   describe('#findUserById', () => {
+
+    beforeEach(() => {
+      return knex('users')
+        .delete()
+        .then(() => {
+          return knex('users').insert(inserted_user);
+        })
+        .then((result) => {
+          userId = result.shift();
+        });
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
 
     it('should be a function', function() {
       // then
-      expect(UserRepository.findUserById).to.be.a('function');
+      expect(userRepository.findUserById).to.be.a('function');
     });
 
     describe('Success management', () => {
       it('should find a user by provided id', () => {
-        return UserRepository.findUserById(userId)
+        return userRepository.findUserById(userId)
           .then((foundedUser) => {
             expect(foundedUser).to.exist;
             expect(foundedUser).to.be.an('object');
@@ -56,9 +57,9 @@ describe('Unit | Repository | UserRepository', function() {
 
       it('should handle a rejection, when user id is not found', () => {
         const inexistenteId = 10093;
-        return UserRepository.findUserById(inexistenteId)
+        return userRepository.findUserById(inexistenteId)
           .catch((err) => {
-            expect(err).to.be.an.instanceof(User.NotFoundError);
+            expect(err).to.be.an.instanceof(BookshelfUser.NotFoundError);
           });
       });
     });
@@ -67,16 +68,31 @@ describe('Unit | Repository | UserRepository', function() {
 
   describe('#findByEmail', () => {
 
+    beforeEach(() => {
+      return knex('users')
+        .delete()
+        .then(() => {
+          return knex('users').insert(inserted_user);
+        })
+        .then((result) => {
+          userId = result.shift();
+        });
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
+
     it('should be a function', () => {
       // then
-      expect(UserRepository.findByEmail).to.be.a('function');
+      expect(userRepository.findByEmail).to.be.a('function');
     });
 
     it('should handle a rejection, when user id is not found', () => {
       // Given
       const emailThatDoesNotExist = 10093;
       // When
-      const promise = UserRepository.findByEmail(emailThatDoesNotExist);
+      const promise = userRepository.findByEmail(emailThatDoesNotExist);
 
       // Then
       return promise
@@ -87,7 +103,7 @@ describe('Unit | Repository | UserRepository', function() {
 
     it('should return a user when found', () => {
       // When
-      const promise = UserRepository.findByEmail(email);
+      const promise = userRepository.findByEmail(email);
 
       // Then
       return promise
@@ -99,14 +115,24 @@ describe('Unit | Repository | UserRepository', function() {
 
   describe('#isEmailAvailable', () => {
 
-    it('should be a function', () => {
-      // then
-      expect(UserRepository.isEmailAvailable).to.be.a('function');
+    beforeEach(() => {
+      return knex('users')
+        .delete()
+        .then(() => {
+          return knex('users').insert(inserted_user);
+        })
+        .then((result) => {
+          userId = result.shift();
+        });
+    });
+
+    afterEach(() => {
+      return knex('users').delete();
     });
 
     it('should return the email when the email is not registered', () => {
       // When
-      const promise = UserRepository.isEmailAvailable('email@example.net');
+      const promise = userRepository.isEmailAvailable('email@example.net');
 
       // Then
       return promise.then((email) => {
@@ -116,7 +142,7 @@ describe('Unit | Repository | UserRepository', function() {
 
     it('should reject an AlreadyRegisteredEmailError when it already exists', () => {
       // When
-      const promise = UserRepository.isEmailAvailable(email);
+      const promise = userRepository.isEmailAvailable(email);
 
       // Then
       return promise.catch(err => {
@@ -127,4 +153,58 @@ describe('Unit | Repository | UserRepository', function() {
 
   });
 
+  describe('#save', () => {
+
+    afterEach(() => {
+      return knex('users').delete();
+    });
+
+    it('should save the user', () => {
+      // Given
+      const email = 'my-email-to-save@example.net';
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: email,
+        password: 'Pix1024#',
+        cgu: true,
+      });
+
+      // When
+      const promise = userRepository.save(user);
+
+      // Then
+      return promise
+        .then(() => knex('users').select())
+        .then((usersSaved) => {
+          expect(usersSaved).to.have.lengthOf(1);
+        });
+    });
+
+    it('should return a User object', () => {
+      // Given
+      const email = 'my-email-to-save@example.net';
+      const user = new User({
+        firstName: faker.name.firstName(),
+        lastName: faker.name.lastName(),
+        email: email,
+        password: 'Pix1024#',
+        cgu: true,
+      });
+
+      // When
+      const promise = userRepository.save(user);
+
+      // Then
+      return promise
+        .then((userSaved) => {
+          expect(userSaved).to.be.an.instanceOf(User);
+          expect(userSaved.firstName).to.equal(user.firstName);
+          expect(userSaved.lastName).to.equal(user.lastName);
+          expect(userSaved.email).to.equal(user.email);
+          expect(userSaved.cgu).to.equal(user.cgu);
+        });
+    });
+
+  });
 });

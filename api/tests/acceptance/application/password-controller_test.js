@@ -124,7 +124,7 @@ describe('Acceptance | Controller | password-controller', function() {
 
         return _insertUser(fakeUserEmail)
           .then((savedUser) => {
-            return _insertPasswordResetDemand(temporaryKey, savedUser.get('email'));
+            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
           });
       });
 
@@ -221,7 +221,7 @@ describe('Acceptance | Controller | password-controller', function() {
 
         return _insertUser(fakeUserEmail)
           .then((savedUser) => {
-            return _insertPasswordResetDemand(temporaryKey, savedUser.get('email'));
+            return _insertPasswordResetDemand(temporaryKey, savedUser.email);
           });
       });
 

@@ -31,7 +31,7 @@ describe('Unit | Controller | user-controller', () => {
 
     let sandbox;
     const email = 'to-be-free@ozone.airplane';
-    const savedBookshelfUser = new BookshelfUser({ email });
+    const savedUser = new User({ email });
 
     beforeEach(() => {
       sandbox = sinon.sandbox.create();
@@ -47,7 +47,7 @@ describe('Unit | Controller | user-controller', () => {
       sandbox.stub(googleReCaptcha, 'verify').returns(Promise.resolve());
       sandbox.stub(userSerializer, 'deserialize').returns(new User({}));
       sandbox.stub(userSerializer, 'serialize');
-      sandbox.stub(userRepository, 'save').resolves(savedBookshelfUser);
+      sandbox.stub(userRepository, 'save').resolves(savedUser);
       sandbox.stub(validationErrorSerializer, 'serialize');
     });
 
@@ -154,7 +154,7 @@ describe('Unit | Controller | user-controller', () => {
 
         // Then
         return promise.then(() => {
-          sinon.assert.calledWith(userSerializer.serialize, savedBookshelfUser);
+          sinon.assert.calledWith(userSerializer.serialize, savedUser);
           sinon.assert.calledWith(replyStub, expectedSerializedUser);
 
           sendAccountCreationEmail.restore();

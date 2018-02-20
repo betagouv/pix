@@ -23,7 +23,9 @@ module.exports = {
   },
 
   save(userRawData) {
-    return new BookshelfUser(userRawData).save();
+    return new BookshelfUser(userRawData)
+      .save()
+      .then(_toDomain);
   },
 
   validateData(userRawData) {

@@ -34,9 +34,9 @@ module.exports = {
 
     return googleReCaptcha.verify(recaptchaToken)
       .then(() => UserRepository.save(user))
-      .then((savedBookshelfUser) => {
-        mailService.sendAccountCreationEmail(savedBookshelfUser.get('email'));
-        reply(userSerializer.serialize(savedBookshelfUser)).code(201);
+      .then((savedUser) => {
+        mailService.sendAccountCreationEmail(savedUser.email);
+        reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
 
         if (err instanceof InvalidRecaptchaTokenError) {
