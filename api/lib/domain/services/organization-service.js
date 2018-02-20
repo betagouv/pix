@@ -8,9 +8,9 @@ function _randomLetters(count) {
   return sampleSize(letters, count).join('');
 }
 
-function _organizationsWithoutEmail(organization) {
-  const { email, ...organizationWithoutEmail } = organization;
-  return organizationWithoutEmail;
+function _organizationWithoutEmail(organization) {
+  organization.email = undefined;
+  return organization;
 }
 
 function _noCodeGivenIn(filters) {
@@ -55,7 +55,7 @@ module.exports = {
 
     return organisationRepository
       .findBy(filters)
-      .then((organizations) => organizations.map(_organizationsWithoutEmail));
+      .then((organizations) => organizations.map(_organizationWithoutEmail));
   }
 
 };
