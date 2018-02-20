@@ -6,14 +6,16 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/sessions',
       config: {
-        handler: sessionController.get, tags: ['api']
+        handler: sessionController.get,
+        tags: ['api']
       }
     },
     {
       method: 'POST',
       path: '/api/sessions',
       config: {
-        handler: sessionController.save, tags: ['api']
+        handler: sessionController.save,
+        tags: ['api']
       }
     }
   ]);

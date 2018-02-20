@@ -1,4 +1,5 @@
 const feedbackController = require('./feedback-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 
@@ -6,12 +7,19 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/feedbacks',
-      config: { handler: feedbackController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: feedbackController.save,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/feedbacks',
-      config: { handler: feedbackController.find, tags: ['api'] }
+      config: {
+        handler: feedbackController.find,
+        tags: ['api']
+      }
     }
 
   ]);
