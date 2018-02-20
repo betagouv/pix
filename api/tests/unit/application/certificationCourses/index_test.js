@@ -33,11 +33,11 @@ describe('Unit | Router | certification-course-router', function() {
   describe('PATCH /api/certification-courses/id', () => {
 
     before(() => {
-      sinon.stub(certificationCoursesController, 'updateContext').callsFake((request, reply) => reply('ok'));
+      sinon.stub(certificationCoursesController, 'update').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
-      certificationCoursesController.updateContext.restore();
+      certificationCoursesController.update.restore();
     });
 
     it('should exist', (done) => {

@@ -23,7 +23,7 @@ exports.register = function(server, options, next) {
       method: 'PATCH',
       path: '/api/certification-courses/{id}',
       config: {
-        handler: certificationCourseController.updateContext,
+        handler: certificationCourseController.update,
         tags: ['api']
       }
     }

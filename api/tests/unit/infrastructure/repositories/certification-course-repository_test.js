@@ -52,5 +52,14 @@ describe('Unit | Repository | Certification Course', function() {
       });
 
     });
+
+    context('when we tried to patch certification course data with the user information and certifcation context', () => {
+
+      it('should use the already used method save to patch', () => {
+        // when
+        //const promise = CertificationCourseRepository.save();
+      });
+    });
   });
+
 });

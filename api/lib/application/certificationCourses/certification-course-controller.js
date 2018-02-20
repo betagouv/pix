@@ -43,6 +43,12 @@ module.exports = {
         logger.error(err);
         reply(Boom.badImplementation(err));
       });
+  },
+
+  update(request, reply) {
+    const certificationCourse = certificationCourseSerializer.deserialize(request.payload);
+    return certificationCourseRepository.save(certificationCourse)
+      .then(reply);
   }
 
 };

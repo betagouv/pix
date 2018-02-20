@@ -1,5 +1,5 @@
 const { Serializer } = require('jsonapi-serializer');
-const CertificationCourse = require('../../../domain/models/CertificationCourse')
+const CertificationCourse = require('../../../domain/models/CertificationCourse');
 
 const { WrongDateFormatError } = require('../../../domain/errors');
 const moment = require('moment-timezone');
