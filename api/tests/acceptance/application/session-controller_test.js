@@ -1,4 +1,4 @@
-const { describe, it, after, afterEach, expect, knex } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', function() {
@@ -55,6 +55,7 @@ describe('Acceptance | Controller | session-controller', function() {
       }
     };
 
+    before(() => knex('sessions').delete());
     afterEach(() => knex('sessions').delete());
 
     it('should return an OK status after saving in database', () => {
