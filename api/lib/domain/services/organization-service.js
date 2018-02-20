@@ -1,8 +1,6 @@
 const { sampleSize, random } = require('lodash');
 const organisationRepository = require('../../infrastructure/repositories/organization-repository');
 
-const _ = require('lodash');
-
 function _randomLetters(count) {
   const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXZ'.split('');
   return sampleSize(letters, count).join('');

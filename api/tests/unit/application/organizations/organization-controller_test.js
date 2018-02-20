@@ -1,8 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 
 const User = require('../../../../lib/domain/models/User');
-const BookshelfOrganisation = require('../../../../lib/infrastructure/data/organization');
+const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
+const Organization = require('../../../../lib/domain/models/organization');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
@@ -30,7 +31,8 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new BookshelfOrganisation({ email: 'existing-email@example.net', type: 'PRO' });
+    const organization = new Organization({ email: 'existing-email@example.net', type: 'PRO' });
+    const organizationBookshelf = new BookshelfOrganization({ email: 'existing-email@example.net', type: 'PRO' });
     const userSaved = new User({ email: 'existing-email@example.net', id: 12 });
 
     beforeEach(() => {
@@ -45,7 +47,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
       sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
       sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
-      sandbox.spy(organizationSerializer, 'deserialize');
+      sandbox.stub(organizationSerializer, 'deserialize').returns(organizationBookshelf);
       sandbox.stub(organizationSerializer, 'serialize');
 
       request = {
@@ -104,7 +106,7 @@ describe('Unit | Controller | organizationController', () => {
         // Then
         return promise.then(() => {
           expect(userRepository.save).to.have.been.calledWithMatch({
-            email: 'my-email-with-capslock@example.net'
+            email: 'existing-email@example.net'
           });
         });
       });
@@ -303,8 +305,8 @@ describe('Unit | Controller | organizationController', () => {
     let sandbox;
     let replyStub;
     let codeStub;
-    const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = [new BookshelfOrganisation(), new BookshelfOrganisation()];
+    const arrayOfSerializedOrganization = [{ code: 'AAA111' }, { code: 'BBB222' }];
+    const arrayOfOrganizations = [new Organization({ code: 'AAA111' }), new Organization({ code: 'BBB222' })];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -334,14 +336,14 @@ describe('Unit | Controller | organizationController', () => {
       // when
       const promise = organizationController.search({
         query: {
-          'filter[first]': 'my search',
-          'filter[second]': 'with params'
+          'filter[query]': 'my search',
+          'filter[code]': 'with params'
         }
       }, replyStub);
 
       // then
       return promise.then(() => {
-        sinon.assert.calledWith(organizationService.search, { first: 'my search', second: 'with params' });
+        sinon.assert.calledWith(organizationService.search, { query: 'my search', code: 'with params' });
       });
     });
 
