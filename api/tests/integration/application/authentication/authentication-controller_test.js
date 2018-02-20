@@ -2,7 +2,7 @@ const { knex, sinon, expect } = require('../../../test-helper');
 
 const faker = require('faker');
 const server = require('../../../../server');
-const _ = require('lodash');
+const { toLower } = require('lodash');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
@@ -11,7 +11,7 @@ describe('Unit | Controller | authentication-controller', () => {
 
   const password = 'A124B2C3#!';
   const userEmail = 'emailWithSomeCamelCase@example.net';
-  const userEmailSavedInDb = _.toLower(userEmail);
+  const userEmailSavedInDb = toLower(userEmail);
   let replyStub;
   let codeStub;
   let user;
