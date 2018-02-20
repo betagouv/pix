@@ -100,8 +100,7 @@ module.exports = {
       }
       )
       .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
+        logger.error(err);
         return reply(validationErrorSerializer.serialize(
           _buildErrorMessage('une erreur est survenue lors de la récupération des profils')
         )).code(500);

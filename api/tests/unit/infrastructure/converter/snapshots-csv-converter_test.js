@@ -66,7 +66,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
   describe('#convertJsonToCsv()', () => {
 
-    it('should return a CSV String with at least the headers line', () => {
+    it('should return a CSV String with at least the headers line when there is no shared profiles', () => {
       // when
       const result = snapshotsConverter.convertJsonToCsv(organization, competences, []);
 
@@ -76,9 +76,9 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     });
 
-    context('Displaying of the first row (table headers)', () => {
+    describe('First row of the table', () => {
 
-      it('should set first line with headers informations', () => {
+      it('should display headers information', () => {
         // when
         const result = snapshotsConverter.convertJsonToCsv(organization, competences, jsonSnapshots);
 
@@ -121,7 +121,7 @@ describe('Unit | Serializer | CSV | snapshots-converter', () => {
 
     });
 
-    context('Displaying of the data rows', () => {
+    describe('Shared profile data rows', () => {
 
       it('should set information for users', () => {
         // when
