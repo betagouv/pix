@@ -101,7 +101,7 @@ export default Component.extend(EKMixin, FocusableComponent, {
     '@calcul2':{
       clue:'Trouvez le prénom dans le tableau. Dans quelle colonne (lettre) et sur quelle ligne (numéro) se trouve-t-il ?',
       tutorials:[{ title:'Références de cellules',link:'https://support.office.com/fr-fr/article/Comprendre-et-utiliser-les-r%C3%A9f%C3%A9rences-de-cellule-ecb125bb-c0cb-48c1-b30f-cdb3aec052b1',type:'video',duration:'1 mn',from:'support Microsoft' } ],
-      more:[ { title:'Casenpoche tableur en ligne', link:'http://casenpoche.sesamath.net/',type:'outil',duration:'0 mn',from:'mathenpoche' } , { title:'Faire un calcul simple sur openoffice Tableur (part2)',link:'https://www.youtube.com/watch?v=7y8UNIyr78Y',type:'video',duration:'3 mn',from:'chaine : djformations' } , { title:'Découverte du tableur openoffice Calc',link:'https://jemeformeaunumerique.fr/2010/04/21/decouvrir-le-tableur-dopenoffice/',type:'page',duration:'4 mn',from:'jemeformeaunumérique' } ]
+      more:[ { title:'Casenpoche tableur en ligne', link:'http://casenpoche.sesamath.net/',type:'page',duration:'0 mn',from:'mathenpoche' } , { title:'Faire un calcul simple sur openoffice Tableur (part2)',link:'https://www.youtube.com/watch?v=7y8UNIyr78Y',type:'video',duration:'3 mn',from:'chaine : djformations' } , { title:'Découverte du tableur openoffice Calc',link:'https://jemeformeaunumerique.fr/2010/04/21/decouvrir-le-tableur-dopenoffice/',type:'page',duration:'4 mn',from:'jemeformeaunumérique' } ]
     },
     '@graphique2':{
       clue:'Observez le bon graphique, la hauteur de chaque barre correspond bien à une valeur du tableau.',
