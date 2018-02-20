@@ -1,16 +1,20 @@
 const { expect, sinon } = require('../../../test-helper');
 
-const BookshelfUser = require('../../../../lib/infrastructure/data/user');
-const Organisation = require('../../../../lib/infrastructure/data/organization');
+const User = require('../../../../lib/domain/models/User');
+const BookshelfOrganisation = require('../../../../lib/infrastructure/data/organization');
+const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
+
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
-const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
 const organisationRepository = require('../../../../lib/infrastructure/repositories/organization-repository');
+const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
+
 const organizationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/organization-serializer');
 const organizationService = require('../../../../lib/domain/services/organization-service');
-const snapshotRepository = require('../../../../lib/infrastructure/repositories/snapshot-repository');
 const snapshotSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/snapshot-serializer');
 const validationErrorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const Snapshot = require('../../../../lib/infrastructure/data/snapshot');
+
 const bookshelfUtils = require('../../../../lib/infrastructure/utils/bookshelf-utils');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
@@ -26,8 +30,8 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new Organisation({ email: 'existing-email@example.net', type: 'PRO' });
-    const userSaved = new BookshelfUser({ email: 'existing-email@example.net', id: 12 });
+    const organization = new BookshelfOrganisation({ email: 'existing-email@example.net', type: 'PRO' });
+    const userSaved = new User({ email: 'existing-email@example.net', id: 12 });
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -300,7 +304,7 @@ describe('Unit | Controller | organizationController', () => {
     let replyStub;
     let codeStub;
     const arrayOfSerializedOrganization = [{}, {}];
-    const arrayOfOrganizations = [new Organization(), new Organization()];
+    const arrayOfOrganizations = [new BookshelfOrganisation(), new BookshelfOrganisation()];
 
     beforeEach(() => {
       codeStub = sinon.stub();
@@ -504,7 +508,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should return an serialized NotFoundError, when no snapshot was found', () => {
         // given
-        const error = Snapshot.NotFoundError;
+        const error = BookshelfSnapshot.NotFoundError;
         snapshotRepository.getSnapshotsByOrganizationId.rejects(error);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);
@@ -596,6 +600,7 @@ describe('Unit | Controller | organizationController', () => {
 
       it('should return a JSONAPI serialized NotFoundError, when expected organization does not exist', () => {
         // given
+
         organizationService.getOrganizationSharedProfilesAsCsv.rejects(NotFoundError);
         const serializedError = { errors: [] };
         validationErrorSerializer.serialize.returns(serializedError);

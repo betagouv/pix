@@ -1,17 +1,21 @@
 const { sinon, expect } = require('../../../test-helper');
+const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
 
-const User = require('../../../../lib/infrastructure/data/user');
 const passwordController = require('../../../../lib/application/passwords/password-controller');
+
 const userService = require('../../../../lib/domain/services/user-service');
 const tokenService = require('../../../../lib/domain/services/token-service');
 const mailService = require('../../../../lib/domain/services/mail-service');
 const resetPasswordService = require('../../../../lib/domain/services/reset-password-service');
+
 const resetPasswordRepository = require('../../../../lib/infrastructure/repositories/reset-password-demands-repository');
 const UserRepository = require('../../../../lib/infrastructure/repositories/user-repository');
+
 const passwordResetSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/password-reset-serializer');
 const userSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/user-serializer');
 const errorSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/validation-error-serializer');
-const { UserNotFoundError, InternalError, InvalidTemporaryKeyError, PasswordResetDemandNotFoundError } = require('../../../../lib/domain/errors');
+
+const User = require('../../../../lib/domain/models/User');
 
 const logger = require('../../../../lib/infrastructure/logger');
 
@@ -272,6 +276,7 @@ describe('Unit | Controller | PasswordController', () => {
       id: 'user_id',
       email: 'email@lost-password.fr'
     });
+
     const fetchedPasswordResetDemand = {
       email: 'lost_pwd@email.fr'
     };

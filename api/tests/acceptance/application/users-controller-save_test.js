@@ -2,7 +2,7 @@ const { expect, sinon, knex } = require('../../test-helper');
 const faker = require('faker');
 
 const server = require('../../../server');
-const User = require('../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../lib/infrastructure/data/user');
 
 const mailService = require('../../../lib/domain/services/mail-service');
 const logger = require('../../../lib/infrastructure/logger');
@@ -89,7 +89,7 @@ describe('Acceptance | Controller | users-controller', function() {
     return server
       .injectThen(options)
       .then(_ => {
-        return new User({ email: attributes.email }).fetch();
+        return new BookshelfUser({ email: attributes.email }).fetch();
       })
       .then((user) => {
         expect(attributes['first-name']).to.equal(user.get('firstName'));
@@ -103,7 +103,7 @@ describe('Acceptance | Controller | users-controller', function() {
     options.payload.data.attributes.password = 'my-123-password';
 
     return server.injectThen(options).then(() => {
-      return new User({ email: attributes.email }).fetch();
+      return new BookshelfUser({ email: attributes.email }).fetch();
     }).then((user) => {
       expect(user.get('password')).not.to.equal('my-123-password');
     });

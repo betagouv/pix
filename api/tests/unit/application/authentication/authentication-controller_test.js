@@ -5,7 +5,7 @@ const server = require('../../../../server');
 const _ = require('lodash');
 
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
-const User = require('../../../../lib/infrastructure/data/user');
+const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 
 describe('Unit | Controller | authentication-controller', () => {
 
@@ -17,7 +17,7 @@ describe('Unit | Controller | authentication-controller', () => {
   let user;
 
   before(() => {
-    return new User({
+    return new BookshelfUser({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       email: userEmailSavedInDb,
