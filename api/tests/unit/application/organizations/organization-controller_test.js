@@ -43,7 +43,7 @@ describe('Unit | Controller | organizationController', () => {
 
       sandbox.stub(logger, 'error');
       sandbox.stub(userRepository, 'save').resolves(userSaved);
-      sandbox.stub(userRepository, 'isEmailAvailable');
+      sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
       sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
       sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
