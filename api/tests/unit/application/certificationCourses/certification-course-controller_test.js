@@ -3,7 +3,10 @@ const CertificationCourseController = require('../../../../lib/application/certi
 const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const certificationService = require('../../../../lib/domain/services/certification-service');
+const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
+const { NotFoundError } = require('../../../../lib/domain/errors');
+
 const logger = require('../../../../lib/infrastructure/logger');
 const Boom = require('boom');
 
@@ -12,6 +15,14 @@ describe('Unit | Controller | certification-course-controller', function() {
   let sandbox;
   let replyStub;
   let codeStub;
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
 
   describe('#computeResult', () => {
 
@@ -28,14 +39,9 @@ describe('Unit | Controller | certification-course-controller', function() {
     beforeEach(() => {
       replyStub = sinon.stub().returns({ code: codeStub });
 
-      sandbox = sinon.sandbox.create();
       sandbox.stub(certificationService, 'calculateCertificationResultByCertificationCourseId').resolves(certificationScore);
       sandbox.stub(logger, 'error');
       sandbox.stub(Boom, 'badImplementation').returns(boomResponseForbBadImplementation);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
     });
 
     it('should call certification Service to compute score', () => {
@@ -176,5 +182,120 @@ describe('Unit | Controller | certification-course-controller', function() {
       });
 
     });
+  });
+
+  describe('#update', () => {
+
+    const savedCertificationCourse = {
+      id: 1
+    };
+
+    const JsonAPISavedCertificationCourse = {
+      data: {
+        type: 'certification',
+        attributes: {
+          id: '1',
+          firstName: 'Phil',
+          status: 'rejected'
+        }
+      }
+    };
+
+    beforeEach(() => {
+      replyStub = sandbox.stub().returns({ code: codeStub });
+
+      sandbox.stub(certificationCourseSerializer, 'deserialize').resolves();
+      sandbox.stub(certificationCourseSerializer, 'serialize').returns(JsonAPISavedCertificationCourse);
+      sandbox.stub(Boom, 'notFound');
+    });
+
+    const options = {
+      method: 'PATCH', url: '/api/certification-courses/1245', payload: {
+        data: {
+          type: 'certification',
+          attributes: {
+            id: '1',
+            firstName: 'Phil',
+            status: 'rejected'
+          }
+        }
+      }
+    };
+
+    it('should deserialize the request payload', () => {
+      // given
+      sandbox.stub(certificationCourseService, 'update').resolves();
+
+      // when
+      const promise = CertificationCourseController.update(options, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(certificationCourseSerializer.deserialize);
+      });
+    });
+
+    it('should patch certificationCourse data using save method', () => {
+      // given
+      sandbox.stub(certificationCourseService, 'update').resolves();
+
+      // when
+      const promise = CertificationCourseController.update(options, replyStub);
+
+      // then
+      return promise.then(() => {
+        sinon.assert.calledOnce(certificationCourseService.update);
+      });
+    });
+
+    context('when certification course was modified', () => {
+
+      beforeEach(() => {
+        sandbox.stub(certificationCourseService, 'update').resolves(savedCertificationCourse);
+      });
+
+      it('should serialize saved certification course', function() {
+        // when
+        const promise = CertificationCourseController.update(options, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(certificationCourseSerializer.serialize);
+          sinon.assert.calledWith(certificationCourseSerializer.serialize, savedCertificationCourse);
+        });
+      });
+
+      it('should reply serialized certification course', function() {
+        // when
+        const promise = CertificationCourseController.update(options, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(replyStub);
+          sinon.assert.calledWith(replyStub, JsonAPISavedCertificationCourse);
+        });
+
+      });
+
+    });
+
+    context('When certification course was not modified', () => {
+
+      beforeEach(() => {
+        sandbox.stub(certificationCourseService, 'update').rejects(NotFoundError);
+      });
+
+      it('should reply a 404 if no certification where updated', function() {
+        // when
+        const promise = CertificationCourseController.update(options, replyStub);
+
+        // then
+        return promise.then(() => {
+          sinon.assert.calledOnce(Boom.notFound);
+          sinon.assert.calledWith(replyStub, NotFoundError.message);
+        });
+      });
+    });
+
   });
 });

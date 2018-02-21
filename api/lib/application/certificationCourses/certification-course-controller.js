@@ -1,8 +1,9 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
-const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const certificationService = require('../../domain/services/certification-service');
+const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
+const certificationCourseRepository = require('../../infrastructure/repositories/certification-course-repository');
 const { NotFoundError } = require('../../domain/errors');
 
 module.exports = {
@@ -47,8 +48,13 @@ module.exports = {
 
   update(request, reply) {
     const certificationCourse = certificationCourseSerializer.deserialize(request.payload);
-    return certificationCourseRepository.save(certificationCourse)
-      .then(reply);
+    return certificationCourseService.update(certificationCourse)
+      .then((savedCertificationCourse) => {
+        reply(certificationCourseSerializer.serialize(savedCertificationCourse));
+      })
+      .catch((err) => {
+        reply(Boom.notFound(err));
+      });
   }
 
 };
