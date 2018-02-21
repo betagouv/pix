@@ -22,25 +22,25 @@ const plugins = [
     register: require('good'),
     options: {
       reporters: {
-        console: [ {
+        console: [{
           module: 'good-squeeze',
           name: 'Squeeze',
-          args: [ {
+          args: [{
             response: '*',
             log: '*'
-          } ]
+          }]
         }, {
           module: 'good-console',
           args: [{
             color: settings.logging.colorEnabled
           }]
-        }, 'stdout' ]
+        }, 'stdout']
       }
     }
   }
 ];
 
-if(process.env.NODE_ENV === 'test') {
+if (process.env.NODE_ENV === 'test') {
   plugins.push(require('inject-then'));
 }
 

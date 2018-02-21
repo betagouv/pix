@@ -74,7 +74,8 @@ module.exports = (function() {
     };
 
     config.authentication = {
-      secret: 'test-jwt-key'
+      secret: 'test-jwt-key',
+      tokenLifespan: '7d'
     };
 
     config.temporaryKey = {

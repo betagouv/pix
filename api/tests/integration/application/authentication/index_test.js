@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const AuthenticationController = require('../../../../lib/application/authentication/authentication-controller');
+const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
 describe('Unit | Router | authentication-router', () => {
 
@@ -8,8 +8,8 @@ describe('Unit | Router | authentication-router', () => {
 
   beforeEach(() => {
     // stub dependencies
-    sinon.stub(AuthenticationController, 'save').callsFake((request, reply) => reply('ok'));
-    sinon.stub(AuthenticationController, 'authenticate').callsFake((request, reply) => reply('ok'));
+    sinon.stub(authenticationController, 'save').callsFake((request, reply) => reply('ok'));
+    sinon.stub(authenticationController, 'authenticate').callsFake((request, reply) => reply('ok'));
 
     // configure and start server
     server = new Hapi.Server();
@@ -19,26 +19,25 @@ describe('Unit | Router | authentication-router', () => {
 
   afterEach(() => {
     server.stop();
-    AuthenticationController.save.restore();
-    AuthenticationController.authenticate.restore();
+    authenticationController.save.restore();
+    authenticationController.authenticate.restore();
   });
 
   describe('POST /api/authentications', () => {
 
-    it('should exist', (done) => {
-      return server.inject({ method: 'POST', url: '/api/authentications' }, (res) => {
-        expect(res.statusCode).to.equal(200);
-        done();
-      });
-    });
-  });
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'POST',
+        url: '/api/authentications'
+      };
 
-  describe('POST /api/token', () => {
+      // when
+      const promise = server.inject(options);
 
-    it('should exist', (done) => {
-      return server.inject({ method: 'POST', url: '/api/token' }, (res) => {
-        expect(res.statusCode).to.equal(200);
-        done();
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
       });
     });
   });

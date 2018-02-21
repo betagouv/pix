@@ -1,4 +1,4 @@
-const { expect, knex, nock } = require('../../test-helper');
+const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
@@ -12,35 +12,35 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'non_adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': false,
-              'Competence': ['competence_id'],
-              '\u00c9preuves': [
-                'q_second_challenge',
-                'q_first_challenge',
-              ],
-            },
-          }
+              'id': 'non_adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': false,
+                'Competence': ['competence_id'],
+                '\u00c9preuves': [
+                  'q_second_challenge',
+                  'q_first_challenge',
+                ],
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Tests/adaptive_course_id')
           .query(true)
           .times(4)
           .reply(200, {
-            'id': 'adaptive_course_id',
-            'fields': {
-              // a bunch of fields
-              'Adaptatif ?': true,
-              'Competence': ['competence_id'],
-              '\u00c9preuves': [
-                'q_third_challenge',
-                'q_second_challenge',
-                'q_first_challenge',
-              ],
-            },
-          }
+              'id': 'adaptive_course_id',
+              'fields': {
+                // a bunch of fields
+                'Adaptatif ?': true,
+                'Competence': ['competence_id'],
+                '\u00c9preuves': [
+                  'q_third_challenge',
+                  'q_second_challenge',
+                  'q_first_challenge',
+                ],
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Competences/competence_id')
@@ -93,14 +93,14 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .query(true)
           .times(2)
           .reply(200, {
-            'id': 'q_first_challenge',
-            'fields': {
-              'Statut': 'validé',
-              'competences': ['competence_id'],
-              'acquis': ['@web3'],
-              'Bonnes réponses': 'fromage'
-            },
-          }
+              'id': 'q_first_challenge',
+              'fields': {
+                'Statut': 'validé',
+                'competences': ['competence_id'],
+                'acquis': ['@web3'],
+                'Bonnes réponses': 'fromage'
+              },
+            }
           );
 
         nock('https://api.airtable.com')
@@ -108,37 +108,38 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
           .query(true)
           .times(2)
           .reply(200, {
-            'id': 'q_second_challenge',
-            'fields': {
-              'acquis': ['@web2'],
-              'Statut': 'validé',
-              'Bonnes réponses': 'truite'
-            },
-          }
+              'id': 'q_second_challenge',
+              'fields': {
+                'acquis': ['@web2'],
+                'Statut': 'validé',
+                'Bonnes réponses': 'truite'
+              },
+            }
           );
         nock('https://api.airtable.com')
           .get('/v0/test-base/Epreuves/q_third_challenge')
           .query(true)
           .times(1)
           .reply(200, {
-            'id': 'q_third_challenge',
-            'fields': {
-              'acquis': ['@web1'],
-              'Statut': 'validé',
-              'Bonnes réponses': 'dromadaire'
-            },
-          }
+              'id': 'q_third_challenge',
+              'fields': {
+                'acquis': ['@web1'],
+                'Statut': 'validé',
+                'Bonnes réponses': 'dromadaire'
+              },
+            }
           );
       });
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
     cache.flushAll();
-    server.stop(done);
   });
 
-  afterEach(() => knex('assessments').delete());
+  afterEach(() => {
+    return knex('assessments').delete();
+  });
 
   describe('(non-adaptive end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {
 
@@ -182,7 +183,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       // Given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       const expectedSolution = {
         type: 'solutions',
@@ -191,7 +193,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       };
 
       // When
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // Then
       return promise.then((response) => {
@@ -211,7 +213,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ]).then((rows) => {
+      return knex('assessments').insert([notCompletedAssessment]).then((rows) => {
         insertedAssessmentId = rows[0];
 
         const inserted_answer = {
@@ -232,7 +234,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       // Given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // When
@@ -263,7 +266,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
 
     beforeEach(() => {
       return knex('assessments')
-        .insert([ completedAssessment ])
+        .insert([completedAssessment])
         .then((rows) => {
 
           insertedAssessmentId = rows[0];
@@ -285,7 +288,8 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     it('should return a solution if user completed the adaptive test', () => {
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
       const expectedSolution = {
         type: 'solutions',
@@ -294,7 +298,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       };
 
       // When
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // Then
       return promise.then((response) => {
@@ -313,7 +317,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     };
 
     beforeEach(() => {
-      return knex('assessments').insert([ notCompletedAssessment ])
+      return knex('assessments').insert([notCompletedAssessment])
         .then((rows) => {
           insertedAssessmentId = rows[0];
 
@@ -335,11 +339,12 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
       // Given
       const options = {
         method: 'GET',
-        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // When
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // Then
       return promise.then((response) => {

@@ -1,13 +1,8 @@
-const { expect, knex } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
+const { first } = require('lodash');
 
-const _ = require('lodash');
-
-describe('Acceptance | Controller | assessment-ratings', function() {
-
-  after((done) => {
-    server.stop(done);
-  });
+describe('Acceptance | Controller | assessment-ratings', () => {
 
   describe('POST /api/assessment-ratings', () => {
 
@@ -23,7 +18,7 @@ describe('Acceptance | Controller | assessment-ratings', function() {
           pixScore: null,
           type: 'PREVIEW'
         }).then((assessmentIds) => {
-          savedAssessmentId = _.first(assessmentIds);
+          savedAssessmentId = first(assessmentIds);
 
           options = {
             method: 'POST',
@@ -44,7 +39,8 @@ describe('Acceptance | Controller | assessment-ratings', function() {
                 },
                 type: 'assessment-ratings'
               }
-            }
+            },
+            headers: { authorization: generateValidRequestAuhorizationHeader() },
           };
         });
       });
@@ -55,25 +51,25 @@ describe('Acceptance | Controller | assessment-ratings', function() {
 
       it('should return a 200 when everything is fine', () => {
         // when
-        const request = server.inject(options);
+        const promise = server.inject(options);
 
-        // Then
-        return request.then((response) => {
+        // then
+        return promise.then((response) => {
           expect(response.statusCode).to.equal(200);
         });
       });
 
       it('should update the assessment score and estimatedLevel', () => {
         // when
-        const request = server.inject(options);
+        const promise = server.inject(options);
 
-        // Then
-        return request
+        // then
+        return promise
           .then(() => knex('assessments').select())
           .then((assessments) => {
             expect(assessments).to.have.lengthOf(1);
 
-            const myAssessment = _.first(assessments);
+            const myAssessment = first(assessments);
             expect(myAssessment.estimatedLevel).to.equal(0);
             expect(myAssessment.pixScore).to.equal(0);
             expect(myAssessment.type).to.equal('PREVIEW');

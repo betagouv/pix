@@ -22,6 +22,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/organizations/{id}/snapshots/export',
       config: {
+        auth: false,
         pre: [{
           method: snapshotsAuthorization.verify,
           assign: 'authorizationCheck'

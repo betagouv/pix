@@ -1,12 +1,12 @@
 const faker = require('faker');
 const bcrypt = require('bcrypt');
-const { expect, knex, sinon } = require('../../test-helper');
+const { expect, knex, sinon, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 const profileService = require('../../../lib/domain/services/profile-service');
 const BookshelfUser = require('../../../lib/infrastructure/data/user');
 const server = require('../../../server');
 
-describe('Acceptance | Controller | snapshot-controller', function() {
+describe('Acceptance | Controller | snapshot-controller', () => {
 
   let userId;
   let organizationId;
@@ -33,19 +33,19 @@ describe('Acceptance | Controller | snapshot-controller', function() {
         name: 'area-name-1'
       }
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      index: '1.2',
-      areaId: 'recAreaB',
-      level: -1,
-      courseId: 'recBxPAuEPlTgt72q99',
-      area: {
-        id: 'recAreaB',
-        name: 'area-name-2'
-      }
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        index: '1.2',
+        areaId: 'recAreaB',
+        level: -1,
+        courseId: 'recBxPAuEPlTgt72q99',
+        area: {
+          id: 'recAreaB',
+          name: 'area-name-2'
+        }
 
-    }],
+      }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
   };
@@ -76,11 +76,7 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       });
   });
 
-  after(function(done) {
-    server.stop(done);
-  });
-
-  describe('POST /api/snapshots', function() {
+  describe('POST /api/snapshots', () => {
 
     let payload;
     let options;
@@ -102,10 +98,10 @@ describe('Acceptance | Controller | snapshot-controller', function() {
       options = {
         method: 'POST',
         url: '/api/snapshots',
-        payload
+        payload,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      options['headers'] = { authorization: 'VALID_TOKEN' };
       sinon.stub(authorizationToken, 'verify').resolves(userId);
       sinon.stub(profileService, 'getByUserId').resolves(fakeBuildedProfile);
       injectPromise = server.inject(options);
@@ -118,9 +114,8 @@ describe('Acceptance | Controller | snapshot-controller', function() {
     });
 
     it('should return 201 HTTP status code', () => {
-      // When
+      // then
       return injectPromise.then((response) => {
-        // then
         expect(response.statusCode).to.equal(201);
         expect(response.result.data.id).to.exist;
       });
@@ -133,16 +128,15 @@ describe('Acceptance | Controller | snapshot-controller', function() {
         payload.data.relationships.organization.data.id = null;
 
         // Then
-        const creatingSnapshotWithWrongParams = server.inject(options);
+        const promise = server.inject(options);
 
         // Then
-        return creatingSnapshotWithWrongParams.then((response) => {
+        return promise.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
           expect(parsedResponse.errors[0].detail).to.equal('Cette organisation n’existe pas');
           expect(response.statusCode).to.equal(422);
         });
       });
-
     });
   });
 });

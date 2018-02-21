@@ -1,19 +1,19 @@
-const { describe, it, after, expect, knex } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
-const _ = require('lodash');
+const { first } = require('lodash');
 
-describe('Acceptance | API | Certification Course', function() {
+describe('Acceptance | API | Certification Course', () => {
 
-  after(function(done) {
-    server.stop(done);
-  });
-
-  describe('GET /api/admin/certifications/{id}', function() {
+  describe('GET /api/admin/certifications/{id}', () => {
 
     const courseId = '1';
-    const options = { method: 'GET', url: `/api/admin/certifications/${courseId}` };
+    const options = {
+      method: 'GET',
+      url: `/api/admin/certifications/${courseId}`,
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+    };
 
-    beforeEach(function() {
+    beforeEach(() => {
       let assessmentId;
       return knex('assessments').insert({
         courseId: courseId,
@@ -21,7 +21,7 @@ describe('Acceptance | API | Certification Course', function() {
         pixScore: 42,
         type: 'CERTIFICATION'
       }).then(assessmentIds => {
-        assessmentId = _.first(assessmentIds);
+        assessmentId = first(assessmentIds);
         return knex('marks').insert([
           {
             level: 2,
@@ -50,10 +50,13 @@ describe('Acceptance | API | Certification Course', function() {
     });
 
     afterEach(() => {
-      return Promise.all([knex('assessments').delete(), knex('marks').delete(), knex('certification-courses').delete()]);
+      return Promise.all([
+        knex('assessments').delete(),
+        knex('marks').delete(),
+        knex('certification-courses').delete()]);
     });
 
-    it('should return 200 HTTP status code', function() {
+    it('should return 200 HTTP status code', () => {
       // given
       const promise = server.inject(options);
 
@@ -64,7 +67,7 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    it('should return application/json', function() {
+    it('should return application/json', () => {
       // given
       const promise = server.inject(options);
 
@@ -76,9 +79,12 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
-    it('should retrieve the certification total pix score and certified competences levels', function(done) {
+    it('should retrieve the certification total pix score and certified competences levels', () => {
       // when
-      server.inject(options, (response) => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
         // then
         const result = response.result.data;
         expect(result.attributes['pix-score']).to.equal(42);
@@ -93,13 +99,19 @@ describe('Acceptance | API | Certification Course', function() {
         const secondCertifiedCompetence = result.attributes['competences-with-mark'][1];
         expect(secondCertifiedCompetence.level).to.equal(4);
         expect(secondCertifiedCompetence['competence-code']).to.equal('2.1');
-        done();
       });
     });
 
-    it('should return 404 HTTP status code if certification not found', function() {
+    it('should return 404 HTTP status code if certification not found', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/admin/certifications/200',
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+
       // when
-      const promise = server.inject({ method: 'GET', url: '/api/admin/certifications/200' });
+      const promise = server.inject(options);
 
       // then
       return promise.then((response) => {

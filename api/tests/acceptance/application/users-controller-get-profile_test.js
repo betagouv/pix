@@ -1,11 +1,8 @@
-const { expect, sinon } = require('../../test-helper');
+const { expect, sinon, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const faker = require('faker');
 const server = require('../../../server');
-const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
-const UserRepository = require('../../../lib/infrastructure/repositories/user-repository');
-
-const BookshelfUser = require('../../../lib/infrastructure/data/user');
-
+const userRepository = require('../../../lib/infrastructure/repositories/user-repository');
+const User = require('../../../lib/infrastructure/data/user');
 const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
 const { InvalidTokenError } = require('../../../lib/domain/errors');
@@ -40,19 +37,26 @@ const expectedResultWhenErrorOccured = {
   }]
 };
 
-describe('Acceptance | Controller | users-controller-get-profile', function() {
+describe('Acceptance | Controller | users-controller-get-profile', () => {
   const firstName = faker.name.firstName();
   const lastName = faker.name.lastName();
   const email = faker.internet.email();
-  const options = {
-    method: 'GET',
-    url: '/api/users/me',
-    payload: {}
-  };
+
+  let options;
+
+  beforeEach(() => {
+    options = {
+      method: 'GET',
+      url: '/api/users/me',
+      payload: {},
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+    };
+  });
+
   const expectedSerializedProfile = {
     data: {
       type: 'users',
-      id: 'user_id',
+      id: 1234,
       attributes: {
         'first-name': firstName,
         'last-name': lastName,
@@ -124,8 +128,8 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       }
     ]
   };
-  const fakeUser = new BookshelfUser({
-    id: 'user_id',
+  const fakeUser = new User({
+    id: 1234,
     'firstName': firstName,
     'lastName': lastName,
     'email': email
@@ -164,43 +168,41 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
     organizations: []
   };
 
-  describe('GET /users', function() {
+  describe('GET /users', () => {
 
     describe('Errors case:', () => {
 
       beforeEach(() => {
-        sinon.stub(authorizationToken, 'verify').resolves(4);
-        sinon.stub(UserRepository, 'findUserById').resolves();
+        sinon.stub(userRepository, 'findUserById').resolves();
       });
 
       afterEach(() => {
-        authorizationToken.verify.restore();
-        UserRepository.findUserById.restore();
+        userRepository.findUserById.restore();
       });
 
-      it('should response with 401 HTTP status code, when authorization token is not valid', (done) => {
+      it('should response with 401 HTTP status code, when authorization token is not valid', () => {
         // given
-        authorizationToken.verify.returns(Promise.reject(new InvalidTokenError()));
         options['headers'] = { authorization: 'INVALID_TOKEN' };
 
         // when
-        server.injectThen(options).then(response => {
-          // then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then(response => {
           expect(response.statusCode).to.equal(401);
           expect(response.result).to.be.deep.equal(expectedResultWhenInvalidToken);
-          done();
         });
       });
 
       it('should return 404  HTTP status code, when authorization is valid but user not found', () => {
         // given
-        authorizationToken.verify.resolves(4);
-        UserRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()));
-        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
+        userRepository.findUserById.returns(Promise.reject(new Bookshelf.Model.NotFoundError()));
 
         // when
-        return server.injectThen(options).then(response => {
-          // Then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then(response => {
           expect(response.statusCode).to.equal(404);
           expect(response.result).to.deep.equal(expectedResultUserNotFounded);
         });
@@ -208,13 +210,13 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
       it('should return 500  HTTP status code, when authorization is valid but error occurred', () => {
         // given
-        authorizationToken.verify.resolves(4);
-        UserRepository.findUserById.returns(Promise.reject(new Error()));
-        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
+        userRepository.findUserById.returns(Promise.reject(new Error()));
 
         // when
-        return server.injectThen(options).then(response => {
-          // then
+        const promise = server.inject(options);
+
+        // then
+        return promise.then(response => {
           expect(response.statusCode).to.equal(500);
           expect(response.result).to.deep.equal(expectedResultWhenErrorOccured);
         });
@@ -222,13 +224,12 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
 
     });
 
-    describe('Success cases:', function() {
+    describe('Success cases:', () => {
 
       let profileServiceStub;
-      let authorizationTokenStub;
       let UserRepositoryStub;
-      const user = new BookshelfUser({
-        id: 'user_id',
+      const user = new User({
+        id: 1234,
         'first-name': faker.name.firstName(),
         'last-name': faker.name.lastName(),
         email: faker.internet.email(),
@@ -237,27 +238,26 @@ describe('Acceptance | Controller | users-controller-get-profile', function() {
       });
 
       beforeEach(() => {
-        authorizationTokenStub = sinon.stub(authorizationToken, 'verify').resolves(1);
-        UserRepositoryStub = sinon.stub(UserRepository, 'findUserById').resolves(user);
+        UserRepositoryStub = sinon.stub(userRepository, 'findUserById').resolves(user);
         profileServiceStub = sinon.stub(profileService, 'getByUserId');
       });
 
       afterEach(() => {
         profileServiceStub.restore();
-        authorizationTokenStub.restore();
         UserRepositoryStub.restore();
       });
 
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
         // Given
         profileServiceStub.resolves(fakeBuildedProfile);
-        options['headers'] = { authorization: 'Bearer VALID_TOKEN' };
 
-        // When
-        return server.injectThen(options).then(response => {
-          // Then
-          expect(response.statusCode).to.be.equal(201);
-          expect(response.result).to.be.deep.equal(expectedSerializedProfile);
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then(response => {
+          expect(response.statusCode).to.equal(201);
+          expect(response.result).to.deep.equal(expectedSerializedProfile);
         });
       });
     });

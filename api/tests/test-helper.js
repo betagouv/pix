@@ -1,6 +1,3 @@
-// Mocha
-const { describe, it, after, before, beforeEach, afterEach } = require('mocha');
-
 // Chai
 const chai = require('chai');
 const expect = chai.expect;
@@ -18,15 +15,28 @@ const knex = require('knex')(knexConfig['test']);
 const nock = require('nock');
 nock.disableNetConnect();
 
+// Security
+const tokenService = require('../lib/domain/services/token-service');
+
+/**
+ * @returns string
+ */
+function generateValidRequestAuhorizationHeader(userId = undefined) {
+  const user = {
+    get(prop) {
+      if (prop === 'id') {
+        return userId ? userId : 1234;
+      }
+    }
+  };
+  const accessToken = tokenService.createTokenFromUser(user);
+  return `Bearer ${accessToken}`;
+}
+
 module.exports = {
-  describe,
-  it,
-  after,
-  before,
-  beforeEach,
-  afterEach,
   expect,
   sinon,
   knex,
-  nock
+  nock,
+  generateValidRequestAuhorizationHeader,
 };

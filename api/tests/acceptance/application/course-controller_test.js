@@ -1,16 +1,13 @@
-const { expect, nock } = require('../../test-helper');
+const { expect, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
 
-describe('Acceptance | API | Courses', function() {
+describe('Acceptance | API | Courses', () => {
 
-  after(function(done) {
-    server.stop(done);
-  });
+  describe('GET /api/courses', () => {
 
-  describe('GET /api/courses', function() {
-
-    before(function(done) {
+    before(() => {
       nock.cleanAll();
+
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests')
         .query(true)
@@ -43,52 +40,56 @@ describe('Acceptance | API | Courses', function() {
             },
           }]
         });
-      done();
     });
 
-    after(function(done) {
+    after(() => {
       nock.cleanAll();
-      done();
     });
 
-    const options = { method: 'GET', url: '/api/courses' };
+    const options = {
+      method: 'GET',
+      url: '/api/courses',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+    };
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', () => {
       // when
-      server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
+    it('should return application/json', () => {
       // when
-      server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should return all the courses from the tests referential', function(done) {
+    it('should return all the courses from the tests referential', () => {
       // when
-      server.inject(options, (response) => {
-        // then
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const courses = response.result.data;
         expect(courses.length).to.equal(5);
-        done();
       });
     });
   });
 
-  describe('GET /api/courses/:course_id', function() {
+  describe('GET /api/courses/:course_id', () => {
 
-    before(function(done) {
+    before(() => {
       nock.cleanAll();
+
       nock('https://api.airtable.com')
         .get('/v0/test-base/Tests/rec_course_id')
         .query(true)
@@ -116,6 +117,7 @@ describe('Acceptance | API | Courses', function() {
           },
           createdTime: '2016-08-09T15:17:53.000Z'
         });
+
       nock('https://api.airtable.com')
         .get('/v0/test-base/Epreuves/k_challenge_id')
         .query(true)
@@ -124,47 +126,50 @@ describe('Acceptance | API | Courses', function() {
           id: 'k_challenge_id',
           fields: {},
         });
-      done();
     });
 
-    after(function(done) {
+    after(() => {
       nock.cleanAll();
-      done();
     });
 
-    const options = { method: 'GET', url: '/api/courses/rec_course_id' };
+    const options = {
+      method: 'GET',
+      url: '/api/courses/rec_course_id',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+    };
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', () => {
       // when
-      return server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
+    it('should return application/json', () => {
       // when
-      return server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then((response) => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should return the expected course', function(done) {
+    it('should return the expected course', () => {
       // when
-      return server.inject(options, (response) => {
-        // then
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         const course = response.result.data;
         expect(course.id).to.equal('rec_course_id');
         expect(course.attributes.name).to.equal('A la recherche de l\'information #01');
         expect(course.attributes.description).to.equal('Mener une recherche et une veille d\'information');
         expect(course.attributes['is-adaptive']).to.equal(true);
-        done();
       });
     });
   });

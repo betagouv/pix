@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock } = require('../../test-helper');
+const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
 
-describe('Acceptance | Controller | organization-controller', function() {
+describe('Acceptance | Controller | organization-controller', () => {
 
   before(() => {
     nock('https://api.airtable.com')
@@ -32,12 +32,11 @@ describe('Acceptance | Controller | organization-controller', function() {
       );
   });
 
-  after((done) => {
+  after(() => {
     nock.cleanAll();
-    server.stop(done);
   });
 
-  describe('POST /api/organizations', function() {
+  describe('POST /api/organizations', () => {
     const payload = {
       data: {
         type: 'organizations',
@@ -52,18 +51,25 @@ describe('Acceptance | Controller | organization-controller', function() {
       }
     };
     const options = {
-      method: 'POST', url: '/api/organizations', payload
+      method: 'POST',
+      url: '/api/organizations',
+      payload,
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
 
     afterEach(() => {
-      return knex('users').delete()
-        .then(() => {
-          return knex('organizations').delete();
-        });
+      return Promise.all([
+        knex('users').delete(),
+        knex('organizations').delete()
+      ]);
     });
 
     it('should return 200 HTTP status code', () => {
-      return server.inject(options).then((response) => {
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });
@@ -157,8 +163,8 @@ describe('Acceptance | Controller | organization-controller', function() {
     let userId;
     let snapshotId;
 
-    before((done) => {
-      _insertUser()
+    before(() => {
+      return _insertUser()
         .then((user_id) => {
           userId = user_id;
           return _insertOrganization(userId);
@@ -169,12 +175,15 @@ describe('Acceptance | Controller | organization-controller', function() {
         })
         .then((snapshot_id) => {
           snapshotId = snapshot_id[0];
-        })
-        .then(() => done());
+        });
     });
 
     after(() => {
-      return Promise.all([knex('users').delete(), knex('organizations').delete(), knex('snapshots').delete()]);
+      return Promise.all([
+        knex('users').delete(),
+        knex('organizations').delete(),
+        knex('snapshots').delete()
+      ]);
     });
 
     it('should return 200 HTTP status code', () => {
@@ -213,12 +222,17 @@ describe('Acceptance | Controller | organization-controller', function() {
         ]
       };
       const options = {
-        method: 'GET', url, payload
+        method: 'GET',
+        url,
+        payload,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
-      return server.injectThen(options).then((response) => {
-        // then
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal(expectedSnapshots);
       });
@@ -227,17 +241,20 @@ describe('Acceptance | Controller | organization-controller', function() {
     it('should return 200, when no snapshot was found', () => {
       // given
       const options = {
-        method: 'GET', url: '/api/organizations/unknownId/snapshots', payload: {}
+        method: 'GET',
+        url: '/api/organizations/unknownId/snapshots',
+        payload: {},
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
-      return server
-        .injectThen(options)
-        .then((response) => {
-          // then
-          expect(response.result.data).to.have.lengthOf(0);
-          expect(response.statusCode).to.equal(200);
-        });
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((response) => {
+        expect(response.result.data).to.have.lengthOf(0);
+        expect(response.statusCode).to.equal(200);
+      });
     });
   });
 
@@ -320,7 +337,8 @@ describe('Acceptance | Controller | organization-controller', function() {
       return Promise.all([
         knex('users').delete(),
         knex('organizations').delete(),
-        knex('snapshots').delete()]);
+        knex('snapshots').delete()
+      ]);
     });
 
     it('should return 200 HTTP status code', () => {
@@ -331,7 +349,9 @@ describe('Acceptance | Controller | organization-controller', function() {
         '"Doe";"john";"";"";31/08/2017;15;="1/2";;8\n';
 
       const request = {
-        method: 'GET', url, payload
+        method: 'GET',
+        url,
+        payload,
       };
 
       // when

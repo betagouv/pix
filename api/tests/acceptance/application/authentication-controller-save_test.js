@@ -1,4 +1,4 @@
-const { knex, expect } = require('../../test-helper');
+const { knex, expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 
 const faker = require('faker');
 const _ = require('lodash');
@@ -47,7 +47,8 @@ describe('Acceptance | Controller | authentication-controller', () => {
           attributes,
           relationships: {}
         }
-      }
+      },
+      headers: { authorization: generateValidRequestAuhorizationHeader(user.id) },
     };
   });
 
@@ -56,7 +57,11 @@ describe('Acceptance | Controller | authentication-controller', () => {
   });
 
   it('should return 201 HTTP status code', () => {
-    return server.injectThen(options).then(response => {
+    // when
+    const promise = server.injectThen(options);
+
+    // then
+    return promise.then(response => {
 
       const expectedToken = jsonwebtoken.sign({
         user_id: user.get('id')

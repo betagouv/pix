@@ -7,17 +7,21 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
   describe('#assertThatUserHasAValidAccessToken', () => {
 
     beforeEach(() => {
+      sinon.stub(tokenService, 'extractTokenFromAuthChain');
       sinon.stub(tokenService, 'verifyValidity');
     });
 
     afterEach(() => {
+      tokenService.extractTokenFromAuthChain.restore();
       tokenService.verifyValidity.restore();
     });
 
-    it('should reply "true" when the request contains the authorization header with a valid JWT access token', () => {
+    it('should reply an auhorization object (with "credentials" property) when the request contains the authorization header with a valid JWT access token', () => {
       // given
-      const request = { headers: { authorization: 'some.jwt.access_token' } };
-      const reply = sinon.stub();
+      const validAccessToken = 'some.jwt.access_token';
+      const request = { headers: { authorization: `Bearer ${validAccessToken}` } };
+      const reply = { continue: sinon.stub() };
+      tokenService.extractTokenFromAuthChain.returns(validAccessToken);
       tokenService.verifyValidity.resolves();
 
       // when
@@ -25,7 +29,7 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
 
       // then
       return promise.then(() => {
-        expect(reply).to.have.been.calledWith(true);
+        expect(reply.continue).to.have.been.calledWith({ credentials: { accessToken: validAccessToken } });
       });
     });
 
