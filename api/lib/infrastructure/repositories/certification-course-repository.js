@@ -36,6 +36,10 @@ module.exports = {
       .catch(() => {
         return Promise.reject(new NotFoundError());
       });
+  },
+
+  update() {
+    return null;
   }
 
 };
