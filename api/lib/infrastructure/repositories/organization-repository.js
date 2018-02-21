@@ -44,7 +44,7 @@ module.exports = {
   findBy(filters) {
     return BookshelfOrganization
       .where(filters)
-      .fetchAll({ withRelated: ['user'] })
+      .fetchAll()
       .then(organizations => organizations.models.map((organization) => organization.toDomainEntity()));
   },
 

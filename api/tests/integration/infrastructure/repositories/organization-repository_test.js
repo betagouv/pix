@@ -285,18 +285,26 @@ describe('Integration | Repository | Organization', function() {
       password: userPassword,
       cgu: true
     };
-    const insertedOrganization = {
+
+    const insertedOrganization1 = {
       email: faker.internet.email(),
       type: 'PRO',
       name: faker.name.firstName(),
       code: 'ABCD01',
     };
+    const insertedOrganization2 = {
+      email: faker.internet.email(),
+      type: 'SCO',
+      name: faker.name.firstName(),
+      code: 'ABCD02',
+    };
 
     beforeEach(() => {
       return knex('users').returning('id').insert(associatedUser)
         .then(userIdArray => {
-          insertedOrganization.userId = userIdArray[0];
-          return knex('organizations').insert(insertedOrganization);
+          insertedOrganization1.userId = userIdArray[0];
+          insertedOrganization2.userId = userIdArray[0];
+          return knex('organizations').insert([insertedOrganization1, insertedOrganization2]);
         });
     });
 
@@ -307,20 +315,23 @@ describe('Integration | Repository | Organization', function() {
         });
     });
 
-    it('should return the organization that matches the filters, with associated user', function() {
+    it('should return the organizations that matches the filters', function() {
       // given
-      const filters = { code: 'ABCD01' };
+      const filters = { type: 'PRO' };
 
       // when
       const promise = organizationRepository.findBy(filters);
 
       // then
       return promise.then(organizations => {
-        const organization = organizations[0];
+        expect(organizations).to.have.lengthOf(1);
 
-        expect(organization).to.be.an.instanceof(Organization);
-        expect(organization.code).to.equal(insertedOrganization.code);
-        expect(organization.user.email).to.equal(associatedUser.email);
+        const foundOrganization = organizations[0];
+
+        expect(foundOrganization).to.be.an.instanceof(Organization);
+        expect(foundOrganization.code).to.equal(insertedOrganization1.code);
+        expect(foundOrganization.type).to.equal('PRO');
+        expect(foundOrganization.user).to.be.undefined;
       });
     });
 
