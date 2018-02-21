@@ -120,5 +120,70 @@ describe('Integration | Repository | Certification Course', function() {
     });
 
   });
+
+  describe('#update', function() {
+
+    const certificationCourse = {
+      id: 1,
+      status: 'rejected',
+      firstName: 'Freezer',
+      lastName: 'The all mighty',
+      birthplace: 'Namek',
+      birthdate: '24/10/1989',
+      rejectionReason: 'Killed all citizens'
+    };
+
+    beforeEach(() => {
+      return knex('certification-courses').insert(certificationCourse);
+    });
+
+    afterEach(() => {
+      return knex('certification-courses').delete();
+    });
+
+    it('should update the certifacition course', function() {
+      // given
+      const modifiedCertifcationCourse = {
+        id: 1,
+        status: 'completed',
+        firstName: 'Freezer',
+        lastName: 'The all mighty',
+        birthplace: 'Namek',
+        birthdate: '24/10/1989',
+        rejectionReason: ''
+      };
+
+      // when
+      const promise = CertificationCourseRepository.update(modifiedCertifcationCourse);
+
+      // then
+      return promise.then(() => knex('certification-courses').where({ id: 1 }).first())
+        .then((certificationCourseInDatabase) => {
+          expect(certificationCourseInDatabase.status).to.equal('completed');
+          expect(certificationCourseInDatabase.rejectionReason).to.equal('');
+        });
+    });
+
+    it('should return a NotFoundError when ID doesnt exist', function() {
+      // given
+      const modifiedCertifcationCourse = {
+        id: 2,
+        status: 'completed',
+        firstName: 'Freezer',
+        lastName: 'The all mighty',
+        birthplace: 'Namek',
+        birthdate: '24/10/1989',
+        rejectionReason: ''
+      };
+
+      // when
+      const promise = CertificationCourseRepository.update(modifiedCertifcationCourse);
+
+      // then
+      return expect(promise).to.be.rejectedWith(NotFoundError);
+
+    });
+
+  });
 });
 

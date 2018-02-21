@@ -24,7 +24,11 @@ module.exports = {
   },
 
   updateStatus(status, certificationCourseId, completedAt = null) {
-    const certificationCourseBookshelf = new CertificationCourseBookshelf({ id: certificationCourseId, status, completedAt });
+    const certificationCourseBookshelf = new CertificationCourseBookshelf({
+      id: certificationCourseId,
+      status,
+      completedAt
+    });
     return certificationCourseBookshelf.save();
   },
 
@@ -38,8 +42,15 @@ module.exports = {
       });
   },
 
-  update() {
-    return null;
+  update(certificationCourse) {
+    const certificationCourseBookshelf = new CertificationCourseBookshelf(certificationCourse);
+    return certificationCourseBookshelf.save()
+      .catch((err) => {
+        if(err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
+          return Promise.reject(new NotFoundError());
+        }
+      });
+
   }
 
 };
