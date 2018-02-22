@@ -3,8 +3,6 @@ const serializer = require('../../../../../lib/infrastructure/serializers/jsonap
 const Assessment = require('../../../../../lib/domain/models/Assessment');
 const CertificationCourse = require('../../../../../lib/domain/models/CertificationCourse');
 
-const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
-
 describe('Unit | Serializer | JSONAPI | certification-course-serializer', function() {
 
   describe('#serialize()', function() {
@@ -49,46 +47,6 @@ describe('Unit | Serializer | JSONAPI | certification-course-serializer', functi
 
       // then
       expect(json).to.deep.equal(jsonCertificationCourseWithAssessment);
-    });
-  });
-
-  describe('#deserialize', function() {
-
-    const jsonCertificationCourse = {
-      data: {
-        type: 'courses',
-        id: 'certification_id',
-        attributes : {
-          'status':  'rejected',
-          'firstName': 'Freezer',
-          'lastName': 'The all mighty',
-          'birthplace': 'Namek',
-          'birthdate': '24/10/1989',
-          'rejectionReason': 'Killed all citizens'
-        }
-      }
-    };
-
-    it('should convert a JSON API data into a Certification Course object', function() {
-      // when
-      const certificationCourse = serializer.deserialize(jsonCertificationCourse);
-
-      // then
-      expect(certificationCourse.id).to.equal('certification_id');
-      expect(certificationCourse.status).to.equal('rejected');
-      expect(certificationCourse.firstName).to.equal('Freezer');
-      expect(certificationCourse.lastName).to.equal('The all mighty');
-      expect(certificationCourse.birthplace).to.equal('Namek');
-      expect(certificationCourse.birthdate).to.equal('1989-10-24');
-      expect(certificationCourse.rejectionReason).to.equal('Killed all citizens');
-    });
-
-    it('should return an error if date is in wrong format', function() {
-      // given
-      jsonCertificationCourse.data.attributes.birthdate = '2015-32-12';
-
-      // then
-      expect(() => serializer.deserialize(jsonCertificationCourse)).to.throw(WrongDateFormatError);
     });
   });
 });
