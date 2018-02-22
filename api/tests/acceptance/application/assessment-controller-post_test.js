@@ -2,7 +2,6 @@ const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../
 const server = require('../../../server');
 const BookshelfAssessment = require('../../../lib/infrastructure/data/assessment');
 
-const tokenService = require('../../../lib/domain/services/token-service');
 const User = require('../../../lib/infrastructure/data/user');
 
 describe('Acceptance | API | Assessments POST', () => {
@@ -68,8 +67,7 @@ describe('Acceptance | API | Assessments POST', () => {
 
       it('should save user_id in the database', () => {
         // Given
-        const user = new User({ id: 436357 });
-        options.headers.authorization = generateValidRequestAuhorizationHeader(user.id);
+        const user = new User({ id: 1234 });
 
         // When
         const promise = server.inject(options);
@@ -119,14 +117,11 @@ describe('Acceptance | API | Assessments POST', () => {
           return promise.then(response => {
             return new BookshelfAssessment({ id: response.result.data.id }).fetch();
           })
-            .then(function(model) {
+            .then((model) => {
               expect(model.get('courseId')).to.equal(options.payload.data.relationships.course.data.id);
             });
         });
-
       });
-
     });
-
   });
 });

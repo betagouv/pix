@@ -1,4 +1,4 @@
-const { expect, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, nock } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | API | ChallengeController', () => {
@@ -60,7 +60,6 @@ describe('Acceptance | API | ChallengeController', () => {
     const options = {
       method: 'GET',
       url: '/api/challenges/recLt9uwa2dR3IYpi',
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
 
     it('should return 200 HTTP status code', () => {

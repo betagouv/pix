@@ -1,11 +1,10 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | answer-controller', () => {
 
   describe('GET /api/answers?challengeId=Y&assessmentId=Z', () => {
 
-    let accessToken;
     let inserted_answer_id = null;
 
     const queryUrl = '/api/answers?challenge=recLt9uwa2dR3IYpi&assessment=12345';
@@ -19,8 +18,7 @@ describe('Acceptance | Controller | answer-controller', () => {
 
     beforeEach(() => {
       return knex('answers').insert([inserted_answer])
-        .then((ids) => (inserted_answer_id = ids[0]))
-        .then(() => (accessToken = generateValidRequestAuhorizationHeader()));
+        .then((ids) => (inserted_answer_id = ids[0]));
     });
 
     afterEach(() => {
@@ -32,7 +30,6 @@ describe('Acceptance | Controller | answer-controller', () => {
       const options = {
         method: 'GET',
         url: queryUrl,
-        headers: { authorization: accessToken },
       };
 
       // when
@@ -49,7 +46,6 @@ describe('Acceptance | Controller | answer-controller', () => {
       const options = {
         method: 'GET',
         url: queryUrl,
-        headers: { authorization: accessToken },
       };
 
       // when
@@ -67,7 +63,6 @@ describe('Acceptance | Controller | answer-controller', () => {
       const options = {
         method: 'GET',
         url: queryUrl,
-        headers: { authorization: accessToken },
       };
 
       // when
@@ -89,7 +84,6 @@ describe('Acceptance | Controller | answer-controller', () => {
       const options = {
         method: 'GET',
         url: '/api/answers?challenge=nothing&assessment=nothing',
-        headers: { authorization: accessToken },
       };
 
       // when

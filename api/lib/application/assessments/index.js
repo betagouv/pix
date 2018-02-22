@@ -7,27 +7,43 @@ exports.register = function(server, options, next) {
     {
       method: 'POST',
       path: '/api/assessments',
-      config: { handler: AssessmentController.save, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: AssessmentController.save,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments',
-      config: { handler: AssessmentController.findByFilters, tags: ['api'] }
+      config: {
+        handler: AssessmentController.findByFilters,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/next',
-      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: AssessmentController.getNextChallenge,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/next/{challengeId}',
-      config: { handler: AssessmentController.getNextChallenge, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: AssessmentController.getNextChallenge,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}',
       config: {
+        auth: false,
         pre: [{
           method: AssessmentAuthorization.verify,
           assign: 'authorizationCheck'

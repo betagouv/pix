@@ -1,4 +1,4 @@
-const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, nock } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
@@ -152,7 +152,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
@@ -199,7 +198,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/w_first_challenge',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
@@ -251,7 +249,6 @@ describe('Acceptance | API | assessment-controller-get-adaptive-correct', () => 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/w_second_challenge',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when

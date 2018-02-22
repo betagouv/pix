@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
 const { first } = require('lodash');
 
@@ -40,7 +40,6 @@ describe('Acceptance | Controller | assessment-ratings', () => {
                 type: 'assessment-ratings'
               }
             },
-            headers: { authorization: generateValidRequestAuhorizationHeader() },
           };
         });
       });

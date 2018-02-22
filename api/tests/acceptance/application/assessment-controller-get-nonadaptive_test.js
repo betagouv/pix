@@ -1,4 +1,4 @@
-const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, nock } = require('../../test-helper');
 const cache = require('../../../lib/infrastructure/cache');
 const server = require('../../../server');
 
@@ -125,7 +125,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // When
@@ -139,7 +138,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
@@ -157,7 +155,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
@@ -174,7 +171,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/first_challenge',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
@@ -191,7 +187,6 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge',
-        headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
       // when
