@@ -48,7 +48,7 @@ module.exports = {
         return organizationRepository.saveFromModel(organization);
       })
       .then((savedOrganization) => {
-        reply(organizationSerializer.serialize(savedOrganization));
+        reply(organizationSerializer.serialize(savedOrganization.toJSON()));
       })
       .catch((err) => {
         if (err instanceof AlreadyRegisteredEmailError) {

@@ -31,7 +31,6 @@ describe('Unit | Controller | organizationController', () => {
 
   describe('#create', () => {
 
-    const organization = new Organization({ email: 'existing-email@example.net', type: 'PRO' });
     const organizationBookshelf = new BookshelfOrganization({ email: 'existing-email@example.net', type: 'PRO' });
     const userSaved = new User({ email: 'existing-email@example.net', id: 12 });
 
@@ -45,7 +44,7 @@ describe('Unit | Controller | organizationController', () => {
       sandbox.stub(userRepository, 'save').resolves(userSaved);
       sandbox.stub(userRepository, 'isEmailAvailable').resolves();
       sandbox.stub(organizationService, 'generateOrganizationCode').returns('ABCD12');
-      sandbox.stub(organisationRepository, 'saveFromModel').resolves(organization);
+      sandbox.stub(organisationRepository, 'saveFromModel').resolves(organizationBookshelf);
       sandbox.stub(organisationRepository, 'isCodeAvailable').resolves();
       sandbox.stub(organizationSerializer, 'deserialize').returns(organizationBookshelf);
       sandbox.stub(organizationSerializer, 'serialize');
@@ -145,7 +144,7 @@ describe('Unit | Controller | organizationController', () => {
 
           // Then
           return promise.then(() => {
-            expect(organizationSerializer.serialize).to.have.been.calledWith(organization);
+            expect(organizationSerializer.serialize).to.have.been.calledWith(organizationBookshelf.toJSON());
             expect(replyStub).to.have.been.calledWith(serializedOrganization);
           });
         });

@@ -68,6 +68,17 @@ describe('Acceptance | Controller | organization-controller', function() {
       });
     });
 
+    it('should create and return the new organization', () => {
+      return server.inject(options).then((response) => {
+        const organizationInResponse = response.result.data.attributes;
+        expect(organizationInResponse.name).to.equal('The name of the organization');
+        expect(organizationInResponse.email).to.equal('organization@email.com');
+        expect(organizationInResponse.type).to.equal('PRO');
+        expect(organizationInResponse.code).not.to.be.empty;
+        expect(organizationInResponse.user).to.be.undefined;
+      });
+    });
+
     it('should return 400 HTTP status code when creating two organizations with the same email', () => {
       // Given
       const createFirstOrganization = server.inject(options);
@@ -86,6 +97,7 @@ describe('Acceptance | Controller | organization-controller', function() {
     });
 
     describe('when creating with a wrong payload', () => {
+
       it('should return 400 HTTP status code', () => {
         // Given
         payload.data.attributes.type = 'FAK';
