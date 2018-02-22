@@ -1,15 +1,14 @@
 const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
-const CourseController = require('../../../../lib/application/courses/course-controller');
-
-const connectedUserVerification = require('../../../../lib/application/preHandlers/connected-user-verification');
+const courseController = require('../../../../lib/application/courses/course-controller');
+const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const accessSessionHandler = require('../../../../lib/application/preHandlers/access-session');
 
-describe('Unit | Router | course-router', function() {
+describe('Unit | Router | course-router', () => {
 
   let server;
 
-  beforeEach(function() {
+  beforeEach(() => {
     server = this.server = new Hapi.Server();
     server.connection({ port: null });
     server.register({ register: require('../../../../lib/application/courses') });
@@ -22,14 +21,14 @@ describe('Unit | Router | course-router', function() {
     });
   }
 
-  describe('GET /api/courses', function() {
+  describe('GET /api/courses', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'list').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(courseController, 'list').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      CourseController.list.restore();
+    after(() => {
+      courseController.list.restore();
     });
 
     it('should exist', function(done) {
@@ -37,14 +36,14 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
-  describe('GET /api/courses/{id}', function() {
+  describe('GET /api/courses/{id}', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'get').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(courseController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      CourseController.get.restore();
+    after(() => {
+      courseController.get.restore();
     });
 
     it('should exist', function(done) {
@@ -52,14 +51,16 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
-  describe('POST /api/courses/{id}', function() {
+  describe('POST /api/courses/{id}', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'refresh').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue())
+      sinon.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      CourseController.refresh.restore();
+    after(() => {
+      securityController.assertThatUserHasAValidAccessToken.restore();
+      courseController.refresh.restore();
     });
 
     it('should exist', function(done) {
@@ -67,14 +68,14 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
-  describe('PUT /api/courses', function() {
+  describe('PUT /api/courses', () => {
 
-    before(function() {
-      sinon.stub(CourseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
+    before(() => {
+      sinon.stub(courseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
     });
 
-    after(function() {
-      CourseController.refreshAll.restore();
+    after(() => {
+      courseController.refreshAll.restore();
     });
 
     it('should exist', function(done) {
@@ -82,16 +83,16 @@ describe('Unit | Router | course-router', function() {
     });
   });
 
-  describe('POST /api/courses', function() {
+  describe('POST /api/courses', () => {
 
     let sandbox;
 
     before(() => {
       sandbox = sinon.sandbox.create();
 
-      sandbox.stub(connectedUserVerification, 'verifyByToken').callsFake((request, reply) => reply('decodedToken'));
       sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
-      sandbox.stub(CourseController, 'save').callsFake((request, reply) => reply('ok'));
+      sandbox.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue());
+      sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
@@ -104,7 +105,6 @@ describe('Unit | Router | course-router', function() {
 
     it('should verify if user is connected and the certification session code is right', (done) => {
       server.inject({ method: 'POST', url: '/api/courses' }, () => {
-        expect(connectedUserVerification.verifyByToken).to.have.been.called;
         expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
         done();
       });

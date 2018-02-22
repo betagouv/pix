@@ -1,5 +1,4 @@
 const CourseController = require('./course-controller');
-const connectedUserVerification = require('../../application/preHandlers/connected-user-verification');
 const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
@@ -27,9 +26,6 @@ exports.register = function(server, options, next) {
       path: '/api/courses',
       config: {
         pre: [{
-          method: connectedUserVerification.verifyByToken,
-          assign: 'userId'
-        }, {
           method: accessSessionHandler.sessionIsOpened,
           assign: 'sessionOpened'
         }],
