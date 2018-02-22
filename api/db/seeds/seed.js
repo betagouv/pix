@@ -1,12 +1,13 @@
 'use strict';
-const answers = require('./data/answers');
-const assessments = require('./data/assessments');
-const certificationChallenges = require('./data/certification-challenges');
-const certificationCourses = require('./data/certification-courses');
-const marks = require('./data/marks');
-const organizations = require('./data/organizations');
-const users = require('./data/users');
-const snapshots = require('./data/snapshots');
+const listSeeds = [
+  'assessments',
+  'answers',
+  'certification-courses',
+  'certification-challenges',
+  'marks',
+  'organizations',
+  'users',
+  'snapshots'];
 
 function addData(knex, table, data) {
   return Promise.all(data)
@@ -19,18 +20,17 @@ function addData(knex, table, data) {
     });
 }
 
-const dataByTables = [
-  { table: 'assessments', data: assessments },
-  { table: 'answers', data: answers },
-  { table: 'certification-courses', data: certificationCourses },
-  { table: 'certification-challenges', data: certificationChallenges },
-  { table: 'marks', data: marks },
-  { table: 'organizations', data: organizations },
-  { table: 'users', data: users },
-  { table: 'snapshots', data: snapshots }
-];
+function createDataByTables() {
+  return listSeeds.map(tableName => {
+    return {
+      table: tableName,
+      data: require('./data/'+tableName+'.js')
+    };
+  });
+}
 
 exports.seed = (knex) => {
+  const dataByTables = createDataByTables();
   const dataToAdd = dataByTables.map(dataByTable => {
     return addData(knex, dataByTable.table, dataByTable.data);
   });
