@@ -48,8 +48,11 @@ module.exports = {
   },
 
   update(request, reply) {
-    const certificationCourse = certificationCourseSerializer.deserialize(request.payload);
-    return certificationCourseService.update(certificationCourse)
+
+    return certificationSerializer.deserialize(request.payload)
+      .then((certificationCourse) => {
+        return certificationCourseService.update(certificationCourse);
+      })
       .then((savedCertificationCourse) => {
         reply(certificationSerializer.serialize(savedCertificationCourse));
       })

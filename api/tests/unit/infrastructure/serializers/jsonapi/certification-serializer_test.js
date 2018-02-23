@@ -10,7 +10,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     const jsonCertificationCourse = {
       data: {
         type: 'certifications',
-        id: 'certification_id',
+        id: 1,
         attributes: {
           'status': 'rejected',
           'first-name': 'Freezer',
@@ -23,7 +23,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     };
 
     const certificationCourseObject = {
-      id: 'certification_id',
+      id: 1,
       status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
@@ -57,7 +57,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     const jsonCertificationCourse = {
       data: {
         type: 'certifications',
-        id: 'certification_id',
+        id: '1',
         attributes: {
           'status': 'rejected',
           'first-name': 'Freezer',
@@ -70,7 +70,7 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     };
 
     const certificationCourse = {
-      id: 'certification_id',
+      id: 1,
       status: 'rejected',
       firstName: 'Freezer',
       lastName: 'The all mighty',
@@ -80,8 +80,6 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     };
 
     it('should serialize', function() {
-      // given
-
       // when
       const serializedCertificationCourse = serializer.serialize(certificationCourse);
       // then
