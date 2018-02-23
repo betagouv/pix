@@ -1,10 +1,7 @@
-const { sinon, expect } = require('../../../test-helper');
+const { sinon } = require('../../../test-helper');
 const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
-const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
-const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 const CeritificationCourse = require('../../../../lib/domain/models/CertificationCourse');
@@ -96,60 +93,6 @@ describe('Unit | Controller | certification-course-controller', function() {
           sinon.assert.calledOnce(Boom.badImplementation);
           sinon.assert.calledWith(replyStub, boomResponseForbBadImplementation);
         });
-      });
-    });
-  });
-
-  describe('#get', () => {
-    let sandbox;
-
-    const certificationId = 12;
-    const assessment = { id: 'assessment_id', courseId: 1 };
-    const certificationCourse = {
-      id: 1,
-      userId: 7,
-      completed: 'started',
-      assessment
-    };
-
-    let request;
-    let reply;
-    const certificationSerialized = { id: certificationId, assessment: { id: 'assessment_id' } };
-
-    beforeEach(() => {
-      request = { params: { id: certificationId } };
-
-      sandbox = sinon.sandbox.create();
-
-      reply = sandbox.stub();
-      sandbox.stub(assessmentRepository, 'getByCertificationCourseId').resolves(assessment);
-      sandbox.stub(CertificationCourseRepository, 'get').resolves(certificationCourse);
-      sandbox.stub(certificationCourseSerializer, 'serialize').returns(certificationSerialized);
-    });
-
-    afterEach(() => {
-      sandbox.restore();
-    });
-
-    it('should call assessmentRepository#getByCertificationCourseId with request param', () => {
-      // when
-      const promise = CertificationCourseController.get(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(CertificationCourseRepository.get).to.have.been.calledOnce;
-        expect(CertificationCourseRepository.get).to.have.been.calledWith(certificationId);
-      });
-    });
-
-    it('should reply the certification course serialized', () => {
-      // when
-      const promise = CertificationCourseController.get(request, reply);
-
-      // then
-      return promise.then(() => {
-        expect(reply).to.have.been.calledOnce;
-        expect(reply).to.have.been.calledWith(certificationSerialized);
       });
     });
   });
