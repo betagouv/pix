@@ -4,9 +4,10 @@ const CertificationCourseRepository = require('../../../../lib/infrastructure/re
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
-const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer')
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CeritificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const Boom = require('boom');
@@ -187,9 +188,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
   describe('#update', () => {
 
-    const savedCertificationCourse = {
-      id: 1
-    };
+    const updatedCertificationCourse = new CeritificationCourse();
 
     const JsonAPISavedCertificationCourse = {
       data: {
@@ -225,7 +224,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should deserialize the request payload', () => {
       // given
-      sandbox.stub(certificationCourseService, 'update').resolves();
+      sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
       const promise = CertificationCourseController.update(options, replyStub);
@@ -238,7 +237,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should patch certificationCourse data using save method', () => {
       // given
-      sandbox.stub(certificationCourseService, 'update').resolves();
+      sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
       const promise = CertificationCourseController.update(options, replyStub);
@@ -252,7 +251,7 @@ describe('Unit | Controller | certification-course-controller', function() {
     context('when certification course was modified', () => {
 
       beforeEach(() => {
-        sandbox.stub(certificationCourseService, 'update').resolves(savedCertificationCourse);
+        sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
       });
 
       it('should serialize saved certification course', function() {
@@ -262,7 +261,7 @@ describe('Unit | Controller | certification-course-controller', function() {
         // then
         return promise.then(() => {
           sinon.assert.calledOnce(certificationSerializer.serialize);
-          sinon.assert.calledWith(certificationSerializer.serialize, savedCertificationCourse);
+          sinon.assert.calledWith(certificationSerializer.serialize, updatedCertificationCourse);
         });
       });
 

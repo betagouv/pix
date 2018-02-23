@@ -1,6 +1,7 @@
 const { expect, knex } = require('../../../test-helper');
-const CertificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
 const { NotFoundError } = require('../../../../lib/domain/errors');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 describe('Integration | Repository | Certification Course', function() {
 
@@ -51,7 +52,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update status of the certificationCourse (and not completedAt if any date is passed)', () => {
       // when
-      const promise = CertificationCourseRepository.updateStatus('completed', 20);
+      const promise = certificationCourseRepository.updateStatus('completed', 20);
 
       // then
       return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
@@ -63,7 +64,7 @@ describe('Integration | Repository | Certification Course', function() {
 
     it('should update status and completedAt of the certificationCourse if one date is passed', () => {
       // when
-      const promise = CertificationCourseRepository.updateStatus('completed', 20, '2018-01-01');
+      const promise = certificationCourseRepository.updateStatus('completed', 20, '2018-01-01');
 
       // then
       return promise.then(() => knex('certification-courses').first('id', 'status', 'completedAt'))
@@ -95,7 +96,7 @@ describe('Integration | Repository | Certification Course', function() {
     context('When the certification course exists', () => {
       it('should retrieve associated assessment with the certification course', function() {
         // when
-        const promise = CertificationCourseRepository.get(20);
+        const promise = certificationCourseRepository.get(20);
 
         // then
         return promise.then((certificationCourse) => {
@@ -112,7 +113,7 @@ describe('Integration | Repository | Certification Course', function() {
     context('When the certification course does not exist', () => {
       it('should retrieve a NotFoundError Error', function() {
         // when
-        const promise = CertificationCourseRepository.get(4);
+        const promise = certificationCourseRepository.get(4);
 
         // then
         return expect(promise).to.be.rejectedWith(NotFoundError);
@@ -141,7 +142,7 @@ describe('Integration | Repository | Certification Course', function() {
       return knex('certification-courses').delete();
     });
 
-    it('should update the certifacition course', function() {
+    it('should insert in the certification course table', function() {
       // given
       const modifiedCertifcationCourse = {
         id: 1,
@@ -154,7 +155,7 @@ describe('Integration | Repository | Certification Course', function() {
       };
 
       // when
-      const promise = CertificationCourseRepository.update(modifiedCertifcationCourse);
+      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
 
       // then
       return promise.then(() => knex('certification-courses').where({ id: 1 }).first())
@@ -162,6 +163,34 @@ describe('Integration | Repository | Certification Course', function() {
           expect(certificationCourseInDatabase.status).to.equal('completed');
           expect(certificationCourseInDatabase.rejectionReason).to.equal('');
         });
+    });
+
+    it('should assert the certifacition course has been updated', function() {
+      // given
+      const modifiedCertifcationCourse = {
+        id: 1,
+        status: 'completed',
+        firstName: 'Freezer',
+        lastName: 'The all mighty',
+        birthplace: 'Namek',
+        birthdate: '24/10/1989',
+        rejectionReason: ''
+      };
+
+      // when
+      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
+
+      // then
+      return promise.then((certificationCourseUpdated) => {
+        expect(certificationCourseUpdated).to.be.instanceOf(CertificationCourse);
+        expect(certificationCourseUpdated.id).to.equal(1);
+        expect(certificationCourseUpdated.status).to.equal('completed');
+        expect(certificationCourseUpdated.firstName).to.equal('Freezer');
+        expect(certificationCourseUpdated.lastName).to.equal('The all mighty');
+        expect(certificationCourseUpdated.birthplace).to.equal('Namek');
+        expect(certificationCourseUpdated.birthdate).to.equal('24/10/1989');
+        expect(certificationCourseUpdated.rejectionReason).to.equal('');
+      });
     });
 
     it('should return a NotFoundError when ID doesnt exist', function() {
@@ -177,7 +206,7 @@ describe('Integration | Repository | Certification Course', function() {
       };
 
       // when
-      const promise = CertificationCourseRepository.update(modifiedCertifcationCourse);
+      const promise = certificationCourseRepository.update(modifiedCertifcationCourse);
 
       // then
       return expect(promise).to.be.rejectedWith(NotFoundError);
