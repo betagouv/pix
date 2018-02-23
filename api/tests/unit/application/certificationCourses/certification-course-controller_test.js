@@ -4,6 +4,7 @@ const CertificationCourseRepository = require('../../../../lib/infrastructure/re
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
+const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer')
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
 
