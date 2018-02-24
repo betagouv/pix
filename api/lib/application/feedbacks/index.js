@@ -1,5 +1,4 @@
 const feedbackController = require('./feedback-controller');
-const securityController = require('../../interfaces/controllers/security-controller');
 
 exports.register = function(server, options, next) {
 

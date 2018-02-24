@@ -93,7 +93,7 @@ describe('Acceptance | Controller | users-controller', () => {
     const promise = server.inject(options);
 
     // then
-    return promise.then((response) => {
+    return promise.then(() => {
       return new User({ email: attributes.email }).fetch()
         .then(user => {
           expect(attributes['first-name']).to.equal(user.get('firstName'));

@@ -54,7 +54,7 @@ describe('Unit | Router | course-router', () => {
   describe('POST /api/courses/{id}', () => {
 
     before(() => {
-      sinon.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue())
+      sinon.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue());
       sinon.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
     });
 

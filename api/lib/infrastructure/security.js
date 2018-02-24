@@ -2,7 +2,7 @@ const securityController = require('../interfaces/controllers/security-controlle
 
 module.exports = {
 
-  scheme(server, options) {
+  scheme() {
     return { authenticate: (request, reply) => securityController.assertThatUserHasAValidAccessToken(request, reply) };
   }
 

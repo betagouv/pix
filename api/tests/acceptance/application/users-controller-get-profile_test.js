@@ -5,7 +5,6 @@ const userRepository = require('../../../lib/infrastructure/repositories/user-re
 const User = require('../../../lib/infrastructure/data/user');
 const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
-const { InvalidTokenError } = require('../../../lib/domain/errors');
 
 const expectedResultWhenInvalidToken = {
   errors: [{

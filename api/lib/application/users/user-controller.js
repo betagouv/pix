@@ -1,7 +1,6 @@
 const Boom = require('boom');
 const moment = require('moment');
 const _ = require('../../infrastructure/utils/lodash-utils');
-const authorizationToken = require('../../../lib/infrastructure/validators/jsonwebtoken-verify');
 
 const userSerializer = require('../../infrastructure/serializers/jsonapi/user-serializer');
 const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
