@@ -1,6 +1,7 @@
+const securityController = require('../../interfaces/controllers/security-controller');
 const feedbackController = require('./feedback-controller');
 
-exports.register = function(server, options, next) {
+exports.register = (server, options, next) => {
 
   server.route([
     {
@@ -16,6 +17,10 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/feedbacks',
       config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: feedbackController.find,
         tags: ['api']
       }
