@@ -1,16 +1,21 @@
-const _ = require('lodash');
+const { toLower } = require('lodash');
 
 class User {
 
   constructor(model = {}) {
-    // properties
     this.id = model.id;
     this.firstName = model.firstName;
     this.lastName = model.lastName;
-    this.email = _.toLower(model.email);
+    this.email = toLower(model.email);
     this.password = model.password;
     this.cgu = model.cgu;
+    this.pixRoles = model.pixRoles || [];
   }
+
+  get hasRolePixMaster() {
+    return this.pixRoles.find(pixRole => pixRole.name === 'PIX_MASTER');
+  }
+
 }
 
 module.exports = User;
