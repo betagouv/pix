@@ -1,24 +1,63 @@
-const tokenService = require('../../domain/services/token-service');
 const logger = require('../../infrastructure/logger');
-const validationErrorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
+const tokenService = require('../../domain/services/token-service');
+const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
+const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
+
+const replyWithAuthenticationError = (reply) => {
+  return Promise.resolve().then(() => {
+    const errorAsJsonApi = {};
+    return reply(errorAsJsonApi).code(401).takeover();
+  });
+};
+
+const replyWithAuthorizationError = (reply) => {
+  return Promise.resolve().then(() => {
+    const errorAsJsonApi = {};
+    return reply(errorAsJsonApi).code(403).takeover();
+  });
+};
 
 module.exports = {
 
-  assertThatUserHasAValidAccessToken(request, reply) {
-    const accessToken = tokenService.extractTokenFromAuthChain(request.headers.authorization);
+  checkUserIsAuthenticated(request, reply) {
+    const authorizationHeader = request.headers.authorization;
+    const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
 
-    return tokenService.verifyValidity(accessToken)
-      .then(() => reply.continue({ credentials: { accessToken } }))
+    if (!accessToken) {
+      return replyWithAuthenticationError(reply);
+    }
+
+    return checkUserIsAuthenticatedUseCase.execute(accessToken)
+      .then(isAuthenticated => {
+        if (isAuthenticated) {
+          return reply.continue({ credentials: { accessToken } });
+        }
+        return replyWithAuthenticationError(reply);
+      })
       .catch(err => {
         logger.error(err);
-        const errorData = {
-          data: {
-            authorization: ['Le token n’est pas valide']
-          }
-        };
-        const errorAsJsonApi = validationErrorSerializer.serialize(errorData);
-        reply(errorAsJsonApi).code(401).takeover();
+        return replyWithAuthenticationError(reply);
       });
   },
+
+  checkUserHasRolePixMaster(request, reply) {
+    if (!request.auth.credentials || !request.auth.credentials.accessToken) {
+      return replyWithAuthorizationError(reply);
+    }
+
+    const accessToken = request.auth.credentials.accessToken;
+
+    return checkUserHasRolePixMasterUseCase.execute(accessToken)
+      .then(hasRolePixMaster => {
+        if (hasRolePixMaster) {
+          return reply(true);
+        }
+        return replyWithAuthorizationError(reply);
+      })
+      .catch(err => {
+        logger.error(err);
+        return replyWithAuthorizationError(reply);
+      });
+  }
 
 };
