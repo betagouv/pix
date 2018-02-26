@@ -1,12 +1,20 @@
+const securityController = require('../../interfaces/controllers/security-controller');
 const organisationController = require('./organization-controller');
 const snapshotsAuthorization = require('../../application/preHandlers/snapshot-authorization');
 
-exports.register = function(server, options, next) {
+exports.register = (server, options, next) => {
   server.route([
     {
       method: 'POST',
       path: '/api/organizations',
-      config: { handler: organisationController.create, tags: ['api'] }
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: organisationController.create,
+        tags: ['api']
+      }
     },
     {
       method: 'GET',
