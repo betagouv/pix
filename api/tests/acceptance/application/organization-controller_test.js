@@ -15,20 +15,20 @@ describe('Acceptance | Controller | organization-controller', () => {
         }]
       })
       .reply(200, {
-          'records': [{
-            'id': 'recNv8qhaY887jQb2',
-            'fields': {
-              'Sous-domaine': '1.3',
-              'Titre': 'Traiter des données',
-            }
-          }, {
-            'id': 'recofJCxg0NqTqTdP',
-            'fields': {
-              'Sous-domaine': '4.2',
-              'Titre': 'Protéger les données personnelles et la vie privée'
-            },
-          }]
-        }
+        'records': [{
+          'id': 'recNv8qhaY887jQb2',
+          'fields': {
+            'Sous-domaine': '1.3',
+            'Titre': 'Traiter des données',
+          }
+        }, {
+          'id': 'recofJCxg0NqTqTdP',
+          'fields': {
+            'Sous-domaine': '4.2',
+            'Titre': 'Protéger les données personnelles et la vie privée'
+          },
+        }]
+      }
       );
   });
 
@@ -39,8 +39,8 @@ describe('Acceptance | Controller | organization-controller', () => {
   beforeEach(() => {
     return Promise.all([
       knex('users').insert({ id: 1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }),
-      knex('pix_roles').insert({ id: 4567, name: 'PIX_MASTER'}),
-      knex('users_pix_roles').insert({ user_id: 1234, pix_role_id: 4567}),
+      knex('pix_roles').insert({ id: 4567, name: 'PIX_MASTER' }),
+      knex('users_pix_roles').insert({ user_id: 1234, pix_role_id: 4567 }),
     ]);
   });
 

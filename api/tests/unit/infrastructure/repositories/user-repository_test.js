@@ -202,8 +202,6 @@ describe('Unit | Repository | userRepository', function() {
     it('should reject a domain NotFoundError when the user was  not found', () => {
       // given
       const userId = 1234;
-      const domainUser = new DomainUser({ id: userId, firstName: 'John', lastName: 'Doe', email: 'jdoe@example.net' });
-      const bookshelfUser = { toDomainEntity: () => domainUser };
       const fetchStub = sinon.stub().rejects(new BookshelfUser.NotFoundError());
       BookshelfUser.prototype.where.returns({ fetch: fetchStub });
 
