@@ -54,12 +54,12 @@ describe('Unit | Router | course-router', () => {
   describe('POST /api/courses/{id}', () => {
 
     before(() => {
-      sinon.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue());
+      sinon.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => reply.continue());
       sinon.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
     });
 
     after(() => {
-      securityController.assertThatUserHasAValidAccessToken.restore();
+      securityController.checkUserIsAuthenticated.restore();
       courseController.refresh.restore();
     });
 
@@ -91,7 +91,7 @@ describe('Unit | Router | course-router', () => {
       sandbox = sinon.sandbox.create();
 
       sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
-      sandbox.stub(securityController, 'assertThatUserHasAValidAccessToken').callsFake((request, reply) => reply.continue());
+      sandbox.stub(securityController, 'checkUserIsAuthenticated').callsFake((request, reply) => reply.continue());
       sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
     });
 
