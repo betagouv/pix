@@ -6,16 +6,6 @@ const User = require('../../../lib/infrastructure/data/user');
 const Bookshelf = require('../../../lib/infrastructure/bookshelf');
 const profileService = require('../../../lib/domain/services/profile-service');
 
-const expectedResultWhenInvalidToken = {
-  errors: [{
-    status: '400',
-    title: 'Invalid Attribute',
-    detail: 'Le token n’est pas valide',
-    source: { 'pointer': '/data/attributes/authorization' },
-    meta: { 'field': 'authorization' }
-  }]
-};
-
 const expectedResultUserNotFounded = {
   errors: [{
     status: '400',
@@ -189,7 +179,6 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
         // then
         return promise.then(response => {
           expect(response.statusCode).to.equal(401);
-          expect(response.result).to.be.deep.equal(expectedResultWhenInvalidToken);
         });
       });
 
