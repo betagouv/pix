@@ -2,18 +2,29 @@ const logger = require('../../infrastructure/logger');
 const tokenService = require('../../domain/services/token-service');
 const checkUserIsAuthenticatedUseCase = require('../../application/usecases/checkUserIsAuthenticated');
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const replyWithAuthenticationError = (reply) => {
   return Promise.resolve().then(() => {
-    const errorAsJsonApi = {};
-    return reply(errorAsJsonApi).code(401).takeover();
+    const errorHttpStatusCode = 401;
+    const jsonApiError = new JSONAPIError({
+      code: errorHttpStatusCode,
+      title: 'Unauthorized access',
+      detail: 'Missing or invalid access token in request auhorization headers.'
+    });
+    return reply(jsonApiError).code(errorHttpStatusCode).takeover();
   });
 };
 
 const replyWithAuthorizationError = (reply) => {
   return Promise.resolve().then(() => {
-    const errorAsJsonApi = {};
-    return reply(errorAsJsonApi).code(403).takeover();
+    const errorHttpStatusCode = 403;
+    const jsonApiError = new JSONAPIError({
+      code: errorHttpStatusCode,
+      title: 'Forbidden access',
+      detail: 'Unauthenticated user or missing role PIX_MASTER.'
+    });
+    return reply(jsonApiError).code(errorHttpStatusCode).takeover();
   });
 };
 
