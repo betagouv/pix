@@ -38,6 +38,7 @@ module.exports = {
         mailService.sendAccountCreationEmail(savedUser.email);
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
+        logger.error(err);
 
         if (err instanceof InvalidRecaptchaTokenError) {
           const userValidationErrors = user.validationErrors();
