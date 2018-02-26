@@ -1,11 +1,14 @@
+const securityController = require('../../interfaces/controllers/security-controller');
 const sessionController = require('./session-controller');
-exports.register = function(server, options, next) {
+
+exports.register = (server, options, next) => {
 
   server.route([
     {
       method: 'GET',
       path: '/api/sessions',
       config: {
+        auth: false,
         handler: sessionController.get,
         tags: ['api']
       }
@@ -14,6 +17,10 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/sessions',
       config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: sessionController.save,
         tags: ['api']
       }

@@ -36,25 +36,29 @@ describe('Acceptance | Controller | session-controller', () => {
 
   describe('POST /sessions', () => {
 
-    const options = {
-      method: 'POST',
-      url: '/api/sessions',
-      payload: {
-        data: {
-          type: 'sessions',
-          attributes: {
-            'certification-center': 'Université de dressage de loutres',
-            address: 'Nice',
-            room: '28D',
-            examiner: 'Antoine Toutvenant',
-            date: '08/12/2017',
-            time: '14:30',
-            description: ''
+    let options;
+
+    beforeEach(() => {
+      options = {
+        method: 'POST',
+        url: '/api/sessions',
+        payload: {
+          data: {
+            type: 'sessions',
+            attributes: {
+              'certification-center': 'Université de dressage de loutres',
+              address: 'Nice',
+              room: '28D',
+              examiner: 'Antoine Toutvenant',
+              date: '08/12/2017',
+              time: '14:30',
+              description: ''
+            }
           }
-        }
-      },
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
-    };
+        },
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+    });
 
     afterEach(() => {
       return knex('sessions').delete();
@@ -181,5 +185,35 @@ describe('Acceptance | Controller | session-controller', () => {
         });
       });
     });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        options.headers.authorization = generateValidRequestAuhorizationHeader();
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
+      });
+    });
+
   });
 });
