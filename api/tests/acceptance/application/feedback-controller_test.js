@@ -128,7 +128,8 @@ describe('Acceptance | Controller | feedback-controller', () => {
 
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
-        options.headers.authorization = generateValidRequestAuhorizationHeader();
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
