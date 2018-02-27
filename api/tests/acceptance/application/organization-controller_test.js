@@ -1,7 +1,126 @@
 const jwt = require('jsonwebtoken');
-const { expect, knex, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, nock, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 const settings = require('../../../lib/settings');
+
+function _insertOrganization(userId) {
+  const organizationRaw = {
+    name: 'The name of the organization',
+    email: 'organization@email.com',
+    type: 'SUP',
+    code: 'AAA111',
+    userId
+  };
+
+  return knex('organizations').insert(organizationRaw)
+    .then(organization => organization.shift());
+}
+
+function _insertUser() {
+  const userRaw = {
+    'firstName': 'john',
+    'lastName': 'Doe',
+    'email': 'john.Doe@internet.fr',
+    password: 'Pix2017!'
+  };
+
+  return knex('users').insert(userRaw)
+    .then(user => user.shift());
+}
+
+function _insertSnapshot(organizationId, userId) {
+  const serializedUserProfile = {
+    data: {
+      type: 'users',
+      id: userId,
+      attributes: {
+        'first-name': 'John',
+        'last-name': 'Doe',
+        'total-pix-score': 15,
+        'email': 'john.Doe@internet.fr'
+      },
+      relationships: {
+        competences: {
+          data: [
+            { type: 'competences', id: 'recCompA' },
+            { type: 'competences', id: 'recCompB' }
+          ]
+        }
+      },
+    },
+    included: [
+      {
+        type: 'areas',
+        id: 'recAreaA',
+        attributes: {
+          name: 'area-name-1'
+        }
+      },
+      {
+        type: 'areas',
+        id: 'recAreaB',
+        attributes: {
+          name: 'area-name-2'
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompA',
+        attributes: {
+          name: 'Traiter des données',
+          index: '1.3',
+          level: -1,
+          'course-id': 'recBxPAuEPlTgt72q11'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaA'
+            }
+          }
+        }
+      },
+      {
+        type: 'competences',
+        id: 'recCompB',
+        attributes: {
+          name: 'Protéger les données personnelles et la vie privée',
+          index: '4.2',
+          level: 8,
+          'pix-score': 128,
+          'course-id': 'recBxPAuEPlTgt72q99'
+        },
+        relationships: {
+          area: {
+            data: {
+              type: 'areas',
+              id: 'recAreaB'
+            }
+          }
+        }
+      }
+    ]
+  };
+  const snapshotRaw = {
+    organizationId: organizationId,
+    testsFinished: 1,
+    userId,
+    score: 15,
+    profile: JSON.stringify(serializedUserProfile),
+    createdAt: '2017-08-31 15:57:06'
+  };
+
+  return knex('snapshots')
+    .insert(snapshotRaw);
+}
+
+function _createToken(user) {
+  return jwt.sign({
+    user_id: user,
+    email: 'john.Doe@internet.fr',
+  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
+}
 
 describe('Acceptance | Controller | organization-controller', () => {
 
@@ -15,20 +134,20 @@ describe('Acceptance | Controller | organization-controller', () => {
         }]
       })
       .reply(200, {
-        'records': [{
-          'id': 'recNv8qhaY887jQb2',
-          'fields': {
-            'Sous-domaine': '1.3',
-            'Titre': 'Traiter des données',
-          }
-        }, {
-          'id': 'recofJCxg0NqTqTdP',
-          'fields': {
-            'Sous-domaine': '4.2',
-            'Titre': 'Protéger les données personnelles et la vie privée'
-          },
-        }]
-      }
+          'records': [{
+            'id': 'recNv8qhaY887jQb2',
+            'fields': {
+              'Sous-domaine': '1.3',
+              'Titre': 'Traiter des données',
+            }
+          }, {
+            'id': 'recofJCxg0NqTqTdP',
+            'fields': {
+              'Sous-domaine': '4.2',
+              'Titre': 'Protéger les données personnelles et la vie privée'
+            },
+          }]
+        }
       );
   });
 
@@ -37,19 +156,11 @@ describe('Acceptance | Controller | organization-controller', () => {
   });
 
   beforeEach(() => {
-    return Promise.all([
-      knex('users').insert({ id: 1234, firstName: 'Super', lastName: 'Papa', email: 'super.papa@ho.me', password: 'abcd1234' }),
-      knex('pix_roles').insert({ id: 4567, name: 'PIX_MASTER' }),
-      knex('users_pix_roles').insert({ user_id: 1234, pix_role_id: 4567 }),
-    ]);
+    return insertUserWithRolePixMaster();
   });
 
   afterEach(() => {
-    return Promise.all([
-      knex('users').delete(),
-      knex('pix_roles').delete(),
-      knex('users_pix_roles').delete(),
-    ]);
+    return cleanupUsersAndPixRolesTables();
   });
 
   describe('POST /api/organizations', () => {
@@ -414,122 +525,3 @@ describe('Acceptance | Controller | organization-controller', () => {
     });
   });
 });
-
-function _insertOrganization(userId) {
-  const organizationRaw = {
-    name: 'The name of the organization',
-    email: 'organization@email.com',
-    type: 'SUP',
-    code: 'AAA111',
-    userId
-  };
-
-  return knex('organizations').insert(organizationRaw)
-    .then(organization => organization.shift());
-}
-
-function _insertUser() {
-  const userRaw = {
-    'firstName': 'john',
-    'lastName': 'Doe',
-    'email': 'john.Doe@internet.fr',
-    password: 'Pix2017!'
-  };
-
-  return knex('users').insert(userRaw)
-    .then(user => user.shift());
-}
-
-function _insertSnapshot(organizationId, userId) {
-  const serializedUserProfile = {
-    data: {
-      type: 'users',
-      id: userId,
-      attributes: {
-        'first-name': 'John',
-        'last-name': 'Doe',
-        'total-pix-score': 15,
-        'email': 'john.Doe@internet.fr'
-      },
-      relationships: {
-        competences: {
-          data: [
-            { type: 'competences', id: 'recCompA' },
-            { type: 'competences', id: 'recCompB' }
-          ]
-        }
-      },
-    },
-    included: [
-      {
-        type: 'areas',
-        id: 'recAreaA',
-        attributes: {
-          name: 'area-name-1'
-        }
-      },
-      {
-        type: 'areas',
-        id: 'recAreaB',
-        attributes: {
-          name: 'area-name-2'
-        }
-      },
-      {
-        type: 'competences',
-        id: 'recCompA',
-        attributes: {
-          name: 'Traiter des données',
-          index: '1.3',
-          level: -1,
-          'course-id': 'recBxPAuEPlTgt72q11'
-        },
-        relationships: {
-          area: {
-            data: {
-              type: 'areas',
-              id: 'recAreaA'
-            }
-          }
-        }
-      },
-      {
-        type: 'competences',
-        id: 'recCompB',
-        attributes: {
-          name: 'Protéger les données personnelles et la vie privée',
-          index: '4.2',
-          level: 8,
-          'pix-score': 128,
-          'course-id': 'recBxPAuEPlTgt72q99'
-        },
-        relationships: {
-          area: {
-            data: {
-              type: 'areas',
-              id: 'recAreaB'
-            }
-          }
-        }
-      }
-    ]
-  };
-  const snapshotRaw = {
-    organizationId: organizationId,
-    testsFinished: 1,
-    userId,
-    score: 15,
-    profile: JSON.stringify(serializedUserProfile),
-    createdAt: '2017-08-31 15:57:06'
-  };
-
-  return knex('snapshots')
-    .insert(snapshotRaw);
-}
-
-function _createToken(user) {
-  return jwt.sign({
-    user_id: user,
-    email: 'john.Doe@internet.fr',
-  }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
-}
