@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
 const { first } = require('lodash');
 
@@ -7,53 +7,59 @@ describe('Acceptance | API | Certification Course', () => {
   describe('GET /api/admin/certifications/{id}', () => {
 
     const courseId = '1';
-    const options = {
-      method: 'GET',
-      url: `/api/admin/certifications/${courseId}`,
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
-    };
+    let options;
 
     beforeEach(() => {
+      options = {
+        method: 'GET',
+        url: `/api/admin/certifications/${courseId}`,
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
       let assessmentId;
-      return knex('assessments').insert({
-        courseId: courseId,
-        estimatedLevel: 0,
-        pixScore: 42,
-        type: 'CERTIFICATION'
-      }).then(assessmentIds => {
-        assessmentId = first(assessmentIds);
-        return knex('marks').insert([
-          {
-            level: 2,
-            score: 20,
-            area_code: 4,
-            competence_code: 4.3,
-            assessmentId
-          },
-          {
-            level: 4,
-            score: 35,
-            area_code: 2,
-            competence_code: 2.1,
-            assessmentId
-          }
-        ]);
-      }).then(() => {
-        return knex('certification-courses').insert(
-          {
-            id: courseId,
-            createdAt: '2017-12-21 15:44:38',
-            completedAt: '2017-12-21T15:48:38.468Z'
-          }
-        );
-      });
+      return insertUserWithRolePixMaster()
+        .then(() => {
+          return knex('assessments').insert({
+            courseId: courseId,
+            estimatedLevel: 0,
+            pixScore: 42,
+            type: 'CERTIFICATION'
+          }).then(assessmentIds => {
+            assessmentId = first(assessmentIds);
+            return knex('marks').insert([
+              {
+                level: 2,
+                score: 20,
+                area_code: 4,
+                competence_code: 4.3,
+                assessmentId
+              },
+              {
+                level: 4,
+                score: 35,
+                area_code: 2,
+                competence_code: 2.1,
+                assessmentId
+              }
+            ]);
+          }).then(() => {
+            return knex('certification-courses').insert({
+              id: courseId,
+              createdAt: '2017-12-21 15:44:38',
+              completedAt: '2017-12-21T15:48:38.468Z'
+            });
+          });
+        });
     });
 
     afterEach(() => {
-      return Promise.all([
-        knex('assessments').delete(),
-        knex('marks').delete(),
-        knex('certification-courses').delete()]);
+      return cleanupUsersAndPixRolesTables()
+        .then(() => {
+          return Promise.all([
+            knex('assessments').delete(),
+            knex('marks').delete(),
+            knex('certification-courses').delete()]);
+        });
+
     });
 
     it('should return 200 HTTP status code', () => {
@@ -116,6 +122,36 @@ describe('Acceptance | API | Certification Course', () => {
       // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(404);
+      });
+    });
+
+    describe('Resource access management', () => {
+
+      it('should respond with a 401 - unauthorized access - if user is not authenticated', () => {
+        // given
+        options.headers.authorization = 'invalid.access.token';
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(401);
+        });
+      });
+
+      it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
+        // given
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
+
+        // when
+        const promise = server.inject(options);
+
+        // then
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(403);
+        });
       });
     });
   });
