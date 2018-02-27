@@ -23,7 +23,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('GET /api/session', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));;
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
       sinon.stub(sessionController, 'get').callsFake((request, reply) => reply('ok'));
     });
 
@@ -40,7 +40,7 @@ describe('Unit | Application | Sessions | Routes', () => {
   describe('POST /api/session', () => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));;
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
       sinon.stub(sessionController, 'save').callsFake((request, reply) => reply('ok'));
     });
 

@@ -134,20 +134,20 @@ describe('Acceptance | Controller | organization-controller', () => {
         }]
       })
       .reply(200, {
-          'records': [{
-            'id': 'recNv8qhaY887jQb2',
-            'fields': {
-              'Sous-domaine': '1.3',
-              'Titre': 'Traiter des données',
-            }
-          }, {
-            'id': 'recofJCxg0NqTqTdP',
-            'fields': {
-              'Sous-domaine': '4.2',
-              'Titre': 'Protéger les données personnelles et la vie privée'
-            },
-          }]
-        }
+        'records': [{
+          'id': 'recNv8qhaY887jQb2',
+          'fields': {
+            'Sous-domaine': '1.3',
+            'Titre': 'Traiter des données',
+          }
+        }, {
+          'id': 'recofJCxg0NqTqTdP',
+          'fields': {
+            'Sous-domaine': '4.2',
+            'Titre': 'Protéger les données personnelles et la vie privée'
+          },
+        }]
+      }
       );
   });
 

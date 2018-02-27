@@ -1,6 +1,5 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const server = require('../../../server');
-const Feedback = require('../../../lib/infrastructure/data/feedback');
 
 describe('Acceptance | Controller | cache-controller', () => {
 

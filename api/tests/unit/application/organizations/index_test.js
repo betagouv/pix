@@ -16,7 +16,7 @@ describe('Unit | Application | Organizations | Routes', () => {
   describe('POST /api/organizations', _ => {
 
     before(() => {
-      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));;
+      sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
       sinon.stub(organisationController, 'create').callsFake((request, reply) => reply('ok'));
     });
 
