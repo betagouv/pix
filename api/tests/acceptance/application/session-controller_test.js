@@ -1,4 +1,4 @@
-const { expect, knex, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables  } = require('../../test-helper');
 const server = require('../../../server');
 
 describe('Acceptance | Controller | session-controller', () => {
@@ -58,10 +58,11 @@ describe('Acceptance | Controller | session-controller', () => {
         },
         headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
+      return insertUserWithRolePixMaster();
     });
 
     afterEach(() => {
-      return knex('sessions').delete();
+      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
     });
 
     it('should return an OK status after saving in database', () => {
@@ -203,7 +204,8 @@ describe('Acceptance | Controller | session-controller', () => {
 
       it('should respond with a 403 - forbidden access - if user has not role PIX_MASTER', () => {
         // given
-        options.headers.authorization = generateValidRequestAuhorizationHeader();
+        const nonPixMAsterUserId = 9999;
+        options.headers.authorization = generateValidRequestAuhorizationHeader(nonPixMAsterUserId);
 
         // when
         const promise = server.inject(options);
