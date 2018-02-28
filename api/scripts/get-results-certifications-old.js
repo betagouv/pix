@@ -19,8 +19,11 @@ function parseArgs(argv) {
   return args;
 }
 
-function buildRequestObject(baseUrl, certificationId) {
+function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
+    headers: {
+      authorization: authToken
+    },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}/details`,
     json: true,
@@ -60,9 +63,10 @@ function toCSVRow(rowJSON) {
 
 function main() {
   const baseUrl = process.argv[2];
-  const ids = parseArgs(process.argv);
+  const authToken = process.argv[3];
+  const ids = parseArgs(process.argv.slice(4));
   const requests = Promise.all(
-    ids.map(id => buildRequestObject(baseUrl, id))
+    ids.map(id => buildRequestObject(baseUrl, authToken, id))
       .map(requestObject => makeRequest(requestObject))
   );
 
@@ -101,17 +105,20 @@ if (process.env.NODE_ENV !== 'test') {
         // given
         const courseId = 12;
         const baseUrl = 'http://localhost:3000';
+        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1MTk4MjU5MzgsImV4cCI6MTUyMDQzMDczOH0.0X90b_wW-s0nLDl-Og-v8zm7E3UVqwK4UGjkOelanQI';
+
         // when
-        const result = buildRequestObject(baseUrl, courseId);
+        const result = buildRequestObject(baseUrl, authToken, courseId);
         // then
         expect(result).to.have.property('json', true);
         expect(result).to.have.property('url','/api/admin/certifications/12/details');
+        expect(result.headers).to.have.property('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1MTk4MjU5MzgsImV4cCI6MTUyMDQzMDczOH0.0X90b_wW-s0nLDl-Og-v8zm7E3UVqwK4UGjkOelanQI');
       });
 
       it('should add certificationId to API response when the object is transform after the request', () => {
         // given
         const baseUrl = 'http://localhost:3000';
-        const requestObject = buildRequestObject(baseUrl,12);
+        const requestObject = buildRequestObject(baseUrl, '',12);
         // when
         const result = requestObject.transform({});
         // then
