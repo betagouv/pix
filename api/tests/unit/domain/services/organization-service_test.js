@@ -158,19 +158,17 @@ describe('Unit | Service | OrganizationService', () => {
     it('should return the organization found for the given filters, without the email', () => {
       // given
       const filters = { code: 'OE34RND', type: 'SCO' };
-      const rawOrgaWithEmail = { type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND', email: 'tuileries@sco.com' };
-      const rawOrgaWithoutEmail = { type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' };
-      const foundOrganization = [new Organization(rawOrgaWithEmail)];
-      const expectedReturnedOrganization = [new Organization(rawOrgaWithoutEmail)];
+      const organizationWithEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND', email: 'tuileries@sco.com' })];
+      const expectedReturnedOrganizationWithoutEmail = [new Organization({ type: 'SCO', name: 'Lycée des Tuileries', code: 'OE34RND' })];
 
-      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(foundOrganization);
+      sandbox.stub(organisationRepository, 'findBy').withArgs(filters).resolves(organizationWithEmail);
 
       // when
       const promise = organizationService.search(filters);
 
       // then
       return promise.then((organization) => {
-        expect(organization).to.deep.equal(expectedReturnedOrganization);
+        expect(organization).to.deep.equal(expectedReturnedOrganizationWithoutEmail);
       });
     });
 

@@ -3,7 +3,7 @@ const { expect, sinon } = require('../../../test-helper');
 const User = require('../../../../lib/domain/models/User');
 const BookshelfOrganization = require('../../../../lib/infrastructure/data/organization');
 const BookshelfSnapshot = require('../../../../lib/infrastructure/data/snapshot');
-const Organization = require('../../../../lib/domain/models/organization');
+const Organization = require('../../../../lib/domain/models/Organization');
 
 const organizationController = require('../../../../lib/application/organizations/organization-controller');
 
