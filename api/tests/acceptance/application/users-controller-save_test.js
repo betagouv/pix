@@ -26,7 +26,7 @@ describe('Acceptance | Controller | users-controller', () => {
     attributes = {
       'first-name': faker.name.firstName(),
       'last-name': faker.name.lastName(),
-      email: faker.internet.email(),
+      email: faker.internet.email().toLowerCase(),
       password: 'A124B2C3#!',
       cgu: true
     };
@@ -61,7 +61,7 @@ describe('Acceptance | Controller | users-controller', () => {
   });
 
   it('should return 400 HTTP status code when no payload', () => {
-    // Given
+    // given
     options.payload = {};
 
     // when
@@ -74,15 +74,15 @@ describe('Acceptance | Controller | users-controller', () => {
   });
 
   it('should return 422 HTTP status code when email already exists', () => {
-    // Given
+    // given
     const firstRegistration = server.inject(options);
 
-    // When
+    // when
     const secondRegistration = firstRegistration.then(_ => {
       return server.inject(options);
     });
 
-    // Then
+    // then
     return secondRegistration.then((response) => {
       expect(response.statusCode).to.equal(422);
     });
@@ -120,13 +120,13 @@ describe('Acceptance | Controller | users-controller', () => {
 
   describe('should return 422 HTTP status code', () => {
     it('when the email is not valid', () => {
-      // Given
+      // given
       options.payload.data.attributes.email = 'invalid.email@';
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then(response => {
         expect(response.statusCode).to.equal(422);
       });

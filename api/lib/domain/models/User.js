@@ -1,5 +1,4 @@
 const { toLower } = require('lodash');
-
 class User {
 
   constructor(model = {}) {

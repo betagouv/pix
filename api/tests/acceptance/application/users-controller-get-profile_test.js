@@ -236,7 +236,7 @@ describe('Acceptance | Controller | users-controller-get-profile', () => {
       });
 
       it('should response with 201 HTTP status code, when authorization is valid and user is found', () => {
-        // Given
+        // given
         profileServiceStub.resolves(fakeBuildedProfile);
 
         // when

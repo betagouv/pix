@@ -185,10 +185,10 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
 
     it('should return the expected assessment', () => {
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         const expectedAssessment = {
           'type': 'assessment',

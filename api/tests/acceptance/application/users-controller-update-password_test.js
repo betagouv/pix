@@ -40,10 +40,10 @@ describe('Acceptance | Controller | users-controller', function() {
 
       await _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then(response => {
         expect(response.statusCode).to.equal(204);
       });
@@ -63,10 +63,10 @@ describe('Acceptance | Controller | users-controller', function() {
         }
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then(response => {
         expect(response.statusCode).to.equal(404);
       });

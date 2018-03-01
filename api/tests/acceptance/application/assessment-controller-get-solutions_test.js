@@ -180,7 +180,7 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return the solution if the user answered every challenge', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
@@ -192,10 +192,10 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         attributes: { value: 'truite' }
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.result.data).to.deep.equal(expectedSolution);
       });
@@ -231,17 +231,17 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return null if the adaptive test is not over', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
         headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(409);
         expect(response.result).to.deep.equal({
@@ -297,10 +297,10 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         attributes: { value: 'fromage' }
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.result.data).to.deep.equal(expectedSolution);
       });
@@ -336,17 +336,17 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
     });
 
     it('should return null if user did not complete the adaptive test', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
         headers: { authorization: generateValidRequestAuhorizationHeader() },
       };
 
-      // When
+      // when
       const promise = server.inject(options);
 
-      // Then
+      // then
       return promise.then((response) => {
         expect(response.statusCode).to.equal(409);
         expect(response.result).to.deep.equal({

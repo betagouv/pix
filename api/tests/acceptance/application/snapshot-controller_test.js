@@ -124,13 +124,13 @@ describe('Acceptance | Controller | snapshot-controller', () => {
     context('when creating with a wrong payload', () => {
 
       it('should return 422 HTTP status code', () => {
-        // Given
+        // given
         payload.data.relationships.organization.data.id = null;
 
-        // Then
+        // then
         const promise = server.inject(options);
 
-        // Then
+        // then
         return promise.then((response) => {
           const parsedResponse = JSON.parse(response.payload);
           expect(parsedResponse.errors[0].detail).to.equal('Cette organisation n’existe pas');

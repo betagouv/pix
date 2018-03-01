@@ -21,11 +21,13 @@ const tokenService = require('../lib/domain/services/token-service');
 /**
  * @returns string
  */
-function generateValidRequestAuhorizationHeader(userId = undefined) {
+function generateValidRequestAuhorizationHeader(userId = 1234) {
   const user = {
+    id: userId,
+
     get(prop) {
       if (prop === 'id') {
-        return userId ? userId : 1234;
+        return userId;
       }
     }
   };

@@ -118,7 +118,6 @@ function _insertSnapshot(organizationId, userId) {
 function _createToken(user) {
   return jwt.sign({
     user_id: user,
-    email: 'john.Doe@internet.fr',
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 

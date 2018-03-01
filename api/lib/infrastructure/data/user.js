@@ -68,7 +68,9 @@ module.exports = Bookshelf.model('User', {
 
   toDomainEntity() {
     const model = this.toJSON();
-    model.pixRoles = model.pixRoles.map(pixRoleJson => new DomainPixRole(pixRoleJson));
+    if (model.pixRoles) {
+      model.pixRoles = model.pixRoles.map(pixRoleJson => new DomainPixRole(pixRoleJson));
+    }
     return new DomainUser(model);
   }
 

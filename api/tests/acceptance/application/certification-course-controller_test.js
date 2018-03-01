@@ -63,23 +63,21 @@ describe('Acceptance | API | Certification Course', () => {
     });
 
     it('should return 200 HTTP status code', () => {
-      // given
+      // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
-        // then
         expect(response.statusCode).to.equal(200);
       });
     });
 
     it('should return application/json', () => {
-      // given
+      // when
       const promise = server.inject(options);
 
       // then
       return promise.then((response) => {
-        // then
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
       });

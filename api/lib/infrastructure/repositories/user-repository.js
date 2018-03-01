@@ -7,7 +7,10 @@ module.exports = {
   findByEmail(email) {
     return BookshelfUser
       .where({ email })
-      .fetch({ require: true });
+      .fetch({ require: true })
+      .then(bookshelfUser => {
+        return bookshelfUser.toDomainEntity();
+      });
   },
 
   /**
@@ -26,9 +29,7 @@ module.exports = {
         require: true,
         withRelated: ['pixRoles']
       })
-      .then(bookshelfUser => {
-        return bookshelfUser.toDomainEntity();
-      })
+      .then(bookshelfUser => bookshelfUser.toDomainEntity())
       .catch(err => {
         if (err instanceof BookshelfUser.NotFoundError) {
           throw new NotFoundError(`User not found for ID ${userId}`);
@@ -37,8 +38,13 @@ module.exports = {
       });
   },
 
-  save(userRawData) {
-    return new BookshelfUser(userRawData).save();
+  save(domainUser) {
+    const userRawData = Object.assign({}, domainUser);
+    delete userRawData.pixRoles; // XXX we don't want the User Pix Roles to be saved in the same time
+
+    return new BookshelfUser(userRawData)
+      .save()
+      .then(bookshelfUser => bookshelfUser.toDomainEntity());
   },
 
   validateData(userRawData) {
@@ -64,6 +70,6 @@ module.exports = {
         patch: true,
         require: false
       })
-      .then(persistedBookshelfUser => persistedBookshelfUser.toDomainEntity());
+      .then(bookshelfUser => bookshelfUser.toDomainEntity());
   }
 };

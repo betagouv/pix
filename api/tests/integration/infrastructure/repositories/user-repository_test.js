@@ -1,14 +1,15 @@
-const { expect, knex } = require('../../../test-helper');
+const { expect, knex, sinon } = require('../../../test-helper');
 const faker = require('faker');
 const bcrypt = require('bcrypt');
 
+const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
-const User = require('../../../../lib/domain/models/User');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
-const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
+const DomainUser = require('../../../../lib/domain/models/User');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe('Unit | Repository | userRepository', function() {
+describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
   let userId;
   const email = faker.internet.email().toLowerCase();
@@ -24,26 +25,16 @@ describe('Unit | Repository | userRepository', function() {
   describe('#findUserById', () => {
 
     beforeEach(() => {
-      return knex('users')
-        .delete()
-        .then(() => {
-          return knex('users').insert(inserted_user);
-        })
-        .then((result) => {
-          userId = result.shift();
-        });
+      return knex('users').insert(inserted_user)
+        .then((result) => (userId = result.shift()));
     });
 
     afterEach(() => {
       return knex('users').delete();
     });
 
-    it('should be a function', function() {
-      // then
-      expect(userRepository.findUserById).to.be.a('function');
-    });
-
     describe('Success management', () => {
+
       it('should find a user by provided id', () => {
         return userRepository.findUserById(userId)
           .then((foundedUser) => {
@@ -63,20 +54,12 @@ describe('Unit | Repository | userRepository', function() {
           });
       });
     });
-
   });
 
   describe('#findByEmail', () => {
 
     beforeEach(() => {
-      return knex('users')
-        .delete()
-        .then(() => {
-          return knex('users').insert(inserted_user);
-        })
-        .then((result) => {
-          userId = result.shift();
-        });
+      return knex('users').insert(inserted_user);
     });
 
     afterEach(() => {
@@ -89,41 +72,34 @@ describe('Unit | Repository | userRepository', function() {
     });
 
     it('should handle a rejection, when user id is not found', () => {
-      // Given
+      // given
       const emailThatDoesNotExist = 10093;
-      // When
+
+      // when
       const promise = userRepository.findByEmail(emailThatDoesNotExist);
 
-      // Then
-      return promise
-        .catch((err) => {
-          expect(err).to.be.instanceof(Bookshelf.Model.NotFoundError);
-        });
+      // then
+      return promise.catch((err) => {
+        expect(err).to.be.instanceof(Bookshelf.Model.NotFoundError);
+      });
     });
 
-    it('should return a user when found', () => {
-      // When
+    it('should return a domain user when found', () => {
+      // when
       const promise = userRepository.findByEmail(email);
 
-      // Then
-      return promise
-        .then((user) => {
-          expect(user.email).to.equal(email);
-        });
+      // then
+      return promise.then((user) => {
+        expect(user.email).to.equal(email);
+      });
     });
   });
 
   describe('#isEmailAvailable', () => {
 
     beforeEach(() => {
-      return knex('users')
-        .delete()
-        .then(() => {
-          return knex('users').insert(inserted_user);
-        })
-        .then((result) => {
-          userId = result.shift();
-        });
+      return knex('users').insert(inserted_user)
+        .then((result) => (userId = result.shift()));
     });
 
     afterEach(() => {
@@ -131,20 +107,20 @@ describe('Unit | Repository | userRepository', function() {
     });
 
     it('should return the email when the email is not registered', () => {
-      // When
+      // when
       const promise = userRepository.isEmailAvailable('email@example.net');
 
-      // Then
+      // then
       return promise.then((email) => {
         expect(email).to.equal('email@example.net');
       });
     });
 
     it('should reject an AlreadyRegisteredEmailError when it already exists', () => {
-      // When
+      // when
       const promise = userRepository.isEmailAvailable(email);
 
-      // Then
+      // then
       return promise.catch(err => {
         expect(err).to.be.an.instanceOf(AlreadyRegisteredEmailError);
       });
@@ -160,9 +136,9 @@ describe('Unit | Repository | userRepository', function() {
     });
 
     it('should save the user', () => {
-      // Given
+      // given
       const email = 'my-email-to-save@example.net';
-      const user = new User({
+      const user = new DomainUser({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
@@ -170,10 +146,10 @@ describe('Unit | Repository | userRepository', function() {
         cgu: true,
       });
 
-      // When
+      // when
       const promise = userRepository.save(user);
 
-      // Then
+      // then
       return promise
         .then(() => knex('users').select())
         .then((usersSaved) => {
@@ -181,10 +157,10 @@ describe('Unit | Repository | userRepository', function() {
         });
     });
 
-    it('should return a User object', () => {
-      // Given
+    it('should return a Domain User object', () => {
+      // given
       const email = 'my-email-to-save@example.net';
-      const user = new User({
+      const user = new DomainUser({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
@@ -192,18 +168,17 @@ describe('Unit | Repository | userRepository', function() {
         cgu: true,
       });
 
-      // When
+      // when
       const promise = userRepository.save(user);
 
-      // Then
-      return promise
-        .then((userSaved) => {
-          expect(userSaved).to.be.an.instanceOf(User);
-          expect(userSaved.firstName).to.equal(user.firstName);
-          expect(userSaved.lastName).to.equal(user.lastName);
-          expect(userSaved.email).to.equal(user.email);
-          expect(userSaved.cgu).to.equal(user.cgu);
-        });
+      // then
+      return promise.then((userSaved) => {
+        expect(userSaved).to.be.an.instanceOf(DomainUser);
+        expect(userSaved.firstName).to.equal(user.firstName);
+        expect(userSaved.lastName).to.equal(user.lastName);
+        expect(userSaved.email).to.equal(user.email);
+        expect(userSaved.cgu).to.equal(user.cgu);
+      });
     });
   });
 
@@ -212,7 +187,7 @@ describe('Unit | Repository | userRepository', function() {
     let user;
 
     beforeEach(() => {
-      const userToSave = new User({
+      const userToSave = new DomainUser({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: 'my-email-to-save@example.net',
@@ -231,18 +206,66 @@ describe('Unit | Repository | userRepository', function() {
     });
 
     it('should save the user', () => {
-      // Given
+      // given
       const newPassword = '1235Pix!';
 
-      // When
+      // when
       const promise = userRepository.updatePassword(user.id, newPassword);
 
-      // Then
+      // then
       return promise
         .then((updatedUser) => {
-          expect(updatedUser).to.be.an.instanceOf(User);
+          expect(updatedUser).to.be.an.instanceOf(DomainUser);
           expect(updatedUser.password).to.equal(newPassword);
         });
     });
   });
+
+  describe('#get', () => {
+
+    beforeEach(() => {
+      sinon.stub(BookshelfUser.prototype, 'where');
+    });
+
+    afterEach(() => {
+      BookshelfUser.prototype.where.restore();
+    });
+
+    it('should resolve a domain User matching its ID', () => {
+      // given
+      const userId = 1234;
+      const domainUser = new DomainUser({ id: userId, firstName: 'John', lastName: 'Doe', email: 'jdoe@example.net' });
+      const bookshelfUser = { toDomainEntity: () => domainUser };
+      const fetchStub = sinon.stub().resolves(bookshelfUser);
+      BookshelfUser.prototype.where.returns({ fetch: fetchStub });
+
+      // when
+      const promise = userRepository.get(userId);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.deep.equal(domainUser);
+        expect(BookshelfUser.prototype.where).to.have.been.calledWithExactly({ id: userId });
+        expect(fetchStub).to.have.been.calledWithExactly({ require: true, withRelated: ['pixRoles'] });
+      });
+    });
+
+    it('should reject a domain NotFoundError when the user was  not found', () => {
+      // given
+      const userId = 1234;
+      const fetchStub = sinon.stub().rejects(new BookshelfUser.NotFoundError());
+      BookshelfUser.prototype.where.returns({ fetch: fetchStub });
+
+      // when
+      const promise = userRepository.get(userId);
+
+      // then
+      return promise
+        .then(() => expect.fail('Expected an error to have been thrown.'))
+        .catch(err => expect(err).to.be.an.instanceof(NotFoundError));
+    });
+
+  });
+
 });
+

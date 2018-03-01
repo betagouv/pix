@@ -66,13 +66,13 @@ describe('Acceptance | API | Assessments POST', () => {
     describe('when the user is authenticated', () => {
 
       it('should save user_id in the database', () => {
-        // Given
+        // given
         const user = new User({ id: 1234 });
 
-        // When
+        // when
         const promise = server.inject(options);
 
-        // Then
+        // then
         return promise.then(response => {
           return new BookshelfAssessment({ id: response.result.data.id }).fetch();
         })
@@ -113,7 +113,7 @@ describe('Acceptance | API | Assessments POST', () => {
           // when
           const promise = server.inject(options);
 
-          // Then
+          // then
           return promise.then(response => {
             return new BookshelfAssessment({ id: response.result.data.id }).fetch();
           })

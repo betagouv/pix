@@ -2,14 +2,13 @@ const { expect, sinon } = require('../../../test-helper');
 const Hapi = require('hapi');
 const authenticationController = require('../../../../lib/application/authentication/authentication-controller');
 
-describe('Unit | Router | authentication-router', () => {
+describe('Integration | Application | Route | AuthenticationRouter', () => {
 
   let server;
 
   beforeEach(() => {
     // stub dependencies
     sinon.stub(authenticationController, 'save').callsFake((request, reply) => reply('ok'));
-    sinon.stub(authenticationController, 'authenticate').callsFake((request, reply) => reply('ok'));
 
     // configure and start server
     server = new Hapi.Server();
@@ -20,7 +19,6 @@ describe('Unit | Router | authentication-router', () => {
   afterEach(() => {
     server.stop();
     authenticationController.save.restore();
-    authenticationController.authenticate.restore();
   });
 
   describe('POST /api/authentications', () => {

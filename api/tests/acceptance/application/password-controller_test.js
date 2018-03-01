@@ -14,8 +14,8 @@ describe('Acceptance | Controller | password-controller', () => {
     let options;
 
     before(() => {
-      fakeUserEmail = faker.internet.email();
-      _insertUser(fakeUserEmail);
+      fakeUserEmail = faker.internet.email().toLowerCase();
+      return _insertUser(fakeUserEmail);
     });
 
     after(() => {
@@ -228,8 +228,8 @@ describe('Acceptance | Controller | password-controller', () => {
 
       before(() => {
         fakeUserEmail = faker.internet.email();
-        _insertUser(fakeUserEmail);
-        return _insertPasswordResetDemand(temporaryKey, fakeUserEmail);
+        return _insertUser(fakeUserEmail)
+          .then(() => _insertPasswordResetDemand(temporaryKey, fakeUserEmail));
       });
 
       after(() => {

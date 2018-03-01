@@ -121,13 +121,13 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     });
 
     it('should return 200 HTTP status code', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next',
       };
 
-      // When
+      // when
       return server.injectThen(options).then((response) => {
         expect(response.statusCode).to.equal(200);
       });
@@ -151,7 +151,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     });
 
     it('should return the first challenge if no challenge specified', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next',
@@ -183,7 +183,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
     });
 
     it('should return null if reached the last challenge of the course', () => {
-      // Given
+      // given
       const options = {
         method: 'GET',
         url: '/api/assessments/' + insertedAssessmentId + '/next/second_challenge',
