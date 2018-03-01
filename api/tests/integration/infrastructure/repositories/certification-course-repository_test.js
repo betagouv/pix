@@ -165,7 +165,7 @@ describe('Integration | Repository | Certification Course', function() {
         });
     });
 
-    it('should assert the certifacition course has been updated', function() {
+    it('should assert the certification course has been updated', function() {
       // given
       const modifiedCertifcationCourse = {
         id: 1,

@@ -116,7 +116,6 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.restore();
     });
     it('should call certification-service to get certification result from database', () => {
-      // given
       // when
       const promise = CertificationCourseController.getResult(request, replyStub);
 
