@@ -5,6 +5,10 @@ describe('Acceptance | Controller | session-controller', () => {
 
   describe('GET /sessions', function() {
 
+    afterEach(() => {
+      return cleanupUsersAndPixRolesTables().then(() => knex('sessions').delete());
+    });
+
     const options = {
       method: 'GET',
       url: '/api/sessions',

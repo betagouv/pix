@@ -31,13 +31,13 @@ describe('Unit | Script | GET results-certification', () => {
       // given
       const courseId = 12;
       const baseUrl = 'http://localhost:3000';
-      const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1MTk4MjU5MzgsImV4cCI6MTUyMDQzMDczOH0.0X90b_wW-s0nLDl-Og-v8zm7E3UVqwK4UGjkOelanQI';
+      const authToken = 'jwt.tokken';
       // when
       const result = getResultsCertifications.buildRequestObject(baseUrl, authToken, courseId);
       // then
       expect(result).to.have.property('json', true);
       expect(result).to.have.property('url', '/api/admin/certifications/12');
-      expect(result.headers).to.have.property('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1LCJpYXQiOjE1MTk4MjU5MzgsImV4cCI6MTUyMDQzMDczOH0.0X90b_wW-s0nLDl-Og-v8zm7E3UVqwK4UGjkOelanQI');
+      expect(result.headers).to.have.property('authorization', 'Bearer jwt.tokken');
     });
 
     it('should add certificationId to API response when the object is transform after the request', () => {

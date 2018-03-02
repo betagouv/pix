@@ -22,7 +22,7 @@ function parseArgs(argv) {
 function buildRequestObject(baseUrl, authToken, certificationId) {
   return {
     headers: {
-      authorization: authToken
+      authorization: 'Bearer ' + authToken
     },
     baseUrl: baseUrl,
     url: `/api/admin/certifications/${certificationId}`,
