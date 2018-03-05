@@ -13,7 +13,7 @@ exports.register = function(server, options, next) {
     },
     {
       method: 'GET',
-      path: '/api/admin/certifications/{id}/result',
+      path: '/api/admin/certifications/{id}',
       config: {
         handler: certificationCourseController.getResult,
         tags: ['api']
