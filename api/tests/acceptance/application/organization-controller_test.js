@@ -121,7 +121,7 @@ function _createToken(user) {
   }, settings.authentication.secret, { expiresIn: settings.authentication.tokenLifespan });
 }
 
-describe('Acceptance | Controller | organization-controller', () => {
+describe('Acceptance | Application | Controller | Organization', () => {
 
   before(() => {
     nock('https://api.airtable.com')
@@ -422,45 +422,51 @@ describe('Acceptance | Controller | organization-controller', () => {
   describe('GET /api/organizations', () => {
     let userId;
 
-    before((done) => {
-      _insertUser()
+    before(() => {
+      return _insertUser()
         .then((user_id) => {
           userId = user_id;
           return _insertOrganization(userId);
-        })
-        .then(() => done());
+        });
     });
 
     after(() => {
       return Promise.all([knex('users').delete(), knex('organizations').delete()]);
     });
 
-    const options = { method: 'GET', url: '/api/organizations?filter[code]=AAA111' };
+    const options = {
+      method: 'GET',
+      url: '/api/organizations?filter[code]=AAA111',
+      headers: { authorization: generateValidRequestAuhorizationHeader() },
+    };
 
-    it('should return 200 HTTP status code', function(done) {
+    it('should return 200 HTTP status code', () => {
       // when
-      return server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then(response => {
         expect(response.statusCode).to.equal(200);
-        done();
       });
     });
 
-    it('should return application/json', function(done) {
+    it('should return application/json', () => {
       // when
-      return server.inject(options, (response) => {
+      const promise = server.inject(options);
 
-        // then
+      // then
+      return promise.then(response => {
         const contentType = response.headers['content-type'];
         expect(contentType).to.contain('application/json');
-        done();
       });
     });
 
-    it('should return the expected organization with no email nor user', function(done) {
+    it('should return the expected organization with no email nor user', () => {
       // when
-      return server.inject(options, (response) => {
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
         // then
         const organization = response.result.data[0];
         expect(organization.attributes.name).to.equal('The name of the organization');
@@ -468,7 +474,6 @@ describe('Acceptance | Controller | organization-controller', () => {
         expect(organization.attributes.type).to.equal('SUP');
         expect(organization.attributes.code).to.equal('AAA111');
         expect(organization.attributes.user).to.be.undefined;
-        done();
       });
     });
 
@@ -516,8 +521,10 @@ describe('Acceptance | Controller | organization-controller', () => {
       };
 
       // when
-      return server.injectThen(request).then((response) => {
-        // then
+      const promise = server.inject(request);
+
+      // then
+      return promise.then((response) => {
         expect(response.statusCode).to.equal(200);
         expect(response.result).to.deep.equal(expectedCsvSnapshots);
       });
