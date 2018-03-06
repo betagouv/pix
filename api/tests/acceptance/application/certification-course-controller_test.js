@@ -161,6 +161,18 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
+    it('should return a Wrong Error Format when birthdate is false', function() {
+      // given
+      options.payload.data.attributes.birthdate = 'aaaaaaa';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((err) => {
+        expect(err.statusCode).to.be.equal(400);
+      });
+    });
+
   });
-})
-;
+});

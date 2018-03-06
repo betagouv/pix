@@ -1,10 +1,11 @@
 const Boom = require('boom');
 const logger = require('../../infrastructure/logger');
+const errorSerializer = require('../../infrastructure/serializers/jsonapi/validation-error-serializer');
 const certificationService = require('../../domain/services/certification-service');
 const certificationCourseService = require('../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../infrastructure/serializers/jsonapi/certification-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
-const { NotFoundError } = require('../../domain/errors');
+const { NotFoundError, WrongDateFormatError } = require('../../domain/errors');
 
 module.exports = {
 
@@ -26,7 +27,7 @@ module.exports = {
         reply(certificationCourseSerializer.serializeResult(certificationResult));
       })
       .catch((err) => {
-        if(err instanceof NotFoundError) {
+        if (err instanceof NotFoundError) {
           return reply(Boom.notFound(err));
         }
         logger.error(err);
@@ -44,7 +45,11 @@ module.exports = {
         reply(certificationSerializer.serialize(savedCertificationCourse));
       })
       .catch((err) => {
-        reply(Boom.notFound(err));
+        if (err instanceof WrongDateFormatError) {
+          reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
+        } else {
+          reply(Boom.notFound(err));
+        }
       });
   }
 

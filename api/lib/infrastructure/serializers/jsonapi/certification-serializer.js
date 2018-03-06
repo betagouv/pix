@@ -12,16 +12,19 @@ module.exports = {
   },
 
   deserialize(json) {
-
-    if (!moment(json.data.attributes.birthdate, 'DD/MM/YYYY').isValid()) {
-      throw new WrongDateFormatError();
-    }
+    const birthdate = json.data.attributes.birthdate;
 
     return new Deserializer({ keyForAttribute: 'camelCase' })
       .deserialize(json)
       .then((certifications => {
-        certifications.birthdate = moment(json.data.attributes.birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        if (birthdate) {
+          if (!moment(birthdate, 'DD/MM/YYYY').isValid()) {
+            return Promise.reject(new WrongDateFormatError());
+          }
+          certifications.birthdate = moment(birthdate, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        }
         return certifications;
       }));
+
   }
 };
