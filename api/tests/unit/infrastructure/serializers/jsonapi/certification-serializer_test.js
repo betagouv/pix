@@ -44,11 +44,16 @@ describe('Unit | Serializer | JSONAPI | certification-serializer', function() {
     });
 
     it('should return an error if date is in wrong format', function() {
-      // given
+      // when
       jsonCertificationCourse.data.attributes.birthdate = '2015-32-12';
 
+      // given
+      const promise = serializer.deserialize(jsonCertificationCourse);
+
       // then
-      expect(() => serializer.deserialize(jsonCertificationCourse)).to.throw(WrongDateFormatError);
+      return promise.catch(() => {
+        expect(promise).to.be.rejectedWith(WrongDateFormatError);
+      });
     });
   });
 
