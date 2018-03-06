@@ -1,4 +1,4 @@
-const { batch } = require('../batchTreatment2')
+const { batch } = require('../batchTreatment');
 const TABLE_NAME_ASSESSMENTS = 'assessments';
 const TABLE_NAME_CERTIFICATIONS = 'certification-courses';
 const LIST_COMPETENCES_PLACEMENT = [
@@ -21,7 +21,7 @@ const LIST_COMPETENCES_PLACEMENT = [
 const TYPE_PLACEMENT = 'PLACEMENT';
 const TYPE_CERTIFICATION = 'CERTIFICATION';
 const TYPE_DEMO = 'DEMO';
-const TYPE_PREVIEW = 'PREVIEW'; //null...
+const TYPE_PREVIEW = 'PREVIEW';
 
 exports.up = function(knex, Promise) {
 
