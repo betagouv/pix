@@ -3,7 +3,8 @@ const certificationService = require('../../../../lib/domain/services/certificat
 const Answer = require('../../../../lib/infrastructure/data/answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
-const Competence = require('../../../../lib/domain/models/referential/competence');
+const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
+const Competence = require('../../../../lib/domain/models/Competence');
 const { UserNotAuthorizedToCertifyError } = require('../../../../lib/domain/errors');
 
 const userService = require('../../../../lib/domain/services/user-service');
@@ -12,6 +13,7 @@ const assessmentRepository = require('../../../../lib/infrastructure/repositorie
 const answersRepository = require('../../../../lib/infrastructure/repositories/answer-repository');
 const certificationChallengesRepository = require('../../../../lib/infrastructure/repositories/certification-challenge-repository');
 const certificationCourseRepository = require('../../../../lib/infrastructure/repositories/certification-course-repository');
+const competenceRepository = require('../../../../lib/infrastructure/repositories/competence-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
 
 function _buildAnswer(challengeId, result) {
@@ -27,7 +29,7 @@ function _buildChallenge(id, competence, type) {
 }
 
 function _buildCompetence(name, index, courseId, pixScore, estimatedLevel, challenges) {
-  const competence = new Competence();
+  const competence = new AirtableCompetence();
   competence.id = courseId;
   competence.pixScore = pixScore;
   competence.estimatedLevel = estimatedLevel;
@@ -84,6 +86,13 @@ const competences = [
   _buildCompetence('Partager', '2.2', 'competence_2', pixForCompetence2, 2, challengesCompetence2),
   _buildCompetence('Adapter', '3.3', 'competence_3', pixForCompetence3, 3, challengesCompetence3),
   _buildCompetence('Résoudre', '4.4', 'competence_4', pixForCompetence4, 4, challengesCompetence4),
+];
+
+const competencesFromAirtable = [
+  new Competence({ id: 'competence_1', index: '1.1', name: 'Mener une recherche' }),
+  new Competence({ id: 'competence_2', index: '2.2', name: 'Partager' }),
+  new Competence({ id: 'competence_3', index: '3.3', name: 'Adapter' }),
+  new Competence({ id: 'competence_4', index: '4.4', name: 'Résoudre' })
 ];
 
 function _buildCorrectAnswersForAllChallenges() {
@@ -174,6 +183,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
     });
 
     afterEach(() => {
@@ -651,6 +661,7 @@ describe('Unit | Service | Certification Service', function() {
       sandbox.stub(certificationChallengesRepository, 'findByCertificationCourseId').resolves(challenges);
       sandbox.stub(userService, 'getProfileToCertify').resolves(userProfile);
       sandbox.stub(certificationCourseRepository, 'get').resolves(certificationCourse);
+      sandbox.stub(competenceRepository, 'find').resolves(competencesFromAirtable);
     });
 
     afterEach(() => {
@@ -1104,9 +1115,9 @@ describe('Unit | Service | Certification Service', function() {
       { id: 'competence6', estimatedLevel: 6 }
     ];
 
-    [ { label: 'User Has No Competence', competences: noCompetences },
-      { label: 'User Has Only 1 Competence at Level 0', competences: oneCompetenceWithLevel0 },
-      { label: 'User Has Only 1 Competence at Level 5', competences: oneCompetenceWithLevel5 },
+    [ { label: 'User Has No AirtableCompetence', competences: noCompetences },
+      { label: 'User Has Only 1 AirtableCompetence at Level 0', competences: oneCompetenceWithLevel0 },
+      { label: 'User Has Only 1 AirtableCompetence at Level 5', competences: oneCompetenceWithLevel5 },
       { label: 'User Has 5 Competences with 1 at Level 0', competences: fiveCompetencesAndOneWithLevel0 }
     ].forEach(function(testCase) {
       it(`should not create a new certification if ${testCase.label}`, function() {
