@@ -139,16 +139,22 @@ function _getChallengesWithCompetenceInfo(testedCompetences) {
   }, []);
 }
 
-function _getChallengeInformation(listAnswers, testedCompetences) {
+function _getChallengeInformation(listAnswers, testedCompetences, certificationChallenges) {
   const challengesWithCompetence = _getChallengesWithCompetenceInfo(testedCompetences);
   return listAnswers.map(answer => {
+
     const challenge = challengesWithCompetence.find(challenge => challenge.id === answer.get('challengeId')) || {};
+
+    const certificationChallenge = certificationChallenges.find(
+      certificationChallenge => certificationChallenge.challengeId === answer.get('challengeId')
+    ) || {};
+
     return {
       result: answer.get('result'),
       value: answer.get('value'),
       challengeId: answer.get('challengeId'),
       competence: challenge.competence || '',
-      skill: challenge.testedSkill || ''
+      skill: certificationChallenge.associatedSkill || ''
     };
   });
 }
@@ -172,16 +178,16 @@ function _getCertificationResult(assessment) {
         certificationCourseRepository.get(assessment.courseId)
       ]);
     })
-    .then(([assessment, listAnswers, listCertificationChallenges, listCompetences, certificationCourse]) => {
+    .then(([assessment, listAnswers, certificationChallenges, listCompetences, certificationCourse]) => {
       const testedCompetences = listCompetences.filter(competence => competence.challenges.length > 0);
 
-      const result = _getResult(listAnswers, listCertificationChallenges, testedCompetences);
+      const result = _getResult(listAnswers, certificationChallenges, testedCompetences);
       // FIXME: Missing tests
       result.createdAt = startOfCertificationDate;
       result.userId = assessment.userId;
       result.status = certificationCourse.status;
       result.completedAt = certificationCourse.completedAt;
-      result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, testedCompetences);
+      result.listChallengesAndAnswers = _getChallengeInformation(listAnswers, testedCompetences, certificationChallenges);
       return result;
     });
 }

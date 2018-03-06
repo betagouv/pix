@@ -18,8 +18,8 @@ function _buildAnswer(challengeId, result) {
   return new Answer({ id: 'answer_id', challengeId, result, value: 'something' });
 }
 
-function _buildCertificationChallenge(challengeId, competenceId) {
-  return new CertificationChallenge({ challengeId, competenceId });
+function _buildCertificationChallenge(challengeId, competenceId, associatedSkill) {
+  return new CertificationChallenge({ challengeId, competenceId, associatedSkill });
 }
 
 function _buildChallenge(id, competence, type) {
@@ -65,18 +65,18 @@ const challengesCompetence4 = [
 ];
 
 const challenges = [
-  _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_B_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_C_for_competence_1', 'competence_1'),
-  _buildCertificationChallenge('challenge_D_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_E_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_F_for_competence_2', 'competence_2'),
-  _buildCertificationChallenge('challenge_G_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_H_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_I_for_competence_3', 'competence_3'),
-  _buildCertificationChallenge('challenge_J_for_competence_4', 'competence_4'),
-  _buildCertificationChallenge('challenge_K_for_competence_4', 'competence_4'),
-  _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4'),
+  _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1', '@skillChallengeA_1'),
+  _buildCertificationChallenge('challenge_C_for_competence_1', 'competence_1', '@skillChallengeC_1'),
+  _buildCertificationChallenge('challenge_B_for_competence_1', 'competence_1', '@skillChallengeB_1'),
+  _buildCertificationChallenge('challenge_D_for_competence_2', 'competence_2', '@skillChallengeD_2'),
+  _buildCertificationChallenge('challenge_E_for_competence_2', 'competence_2', '@skillChallengeE_2'),
+  _buildCertificationChallenge('challenge_F_for_competence_2', 'competence_2', '@skillChallengeF_2'),
+  _buildCertificationChallenge('challenge_G_for_competence_3', 'competence_3', '@skillChallengeG_3'),
+  _buildCertificationChallenge('challenge_H_for_competence_3', 'competence_3', '@skillChallengeH_3'),
+  _buildCertificationChallenge('challenge_I_for_competence_3', 'competence_3', '@skillChallengeI_3'),
+  _buildCertificationChallenge('challenge_J_for_competence_4', 'competence_4', '@skillChallengeJ_4'),
+  _buildCertificationChallenge('challenge_K_for_competence_4', 'competence_4', '@skillChallengeK_4'),
+  _buildCertificationChallenge('challenge_L_for_competence_4', 'competence_4', '@skillChallengeL_4'),
 ];
 
 const competences = [
@@ -525,84 +525,84 @@ describe('Unit | Service | Certification Service', function() {
           {
             challengeId: 'challenge_A_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeA_1',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_B_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeB_1',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_C_for_competence_1',
             competence: '1.1',
-            skill: '@skill',
+            skill: '@skillChallengeC_1',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_D_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeD_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_E_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeE_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_F_for_competence_2',
             competence: '2.2',
-            skill: '@skill',
+            skill: '@skillChallengeF_2',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_G_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeG_3',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_H_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeH_3',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_I_for_competence_3',
             competence: '3.3',
-            skill: '@skill',
+            skill: '@skillChallengeI_3',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_J_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeJ_4',
             result: 'ok',
             value: 'something',
           },
           {
             challengeId: 'challenge_K_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeK_4',
             result: 'ko',
             value: 'something',
           },
           {
             challengeId: 'challenge_L_for_competence_4',
             competence: '4.4',
-            skill: '@skill',
+            skill: '@skillChallengeL_4',
             result: 'ok',
             value: 'something',
           }
@@ -979,11 +979,11 @@ describe('Unit | Service | Certification Service', function() {
           _buildCompetence('Compétence réussie moyennement', '6.6', 'competence_6', 36, 3, listChallengeComp6WithThreeChallenge)
         ];
         const challenges = [
-          _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5'),
-          _buildCertificationChallenge('challenge_B_for_competence_5', 'competence_5'),
-          _buildCertificationChallenge('challenge_A_for_competence_6', 'competence_6'),
-          _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6'),
-          _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6'),
+          _buildCertificationChallenge('challenge_A_for_competence_5', 'competence_5', '@skillChallengeA_5'),
+          _buildCertificationChallenge('challenge_B_for_competence_5', 'competence_5', '@skillChallengeB_5'),
+          _buildCertificationChallenge('challenge_A_for_competence_6', 'competence_6', '@skillChallengeA_6'),
+          _buildCertificationChallenge('challenge_B_for_competence_6', 'competence_6', '@skillChallengeB_6'),
+          _buildCertificationChallenge('challenge_C_for_competence_6', 'competence_6', '@skillChallengeC_6'),
         ];
         certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
         userService.getProfileToCertify.resolves(competences);
