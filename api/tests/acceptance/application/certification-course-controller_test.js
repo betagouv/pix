@@ -174,5 +174,19 @@ describe('Acceptance | API | Certification Course', function() {
       });
     });
 
+
+    it('should return a Invalid Attribute error when status is different from [started, completed, validated, rejected]', function() {
+      // given
+      options.payload.data.attributes.status = 'aaaaaaa';
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then((err) => {
+        expect(err.statusCode).to.be.equal(400);
+      });
+    });
+
   });
 });

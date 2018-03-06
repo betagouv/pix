@@ -9,6 +9,7 @@ module.exports = {
         if (error instanceof NotFoundError) {
           return Promise.reject(new NotFoundError());
         }
+        return Promise.reject(error);
       });
   }
 };

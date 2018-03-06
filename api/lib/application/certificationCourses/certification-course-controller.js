@@ -47,6 +47,8 @@ module.exports = {
       .catch((err) => {
         if (err instanceof WrongDateFormatError) {
           reply(errorSerializer.serialize(err.getErrorMessage())).code(400);
+        } else if (err.message === 'ValidationError') {
+          reply(errorSerializer.serialize(err)).code(400);
         } else {
           reply(Boom.notFound(err));
         }

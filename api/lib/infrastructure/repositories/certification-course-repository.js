@@ -55,6 +55,7 @@ module.exports = {
         if (err instanceof CertificationCourseBookshelf.NoRowsUpdatedError) {
           return Promise.reject(new NotFoundError());
         }
+        return Promise.reject(err);
       });
 
   }
