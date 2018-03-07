@@ -38,6 +38,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             'illustration-url': challenge.illustrationUrl,
             'hasnt-internet-allowed': challenge.hasntInternetAllowed,
             timer: challenge.timer,
+            skills: [],
             competence: challenge.competence[0],
             attachments: [
               challenge.attachments[0],
@@ -67,6 +68,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             id: '1',
             attributes: {
               competence: 'competence_id',
+              skills:[]
             }
           }
         });
@@ -87,6 +89,7 @@ describe('Unit | Serializer | JSONAPI | challenge-serializer', function() {
             id: '1',
             attributes: {
               competence: 'N/A',
+              skills:[]
             }
           }
         });

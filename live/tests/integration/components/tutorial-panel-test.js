@@ -20,11 +20,6 @@ describe('Integration | Component | tutorial panel', function() {
 
     [
       { itemClassName: '.tutorial-panel' },
-      { itemClassName: '.tutorial-panel__box-container' },
-      { itemClassName: '.tutorial-panel__box-title' },
-      { itemClassName: '.tutorial-panel__box-picto-container' },
-      { itemClassName: '.tutorial-panel__box-picto' },
-      { itemClassName: '.tutorial-panel__separator' }
     ].forEach(({ itemClassName }) => {
       it(`should render a div with class ${itemClassName}`, function() {
         // when

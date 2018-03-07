@@ -136,13 +136,5 @@ describe('Integration | Component | comparison-window', function() {
       });
     });
 
-    it('should render a tutorial panel before feedback panel', function() {
-      // when
-      this.render(hbs`{{comparison-window}}`);
-
-      // then
-      expect(this.$('.tutorial-panel')).to.have.lengthOf(1);
-    });
-
   });
 });
