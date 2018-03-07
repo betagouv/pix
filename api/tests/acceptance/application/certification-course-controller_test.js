@@ -108,7 +108,7 @@ describe('Acceptance | API | Certification Course', function() {
     });
   });
 
-  describe('PATCH /api/ceetification-courses/{id}', function() {
+  describe('PATCH /api/certification-courses/{id}', function() {
 
     const courseId = '1';
 

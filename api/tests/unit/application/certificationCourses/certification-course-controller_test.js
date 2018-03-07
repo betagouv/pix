@@ -1,10 +1,10 @@
 const { sinon } = require('../../../test-helper');
-const CertificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
+const certificationCourseController = require('../../../../lib/application/certificationCourses/certification-course-controller');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseService = require('../../../../lib/domain/services/certification-course-service');
 const certificationSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
-const CeritificationCourse = require('../../../../lib/domain/models/CertificationCourse');
+const CertificationCourse = require('../../../../lib/domain/models/CertificationCourse');
 
 const logger = require('../../../../lib/infrastructure/logger');
 const Boom = require('boom');
@@ -45,7 +45,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should call certification Service to compute score', () => {
       // when
-      const promise = CertificationCourseController.computeResult(request, replyStub);
+      const promise = certificationCourseController.computeResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -56,7 +56,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
     it('should reply the score', () => {
       // when
-      const promise = CertificationCourseController.computeResult(request, replyStub);
+      const promise = certificationCourseController.computeResult(request, replyStub);
 
       // then
       return promise.then(() => {
@@ -72,7 +72,7 @@ describe('Unit | Controller | certification-course-controller', function() {
         certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
-        const promise = CertificationCourseController.computeResult(request, replyStub);
+        const promise = certificationCourseController.computeResult(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -86,7 +86,7 @@ describe('Unit | Controller | certification-course-controller', function() {
         certificationService.calculateCertificationResultByCertificationCourseId.rejects(error);
 
         // when
-        const promise = CertificationCourseController.computeResult(request, replyStub);
+        const promise = certificationCourseController.computeResult(request, replyStub);
 
         // then
         return promise.then(() => {
@@ -98,7 +98,7 @@ describe('Unit | Controller | certification-course-controller', function() {
   });
 
   describe('#getResult', () => {
-    const certificationCourseId =1;
+    const certificationCourseId = 1;
     const request = {
       params: {
         id: certificationCourseId
@@ -117,7 +117,7 @@ describe('Unit | Controller | certification-course-controller', function() {
     });
     it('should call certification-service to get certification result from database', () => {
       // when
-      const promise = CertificationCourseController.getResult(request, replyStub);
+      const promise = certificationCourseController.getResult(request, replyStub);
 
       //then
       return promise.then(()=> {
@@ -130,7 +130,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
   describe('#update', () => {
 
-    const updatedCertificationCourse = new CeritificationCourse();
+    const updatedCertificationCourse = new CertificationCourse();
 
     const JsonAPISavedCertificationCourse = {
       data: {
@@ -169,7 +169,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
-      const promise = CertificationCourseController.update(options, replyStub);
+      const promise = certificationCourseController.update(options, replyStub);
 
       // then
       return promise.then(() => {
@@ -182,7 +182,7 @@ describe('Unit | Controller | certification-course-controller', function() {
       sandbox.stub(certificationCourseService, 'update').resolves(updatedCertificationCourse);
 
       // when
-      const promise = CertificationCourseController.update(options, replyStub);
+      const promise = certificationCourseController.update(options, replyStub);
 
       // then
       return promise.then(() => {
@@ -198,7 +198,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       it('should serialize saved certification course', function() {
         // when
-        const promise = CertificationCourseController.update(options, replyStub);
+        const promise = certificationCourseController.update(options, replyStub);
 
         // then
         return promise.then(() => {
@@ -209,7 +209,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       it('should reply serialized certification course', function() {
         // when
-        const promise = CertificationCourseController.update(options, replyStub);
+        const promise = certificationCourseController.update(options, replyStub);
 
         // then
         return promise.then(() => {
@@ -229,7 +229,7 @@ describe('Unit | Controller | certification-course-controller', function() {
 
       it('should reply a 404 if no certification where updated', function() {
         // when
-        const promise = CertificationCourseController.update(options, replyStub);
+        const promise = certificationCourseController.update(options, replyStub);
 
         // then
         return promise.then(() => {

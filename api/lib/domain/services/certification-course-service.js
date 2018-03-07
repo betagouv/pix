@@ -7,7 +7,7 @@ module.exports = {
     return certificationCourseRepository.update(certificationCourse)
       .catch((error) => {
         if (error instanceof NotFoundError) {
-          return Promise.reject(new NotFoundError());
+          return Promise.reject(error);
         }
         return Promise.reject(error);
       });

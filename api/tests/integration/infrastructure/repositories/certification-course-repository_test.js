@@ -146,6 +146,10 @@ describe('Integration | Repository | Certification Course', function() {
       // given
       const modifiedCertifcationCourse = {
         id: 1,
+        completedAt: null,
+        createdAt: '2018-03-07 14:33:49',
+        updatedAt: '2018-03-07 14:38:11',
+        userId: null,
         status: 'completed',
         firstName: 'Freezer',
         lastName: 'The all mighty',
@@ -160,8 +164,7 @@ describe('Integration | Repository | Certification Course', function() {
       // then
       return promise.then(() => knex('certification-courses').where({ id: 1 }).first())
         .then((certificationCourseInDatabase) => {
-          expect(certificationCourseInDatabase.status).to.equal('completed');
-          expect(certificationCourseInDatabase.rejectionReason).to.equal('');
+          expect(certificationCourseInDatabase).to.be.deep.equal(modifiedCertifcationCourse);
         });
     });
 
