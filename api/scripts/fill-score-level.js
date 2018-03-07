@@ -7,7 +7,6 @@ function parseArgs(argv) {
   return args;
 }
 
-
 function buildRequestObject(baseUrl, assessmentId) {
   return {
     baseUrl: baseUrl,
@@ -33,20 +32,25 @@ function buildRequestObject(baseUrl, assessmentId) {
       },
   };
 }
-function makeRequest(config) {
-  return request(config);
-}
 
 function main() {
-
   const baseUrl = process.argv[2];
   const ids = parseArgs(process.argv);
   const requests = Promise.all(
     ids.map(id => buildRequestObject(baseUrl, id))
-      .map(requestObject => makeRequest(requestObject))
+      .map(requestObject => request(requestObject))
   );
 
-  requests.then(() => {console.log('OK')});
+  requests.then(() => {
+    console.log('Update EstimatedLevel and PixScore for : '+ids);
+  });
 }
 
+
 main();
+/*=================== tests =============================*/
+
+if (process.env.NODE_ENV !== 'test') {
+  console.log('Start script : ');
+  main();
+}
