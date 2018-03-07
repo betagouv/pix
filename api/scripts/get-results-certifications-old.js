@@ -41,8 +41,6 @@ function findCompetence(profile, competenceName) {
 }
 
 function toCSVRow(rowJSON) {
-  console.log(rowJSON)
-
   const res = {};
   const [idColumn, dateStartColumn, dateEndColumn, noteColumn, ...competencesColumns] = HEADERS;
   res[idColumn] = rowJSON.certificationId;
