@@ -72,7 +72,7 @@ class UserEraser {
 
   delete_dependent_data_from_fetched_assessment_ids() {
     if (this.assessmentIds.length === 0) {
-      console.log('No assessment found: skipping deletion of feedbacks, skills, and answers');
+      console.log('No assessment found: skipping deletion of feedbacks, skills, marks, and answers');
       return Promise.resolve();
     }
 
@@ -80,10 +80,13 @@ class UserEraser {
       .then(() => [
         this.queryBuilder.delete_feedbacks_from_assessment_ids(this.assessmentIds),
         this.queryBuilder.delete_skills_from_assessment_ids(this.assessmentIds),
-        this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds)
+        this.queryBuilder.delete_answers_from_assessment_ids(this.assessmentIds),
+        this.queryBuilder.delete_marks_from_assessment_ids(this.assessmentIds)
       ])
       .then((queries) => Promise.all(
-        queries.map((query) => this.client.logged_query(query))
+        queries.map((query) => {
+          this.client.logged_query(query);
+        })
       ));
   }
 
@@ -132,8 +135,13 @@ class ScriptQueryBuilder {
   }
 
   delete_feedbacks_from_assessment_ids(assessment_ids) {
-    this._precondition_array_must_not_be_empty(assessment_ids)
+    this._precondition_array_must_not_be_empty(assessment_ids);
     return `DELETE FROM feedbacks WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
+  }
+
+  delete_marks_from_assessment_ids(assessment_ids) {
+    this._precondition_array_must_not_be_empty(assessment_ids);
+    return `DELETE FROM marks WHERE "assessmentId" IN (${assessment_ids.join(',')})`;
   }
 
   delete_assessments_from_user_id(user_id) {
@@ -157,6 +165,8 @@ if (process.env.NODE_ENV !== 'test') {
   main();
 } else {
   const { expect } = require('chai');
+  const sinon = require('sinon');
+
   describe('Delete User Script', () => {
     describe('ScriptQueryBuilder', () => {
       let subject;
@@ -211,6 +221,33 @@ if (process.env.NODE_ENV !== 'test') {
           const assessment_ids = [];
           // act
           expect(() => subject.delete_feedbacks_from_assessment_ids(assessment_ids)).to.throw(Error);
+        });
+      });
+
+      describe('#delete_marks_from_assessment_ids', () => {
+        it('should return the correct query', () => {
+          // arrange
+          const assessment_ids = [123];
+          // act
+          const query = subject.delete_marks_from_assessment_ids(assessment_ids);
+          // assert
+          expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123)');
+        });
+
+        it('should return the correct query with comma as separator when many assessment ids', () => {
+          // arrange
+          const assessment_ids = [123, 456];
+          // act
+          const query = subject.delete_marks_from_assessment_ids(assessment_ids);
+          // assert
+          expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123,456)');
+        });
+
+        it('should return neutral query when assessmentIds is an empty array', () => {
+          // arrange
+          const assessment_ids = [];
+          // act
+          expect(() => subject.delete_marks_from_assessment_ids(assessment_ids)).to.throw(Error);
         });
       });
 
@@ -302,9 +339,11 @@ if (process.env.NODE_ENV !== 'test') {
       describe('#unpack_user_id', () => {
         it('should return the user id from result object', () => {
           // arrange
-          const queryResult = { rows: [
-            { id: 1 }
-          ] };
+          const queryResult = {
+            rows: [
+              { id: 1 }
+            ]
+          };
           // act
           const result = subject.unpack_user_id(queryResult);
           // assert
@@ -348,6 +387,125 @@ if (process.env.NODE_ENV !== 'test') {
           expect(result).to.be.empty;
         });
 
+      });
+    });
+
+    describe('UserEraser', () => {
+      let subject;
+      let queryBuilderMock;
+      let clientStub;
+
+      beforeEach(() => {
+        const queryBuilder = new ScriptQueryBuilder();
+        clientStub = { logged_query: sinon.stub() };
+
+        queryBuilderMock = sinon.mock(queryBuilder);
+        subject = new UserEraser(clientStub, queryBuilder);
+      });
+
+      describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
+
+        it('should delete feedbacks', () => {
+          // arrange
+          const ids = [123, 456];
+          subject.assessmentIds = ids;
+
+          // assert
+          queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').once().withArgs(ids);
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            queryBuilderMock.verify();
+          });
+        });
+
+        it('should delete skills for every assessments', () => {
+          // arrange
+          const ids = [123, 456];
+          subject.assessmentIds = ids;
+
+          // assert
+          queryBuilderMock.expects('delete_skills_from_assessment_ids').once().withArgs(ids);
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            queryBuilderMock.verify();
+          });
+        });
+
+        it('should delete answer for every assessments', () => {
+          // arrange
+          const ids = [123, 456];
+          subject.assessmentIds = ids;
+
+          // assert
+          queryBuilderMock.expects('delete_answers_from_assessment_ids').once().withArgs(ids);
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            queryBuilderMock.verify();
+          });
+        });
+
+        it('should delete marks_ for every assessments', () => {
+          // arrange
+          const ids = [123, 456];
+          subject.assessmentIds = ids;
+
+          // assert
+          queryBuilderMock.expects('delete_marks_from_assessment_ids').once().withArgs(ids);
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            queryBuilderMock.verify();
+          });
+        });
+
+        it('should not try to delete anything when no ids given', () => {
+          // arrange
+          const ids = [];
+          subject.assessmentIds = ids;
+
+          // assert
+          queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').never();
+          queryBuilderMock.expects('delete_skills_from_assessment_ids').never();
+          queryBuilderMock.expects('delete_answers_from_assessment_ids').never();
+          queryBuilderMock.expects('delete_marks_from_assessment_ids').never();
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            queryBuilderMock.verify();
+          });
+        });
+
+        it('should execute every query', () => {
+          // arrange
+          const ids = [123, 456];
+          subject.assessmentIds = ids;
+
+          // act
+          const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
+
+          // assert
+          return promise.then(() => {
+            sinon.assert.callCount(clientStub.logged_query, 4);
+          });
+        });
       });
     });
   });
