@@ -1,5 +1,4 @@
-const { expect } = require('chai');
-const sinon = require('sinon');
+const { expect, sinon } = require('../../test-helper');
 
 const { ScriptQueryBuilder, ClientQueryAdapter, UserEraser } = require('../../../scripts/delete-user');
 
@@ -9,6 +8,19 @@ describe('Delete User Script', () => {
 
     beforeEach(() => {
       subject = new ScriptQueryBuilder();
+    });
+
+    describe('#count_certifications_from_user_id', () => {
+
+      it('should return the correct query', () => {
+        // arrange
+        const userId = 213;
+        // act
+        const query = subject.count_certifications_from_user_id(userId);
+        // assert
+        expect(query).to.equal(`SELECT COUNT(*) FROM "certification-courses" WHERE "userId" = '${userId}'`);
+      });
+
     });
 
     describe('#get_user_id_from_email', () => {
@@ -236,7 +248,46 @@ describe('Delete User Script', () => {
       clientStub = { logged_query: sinon.stub() };
 
       queryBuilderMock = sinon.mock(queryBuilder);
-      subject = new UserEraser(clientStub, queryBuilder);
+      const clientQueryAdapter = new ClientQueryAdapter();
+      subject = new UserEraser(clientStub, queryBuilder, clientQueryAdapter);
+    });
+
+    describe('#check_no_certification_done', () => {
+
+      it('should count user\'s certifications', () => {
+        // arrange
+        const userId = 5186;
+        subject.userId = userId;
+        clientStub.logged_query.resolves({
+          rows: [{ count: 0 }]
+        });
+
+        queryBuilderMock.expects('count_certifications_from_user_id').once().withArgs(userId);
+
+        // act
+        const promise = subject.check_no_certification_done(userId);
+
+        // assert
+        return promise.then(() => {
+          queryBuilderMock.verify();
+        });
+      });
+
+      it('should fail when user has already been certified', () => {
+        // arrange
+        const userId = 5186;
+        subject.userId = userId;
+        clientStub.logged_query.resolves({
+          rows: [{ count: 1 }]
+        });
+
+        // act
+        const promise = subject.check_no_certification_done(userId);
+
+        // assert
+        return expect(promise).to.be.rejectedWith('The user has been certified, deletion impossible');
+      });
+
     });
 
     describe('#delete_dependent_data_from_fetched_assessment_ids', () => {

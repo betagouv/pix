@@ -34,6 +34,7 @@ function main() {
     .then(() => client.logged_query('BEGIN'))
 
     .then(() => userEraser.fetch_user_id_from_email(user_email))
+    .then(() => userEraser.check_no_certification_done())
     .then(() => userEraser.find_assessment_ids_from_fetched_user_id())
     .then(() => userEraser.delete_dependent_data_from_fetched_assessment_ids())
     .then(() => userEraser.delete_assessments_from_fetched_user_id())
@@ -101,6 +102,16 @@ class UserEraser {
       .then(() => this.queryBuilder.delete_user_from_user_id(this.userId))
       .then((query) => this.client.logged_query(query));
   }
+
+  check_no_certification_done() {
+    return Promise.resolve()
+      .then(() => this.queryBuilder.count_certifications_from_user_id(this.userId))
+      .then((query) => this.client.logged_query(query))
+      .then((result) => {
+        if(this.clientQueryAdapter.count(result) > 0)
+          return Promise.reject('The user has been certified, deletion impossible');
+      });
+  }
 }
 
 class ClientQueryAdapter {
@@ -112,12 +123,20 @@ class ClientQueryAdapter {
   unpack_assessment_ids(result) {
     return result.rows.map(({ id }) => id);
   }
+
+  count(result) {
+    return result.rows[0].count;
+  }
 }
 
 class ScriptQueryBuilder {
 
   get_user_id_from_email(email) {
     return `SELECT id FROM users WHERE email = '${email}'`;
+  }
+
+  count_certifications_from_user_id(id) {
+    return `SELECT COUNT(*) FROM "certification-courses" WHERE "userId" = '${id}'`;
   }
 
   find_assessment_ids_from_user_id(user_id) {
@@ -163,7 +182,6 @@ class ScriptQueryBuilder {
 
 if (process.env.NODE_ENV !== 'test') {
   main();
-} else {
 }
 
 module.exports = {
