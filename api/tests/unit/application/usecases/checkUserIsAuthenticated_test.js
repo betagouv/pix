@@ -17,14 +17,15 @@ describe('Unit | Application | Use Case | CheckUserIsAuthenticated', () => {
 
   it('should resolve "true" when JWT access token is valid', () => {
     // given
-    tokenService.verifyValidity.resolves({ user_id: 1234 });
+    const authenticatedUser = { user_id: 1234 };
+    tokenService.verifyValidity.resolves(authenticatedUser);
 
     // when
     const promise = useCase.execute(accessToken);
 
     // then
     return promise.then((result) => {
-      expect(result).to.deep.equal(true);
+      expect(result).to.deep.equal(authenticatedUser);
     });
   });
 
@@ -37,7 +38,7 @@ describe('Unit | Application | Use Case | CheckUserIsAuthenticated', () => {
 
     // then
     return promise.then((result) => {
-      expect(result).to.deep.equal(false);
+      expect(result).to.deep.equal(null);
     });
   });
 

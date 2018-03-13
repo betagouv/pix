@@ -39,9 +39,9 @@ module.exports = {
     }
 
     return checkUserIsAuthenticatedUseCase.execute(accessToken)
-      .then(isAuthenticated => {
-        if (isAuthenticated) {
-          return reply.continue({ credentials: { accessToken } });
+      .then(authenticatedUser => {
+        if (authenticatedUser) {
+          return reply.continue({ credentials: { accessToken, userId: authenticatedUser.user_id } });
         }
         return replyWithAuthenticationError(reply);
       })
@@ -52,13 +52,13 @@ module.exports = {
   },
 
   checkUserHasRolePixMaster(request, reply) {
-    if (!request.auth.credentials || !request.auth.credentials.accessToken) {
+    if (!request.auth.credentials || !request.auth.credentials.userId) {
       return replyWithAuthorizationError(reply);
     }
 
-    const accessToken = request.auth.credentials.accessToken;
+    const userId = request.auth.credentials.userId;
 
-    return checkUserHasRolePixMasterUseCase.execute(accessToken)
+    return checkUserHasRolePixMasterUseCase.execute(userId)
       .then(hasRolePixMaster => {
         if (hasRolePixMaster) {
           return reply(true);

@@ -26,14 +26,14 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
         const request = { headers: { authorization: authorizationHeader } };
         const reply = { continue: sinon.stub() };
         tokenService.extractTokenFromAuthChain.returns('valid.access.token');
-        checkUserIsAuthenticatedUseCase.execute.resolves(true);
+        checkUserIsAuthenticatedUseCase.execute.resolves({ user_id: 1234 });
 
         // when
         const promise = securityController.checkUserIsAuthenticated(request, reply);
 
         // then
         return promise.then(() => {
-          expect(reply.continue).to.have.been.calledWith({ credentials: { accessToken } });
+          expect(reply.continue).to.have.been.calledWith({ credentials: { accessToken, userId: 1234 } });
         });
       });
     });
@@ -111,9 +111,9 @@ describe('Unit | Interfaces | Controllers | SecurityController', () => {
     context('Successful case', () => {
       it('should authorize access to resource when the user is authenticated and has role PIX_MASTER', () => {
         // given
-        const request = { auth: { credentials: { accessToken: 'valid.access.token' } } };
+        const request = { auth: { credentials: { accessToken: 'valid.access.token', userId: 1234 } } };
         const reply = sinon.stub();
-        checkUserHasRolePixMasterUseCase.execute.resolves(true);
+        checkUserHasRolePixMasterUseCase.execute.resolves({ user_id: 1234 });
 
         // when
         const promise = securityController.checkUserHasRolePixMaster(request, reply);
