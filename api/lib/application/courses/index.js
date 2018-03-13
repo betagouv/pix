@@ -11,13 +11,20 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         handler: courseController.list,
-        tags: ['api'] }
+        tags: ['api']
+      }
     },
     {
       method: 'PUT',
       path: '/api/courses',
-      config: { handler: courseController.refreshAll, tags: ['api'] }
-    },  {
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: courseController.refreshAll, tags: ['api']
+      }
+    }, {
       method: 'GET',
       path: '/api/courses/{id}',
       config: {
@@ -33,7 +40,8 @@ exports.register = function(server, options, next) {
           method: securityController.checkUserHasRolePixMaster,
           assign: 'hasRolePixMaster'
         }],
-        handler: courseController.refresh, tags: ['api'] }
+        handler: courseController.refresh, tags: ['api']
+      }
     }, {
       method: 'POST',
       path: '/api/courses',
