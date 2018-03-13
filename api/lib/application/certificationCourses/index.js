@@ -8,6 +8,10 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/admin/certifications/{id}/details',
       config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
         handler: certificationCourseController.computeResult,
         tags: ['api']
       }

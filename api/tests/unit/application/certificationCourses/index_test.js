@@ -11,6 +11,7 @@ describe('Unit | Application | Certifications Course | Route', function() {
     sinon.stub(securityController, 'checkUserHasRolePixMaster').callsFake((request, reply) => reply(true));
     sinon.stub(certificationCoursesController, 'getResult').callsFake((request, reply) => reply('ok'));
     sinon.stub(certificationCoursesController, 'update').callsFake((request, reply) => reply('ok'));
+    sinon.stub(certificationCoursesController, 'computeResult').callsFake((request, reply) => reply('ok'));
 
     server = new Hapi.Server();
     server.connection({ port: null });
@@ -21,6 +22,27 @@ describe('Unit | Application | Certifications Course | Route', function() {
     securityController.checkUserHasRolePixMaster.restore();
     certificationCoursesController.getResult.restore();
     certificationCoursesController.update.restore();
+    certificationCoursesController.computeResult.restore();
+  });
+
+  describe('GET /api/admin/certifications/{id}/details', () => {
+
+    it('should exist', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/admin/certifications/1234/details'
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
   });
 
   describe('GET /api/admin/certifications/id', () => {
