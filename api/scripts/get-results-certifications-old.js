@@ -87,7 +87,7 @@ function main() {
 if (process.env.NODE_ENV !== 'test') {
   main();
 } else {
-  const { describe, it } = require('mocha');
+
   const { expect } = require('chai');
   describe('Get Result Certifications Script OLD', () => {
     describe('parseArgs', () => {

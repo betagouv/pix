@@ -154,28 +154,31 @@ describe('Acceptance | API | Certification Course', () => {
     });
   });
 
-  describe('PATCH /api/certification-courses/{id}', function() {
+  describe('PATCH /api/certification-courses/{id}', () => {
 
     const courseId = '1';
 
-    const options = {
-      method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
-        data: {
-          type: 'certifications',
-          id: 1,
-          attributes: {
-            'status': 'rejected',
-            'first-name': 'Freezer',
-            'last-name': 'The all mighty',
-            'birthplace': 'Namek',
-            'birthdate': '24/10/1989',
-            'rejection-reason': 'Killed all citizens'
+    let options;
+
+    beforeEach(() => {
+      options = {
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+        method: 'PATCH', url: `/api/certification-courses/${courseId}`, payload: {
+          data: {
+            type: 'certifications',
+            id: 1,
+            attributes: {
+              'status': 'rejected',
+              'first-name': 'Freezer',
+              'last-name': 'The all mighty',
+              'birthplace': 'Namek',
+              'birthdate': '24/10/1989',
+              'rejection-reason': 'Killed all citizens'
+            }
           }
         }
-      }
-    };
+      };
 
-    beforeEach(function() {
       return knex('certification-courses').insert(
         {
           id: courseId,
