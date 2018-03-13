@@ -4595,7 +4595,7 @@ define('pix-live/mirage/config', ['exports', 'pix-live/mirage/routes/get-answer'
 
     this.post('/followers');
     this.post('/users');
-    this.post('/assessment-ratings');
+    this.post('/assessment-results');
 
     this.post('/password-reset-demands', function (schema, request) {
       var attrs = JSON.parse(request.requestBody);
@@ -6071,7 +6071,7 @@ define('pix-live/models/area', ['exports', 'ember-data'], function (exports, _em
     name: attr('string')
   });
 });
-define('pix-live/models/assessment-rating', ['exports', 'ember-data'], function (exports, _emberData) {
+define('pix-live/models/assessment-result', ['exports', 'ember-data'], function (exports, _emberData) {
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -6107,7 +6107,7 @@ define('pix-live/models/assessment', ['exports', 'ember-data'], function (export
     certificationNumber: attr('string'),
     isCertification: Ember.computed.equal('type', 'CERTIFICATION'),
 
-    rating: belongsTo('assessment-rating'),
+    rating: belongsTo('assessment-result'),
 
     progress: Ember.computed('answers', 'course', function () {
       var maxStep = this.get('course.nbChallenges');
@@ -6535,7 +6535,7 @@ define('pix-live/routes/assessments/rating', ['exports'], function (exports) {
   });
   exports.default = Ember.Route.extend({
     afterModel: function afterModel(assessment) {
-      this.get('store').createRecord('assessment-rating', { assessment: assessment }).save();
+      this.get('store').createRecord('assessment-result', { assessment: assessment }).save();
 
       assessment.get('type') === 'CERTIFICATION' ? this.transitionTo('certifications.results', assessment.get('certificationNumber')) : this.transitionTo('assessments.results', assessment.get('id'));
     }
@@ -9114,6 +9114,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.42.0+977787ac"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.42.0+7dd295d0"});
 }
 //# sourceMappingURL=pix-live.map
