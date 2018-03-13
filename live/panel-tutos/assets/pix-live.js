@@ -707,57 +707,67 @@ define('pix-live/components/comparison-window', ['exports', 'pix-live/utils/resu
         tutorials: [{ title: 'Références de cellules', link: 'https://support.office.com/fr-fr/article/Comprendre-et-utiliser-les-r%C3%A9f%C3%A9rences-de-cellule-ecb125bb-c0cb-48c1-b30f-cdb3aec052b1', type: 'video', duration: '1 mn', from: 'support Microsoft' }],
         more: [{ title: 'Casenpoche tableur en ligne', link: 'http://casenpoche.sesamath.net/', type: 'page', duration: '0 mn', from: 'mathenpoche' }, { title: 'Faire un calcul simple sur openoffice Tableur (part2)', link: 'https://www.youtube.com/watch?v=7y8UNIyr78Y', type: 'video', duration: '3 mn', from: 'chaine : djformations' }, { title: 'Découverte du tableur openoffice Calc', link: 'https://jemeformeaunumerique.fr/2010/04/21/decouvrir-le-tableur-dopenoffice/', type: 'page', duration: '4 mn', from: 'jemeformeaunumérique' }]
       },
-      '@graphique2': {
-        clue: 'Observez le bon graphique, la hauteur de chaque barre correspond bien à une valeur du tableau.',
-        more: [{ title: 'Cours Excel : insertion de graphiques', link: 'https://www.excel-pratique.com/fr/cours/excel_insertion_graphiques.php', type: 'page', duration: '6 mn', from: 'excel-pratique' }, { title: 'Sélectionner les données pour un graphique', link: 'https://support.office.com/fr-fr/article/S%C3%A9lectionner-des-donn%C3%A9es-pour-un-graphique-5fca57b7-8c52-4e09-979a-631085113862', type: 'page', duration: '3 mn', from: 'support office' }]
-      },
-      '@calcul3': {
-        clue: 'Inutile de sortir une calculatrice :-) On peut utiliser une formule avec la fonction SOMME.',
-        tutorials: [{ title: 'Découverte du tableur openoffice Calc', link: 'https://jemeformeaunumerique.fr/2010/04/21/decouvrir-le-tableur-dopenoffice/', type: 'page', duration: '4 mn', from: 'jemeformeaunumérique' }]
-      },
       '@extraire3': {
         clue: 'Avez-vous cliqué sur les petits triangles à côté des titres des colonnes du tableau ? C’est là qu’on peut choisir de n’afficher que les lignes qui nous intéressent.'
       },
       '@form_intero3': {
         tutorials: [{ title: 'Qu\'est ce qu\'un tableur ? ', link: 'http://www.courstechinfo.be/Excel/Tableur.html', type: 'page', duration: '1 mn', from: 'courstechinfo' }]
       },
+      '@graphique2': {
+        clue: 'Observez le bon graphique : la hauteur de chaque barre correspond bien à une valeur du tableau.',
+        more: [{ title: 'Cours Excel : insertion de graphiques', link: 'https://www.excel-pratique.com/fr/cours/excel_insertion_graphiques.php', type: 'page', duration: '6 mn', from: 'excel-pratique' }, { title: 'Sélectionner les données pour un graphique', link: 'https://support.office.com/fr-fr/article/S%C3%A9lectionner-des-donn%C3%A9es-pour-un-graphique-5fca57b7-8c52-4e09-979a-631085113862', type: 'page', duration: '3 mn', from: 'support office' }]
+      },
+      '@calcul3': {
+        clue: 'Inutile de sortir une calculatrice :-) On peut utiliser une formule avec la fonction SOMME. ',
+        tutorials: [{ title: 'Découverte du tableur openoffice Calc', link: 'https://jemeformeaunumerique.fr/2010/04/21/decouvrir-le-tableur-dopenoffice/', type: 'page', duration: '4 mn', from: 'jemeformeaunumérique' }]
+      },
       '@tri4': {
         clue: 'On peut faire un tri sur n\'importe quelle colonne du tableau. Avez-vous choisi la bonne colonne ? ',
-        tutorials: [{ title: 'Trier et filtrer des données Excel', link: 'http://www.linternaute.com/hightech/guide-high-tech/1412955-excel-trier-et-filtrer-ses-donnees/', type: 'page', duration: '2 mn', from: 'linternaute' }, { title: 'Trier et fltrer : les bases des feuilles de calcul', link: 'https://ecoledesdonnees.org/handbook/cours/trier-et-filtrer/', type: 'page', duration: '6 mn', from: 'ecoledesdonnees' }],
-        more: [{ title: 'Trier des infos - Filtres (Excel)', link: 'https://www.youtube.com/watch?v=uLG_6vq2CN0&index=9&list=PLXvDAEJkEN9TTc1IAEIuyxQoE7OY4wqs7', type: 'video', duration: '3 mn', from: 'chaine : Les Tutos de Claire' }]
-      },
+        tutorials: [{ title: 'Trier et filtrer des données (Excel)', link: 'http://www.linternaute.com/hightech/guide-high-tech/1412955-excel-trier-et-filtrer-ses-donnees/', type: 'page', duration: '2 mn', from: 'linternaute' }, { title: 'Trier et fltrer : les bases des feuilles de calcul', link: 'https://ecoledesdonnees.org/handbook/cours/trier-et-filtrer/', type: 'page', duration: '6 mn', from: 'ecoledesdonnees' }],
+        more: [{ title: 'Trier des infos - Filtres (Excel)', link: 'https://www.youtube.com/watch?v=uLG_6vq2CN0&index=9&list=PLXvDAEJkEN9TTc1IAEIuyxQoE7OY4wqs7', type: 'video', duration: '3 mn', from: 'chaine : Les Tutos de Claire' }, { title: 'Trier ses données', link: 'https://openclassrooms.com/courses/analysez-des-donnees-avec-excel/trier-ses-donnees', type: 'page', duration: '8 mn', from: 'openclassroom' }] },
       '@calcul4': {
-        clue: 'Les formules de calcul respectent des règles d’écriture bien précises. Un oubli ou une erreur et la formule est fausse !',
+        clue: 'Les formules de calcul respectent des règles d’écriture bien précises. Un oubli ou une erreur et … la formule est fausse.',
         tutorials: [{ title: 'Faire un calcul simple sur openoffice Tableur (part2)', link: 'https://www.youtube.com/watch?v=7y8UNIyr78Y', type: 'video', duration: '3 mn', from: 'chaine : djformations' }, { title: 'Les opérateurs de calculs', link: 'http://www.mdf-xlpages.com/modules/publisher/item.php?itemid=169', type: 'page', duration: '3 mn', from: 'mdf-xlpages' }, { title: 'Formules', link: 'http://www.courstechinfo.be/Excel/Formules.html', type: 'page', duration: '1 mn', from: 'courstechinfo' }],
         more: [{ title: 'Tutoriel : Comment utiliser un tableur, en 5 minutes. Pour débutant. Collège', link: 'https://www.youtube.com/watch?v=Sip8z24vUZU', type: 'video', duration: '5 mn', from: 'chaine : Ikariam Tutoriel QuentinBB' }, { title: 'Dans un tableur quelles sont les références de cellules syntaxiquement valide ?', link: 'https://www.c2i-revision.fr/complement.php?id_con=448', type: 'page', duration: '1 mn', from: 'c2i-revision' }]
       },
       '@form_intero4': {
-        clue: 'Il faut choisir les fichiers que l’on peut ouvrir avec un tableur. C’est ce qu’indiquent  les extensions.',
+        clue: 'Il faut choisir tous les fichiers que l’on peut ouvrir avec un tableur (Calc, Excel,  etc.). Aidez-vous des extensions.',
         tutorials: [{ title: 'Les extensions de fichiers informatiques', link: 'http://www.ateliere2m.org/wp-content/uploads/sites/19/2016/07/extensions-de-fichiers.pdf', type: 'page', duration: '5 mn', from: 'médiatèque de Roanne' }],
         more: [{ title: 'Les formats de fichiers bureautiques', link: 'https://documentation.unistra.fr/DUN/IPM/Formats/co/texteOuvrir.html', type: 'page', duration: '1 mn', from: 'Univ Strasbourg' }]
       },
+      '@remplir5': {
+        clue: 'Le fichier contient plusieurs feuilles. Comment y accéder ? Cherchez les onglets au bas de la feuille affichée (plus rarement en haut) et cliquez dessus.',
+        tutorials: [{ title: 'Gestion des lignes et des colonnes', link: 'http://www.courstechinfo.be/Excel/LignesEtColonnes.html', type: 'page', duration: '2 mn', from: 'courstechinfo' }, { title: 'Ajout', link: ' suppression : lignes', type: 'page', duration: '3 mn', from: 'christianwtd.free' }],
+        more: [{ title: 'Manipuler les lignes', link: 'Les colonnes et les cellules dans Excel', type: 'video', duration: '7 mn', from: 'chaine : jp baillaud' }] },
       '@recopie4': {
         clue: 'En recopiant vers la bas, la formule s’adapte automatiquement. Avez-vous bien compris ce qui a changé dans la formule ?',
         tutorials: [{ title: 'Comment copier des formules dans Excel', link: 'https://fr.wikihow.com/copier-des-formules-dans-Excel', type: 'page', duration: '12 mn', from: 'wikihow' }, { title: 'Comprendre la recopie de formule', link: 'https://www.youtube.com/watch?v=hlN1Xrg5OR4', type: 'video', duration: '3 mn', from: 'Sophie Formation' }],
-        more: [{ title: 'Références', link: 'http://www.courstechinfo.be/Excel/References.html', type: 'page', duration: '1 mn', from: 'courstechinfo' }]
-      },
+        more: [{ title: 'Références', link: 'http://www.courstechinfo.be/Excel/References.html', type: 'page', duration: '1 mn', from: 'courstechinfo' }] },
       '@calcul5': {
         clue: 'Faites vous bien la différence entre « A1:A3 » et « A1;A3 » ?',
         tutorials: [{ title: 'Dans un tableur quelles sont les références de cellules syntaxiquement valide ?', link: 'https://www.c2i-revision.fr/complement.php?id_con=448', type: 'page', duration: '1 mn', from: 'c2i-revision' }],
         more: [{ title: 'Utiliser les formule Excel - Somme, soustraction, multiplication, division et moyenne', link: 'https://www.youtube.com/watch?v=OvLI0T7mXUs', type: 'video', duration: '14 mn', from: 'chaine : Lydia Provin' }, { title: 'Bien débuter avec "classeur"', link: 'http://vviale.developpez.com/tutoriels/openoffice-libreoffice/tableur/#LIV-C', type: 'page', duration: '20 mn', from: 'Vincent viale' }, { title: '50 fonctions Excel à connaitre absolument', link: 'https://www.blogdumoderateur.com/fonctions-excel/', type: 'page', duration: '4 mn', from: 'blogdumoderateur' }]
       },
       '@form_nb5': {
-        clue: 'Petit piège ! Dans le tableau, les moyennes affichées sont en fait arrondies. Comment faire afficher les valeurs exactes ?',
+        clue: 'Petit piège ! Dans le tableau, les moyennes affichées sont en fait arrondies. Comment faire afficher les valeurs exactes ? ',
         tutorials: [{ title: 'Formatage des nombres décimaux', link: 'https://help.libreoffice.org/Calc/Formatting_Numbers_With_Decimals/fr', type: 'page', duration: '0 mn', from: 'help.libreoffice' }],
         more: [{ title: 'Les formats numériques (Excel)', link: 'https://www.youtube.com/watch?v=uX9-yanhh6Y', type: 'video', duration: '3 mn', from: 'chaine : Les Tutos de Claire' }, { title: 'Format des nombres dans Excel', link: 'https://www.youtube.com/watch?v=_5wcVjYZyw0', type: 'video', duration: '6 mn', from: 'excel-exercice' }, { title: 'Gérer le format de cellule sous excel', link: 'https://www.youtube.com/watch?v=HUUCY_oZYrU', type: 'video', duration: '13 mn', from: 'chaine : jp baillaud' }]
+      },
+      '@extraire5': {
+        clue: 'Avez-vous réalisé tous les filtres nécessaires ?',
+        tutorials: [{ title: 'Trier et filtrer les données d\'un tableau', link: 'https://www.youtube.com/watch?v=PNCMzJ6M1ik', type: 'video', duration: '7 mn', from: 'Chaine : Tutech' }],
+        more: [{ title: 'Les filtres de données', link: 'https://www.formuleexcel.com/tutoriel-les-filtres-de-donnees-sur-excel/', type: 'page', duration: '10 mn', from: 'formuleexcel.com' }]
       },
       '@recopie5': {
         clue: 'On doit utiliser une référence de cellule absolue, notée avec des dollars ($). Savez-vous comment choisir où placer les dollars ? ',
         tutorials: [{ title: 'Références', link: 'http://www.courstechinfo.be/Excel/References.html', type: 'page', duration: '1 mn', from: 'courstechinfo' }],
         more: [{ title: 'Référence mixte', link: 'https://www.excel-exercice.com/reference-mixte/', type: 'video', duration: '10 mn', from: 'excel-exercice' }, { title: 'Tuto # 10 - Utilisation du symbole $', link: 'https://www.youtube.com/watch?v=QOqNrm_SIOc', type: 'video', duration: '3 mn', from: 'chaine : Les Tutos de Claire' }]
-      }
+      },
+      '@extraire6': {
+        clue: 'Votre tableau calculait-il bien les moyennes ? Les affichait-il bien avec un seul chiffre après la virgule ? Avez-vous actualisé le tableau après avoir fait les modifications ?',
+        tutorials: [{ title: 'Créer un tableau croisé dynamique pour analyser des données de feuille de calcul', link: 'https://support.office.com/fr-fr/article/Cr%C3%A9er-un-tableau-crois%C3%A9-dynamique-pour-analyser-des-donn%C3%A9es-de-feuille-de-calcul-a9a84538-bfe9-40a9-a8e9-f99134456576', type: 'page', duration: '7 mn', from: 'support office' }, { title: 'Tutoriel 91 : créer un tableau croisé dynamique', link: 'https://www.youtube.com/watch?v=3ysyXwFxRqI', type: 'video', duration: '2 mn', from: 'chaine : TutorielGeo - GIS Center' }],
+        more: [{ title: 'Créer un tableau croisé dynamique', link: 'https://www.youtube.com/watch?v=OlypTkG3M7U', type: 'video', duration: '12 mn', from: 'chaine : Lydia Provin' }, { title: 'Créer un tableau croisé dynamique', link: 'https://www.youtube.com/watch?v=IwzmI-2Vyvs', type: 'video', duration: '6 mn', from: 'chaine : Tutech' }, { title: 'Apprendre à créer un tableau croisé dynamique avec Libre Office Calc', link: 'http://malick-nseck.developpez.com/tutoriels/apprendre-a-creer-tableau-croise-dynamique-avec-libre-office-calc/', type: 'page', duration: '0 mn', from: 'développez' }] }
     },
-
     help: Ember.computed('challenge', function () {
       var data = this.get('helpData');
       var skills = this.get('challenge.skills');
@@ -9193,6 +9203,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.39.0+9642cd56"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.39.0+d64dc9ad"});
 }
 //# sourceMappingURL=pix-live.map
