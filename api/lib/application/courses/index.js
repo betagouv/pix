@@ -1,4 +1,5 @@
-const CourseController = require('./course-controller');
+const courseController = require('./course-controller');
+const securityController = require('../../interfaces/controllers/security-controller');
 const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
@@ -9,25 +10,30 @@ exports.register = function(server, options, next) {
       path: '/api/courses',
       config: {
         auth: false,
-        handler: CourseController.list,
+        handler: courseController.list,
         tags: ['api'] }
     },
     {
       method: 'PUT',
       path: '/api/courses',
-      config: { handler: CourseController.refreshAll, tags: ['api'] }
+      config: { handler: courseController.refreshAll, tags: ['api'] }
     },  {
       method: 'GET',
       path: '/api/courses/{id}',
       config: {
         auth: false,
-        handler: CourseController.get,
+        handler: courseController.get,
         tags: ['api']
       }
     }, {
       method: 'POST',
       path: '/api/courses/{id}',
-      config: { handler: CourseController.refresh, tags: ['api'] }
+      config: {
+        pre: [{
+          method: securityController.checkUserHasRolePixMaster,
+          assign: 'hasRolePixMaster'
+        }],
+        handler: courseController.refresh, tags: ['api'] }
     }, {
       method: 'POST',
       path: '/api/courses',
@@ -36,7 +42,7 @@ exports.register = function(server, options, next) {
           method: accessSessionHandler.sessionIsOpened,
           assign: 'sessionOpened'
         }],
-        handler: CourseController.save,
+        handler: courseController.save,
         tags: ['api']
       }
     }
