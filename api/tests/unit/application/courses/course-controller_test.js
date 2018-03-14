@@ -52,7 +52,7 @@ describe('Integration | Controller | course-controller', () => {
 
     it('should fetch and return all the courses', () => {
       // given
-      let options = {
+      const options = {
         method: 'GET',
         url: '/api/courses'
       };
@@ -70,7 +70,7 @@ describe('Integration | Controller | course-controller', () => {
 
     it('should fetch and return all the adaptive courses', () => {
       // given
-      let options = {
+      const options = {
         method: 'GET',
         url: '/api/courses?isAdaptive=true'
       };
@@ -154,15 +154,6 @@ describe('Integration | Controller | course-controller', () => {
 
   describe('#refreshAll', () => {
 
-    let options;
-
-    beforeEach(() => {
-      options = {
-        method: 'PUT',
-        url: '/api/courses'
-      };
-    });
-
     it('should return "Courses updated" when the refresh is successful', () => {
       // given
       courseRepository.refreshAll.resolves();
@@ -197,7 +188,6 @@ describe('Integration | Controller | course-controller', () => {
 
   describe('#save', () => {
 
-    let sandbox;
     let replyStub;
     let codeStub;
 
