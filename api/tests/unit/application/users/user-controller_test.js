@@ -19,6 +19,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
+const { ValidationError } = require('bookshelf-validate/lib/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -165,7 +166,7 @@ describe('Unit | Controller | user-controller', () => {
 
     it('should reply with a serialized error', () => {
       // given
-      userRepository.save.rejects();
+      userRepository.save.rejects(new ValidationError());
 
       const expectedSerializedError = { errors: [] };
       validationErrorSerializer.serialize.returns(expectedSerializedError);
@@ -295,7 +296,7 @@ describe('Unit | Controller | user-controller', () => {
       });
 
       describe('Error cases according to recaptcha', function() {
-        const user = new BookshelfUser({
+        const user = new User({
           email: 'shi@fu.me'
         });
         const request = {
@@ -349,6 +350,67 @@ describe('Unit | Controller | user-controller', () => {
         });
 
       });
+    });
+
+    describe('when an internal error is raised', () => {
+
+      let raisedError;
+      const request = {
+        payload: {
+          data: {
+            attributes: {}
+          }
+        }
+      };
+
+      beforeEach(() => {
+        raisedError = new Error('Something wrong is going on in Gotham City');
+        userRepository.save.rejects(raisedError);
+      });
+
+      it('should format a badImplementation', () => {
+        // given
+        boomBadRequestMock.expects('badImplementation').exactly(1).withArgs(raisedError);
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise
+          .then(() => {
+            boomBadRequestMock.verify();
+          });
+      });
+
+      it('should reply with a badImplementation', () => {
+        // given
+        const boomError = { message: 'BadImplementation' };
+        boomBadRequestMock.expects('badImplementation').returns(boomError);
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise
+          .then(() => {
+            expect(replyStub).to.have.been.calledWith(boomError);
+          });
+      });
+
+      it('should log the error', () => {
+        // given
+        boomBadRequestMock.expects('badImplementation').returns({});
+
+        // when
+        const promise = userController.save(request, replyStub);
+
+        // then
+        return promise
+          .then(() => {
+            expect(logger.error).to.have.been.calledWith(raisedError);
+          });
+      });
+
     });
 
   });
