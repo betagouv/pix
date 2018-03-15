@@ -1,4 +1,3 @@
 module.exports = [
-  { name: 'PIX_MASTER' },
-  { name: 'PIX_READER' },
+  { id: 1, name: 'PIX_MASTER' },
 ];
