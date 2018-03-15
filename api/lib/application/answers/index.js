@@ -15,7 +15,11 @@ exports.register = function(server, options, next) {
     {
       method: 'GET',
       path: '/api/answers/{id}',
-      config: { handler: answerController.get, tags: ['api'] }
+      config: {
+        auth: false,
+        handler: answerController.get,
+        tags: ['api']
+      }
     },
     {
       method: 'PATCH',

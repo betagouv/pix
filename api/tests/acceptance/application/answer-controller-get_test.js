@@ -42,6 +42,19 @@ describe('Acceptance | Controller | answer-controller', () => {
       });
     });
 
+    it('should return 200 HTTP status code when missing authorization header', () => {
+      // given
+      options.headers = {};
+
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(200);
+      });
+    });
+
     it('should return application/json', () => {
       // when
       const promise = server.inject(options);
