@@ -1,8 +1,14 @@
 const { Serializer } = require('jsonapi-serializer');
 const Session = require('../../../domain/models/Session');
+const hash = require('object-hash');
 
 const { WrongDateFormatError } = require('../../../domain/errors');
 const moment = require('moment-timezone');
+
+function _getUniqueCodeStarter(sessionDate, time, examiner) {
+  const date = moment().utc().format('YYYYMMDDHHmmss');
+  return hash(date+sessionDate+time+examiner).slice(0, 8);
+}
 
 module.exports = {
 
@@ -16,25 +22,31 @@ module.exports = {
         'examiner',
         'date',
         'time',
-        'description'
+        'description',
+        'codeStarter'
       ]
     }).serialize(modelSession);
   },
 
   deserialize(json) {
-    if (!moment(json.data.attributes.date, 'DD/MM/YYYY').isValid()) {
+    const attributes = json.data.attributes;
+
+    if (!moment(attributes.date, 'DD/MM/YYYY').isValid()) {
       throw new WrongDateFormatError();
     }
 
+    const codeStarter = _getUniqueCodeStarter(attributes.date, attributes.time, attributes.examiner);
+
     return new Session({
       id: json.data.id,
-      certificationCenter: json.data.attributes['certification-center'],
-      address: json.data.attributes.address,
-      room: json.data.attributes.room,
-      examiner: json.data.attributes.examiner,
-      date: moment(json.data.attributes.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-      time: json.data.attributes.time,
-      description: json.data.attributes.description
+      certificationCenter: attributes['certification-center'],
+      address: attributes.address,
+      room: attributes.room,
+      examiner: attributes.examiner,
+      date: moment(attributes.date, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+      time: attributes.time,
+      description: attributes.description,
+      codeStarter: codeStarter,
     });
   }
 };

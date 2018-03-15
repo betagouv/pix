@@ -1,4 +1,4 @@
-const { expect } = require('../../../../test-helper');
+const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
@@ -14,7 +14,8 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     examiner: 'Antoine Toutvenant',
     date: '20/01/2017',
     time: '14:30',
-    description: ''
+    description: '',
+    codeStarter: '',
   });
 
   const jsonSession = {
@@ -25,6 +26,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         'certification-center': 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
+        'code-starter': '',
         examiner: 'Antoine Toutvenant',
         date: '20/01/2017',
         time: '14:30',
@@ -46,8 +48,13 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   });
 
   describe('#deserialize()', function() {
+    let clock;
+    afterEach(() => clock.restore());
 
     it('should convert JSON API data to a Session', function() {
+      // given
+      clock = sinon.useFakeTimers();
+
       // when
       const session = serializer.deserialize(jsonSession);
 
@@ -56,6 +63,9 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     });
 
     it('should have attributes', function() {
+      // given
+      clock = sinon.useFakeTimers();
+
       // when
       const session = serializer.deserialize(jsonSession);
 
@@ -68,9 +78,13 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
       expect(session.date).to.equal('2017-01-20');
       expect(session.time).to.equal('14:30');
       expect(session.description).to.equal('');
+      expect(session.codeStarter).to.equal('d4f996fe');
     });
 
     it('should return an error if date is in wrong format', function() {
+      // given
+      clock = sinon.useFakeTimers();
+
       // given
       jsonSession.data.attributes.date = '12/14/2015';
 
