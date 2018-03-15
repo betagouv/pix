@@ -13,11 +13,13 @@ describe('Delete User Script', () => {
     describe('#count_certifications_from_user_id', () => {
 
       it('should return the correct query', () => {
-        // arrange
+        // given
         const userId = 213;
-        // act
+
+        // when
         const query = subject.count_certifications_from_user_id(userId);
-        // assert
+
+        // then
         expect(query).to.equal(`SELECT COUNT(*) FROM "certification-courses" WHERE "userId" = '${userId}'`);
       });
 
@@ -25,152 +27,179 @@ describe('Delete User Script', () => {
 
     describe('#get_user_id_from_email', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const email = 'jean.paul@pix.fr';
-        // act
+
+        // when
         const query = subject.get_user_id_from_email(email);
-        // assert
+
+        // then
         expect(query).to.equal(`SELECT id FROM users WHERE email = '${email}'`);
       });
     });
 
     describe('#find_assessment_ids_from_user_id', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const user_id = 123;
-        // act
+
+        // when
         const query = subject.find_assessment_ids_from_user_id(user_id);
-        // assert
+
+        // then
         expect(query).to.equal(`SELECT id FROM assessments WHERE "userId" = '${user_id}'`);
       });
     });
 
     describe('#delete_feedbacks_from_assessment_ids', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const assessment_ids = [123];
-        // act
+
+        // when
         const query = subject.delete_feedbacks_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123)');
       });
 
       it('should return the correct query with comma as separator when many assessment ids', () => {
-        // arrange
+        // given
         const assessment_ids = [123, 456];
-        // act
+
+        // when
         const query = subject.delete_feedbacks_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM feedbacks WHERE "assessmentId" IN (123,456)');
       });
 
       it('should return neutral query when assessmentIds is an empty array', () => {
-        // arrange
+        // given
         const assessment_ids = [];
-        // act
+
+        // when
         expect(() => subject.delete_feedbacks_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
     describe('#delete_marks_from_assessment_ids', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const assessment_ids = [123];
-        // act
+
+        // when
         const query = subject.delete_marks_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123)');
       });
 
       it('should return the correct query with comma as separator when many assessment ids', () => {
-        // arrange
+        // given
         const assessment_ids = [123, 456];
-        // act
+
+        // when
         const query = subject.delete_marks_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM marks WHERE "assessmentId" IN (123,456)');
       });
 
       it('should return neutral query when assessmentIds is an empty array', () => {
-        // arrange
+        // given
         const assessment_ids = [];
-        // act
+
+        // when
         expect(() => subject.delete_marks_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
     describe('#delete_skills_from_assessment_ids', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const assessment_ids = [123];
-        // act
+
+        // when
         const query = subject.delete_skills_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123)');
       });
 
       it('should return the correct query with comma as separator when many assessment ids', () => {
-        // arrange
+        // given
         const assessment_ids = [123, 456];
-        // act
+
+        // when
         const query = subject.delete_skills_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM skills WHERE "assessmentId" IN (123,456)');
       });
 
       it('should return neutral query when assessmentIds is an empty array', () => {
-        // arrange
+        // given
         const assessment_ids = [];
-        // act
+
+        // then
         expect(() => subject.delete_skills_from_assessment_ids(assessment_ids)).to.throw(Error);
-        // assert
       });
     });
 
     describe('#delete_answers_from_assessment_ids', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const assessment_ids = [123];
-        // act
+
+        // when
         const query = subject.delete_answers_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123)');
       });
 
       it('should return the correct query with comma as separator when many assessment ids', () => {
-        // arrange
+        // given
         const assessment_ids = [123, 456];
-        // act
+
+        // when
         const query = subject.delete_answers_from_assessment_ids(assessment_ids);
-        // assert
+
+        // then
         expect(query).to.equal('DELETE FROM answers WHERE "assessmentId" IN (123,456)');
       });
 
       it('should return neutral query when assessmentIds is an empty array', () => {
-        // arrange
+        // given
         const assessment_ids = [];
-        // act
+
+        // when
         expect(() => subject.delete_answers_from_assessment_ids(assessment_ids)).to.throw(Error);
       });
     });
 
     describe('#delete_assessment_ids_from_user_id', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const user_id = 123;
-        // act
+
+        // when
         const query = subject.delete_assessments_from_user_id(user_id);
-        // assert
+
+        // then
         expect(query).to.equal(`DELETE FROM assessments WHERE "userId" = '${user_id}'`);
       });
     });
     describe('#delete_user_from_user_id', () => {
       it('should return the correct query', () => {
-        // arrange
+        // given
         const user_id = 123;
-        // act
+
+        // when
         const query = subject.delete_user_from_user_id(user_id);
-        // assert
+
+        // then
         expect(query).to.equal(`DELETE FROM users WHERE "id" = '${user_id}'`);
       });
     });
@@ -186,31 +215,34 @@ describe('Delete User Script', () => {
 
     describe('#unpack_user_id', () => {
       it('should return the user id from result object', () => {
-        // arrange
+        // given
         const queryResult = {
           rows: [
             { id: 1 }
           ]
         };
-        // act
+
+        // when
         const result = subject.unpack_user_id(queryResult);
-        // assert
+
+        // then
         expect(result).to.equal(1);
       });
 
       it('should throw when result has no rows', () => {
-        // arrange
+        // given
         const queryResult = {
           rows: []
         };
-        // act
+
+        // then
         expect(() => subject.unpack_user_id(queryResult)).to.throw(Error);
       });
     });
 
     describe('#unpack_assessment_ids', () => {
       it('should return the assessment ids from result object', () => {
-        // arrange
+        // given
         const queryResult = {
           rows: [
             { id: 1 },
@@ -218,20 +250,24 @@ describe('Delete User Script', () => {
             { id: 3 }
           ]
         };
-        // act
+
+        // when
         const result = subject.unpack_assessment_ids(queryResult);
-        // assert
+
+        // then
         expect(result).to.deep.equal([1, 2, 3]);
       });
 
       it('should return empty array when result has no rows', () => {
-        // arrange
+        // given
         const queryResult = {
           rows: []
         };
-        // act
+
+        // when
         const result = subject.unpack_assessment_ids(queryResult);
-        // assert
+
+        // then
         expect(result).to.be.empty;
       });
 
@@ -255,7 +291,7 @@ describe('Delete User Script', () => {
     describe('#check_no_certification_done', () => {
 
       it('should count user\'s certifications', () => {
-        // arrange
+        // given
         const userId = 5186;
         subject.userId = userId;
         clientStub.logged_query.resolves({
@@ -264,27 +300,27 @@ describe('Delete User Script', () => {
 
         queryBuilderMock.expects('count_certifications_from_user_id').once().withArgs(userId);
 
-        // act
+        // when
         const promise = subject.check_no_certification_done(userId);
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should fail when user has already been certified', () => {
-        // arrange
+        // given
         const userId = 5186;
         subject.userId = userId;
         clientStub.logged_query.resolves({
           rows: [{ count: 1 }]
         });
 
-        // act
+        // when
         const promise = subject.check_no_certification_done(userId);
 
-        // assert
+        // then
         return expect(promise).to.be.rejectedWith('The user has been certified, deletion impossible');
       });
 
@@ -293,102 +329,97 @@ describe('Delete User Script', () => {
     describe('#delete_dependent_data_from_fetched_assessment_ids', () => {
 
       it('should delete feedbacks', () => {
-        // arrange
+        // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
 
-        // assert
         queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').once().withArgs(ids);
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should delete skills for every assessments', () => {
-        // arrange
+        // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
 
-        // assert
         queryBuilderMock.expects('delete_skills_from_assessment_ids').once().withArgs(ids);
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should delete answer for every assessments', () => {
-        // arrange
+        // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
 
-        // assert
         queryBuilderMock.expects('delete_answers_from_assessment_ids').once().withArgs(ids);
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should delete marks_ for every assessments', () => {
-        // arrange
+        // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
 
-        // assert
         queryBuilderMock.expects('delete_marks_from_assessment_ids').once().withArgs(ids);
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should not try to delete anything when no ids given', () => {
-        // arrange
+        // given
         const ids = [];
         subject.assessmentIds = ids;
 
-        // assert
         queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').never();
         queryBuilderMock.expects('delete_skills_from_assessment_ids').never();
         queryBuilderMock.expects('delete_answers_from_assessment_ids').never();
         queryBuilderMock.expects('delete_marks_from_assessment_ids').never();
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           queryBuilderMock.verify();
         });
       });
 
       it('should execute every query', () => {
-        // arrange
+        // given
         const ids = [123, 456];
         subject.assessmentIds = ids;
 
-        // act
+        // when
         const promise = subject.delete_dependent_data_from_fetched_assessment_ids();
 
-        // assert
+        // then
         return promise.then(() => {
           sinon.assert.callCount(clientStub.logged_query, 4);
         });
