@@ -6,6 +6,7 @@ const { WrongDateFormatError } = require('../../../domain/errors');
 const moment = require('moment-timezone');
 
 function _getUniqueCodeStarter(sessionDate, time, examiner) {
+  // TODO : modify to use the same generator than organization unique code
   const date = moment().utc().format('YYYYMMDDHHmmss');
   return hash(date+sessionDate+time+examiner).slice(0, 8);
 }
