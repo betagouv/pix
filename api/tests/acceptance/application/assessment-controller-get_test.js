@@ -153,18 +153,13 @@ describe('Acceptance | API | assessment-controller-get', () => {
     });
 
     it('should return 200 HTTP status code', () => {
-      return knex.select('id')
-        .from('assessments')
-        .limit(1)
-        .then(() => {
-          // when
-          const promise = server.inject(options);
+      // when
+      const promise = server.inject(options);
 
-          // then
-          return promise.then(response => {
-            expect(response.statusCode).to.equal(200);
-          });
-        });
+      // then
+      return promise.then(response => {
+        expect(response.statusCode).to.equal(200);
+      });
     });
 
     it('should return application/json', () => {

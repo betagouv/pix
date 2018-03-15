@@ -128,7 +128,7 @@ describe('Acceptance | API | assessment-controller-get-nonadaptive', function() 
       };
 
       // when
-      return server.injectThen(options).then((response) => {
+      return server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(200);
       });
     });

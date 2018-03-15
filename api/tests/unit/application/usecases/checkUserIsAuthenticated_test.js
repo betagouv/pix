@@ -15,7 +15,7 @@ describe('Unit | Application | Use Case | CheckUserIsAuthenticated', () => {
     tokenService.verifyValidity.restore();
   });
 
-  it('should resolve "true" when JWT access token is valid', () => {
+  it('should resolve credentials (ie. userId) when JWT access token is valid', () => {
     // given
     const authenticatedUser = { user_id: 1234 };
     tokenService.verifyValidity.resolves(authenticatedUser);

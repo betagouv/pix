@@ -139,7 +139,7 @@ describe('Acceptance | API | assessment-controller-get-adaptive', () => {
       };
 
       // when
-      return server.injectThen(options).then((response) => {
+      return server.inject(options).then((response) => {
         expect(response.statusCode).to.equal(404);
       });
     });

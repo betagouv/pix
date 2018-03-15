@@ -1,5 +1,5 @@
 const { expect, knex } = require('../../../test-helper');
-const { first } = require('lodash');
+const _ = require('lodash');
 
 const assessmentRepository = require('../../../../lib/infrastructure/repositories/assessment-repository');
 const Assessment = require('../../../../lib/domain/models/Assessment');
@@ -366,7 +366,7 @@ describe('Integration | Infrastructure | Repositories | assessment-repository', 
     beforeEach(() => {
       return knex('assessments').insert(assessmentInDb)
         .then(assessmentIds => {
-          const assessmentId = first(assessmentIds);
+          const assessmentId = _.first(assessmentIds);
           competenceMark.assessmentId = assessmentId;
           return knex('marks').insert(competenceMark);
         });

@@ -200,6 +200,23 @@ describe('Acceptance | API | assessment-controller-get-solutions', () => {
         expect(response.result.data).to.deep.equal(expectedSolution);
       });
     });
+
+    it('should return 401 HTTP status code when missing authorization header', () => {
+      // given
+      const options = {
+        method: 'GET',
+        url: '/api/assessments/' + insertedAssessmentId + '/solutions/' + insertedAnswerId,
+        headers: {},
+      };
+
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(401);
+      });
+    });
   });
 
   describe('(non-adaptive not end of test) GET /api/assessments/:assessment_id/solutions/:answer_id', () => {

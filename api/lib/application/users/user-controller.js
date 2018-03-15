@@ -53,6 +53,7 @@ module.exports = {
       });
   },
 
+  // FIXME: Pas de tests ?!
   getAuthenticatedUserProfile(request, reply) {
     const token = tokenService.extractTokenFromAuthChain(request.headers.authorization);
     const userId = tokenService.extractUserId(token);

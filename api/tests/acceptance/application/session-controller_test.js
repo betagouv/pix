@@ -13,7 +13,6 @@ describe('Acceptance | Controller | session-controller', () => {
       method: 'GET',
       url: '/api/sessions',
       payload: {},
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
     };
 
     it('should return 200 HTTP status code', () => {

@@ -1,6 +1,6 @@
 const { expect, knex, generateValidRequestAuhorizationHeader, insertUserWithRolePixMaster, cleanupUsersAndPixRolesTables } = require('../../test-helper');
 const server = require('../../../server');
-const { first } = require('lodash');
+const _  = require('lodash');
 
 describe('Acceptance | API | Certification Course', () => {
 
@@ -68,7 +68,7 @@ describe('Acceptance | API | Certification Course', () => {
             pixScore: 42,
             type: 'CERTIFICATION'
           }).then(assessmentIds => {
-            assessmentId = first(assessmentIds);
+            assessmentId = _.first(assessmentIds);
             return knex('marks').insert([
               {
                 level: 2,

@@ -30,31 +30,46 @@ describe('Unit | Domain | Models | User', () => {
 
   });
 
-  describe('hasRolePixMaster', () => {
+  describe('the attribute "hasRolePixMaster"', () => {
 
-    it('should return true if user has role PixMaster ', () => {
-      // given
-      const rawData = {
+    let userRawDetails;
+    beforeEach(() => {
+      userRawDetails = {
         id: 1,
         firstName: 'Son',
         lastName: 'Goku',
         email: 'email@example.net',
         password: 'pix123',
         cgu: true,
-        pixRoles: [{
-          name: 'PIX_MASTER'
-        }]
+        pixRoles: []
       };
+    });
 
-      const user = new User(rawData);
+    it('should be true if user has role PixMaster ', () => {
+      // given
+      userRawDetails.pixRoles = [{
+        name: 'PIX_MASTER'
+      }];
+      const user = new User(userRawDetails);
 
       // when
       const hasRole = user.hasRolePixMaster;
 
       // then
-      expect(hasRole).to.be.deep.equal({
-        name: 'PIX_MASTER'
-      });
+      expect(hasRole).to.be.deep.equal(true);
+    });
+
+    it('should be false if user has role PixMaster ', () => {
+      // given
+      userRawDetails.pixRoles = [];
+
+      const user = new User(userRawDetails);
+
+      // when
+      const hasRole = user.hasRolePixMaster;
+
+      // then
+      expect(hasRole).to.be.deep.equal(false);
     });
   });
 

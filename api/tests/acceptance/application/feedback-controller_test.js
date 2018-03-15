@@ -6,44 +6,61 @@ describe('Acceptance | Controller | feedback-controller', () => {
 
   describe('POST /api/feedbacks', () => {
 
-    afterEach(() => {
-      return knex('feedbacks').delete();
-    });
+    let options;
 
-    const options = {
-      method: 'POST',
-      url: '/api/feedbacks',
-      payload: {
-        data: {
-          type: 'feedbacks',
-          attributes: {
-            email: 'shi@fu.me',
-            content: 'Some content'
-          },
-          relationships: {
-            assessment: {
-              data: {
-                type: 'assessment',
-                id: 'assessment_id'
-              }
+    beforeEach(() => {
+      options = {
+        method: 'POST',
+        url: '/api/feedbacks',
+        payload: {
+          data: {
+            type: 'feedbacks',
+            attributes: {
+              email: 'shi@fu.me',
+              content: 'Some content'
             },
-            challenge: {
-              data: {
-                type: 'challenge',
-                id: 'challenge_id'
+            relationships: {
+              assessment: {
+                data: {
+                  type: 'assessment',
+                  id: 'assessment_id'
+                }
+              },
+              challenge: {
+                data: {
+                  type: 'challenge',
+                  id: 'challenge_id'
+                }
               }
             }
           }
-        }
-      },
-      headers: { authorization: generateValidRequestAuhorizationHeader() },
-    };
+        },
+        headers: { authorization: generateValidRequestAuhorizationHeader() },
+      };
+    });
+
+    afterEach(() => {
+      return knex('feedbacks').delete();
+    });
 
     it('should return 201 HTTP status code', () => {
       // when
       const promise = server.inject(options);
 
       // then
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
+    it('should return 201 HTTP status code when missing authorization header', () => {
+      // given
+      options.headers = {};
+
+      // when
+      const promise = server.inject(options);
+
+      // given
       return promise.then((response) => {
         expect(response.statusCode).to.equal(201);
       });

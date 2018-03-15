@@ -33,7 +33,7 @@ describe('Unit | Controller | FollowerController', function() {
       sinon.stub(followerSerializer, 'deserialize').callsFake(_ => new Follower(follower));
 
       // when
-      const promise = server.injectThen({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
+      const promise = server.inject({ method: 'POST', url: '/api/followers', payload: { 'email': 'INVALID_EMAIL' } });
 
       // then
       return promise.then((res) => {

@@ -4,29 +4,33 @@ const checkUserIsAuthenticatedUseCase = require('../../application/usecases/chec
 const checkUserHasRolePixMasterUseCase = require('../../application/usecases/checkUserHasRolePixMaster');
 const JSONAPIError = require('jsonapi-serializer').Error;
 
-const replyWithAuthenticationError = (reply) => {
+function _replyWithAuthenticationError(reply) {
   return Promise.resolve().then(() => {
     const errorHttpStatusCode = 401;
+
     const jsonApiError = new JSONAPIError({
       code: errorHttpStatusCode,
       title: 'Unauthorized access',
       detail: 'Missing or invalid access token in request auhorization headers.'
     });
+
     return reply(jsonApiError).code(errorHttpStatusCode).takeover();
   });
-};
+}
 
-const replyWithAuthorizationError = (reply) => {
+function _replyWithAuthorizationError(reply) {
   return Promise.resolve().then(() => {
     const errorHttpStatusCode = 403;
+
     const jsonApiError = new JSONAPIError({
       code: errorHttpStatusCode,
       title: 'Forbidden access',
       detail: 'Unauthenticated user or missing role PIX_MASTER.'
     });
+
     return reply(jsonApiError).code(errorHttpStatusCode).takeover();
   });
-};
+}
 
 module.exports = {
 
@@ -35,7 +39,7 @@ module.exports = {
     const accessToken = tokenService.extractTokenFromAuthChain(authorizationHeader);
 
     if (!accessToken) {
-      return replyWithAuthenticationError(reply);
+      return _replyWithAuthenticationError(reply);
     }
 
     return checkUserIsAuthenticatedUseCase.execute(accessToken)
@@ -43,17 +47,17 @@ module.exports = {
         if (authenticatedUser) {
           return reply.continue({ credentials: { accessToken, userId: authenticatedUser.user_id } });
         }
-        return replyWithAuthenticationError(reply);
+        return _replyWithAuthenticationError(reply);
       })
       .catch(err => {
         logger.error(err);
-        return replyWithAuthenticationError(reply);
+        return _replyWithAuthenticationError(reply);
       });
   },
 
   checkUserHasRolePixMaster(request, reply) {
     if (!request.auth.credentials || !request.auth.credentials.userId) {
-      return replyWithAuthorizationError(reply);
+      return _replyWithAuthorizationError(reply);
     }
 
     const userId = request.auth.credentials.userId;
@@ -63,11 +67,11 @@ module.exports = {
         if (hasRolePixMaster) {
           return reply(true);
         }
-        return replyWithAuthorizationError(reply);
+        return _replyWithAuthorizationError(reply);
       })
       .catch(err => {
         logger.error(err);
-        return replyWithAuthorizationError(reply);
+        return _replyWithAuthorizationError(reply);
       });
   }
 

@@ -60,7 +60,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
 
     it('should return 201 HTTP status code', () => {
       // when
-      const promise = server.injectThen(options);
+      const promise = server.inject(options);
 
       // then
       return promise.then(response => {
@@ -82,6 +82,19 @@ describe('Acceptance | Controller | authentication-controller', () => {
             }
           }
         });
+      });
+    });
+
+    it('should return 201 HTTP status code when missing authorization header', () => {
+      // given
+      options.headers = {};
+
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
       });
     });
   });

@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const BookshelfUser = require('../data/user');
 const { AlreadyRegisteredEmailError } = require('../../domain/errors');
 const { NotFoundError } = require('../../domain/errors');
@@ -39,8 +40,7 @@ module.exports = {
   },
 
   save(domainUser) {
-    const userRawData = Object.assign({}, domainUser);
-    delete userRawData.pixRoles; // XXX we don't want the User Pix Roles to be saved in the same time
+    const userRawData = _.omit(domainUser, ['pixRoles']);
 
     return new BookshelfUser(userRawData)
       .save()

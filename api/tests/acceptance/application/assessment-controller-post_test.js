@@ -52,6 +52,19 @@ describe('Acceptance | API | Assessments POST', () => {
       });
     });
 
+    it('should return 201 HTTP status code when missing authorization header', () => {
+      // given
+      options.headers = {};
+
+      // when
+      const promise = server.inject(options);
+
+      // given
+      return promise.then((response) => {
+        expect(response.statusCode).to.equal(201);
+      });
+    });
+
     it('should return application/json', () => {
       // when
       const promise = server.inject(options);

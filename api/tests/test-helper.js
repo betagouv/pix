@@ -24,12 +24,6 @@ const tokenService = require('../lib/domain/services/token-service');
 function generateValidRequestAuhorizationHeader(userId = 1234) {
   const user = {
     id: userId,
-
-    get(prop) {
-      if (prop === 'id') {
-        return userId;
-      }
-    }
   };
   const accessToken = tokenService.createTokenFromUser(user);
   return `Bearer ${accessToken}`;

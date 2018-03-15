@@ -1,6 +1,6 @@
 const { expect, knex } = require('../../test-helper');
 const server = require('../../../server');
-const { first } = require('lodash');
+const _ = require('lodash');
 
 describe('Acceptance | Controller | assessment-ratings', () => {
 
@@ -18,7 +18,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
           pixScore: null,
           type: 'PREVIEW'
         }).then((assessmentIds) => {
-          savedAssessmentId = first(assessmentIds);
+          savedAssessmentId = _.first(assessmentIds);
 
           options = {
             method: 'POST',
@@ -58,6 +58,19 @@ describe('Acceptance | Controller | assessment-ratings', () => {
         });
       });
 
+      it('should return 200 HTTP status code when missing authorization header', () => {
+        // given
+        options.headers = {};
+
+        // when
+        const promise = server.inject(options);
+
+        // given
+        return promise.then((response) => {
+          expect(response.statusCode).to.equal(200);
+        });
+      });
+
       it('should update the assessment score and estimatedLevel', () => {
         // when
         const promise = server.inject(options);
@@ -68,7 +81,7 @@ describe('Acceptance | Controller | assessment-ratings', () => {
           .then((assessments) => {
             expect(assessments).to.have.lengthOf(1);
 
-            const myAssessment = first(assessments);
+            const myAssessment = _.first(assessments);
             expect(myAssessment.estimatedLevel).to.equal(0);
             expect(myAssessment.pixScore).to.equal(0);
             expect(myAssessment.type).to.equal('PREVIEW');
