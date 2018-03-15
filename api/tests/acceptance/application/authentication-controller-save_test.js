@@ -76,7 +76,7 @@ describe('Acceptance | Controller | authentication-controller', () => {
             id: userId,
             type: 'authentications',
             attributes: {
-              'user-id': userId,
+              'user-id': userId.toString(),
               token: expectedToken,
               password: ''
             }
