@@ -11,5 +11,9 @@ module.exports = {
     return new BookshelfSession(sessionToBeSaved)
       .save()
       .then(_toDomain);
+  },
+
+  isSessionCodeAvailable: () => {
+
   }
 };

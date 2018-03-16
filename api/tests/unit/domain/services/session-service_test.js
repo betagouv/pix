@@ -1,5 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
-const session = require('../../../../lib/domain/services/session-service');
+const sessionService = require('../../../../lib/domain/services/session-service');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Unit | Service | session', () => {
   describe('#getCurrentCode', () => {
@@ -12,7 +13,7 @@ describe('Unit | Service | session', () => {
       clock = sinon.useFakeTimers();
 
       // when
-      const result = session.getCurrentCode();
+      const result = sessionService.getCurrentCode();
 
       // then
       expect(result).to.have.lengthOf(6);
@@ -25,7 +26,7 @@ describe('Unit | Service | session', () => {
         const expectedCode = '0b3782';
 
         // when
-        const code = session.getCurrentCode();
+        const code = sessionService.getCurrentCode();
 
         // then
         expect(code).to.equal(expectedCode);
@@ -37,7 +38,7 @@ describe('Unit | Service | session', () => {
         const expectedCode = '0b3782';
 
         // when
-        const code = session.getCurrentCode();
+        const code = sessionService.getCurrentCode();
 
         // then
         expect(code).to.equal(expectedCode);
@@ -51,12 +52,11 @@ describe('Unit | Service | session', () => {
         const expectedCode = '2ab562';
 
         // when
-        const code = session.getCurrentCode();
+        const code = sessionService.getCurrentCode();
 
         // then
         expect(code).to.equal(expectedCode);
       });
     });
-
   });
 });
