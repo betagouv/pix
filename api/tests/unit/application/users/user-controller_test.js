@@ -319,6 +319,14 @@ describe('Unit | Controller | user-controller', () => {
           // then
           return promise.then(() => {
             sinon.assert.calledWith(codeStub, 422);
+            expect(validationErrorSerializer.serialize).to.have.been.calledWith(
+              {
+                data: {
+                  cgu: ['Le champ CGU doit être renseigné.'],
+                  recaptchaToken: ['Merci de cocher la case ci-dessous :']
+                }
+              }
+            );
           });
         });
 

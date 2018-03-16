@@ -126,7 +126,7 @@ const _replyErrorWithMessage = function(reply, errorMessage, statusCode) {
 };
 
 function _addUserErrorsWhenRecaptchaTokenInvalid(validationErrors) {
-  const captchaError = { recaptchaToken: ['Vous devez cliquer ci-dessous.'] };
+  const captchaError = { recaptchaToken: ['Merci de cocher la case ci-dessous :'] };
   const mergedErrors = Object.assign(captchaError, validationErrors);
   return {
     data: mergedErrors
