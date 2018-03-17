@@ -33,19 +33,19 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         name: 'area-name-1'
       }
     },
-    {
-      id: 'recCompB',
-      name: 'competence-name-2',
-      index: '1.2',
-      areaId: 'recAreaB',
-      level: -1,
-      courseId: 'recBxPAuEPlTgt72q99',
-      area: {
-        id: 'recAreaB',
-        name: 'area-name-2'
-      }
+      {
+        id: 'recCompB',
+        name: 'competence-name-2',
+        index: '1.2',
+        areaId: 'recAreaB',
+        level: -1,
+        courseId: 'recBxPAuEPlTgt72q99',
+        area: {
+          id: 'recAreaB',
+          name: 'area-name-2'
+        }
 
-    }],
+      }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
   };
@@ -64,16 +64,18 @@ describe('Acceptance | Controller | snapshot-controller', () => {
     type: 'PRO'
   };
 
-  before(() => {
-    return knex.migrate.latest()
-      .then(() => knex('users').insert(inserted_user))
+  beforeEach(() => {
+    return knex('users').insert(inserted_user)
       .then((result) => {
         userId = result.shift();
         inserted_organization['userId'] = userId;
-        return knex('organizations').insert(inserted_organization);
-      }).then((organization) => {
-        organizationId = organization.shift();
-      });
+      })
+      .then(() => knex('organizations').insert(inserted_organization))
+      .then((organization) => organizationId = organization.shift());
+  });
+
+  afterEach(() => {
+    return knex('users').delete();
   });
 
   describe('POST /api/snapshots', () => {
@@ -110,7 +112,6 @@ describe('Acceptance | Controller | snapshot-controller', () => {
     afterEach(() => {
       authorizationToken.verify.restore();
       profileService.getByUserId.restore();
-      return knex('snapshots').delete();
     });
 
     it('should return 201 HTTP status code', () => {
