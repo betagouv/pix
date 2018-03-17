@@ -1,5 +1,5 @@
-const AssessmentController = require('./assessment-controller');
-const AssessmentAuthorization = require('../preHandlers/assessment-authorization');
+const assessmentController = require('./assessment-controller');
+const assessmentAuthorization = require('../preHandlers/assessment-authorization');
 exports.register = function(server, options, next) {
 
   server.route([
@@ -9,7 +9,7 @@ exports.register = function(server, options, next) {
       path: '/api/assessments',
       config: {
         auth: false,
-        handler: AssessmentController.save,
+        handler: assessmentController.save,
         tags: ['api']
       }
     },
@@ -17,7 +17,7 @@ exports.register = function(server, options, next) {
       method: 'GET',
       path: '/api/assessments',
       config: {
-        handler: AssessmentController.findByFilters,
+        handler: assessmentController.findByFilters,
         tags: ['api']
       }
     },
@@ -26,7 +26,7 @@ exports.register = function(server, options, next) {
       path: '/api/assessments/{id}/next',
       config: {
         auth: false,
-        handler: AssessmentController.getNextChallenge,
+        handler: assessmentController.getNextChallenge,
         tags: ['api']
       }
     },
@@ -35,7 +35,7 @@ exports.register = function(server, options, next) {
       path: '/api/assessments/{id}/next/{challengeId}',
       config: {
         auth: false,
-        handler: AssessmentController.getNextChallenge,
+        handler: assessmentController.getNextChallenge,
         tags: ['api']
       }
     },
@@ -45,17 +45,20 @@ exports.register = function(server, options, next) {
       config: {
         auth: false,
         pre: [{
-          method: AssessmentAuthorization.verify,
+          method: assessmentAuthorization.verify,
           assign: 'authorizationCheck'
         }],
-        handler: AssessmentController.get,
+        handler: assessmentController.get,
         tags: ['api']
       }
     },
     {
       method: 'GET',
       path: '/api/assessments/{id}/solutions/{answerId}',
-      config: { handler: AssessmentController.getAssessmentSolution, tags: ['api'] }
+      config: {
+        handler: assessmentController.getAssessmentSolution,
+        tags: ['api']
+      }
     }
   ]);
 
