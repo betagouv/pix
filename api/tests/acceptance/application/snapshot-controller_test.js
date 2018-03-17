@@ -33,19 +33,19 @@ describe('Acceptance | Controller | snapshot-controller', () => {
         name: 'area-name-1'
       }
     },
-      {
-        id: 'recCompB',
-        name: 'competence-name-2',
-        index: '1.2',
-        areaId: 'recAreaB',
-        level: -1,
-        courseId: 'recBxPAuEPlTgt72q99',
-        area: {
-          id: 'recAreaB',
-          name: 'area-name-2'
-        }
+    {
+      id: 'recCompB',
+      name: 'competence-name-2',
+      index: '1.2',
+      areaId: 'recAreaB',
+      level: -1,
+      courseId: 'recBxPAuEPlTgt72q99',
+      area: {
+        id: 'recAreaB',
+        name: 'area-name-2'
+      }
 
-      }],
+    }],
     areas: [{ id: 'recAreaA', name: 'domaine-name-1' }, { id: 'recAreaB', name: 'domaine-name-2' }],
     organizations: []
   };
