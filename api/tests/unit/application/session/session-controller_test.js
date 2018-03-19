@@ -19,7 +19,7 @@ describe('Unit | Controller | sessionController', () => {
   describe('#create', () => {
 
     beforeEach(() => {
-      expectedSession =  = new Session({
+      expectedSession = new Session({
         certificationCenter: 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',

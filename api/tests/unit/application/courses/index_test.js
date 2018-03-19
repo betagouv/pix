@@ -17,7 +17,7 @@ describe('Integration | Router | course-router', () => {
     sandbox.stub(courseController, 'refresh').callsFake((request, reply) => reply('ok'));
     sandbox.stub(courseController, 'save').callsFake((request, reply) => reply('ok'));
     sandbox.stub(courseController, 'refreshAll').callsFake((request, reply) => reply('ok'));
-    sandbox.stub(accessSessionHandler, 'sessionIsOpened').callsFake((request, reply) => reply('decodedToken'));
+    sandbox.stub(accessSessionHandler, 'sessionExists').callsFake((request, reply) => reply('decodedToken'));
 
     server = this.server = new Hapi.Server();
     server.connection({ port: null });

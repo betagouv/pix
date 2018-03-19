@@ -188,13 +188,17 @@ describe('Integration | Controller | course-controller', () => {
 
   describe('#save', () => {
 
+    let request;
     let replyStub;
     let codeStub;
 
     const newlyCreatedCertificationCourse = { id: 'CertificationCourseId', nbChallenges: 3 };
-    const request = { auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } } };
 
     beforeEach(() => {
+      request = {
+        auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
+        pre: { userId: 'userId' }
+      };
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
     });
