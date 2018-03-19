@@ -2,8 +2,11 @@ const BookshelfSession = require('../data/session');
 const Session = require('../../domain/models/Session');
 
 function _toDomain(bookshelfSession) {
-  const sessionReturned = bookshelfSession.toJSON();
-  return new Session(sessionReturned);
+  if(bookshelfSession) {
+    const sessionReturned = bookshelfSession.toJSON();
+    return new Session(sessionReturned);
+  }
+  return null;
 }
 
 module.exports = {
@@ -18,5 +21,12 @@ module.exports = {
       .where({ codeStarter })
       .fetch({})
       .then((result) => !result);
+  },
+
+  getByCodeStarter: (codeStarter) => {
+    return BookshelfSession
+      .where({ codeStarter })
+      .fetch({})
+      .then(_toDomain);
   }
 };

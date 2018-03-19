@@ -1,6 +1,7 @@
 const { expect, sinon } = require('../../../test-helper');
 const AccessSession = require('../../../../lib/application/preHandlers/access-session');
 const SessionService = require('../../../../lib/domain/services/session-service');
+const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 
 describe('Unit | Pre-handler | Session Access', () => {
 
@@ -75,6 +76,75 @@ describe('Unit | Pre-handler | Session Access', () => {
         // then
         expect(reply).to.have.been.calledWith(requestWithoutSessionCode);
         expect(takeover).not.to.have.been.called;
+      });
+    });
+  });
+
+  describe('#sessionExists', () => {
+
+    let reply;
+    let takeover;
+    let code;
+
+    beforeEach(() => {
+      takeover = sinon.stub();
+      code = sinon.stub().returns({ takeover });
+      reply = sinon.stub().returns({ code });
+      sinon.stub(sessionCodeService, 'isCodeStarterValid');
+    });
+
+    afterEach(() => {
+      sessionCodeService.isCodeStarterValid.restore();
+    });
+
+    context('when session-code is not given', () => {
+      it('should stop the request', () => {
+        // given
+        const request = { payload: { data: { attributes: {} } } };
+        sessionCodeService.isCodeStarterValid.resolves(false);
+
+        // when
+        const promise = AccessSession.sessionExists(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(reply).to.have.been.called;
+          expect(takeover).to.have.been.called;
+        });
+      });
+    });
+
+    context('when session-code is wrong', () => {
+      it('should stop the request', () => {
+        // given
+        const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'WrongCode' } } } };
+        sessionCodeService.isCodeStarterValid.resolves(false);
+
+        // when
+        const promise = AccessSession.sessionExists(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(reply).to.have.been.called;
+          expect(takeover).to.have.been.called;
+        });
+      });
+    });
+
+    context('when session-code is correct', () => {
+      it('should let the request continue', () => {
+        // given
+        const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'ABCD12' } } } };
+        sessionCodeService.isCodeStarterValid.resolves(true);
+
+        // when
+        const promise = AccessSession.sessionExists(request, reply);
+
+        // then
+        return promise.then(() => {
+          expect(reply).to.have.been.calledWith(request);
+          expect(takeover).not.to.have.been.called;
+        });
       });
     });
   });

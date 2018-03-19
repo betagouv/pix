@@ -58,4 +58,44 @@ describe('Unit | Service | CodeSession', () => {
       });
     });
   });
+
+  describe('#isCodeStarterValid', () => {
+
+    let sandbox;
+
+    beforeEach(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should return true if session exists with this codeStarter', () => {
+      // given
+      sandbox.stub(sessionRepository, 'getByCodeStarter').resolves({ id: 1 });
+
+      // when
+      const promise = sessionCodeService.isCodeStarterValid('ABCD12');
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.true;
+      });
+    });
+
+    it('should return false if codeStarter does not link to a session', () => {
+      // given
+      sandbox.stub(sessionRepository, 'getByCodeStarter').resolves(null);
+
+      // when
+      const promise = sessionCodeService.isCodeStarterValid('BBAAAHHHHH');
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.false;
+      });
+    });
+  });
+
 });

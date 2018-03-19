@@ -97,5 +97,51 @@ describe('Integration | Repository | Session', function() {
 
     });
   });
+
+  describe('#getByCodeStarter', () => {
+    const session = {
+      certificationCenter: 'Paris',
+      address: 'Paris',
+      room: 'The lost room',
+      examiner: 'Bernard',
+      date: '23/02/2018',
+      time: '12:00',
+      description: 'The lost examen',
+      codeStarter: 'ABC123'
+    };
+
+    beforeEach(() => knex('sessions').insert(session));
+
+    afterEach(() => knex('sessions').delete());
+
+    it('should return the object by codeStarter', () => {
+      // given
+      const newCodeStarter = 'ABC123';
+
+      // when
+      const promise = sessionRepository.getByCodeStarter(newCodeStarter);
+
+      // then
+      return promise.then((result) => {
+        expect(result.description).to.be.equal(session.description);
+        expect(result.codeStarter).to.be.equal(session.codeStarter);
+      });
+    });
+
+    it('should return null when the codeStarter do not correspond to a session', () => {
+      // given
+      const oldCodeStarter = 'DEE123';
+
+      // when
+      const promise = sessionRepository.getByCodeStarter(oldCodeStarter);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(null);
+      });
+
+    });
+  });
+
 });
 
