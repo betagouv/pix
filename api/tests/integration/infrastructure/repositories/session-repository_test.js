@@ -1,9 +1,9 @@
 const { expect, knex } = require('../../../test-helper');
 
 const Session = require('../../../../lib/domain/models/Session');
-const SessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
-describe('Integration | Repository | Session', function() {
+describe.only('Integration | Repository | Session', function() {
 
   describe('#save', () => {
 
@@ -22,7 +22,7 @@ describe('Integration | Repository | Session', function() {
       });
 
       // when
-      const promise = SessionRepository.save(sessionToBeSaved);
+      const promise = sessionRepository.save(sessionToBeSaved);
 
       // then
       return promise.then(() => knex('sessions').select())
@@ -44,7 +44,7 @@ describe('Integration | Repository | Session', function() {
       });
 
       // when
-      const promise = SessionRepository.save(session);
+      const promise = sessionRepository.save(session);
 
       // then
       return promise.then(savedSession => {
@@ -53,6 +53,48 @@ describe('Integration | Repository | Session', function() {
         expect(savedSession).to.have.property('id').and.not.null;
         expect(savedSession.certificationCenter).to.equal('Université de dressage de loutres');
       });
+    });
+  });
+
+  describe('#isSessionCodeAvailable', () => {
+    beforeEach(() => knex('sessions').insert({
+      certificationCenter: 'Paris',
+      address: 'Paris',
+      room: 'The lost room',
+      examiner: 'Bernard',
+      date: '23/02/2018',
+      time: '12:00',
+      description: 'The lost examen',
+      codeStarter: 'ABC123'
+    }));
+
+    afterEach(() => knex('sessions').delete());
+
+    it('should return true if the codeStarter is not in database', () => {
+      // given
+      const newCodeStarter = 'DEF123';
+
+      // when
+      const promise = sessionRepository.isSessionCodeAvailable(newCodeStarter);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(true)
+      });
+    });
+
+    it('should return false if the codeStarter is in database', () => {
+      // given
+      const oldCodeStarter = 'ABC123';
+
+      // when
+      const promise = sessionRepository.isSessionCodeAvailable(oldCodeStarter);
+
+      // then
+      return promise.then((result) => {
+        expect(result).to.be.equal(false)
+      });
+
     });
   });
 });

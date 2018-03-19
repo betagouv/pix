@@ -13,7 +13,10 @@ module.exports = {
       .then(_toDomain);
   },
 
-  isSessionCodeAvailable: () => {
-
+  isSessionCodeAvailable: (codeStarter) => {
+    return BookshelfSession
+      .where({ codeStarter })
+      .fetch({})
+      .then((result) => !result);
   }
 };
