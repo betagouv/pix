@@ -6,7 +6,7 @@ const Bookshelf = require('../../../../lib/infrastructure/bookshelf');
 const BookshelfUser = require('../../../../lib/infrastructure/data/user');
 const userRepository = require('../../../../lib/infrastructure/repositories/user-repository');
 const { AlreadyRegisteredEmailError } = require('../../../../lib/domain/errors');
-const DomainUser = require('../../../../lib/domain/models/User');
+const User = require('../../../../lib/domain/models/User');
 
 describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
@@ -137,7 +137,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should save the user', () => {
       // given
       const email = 'my-email-to-save@example.net';
-      const user = new DomainUser({
+      const user = new User({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
@@ -159,7 +159,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     it('should return a Domain User object', () => {
       // given
       const email = 'my-email-to-save@example.net';
-      const user = new DomainUser({
+      const user = new User({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: email,
@@ -172,7 +172,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
 
       // then
       return promise.then((userSaved) => {
-        expect(userSaved).to.be.an.instanceOf(DomainUser);
+        expect(userSaved).to.be.an.instanceOf(User);
         expect(userSaved.firstName).to.equal(user.firstName);
         expect(userSaved.lastName).to.equal(user.lastName);
         expect(userSaved.email).to.equal(user.email);
@@ -186,7 +186,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
     let user;
 
     beforeEach(() => {
-      const userToSave = new DomainUser({
+      const userToSave = new User({
         firstName: faker.name.firstName(),
         lastName: faker.name.lastName(),
         email: 'my-email-to-save@example.net',
@@ -214,7 +214,7 @@ describe('Integration | Infrastructure | Repository | UserRepository', () => {
       // then
       return promise
         .then((updatedUser) => {
-          expect(updatedUser).to.be.an.instanceOf(DomainUser);
+          expect(updatedUser).to.be.an.instanceOf(User);
           expect(updatedUser.password).to.equal(newPassword);
         });
     });
