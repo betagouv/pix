@@ -1,6 +1,5 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionService = require('../../../../lib/domain/services/session-service');
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
 describe('Unit | Service | session', () => {
   describe('#getCurrentCode', () => {

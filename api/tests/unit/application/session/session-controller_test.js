@@ -14,7 +14,6 @@ describe('Unit | Controller | sessionController', () => {
   let codeStub;
   let request;
   let replyStub;
-  let clock;
 
   describe('#create', () => {
     beforeEach(() => {
@@ -47,7 +46,6 @@ describe('Unit | Controller | sessionController', () => {
 
     afterEach(() => {
       sandbox.restore();
-      clock.restore();
     });
 
     it('should save the session', () => {
@@ -59,10 +57,8 @@ describe('Unit | Controller | sessionController', () => {
         examiner: 'Antoine Toutvenant',
         date: '2017-12-08',
         time: '14:30',
-        codeStarter: '57001a37',
         description: ''
       });
-      clock = sinon.useFakeTimers();
 
       // when
       const promise = sessionController.save(request, replyStub);
@@ -90,7 +86,6 @@ describe('Unit | Controller | sessionController', () => {
 
       sessionRepository.save.resolves(savedSession);
       sessionSerializer.serialize.returns(jsonApiSession);
-      clock = sinon.useFakeTimers();
 
       // when
       const promise = sessionController.save(request, replyStub);
@@ -108,7 +103,6 @@ describe('Unit | Controller | sessionController', () => {
       const wellFormedError = { message: 'Internal Error' };
 
       beforeEach(() => {
-        clock = sinon.useFakeTimers();
 
         sessionRepository.save.rejects(error);
         Boom.badImplementation.returns(wellFormedError);

@@ -3,7 +3,7 @@ const { expect, knex } = require('../../../test-helper');
 const Session = require('../../../../lib/domain/models/Session');
 const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
 
-describe.only('Integration | Repository | Session', function() {
+describe('Integration | Repository | Session', function() {
 
   describe('#save', () => {
 
@@ -79,7 +79,7 @@ describe.only('Integration | Repository | Session', function() {
 
       // then
       return promise.then((result) => {
-        expect(result).to.be.equal(true)
+        expect(result).to.be.equal(true);
       });
     });
 
@@ -92,7 +92,7 @@ describe.only('Integration | Repository | Session', function() {
 
       // then
       return promise.then((result) => {
-        expect(result).to.be.equal(false)
+        expect(result).to.be.equal(false);
       });
 
     });

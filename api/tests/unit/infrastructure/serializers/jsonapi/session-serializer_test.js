@@ -2,6 +2,7 @@ const { expect, sinon } = require('../../../../test-helper');
 const serializer = require('../../../../../lib/infrastructure/serializers/jsonapi/session-serializer');
 
 const Session = require('../../../../../lib/domain/models/Session');
+const sessionCodeService = require('../../../../../lib/domain/services/session-code-service');
 const { WrongDateFormatError } = require('../../../../../lib/domain/errors');
 
 describe('Unit | Serializer | JSONAPI | session-serializer', function() {
@@ -48,43 +49,40 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
   });
 
   describe('#deserialize()', function() {
-    let clock;
-    afterEach(() => clock.restore());
+    beforeEach(() => sinon.stub(sessionCodeService, 'getNewSessionCode').resolves('ABCD12'));
+
+    afterEach(() => sessionCodeService.getNewSessionCode.restore());
 
     it('should convert JSON API data to a Session', function() {
-      // given
-      clock = sinon.useFakeTimers();
-
       // when
-      const session = serializer.deserialize(jsonSession);
+      const promise = serializer.deserialize(jsonSession);
 
       // then
-      expect(session).to.be.instanceOf(Session);
+      return promise.then((session) => {
+        expect(session).to.be.instanceOf(Session);
+      });
+
     });
 
     it('should have attributes', function() {
-      // given
-      clock = sinon.useFakeTimers();
-
       // when
-      const session = serializer.deserialize(jsonSession);
+      const promise = serializer.deserialize(jsonSession);
 
       // then
-      expect(session.id).to.equal(12);
-      expect(session.certificationCenter).to.equal('Université de dressage de loutres');
-      expect(session.address).to.equal('Nice');
-      expect(session.room).to.equal('28D');
-      expect(session.examiner).to.equal('Antoine Toutvenant');
-      expect(session.date).to.equal('2017-01-20');
-      expect(session.time).to.equal('14:30');
-      expect(session.description).to.equal('');
-      expect(session.codeStarter).to.equal('d4f996fe');
+      return promise.then((session) => {
+        expect(session.id).to.equal(12);
+        expect(session.certificationCenter).to.equal('Université de dressage de loutres');
+        expect(session.address).to.equal('Nice');
+        expect(session.room).to.equal('28D');
+        expect(session.examiner).to.equal('Antoine Toutvenant');
+        expect(session.date).to.equal('2017-01-20');
+        expect(session.time).to.equal('14:30');
+        expect(session.description).to.equal('');
+        expect(session.codeStarter).to.equal('ABCD12');
+      });
     });
 
     it('should return an error if date is in wrong format', function() {
-      // given
-      clock = sinon.useFakeTimers();
-
       // given
       jsonSession.data.attributes.date = '12/14/2015';
 

@@ -15,8 +15,8 @@ module.exports = {
 
   save(request, reply) {
     try {
-      const sessionModel = serializer.deserialize(request.payload);
-      return sessionRepository.save(sessionModel)
+      return serializer.deserialize(request.payload)
+        .then((sessionModel) => sessionRepository.save(sessionModel))
         .then((session) => serializer.serialize(session))
         .then(reply)
         .catch((err) => {
