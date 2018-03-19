@@ -59,7 +59,7 @@ describe('Unit | Service | CodeSession', () => {
     });
   });
 
-  describe('#isCodeStarterValid', () => {
+  describe('#getSessionByCodeStarter', () => {
 
     let sandbox;
 
@@ -76,11 +76,11 @@ describe('Unit | Service | CodeSession', () => {
       sandbox.stub(sessionRepository, 'getByCodeStarter').resolves({ id: 1 });
 
       // when
-      const promise = sessionCodeService.isCodeStarterValid('ABCD12');
+      const promise = sessionCodeService.getSessionByCodeStarter('ABCD12');
 
       // then
       return promise.then((result) => {
-        expect(result).to.be.true;
+        expect(result).to.be.deep.equal({ id: 1 });
       });
     });
 
@@ -89,11 +89,11 @@ describe('Unit | Service | CodeSession', () => {
       sandbox.stub(sessionRepository, 'getByCodeStarter').resolves(null);
 
       // when
-      const promise = sessionCodeService.isCodeStarterValid('BBAAAHHHHH');
+      const promise = sessionCodeService.getSessionByCodeStarter('BBAAAHHHHH');
 
       // then
       return promise.then((result) => {
-        expect(result).to.be.false;
+        expect(result).to.be.equal(null);
       });
     });
   });

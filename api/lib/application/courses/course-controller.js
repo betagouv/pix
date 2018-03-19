@@ -67,8 +67,8 @@ module.exports = {
 
   save(request, reply) {
     const userId = request.auth.credentials.userId;
-
-    return certificationService.startNewCertification(userId)
+    const sessionId = request.pre.sessionId;
+    return certificationService.startNewCertification(userId, sessionId)
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch(err => {
         if (err instanceof UserNotAuthorizedToCertifyError) {

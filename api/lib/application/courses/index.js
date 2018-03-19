@@ -47,8 +47,8 @@ exports.register = function(server, options, next) {
       path: '/api/courses',
       config: {
         pre: [{
-          method: accessSessionHandler.sessionIsOpened,
-          assign: 'sessionOpened'
+          method: accessSessionHandler.sessionExists,
+          assign: 'sessionId'
         }],
         handler: courseController.save,
         tags: ['api']

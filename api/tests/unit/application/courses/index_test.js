@@ -143,7 +143,7 @@ describe('Integration | Router | course-router', () => {
 
       // then
       return promise.then(() => {
-        expect(accessSessionHandler.sessionIsOpened).to.have.been.called;
+        expect(accessSessionHandler.sessionExists).to.have.been.called;
       });
     });
   });

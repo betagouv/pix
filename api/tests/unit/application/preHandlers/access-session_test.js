@@ -90,18 +90,18 @@ describe('Unit | Pre-handler | Session Access', () => {
       takeover = sinon.stub();
       code = sinon.stub().returns({ takeover });
       reply = sinon.stub().returns({ code });
-      sinon.stub(sessionCodeService, 'isCodeStarterValid');
+      sinon.stub(sessionCodeService, 'getSessionByCodeStarter');
     });
 
     afterEach(() => {
-      sessionCodeService.isCodeStarterValid.restore();
+      sessionCodeService.getSessionByCodeStarter.restore();
     });
 
     context('when session-code is not given', () => {
       it('should stop the request', () => {
         // given
         const request = { payload: { data: { attributes: {} } } };
-        sessionCodeService.isCodeStarterValid.resolves(false);
+        sessionCodeService.getSessionByCodeStarter.resolves(null);
 
         // when
         const promise = AccessSession.sessionExists(request, reply);
@@ -118,7 +118,7 @@ describe('Unit | Pre-handler | Session Access', () => {
       it('should stop the request', () => {
         // given
         const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'WrongCode' } } } };
-        sessionCodeService.isCodeStarterValid.resolves(false);
+        sessionCodeService.getSessionByCodeStarter.resolves(null);
 
         // when
         const promise = AccessSession.sessionExists(request, reply);
@@ -135,14 +135,14 @@ describe('Unit | Pre-handler | Session Access', () => {
       it('should let the request continue', () => {
         // given
         const request = { payload: { data: { attributes: { id: '1245', 'session-code': 'ABCD12' } } } };
-        sessionCodeService.isCodeStarterValid.resolves(true);
+        sessionCodeService.getSessionByCodeStarter.resolves({ id: 12 });
 
         // when
         const promise = AccessSession.sessionExists(request, reply);
 
         // then
         return promise.then(() => {
-          expect(reply).to.have.been.calledWith(request);
+          expect(reply).to.have.been.calledWith(12);
           expect(takeover).not.to.have.been.called;
         });
       });

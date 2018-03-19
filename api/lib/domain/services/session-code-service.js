@@ -40,15 +40,8 @@ module.exports = {
       });
   },
 
-  isCodeStarterValid(codeToValidate) {
-    return sessionRepository.getByCodeStarter(codeToValidate)
-      .then((codeAvailable) => {
-        if (codeAvailable) {
-          return true;
-        } else {
-          return false;
-        }
-      });
+  getSessionByCodeStarter(codeToValidate) {
+    return sessionRepository.getByCodeStarter(codeToValidate);
 
   }
 };
