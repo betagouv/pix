@@ -6,7 +6,7 @@ export default Component.extend({
 
   store: service(),
 
-  codesession: '',
+  codeSession: '',
 
   actions: {
     error(error) {
@@ -18,12 +18,13 @@ export default Component.extend({
     },
 
     submit() {
-      console.log(this.get('codesession'));
-      return this.get('store').createRecord('course', { sessionCode: this.get('codesession') }).save()
-        .then(() => {
-          return this.replaceWith('courses.create-assessment', certificationCourse);
+      return this.get('store').createRecord('course', { sessionCode: this.get('codeSession') }).save()
+        .then((certificationCourse) => {
+          this.get('onSubmit')(certificationCourse);
+        })
+        .catch(() => {
+          this.set('displayErrorMessage', true);
         });
-
     }
   }
 });

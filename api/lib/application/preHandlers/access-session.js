@@ -15,6 +15,7 @@ module.exports = {
 
   sessionExists(request, reply) {
     const sessionCode = request.payload.data.attributes['session-code'];
+
     return sessionCodeService.getSessionByCodeStarter(sessionCode)
       .then(session => {
         if(session) {

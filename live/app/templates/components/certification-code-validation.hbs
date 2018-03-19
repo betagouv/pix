@@ -3,10 +3,16 @@
 </p>
 <div class="signin-form__form-field">
   <label for="session-code">Code du test</label>
-  {{input id="session-code" type="text" value=codesession}}
+  {{input id="session-code" type="text" value=codeSession}}
 </div>
 
+{{#if displayErrorMessage}}
+  <div class="signin-form__errors">Ce code n'existe pas ou n'est plus valide.</div>
+{{/if}}
+
+
 <p class="certification-error-page__text">
+  En cliquant sur "Lancer le test" :
   J’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que
   renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury, pour
   produire et archiver mes résultats et pour éditer mon certificat ;
