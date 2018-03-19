@@ -45,21 +45,16 @@ describe('Unit | Service | CodeSession', () => {
 
     it('should call Repository isSessionCodeAvailable twice if first code was not unique', () => {
       // given
-      const argumentsOfMockFunction = [];
-      const isSessionCodeAvailableMockFunction = (codeToTest) => {
-        argumentsOfMockFunction.push(codeToTest);
-        return Promise.resolve(argumentsOfMockFunction.length === 2);
-      };
-      sandbox.stub(sessionRepository, 'isSessionCodeAvailable').callsFake(isSessionCodeAvailableMockFunction);
+      sandbox.stub(sessionRepository, 'isSessionCodeAvailable')
+        .onCall(0).resolves(false)
+        .onCall(1).resolves(true);
 
       // when
       const promise = sessionCodeService.getNewSessionCode();
 
       // then
-      return promise.then((result) => {
+      return promise.then(() => {
         sinon.assert.calledTwice(sessionRepository.isSessionCodeAvailable);
-        expect(argumentsOfMockFunction[0]).to.not.equal(result);
-        expect(argumentsOfMockFunction[1]).to.equal(result);
       });
     });
   });
