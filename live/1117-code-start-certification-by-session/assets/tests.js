@@ -11169,14 +11169,14 @@ define('pix-live/tests/unit/components/certification-code-validation-test', ['mo
       (0, _mocha.it)('should create and save a new course', function () {
         // given
         component.set('store', storeStub);
-        component.set('codeSession', 'ABCD12');
+        component.set('accessCode', 'ABCD12');
 
         // when
         component.send('submit');
 
         // then
         _sinon.default.assert.called(storeCreateRecordStub);
-        _sinon.default.assert.calledWith(storeCreateRecordStub, 'course', { sessionCode: 'ABCD12' });
+        _sinon.default.assert.calledWith(storeCreateRecordStub, 'course', { accessCode: 'ABCD12' });
         _sinon.default.assert.called(storeSaveStub);
       });
     });
