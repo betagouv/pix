@@ -6,7 +6,7 @@ const sessionSerializer = require('../../../../lib/infrastructure/serializers/js
 const sessionController = require('../../../../lib/application/sessions/session-controller');
 const Session = require('../../../../lib/domain/models/Session');
 
-const sessionRepository = require('../../../../lib/infrastructure/repositories/session-repository');
+const sessionService = require('../../../../lib/domain/services/session-service');
 
 describe('Unit | Controller | sessionController', () => {
 
@@ -34,7 +34,7 @@ describe('Unit | Controller | sessionController', () => {
       replyStub = sinon.stub().returns({ code: codeStub });
 
       sandbox = sinon.sandbox.create();
-      sandbox.stub(sessionRepository, 'save').resolves();
+      sandbox.stub(sessionService, 'save').resolves();
       sandbox.stub(Boom, 'badImplementation');
       sandbox.stub(logger, 'error');
       sandbox.stub(sessionSerializer, 'deserialize').resolves(expectedSession);
@@ -68,7 +68,7 @@ describe('Unit | Controller | sessionController', () => {
 
       // then
       return promise.then(() => {
-        expect(sessionRepository.save).to.have.been.calledWith(expectedSession);
+        expect(sessionService.save).to.have.been.calledWith(expectedSession);
       });
     });
 
@@ -87,7 +87,7 @@ describe('Unit | Controller | sessionController', () => {
         certificationCenter: 'Université de dressage de loutres'
       });
 
-      sessionRepository.save.resolves(savedSession);
+      sessionService.save.resolves(savedSession);
       sessionSerializer.serialize.returns(jsonApiSession);
 
       // when
@@ -107,7 +107,7 @@ describe('Unit | Controller | sessionController', () => {
 
       beforeEach(() => {
 
-        sessionRepository.save.rejects(error);
+        sessionService.save.rejects(error);
         Boom.badImplementation.returns(wellFormedError);
       });
 

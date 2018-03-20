@@ -2,6 +2,7 @@ const hash = require('object-hash');
 const moment = require('moment');
 const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
+const sessionRepository = require('../../infrastructure/repositories/session-repository');
 
 module.exports = {
   getCurrentCode() {
@@ -19,6 +20,9 @@ module.exports = {
           throw new NotFoundError();
         }
       });
-  }
+  },
 
+  save(sessionModel) {
+    return sessionRepository.save(sessionModel);
+  }
 };
