@@ -202,20 +202,17 @@ define('pix-live/components/certification-code-validation', ['exports'], functio
     codeSession: '',
 
     actions: {
-      error: function error(_error) {
-        if (_error.errors[0].status === '403') {
-          return true;
-        } else {
-          this.transitionTo('index');
-        }
-      },
       submit: function submit() {
         var _this = this;
 
         return this.get('store').createRecord('course', { sessionCode: this.get('codeSession') }).save().then(function (certificationCourse) {
           _this.get('onSubmit')(certificationCourse);
-        }).catch(function () {
-          _this.set('displayErrorMessage', true);
+        }).catch(function (error) {
+          if (error.errors[0].status === '404') {
+            _this.set('displayErrorMessage', true);
+          } else {
+            _this.get('error')(error);
+          }
         });
       }
     }
@@ -6745,7 +6742,7 @@ define('pix-live/routes/certifications/start', ['exports', 'ember-simple-auth/mi
     actions: {
       error: function error(_error) {
         if (_error.errors[0].status === '403') {
-          return true;
+          return this.render('certifications.start-error');
         } else {
           this.transitionTo('index');
         }
@@ -7637,13 +7634,13 @@ define("pix-live/templates/board", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "e30Iq72s", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"organization\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"organization\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\\n    \"],[6,\"a\"],[9,\"class\",\"profiles-title__export-csv\"],[10,\"href\",[26,[[20,[\"model\",\"organizationSnapshotsExportUrl\"]]]]],[9,\"target\",\"_blank\"],[9,\"download\",\"\"],[7],[0,\"\\n      Exporter (.csv)\\n      \"],[6,\"img\"],[9,\"class\",\"profiles-title__export-csv-icon\"],[9,\"src\",\"/images/icons/icon-export.svg\"],[9,\"alt\",\"Exporter les profils partagés\"],[9,\"width\",\"20\"],[9,\"height\",\"20\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[20,[\"model\",\"snapshots\"]]]]],false],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
 });
-define("pix-live/templates/certification-course-error", ["exports"], function (exports) {
+define("pix-live/templates/certifications/certification-course-error", ["exports"], function (exports) {
   "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "ma1uX844", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n      Votre profil n'est pas encore certifiable.\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n      Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.\\n    \"],[8],[0,\"\\n\\n    \"],[4,\"link-to\",[\"index\"],[[\"class\"],[\"certification-error-page__button\"]],{\"statements\":[[0,\"Retour à l'accueil\"]],\"parameters\":[]},null],[0,\"\\n\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certification-course-error.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "ASQguUwR", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n      Votre profil n'est pas encore certifiable.\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n      Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.\\n    \"],[8],[0,\"\\n\\n    \"],[4,\"link-to\",[\"index\"],[[\"class\"],[\"certification-error-page__button\"]],{\"statements\":[[0,\"Retour à l'accueil\"]],\"parameters\":[]},null],[0,\"\\n\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/certification-course-error.hbs" } });
 });
 define("pix-live/templates/certifications/results", ["exports"], function (exports) {
   "use strict";
@@ -7667,7 +7664,7 @@ define("pix-live/templates/certifications/start", ["exports"], function (exports
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "/DA5PuV4", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-start-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-start-page__title\"],[7],[0,\"Lancement du test\"],[8],[0,\"\\n\\n    \"],[1,[25,\"certification-code-validation\",null,[[\"onSubmit\"],[[25,\"route-action\",[\"submit\"],null]]]],false],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/start.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "GiKEQdfW", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-start-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-start-page__title\"],[7],[0,\"Lancement du test\"],[8],[0,\"\\n\\n    \"],[1,[25,\"certification-code-validation\",null,[[\"onSubmit\",\"error\"],[[25,\"route-action\",[\"submit\"],null],[25,\"route-action\",[\"error\"],null]]]],false],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/start.hbs" } });
 });
 define("pix-live/templates/challenge-preview", ["exports"], function (exports) {
   "use strict";
@@ -9148,6 +9145,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+d54cdb42"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+d0adda67"});
 }
 //# sourceMappingURL=pix-live.map

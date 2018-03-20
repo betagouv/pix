@@ -11149,34 +11149,6 @@ define('pix-live/tests/unit/components/certification-code-validation-test', ['mo
       component = this.subject();
     });
 
-    (0, _mocha.describe)('#error', function () {
-
-      (0, _mocha.it)('should redirect to index if error is not 403', function () {
-        // given
-        component.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '404' }] };
-
-        // when
-        component.send('error', error);
-
-        // then
-        _sinon.default.assert.called(component.transitionTo);
-        _sinon.default.assert.calledWith(component.transitionTo, 'index');
-      });
-
-      (0, _mocha.it)('should return true to redirect to certification error page if error is 403', function () {
-        // given
-        component.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '403' }] };
-
-        // when
-        component.send('error', error);
-
-        // then
-        _sinon.default.assert.notCalled(component.transitionTo);
-      });
-    });
-
     (0, _mocha.describe)('#submit', function () {
       var storeStub = void 0;
       var storeCreateRecordStub = void 0;
@@ -15340,17 +15312,19 @@ define('pix-live/tests/unit/routes/certifications/start-test', ['chai', 'mocha',
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
       });
 
-      (0, _mocha.it)('should return true to redirect to certification error page if error is 403', function () {
+      (0, _mocha.it)('should return the start-error page if error is 403', function () {
+        route.render = _sinon.default.stub();
+
         // given
         route.transitionTo = _sinon.default.stub();
         var error = { errors: [{ status: '403' }] };
 
         // when
-        var result = route.send('error', error);
+        route.send('error', error);
 
         // then
-        (0, _chai.expect)(result).to.be.true;
-        _sinon.default.assert.notCalled(route.transitionTo);
+        _sinon.default.assert.called(route.render);
+        _sinon.default.assert.calledWith(route.render, 'certifications.start-error');
       });
     });
 
