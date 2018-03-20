@@ -2,6 +2,7 @@ const hash = require('object-hash');
 const moment = require('moment');
 const sessionCodeService = require('./session-code-service');
 const { NotFoundError } = require('../errors');
+
 module.exports = {
   getCurrentCode() {
     const date = moment().utc().format('YYYY-MM-DD HH');

@@ -1,5 +1,4 @@
 const sessionService = require('../../domain/services/session-service');
-const sessionCodeService = require('../../domain/services/session-code-service');
 
 module.exports = {
   // TODO : to be remove

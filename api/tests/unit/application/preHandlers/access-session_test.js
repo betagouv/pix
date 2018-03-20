@@ -1,7 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const AccessSession = require('../../../../lib/application/preHandlers/access-session');
 const SessionService = require('../../../../lib/domain/services/session-service');
-const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 
 describe('Unit | Pre-handler | Session Access', () => {
 

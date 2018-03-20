@@ -69,15 +69,13 @@ module.exports = {
   save(request, reply) {
     const userId = request.auth.credentials.userId;
     const accessCode = request.payload.data.attributes['access-code'];
-    console.log(accessCode);
     return sessionService.sessionExists(accessCode)
       .then((sessionId) => certificationService.startNewCertification(userId, sessionId))
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch(err => {
-        console.log(err);
         if (err instanceof UserNotAuthorizedToCertifyError) {
           return reply(Boom.forbidden(err));
-        } else if (err instanceof NotFoundError){
+        } else if (err instanceof NotFoundError) {
           return reply(Boom.notFound('Le code d\'access n\'existe pas'));
         }
         logger.error(err);

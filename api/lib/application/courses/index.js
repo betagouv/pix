@@ -1,6 +1,5 @@
 const courseController = require('./course-controller');
 const securityController = require('../../interfaces/controllers/security-controller');
-const accessSessionHandler = require('../../application/preHandlers/access-session');
 
 exports.register = function(server, options, next) {
 

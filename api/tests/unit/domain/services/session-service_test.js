@@ -1,8 +1,9 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionService = require('../../../../lib/domain/services/session-service');
 const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
+const { NotFoundError } = require('../../../../lib/domain/errors');
 
-describe.only('Unit | Service | session', () => {
+describe('Unit | Service | session', () => {
   describe('#getCurrentCode', () => {
 
     let clock;
@@ -62,14 +63,7 @@ describe.only('Unit | Service | session', () => {
 
   describe('#sessionExists', () => {
 
-    let reply;
-    let takeover;
-    let code;
-
     beforeEach(() => {
-      takeover = sinon.stub();
-      code = sinon.stub().returns({ takeover });
-      reply = sinon.stub().returns({ code });
       sinon.stub(sessionCodeService, 'getSessionByAccessCode');
     });
 
@@ -86,8 +80,8 @@ describe.only('Unit | Service | session', () => {
         const promise = sessionService.sessionExists(null);
 
         // then
-        return promise.then((result) => {
-          expect(result).to.be.instanceOf(Error);
+        return promise.catch((result) => {
+          expect(result).to.be.an.instanceOf(NotFoundError);
         });
       });
     });
@@ -101,9 +95,8 @@ describe.only('Unit | Service | session', () => {
         const promise = sessionService.sessionExists('1234');
 
         // then
-        // then
-        return promise.then((result) => {
-          expect(result).to.be.instanceOf(Error);
+        return promise.catch((result) => {
+          expect(result).to.be.an.instanceOf(NotFoundError);
         });
       });
     });
