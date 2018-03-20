@@ -30,17 +30,19 @@ describe('Unit | Route | certification test', function() {
       sinon.assert.calledWith(route.transitionTo, 'index');
     });
 
-    it('should return true to redirect to certification error page if error is 403', function() {
+    it('should return the start-error page if error is 403', function() {
+      route.render = sinon.stub();
+
       // given
       route.transitionTo = sinon.stub();
       const error = { errors: [{ status: '403' }] };
 
       // when
-      const result = route.send('error', error);
+      route.send('error', error);
 
       // then
-      expect(result).to.be.true;
-      sinon.assert.notCalled(route.transitionTo);
+      sinon.assert.called(route.render);
+      sinon.assert.calledWith(route.render, 'certifications.start-error');
     });
 
   });

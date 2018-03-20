@@ -21,7 +21,7 @@ module.exports = {
         if(session) {
           reply(session.id);
         } else {
-          return reply().code(401).takeover();
+          return reply().code(404).takeover();
         }
       });
   }
