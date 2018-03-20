@@ -40,10 +40,13 @@
 }
 
 .certification-course-page__field-button {
-  display: inline;
+  text-align: center;
+
 }
 
 .certification-course-page__submit_button {
+  align-items: center;
+
   color: $white;
   font-size: 13px;
   text-transform: uppercase;
