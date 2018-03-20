@@ -1,7 +1,8 @@
 const { expect, sinon } = require('../../../test-helper');
 const sessionService = require('../../../../lib/domain/services/session-service');
+const sessionCodeService = require('../../../../lib/domain/services/session-code-service');
 
-describe('Unit | Service | session', () => {
+describe.only('Unit | Service | session', () => {
   describe('#getCurrentCode', () => {
 
     let clock;
@@ -58,4 +59,69 @@ describe('Unit | Service | session', () => {
       });
     });
   });
+
+  describe('#sessionExists', () => {
+
+    let reply;
+    let takeover;
+    let code;
+
+    beforeEach(() => {
+      takeover = sinon.stub();
+      code = sinon.stub().returns({ takeover });
+      reply = sinon.stub().returns({ code });
+      sinon.stub(sessionCodeService, 'getSessionByAccessCode');
+    });
+
+    afterEach(() => {
+      sessionCodeService.getSessionByAccessCode.restore();
+    });
+
+    context('when access-code is not given', () => {
+      it('should stop the request', () => {
+        // given
+        sessionCodeService.getSessionByAccessCode.resolves(null);
+
+        // when
+        const promise = sessionService.sessionExists(null);
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.instanceOf(Error);
+        });
+      });
+    });
+
+    context('when access-code is wrong', () => {
+      it('should stop the request', () => {
+        // given
+        sessionCodeService.getSessionByAccessCode.resolves(null);
+
+        // when
+        const promise = sessionService.sessionExists('1234');
+
+        // then
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.instanceOf(Error);
+        });
+      });
+    });
+
+    context('when access-code is correct', () => {
+      it('should let the request continue', () => {
+        // given
+        sessionCodeService.getSessionByAccessCode.resolves({ id: 12 });
+
+        // when
+        const promise = sessionService.sessionExists('ABCD12');
+
+        // then
+        return promise.then((result) => {
+          expect(result).to.be.equal(12);
+        });
+      });
+    });
+  });
+
 });

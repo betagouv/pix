@@ -9,6 +9,7 @@ const cache = require('../../../../lib/infrastructure/cache');
 const securityController = require('../../../../lib/interfaces/controllers/security-controller');
 const courseController = require('../../../../lib/application/courses/course-controller');
 const courseService = require('../../../../lib/domain/services/course-service');
+const sessionService = require('../../../../lib/domain/services/session-service');
 const certificationService = require('../../../../lib/domain/services/certification-service');
 const certificationCourseSerializer = require('../../../../lib/infrastructure/serializers/jsonapi/certification-course-serializer');
 const { NotFoundError } = require('../../../../lib/domain/errors');
@@ -30,6 +31,7 @@ describe('Integration | Controller | course-controller', () => {
     sandbox.stub(courseRepository, 'getCoursesOfTheWeek');
     sandbox.stub(certificationService, 'startNewCertification');
     sandbox.stub(certificationCourseSerializer, 'serialize');
+    sandbox.stub(sessionService, 'sessionExists');
     sandbox.stub(Boom, 'forbidden');
 
     server = this.server = new Hapi.Server();
@@ -197,8 +199,16 @@ describe('Integration | Controller | course-controller', () => {
     beforeEach(() => {
       request = {
         auth: { credentials: { accessToken: 'jwt.access.token', userId: 'userId' } },
-        pre: { userId: 'userId' }
+        pre: { userId: 'userId' },
+        payload: {
+          data: {
+            attributes: {
+              'access-code': 'ABCD12'
+            },
+          }
+        }
       };
+
       codeStub = sinon.stub();
       replyStub = sinon.stub().returns({ code: codeStub });
     });
@@ -207,12 +217,15 @@ describe('Integration | Controller | course-controller', () => {
       // given
       certificationService.startNewCertification.resolves(newlyCreatedCertificationCourse);
       certificationCourseSerializer.serialize.resolves({});
+      sessionService.sessionExists.resolves(2);
 
       // when
       const promise = courseController.save(request, replyStub);
 
       // then
       return promise.then(() => {
+        sinon.assert.calledOnce(sessionService.sessionExists);
+        sinon.assert.calledWith(sessionService.sessionExists, 'ABCD12');
         sinon.assert.calledOnce(certificationCourseSerializer.serialize);
         sinon.assert.calledWith(certificationCourseSerializer.serialize, newlyCreatedCertificationCourse);
         sinon.assert.calledOnce(replyStub);
@@ -225,6 +238,9 @@ describe('Integration | Controller | course-controller', () => {
       // given
       const error = new UserNotAuthorizedToCertifyError();
       certificationService.startNewCertification.rejects(error);
+      certificationCourseSerializer.serialize.resolves({});
+      sessionService.sessionExists.resolves();
+
       Boom.forbidden.returns({ message: 'forbidden' });
 
       // when

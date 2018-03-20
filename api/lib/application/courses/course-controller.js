@@ -4,6 +4,7 @@ const courseRepository = require('../../infrastructure/repositories/course-repos
 const courseSerializer = require('../../infrastructure/serializers/jsonapi/course-serializer');
 const certificationCourseSerializer = require('../../infrastructure/serializers/jsonapi/certification-course-serializer');
 const certificationService = require('../../../lib/domain/services/certification-service');
+const sessionService = require('../../../lib/domain/services/session-service');
 const courseService = require('../../../lib/domain/services/course-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
@@ -67,12 +68,17 @@ module.exports = {
 
   save(request, reply) {
     const userId = request.auth.credentials.userId;
-    const sessionId = request.pre.sessionId;
-    return certificationService.startNewCertification(userId, sessionId)
+    const accessCode = request.payload.data.attributes['access-code'];
+    console.log(accessCode);
+    return sessionService.sessionExists(accessCode)
+      .then((sessionId) => certificationService.startNewCertification(userId, sessionId))
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch(err => {
+        console.log(err);
         if (err instanceof UserNotAuthorizedToCertifyError) {
           return reply(Boom.forbidden(err));
+        } else if (err instanceof NotFoundError){
+          return reply(Boom.notFound('Le code d\'access n\'existe pas'));
         }
         logger.error(err);
         return reply(Boom.badImplementation(err));

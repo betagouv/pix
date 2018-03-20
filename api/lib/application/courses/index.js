@@ -46,10 +46,6 @@ exports.register = function(server, options, next) {
       method: 'POST',
       path: '/api/courses',
       config: {
-        pre: [{
-          method: accessSessionHandler.sessionExists,
-          assign: 'sessionId'
-        }],
         handler: courseController.save,
         tags: ['api']
       }
