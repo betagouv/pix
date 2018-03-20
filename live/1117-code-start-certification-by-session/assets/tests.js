@@ -942,7 +942,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
                     // when
                     fillIn('#session-code', 'ABCD12');
                     _context3.next = 3;
-                    return click('.signin-form__submit_button');
+                    return click('.certification-course-page__submit_button');
 
                   case 3:
                   case 'end':
@@ -1046,7 +1046,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
                 case 3:
                   fillIn('#session-code', '10ue1');
                   _context7.next = 6;
-                  return click('.signin-form__submit_button');
+                  return click('.certification-course-page__submit_button');
 
                 case 6:
                   _context7.next = 8;
@@ -3563,15 +3563,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/certification-course.js', function () {
-      // test passed
-    });
-
     it('routes/certifications/results.js', function () {
       // test passed
     });
 
     it('routes/certifications/resume.js', function () {
+      // test passed
+    });
+
+    it('routes/certifications/start.js', function () {
       // test passed
     });
 
@@ -10752,15 +10752,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/certification-course-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/certifications/results-test.js', function () {
       // test passed
     });
 
     it('unit/routes/certifications/resume-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/certifications/start-test.js', function () {
       // test passed
     });
 
@@ -15070,66 +15070,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
   });
 });
-define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | certification test', function () {
-    (0, _emberMocha.setupTest)('route:certification-course', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    var route = void 0;
-
-    (0, _mocha.it)('exists', function () {
-      route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#error', function () {
-
-      (0, _mocha.it)('should redirect to index if error is not 403', function () {
-        // given
-        route.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '404' }] };
-
-        // when
-        route.send('error', error);
-
-        // then
-        _sinon.default.assert.called(route.transitionTo);
-        _sinon.default.assert.calledWith(route.transitionTo, 'index');
-      });
-
-      (0, _mocha.it)('should return true to redirect to certification error page if error is 403', function () {
-        // given
-        route.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '403' }] };
-
-        // when
-        var result = route.send('error', error);
-
-        // then
-        (0, _chai.expect)(result).to.be.true;
-        _sinon.default.assert.notCalled(route.transitionTo);
-      });
-    });
-
-    (0, _mocha.describe)('#submit', function () {
-
-      (0, _mocha.it)('should replace current route with courses.create-assessment', function () {
-        // given
-        route.replaceWith = _sinon.default.stub();
-
-        // when
-        route.send('submit', { id: 1 });
-
-        // then
-        _sinon.default.assert.called(route.replaceWith);
-        _sinon.default.assert.calledWith(route.replaceWith, 'courses.create-assessment', 1);
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
@@ -15366,6 +15306,66 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
 
         // then
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certifications/start-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | certification test', function () {
+    (0, _emberMocha.setupTest)('route:certifications.start', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var route = void 0;
+
+    (0, _mocha.it)('exists', function () {
+      route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      (0, _mocha.it)('should redirect to index if error is not 403', function () {
+        // given
+        route.transitionTo = _sinon.default.stub();
+        var error = { errors: [{ status: '404' }] };
+
+        // when
+        route.send('error', error);
+
+        // then
+        _sinon.default.assert.called(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+
+      (0, _mocha.it)('should return true to redirect to certification error page if error is 403', function () {
+        // given
+        route.transitionTo = _sinon.default.stub();
+        var error = { errors: [{ status: '403' }] };
+
+        // when
+        var result = route.send('error', error);
+
+        // then
+        (0, _chai.expect)(result).to.be.true;
+        _sinon.default.assert.notCalled(route.transitionTo);
+      });
+    });
+
+    (0, _mocha.describe)('#submit', function () {
+
+      (0, _mocha.it)('should replace current route with courses.create-assessment', function () {
+        // given
+        route.replaceWith = _sinon.default.stub();
+
+        // when
+        route.send('submit', { id: 1 });
+
+        // then
+        _sinon.default.assert.called(route.replaceWith);
+        _sinon.default.assert.calledWith(route.replaceWith, 'courses.create-assessment', 1);
       });
     });
   });

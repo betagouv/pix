@@ -6430,7 +6430,7 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
     this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
     this.route('not-found', { path: '/*path' });
-    this.route('certification-course', { path: '/certifications' });
+    this.route('certifications.start', { path: '/certifications' });
     this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
   });
 
@@ -6675,29 +6675,6 @@ define('pix-live/routes/board', ['exports', 'ember-simple-auth/mixins/authentica
     }
   });
 });
-define('pix-live/routes/certification-course', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
-  'use strict';
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
-
-    authenticationRoute: '/connexion',
-    actions: {
-      error: function error(_error) {
-        if (_error.errors[0].status === '403') {
-          return true;
-        } else {
-          this.transitionTo('index');
-        }
-      },
-      submit: function submit(certificationCourse) {
-        return this.replaceWith('courses.create-assessment', certificationCourse.id);
-      }
-    }
-  });
-});
 define('pix-live/routes/certifications/results', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin', 'pix-live/routes/base-route'], function (exports, _authenticatedRouteMixin, _baseRoute) {
   'use strict';
 
@@ -6752,6 +6729,29 @@ define('pix-live/routes/certifications/resume', ['exports', 'pix-live/routes/bas
     actions: {
       error: function error() {
         this.transitionTo('index');
+      }
+    }
+  });
+});
+define('pix-live/routes/certifications/start', ['exports', 'ember-simple-auth/mixins/authenticated-route-mixin'], function (exports, _authenticatedRouteMixin) {
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.Route.extend(_authenticatedRouteMixin.default, {
+
+    authenticationRoute: '/connexion',
+    actions: {
+      error: function error(_error) {
+        if (_error.errors[0].status === '403') {
+          return true;
+        } else {
+          this.transitionTo('index');
+        }
+      },
+      submit: function submit(certificationCourse) {
+        return this.replaceWith('courses.create-assessment', certificationCourse.id);
       }
     }
   });
@@ -7645,14 +7645,6 @@ define("pix-live/templates/certification-course-error", ["exports"], function (e
   });
   exports.default = Ember.HTMLBars.template({ "id": "ma1uX844", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n      Votre profil n'est pas encore certifiable.\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n      Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.\\n    \"],[8],[0,\"\\n\\n    \"],[4,\"link-to\",[\"index\"],[[\"class\"],[\"certification-error-page__button\"]],{\"statements\":[[0,\"Retour à l'accueil\"]],\"parameters\":[]},null],[0,\"\\n\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certification-course-error.hbs" } });
 });
-define("pix-live/templates/certification-course", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "nYtNjVQp", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n  \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n    Lancement du test.\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"certification-code-validation\",null,[[\"onSubmit\"],[[25,\"route-action\",[\"submit\"],null]]]],false],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certification-course.hbs" } });
-});
 define("pix-live/templates/certifications/results", ["exports"], function (exports) {
   "use strict";
 
@@ -7668,6 +7660,14 @@ define("pix-live/templates/certifications/resume", ["exports"], function (export
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "d0SWQ/je", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/resume.hbs" } });
+});
+define("pix-live/templates/certifications/start", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "/DA5PuV4", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"certification-start-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-start-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-start-page__title\"],[7],[0,\"Lancement du test\"],[8],[0,\"\\n\\n    \"],[1,[25,\"certification-code-validation\",null,[[\"onSubmit\"],[[25,\"route-action\",[\"submit\"],null]]]],false],[0,\"\\n\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/start.hbs" } });
 });
 define("pix-live/templates/challenge-preview", ["exports"], function (exports) {
   "use strict";
@@ -7715,7 +7715,7 @@ define("pix-live/templates/components/certification-code-validation", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "SF2As0aQ", "block": "{\"symbols\":[],\"statements\":[[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n  Un code d'accès va vous être communiqué par le responsable de la session.\\n\"],[8],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"signin-form__form-field\"],[7],[0,\"\\n  \"],[6,\"label\"],[9,\"for\",\"session-code\"],[7],[0,\"Code du test\"],[8],[0,\"\\n  \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\"],[\"session-code\",\"text\",[20,[\"codeSession\"]]]]],false],[0,\"\\n\"],[8],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"  \"],[6,\"div\"],[9,\"class\",\"signin-form__errors\"],[7],[0,\"Ce code n'existe pas ou n'est plus valide.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[0,\"\\n\\n\"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n  En cliquant sur \\\"Lancer le test\\\" :\\n  J’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que\\n  renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury, pour\\n  produire et archiver mes résultats et pour éditer mon certificat ;\\n  Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats ;\\n  Je peux exercer mes droits d’accès auprès du CIL de Pix cil.pix@beta.gouv.fr\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"signin-form__form-field signin-form__form-field-button\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"signin-form__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"]],[7],[0,\"Lancer le test\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-code-validation.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "fIqDPkbW", "block": "{\"symbols\":[],\"statements\":[[6,\"p\"],[9,\"class\",\"certification-course-page__order\"],[7],[0,\"\\n  Un code d'accès va vous être communiqué par le responsable de la session.\\n\"],[8],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__session-code-input\"],[7],[0,\"\\n  \"],[6,\"label\"],[9,\"for\",\"session-code\"],[7],[0,\"Code du test : \"],[8],[0,\"\\n  \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\"],[\"session-code\",\"text\",[20,[\"codeSession\"]]]]],false],[0,\"\\n\"],[4,\"if\",[[20,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"certification-course-page__errors\"],[7],[0,\"Ce code n'existe pas ou n'est plus valide.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\\n\\n\"],[6,\"p\"],[9,\"class\",\"certification-course-page__cgu\"],[7],[0,\"\\n  En cliquant sur \\\"Lancer le test\\\" :\\n  J’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que\\n  renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury, pour\\n  produire et archiver mes résultats et pour éditer mon certificat ;\\n  Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats ;\\n  Je peux exercer mes droits d’accès auprès du CIL de Pix cil.pix@beta.gouv.fr\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button\"],[7],[0,\"\\n  \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"certification-course-page__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"]],[7],[0,\"Lancer le test\\n  \"],[8],[0,\"\\n\"],[8],[0,\"\\n\\n\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-code-validation.hbs" } });
 });
 define("pix-live/templates/components/certification-results-page", ["exports"], function (exports) {
   "use strict";
@@ -9148,6 +9148,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+122cb44e"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+d54cdb42"});
 }
 //# sourceMappingURL=pix-live.map

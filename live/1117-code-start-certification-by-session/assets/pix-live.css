@@ -3969,6 +3969,51 @@ p.share-profile__organization-name {
     .blue-ribbon__text {
       font-size: 35px; } }
 
+.certification-course-page__order {
+  height: 28px;
+  width: 774px;
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center; }
+
+.certification-course-page__cgu {
+  height: 85.16px;
+  width: 745.68px;
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: justify; }
+
+.certification-course-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  align-items: center; }
+
+.certification-course-page__errors {
+  height: 1.7%;
+  color: #f45c00;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center; }
+
+.certification-course-page__field-button {
+  display: inline; }
+
+.certification-course-page__submit_button {
+  color: #ffffff;
+  font-size: 13px;
+  text-transform: uppercase;
+  border-radius: 23px;
+  border: solid 1px #3d68ff;
+  background-color: #3d68ff;
+  padding: 10px 30px; }
+
 .side-menu {
   position: fixed;
   background: #fff;
@@ -5334,6 +5379,30 @@ hr.project-page__presentation-header-line {
   font-size: 20px;
   line-height: 24px;
   margin-top: 58px; }
+
+.certification-start-page {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-self: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  flex-direction: column;
+  align-items: center; }
+
+@media (min-width: 980px) {
+  .certification-start-page__panel {
+    padding: 50px 70px 40px;
+    text-align: center; } }
+
+.certification-start-page__title {
+  height: 42px;
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 42px; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
