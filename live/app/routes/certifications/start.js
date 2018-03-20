@@ -13,7 +13,7 @@ export default Route.extend(AuthenticatedRouteMixin, {
       }
     },
 
-    submit(certificationCourse){
+    submit(certificationCourse) {
       return this.replaceWith('courses.create-assessment', certificationCourse.id);
     }
   }
