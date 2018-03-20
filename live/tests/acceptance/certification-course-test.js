@@ -43,7 +43,7 @@ describe('Acceptance | Certification | Start Course', function() {
         beforeEach(async function() {
           // when
           fillIn('#session-code', 'ABCD12');
-          await click('.signin-form__submit_button');
+          await click('.certification-course-page__submit_button');
         });
 
         it('should propose to enter the session Code', async function() {
@@ -89,7 +89,7 @@ describe('Acceptance | Certification | Start Course', function() {
         authenticateAsSimpleUser();
         await visit('/certifications');
         fillIn('#session-code', '10ue1');
-        await click('.signin-form__submit_button');
+        await click('.certification-course-page__submit_button');
 
         await click('.challenge-actions__action-skip');
         await visit('/compte');

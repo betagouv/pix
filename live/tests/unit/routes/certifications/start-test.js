@@ -4,7 +4,7 @@ import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
 
 describe('Unit | Route | certification test', function() {
-  setupTest('route:certification-course', {
+  setupTest('route:certifications.start', {
     needs: ['service:current-routed-modal', 'service:session'],
   });
 
