@@ -55,7 +55,7 @@ Router.map(function() {
   this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
   this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
   this.route('not-found', { path: '/*path' });
-  this.route('certification-course', { path: '/certifications' });
+  this.route('certifications.start', { path: '/certifications' });
   this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
 });
 

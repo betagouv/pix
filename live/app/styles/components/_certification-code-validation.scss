@@ -1,0 +1,56 @@
+.certification-course-page {
+
+}
+
+.certification-course-page__order {
+  height: 28px;
+  width: 774px;
+  color: $charcoal-grey;
+  font-family: $font-raleway;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.certification-course-page__cgu {
+  height: 85.16px;
+  width: 745.68px;
+  color: $charcoal-grey;
+  font-family: $font-lato;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: justify;
+}
+
+.certification-course-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.certification-course-page__errors {
+  height: 1.7%;
+  color: $pure-orange;
+  font-family: $font-lato;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.certification-course-page__field-button {
+  display: inline;
+}
+
+.certification-course-page__submit_button {
+  color: $white;
+  font-size: 13px;
+  text-transform: uppercase;
+
+  border-radius: 23px;
+  border: solid 1px $pix-blue;
+  background-color: $pix-blue;
+
+  padding: 10px 30px;
+}

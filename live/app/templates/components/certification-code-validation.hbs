@@ -1,17 +1,16 @@
-<p class="certification-error-page__text">
+<p class="certification-course-page__order">
   Un code d'accès va vous être communiqué par le responsable de la session.
 </p>
-<div class="signin-form__form-field">
-  <label for="session-code">Code du test</label>
+<div class="certification-course-page__session-code-input">
+  <label for="session-code">Code du test : </label>
   {{input id="session-code" type="text" value=codeSession}}
+  {{#if displayErrorMessage}}
+    <div class="certification-course-page__errors">Ce code n'existe pas ou n'est plus valide.</div>
+  {{/if}}
 </div>
 
-{{#if displayErrorMessage}}
-  <div class="signin-form__errors">Ce code n'existe pas ou n'est plus valide.</div>
-{{/if}}
 
-
-<p class="certification-error-page__text">
+<p class="certification-course-page__cgu">
   En cliquant sur "Lancer le test" :
   J’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que
   renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury, pour
@@ -20,8 +19,8 @@
   Je peux exercer mes droits d’accès auprès du CIL de Pix cil.pix@beta.gouv.fr
 </p>
 
-<div class="signin-form__form-field signin-form__form-field-button">
-  <button type="submit" class="signin-form__submit_button" {{ action "submit" }}>Lancer le test
+<div class="certification-course-page__field-button">
+  <button type="submit" class="certification-course-page__submit_button" {{ action "submit" }}>Lancer le test
   </button>
 </div>
 
