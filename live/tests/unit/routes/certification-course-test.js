@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
-import Service from '@ember/service';
 
 describe('Unit | Route | certification test', function() {
   setupTest('route:certification-course', {
@@ -10,53 +9,10 @@ describe('Unit | Route | certification test', function() {
   });
 
   let route;
-  let createRecordStub;
-  let storeStub;
-  let certificationCourse;
 
   it('exists', function() {
     route = this.subject();
     expect(route).to.be.ok;
-  });
-
-  describe('#model', function() {
-
-    beforeEach(function() {
-      certificationCourse = { id: 1, save: sinon.stub() };
-      createRecordStub = sinon.stub().returns(certificationCourse);
-
-      storeStub = Service.extend({
-        createRecord: createRecordStub
-      });
-
-      this.register('service:store', storeStub);
-      this.inject.service('store', { as: 'store' });
-
-      route = this.subject();
-
-    });
-
-    context('when user is logged', function() {
-
-      it('should generate certification test', function() {
-        // when
-        route.model({ code: '123456' });
-
-        // then
-        sinon.assert.called(createRecordStub);
-        sinon.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
-
-      });
-
-      it('should save certification test', function() {
-        // when
-        route.model({ code: '123456' });
-
-        // then
-        sinon.assert.called(certificationCourse.save);
-      });
-    });
-
   });
 
   describe('#error', function() {
@@ -88,4 +44,21 @@ describe('Unit | Route | certification test', function() {
     });
 
   });
+
+  describe('#submit', function() {
+
+    it('should replace current route with courses.create-assessment', function() {
+      // given
+      route.replaceWith = sinon.stub();
+
+      // when
+      route.send('submit', { id: 1 });
+
+      // then
+      sinon.assert.called(route.replaceWith);
+      sinon.assert.calledWith(route.replaceWith, 'courses.create-assessment', 1);
+    });
+
+  });
+
 });
