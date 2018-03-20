@@ -7634,14 +7634,6 @@ define("pix-live/templates/board", ["exports"], function (exports) {
   });
   exports.default = Ember.HTMLBars.template({ "id": "e30Iq72s", "block": "{\"symbols\":[],\"statements\":[[6,\"div\"],[9,\"class\",\"board-page\"],[7],[0,\"\\n\\n  \"],[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__header\"],[7],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__text\"],[7],[0,\"Votre Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-organisation__name\"],[7],[1,[20,[\"model\",\"organization\",\"name\"]],false],[8],[0,\"\\n    \"],[8],[0,\"\\n    \"],[6,\"div\"],[9,\"class\",\"board-page__header-code\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__title\"],[7],[0,\"Code Organisation\"],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__text\"],[7],[1,[20,[\"model\",\"organization\",\"code\"]],false],[8],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"board-page__header-code__comment\"],[7],[0,\"Communiquez ce code à vos élèves, étudiants ou collaborateurs et ils\\n        pourront partager leurs profils Pix avec vous.\\n      \"],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"board-page__profiles-title\"],[7],[0,\"Profils Partagés\\n    \"],[6,\"a\"],[9,\"class\",\"profiles-title__export-csv\"],[10,\"href\",[26,[[20,[\"model\",\"organizationSnapshotsExportUrl\"]]]]],[9,\"target\",\"_blank\"],[9,\"download\",\"\"],[7],[0,\"\\n      Exporter (.csv)\\n      \"],[6,\"img\"],[9,\"class\",\"profiles-title__export-csv-icon\"],[9,\"src\",\"/images/icons/icon-export.svg\"],[9,\"alt\",\"Exporter les profils partagés\"],[9,\"width\",\"20\"],[9,\"height\",\"20\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n  \"],[8],[0,\"\\n\\n  \"],[1,[25,\"snapshot-list\",null,[[\"snapshots\"],[[20,[\"model\",\"snapshots\"]]]]],false],[0,\"\\n\\n  \"],[1,[18,\"app-footer\"],false],[0,\"\\n\\n\"],[8],[0,\"\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/board.hbs" } });
 });
-define("pix-live/templates/certifications/certification-course-error", ["exports"], function (exports) {
-  "use strict";
-
-  Object.defineProperty(exports, "__esModule", {
-    value: true
-  });
-  exports.default = Ember.HTMLBars.template({ "id": "ASQguUwR", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n      Votre profil n'est pas encore certifiable.\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n      Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.\\n    \"],[8],[0,\"\\n\\n    \"],[4,\"link-to\",[\"index\"],[[\"class\"],[\"certification-error-page__button\"]],{\"statements\":[[0,\"Retour à l'accueil\"]],\"parameters\":[]},null],[0,\"\\n\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/certification-course-error.hbs" } });
-});
 define("pix-live/templates/certifications/results", ["exports"], function (exports) {
   "use strict";
 
@@ -7657,6 +7649,14 @@ define("pix-live/templates/certifications/resume", ["exports"], function (export
     value: true
   });
   exports.default = Ember.HTMLBars.template({ "id": "d0SWQ/je", "block": "{\"symbols\":[],\"statements\":[[1,[18,\"outlet\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/resume.hbs" } });
+});
+define("pix-live/templates/certifications/start-error", ["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.default = Ember.HTMLBars.template({ "id": "lKhWkjOw", "block": "{\"symbols\":[],\"statements\":[[1,[25,\"navbar-header\",null,[[\"class\"],[\"navbar-header--white\"]]],false],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-error-page\"],[7],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__ribbon blue-ribbon\"],[7],[8],[0,\"\\n\\n  \"],[6,\"div\"],[9,\"class\",\"certification-error-page__panel rounded-panel\"],[7],[0,\"\\n    \"],[6,\"h2\"],[9,\"class\",\"certification-error-page__title\"],[7],[0,\"\\n      Votre profil n'est pas encore certifiable.\\n    \"],[8],[0,\"\\n    \"],[6,\"p\"],[9,\"class\",\"certification-error-page__text\"],[7],[0,\"\\n      Pour faire certifier votre profil, vous devez avoir obtenu un niveau supérieur à 0 dans 5 compétences minimum.\\n    \"],[8],[0,\"\\n\\n    \"],[4,\"link-to\",[\"index\"],[[\"class\"],[\"certification-error-page__button\"]],{\"statements\":[[0,\"Retour à l'accueil\"]],\"parameters\":[]},null],[0,\"\\n\\n  \"],[8],[0,\"\\n\\n\"],[8],[0,\"\\n\\n\"],[1,[18,\"app-footer\"],false]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/certifications/start-error.hbs" } });
 });
 define("pix-live/templates/certifications/start", ["exports"], function (exports) {
   "use strict";
@@ -9145,6 +9145,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+d0adda67"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+2743989d"});
 }
 //# sourceMappingURL=pix-live.map
