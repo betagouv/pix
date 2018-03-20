@@ -4003,9 +4003,10 @@ p.share-profile__organization-name {
   text-align: center; }
 
 .certification-course-page__field-button {
-  display: inline; }
+  text-align: center; }
 
 .certification-course-page__submit_button {
+  align-items: center;
   color: #ffffff;
   font-size: 13px;
   text-transform: uppercase;
@@ -5383,24 +5384,41 @@ hr.project-page__presentation-header-line {
 .certification-start-page {
   display: flex;
   flex-flow: column wrap;
-  justify-content: center;
   align-self: center;
   background-color: #FAFAFA;
   color: #3e4149;
   text-rendering: optimizeLegibility;
-  flex-direction: column;
-  align-items: center; }
+  min-height: calc(100VH - 140px - 150px); }
 
-@media (min-width: 980px) {
-  .certification-start-page__panel {
-    padding: 50px 70px 40px;
-    text-align: center; } }
+.certification-start-page__ribbon {
+  height: 180px;
+  position: absolute;
+  top: 120px; }
+  @media (min-width: 980px) {
+    .certification-start-page__ribbon {
+      top: 140px; } }
+
+.certification-start-page__panel {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-top: 50px;
+  z-index: 1;
+  align-self: center; }
+  @media (min-width: 980px) {
+    .certification-start-page__panel {
+      width: 940px;
+      padding: 50px 70px 40px; } }
 
 .certification-start-page__title {
   height: 42px;
   color: #3e4149;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 36px;
+  text-align: center;
   font-weight: bold;
   line-height: 42px; }
 
