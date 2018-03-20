@@ -65,17 +65,17 @@ describe('Integration | Repository | Session', function() {
       date: '23/02/2018',
       time: '12:00',
       description: 'The lost examen',
-      codeStarter: 'ABC123'
+      accessCode: 'ABC123'
     }));
 
     afterEach(() => knex('sessions').delete());
 
-    it('should return true if the codeStarter is not in database', () => {
+    it('should return true if the accessCode is not in database', () => {
       // given
-      const newCodeStarter = 'DEF123';
+      const accessCode = 'DEF123';
 
       // when
-      const promise = sessionRepository.isSessionCodeAvailable(newCodeStarter);
+      const promise = sessionRepository.isSessionCodeAvailable(accessCode);
 
       // then
       return promise.then((result) => {
@@ -83,12 +83,12 @@ describe('Integration | Repository | Session', function() {
       });
     });
 
-    it('should return false if the codeStarter is in database', () => {
+    it('should return false if the accessCode is in database', () => {
       // given
-      const oldCodeStarter = 'ABC123';
+      const accessCode = 'ABC123';
 
       // when
-      const promise = sessionRepository.isSessionCodeAvailable(oldCodeStarter);
+      const promise = sessionRepository.isSessionCodeAvailable(accessCode);
 
       // then
       return promise.then((result) => {
@@ -98,7 +98,7 @@ describe('Integration | Repository | Session', function() {
     });
   });
 
-  describe('#getByCodeStarter', () => {
+  describe('#getByAccessCode', () => {
     const session = {
       certificationCenter: 'Paris',
       address: 'Paris',
@@ -107,33 +107,33 @@ describe('Integration | Repository | Session', function() {
       date: '23/02/2018',
       time: '12:00',
       description: 'The lost examen',
-      codeStarter: 'ABC123'
+      accessCode: 'ABC123'
     };
 
     beforeEach(() => knex('sessions').insert(session));
 
     afterEach(() => knex('sessions').delete());
 
-    it('should return the object by codeStarter', () => {
+    it('should return the object by accessCode', () => {
       // given
-      const newCodeStarter = 'ABC123';
+      const accessCode = 'ABC123';
 
       // when
-      const promise = sessionRepository.getByCodeStarter(newCodeStarter);
+      const promise = sessionRepository.getByAccessCode(accessCode);
 
       // then
       return promise.then((result) => {
         expect(result.description).to.be.equal(session.description);
-        expect(result.codeStarter).to.be.equal(session.codeStarter);
+        expect(result.accessCode).to.be.equal(session.accessCode);
       });
     });
 
-    it('should return null when the codeStarter do not correspond to a session', () => {
+    it('should return null when the accessCode do not correspond to a session', () => {
       // given
-      const oldCodeStarter = 'DEE123';
+      const accessCode = 'DEE123';
 
       // when
-      const promise = sessionRepository.getByCodeStarter(oldCodeStarter);
+      const promise = sessionRepository.getByAccessCode(accessCode);
 
       // then
       return promise.then((result) => {

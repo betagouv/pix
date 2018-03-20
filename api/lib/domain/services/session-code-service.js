@@ -40,8 +40,8 @@ module.exports = {
       });
   },
 
-  getSessionByCodeStarter(codeToValidate) {
-    return sessionRepository.getByCodeStarter(codeToValidate);
+  getSessionByAccessCode(codeToValidate) {
+    return sessionRepository.getByAccessCode(codeToValidate);
 
   }
 };

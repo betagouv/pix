@@ -27,7 +27,7 @@ describe('Unit | Controller | sessionController', () => {
         date: '2017-12-08',
         time: '14:30',
         description: 'ahah',
-        codeStarter: 'ABCD12'
+        accessCode: 'ABCD12'
       });
 
       codeStub = sinon.stub();

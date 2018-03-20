@@ -30,14 +30,14 @@ describe('Unit | Component | certification-code-value', function() {
     it('should create and save a new course', function() {
       // given
       component.set('store', storeStub);
-      component.set('codeSession', 'ABCD12');
+      component.set('accessCode', 'ABCD12');
 
       // when
       component.send('submit');
 
       // then
       sinon.assert.called(storeCreateRecordStub);
-      sinon.assert.calledWith(storeCreateRecordStub, 'course', { sessionCode: 'ABCD12' });
+      sinon.assert.calledWith(storeCreateRecordStub, 'course', { accessCode: 'ABCD12' });
       sinon.assert.called(storeSaveStub);
     });
   });

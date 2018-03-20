@@ -16,16 +16,16 @@ module.exports = {
       .then(_toDomain);
   },
 
-  isSessionCodeAvailable: (codeStarter) => {
+  isSessionCodeAvailable: (accessCode) => {
     return BookshelfSession
-      .where({ codeStarter })
+      .where({ accessCode })
       .fetch({})
       .then((result) => !result);
   },
 
-  getByCodeStarter: (codeStarter) => {
+  getByAccessCode: (accessCode) => {
     return BookshelfSession
-      .where({ codeStarter })
+      .where({ accessCode })
       .fetch({})
       .then(_toDomain);
   }

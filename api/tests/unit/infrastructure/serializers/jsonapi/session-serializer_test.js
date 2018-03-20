@@ -16,7 +16,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
     date: '20/01/2017',
     time: '14:30',
     description: '',
-    codeStarter: '',
+    accessCode: '',
   });
 
   const jsonSession = {
@@ -27,7 +27,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         'certification-center': 'Université de dressage de loutres',
         address: 'Nice',
         room: '28D',
-        'code-starter': '',
+        'access-code': '',
         examiner: 'Antoine Toutvenant',
         date: '20/01/2017',
         time: '14:30',
@@ -78,7 +78,7 @@ describe('Unit | Serializer | JSONAPI | session-serializer', function() {
         expect(session.date).to.equal('2017-01-20');
         expect(session.time).to.equal('14:30');
         expect(session.description).to.equal('');
-        expect(session.codeStarter).to.equal('ABCD12');
+        expect(session.accessCode).to.equal('ABCD12');
       });
     });
 

@@ -59,7 +59,7 @@ describe('Unit | Service | CodeSession', () => {
     });
   });
 
-  describe('#getSessionByCodeStarter', () => {
+  describe('#getSessionByAccessCode', () => {
 
     let sandbox;
 
@@ -71,12 +71,12 @@ describe('Unit | Service | CodeSession', () => {
       sandbox.restore();
     });
 
-    it('should return true if session exists with this codeStarter', () => {
+    it('should return true if session exists with this accessCode', () => {
       // given
-      sandbox.stub(sessionRepository, 'getByCodeStarter').resolves({ id: 1 });
+      sandbox.stub(sessionRepository, 'getByAccessCode').resolves({ id: 1 });
 
       // when
-      const promise = sessionCodeService.getSessionByCodeStarter('ABCD12');
+      const promise = sessionCodeService.getSessionByAccessCode('ABCD12');
 
       // then
       return promise.then((result) => {
@@ -84,12 +84,12 @@ describe('Unit | Service | CodeSession', () => {
       });
     });
 
-    it('should return false if codeStarter does not link to a session', () => {
+    it('should return false if accessCode does not link to a session', () => {
       // given
-      sandbox.stub(sessionRepository, 'getByCodeStarter').resolves(null);
+      sandbox.stub(sessionRepository, 'getByAccessCode').resolves(null);
 
       // when
-      const promise = sessionCodeService.getSessionByCodeStarter('BBAAAHHHHH');
+      const promise = sessionCodeService.getSessionByAccessCode('BBAAAHHHHH');
 
       // then
       return promise.then((result) => {

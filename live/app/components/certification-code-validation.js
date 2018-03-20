@@ -6,11 +6,11 @@ export default Component.extend({
 
   store: service(),
 
-  codeSession: '',
+  accessCode: '',
 
   actions: {
     submit() {
-      return this.get('store').createRecord('course', { sessionCode: this.get('codeSession') }).save()
+      return this.get('store').createRecord('course', { accessCode: this.get('accessCode') }).save()
         .then((certificationCourse) => {
           this.get('onSubmit')(certificationCourse);
         })

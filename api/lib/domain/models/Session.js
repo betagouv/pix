@@ -9,7 +9,7 @@ class Session {
     this.date = model.date;
     this.time = model.time;
     this.description = model.description;
-    this.codeStarter = model.codeStarter;
+    this.accessCode = model.accessCode;
   }
 }
 
