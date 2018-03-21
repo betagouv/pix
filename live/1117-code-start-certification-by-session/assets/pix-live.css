@@ -3976,7 +3976,8 @@ p.share-profile__organization-name {
   font-size: 22px;
   line-height: 28px;
   text-align: center;
-  margin-top: 15px; }
+  margin-top: 15px;
+  margin-bottom: 20px; }
 
 .certification-course-page__cgu {
   height: 85.16px;
