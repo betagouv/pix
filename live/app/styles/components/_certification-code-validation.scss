@@ -50,10 +50,33 @@
   color: $white;
   font-size: 13px;
   text-transform: uppercase;
-
+  width: 170px;
+  height: 46px;
   border-radius: 23px;
   border: solid 1px $pix-blue;
   background-color: $pix-blue;
 
   padding: 10px 30px;
+}
+
+.certification-course-page__field-button__action-validate {
+  width: 170px;
+  height: 46px;
+  border-radius: 23px;
+  background: $pix-blue;
+  text-align: center;
+  margin: auto;
+
+
+  align-items: center;
+  padding: 10px 30px;
+}
+
+.certification-course-page__field-button__loader-bar {
+  background: url('/images/loader-white.svg');
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -5px;
 }
