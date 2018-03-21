@@ -7,11 +7,11 @@ export default Component.extend({
   store: service(),
 
   accessCode: '',
-  loadingCertification: false,
+  _loadingCertification: false,
 
   actions: {
     submit() {
-      this.set('loadingCertification', true);
+      this.set('_loadingCertification', true);
       return this.get('store').createRecord('course', { accessCode: this.get('accessCode') }).save()
         .then((certificationCourse) => {
           this.get('onSubmit')(certificationCourse);
@@ -19,9 +19,9 @@ export default Component.extend({
         .catch((error) => {
           if (error.errors[0].status === '404') {
             this.set('displayErrorMessage', true);
-            this.set('loadingCertification', false);
+            this.set('_loadingCertification', false);
           } else {
-            this.set('loadingCertification', false);
+            this.set('_loadingCertification', false);
             this.get('error')(error);
           }
         });

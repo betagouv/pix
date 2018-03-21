@@ -51,7 +51,7 @@ describe('Unit | Component | certification-code-value', function() {
       component.send('submit');
 
       // then
-      expect(component.get('loadingCertification')).to.be.true;
+      expect(component.get('_loadingCertification')).to.be.true;
     });
 
   });
