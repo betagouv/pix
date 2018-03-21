@@ -11138,7 +11138,7 @@ define('pix-live/tests/unit/components/certification-banner-test', ['chai', 'moc
     });
   });
 });
-define('pix-live/tests/unit/components/certification-code-validation-test', ['mocha', 'ember-mocha', 'sinon'], function (_mocha, _emberMocha, _sinon) {
+define('pix-live/tests/unit/components/certification-code-validation-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
   (0, _mocha.describe)('Unit | Component | certification-code-value', function () {
@@ -11178,6 +11178,18 @@ define('pix-live/tests/unit/components/certification-code-validation-test', ['mo
         _sinon.default.assert.called(storeCreateRecordStub);
         _sinon.default.assert.calledWith(storeCreateRecordStub, 'course', { accessCode: 'ABCD12' });
         _sinon.default.assert.called(storeSaveStub);
+      });
+
+      (0, _mocha.it)('should set loadingCertification at true', function () {
+        // given
+        component.set('store', storeStub);
+        component.set('accessCode', 'ABCD12');
+
+        // when
+        component.send('submit');
+
+        // then
+        (0, _chai.expect)(component.get('loadingCertification')).to.be.true;
       });
     });
   });
