@@ -8,6 +8,7 @@ const sessionService = require('../../../lib/domain/services/session-service');
 const courseService = require('../../../lib/domain/services/course-service');
 const { NotFoundError } = require('../../../lib/domain/errors');
 const { UserNotAuthorizedToCertifyError } = require('../../../lib/domain/errors');
+const JSONAPIError = require('jsonapi-serializer').Error;
 
 const logger = require('../../infrastructure/logger');
 
@@ -74,9 +75,21 @@ module.exports = {
       .then(certificationCourse => reply(certificationCourseSerializer.serialize(certificationCourse)).code(201))
       .catch(err => {
         if (err instanceof UserNotAuthorizedToCertifyError) {
-          return reply(Boom.forbidden(err));
+          const errorHttpStatusCode = 403;
+          const jsonApiError = new JSONAPIError({
+            status: errorHttpStatusCode.toString(),
+            title: 'User not authorized to certify',
+            detail: 'The user cannot be certified.'
+          });
+          return reply(jsonApiError).code(errorHttpStatusCode);
         } else if (err instanceof NotFoundError) {
-          return reply(Boom.notFound('Le code d\'access n\'existe pas'));
+          const errorHttpStatusCode = 404;
+          const jsonApiError = new JSONAPIError({
+            status: errorHttpStatusCode.toString(),
+            title: 'Session not found',
+            detail: 'The access code given do not correspond to session.'
+          });
+          return reply(jsonApiError).code(errorHttpStatusCode);
         }
         logger.error(err);
         return reply(Boom.badImplementation(err));

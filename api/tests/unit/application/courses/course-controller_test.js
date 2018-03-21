@@ -241,15 +241,18 @@ describe('Integration | Controller | course-controller', () => {
       certificationCourseSerializer.serialize.resolves({});
       sessionService.sessionExists.resolves();
 
-      Boom.forbidden.returns({ message: 'forbidden' });
-
       // when
       const promise = courseController.save(request, replyStub);
 
       // then
       return promise.then(() => {
-        expect(Boom.forbidden).to.have.been.calledWith(error);
-        expect(replyStub).to.have.been.calledWith({ message: 'forbidden' });
+        expect(replyStub).to.have.been.calledWith({
+          errors: [{
+            status: '403',
+            detail: 'The user cannot be certified.',
+            title: 'User not authorized to certify'
+          }]
+        });
       });
     });
 
