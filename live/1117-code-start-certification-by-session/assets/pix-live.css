@@ -3970,13 +3970,13 @@ p.share-profile__organization-name {
       font-size: 35px; } }
 
 .certification-course-page__order {
-  height: 28px;
   width: 774px;
   color: #3e4149;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
   line-height: 28px;
-  text-align: center; }
+  text-align: center;
+  margin-top: 15px; }
 
 .certification-course-page__cgu {
   height: 85.16px;
