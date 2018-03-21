@@ -11189,7 +11189,7 @@ define('pix-live/tests/unit/components/certification-code-validation-test', ['ch
         component.send('submit');
 
         // then
-        (0, _chai.expect)(component.get('loadingCertification')).to.be.true;
+        (0, _chai.expect)(component.get('_loadingCertification')).to.be.true;
       });
     });
   });

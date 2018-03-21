@@ -3970,7 +3970,6 @@ p.share-profile__organization-name {
       font-size: 35px; } }
 
 .certification-course-page__order {
-  width: 774px;
   color: #3e4149;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 22px;
@@ -3980,8 +3979,6 @@ p.share-profile__organization-name {
   margin-bottom: 20px; }
 
 .certification-course-page__cgu {
-  height: 85.16px;
-  width: 745.68px;
   color: #3e4149;
   font-family: "Lato", Arial, sans-serif;
   font-size: 12px;
@@ -4002,6 +3999,9 @@ p.share-profile__organization-name {
   font-size: 14px;
   line-height: 17px;
   text-align: center; }
+
+#session-code {
+  padding: 0 5px; }
 
 .certification-course-page__field-button {
   text-align: center; }
@@ -5435,7 +5435,6 @@ hr.project-page__presentation-header-line {
       padding: 50px 70px 40px; } }
 
 .certification-start-page__title {
-  height: 42px;
   color: #3e4149;
   font-family: "Raleway", Arial, sans-serif;
   font-size: 36px;

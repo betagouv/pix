@@ -200,21 +200,21 @@ define('pix-live/components/certification-code-validation', ['exports'], functio
     store: Ember.inject.service(),
 
     accessCode: '',
-    loadingCertification: false,
+    _loadingCertification: false,
 
     actions: {
       submit: function submit() {
         var _this = this;
 
-        this.set('loadingCertification', true);
+        this.set('_loadingCertification', true);
         return this.get('store').createRecord('course', { accessCode: this.get('accessCode') }).save().then(function (certificationCourse) {
           _this.get('onSubmit')(certificationCourse);
         }).catch(function (error) {
           if (error.errors[0].status === '404') {
             _this.set('displayErrorMessage', true);
-            _this.set('loadingCertification', false);
+            _this.set('_loadingCertification', false);
           } else {
-            _this.set('loadingCertification', false);
+            _this.set('_loadingCertification', false);
             _this.get('error')(error);
           }
         });
@@ -6422,7 +6422,6 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('assessments.results', { path: '/assessments/:assessment_id/results' });
     this.route('assessments.comparison', { path: '/assessments/:assessment_id/results/compare/:answer_id/:index' });
     this.route('assessments.rating', { path: '/assessments/:assessment_id/rating' });
-    this.route('certifications.results', { path: '/certifications/:certification_number/results' });
     this.route('login', { path: '/connexion' });
     this.route('logout', { path: '/deconnexion' });
     this.route('board');
@@ -6431,8 +6430,11 @@ define('pix-live/router', ['exports', 'pix-live/config/environment'], function (
     this.route('reset-password', { path: '/changer-mot-de-passe/:temporaryKey' });
     this.route('password-reset-demand', { path: '/mot-de-passe-oublie' });
     this.route('not-found', { path: '/*path' });
-    this.route('certifications.start', { path: '/certifications' });
-    this.route('certifications.resume', { path: '/certifications/:certification_course_id' });
+    this.route('certifications', function () {
+      this.route('start', { path: '/' });
+      this.route('resume', { path: '/:certification_course_id' });
+      this.route('results', { path: '/:certification_number/results' });
+    });
   });
 
   exports.default = Router;
@@ -7716,7 +7718,7 @@ define("pix-live/templates/components/certification-code-validation", ["exports"
   Object.defineProperty(exports, "__esModule", {
     value: true
   });
-  exports.default = Ember.HTMLBars.template({ "id": "g0olTyih", "block": "{\"symbols\":[],\"statements\":[[6,\"p\"],[9,\"class\",\"certification-course-page__order\"],[7],[0,\"\\n  Un code d'accès va vous être communiqué par le responsable de la session.\\n\"],[8],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__session-code-input\"],[7],[0,\"\\n  \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\",\"placeholder\"],[\"session-code\",\"text\",[20,[\"accessCode\"]],\"Code d'accès\"]]],false],[0,\"\\n\"],[4,\"if\",[[20,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"certification-course-page__errors\"],[7],[0,\"Ce code n'existe pas ou n'est plus valide.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\\n\\n\"],[6,\"p\"],[9,\"class\",\"certification-course-page__cgu\"],[7],[0,\"\\n  En cliquant sur \\\"Lancer le test\\\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que\\n  renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour\\n  produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.\\n  \"],[6,\"br\"],[7],[8],[0,\"\\n  Je peux exercer mes droits d’accès auprès du Correspondant Informatique et Libertés de Pix : cil.pix@beta.gouv.fr\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"loadingCertification\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button__action-validate\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button__loader-bar\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"certification-course-page__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"]],[7],[0,\"Lancer le test\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[8],[0,\"\\n\\n\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-code-validation.hbs" } });
+  exports.default = Ember.HTMLBars.template({ "id": "994K1580", "block": "{\"symbols\":[],\"statements\":[[6,\"p\"],[9,\"class\",\"certification-course-page__order\"],[7],[0,\"\\n  Un code d'accès va vous être communiqué par le responsable de la session.\\n\"],[8],[0,\"\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__session-code-input\"],[7],[0,\"\\n  \"],[1,[25,\"input\",null,[[\"id\",\"type\",\"value\",\"placeholder\"],[\"session-code\",\"text\",[20,[\"accessCode\"]],\"Code d'accès\"]]],false],[0,\"\\n\"],[4,\"if\",[[20,[\"displayErrorMessage\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"certification-course-page__errors\"],[7],[0,\"Ce code n'existe pas ou n'est plus valide.\"],[8],[0,\"\\n\"]],\"parameters\":[]},null],[8],[0,\"\\n\\n\\n\"],[6,\"p\"],[9,\"class\",\"certification-course-page__cgu\"],[7],[0,\"\\n  En cliquant sur \\\"Lancer le test\\\", j’accepte que mes données d’identité, le numéro de certification et les circonstances de la passation telles que\\n  renseignées par l’examinateur soient communiquées à Pix. Pix les utilisera lors de la délibération du jury pour\\n  produire et archiver mes résultats et pour éditer mon certificat. Si cette certification m’a été prescrite par une organisation, j’accepte que Pix lui communique mes résultats.\\n  \"],[6,\"br\"],[7],[8],[0,\"\\n  Je peux exercer mes droits d’accès auprès du Correspondant Informatique et Libertés de Pix : cil.pix@beta.gouv.fr\\n\"],[8],[0,\"\\n\\n\"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button\"],[7],[0,\"\\n\\n\"],[4,\"if\",[[20,[\"_loadingCertification\"]]],null,{\"statements\":[[0,\"    \"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button__action-validate\"],[7],[0,\"\\n      \"],[6,\"div\"],[9,\"class\",\"certification-course-page__field-button__loader-bar\"],[7],[8],[0,\"\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]},{\"statements\":[[0,\"    \"],[6,\"button\"],[9,\"type\",\"submit\"],[9,\"class\",\"certification-course-page__submit_button\"],[3,\"action\",[[19,0,[]],\"submit\"]],[7],[0,\"Lancer le test\\n    \"],[8],[0,\"\\n\"]],\"parameters\":[]}],[8],[0,\"\\n\\n\\n\\n\"]],\"hasEval\":false}", "meta": { "moduleName": "pix-live/templates/components/certification-code-validation.hbs" } });
 });
 define("pix-live/templates/components/certification-results-page", ["exports"], function (exports) {
   "use strict";
@@ -9149,6 +9151,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+321bdb1c"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.43.0+571a56a8"});
 }
 //# sourceMappingURL=pix-live.map
