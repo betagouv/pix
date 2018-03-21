@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import { describe, it } from 'mocha';
 import { setupTest } from 'ember-mocha';
 import sinon from 'sinon';
@@ -40,5 +41,18 @@ describe('Unit | Component | certification-code-value', function() {
       sinon.assert.calledWith(storeCreateRecordStub, 'course', { accessCode: 'ABCD12' });
       sinon.assert.called(storeSaveStub);
     });
+
+    it('should set loadingCertification at true', function() {
+      // given
+      component.set('store', storeStub);
+      component.set('accessCode', 'ABCD12');
+
+      // when
+      component.send('submit');
+
+      // then
+      expect(component.get('loadingCertification')).to.be.true;
+    });
+
   });
 });
