@@ -171,8 +171,13 @@ describe('Unit | Service | Certification Service', function() {
 
     let sandbox;
 
-    const certificationAssessement = new Assessment({ id: 'assessment_id', userId: 'user_id', courseId: 'course_id', createdAt: '2018-01-01' });
-    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01'  };
+    const certificationAssessement = new Assessment({
+      id: 'assessment_id',
+      userId: 'user_id',
+      courseId: 'course_id',
+      createdAt: '2018-01-01'
+    });
+    const certificationCourse = { id: 'course1', status: 'completed', completedAt: '2018-01-01' };
 
     const userProfile = competences;
 
@@ -636,6 +641,54 @@ describe('Unit | Service | Certification Service', function() {
         return promise.then((result) => {
           expect(result).to.deep.equal(expectedResult);
         });
+      });
+
+      context('when one competence is evaluated with 3 challenges', () => {
+
+        context('with one OK, one KO and one QROCM-dep OK', () => {
+
+          it('should return level obtained equal to level positioned minus one', function() {
+            // Given
+            const positionedLevel = 2;
+            const positionedScore = 20;
+
+            const answers = [
+              _buildAnswer('challenge_A_for_competence_1', 'ok'),
+              _buildAnswer('challenge_B_for_competence_1', 'ok'),
+              _buildAnswer('challenge_C_for_competence_1', 'ko')
+            ];
+
+            const challenges = [
+              _buildCertificationChallenge('challenge_A_for_competence_1', 'competence_1', '@skillChallengeA_1'),
+              _buildCertificationChallenge('challenge_B_for_competence_1', 'competence_1', '@skillChallengeB_1'),
+              _buildCertificationChallenge('challenge_C_for_competence_1', 'competence_1', '@skillChallengeC_1')
+            ];
+
+            const challengesForCompetence = [
+              _buildChallenge('challenge_A_for_competence_1', 'competence_1', 'QCM'),
+              _buildChallenge('challenge_B_for_competence_1', 'competence_1', 'QROCM-dep'),
+              _buildChallenge('challenge_C_for_competence_1', 'competence_1', 'QCM')];
+
+            const userProfile = [
+              _buildCompetence('Mener une recherche', '1.1', 'competence_1', positionedScore, positionedLevel, challengesForCompetence)
+            ];
+
+            answersRepository.findByAssessment.resolves(answers);
+            certificationChallengesRepository.findByCertificationCourseId.resolves(challenges);
+            userService.getProfileToCertify.resolves(userProfile);
+
+            // When
+            const promise = certificationService.calculateCertificationResultByCertificationCourseId('course_id');
+
+            // Then
+            return promise.then((result) => {
+              expect(result.competencesWithMark[0].obtainedLevel).to.deep.equal(positionedLevel - 1);
+              expect(result.competencesWithMark[0].obtainedScore).to.deep.equal(positionedScore - 8);
+            });
+          });
+
+        });
+
       });
 
     });
@@ -1185,7 +1238,7 @@ describe('Unit | Service | Certification Service', function() {
         pixScore: 20,
         marks: [
           {
-            level:3,
+            level: 3,
             competence_code: '2.1'
           }
         ]
@@ -1209,7 +1262,7 @@ describe('Unit | Service | Certification Service', function() {
         completedAt: '2017-12-23T16:23:12.232Z',
         competencesWithMark: [
           {
-            level:3,
+            level: 3,
             competence_code: '2.1'
           }
         ]

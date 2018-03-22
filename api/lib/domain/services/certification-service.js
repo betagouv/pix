@@ -28,7 +28,7 @@ function _enhanceAnswersWithCompetenceId(listAnswers, listChallenges) {
 }
 
 function _getChallengeType(challengeId, listOfChallenges) {
-  const challenge =_.find(listOfChallenges, challenge => challenge.id === challengeId);
+  const challenge = _.find(listOfChallenges, challenge => challenge.id === challengeId);
   return challenge ? challenge.type : '';
 }
 
@@ -40,9 +40,9 @@ function _numberOfCorrectAnswersPerCompetence(answersWithCompetences, competence
     const challengeType = _getChallengeType(answer.get('challengeId'), competence.challenges);
     const answerResult = answer.get('result');
 
-    if (challengeType === qrocmDepChallenge && AnswerStatus.isOK(answerResult)) {
+    if (competence.challenges.length < 3 && challengeType === qrocmDepChallenge && AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers += 2;
-    } else if (challengeType === qrocmDepChallenge && AnswerStatus.isPARTIALLY(answerResult)) {
+    } else if (competence.challenges.length < 3 && challengeType === qrocmDepChallenge && AnswerStatus.isPARTIALLY(answerResult)) {
       nbOfCorrectAnswers++;
     } else if (AnswerStatus.isOK(answerResult)) {
       nbOfCorrectAnswers++;
@@ -113,14 +113,18 @@ function _checkIfUserCanStartACertification(userCompetences) {
     .filter(competence => competence.estimatedLevel > 0)
     .length;
 
-  if(nbCompetencesWithEstimatedLevelHigherThan0 < 5)
+  if (nbCompetencesWithEstimatedLevelHigherThan0 < 5)
     throw new UserNotAuthorizedToCertifyError();
 }
 
 function _getResult(listAnswers, listChallenges, listCompetences) {
   const reproductibilityRate = Math.round(answerServices.getAnswersSuccessRate(listAnswers));
   if (reproductibilityRate < minimumReproductibilityRateToBeCertified) {
-    return { competencesWithMark: _getCompetenceWithFailedLevel(listCompetences), totalScore: 0, percentageCorrectAnswers: reproductibilityRate };
+    return {
+      competencesWithMark: _getCompetenceWithFailedLevel(listCompetences),
+      totalScore: 0,
+      percentageCorrectAnswers: reproductibilityRate
+    };
   }
 
   const answersWithCompetences = _enhanceAnswersWithCompetenceId(listAnswers, listChallenges);
