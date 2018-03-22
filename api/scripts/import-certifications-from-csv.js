@@ -93,11 +93,7 @@ function main() {
       header: true,
       complete: (csvParsingResult) => {
         const certifications = convertDataRowsIntoCertifications(csvParsingResult);
-        const options = {
-          baseUrl,
-          accessToken,
-          certifications
-        };
+        const options = { baseUrl, accessToken, certifications };
         createAndStoreCertifications(options);
       }
     });
