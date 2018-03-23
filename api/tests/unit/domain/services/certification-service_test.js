@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../../test-helper');
 const certificationService = require('../../../../lib/domain/services/certification-service');
-const Answer = require('../../../../lib/infrastructure/data/answer');
+const Answer = require('../../../../lib/domain/models/Answer');
 const CertificationChallenge = require('../../../../lib/domain/models/CertificationChallenge');
 
 const AirtableCompetence = require('../../../../lib/domain/models/referential/competence');
@@ -108,7 +108,7 @@ function _buildCorrectAnswersForAllChallenges() {
     _buildAnswer('challenge_I_for_competence_3', 'ok'),
     _buildAnswer('challenge_J_for_competence_4', 'ok'),
     _buildAnswer('challenge_K_for_competence_4', 'ok'),
-    _buildAnswer('challenge_L_for_competence_4', 'ok'),
+    _buildAnswer('challenge_L_for_competence_4', 'ok')
   ];
 }
 
@@ -125,7 +125,7 @@ function _buildWrongAnswersForAllChallenges() {
     _buildAnswer('challenge_I_for_competence_3', 'ko'),
     _buildAnswer('challenge_J_for_competence_4', 'ko'),
     _buildAnswer('challenge_K_for_competence_4', 'ko'),
-    _buildAnswer('challenge_L_for_competence_4', 'ko'),
+    _buildAnswer('challenge_L_for_competence_4', 'ko')
   ];
 }
 
@@ -142,7 +142,7 @@ function _buildAnswersToHaveOnlyTheLastCompetenceFailed() {
     _buildAnswer('challenge_I_for_competence_3', 'ok'),
     _buildAnswer('challenge_J_for_competence_4', 'ko'),
     _buildAnswer('challenge_K_for_competence_4', 'ko'),
-    _buildAnswer('challenge_L_for_competence_4', 'ko'),
+    _buildAnswer('challenge_L_for_competence_4', 'ko')
   ];
 }
 
@@ -159,7 +159,7 @@ function _buildAnswersToHaveAThirdOfTheCompetencesFailedAndReproductibilityRateL
     _buildAnswer('challenge_I_for_competence_3', 'ko'),
     _buildAnswer('challenge_J_for_competence_4', 'ok'),
     _buildAnswer('challenge_K_for_competence_4', 'ko'),
-    _buildAnswer('challenge_L_for_competence_4', 'ok'),
+    _buildAnswer('challenge_L_for_competence_4', 'ok')
   ];
 }
 
