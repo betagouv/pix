@@ -20,13 +20,17 @@ const Bookshelf = require('../../infrastructure/bookshelf');
 
 const logger = require('../../infrastructure/logger');
 const { PasswordResetDemandNotFoundError, InternalError, InvalidTokenError } = require('../../domain/errors');
-const { ValidationError } = require('bookshelf-validate/lib/errors');
+const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
+
+function _isRequestWronglyFormatted(request) {
+  return !_.has(request, 'payload') || !_.has(request, 'payload.data.attributes');
+}
 
 module.exports = {
 
   save(request, reply) {
 
-    if (!_.has(request, 'payload') || !_.has(request, 'payload.data.attributes')) {
+    if (_isRequestWronglyFormatted(request)) {
       // FIXME: Should return a promise to be consistent
       return reply(Boom.badRequest());
     }
@@ -41,7 +45,7 @@ module.exports = {
         reply(userSerializer.serialize(savedUser)).code(201);
       }).catch((err) => {
 
-        if (err instanceof ValidationError) {
+        if (err instanceof BookshelfValidationError) {
           return reply(validationErrorSerializer.serialize(err)).code(422);
         }
 

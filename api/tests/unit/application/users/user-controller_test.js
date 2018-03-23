@@ -19,7 +19,7 @@ const userService = require('../../../../lib/domain/services/user-service');
 
 const { PasswordResetDemandNotFoundError, InternalError } = require('../../../../lib/domain/errors');
 const { InvalidRecaptchaTokenError } = require('../../../../lib/infrastructure/validators/errors');
-const { ValidationError } = require('bookshelf-validate/lib/errors');
+const { ValidationError: BookshelfValidationError } = require('bookshelf-validate/lib/errors');
 
 describe('Unit | Controller | user-controller', () => {
 
@@ -161,12 +161,11 @@ describe('Unit | Controller | user-controller', () => {
           sendAccountCreationEmail.restore();
         });
       });
-
     });
 
     it('should reply with a serialized error', () => {
       // given
-      userRepository.save.rejects(new ValidationError());
+      userRepository.save.rejects(new BookshelfValidationError());
 
       const expectedSerializedError = { errors: [] };
       validationErrorSerializer.serialize.returns(expectedSerializedError);
