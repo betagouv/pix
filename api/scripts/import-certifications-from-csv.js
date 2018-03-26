@@ -17,6 +17,8 @@ function assertFileValidity(filePath) {
   return true;
 }
 
+// TODO create US
+/*
 function _translateCertificationStatus(status) {
   if (status === 'Validé') {
     return 'validated';
@@ -24,8 +26,9 @@ function _translateCertificationStatus(status) {
   if (status === 'Refusé') {
     return 'rejected';
   }
-  return 'undefined';
+  return 'awaiting';
 }
+*/
 
 function convertDataRowsIntoCertifications(csvParsingResult) {
   const dataRows = csvParsingResult.data;
@@ -36,8 +39,10 @@ function convertDataRowsIntoCertifications(csvParsingResult) {
       lastName: dataRow['Nom du candidat'],
       birthdate: dataRow['Date de naissance du candidat'],
       birthplace: dataRow['Lieu de naissance du candidat'],
+      /*
       status: _translateCertificationStatus(dataRow['Statut de la certification']),
       rejectionReason: dataRow['Motif de rejet de la certification'],
+      */
     };
     certifications.push(certification);
     return certifications;
@@ -46,15 +51,15 @@ function convertDataRowsIntoCertifications(csvParsingResult) {
 
 function _buildRequestObject(baseUrl, accessToken, certification) {
   return {
-    headers: { authorization: `Bearer  ${accessToken}` },
+    headers: { authorization: `Bearer ${accessToken}` },
     method: 'PATCH',
     baseUrl,
     url: `/api/certification-courses/${certification.id}`,
     json: true,
-    payload: {
+    body: {
       data: {
         type: 'certifications',
-        id: 1,
+        id: certification.id,
         attributes: {
           'status': certification.status,
           'first-name': certification.firstName,
@@ -68,9 +73,15 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
   };
 }
 
+/**
+ * @param options
+ * - baseUrl: String
+ * - accessToken: String
+ * - certifications: Array[Object]
+ */
 function createAndStoreCertifications(options) {
   const promises = options.certifications.map((certification) => {
-    const requestConfig =_buildRequestObject(options.baseUrl, options.accessToken, certification);
+    const requestConfig = _buildRequestObject(options.baseUrl, options.accessToken, certification);
     return request(requestConfig);
   });
   return Promise.all(promises);

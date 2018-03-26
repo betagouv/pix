@@ -1,4 +1,4 @@
-const { expect } = require('chai');
+const { expect, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
 const script = require('../../../scripts/import-certifications-from-csv');
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
@@ -77,7 +77,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
           'Lieu de naissance du candidat': 'Alberta',
-          'Statut de la certification': 'Undefined',
+          'Statut de la certification': 'En attente',
           'Motif de rejet de la certification': '',
         }]
       };
@@ -92,24 +92,18 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Stark',
         birthdate: '29/05/1970',
         birthplace: 'Long Island, New York',
-        status: 'validated',
-        rejectionReason: ''
       }, {
         id: 2,
         firstName: 'Steven',
         lastName: 'Rogers',
         birthdate: '04/07/1918',
         birthplace: 'New York, New York',
-        status: 'rejected',
-        rejectionReason: 'Trop chétif'
       }, {
         id: 3,
         firstName: 'James',
         lastName: 'Howlett',
         birthdate: '17/04/1882',
         birthplace: 'Alberta',
-        status: 'undefined',
-        rejectionReason: ''
       }];
       expect(certifications).to.deep.equal(expectedCertifications);
     });
@@ -117,44 +111,261 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
 
   describe('#createAndStoreCertifications', () => {
 
-    it('should ', () => {
-      // given
-      const options = {
+    let options;
+
+    beforeEach(() => {
+      options = {
         baseUrl: 'http://localhost:3000',
-        accessToken: 'jwt.access.token',
-        certifications: [{
-          id: 1,
-          firstName: 'Tony',
-          lastName: 'Stark',
-          birthdate: '29/05/1970',
-          birthplace: 'Long Island, New York',
-          status: 'validated',
-          rejectionReason: ''
-        }, {
-          id: 2,
-          firstName: 'Steven',
-          lastName: 'Rogers',
-          birthdate: '04/07/1918',
-          birthplace: 'New York, New York',
-          status: 'rejected',
-          rejectionReason: 'Trop chétif'
-        }, {
-          id: 3,
-          firstName: 'James',
-          lastName: 'Howlett',
-          birthdate: '17/04/1882',
-          birthplace: 'Alberta',
-          status: 'undefined',
-          rejectionReason: ''
-        }]
+        accessToken: 'coucou-je-suis-un-token',
+        certifications: []
       };
+    });
+
+    it('should not do any http request, when there is no certification', () => {
+      // given
+      options.certifications = [];
 
       // when
-      const report = script.createAndStoreCertifications(options);
+      const promise = script.createAndStoreCertifications(options);
 
       // then
-      expect(report).to.be.not.null;
+      // Nock will throw an error if there is an http connection because nock disallows http connections
+      // configuration is in test-helper
+      return promise;
+    });
+
+    it('should call PATCH /api/certification-courses/:id once, when there is 1 certification', () => {
+      // given
+      const expectedBody = {
+        data:
+          {
+            type: 'certifications',
+            id: 1,
+            attributes:
+              {
+                'first-name': 'Tony',
+                'last-name': 'Stark',
+                birthplace: 'Long Island, New York',
+                birthdate: '29/05/1970'
+              }
+          }
+      };
+
+      options.certifications = [{
+        id: 1,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '29/05/1970',
+        birthplace: 'Long Island, New York',
+      }];
+
+      const nockStub = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/1', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody);
+        })
+        .reply(200, {});
+
+      // when
+      const promise = script.createAndStoreCertifications(options);
+
+      // then
+      return promise.then(() => {
+        expect(nockStub.isDone()).to.be.equal(true);
+      });
+    });
+
+    it('should call PATCH /api/certification-courses/:id three times, when there are three certifications', () => {
+      // given
+      const expectedBody1 = {
+        data:
+          {
+            type: 'certifications',
+            id: 1,
+            attributes:
+              {
+                'first-name': 'Tony',
+                'last-name': 'Stark',
+                birthplace: 'Long Island, New York',
+                birthdate: '29/05/1970'
+              }
+          }
+      };
+      const expectedBody2 = {
+        data:
+          {
+            type: 'certifications',
+            id: 2,
+            attributes:
+              {
+                'first-name': 'Booby',
+                'last-name': 'Gros',
+                birthplace: 'Wherever, whatever',
+                birthdate: '30/09/1998'
+              }
+          }
+      };
+      const expectedBody3 = {
+        data:
+          {
+            type: 'certifications',
+            id: 3,
+            attributes:
+              {
+                'first-name': 'Jean',
+                'last-name': 'Jean',
+                birthplace: 'Calais, Haut de France',
+                birthdate: '11/11/1900'
+              }
+          }
+      };
+
+      options.certifications = [{
+        id: 1,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '29/05/1970',
+        birthplace: 'Long Island, New York',
+      }, {
+        id: 2,
+        firstName: 'Booby',
+        lastName: 'Gros',
+        birthdate: '30/09/1998',
+        birthplace: 'Wherever, whatever',
+      }, {
+        id: 3,
+        firstName: 'Jean',
+        lastName: 'Jean',
+        birthdate: '11/11/1900',
+        birthplace: 'Calais, Haut de France',
+      }];
+
+      const nockStub = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/1', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody1);
+        })
+        .reply(200, {})
+        .patch('/api/certification-courses/2', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody2);
+        })
+        .reply(200, {})
+        .patch('/api/certification-courses/3', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody3);
+        })
+        .reply(200, {});
+
+      // when
+      const promise = script.createAndStoreCertifications(options);
+
+      // then
+      return promise.then(() => {
+        expect(nockStub.isDone()).to.be.equal(true);
+      });
+    });
+
+    it('should call the API endpoint for each certification, even when an error occur for a certification', () => {
+      // given
+      const expectedBody1 = {
+        data:
+          {
+            type: 'certifications',
+            id: 1,
+            attributes:
+              {
+                'first-name': 'Tony',
+                'last-name': 'Stark',
+                birthplace: 'Long Island, New York',
+                birthdate: '29/05/1970'
+              }
+          }
+      };
+      const expectedBody2 = {
+        data:
+          {
+            type: 'certifications',
+            id: 2,
+            attributes:
+              {
+                'first-name': 'Booby',
+                'last-name': 'Gros',
+                birthplace: 'Wherever, whatever',
+                birthdate: '30/09/1998'
+              }
+          }
+      };
+      const expectedBody3 = {
+        data:
+          {
+            type: 'certifications',
+            id: 3,
+            attributes:
+              {
+                'first-name': 'Jean',
+                'last-name': 'Jean',
+                birthplace: 'Calais, Haut de France',
+                birthdate: '11/11/1900'
+              }
+          }
+      };
+
+      options.certifications = [{
+        id: 1,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '29/05/1970',
+        birthplace: 'Long Island, New York',
+      }, {
+        id: 2,
+        firstName: 'Booby',
+        lastName: 'Gros',
+        birthdate: '30/09/1998',
+        birthplace: 'Wherever, whatever',
+      }];
+
+      const nockStub = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/1', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody1);
+        })
+        .replyWithError('Error');
+
+      const nockStub2 = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/2', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody2);
+        })
+        .reply(200, {});
+
+      const nockStub3 = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/3', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody3);
+        })
+        .reply(200, {});
+
+      // when
+      const promise = script.createAndStoreCertifications(options);
+
+      // then
+      return promise
+        .catch((error) => {
+          console.log(error);
+          console.log("ERRROR");
+        })
+        .then(() => {
+          expect(nockStub.isDone()).to.be.equal(true);
+          expect(nockStub2.isDone()).to.be.equal(true);
+          expect(nockStub3.isDone()).to.be.equal(true);
+        });
     });
   });
+
+  it('should resolve the report');
 
 });
