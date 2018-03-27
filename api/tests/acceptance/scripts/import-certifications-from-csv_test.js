@@ -1,4 +1,4 @@
-const { expect, nock, generateValidRequestAuhorizationHeader } = require('../../test-helper');
+const { expect, nock } = require('../../test-helper');
 const script = require('../../../scripts/import-certifications-from-csv');
 
 describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
@@ -266,7 +266,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       });
     });
 
-    it('should call the API endpoint for each certification, even when an error occur for a certification', () => {
+    it('should call PATCH /api/certification-courses/:id three times, even when an error occur on a certification', () => {
       // given
       const expectedBody1 = {
         data:
@@ -323,6 +323,12 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         lastName: 'Gros',
         birthdate: '30/09/1998',
         birthplace: 'Wherever, whatever',
+      }, {
+        id: 3,
+        firstName: 'Jean',
+        lastName: 'Jean',
+        birthdate: '11/11/1900',
+        birthplace: 'Calais, Haut de France',
       }];
 
       const nockStub = nock('http://localhost:3000', {
@@ -354,18 +360,134 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
 
       // then
       return promise
-        .catch((error) => {
-          console.log(error);
-          console.log("ERRROR");
-        })
         .then(() => {
           expect(nockStub.isDone()).to.be.equal(true);
           expect(nockStub2.isDone()).to.be.equal(true);
           expect(nockStub3.isDone()).to.be.equal(true);
         });
     });
-  });
 
-  it('should resolve the report');
+    it('should return a promise resolving to an array of objects ' +
+      'containing the API error and relevant informations to find the csv row', () => {
+      // given
+      const expectedBody1 = {
+        data:
+          {
+            type: 'certifications',
+            id: 1,
+            attributes:
+              {
+                'first-name': 'Tony',
+                'last-name': 'Stark',
+                birthplace: 'Long Island, New York',
+                birthdate: '29/05/1970'
+              }
+          }
+      };
+      const expectedBody2 = {
+        data:
+          {
+            type: 'certifications',
+            id: 2,
+            attributes:
+              {
+                'first-name': 'Booby',
+                'last-name': 'Gros',
+                birthplace: 'Wherever, whatever',
+                birthdate: '30/09/1998'
+              }
+          }
+      };
+      const expectedBody3 = {
+        data:
+          {
+            type: 'certifications',
+            id: 3,
+            attributes:
+              {
+                'first-name': 'Jean',
+                'last-name': 'Jean',
+                birthplace: 'Calais, Haut de France',
+                birthdate: '11/11/1900'
+              }
+          }
+      };
+      const expectedErrorObjects = [
+        {
+          errorMessage: 'Error: Error 1',
+          certification: {
+            id: 1,
+            firstName: 'Tony',
+            lastName: 'Stark',
+            birthdate: '29/05/1970',
+            birthplace: 'Long Island, New York',
+          }
+        },
+        {
+          errorMessage: 'Error: Error 2',
+          certification: {
+            id: 2,
+            firstName: 'Booby',
+            lastName: 'Gros',
+            birthdate: '30/09/1998',
+            birthplace: 'Wherever, whatever',
+          }
+        }
+      ];
+
+      options.certifications = [{
+        id: 1,
+        firstName: 'Tony',
+        lastName: 'Stark',
+        birthdate: '29/05/1970',
+        birthplace: 'Long Island, New York',
+      }, {
+        id: 2,
+        firstName: 'Booby',
+        lastName: 'Gros',
+        birthdate: '30/09/1998',
+        birthplace: 'Wherever, whatever',
+      }, {
+        id: 3,
+        firstName: 'Jean',
+        lastName: 'Jean',
+        birthdate: '11/11/1900',
+        birthplace: 'Calais, Haut de France',
+      }];
+
+      nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/1', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody1);
+        })
+        .replyWithError('Error 1');
+
+      nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/2', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody2);
+        })
+        .replyWithError('Error 2');
+
+      nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
+        .patch('/api/certification-courses/3', function(body) {
+          return JSON.stringify(body) === JSON.stringify(expectedBody3);
+        })
+        .reply(200, {});
+
+      // when
+      const promise = script.createAndStoreCertifications(options);
+
+      // then
+      return promise
+        .then((errorObjects) => {
+          expect(errorObjects).to.be.deep.equal(expectedErrorObjects);
+        });
+    });
+  });
 
 });

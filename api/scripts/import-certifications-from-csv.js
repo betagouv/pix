@@ -61,12 +61,12 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
         type: 'certifications',
         id: certification.id,
         attributes: {
-          'status': certification.status,
+          // 'status': certification.status,
           'first-name': certification.firstName,
           'last-name': certification.lastName,
           'birthplace': certification.birthplace,
           'birthdate': certification.birthdate,
-          'rejection-reason': certification.rejectionReason
+          // 'rejection-reason': certification.rejectionReason
         }
       }
     }
@@ -80,32 +80,57 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
  * - certifications: Array[Object]
  */
 function createAndStoreCertifications(options) {
+  const errorObjects = [];
+
   const promises = options.certifications.map((certification) => {
     const requestConfig = _buildRequestObject(options.baseUrl, options.accessToken, certification);
-    return request(requestConfig);
+    return request(requestConfig)
+      .catch((err) => {
+        errorObjects.push({
+          errorMessage: err.message,
+          certification: certification
+        });
+      });
   });
-  return Promise.all(promises);
+  return Promise.all(promises).then(() => {
+    return errorObjects;
+  });
 }
 
 /**
  * Usage: node import-certifications-from-csv.js http://localhost:3000 jwt.access.token my_file.csv
  */
 function main() {
+  console.log('Début du script d\'import');
   try {
     const baseUrl = process.argv[2];
     const accessToken = process.argv[3];
+
     const filePath = process.argv[4];
 
+    console.log('\nTest de validité du fichier...');
     assertFileValidity(filePath);
+    console.log('Test de validité du fichier : OK');
 
     const dataStream = fs.createReadStream(filePath);
 
+    console.log('\nTéléversement des certifications sur le serveur...');
     Papa.parse(dataStream, {
       header: true,
       complete: (csvParsingResult) => {
         const certifications = convertDataRowsIntoCertifications(csvParsingResult);
         const options = { baseUrl, accessToken, certifications };
-        createAndStoreCertifications(options);
+        createAndStoreCertifications(options)
+          .then((errorObjects) => {
+            console.log('Téléversement des certifications sur le serveur : OK');
+            console.log(`\nIl y a eu ${errorObjects.length} erreurs`);
+            errorObjects.forEach((errorObject) => {
+              console.log(`  > id de la certification : ${errorObject.certification.id} - erreur : ${errorObject.errorMessage}`);
+            });
+          })
+          .then(() => {
+            console.log('\nFin du script');
+          });
       }
     });
   } catch (err) {
