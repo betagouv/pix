@@ -195,6 +195,57 @@ describe('Integration | Repository | AnswerRepository', () => {
         expect(answers[1]).to.be.instanceof(Answer);
       });
     });
-
   });
+
+  describe('#findCorrectAnswersByAssessment', () => {
+
+    const answer1 = {
+      value: 'Un pancake Tabernacle',
+      result: 'ok',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 2
+    };
+
+    const answer2 = {
+      value: 'Qu\'est ce qu\'il fout ce pancake Tabernacle',
+      result: 'ok',
+      challengeId: 'challenge_tabernacle',
+      assessmentId: 1
+    };
+
+    const answer3 = {
+      value: 'la réponse D',
+      result: 'ko',
+      challengeId: 'challenge_D',
+      assessmentId: 1
+    };
+
+    beforeEach(() => {
+      return knex('answers').delete().then(() => knex('answers').insert([answer1, answer2, answer3]));
+    });
+
+    afterEach(() => {
+      return knex('answers').delete();
+    });
+
+    it('should retrieve answers with ok status from assessment id provided', () => {
+      // given
+      const assessmentId = 1;
+
+      // when
+      const promise = AnswerRepository.findCorrectAnswersByAssessment(assessmentId);
+
+      // then
+      return promise.then((answers) => {
+        expect(answers).to.exist;
+        expect(answers).to.have.length.of(1);
+
+        const foundAnswer = answers.models[0];
+
+        expect(foundAnswer.get('assessmentId')).to.be.equal(1);
+        expect(foundAnswer.get('result')).to.be.equal('ok');
+      });
+    });
+  });
+
 });
