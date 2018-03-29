@@ -6951,6 +6951,8 @@ define('pix-live/routes/courses/create-assessment', ['exports', 'pix-live/routes
         return store.queryRecord('challenge', { assessmentId: assessment.get('id') });
       }).then(function (challenge) {
         return _this.replaceWith('assessments.challenge', { assessment: assessment, challenge: challenge });
+      }).catch(function () {
+        _this.replaceWith('logout');
       });
     }
   });
@@ -9151,6 +9153,6 @@ catch(err) {
 });
 
 if (!runningTests) {
-  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.44.0+419e0b91"});
+  require("pix-live/app")["default"].create({"API_HOST":"","isChallengeTimerEnable":true,"MESSAGE_DISPLAY_DURATION":1500,"isMobileSimulationEnabled":false,"isTimerCountdownEnabled":true,"isMessageStatusTogglingEnabled":true,"LOAD_EXTERNAL_SCRIPT":true,"GOOGLE_RECAPTCHA_KEY":"6LdPdiIUAAAAADhuSc8524XPDWVynfmcmHjaoSRO","SCROLL_DURATION":800,"name":"pix-live","version":"1.44.0+113be659"});
 }
 //# sourceMappingURL=pix-live.map
