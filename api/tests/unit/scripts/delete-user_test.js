@@ -275,7 +275,7 @@ describe('Delete User Script', () => {
     });
   });
 
-  describe('UserEraser', () => {
+  describe('AssessmentEraser', () => {
     let subject;
     let queryBuilderMock;
     let clientStub;

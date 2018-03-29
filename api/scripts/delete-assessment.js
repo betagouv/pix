@@ -29,7 +29,7 @@ function main() {
   const { client, assessment_id } = initialize();
 
   const queryBuilder = new ScriptQueryBuilder();
-  const userEraser = new UserEraser(client, queryBuilder, assessment_id);
+  const userEraser = new AssessmentEraser(client, queryBuilder, assessment_id);
 
   Promise.resolve()
     .then(() => client.query_and_log('BEGIN'))
@@ -48,7 +48,7 @@ function main() {
     .catch(() => terminate(client));
 }
 
-class UserEraser {
+class AssessmentEraser {
   constructor(client, queryBuilder, assessment_id) {
     Object.assign(this, { client, queryBuilder, assessment_id });
   }
@@ -111,5 +111,5 @@ if (process.env.NODE_ENV !== 'test') {
 
 module.exports = {
   ScriptQueryBuilder,
-  UserEraser
+  AssessmentEraser
 };

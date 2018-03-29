@@ -1,6 +1,6 @@
 const { expect, sinon } = require('../../test-helper');
 
-const { ScriptQueryBuilder, UserEraser } = require('../../../scripts/delete-assessment');
+const { ScriptQueryBuilder, AssessmentEraser } = require('../../../scripts/delete-assessment');
 
 describe('Delete Assessment Script', () => {
   describe('ScriptQueryBuilder', () => {
@@ -78,7 +78,7 @@ describe('Delete Assessment Script', () => {
     });
   });
 
-  describe('UserEraser', () => {
+  describe('AssessmentEraser', () => {
     let subject;
     let queryBuilder;
     let queryBuilderMock;
@@ -90,14 +90,14 @@ describe('Delete Assessment Script', () => {
       clientStub = { query_and_log: sinon.stub() };
 
       queryBuilderMock = sinon.mock(queryBuilder);
-      subject = new UserEraser(clientStub, queryBuilder, assessment_id);
+      subject = new AssessmentEraser(clientStub, queryBuilder, assessment_id);
     });
 
     describe('#delete_dependent_data_from_assessment_id', () => {
 
       it('should reject an error when no assessment given', () => {
         // given
-        const userEraserWithoutAssessement = new UserEraser(clientStub, queryBuilder, null);
+        const userEraserWithoutAssessement = new AssessmentEraser(clientStub, queryBuilder, null);
 
         // when
         const promise = userEraserWithoutAssessement.delete_dependent_data_from_assessment_id();
