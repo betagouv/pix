@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const request = require('request-promise-native');
-const Papa = require('papaparse');
+const papa = require('papaparse');
 
 const CSV_HEADERS = {
   ID: 'ID de certification',
@@ -112,7 +112,7 @@ function main() {
     const dataStream = fs.createReadStream(filePath);
 
     console.log('\nTéléversement des certifications sur le serveur...');
-    Papa.parse(dataStream, {
+    papa.parse(dataStream, {
       header: true,
       complete: (csvParsingResult) => {
         const certifications = convertDataRowsIntoCertifications(csvParsingResult);
