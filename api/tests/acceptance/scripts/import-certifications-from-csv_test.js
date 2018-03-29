@@ -58,58 +58,52 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
           'Prénom du candidat': 'Tony',
           'Nom du candidat': 'Stark',
           'Date de naissance du candidat': '29/05/1970',
-          'Lieu de naissance du candidat': 'Long Island, New York',
-          'Statut de la certification': 'Validé',
-          'Motif de rejet de la certification': '',
+          'Lieu de naissance du candidat': 'Long Island, New York'
         }, {
           'ID de certification': '2',
           'ID de session de certification': '1000',
           'Prénom du candidat': 'Steven',
           'Nom du candidat': 'Rogers',
           'Date de naissance du candidat': '04/07/1918',
-          'Lieu de naissance du candidat': 'New York, New York',
-          'Statut de la certification': 'Refusé',
-          'Motif de rejet de la certification': 'Trop chétif',
+          'Lieu de naissance du candidat': 'New York, New York'
         }, {
           'ID de certification': '3',
           'ID de session de certification': '1000',
           'Prénom du candidat': 'James',
           'Nom du candidat': 'Howlett',
           'Date de naissance du candidat': '17/04/1882',
-          'Lieu de naissance du candidat': 'Alberta',
-          'Statut de la certification': 'En attente',
-          'Motif de rejet de la certification': '',
+          'Lieu de naissance du candidat': 'Alberta'
         }]
       };
-
-      // when
-      const certifications = script.convertDataRowsIntoCertifications(csvParsingResult);
-
-      // then
       const expectedCertifications = [{
         id: 1,
         firstName: 'Tony',
         lastName: 'Stark',
         birthdate: '29/05/1970',
-        birthplace: 'Long Island, New York',
+        birthplace: 'Long Island, New York'
       }, {
         id: 2,
         firstName: 'Steven',
         lastName: 'Rogers',
         birthdate: '04/07/1918',
-        birthplace: 'New York, New York',
+        birthplace: 'New York, New York'
       }, {
         id: 3,
         firstName: 'James',
         lastName: 'Howlett',
         birthdate: '17/04/1882',
-        birthplace: 'Alberta',
+        birthplace: 'Alberta'
       }];
+
+      // when
+      const certifications = script.convertDataRowsIntoCertifications(csvParsingResult);
+
+      // then
       expect(certifications).to.deep.equal(expectedCertifications);
     });
   });
 
-  describe('#createAndStoreCertifications', () => {
+  describe('#saveCertifications', () => {
 
     let options;
 
@@ -126,7 +120,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
       options.certifications = [];
 
       // when
-      const promise = script.createAndStoreCertifications(options);
+      const promise = script.saveCertifications(options);
 
       // then
       // Nock will throw an error if there is an http connection because nock disallows http connections
@@ -168,7 +162,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .reply(200, {});
 
       // when
-      const promise = script.createAndStoreCertifications(options);
+      const promise = script.saveCertifications(options);
 
       // then
       return promise.then(() => {
@@ -241,28 +235,36 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         birthplace: 'Calais, Haut de France',
       }];
 
-      const nockStub = nock('http://localhost:3000', {
+      const nockStub1 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
       })
         .patch('/api/certification-courses/1', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody1);
         })
-        .reply(200, {})
+        .reply(200, {});
+      const nockStub2= nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
         .patch('/api/certification-courses/2', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody2);
         })
-        .reply(200, {})
+        .reply(200, {});
+      const nockStub3 = nock('http://localhost:3000', {
+        reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
+      })
         .patch('/api/certification-courses/3', function(body) {
           return JSON.stringify(body) === JSON.stringify(expectedBody3);
         })
         .reply(200, {});
 
       // when
-      const promise = script.createAndStoreCertifications(options);
+      const promise = script.saveCertifications(options);
 
       // then
       return promise.then(() => {
-        expect(nockStub.isDone()).to.be.equal(true);
+        expect(nockStub1.isDone()).to.be.equal(true);
+        expect(nockStub2.isDone()).to.be.equal(true);
+        expect(nockStub3.isDone()).to.be.equal(true);
       });
     });
 
@@ -331,7 +333,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         birthplace: 'Calais, Haut de France',
       }];
 
-      const nockStub = nock('http://localhost:3000', {
+      const nockStub1 = nock('http://localhost:3000', {
         reqheaders: { authorization: 'Bearer coucou-je-suis-un-token' }
       })
         .patch('/api/certification-courses/1', function(body) {
@@ -356,12 +358,12 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .reply(200, {});
 
       // when
-      const promise = script.createAndStoreCertifications(options);
+      const promise = script.saveCertifications(options);
 
       // then
       return promise
         .then(() => {
-          expect(nockStub.isDone()).to.be.equal(true);
+          expect(nockStub1.isDone()).to.be.equal(true);
           expect(nockStub2.isDone()).to.be.equal(true);
           expect(nockStub3.isDone()).to.be.equal(true);
         });
@@ -480,7 +482,7 @@ describe('Acceptance | Scripts | import-certifications-from-csv.js', () => {
         .reply(200, {});
 
       // when
-      const promise = script.createAndStoreCertifications(options);
+      const promise = script.saveCertifications(options);
 
       // then
       return promise

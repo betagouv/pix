@@ -3,6 +3,14 @@ const fs = require('fs');
 const request = require('request-promise-native');
 const Papa = require('papaparse');
 
+const CSV_HEADERS = {
+  ID: 'ID de certification',
+  FIRST_NAME: 'Prénom du candidat',
+  LAST_NAME: 'Nom du candidat',
+  BIRTHDATE: 'Date de naissance du candidat',
+  BIRTHPLACE: 'Lieu de naissance du candidat'
+};
+
 function assertFileValidity(filePath) {
   const fileExists = fs.existsSync(filePath);
   if (!fileExists) {
@@ -17,32 +25,15 @@ function assertFileValidity(filePath) {
   return true;
 }
 
-// TODO create US
-/*
-function _translateCertificationStatus(status) {
-  if (status === 'Validé') {
-    return 'validated';
-  }
-  if (status === 'Refusé') {
-    return 'rejected';
-  }
-  return 'awaiting';
-}
-*/
-
 function convertDataRowsIntoCertifications(csvParsingResult) {
   const dataRows = csvParsingResult.data;
   return dataRows.reduce((certifications, dataRow) => {
     const certification = {
-      id: parseInt(dataRow['ID de certification']),
-      firstName: dataRow['Prénom du candidat'],
-      lastName: dataRow['Nom du candidat'],
-      birthdate: dataRow['Date de naissance du candidat'],
-      birthplace: dataRow['Lieu de naissance du candidat'],
-      /*
-      status: _translateCertificationStatus(dataRow['Statut de la certification']),
-      rejectionReason: dataRow['Motif de rejet de la certification'],
-      */
+      id: parseInt(dataRow[CSV_HEADERS.ID]),
+      firstName: dataRow[CSV_HEADERS.FIRST_NAME],
+      lastName: dataRow[CSV_HEADERS.LAST_NAME],
+      birthdate: dataRow[CSV_HEADERS.BIRTHDATE],
+      birthplace: dataRow[CSV_HEADERS.BIRTHPLACE]
     };
     certifications.push(certification);
     return certifications;
@@ -61,12 +52,10 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
         type: 'certifications',
         id: certification.id,
         attributes: {
-          // 'status': certification.status,
           'first-name': certification.firstName,
           'last-name': certification.lastName,
           'birthplace': certification.birthplace,
-          'birthdate': certification.birthdate,
-          // 'rejection-reason': certification.rejectionReason
+          'birthdate': certification.birthdate
         }
       }
     }
@@ -79,7 +68,7 @@ function _buildRequestObject(baseUrl, accessToken, certification) {
  * - accessToken: String
  * - certifications: Array[Object]
  */
-function createAndStoreCertifications(options) {
+function saveCertifications(options) {
   const errorObjects = [];
 
   const promises = options.certifications.map((certification) => {
@@ -94,6 +83,14 @@ function createAndStoreCertifications(options) {
   });
   return Promise.all(promises).then(() => {
     return errorObjects;
+  });
+}
+
+function _logErrorObjects(errorObjects) {
+  console.log('Téléversement des certifications sur le serveur : OK');
+  console.log(`\nIl y a eu ${errorObjects.length} erreurs`);
+  errorObjects.forEach((errorObject) => {
+    console.log(`  > id de la certification : ${errorObject.certification.id} - erreur : ${errorObject.errorMessage}`);
   });
 }
 
@@ -120,13 +117,9 @@ function main() {
       complete: (csvParsingResult) => {
         const certifications = convertDataRowsIntoCertifications(csvParsingResult);
         const options = { baseUrl, accessToken, certifications };
-        createAndStoreCertifications(options)
+        saveCertifications(options)
           .then((errorObjects) => {
-            console.log('Téléversement des certifications sur le serveur : OK');
-            console.log(`\nIl y a eu ${errorObjects.length} erreurs`);
-            errorObjects.forEach((errorObject) => {
-              console.log(`  > id de la certification : ${errorObject.certification.id} - erreur : ${errorObject.errorMessage}`);
-            });
+            _logErrorObjects(errorObjects);
           })
           .then(() => {
             console.log('\nFin du script');
@@ -146,5 +139,5 @@ if (process.env.NODE_ENV !== 'test') {
 module.exports = {
   assertFileValidity,
   convertDataRowsIntoCertifications,
-  createAndStoreCertifications
+  saveCertifications
 };
