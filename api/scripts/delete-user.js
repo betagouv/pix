@@ -6,7 +6,7 @@ function initialize() {
   const client = new Client(process.env.DATABASE_URL);
   client.connect();
 
-  client.logged_query = function(query) {
+  client.query_and_log = function(query) {
     console.log(`query: ${query}`);
     return this.query(query)
       .then((result) => {
@@ -31,7 +31,7 @@ function main() {
   const userEraser = new UserEraser(client, queryBuilder, clientQueryAdapter);
 
   Promise.resolve()
-    .then(() => client.logged_query('BEGIN'))
+    .then(() => client.query_and_log('BEGIN'))
 
     .then(() => userEraser.fetch_user_id_from_email(user_email))
     .then(() => userEraser.check_no_certification_done())
@@ -40,11 +40,11 @@ function main() {
     .then(() => userEraser.delete_assessments_from_fetched_user_id())
     .then(() => userEraser.delete_user_from_fetched_user_id())
 
-    .then(() => client.logged_query('COMMIT'))
+    .then(() => client.query_and_log('COMMIT'))
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      return client.logged_query('ROLLBACK')
+      return client.query_and_log('ROLLBACK')
         .then(() => console.log('Rollback finished'));
     })
     // finally
@@ -60,14 +60,14 @@ class UserEraser {
   fetch_user_id_from_email(userEmail) {
     return Promise.resolve()
       .then(() => this.queryBuilder.get_user_id_from_email(userEmail))
-      .then((query) => this.client.logged_query(query))
+      .then((query) => this.client.query_and_log(query))
       .then((result) => this.userId = this.clientQueryAdapter.unpack_user_id(result));
   }
 
   find_assessment_ids_from_fetched_user_id() {
     return Promise.resolve()
       .then(() => this.queryBuilder.find_assessment_ids_from_user_id(this.userId))
-      .then((query) => this.client.logged_query(query))
+      .then((query) => this.client.query_and_log(query))
       .then((result) => this.assessmentIds = this.clientQueryAdapter.unpack_assessment_ids(result));
   }
 
@@ -86,7 +86,7 @@ class UserEraser {
       ])
       .then((queries) => Promise.all(
         queries.map((query) => {
-          this.client.logged_query(query);
+          this.client.query_and_log(query);
         })
       ));
   }
@@ -94,19 +94,19 @@ class UserEraser {
   delete_assessments_from_fetched_user_id() {
     return Promise.resolve()
       .then(() => this.queryBuilder.delete_assessments_from_user_id(this.userId))
-      .then((query) => this.client.logged_query(query));
+      .then((query) => this.client.query_and_log(query));
   }
 
   delete_user_from_fetched_user_id() {
     return Promise.resolve()
       .then(() => this.queryBuilder.delete_user_from_user_id(this.userId))
-      .then((query) => this.client.logged_query(query));
+      .then((query) => this.client.query_and_log(query));
   }
 
   check_no_certification_done() {
     return Promise.resolve()
       .then(() => this.queryBuilder.count_certifications_from_user_id(this.userId))
-      .then((query) => this.client.logged_query(query))
+      .then((query) => this.client.query_and_log(query))
       .then((result) => {
         if(this.clientQueryAdapter.count(result) > 0)
           return Promise.reject('The user has been certified, deletion impossible');

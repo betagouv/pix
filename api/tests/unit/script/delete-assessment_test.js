@@ -87,7 +87,7 @@ describe('Delete Assessment Script', () => {
 
     beforeEach(() => {
       queryBuilder = new ScriptQueryBuilder();
-      clientStub = { logged_query: sinon.stub() };
+      clientStub = { query_and_log: sinon.stub() };
 
       queryBuilderMock = sinon.mock(queryBuilder);
       subject = new UserEraser(clientStub, queryBuilder, assessment_id);
@@ -164,7 +164,7 @@ describe('Delete Assessment Script', () => {
 
         // then
         return promise.then(() => {
-          sinon.assert.callCount(clientStub.logged_query, 4);
+          sinon.assert.callCount(clientStub.query_and_log, 4);
         });
       });
     });
@@ -181,7 +181,7 @@ describe('Delete Assessment Script', () => {
         // then
         return promise.then(() => {
           queryBuilderMock.verify();
-          sinon.assert.calledOnce(clientStub.logged_query);
+          sinon.assert.calledOnce(clientStub.query_and_log);
         });
       });
     });

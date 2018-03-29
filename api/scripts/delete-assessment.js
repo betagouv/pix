@@ -6,7 +6,7 @@ function initialize() {
   const client = new Client(process.env.DATABASE_URL);
   client.connect();
 
-  client.logged_query = function(query) {
+  client.query_and_log = function(query) {
     console.log(`query: ${query}`);
     return this.query(query)
       .then((result) => {
@@ -32,15 +32,15 @@ function main() {
   const userEraser = new UserEraser(client, queryBuilder, assessment_id);
 
   Promise.resolve()
-    .then(() => client.logged_query('BEGIN'))
+    .then(() => client.query_and_log('BEGIN'))
     .then(() => userEraser.delete_dependent_data_from_assessment_id())
     .then(() => userEraser.delete_assessment_from_id())
 
-    .then(() => client.logged_query('COMMIT'))
+    .then(() => client.query_and_log('COMMIT'))
     .then(() => console.log('FINISHED'))
     .catch((err) => {
       console.log(`ERROR: ${err}\nRollback...`);
-      return client.logged_query('ROLLBACK')
+      return client.query_and_log('ROLLBACK')
         .then(() => console.log('Rollback finished'));
     })
     // finally
@@ -68,7 +68,7 @@ class UserEraser {
       ])
       .then((queries) => Promise.all(
         queries.map((query) => {
-          this.client.logged_query(query);
+          this.client.query_and_log(query);
         })
       ));
   }
@@ -76,7 +76,7 @@ class UserEraser {
   delete_assessment_from_id() {
     return Promise.resolve()
       .then(() => this.queryBuilder.delete_assessment_from_id(this.assessment_id))
-      .then((query) => this.client.logged_query(query));
+      .then((query) => this.client.query_and_log(query));
   }
 }
 
