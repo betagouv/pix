@@ -412,7 +412,7 @@ input[type=radio]:focus:before {
   transition: background .25s ease-in-out;
   -moz-transition: background .25s ease-in-out;
   -webkit-transition: background .25s ease-in-out; }
-  .grey-hover-button:hover {
+  .grey-hover-button:hover, .grey-hover-button:focus {
     background-color: #ececec; }
 
 .grey-hover-button__label {
