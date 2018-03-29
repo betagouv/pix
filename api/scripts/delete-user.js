@@ -1,20 +1,10 @@
 #! /usr/bin/env node
 /* eslint no-console: ["off"] */
-const { Client } = require('pg');
+const PgClient = require('./PgClient');
 
 function initialize() {
-  const client = new Client(process.env.DATABASE_URL);
-  client.connect();
+  const client = new PgClient(process.env.DATABASE_URL);
 
-  client.query_and_log = function(query) {
-    console.log(`query: ${query}`);
-    return this.query(query)
-      .then((result) => {
-        const { command, rowCount, rows } = result;
-        console.log(`result: command ${command} (rowCount ${rowCount}) = ${JSON.stringify(rows)}`);
-        return result;
-      });
-  };
   const user_email = process.argv[2];
   return { client, user_email };
 }
@@ -32,7 +22,6 @@ function main() {
 
   Promise.resolve()
     .then(() => client.query_and_log('BEGIN'))
-
     .then(() => userEraser.fetch_user_id_from_email(user_email))
     .then(() => userEraser.check_no_certification_done())
     .then(() => userEraser.find_assessment_ids_from_fetched_user_id())

@@ -106,65 +106,18 @@ describe('Delete Assessment Script', () => {
         return expect(promise).to.be.rejectedWith(Error, 'Missing argument : an assessment id should be provided');
       });
 
-      it('should delete feedbacks', () => {
-        // given
-        queryBuilderMock.expects('delete_feedbacks_from_assessment_ids').once().withArgs(assessment_id);
-
-        // when
-        const promise = subject.delete_dependent_data_from_assessment_id();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should delete skills for every assessments', () => {
-        // given
-        queryBuilderMock.expects('delete_skills_from_assessment_ids').once().withArgs(assessment_id);
-
-        // when
-        const promise = subject.delete_dependent_data_from_assessment_id();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should delete answer for every assessments', () => {
-        // given
-        queryBuilderMock.expects('delete_answers_from_assessment_ids').once().withArgs(assessment_id);
-
-        // when
-        const promise = subject.delete_dependent_data_from_assessment_id();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should delete marks_ for every assessments', () => {
-        // given
-        queryBuilderMock.expects('delete_marks_from_assessment_ids').once().withArgs(assessment_id);
-
-        // when
-        const promise = subject.delete_dependent_data_from_assessment_id();
-
-        // then
-        return promise.then(() => {
-          queryBuilderMock.verify();
-        });
-      });
-
-      it('should execute every query', () => {
+      it('should delete feedbacks, skills, marks and answers', () => {
         // when
         const promise = subject.delete_dependent_data_from_assessment_id();
 
         // then
         return promise.then(() => {
           sinon.assert.callCount(clientStub.query_and_log, 4);
+
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM feedbacks WHERE "assessmentId" = 1345');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM skills WHERE "assessmentId" = 1345');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM answers WHERE "assessmentId" = 1345');
+          expect(clientStub.query_and_log).to.have.been.calledWith('DELETE FROM marks WHERE "assessmentId" = 1345');
         });
       });
     });
