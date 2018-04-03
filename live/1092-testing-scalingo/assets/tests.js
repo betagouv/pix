@@ -899,7 +899,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
               switch (_context.prev = _context.next) {
                 case 0:
                   _context.next = 2;
-                  return visit('/certifications?code=10ue1');
+                  return visit('/certifications');
 
                 case 2:
                 case 'end':
@@ -924,7 +924,7 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
                 case 0:
                   (0, _testing.authenticateAsSimpleUser)();
                   _context2.next = 3;
-                  return visit('/certifications?code=10ue1');
+                  return visit('/certifications');
 
                 case 3:
                 case 'end':
@@ -933,105 +933,144 @@ define('pix-live/tests/acceptance/certification-course-test', ['mocha', 'chai', 
             }
           }, _callee2, this);
         })));
+        context('when user enter a correct code session', function () {
+          (0, _mocha.beforeEach)(_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+              while (1) {
+                switch (_context3.prev = _context3.next) {
+                  case 0:
+                    // when
+                    fillIn('#session-code', 'ABCD12');
+                    _context3.next = 3;
+                    return click('.certification-course-page__submit_button');
 
-        (0, _mocha.it)('should be redirected on the first challenge of an assessment', function () {
-          // then
-          (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
-        });
-
-        (0, _mocha.it)('should navigate to next challenge when we click pass', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-          return regeneratorRuntime.wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  _context3.next = 2;
-                  return click('.challenge-actions__action-skip-text');
-
-                case 2:
-
-                  // then
-                  (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
-
-                case 3:
-                case 'end':
-                  return _context3.stop();
+                  case 3:
+                  case 'end':
+                    return _context3.stop();
+                }
               }
-            }
-          }, _callee3, this);
-        })));
+            }, _callee3, this);
+          })));
 
-        context('after skipping the all three challenges of the certification course', function () {
-
-          (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+          (0, _mocha.it)('should propose to enter the session Code', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
             return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
                 switch (_context4.prev = _context4.next) {
                   case 0:
-                    _context4.next = 2;
-                    return click('.challenge-actions__action-skip');
-
-                  case 2:
-                    _context4.next = 4;
-                    return click('.challenge-actions__action-skip');
-
-                  case 4:
-                    _context4.next = 6;
-                    return click('.challenge-item-warning__confirm-btn');
-
-                  case 6:
-                    _context4.next = 8;
-                    return click('.challenge-actions__action-skip');
-
-                  case 8:
-
                     // then
-                    (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+                    (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
 
-                  case 9:
+                  case 1:
                   case 'end':
                     return _context4.stop();
                 }
               }
             }, _callee4, this);
           })));
+
+          (0, _mocha.it)('should be redirected on the first challenge of an assessment', function () {
+            // then
+            (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/receop4TZKvtjjG0V/);
+          });
+
+          (0, _mocha.it)('should navigate to next challenge when we click pass', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+            return regeneratorRuntime.wrap(function _callee5$(_context5) {
+              while (1) {
+                switch (_context5.prev = _context5.next) {
+                  case 0:
+                    _context5.next = 2;
+                    return click('.challenge-actions__action-skip-text');
+
+                  case 2:
+
+                    // then
+                    (0, _chai.expect)(currentURL()).to.match(/assessments\/1\/challenges\/recLt9uwa2dR3IYpi/);
+
+                  case 3:
+                  case 'end':
+                    return _context5.stop();
+                }
+              }
+            }, _callee5, this);
+          })));
+
+          context('after skipping the all three challenges of the certification course', function () {
+
+            (0, _mocha.it)('should navigate to redirect to certification result page at the end of the assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+              return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                while (1) {
+                  switch (_context6.prev = _context6.next) {
+                    case 0:
+                      _context6.next = 2;
+                      return click('.challenge-actions__action-skip');
+
+                    case 2:
+                      _context6.next = 4;
+                      return click('.challenge-actions__action-skip');
+
+                    case 4:
+                      _context6.next = 6;
+                      return click('.challenge-item-warning__confirm-btn');
+
+                    case 6:
+                      _context6.next = 8;
+                      return click('.challenge-actions__action-skip');
+
+                    case 8:
+
+                      // then
+                      (0, _chai.expect)(currentURL()).to.equal('/certifications/certification-number/results');
+
+                    case 9:
+                    case 'end':
+                      return _context6.stop();
+                  }
+                }
+              }, _callee6, this);
+            })));
+          });
         });
       });
-
       context('When stop and relaunch the certification course', function () {
 
-        (0, _mocha.it)('should be redirected on the second challenge of an assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-          return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        (0, _mocha.it)('should be redirected on the second challenge of an assessment', _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+          return regeneratorRuntime.wrap(function _callee7$(_context7) {
             while (1) {
-              switch (_context5.prev = _context5.next) {
+              switch (_context7.prev = _context7.next) {
                 case 0:
                   // given
                   (0, _testing.authenticateAsSimpleUser)();
-                  _context5.next = 3;
-                  return visit('/certifications?code=10ue1');
+                  _context7.next = 3;
+                  return visit('/certifications');
 
                 case 3:
-                  _context5.next = 5;
+                  fillIn('#session-code', '10ue1');
+                  _context7.next = 6;
+                  return click('.certification-course-page__submit_button');
+
+                case 6:
+                  _context7.next = 8;
                   return click('.challenge-actions__action-skip');
 
-                case 5:
-                  _context5.next = 7;
+                case 8:
+                  _context7.next = 10;
                   return visit('/compte');
 
-                case 7:
-                  _context5.next = 9;
+                case 10:
+                  _context7.next = 12;
                   return visit('/certifications/certification-number');
 
-                case 9:
+                case 12:
 
                   // then
                   (0, _chai.expect)(currentURL()).to.match(/assessments\/\d+\/challenges\/recLt9uwa2dR3IYpi/);
 
-                case 10:
+                case 13:
                 case 'end':
-                  return _context5.stop();
+                  return _context7.stop();
               }
             }
-          }, _callee5, this);
+          }, _callee7, this);
         })));
       });
     });
@@ -3144,6 +3183,10 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
+    it('components/certification-code-validation.js', function () {
+      // test passed
+    });
+
     it('components/certification-results-page.js', function () {
       // test passed
     });
@@ -3520,15 +3563,15 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('routes/certification-course.js', function () {
-      // test passed
-    });
-
     it('routes/certifications/results.js', function () {
       // test passed
     });
 
     it('routes/certifications/resume.js', function () {
+      // test passed
+    });
+
+    it('routes/certifications/start.js', function () {
       // test passed
     });
 
@@ -10505,6 +10548,10 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
+    it('unit/components/certification-code-validation-test.js', function () {
+      // test passed
+    });
+
     it('unit/components/challenge-item-qmail-test.js', function () {
       // test passed
     });
@@ -10705,15 +10752,15 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/routes/certification-course-test.js', function () {
-      // test passed
-    });
-
     it('unit/routes/certifications/results-test.js', function () {
       // test passed
     });
 
     it('unit/routes/certifications/resume-test.js', function () {
+      // test passed
+    });
+
+    it('unit/routes/certifications/start-test.js', function () {
       // test passed
     });
 
@@ -11088,6 +11135,62 @@ define('pix-live/tests/unit/components/certification-banner-test', ['chai', 'moc
       // then
       var userId = component.get('user.id');
       (0, _chai.expect)(userId).to.equal(1);
+    });
+  });
+});
+define('pix-live/tests/unit/components/certification-code-validation-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Component | certification-code-value', function () {
+
+    (0, _emberMocha.setupTest)('component:certification-code-validation', {});
+    var component = void 0;
+    beforeEach(function () {
+      component = this.subject();
+    });
+
+    (0, _mocha.describe)('#submit', function () {
+      var storeStub = void 0;
+      var storeCreateRecordStub = void 0;
+      var storeSaveStub = void 0;
+      var course = void 0;
+
+      beforeEach(function () {
+        storeSaveStub = _sinon.default.stub().resolves({ id: 12 });
+        course = {
+          save: storeSaveStub
+        };
+        storeCreateRecordStub = _sinon.default.stub().returns(course);
+        storeStub = {
+          createRecord: storeCreateRecordStub
+        };
+      });
+
+      (0, _mocha.it)('should create and save a new course', function () {
+        // given
+        component.set('store', storeStub);
+        component.set('accessCode', 'ABCD12');
+
+        // when
+        component.send('submit');
+
+        // then
+        _sinon.default.assert.called(storeCreateRecordStub);
+        _sinon.default.assert.calledWith(storeCreateRecordStub, 'course', { accessCode: 'ABCD12' });
+        _sinon.default.assert.called(storeSaveStub);
+      });
+
+      (0, _mocha.it)('should set loadingCertification at true', function () {
+        // given
+        component.set('store', storeStub);
+        component.set('accessCode', 'ABCD12');
+
+        // when
+        component.send('submit');
+
+        // then
+        (0, _chai.expect)(component.get('_loadingCertification')).to.be.true;
+      });
     });
   });
 });
@@ -14951,91 +15054,6 @@ define('pix-live/tests/unit/routes/board-test', ['chai', 'mocha', 'ember-mocha',
     });
   });
 });
-define('pix-live/tests/unit/routes/certification-course-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Route | certification test', function () {
-    (0, _emberMocha.setupTest)('route:certification-course', {
-      needs: ['service:current-routed-modal', 'service:session']
-    });
-
-    var route = void 0;
-    var createRecordStub = void 0;
-    var storeStub = void 0;
-    var certificationCourse = void 0;
-
-    (0, _mocha.it)('exists', function () {
-      route = this.subject();
-      (0, _chai.expect)(route).to.be.ok;
-    });
-
-    (0, _mocha.describe)('#model', function () {
-
-      beforeEach(function () {
-        certificationCourse = { id: 1, save: _sinon.default.stub() };
-        createRecordStub = _sinon.default.stub().returns(certificationCourse);
-
-        storeStub = Ember.Service.extend({
-          createRecord: createRecordStub
-        });
-
-        this.register('service:store', storeStub);
-        this.inject.service('store', { as: 'store' });
-
-        route = this.subject();
-      });
-
-      context('when user is logged', function () {
-
-        (0, _mocha.it)('should generate certification test', function () {
-          // when
-          route.model({ code: '123456' });
-
-          // then
-          _sinon.default.assert.called(createRecordStub);
-          _sinon.default.assert.calledWithExactly(createRecordStub, 'course', { sessionCode: '123456' });
-        });
-
-        (0, _mocha.it)('should save certification test', function () {
-          // when
-          route.model({ code: '123456' });
-
-          // then
-          _sinon.default.assert.called(certificationCourse.save);
-        });
-      });
-    });
-
-    (0, _mocha.describe)('#error', function () {
-
-      (0, _mocha.it)('should redirect to index if error is not 403', function () {
-        // given
-        route.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '404' }] };
-
-        // when
-        route.send('error', error);
-
-        // then
-        _sinon.default.assert.called(route.transitionTo);
-        _sinon.default.assert.calledWith(route.transitionTo, 'index');
-      });
-
-      (0, _mocha.it)('should return true to redirect to certification error page if error is 403', function () {
-        // given
-        route.transitionTo = _sinon.default.stub();
-        var error = { errors: [{ status: '403' }] };
-
-        // when
-        var result = route.send('error', error);
-
-        // then
-        (0, _chai.expect)(result).to.be.true;
-        _sinon.default.assert.notCalled(route.transitionTo);
-      });
-    });
-  });
-});
 define('pix-live/tests/unit/routes/certifications/results-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
   'use strict';
 
@@ -15272,6 +15290,68 @@ define('pix-live/tests/unit/routes/certifications/resume-test', ['mocha', 'ember
 
         // then
         _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+    });
+  });
+});
+define('pix-live/tests/unit/routes/certifications/start-test', ['chai', 'mocha', 'ember-mocha', 'sinon'], function (_chai, _mocha, _emberMocha, _sinon) {
+  'use strict';
+
+  (0, _mocha.describe)('Unit | Route | certification test', function () {
+    (0, _emberMocha.setupTest)('route:certifications.start', {
+      needs: ['service:current-routed-modal', 'service:session']
+    });
+
+    var route = void 0;
+
+    (0, _mocha.it)('exists', function () {
+      route = this.subject();
+      (0, _chai.expect)(route).to.be.ok;
+    });
+
+    (0, _mocha.describe)('#error', function () {
+
+      (0, _mocha.it)('should redirect to index if error is not 403', function () {
+        // given
+        route.transitionTo = _sinon.default.stub();
+        var error = { errors: [{ status: '404' }] };
+
+        // when
+        route.send('error', error);
+
+        // then
+        _sinon.default.assert.called(route.transitionTo);
+        _sinon.default.assert.calledWith(route.transitionTo, 'index');
+      });
+
+      (0, _mocha.it)('should return the start-error page if error is 403', function () {
+        route.render = _sinon.default.stub();
+
+        // given
+        route.transitionTo = _sinon.default.stub();
+        var error = { errors: [{ status: '403' }] };
+
+        // when
+        route.send('error', error);
+
+        // then
+        _sinon.default.assert.called(route.render);
+        _sinon.default.assert.calledWith(route.render, 'certifications.start-error');
+      });
+    });
+
+    (0, _mocha.describe)('#submit', function () {
+
+      (0, _mocha.it)('should replace current route with courses.create-assessment', function () {
+        // given
+        route.replaceWith = _sinon.default.stub();
+
+        // when
+        route.send('submit', { id: 1 });
+
+        // then
+        _sinon.default.assert.called(route.replaceWith);
+        _sinon.default.assert.calledWith(route.replaceWith, 'courses.create-assessment', 1);
       });
     });
   });

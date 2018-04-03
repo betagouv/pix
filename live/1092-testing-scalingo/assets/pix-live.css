@@ -3969,6 +3969,73 @@ p.share-profile__organization-name {
     .blue-ribbon__text {
       font-size: 35px; } }
 
+.certification-course-page__order {
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 22px;
+  line-height: 28px;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 20px; }
+
+.certification-course-page__cgu {
+  color: #3e4149;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: justify; }
+
+.certification-course-page__session-code-input {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-bottom: 20px;
+  align-items: center; }
+
+.certification-course-page__errors {
+  height: 1.7%;
+  color: #f45c00;
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center; }
+
+#session-code {
+  padding: 0 5px; }
+
+.certification-course-page__field-button {
+  text-align: center; }
+
+.certification-course-page__submit_button {
+  align-items: center;
+  color: #ffffff;
+  font-size: 13px;
+  text-transform: uppercase;
+  width: 170px;
+  height: 46px;
+  border-radius: 23px;
+  border: solid 1px #3d68ff;
+  background-color: #3d68ff;
+  padding: 10px 30px; }
+
+.certification-course-page__field-button__action-validate {
+  width: 170px;
+  height: 46px;
+  border-radius: 23px;
+  background: #3d68ff;
+  text-align: center;
+  margin: auto;
+  align-items: center;
+  padding: 10px 30px; }
+
+.certification-course-page__field-button__loader-bar {
+  background: url("/images/loader-white.svg");
+  background-size: 64px 55px;
+  margin: auto;
+  height: 50px;
+  width: 64px;
+  margin-top: -15px; }
+
 .side-menu {
   position: fixed;
   background: #fff;
@@ -5334,6 +5401,46 @@ hr.project-page__presentation-header-line {
   font-size: 20px;
   line-height: 24px;
   margin-top: 58px; }
+
+.certification-start-page {
+  display: flex;
+  flex-flow: column wrap;
+  align-self: center;
+  background-color: #FAFAFA;
+  color: #3e4149;
+  text-rendering: optimizeLegibility;
+  min-height: calc(100VH - 140px - 150px); }
+
+.certification-start-page__ribbon {
+  height: 180px;
+  position: absolute;
+  top: 120px; }
+  @media (min-width: 980px) {
+    .certification-start-page__ribbon {
+      top: 140px; } }
+
+.certification-start-page__panel {
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px;
+  padding: 20px;
+  margin-top: 50px;
+  z-index: 1;
+  align-self: center; }
+  @media (min-width: 980px) {
+    .certification-start-page__panel {
+      width: 940px;
+      padding: 50px 70px 40px; } }
+
+.certification-start-page__title {
+  color: #3e4149;
+  font-family: "Raleway", Arial, sans-serif;
+  font-size: 36px;
+  text-align: center;
+  font-weight: bold;
+  line-height: 42px; }
 
 body {
   font-family: "Lato", Arial, sans-serif;
