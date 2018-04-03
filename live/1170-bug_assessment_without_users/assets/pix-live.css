@@ -405,6 +405,23 @@ input[type=radio]:focus:before {
 .ember-modal-overlay.translucent {
   background-color: rgba(62, 65, 73, 0.95); }
 
+.grey-hover-button {
+  border-radius: 4px;
+  border: none;
+  background: #ececec;
+  transition: background .25s ease-in-out;
+  -moz-transition: background .25s ease-in-out;
+  -webkit-transition: background .25s ease-in-out; }
+  .grey-hover-button:hover, .grey-hover-button:focus {
+    background-color: #DADADA; }
+
+.grey-hover-button__label {
+  font-family: "Lato", Arial, sans-serif;
+  font-size: 13px;
+  color: #6a6d76;
+  letter-spacing: 1px;
+  text-transform: uppercase; }
+
 /* 3rd-party */
 .routable-modal--open {
   overflow: hidden; }
@@ -3332,24 +3349,17 @@ input.qcm-panel__proposal-checkbox {
   color: #ffffff;
   text-transform: capitalize; }
 
-.user-menu__item--logout {
+.user-menu-item__logout {
   display: flex;
   align-items: center;
   height: 65px; }
   @media (min-width: 768px) {
-    .user-menu__item--logout {
+    .user-menu-item__logout {
       height: 95.5px; } }
 
-.logged-user-menu__item-logout {
-  height: 16px;
-  opacity: 0.7;
-  font-family: "Lato", Arial, sans-serif;
-  font-size: 13px;
-  letter-spacing: 1px;
-  color: #6a6d76;
-  text-transform: uppercase; }
-  .logged-user-menu__item-logout:hover {
-    color: #3e4149; }
+.logout__button {
+  height: 36px;
+  width: 150px; }
 
 .index-page-patners-enrollment {
   background-image: linear-gradient(to bottom, #446eff, #133dd2); }
