@@ -3475,7 +3475,7 @@ define('pix-live/tests/app.lint-test', [], function () {
       // test passed
     });
 
-    it('models/assessment-rating.js', function () {
+    it('models/assessment-result.js', function () {
       // test passed
     });
 
@@ -10688,10 +10688,6 @@ define('pix-live/tests/tests.lint-test', [], function () {
       // test passed
     });
 
-    it('unit/models/assessment-rating-test.js', function () {
-      // test passed
-    });
-
     it('unit/models/challenge-test.js', function () {
       // test passed
     });
@@ -13966,24 +13962,6 @@ define('pix-live/tests/unit/models/area-test', ['chai', 'mocha', 'ember-mocha'],
     });
   });
 });
-define('pix-live/tests/unit/models/assessment-rating-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
-  'use strict';
-
-  (0, _mocha.describe)('Unit | Model | assessment rating', function () {
-    (0, _emberMocha.setupModelTest)('assessment-rating', {
-      needs: []
-    });
-
-    // Replace this with your real tests.
-    (0, _mocha.it)('exists', function () {
-      // given
-      var model = this.subject();
-
-      // then
-      (0, _chai.expect)(model).to.be.ok;
-    });
-  });
-});
 define('pix-live/tests/unit/models/challenge-test', ['chai', 'mocha', 'ember-mocha'], function (_chai, _mocha, _emberMocha) {
   'use strict';
 
@@ -14743,7 +14721,7 @@ define('pix-live/tests/unit/routes/assessments/rating-test', ['chai', 'mocha', '
         route.afterModel(assessment);
 
         // then
-        _sinon.default.assert.calledWith(createRecordStub, 'assessment-rating', { assessment: assessment });
+        _sinon.default.assert.calledWith(createRecordStub, 'assessment-result', { assessment: assessment });
         _sinon.default.assert.called(assessmentRating.save);
       });
     });
