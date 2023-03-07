@@ -1,6 +1,10 @@
 [![CircleCI](https://circleci.com/gh/1024pix/pix/tree/dev.svg?style=shield&circle-token=:circle-token)](https://circleci.com/gh/1024pix/pix) PIX
 ===
 
+
+# Le code source de pix est maintenant disponible ici : https://github.com/1024pix/pix
+
+
 Présentation
 ------------
 
